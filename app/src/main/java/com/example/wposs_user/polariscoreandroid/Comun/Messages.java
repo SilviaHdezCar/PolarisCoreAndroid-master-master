@@ -3,6 +3,7 @@ package com.example.wposs_user.polariscoreandroid.Comun;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
@@ -176,6 +177,10 @@ public class Messages {
 
     }
 
+    /*****************************************************************************************
+     * EMPAQUETADO DE LISTAR REPUESTOS, LO QUE SE ENVIA
+     *
+     * **************************************************************************************/
 
     public static void packMsgListarRepuestos() {
         packHttpDataListarObservaciones();
@@ -186,6 +191,22 @@ public class Messages {
         Global.outputLen = Global.outputData.length;
         //Utils.dumpMemory(Global.outputData, Global.outputLen);
         Log.i("outputData*******", "" + uninterpret_ASCII(Global.inputData, 0, Global.inputData.length));
+
+    }
+
+
+    /*********************************************
+     * ARMA EL CUERPO DE LA TRAMA DE ENVIO PARA LISTAR REPUESTOS
+     * ***********************************************************/
+    public static void packHttpDataListarRepuestos() {
+        //comienza a armar la trama
+        Global.httpDataBuffer = "{\"model\": \"<SERIAL>\"}";//se arma la trama
+
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", Global.modelo);
+
+
+        //fn
+
 
     }
 
@@ -220,6 +241,72 @@ public class Messages {
 
 
     }
+
+    /************************************************************************************************
+     * DESEMPAQUETADO DE LA RESPUESTA DEL SERVIDOR --> LISTAR LOS REPUESTOS
+     *****************************************************************************************************/
+    public static boolean unPackMsgListaRepuestos(Context c) {
+
+        String tramaCompleta = "";
+
+
+        int indice = 0;
+
+        Global.inputData = Global.httpDataBuffer.getBytes();
+
+
+        tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
+
+
+        int tramaNecesitada = tramaCompleta.indexOf("}");
+
+        String trama = tramaCompleta.substring(0, tramaNecesitada + 1);//ESTA ES LA TRAMA QUE ENVIA EL SERVIDOR, ES LA QUE SE VA A DESEMPAQUETAR
+
+
+
+        String[] lineastrama = trama.split(",");
+        Gson gson = new GsonBuilder().create();
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(tramaCompleta);
+
+            if(jsonObject.get("message").toString()!=null){
+                System.out.println("--------------ENTRÓ AL MSJ DE ERROR");
+                Global.mensaje=lineastrama[0].substring(12, tramaNecesitada-1);
+                Log.i("mensaje de error", ""+jsonObject.get("message").toString());
+                return false;
+            }
+
+            System.out.println("*********Obtiene el arreglo de observaciones");
+            JSONArray jsonArray = jsonObject.getJSONArray("observaciones");
+
+            Global.REPUESTOS = new ArrayList<Repuesto>();
+            System.out.println("Va a recorrer el JsonArray de observaciones");
+            if(jsonArray.length()==0){
+                Global.mensaje="No tiene observaciones";
+                return true;
+            }
+            for(int i=0; i<  jsonArray.length();i++){
+                String obs = jsonArray.getString(i);
+
+               Repuesto r = gson.fromJson(obs, Repuesto.class);
+                System.out.println("***********Va a agg terminal a la List<Repuestos>*************Repuesto("+i+"): "+r.toString());
+                Global.REPUESTOS.add(r);
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+
+
+    }
+
+
+
+
 
     /************************************************************************************************
      * DESEMPAQUETADO DE LA RESPUESTA DEL SERVIDOR --> LISTAR LAS OBSERVACIONES

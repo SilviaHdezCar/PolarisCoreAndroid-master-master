@@ -403,7 +403,7 @@ public class MainActivity extends AppCompatActivity
 
                 listarObservacionesTerminal(Global.serial);
             }
-        }, R.layout.panel_terminal_asociada.xml);
+        }, R.layout.panel_terminal_asociada);
 
         rv.setAdapter(adapter);
 
@@ -556,7 +556,7 @@ public class MainActivity extends AppCompatActivity
          *******************************************************************************/
         @Override
         protected Boolean doInBackground(String... strings) {
-            Messages.packMsgListarObservaciones();
+            Messages.packMsgListarRepuestos();
 
             trans = TCP.transaction(Global.outputLen);
 

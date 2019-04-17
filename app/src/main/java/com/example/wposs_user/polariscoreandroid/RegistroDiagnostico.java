@@ -23,7 +23,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
     //******************consumir servicio listar Repuestos
 
-    public void listarObservacionesRepuestos(String serial) {
+    public void listarRepuestos() {
         Global.WEB_SERVICE = "/PolarisCore/Terminals/spares ";
         new TaskListarRepuestos().execute();
 
@@ -51,7 +51,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
             progressDialog = new ProgressDialog(RegistroDiagnostico.this, R.style.MyAlertDialogStyle);
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setCancelable(false);
-            progressDialog.setMessage("Buscando repuestsos asociados a la terminal...");
+            progressDialog.setMessage("Buscando repuestos asociados a la terminal...");
             progressDialog.show();
         }
 

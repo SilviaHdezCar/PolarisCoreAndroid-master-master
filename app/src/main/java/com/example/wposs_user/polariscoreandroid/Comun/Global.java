@@ -1,6 +1,7 @@
 package com.example.wposs_user.polariscoreandroid.Comun;
 
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
+import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
@@ -11,6 +12,7 @@ import java.util.List;
 public class Global {
 
 
+    public static String NOMBRE = "";
     public static String correo;
     public static String password;
     public static String serial= "";
@@ -92,5 +94,8 @@ public class Global {
     public static List<Observacion> OBSERVACIONES;
     public static List<Validacion> VALIDACIONES;
     public static List<Tipificacion> TIPIFICACIONES;
+    public static List<Repuesto> REPUESTOS;
 
+    public static int lenS1;
+    public static String claveNueva;
 }
