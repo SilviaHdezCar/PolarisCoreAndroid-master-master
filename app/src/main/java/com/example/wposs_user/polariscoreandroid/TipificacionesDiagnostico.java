@@ -70,7 +70,7 @@ public class TipificacionesDiagnostico extends AppCompatActivity
      *
      * DEBO OBTENER EL SERIAL DE LA TERMINAL SELECCIONADA ANTERIORMETE Y CARGAR LOS DATOS
      * ***********************************************************************************************/
-    public void validacionesTerminal(){
+    public void tipificacionesTerminal(){
         Global.WEB_SERVICE = "/PolarisCore/Terminals/validatorTerminal ";
 
 
@@ -247,7 +247,7 @@ public class TipificacionesDiagnostico extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ProductividadFragment()).commit();
 
         } else if (id == R.id.nav_cerrar_sesion) {
-            Intent i = new Intent(this, Activity_login.class);
+            Intent i = new Intent(this, com.example.wposs_user.polariscoreandroid.Activity_login.class);
             startActivity(i);
             finish();
         }

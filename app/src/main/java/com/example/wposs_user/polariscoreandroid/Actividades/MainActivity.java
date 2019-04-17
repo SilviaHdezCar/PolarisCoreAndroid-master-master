@@ -659,18 +659,8 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    /***************************************************************************************************
-     * ESTE METODO DEBE LLENAR EL PAPEL QUE CONTIENE LOS DETALLES DE LA TERMINAL,
-     * Y CONSUME EL SERVICIO LISTAR VALIDACIONES DE  TERMINAL:
-     *
-     * DEBO OBTENER EL SERIAL DE LA TERMINAL SELECCIONADA ANTERIORMETE Y CARGAR LOS DATOS
-     * ***********************************************************************************************/
-    public void validacionesTerminal(){
-        Global.WEB_SERVICE = "/PolarisCore/Terminals/validatorTerminal ";
 
 
-        new TaskListarValidaciones().execute();
-    }
 
 
     /*************************************************************************************
@@ -771,8 +761,6 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
-
 
 
 
