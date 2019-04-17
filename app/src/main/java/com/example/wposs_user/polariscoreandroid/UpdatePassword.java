@@ -40,9 +40,7 @@ public class UpdatePassword extends AppCompatActivity {
         setContentView(R.layout.activity_update_password);
         clave1=(EditText)findViewById(R.id.txtClave1);
         clave2= (EditText)findViewById(R.id.txtClave2);
-        resp1= (EditText)findViewById(R.id.txt_resp1);
-        resp2=(EditText) findViewById(R.id.txt_resp2);
-        resp3=(EditText) findViewById(R.id.txt_resp3);
+
 
         cambioClave= (Button)findViewById(R.id.cambio_clave);
         Global.claveNueva=pas1;

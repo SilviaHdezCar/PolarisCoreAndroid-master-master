@@ -188,7 +188,7 @@ public class Activity_login extends AppCompatActivity {
         finish();
     }
 
-    public void actu_clave(View v) {
+    public void probar_(View v) {
 
         Intent i = new Intent(this, UpdatePassword.class);
         startActivity(i);
