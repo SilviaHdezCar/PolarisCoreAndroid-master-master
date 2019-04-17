@@ -36,6 +36,37 @@ public class Messages {
 
     }
 
+    public static void packMsgUpdatePass() {
+
+        packHttpHeaderPut();
+        packHttpUpdatePass();
+
+        Global.outputData = (Global.httpHeaderBuffer).getBytes();
+
+        Global.outputData = (Global.httpHeaderBuffer + Global.httpDataBuffer).getBytes();
+
+        Global.outputLen = Global.outputData.length;
+        //Utils.dumpMemory(Global.outputData, Global.outputLen);
+        Log.i("outputData*******", "" + uninterpret_ASCII(Global.inputData, 0, Global.inputData.length));
+
+    }
+
+    /*********************************************
+     * ARMA EL CUERPO DE LA TRAMA DE ENVIO PARA ACTUALIZAR LA CLAVE
+     * ***********************************************************/
+    public static void packHttpUpdatePass() {
+        //comienza a armar la trama
+        Global.httpDataBuffer = "{\"user_identification\": \"<cc>\"\"user_password\": \"<clave_nueva>\"}";//se arma la trama
+
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<cc>", Global.ID);
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<clave_nueva>", Global.claveNueva);
+        //fn
+
+
+    }
+
+
+
     /************************************************************************************************
      * DESEMPAQUETADO DE LA RESPUESTA DEL SERVIDOR --> LISTAR LAS tipificaciones
      *****************************************************************************************************/
@@ -211,6 +242,22 @@ public class Messages {
     }
 
 
+    /*****************************************************************************************
+     * EMPAQUETADO DE Los DIAGNOSTICOS, LO QUE SE ENVIA
+     *
+     * **************************************************************************************/
+    public static void packMsgRegistrarDiag() {
+        packHttpDataListarObservaciones();
+        packHttpHeaderLogueado();
+
+        Global.outputData = (Global.httpHeaderBuffer + "\r\n\r\n" + Global.httpDataBuffer).getBytes();
+
+        Global.outputLen = Global.outputData.length;
+        //Utils.dumpMemory(Global.outputData, Global.outputLen);
+        Log.i("outputData*******", "" + uninterpret_ASCII(Global.inputData, 0, Global.inputData.length));
+
+    }
+
 
 
     /*****************************************************************************************
@@ -241,6 +288,20 @@ public class Messages {
 
 
     }
+    /*********************************************
+     * ARMA EL CUERPO DE LA TRAMA DE ENVIO PARA LISTAR DIAGNOSTICOS
+     * ***********************************************************/
+    public static void packHttpDataDiagnostico() {
+        //comienza a armar la trama
+        Global.httpDataBuffer = "{\"serial\": \"<SERIAL>\"}";//se arma la trama
+
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", Global.serial);
+        //fn
+
+
+    }
+
+
 
     /************************************************************************************************
      * DESEMPAQUETADO DE LA RESPUESTA DEL SERVIDOR --> LISTAR LOS REPUESTOS
@@ -417,6 +478,28 @@ public class Messages {
 
     }
 
+
+    public static void packHttpHeaderPut() {
+//cabecera
+        int tam;
+        //Global.httpHeaderBuffer = "";
+        Global.httpHeaderBuffer = "PUT"+Global.WEB_SERVICE + "HTTP/1.1";
+       // Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "Authenticator: " + Global.TOKEN;
+       // Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER1;
+        //Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER2;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.INITIAL_IP;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + ":";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.INITIAL_PORT;
+        //Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER3;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.httpDataBuffer.length();
+
+    }
+
+
     //***************************DESEMPAQUETADO DE LISTAR TERMINALES*******LO QUE RECIBO
     public static boolean unPackMsgListarAsociadas(Context c) {
 
@@ -491,9 +574,6 @@ public class Messages {
 
     }
 
-    public static void packUpdatePass() {
-
-    }
 
 
 

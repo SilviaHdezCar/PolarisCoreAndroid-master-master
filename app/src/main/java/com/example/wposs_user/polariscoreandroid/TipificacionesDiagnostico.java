@@ -4,10 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.example.wposs_user.polariscoreandroid.Actividades.Activity_login;
 import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
@@ -248,7 +247,7 @@ public class TipificacionesDiagnostico extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ProductividadFragment()).commit();
 
         } else if (id == R.id.nav_cerrar_sesion) {
-            Intent i = new Intent(this, com.example.wposs_user.polariscoreandroid.Activity_login.class);
+            Intent i = new Intent(this, Activity_login.class);
             startActivity(i);
             finish();
         }

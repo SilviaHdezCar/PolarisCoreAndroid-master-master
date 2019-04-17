@@ -1,22 +1,18 @@
-package com.example.wposs_user.polariscoreandroid;
+package com.example.wposs_user.polariscoreandroid.Actividades;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.wposs_user.polariscoreandroid.Actividades.DialogError;
-import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
+import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 
 public class Activity_login extends AppCompatActivity {
@@ -127,7 +123,7 @@ public class Activity_login extends AppCompatActivity {
                     Global.StatusExit=true;
 
                     if(Integer.parseInt(Global.LOGIN)==0){
-                        Utils.GoToNextActivity(Activity_login.this,UpdatePassword.class, Global.StatusExit);
+                        Utils.GoToNextActivity(Activity_login.this, Activity_UpdatePassword.class, Global.StatusExit);
                     }else {
                         Utils.GoToNextActivity(Activity_login.this, MainActivity.class, Global.StatusExit);
                     }
@@ -190,7 +186,7 @@ public class Activity_login extends AppCompatActivity {
 
     public void probar_(View v) {
 
-        Intent i = new Intent(this, UpdatePassword.class);
+        Intent i = new Intent(this, Activity_UpdatePassword.class);
         startActivity(i);
         finish();
     }

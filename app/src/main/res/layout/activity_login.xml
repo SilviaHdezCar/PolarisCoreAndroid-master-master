@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activity_login"
+    tools:context=".Actividades.Activity_login"
     android:padding="15dp"
     android:background="@color/gris_fondo">
 

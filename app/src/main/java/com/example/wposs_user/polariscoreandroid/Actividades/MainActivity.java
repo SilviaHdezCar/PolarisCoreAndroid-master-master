@@ -26,7 +26,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.wposs_user.polariscoreandroid.Activity_login;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuesto;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
@@ -40,7 +39,6 @@ import com.example.wposs_user.polariscoreandroid.Fragmentos.InicialFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.PerfilFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ProductividadFragment;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.TipificacionesDiagnostico;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.StockFragment;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
@@ -49,7 +47,6 @@ import com.example.wposs_user.polariscoreandroid.Tools;
 import com.example.wposs_user.polariscoreandroid.java.Usuario;
 import com.example.wposs_user.polariscoreandroid.java.Etapas;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
