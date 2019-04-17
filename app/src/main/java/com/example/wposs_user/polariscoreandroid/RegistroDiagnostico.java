@@ -12,6 +12,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 
+
 public class RegistroDiagnostico extends AppCompatActivity {
 
     @Override
@@ -22,11 +23,10 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
     //******************consumir servicio listar Repuestos
 
-    public void listarObservacionesTerminal(String serial) {
-        Global.WEB_SERVICE = "/PolarisCore/Terminals/observations";
-        Global.serial = serial;
-
+    public void listarObservacionesRepuestos(String serial) {
+        Global.WEB_SERVICE = "/PolarisCore/Terminals/spares ";
         new TaskListarRepuestos().execute();
+
     }
 
 
