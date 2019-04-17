@@ -26,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wposs_user.polariscoreandroid.Activity_login;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuesto;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
@@ -38,6 +39,7 @@ import com.example.wposs_user.polariscoreandroid.Fragmentos.EtapasTerminal;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.InicialFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.PerfilFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ProductividadFragment;
+import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TipificacionesDiagnostico;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.StockFragment;
@@ -339,7 +341,7 @@ public class MainActivity extends AppCompatActivity
 
 
         for (Terminal ter : this.terminales) {
-            if (ter.getSerial().equalsIgnoreCase(serial.getText().toString())) {
+            if (ter.getTerm_serial().equalsIgnoreCase(serial.getText().toString())) {
                 terminal.add(ter);
                 recyclerView = (RecyclerView) findViewById(R.id.recycler_view_consultaTerminales_por_serial);
                 recyclerView.setAdapter(new AdapterTerminal(this, terminal));//le pasa los datos-> lista de usuarios
@@ -407,7 +409,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(List<Terminal> terminal, int position) {
 //                Tools.toast("click por interface "+ terminal.get(position).idButton);
-                serialObtenido= terminal.get(position).getSerial();
+                serialObtenido= terminal.get(position).getTerm_serial();
                 fragmentManager.beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
             }
         },R.layout.panel_etapas);
@@ -777,7 +779,7 @@ public class MainActivity extends AppCompatActivity
 
         Vector<Terminal> terminales_aut = new Vector<>();
         for (Terminal ter : this.terminales) {
-            if ((ter.getTerm_status).equalsIgnoreCase("Autorizada")) {
+            if ((ter.getTerm_status()).equalsIgnoreCase("Autorizada")) {
                 terminales_aut.add(ter);
             }
 
