@@ -370,6 +370,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    //este metodo llena el recy
+
+
     //Mostrar las terminales  asociadas al dar clic en el boton
     public void verTerminalesAsociadas(View v) {
         verTerminalesAsociadas();
