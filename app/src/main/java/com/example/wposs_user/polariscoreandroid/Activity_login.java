@@ -127,7 +127,7 @@ public class Activity_login extends AppCompatActivity {
                     Global.StatusExit=true;
 
                     if(Integer.parseInt(Global.LOGIN)==0){
-                        Utils.GoToNextActivity(Activity_login.this, Actualizar_clave.class, Global.StatusExit);
+                        Utils.GoToNextActivity(Activity_login.this,UpdatePassword.class, Global.StatusExit);
                     }else {
                         Utils.GoToNextActivity(Activity_login.this, MainActivity.class, Global.StatusExit);
                     }
@@ -190,7 +190,7 @@ public class Activity_login extends AppCompatActivity {
 
     public void actu_clave(View v) {
 
-        Intent i = new Intent(this, Actualizar_clave.class);
+        Intent i = new Intent(this, UpdatePassword.class);
         startActivity(i);
         finish();
     }

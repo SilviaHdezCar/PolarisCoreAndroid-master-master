@@ -967,7 +967,7 @@ public class Utils {
         if( i == -1 )
             return 0;
 
-        lenBuffer =  (Global.lenS1) - (i + lenS2);
+        lenBuffer =  Global.lenS1 - (i + lenS2);
 
         System.arraycopy(S1, i + lenS2, buffer, 0, lenBuffer);
 

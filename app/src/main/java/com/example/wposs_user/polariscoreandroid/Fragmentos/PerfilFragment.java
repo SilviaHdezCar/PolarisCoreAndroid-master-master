@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.wposs_user.polariscoreandroid.R;
+
 
 public class PerfilFragment extends Fragment {
 

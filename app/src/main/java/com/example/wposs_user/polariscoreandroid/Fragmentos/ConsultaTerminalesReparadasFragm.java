@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
+import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.Tools;
 
 import java.util.Date;

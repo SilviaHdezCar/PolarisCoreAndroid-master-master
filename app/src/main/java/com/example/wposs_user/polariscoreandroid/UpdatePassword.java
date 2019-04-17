@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
@@ -53,7 +54,7 @@ public class UpdatePassword extends AppCompatActivity {
 
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i = new Intent(this, Activity_login.class);
+        Intent i = new Intent(this, com.example.wposs_user.polariscoreandroid.Activity_login.class);
         startActivity(i);
         finish();
     }

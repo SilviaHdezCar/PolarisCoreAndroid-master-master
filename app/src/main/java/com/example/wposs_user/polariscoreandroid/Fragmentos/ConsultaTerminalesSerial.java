@@ -10,6 +10,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
+import com.example.wposs_user.polariscoreandroid.R;
 
 
 public class ConsultaTerminalesSerial extends Fragment {

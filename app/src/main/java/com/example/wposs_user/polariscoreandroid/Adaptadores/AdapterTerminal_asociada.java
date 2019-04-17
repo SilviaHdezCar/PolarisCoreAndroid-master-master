@@ -20,7 +20,7 @@ public class AdapterTerminal_asociada extends RecyclerView.Adapter<AdapterTermin
     interfaceClick ic;
     private int layoutButton;
 
-    public AdapterTerminal_asociada(List<Terminal> list) {
+    public AdapterTerminal_asociada(Context c,List<Terminal> list) {
         this.listTerminal = list;
         this.inflador = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -42,12 +42,12 @@ public class AdapterTerminal_asociada extends RecyclerView.Adapter<AdapterTermin
     @Override
     public void onBindViewHolder(final ViewHolderTerminal holder, final int i) {
 
-        holder.serial.setText(this.listTerminal.get(i).getSerial());
-        holder.marca.setText(this.listTerminal.get(i).getMarca());
-        holder.modelo.setText(this.listTerminal.get(i).getModelo());
-        holder.tecnologia.setText(this.listTerminal.get(i).getTecnologia());
-        holder.estado.setText(this.listTerminal.get(i).getEstado());
-        holder.fechaANS.setText(this.listTerminal.get(i).getFechaLimite() + "");
+        holder.serial.setText(this.listTerminal.get(i).getTerm_serial());
+        holder.marca.setText(this.listTerminal.get(i).getBrand());
+        holder.modelo.setText(this.listTerminal.get(i).getTerm_model());
+        holder.tecnologia.setText(this.listTerminal.get(i).getTerm_technology());
+        holder.estado.setText(this.listTerminal.get(i).getTerm_status());
+        holder.fechaANS.setText(this.listTerminal.get(i).getTerm_date_finish() + "");
 
 
     }

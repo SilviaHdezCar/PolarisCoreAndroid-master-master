@@ -218,6 +218,7 @@ public class TipificacionesDiagnostico extends AppCompatActivity
                 dismuir();
                 return true;
         }
+        return false;
     }
 
     private void dismuir() {

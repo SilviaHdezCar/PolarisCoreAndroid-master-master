@@ -16,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.wposs_user.polariscoreandroid.R;
+
 public class InicialFragment extends Fragment {
 
     private AppBarLayout appBar;

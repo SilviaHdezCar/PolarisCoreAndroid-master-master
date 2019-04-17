@@ -54,11 +54,12 @@ public class Global {
     public static final int       SOCKET_TIMEOUT          = 20000;
 
     public static final int       TRANSACTION_OK          = 1;
-    public static final int       ERR_OPEN_SOCKET         = -1;
+     public static final int       ERR_OPEN_SOCKET         = -1;
     public static final int       ERR_WRITE_SOCKET        = -2;
     public static final int       ERR_TIMEOUT_SOCKET      = -3;
     public static final int       ERR_READ_SOCKET         = -4;
     public static final int       ERR_DATA_RECEIVED       = -5;
+
 
     public static final int       MAX_LEN_OUTPUTDATA	  = 2048;
     public static final int       MAX_LEN_INPUTDATA		  = 4096;
@@ -68,7 +69,7 @@ public class Global {
 
 
     public static int            inputLen;
-    public static int            outputLen;
+    public static int outputLen;
 
     public static byte[]         outputData               = new byte[MAX_LEN_OUTPUTDATA];
     public static byte[]         inputData                = new byte[MAX_LEN_INPUTDATA];
@@ -88,4 +89,5 @@ public class Global {
     public static List<Observacion> OBSERVACIONES;
     public static List<Validacion> VALIDACIONES;
     public static List<Tipificacion> TIPIFICACIONES;
+
 }

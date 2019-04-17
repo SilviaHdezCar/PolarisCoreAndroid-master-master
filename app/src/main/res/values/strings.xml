@@ -24,8 +24,6 @@
     <string name="Respuesta3">Respuesta 3</string>
 
 
-
-
     <string-array name="preguntas">
         <item> NO SELECCION</item>
         <item>¿Cuál fue el nombre de tu primera mascota?</item>
