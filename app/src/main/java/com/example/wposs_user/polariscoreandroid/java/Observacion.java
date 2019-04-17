@@ -3,50 +3,40 @@ package com.example.wposs_user.polariscoreandroid.java;
 public class Observacion {
 
     //colocarle los mismos atributos que estan en la BD
-    String fecha;
-    String usuario;
-    String observacion;
+    String teob_description;
+    String teob_serial_terminal;
+    String teob_photo;
 
-    public Observacion(String fecha, String usuario, String observacion) {
-        this.fecha = fecha;
-        this.usuario = usuario;
-        this.observacion = observacion;
+    public Observacion(String teob_description, String teob_serial_terminal, String teob_photo) {
+        this.teob_description = teob_description;
+        this.teob_serial_terminal = teob_serial_terminal;
+        this.teob_photo = teob_photo;
     }
 
     public Observacion() {
-
     }
 
-    public String getFecha() {
-        return fecha;
+    public String getTeob_description() {
+        return teob_description;
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public void setTeob_description(String teob_description) {
+        this.teob_description = teob_description;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getTeob_serial_terminal() {
+        return teob_serial_terminal;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setTeob_serial_terminal(String teob_serial_terminal) {
+        this.teob_serial_terminal = teob_serial_terminal;
     }
 
-    public String getObservacion() {
-        return observacion;
+    public String getTeob_photo() {
+        return teob_photo;
     }
 
-    public void setObservacion(String observacion) {
-        this.observacion = observacion;
-    }
-
-    @Override
-    public String toString() {
-        return "Observacion{" +
-                "fecha='" + fecha + '\'' +
-                ", usuario='" + usuario + '\'' +
-                ", observacion='" + observacion + '\'' +
-                '}';
+    public void setTeob_photo(String teob_photo) {
+        this.teob_photo = teob_photo;
     }
 }

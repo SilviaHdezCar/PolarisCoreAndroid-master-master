@@ -7,17 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.java.Etapas;
+import com.example.wposs_user.polariscoreandroid.java.Observacion;
 
 import java.util.Vector;
 
 public class AdapterEtapas extends RecyclerView.Adapter<AdapterEtapas.ViewHolderEtapas> {
 
-    private Vector<Etapas> listEtapa;
+    private Vector<Observacion> listEtapa;
     private LayoutInflater inflador;
 
-    public AdapterEtapas(Context c, Vector<Etapas> list) {
+    public AdapterEtapas(Context c, Vector<Observacion> list) {
         this.listEtapa = list;
         this.inflador = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -31,11 +32,11 @@ public class AdapterEtapas extends RecyclerView.Adapter<AdapterEtapas.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolderEtapas holder, int i) {
-       Etapas eta = this.listEtapa.elementAt(i);
-        holder.contador_etapas.setText("1");
-        holder.usuario_etapas.setText(eta.getUsuario().getNombre()+"   "+eta.getUsuario().getApellido());
-        holder.fecha_etapas.setText(eta.getFecha()+"");
-        holder.observaciones_etapas.setText(eta.getObservacion());
+       Observacion ob = this.listEtapa.elementAt(i);
+        holder.contador_etapas.setText(i);
+        holder.usuario_etapas.setText(Global.CODE);
+        holder.fecha_etapas.setText("null");
+        holder.observaciones_etapas.setText(ob.getTeob_description());
 
     }
 

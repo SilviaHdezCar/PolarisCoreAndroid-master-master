@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,9 +27,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wposs_user.polariscoreandroid.Activity_login;
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterEtapas;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuesto;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidaciones;
 import com.example.wposs_user.polariscoreandroid.CambiarClaveDialogo;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
@@ -39,6 +43,9 @@ import com.example.wposs_user.polariscoreandroid.Fragmentos.InicialFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.PerfilFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ProductividadFragment;
 import com.example.wposs_user.polariscoreandroid.R;
+import com.example.wposs_user.polariscoreandroid.TipificacionesDiagnostico;
+import com.example.wposs_user.polariscoreandroid.ValidacionesTerminalesAsociadas;
+import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.StockFragment;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
@@ -46,7 +53,9 @@ import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.Tools;
 import com.example.wposs_user.polariscoreandroid.java.Usuario;
 import com.example.wposs_user.polariscoreandroid.java.Etapas;
+import com.example.wposs_user.polariscoreandroid.java.Validacion;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -342,15 +351,66 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**********************************************************************************************************
+     * METODOS ATRÁS DE LOS BOTONES     * siguienteEtapas
+     * *******************************************************************************************************/
 
+    //boton atras de la calse etapas
+    public void volverEtapas(View v) {
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
+    }
+
+    public void siguienteEtapas(View v) {
+        new  TaskListarValidaciones().execute();
+
+        TextView marca_ter_validaciones = (TextView) findViewById(R.id.marca_ter_validaciones);
+        TextView modelo_ter_validaciones = (TextView) findViewById(R.id.modelo_ter_validaciones);
+        TextView serial_ter_validaciones = (TextView) findViewById(R.id.serial_ter_validaciones);
+        TextView tecno_ter_validaciones = (TextView) findViewById(R.id.tecno_ter_validaciones);
+        TextView estado_ter_validaciones = (TextView) findViewById(R.id.estado_ter_validaciones);
+        TextView garantia_ter_validaciones = (TextView) findViewById(R.id.garantia_ter_validaciones);
+        TextView fecha_recepcion_ter_validaciones = (TextView) findViewById(R.id.fecha_recepcion_ter_validaciones);
+        TextView fechal_ans_ter_validaciones = (TextView) findViewById(R.id.fechal_ans_ter_validaciones);
+
+        //voy a recorrer el arreglo de terminales para que me liste la informacion de la terminal selecciona
+
+        for (Terminal ter : Global.TERMINALES_ASOCIADAS) {
+            if (ter.getTerm_serial().equalsIgnoreCase(Global.serial_ter)) {
+                marca_ter_validaciones.setText(ter.getBrand());
+                modelo_ter_validaciones.setText(ter.getTerm_model());
+                serial_ter_validaciones.setText(ter.getTerm_serial());
+                tecno_ter_validaciones.setText(ter.getTerm_technology());
+                estado_ter_validaciones.setText(ter.getTerm_status());
+
+                if (Integer.parseInt(ter.getTerm_warranty_time()) >= 0) {
+                    garantia_ter_validaciones.setText("Con garantía");
+                } else {
+                    garantia_ter_validaciones.setText("Si garantía");
+                }
+
+                fecha_recepcion_ter_validaciones.setText(ter.getTerm_date_register());
+                fechal_ans_ter_validaciones.setText(ter.getTerm_date_finish());
+
+                /**
+                 *LLAMO EL METODO QUE CONSUME EL SERVICIO DE VALIDACIOS
+                 *
+                 * **/
+            }
+        }
+
+        //llama el servicio de validaciones
+
+
+
+    }
     //METODOS PARA MOSTRAR EL CALENDARIO
 
 
     //***********TERMINALES ASOCIADAS
 //Listas las terminales asociadas al tecnico que inicio sesión en la app
     public void verTerminalesAsociadas() {
-       /* btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
-        btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);*/
+        btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
+        btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
 
         btn_autorizadas.setBackgroundColor(0x802196F5);
 
@@ -365,6 +425,57 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    /**
+     * **/
+    public void llenarRVEtapas(List<Observacion> observaciones) {
+
+
+
+        Vector<Observacion> obs = new Vector<>();
+
+        for (Observacion o: observaciones) {
+            if(o!=null){
+                obs.add(o);
+            }
+
+        }
+        if(obs.size()==0){
+            Toast.makeText(MainActivity.this, "Aunno tiene observaciones", Toast.LENGTH_SHORT).show();
+        }
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_etapas);
+        recyclerView.setAdapter(new AdapterEtapas(objeto, obs));//le pasa los datos-> lista de usuarios
+
+        layoutManager = new LinearLayoutManager(this);// en forma de lista
+        recyclerView.setLayoutManager(layoutManager);
+
+
+    }
+
+    //llenarRVValidaciones
+
+    public void llenarRVValidaciones(List<Validacion> validacions) {
+
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
+
+        Vector<Validacion> vals = new Vector<>();
+
+        for (Validacion v: validacions) {
+            if(v!=null){
+                vals.add(v);
+            }
+
+        }
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_validaciones);
+        recyclerView.setAdapter(new AdapterValidaciones(objeto, vals));//le pasa los datos-> lista de usuarios
+
+        layoutManager = new LinearLayoutManager(this);// en forma de lista
+        recyclerView.setLayoutManager(layoutManager);
+
+
+    }
+
     //este metodo llena el recycler view con las terminales obtenidas al consumir el servicio
 
     public void llenarRVAsociadas(List<Terminal> terminalesRecibidas) {
@@ -373,7 +484,7 @@ public class MainActivity extends AppCompatActivity
         rv.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-        recyclerView.setLayoutManager(llm);
+        rv.setLayoutManager(llm);
 
         ArrayList terminals = new ArrayList<>();
 
@@ -390,15 +501,17 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(List<Terminal> terminal, int position) {
 
-/********************
- *  cuando de clic en el panel de la terminal que desea ver los detalles, captura la posicion del panel donde dio clic
- *  y consume el servicio de listarObservacionesTeerminal
- *  **************/
+                    /********************
+                    *  cuando de clic en el panel de la terminal que desea ver los detalles, captura la posicion del panel donde dio clic
+                     *  y consume el servicio de listarObservacionesTeerminal
+                     *  **************/
 
-                Global.serial = terminal.get(position).getTerm_serial();
+                serialObtenido = terminal.get(position).getTerm_serial();
                 Global.modelo = terminal.get(position).getTerm_model();
 
-                listarObservacionesTerminal(Global.serial);
+                System.out.println("-------*****-_-**********************************VA A LISTAR LAS ETAPAS DE LA TERMINAL SELECCIONADA");
+
+                listarObservacionesTerminal(serialObtenido);
             }
         }, R.layout.panel_terminal_asociada);
 
@@ -445,9 +558,11 @@ public class MainActivity extends AppCompatActivity
             trans = TCP.transaction(Global.outputLen);
 
             // Verifica la transacción
-            if (trans == Global.TRANSACTION_OK)
+            if (trans == Global.TRANSACTION_OK) {
+
+                System.out.println();
                 return true;
-            else
+            } else
                 return false;
         }
 
@@ -466,7 +581,13 @@ public class MainActivity extends AppCompatActivity
                     Global.enSesion = true;
                     Global.StatusExit = true;
 
+                    if (Global.TERMINALES_ASOCIADAS == null) {
+                        System.out.println("********************************NO TIENE TERMINALES ASOCIADAS");
+                        Toast.makeText(objeto, Global.CODE + " No tiene terminales asociadas", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     llenarRVAsociadas(Global.TERMINALES_ASOCIADAS);
+
 
                 } else {
                     // Si el login no es OK, manda mensaje de error
@@ -515,7 +636,7 @@ public class MainActivity extends AppCompatActivity
      *************************************************************************************/
     public void listarObservacionesTerminal(String serial) {
         Global.WEB_SERVICE = "/PolarisCore/Terminals/observations";
-        Global.serial = serial;
+        Global.serial_ter = serial;
 
         new TaskListarObservaciones().execute();
     }
@@ -530,6 +651,7 @@ public class MainActivity extends AppCompatActivity
     class TaskListarObservaciones extends AsyncTask<String, Void, Boolean> {
         ProgressDialog progressDialog;
         int trans = 0;
+        MainActivity objeto;
 
 
         /*******************************************************************************
@@ -578,10 +700,17 @@ public class MainActivity extends AppCompatActivity
                 if (Messages.unPackMsgListarObservaciones(MainActivity.this)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
+                    fragmentManager.beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
 
-                    //muestra el panel con la lista de observaciones, es decir que llena el recycler view de observaciones
 
-//OJOOOOOO LLENAR EL RECYCLER VIEW DE  OBSERVACIONES?
+                    if (Global.OBSERVACIONES == null) {
+                        System.out.println("********************************LA TERMINAL NO TIENE OBERVACIONES ");
+                        Toast.makeText(MainActivity.this,  Global.serial_ter+" No tiene observaciones", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        objeto.llenarRVEtapas(Global.OBSERVACIONES);
+                    }
+
                 } else {
                     // Si el login no es OK, manda mensaje de error
                     try {
@@ -679,9 +808,14 @@ public class MainActivity extends AppCompatActivity
                 if (Messages.unPackMsgListarValidaciones(MainActivity.this)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
+                    fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
+                    if (Global.VALIDACIONES == null) {
+                        System.out.println("********************************LA TERMINAL NO TIENE VALIDACIONES ");
+                        Toast.makeText(objeto, Global.serial_ter + " No tiene validaciones", Toast.LENGTH_SHORT).show();
 
-                    //LLENAR PANEL CON LA INF DE LA TERMINAL Y MOSTRAR TABLA VALIDACIONES
-                    //Utils.GoToNextActivity(MainActivity.this, TipificacionesDiagnostico.class, Global.StatusExit);
+                    } else {
+                        objeto.llenarRVValidaciones(Global.VALIDACIONES);
+                    }
                 } else {
                     // Si el login no es OK, manda mensaje de error
                     try {

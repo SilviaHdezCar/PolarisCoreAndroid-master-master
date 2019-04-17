@@ -73,7 +73,7 @@ public class Messages {
     public static boolean unPackMsgListarTipificaciones(Context c) {
 
         String tramaCompleta = "";
-
+        Tipificacion v=null;
 
         int indice = 0;
 
@@ -114,7 +114,7 @@ public class Messages {
             for(int i=0; i<  jsonArray.length();i++){
                 String val = jsonArray.getString(i);
 
-                Tipificacion v = gson.fromJson(val, Tipificacion.class);
+                v= gson.fromJson(val, Tipificacion.class);
                 System.out.println("***********Va a agg tipificacion a la List<Tipificcon>**********("+i+"): "+v.toString());
                 Global.TIPIFICACIONES.add(v);
 
@@ -152,7 +152,7 @@ public class Messages {
     public static boolean unPackMsgListarValidaciones(Context c) {
 
         String tramaCompleta = "";
-
+        Validacion v= null;
 
         int indice = 0;
 
@@ -193,7 +193,7 @@ public class Messages {
             for(int i=0; i<  jsonArray.length();i++){
                 String val = jsonArray.getString(i);
 
-                Validacion v = gson.fromJson(val, Validacion.class);
+                v = gson.fromJson(val, Validacion.class);
                 System.out.println("***********Va a agg VALIDACION a la List<vALIDACIONES>**********("+i+"): "+v.toString());
                 Global.VALIDACIONES.add(v);
 
@@ -283,7 +283,7 @@ public class Messages {
         //comienza a armar la trama
         Global.httpDataBuffer = "{\"serial\": \"<SERIAL>\"}";//se arma la trama
 
-        Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", Global.serial);
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", Global.serial_ter);
         //fn
 
 
@@ -309,7 +309,7 @@ public class Messages {
     public static boolean unPackMsgListaRepuestos(Context c) {
 
         String tramaCompleta = "";
-
+        Repuesto r=null;
 
         int indice = 0;
 
@@ -339,7 +339,7 @@ public class Messages {
             }
 
             System.out.println("*********Obtiene el arreglo de observaciones");
-            JSONArray jsonArray = jsonObject.getJSONArray("observaciones");
+            JSONArray jsonArray = jsonObject.getJSONArray("repuestos");
 
             Global.REPUESTOS = new ArrayList<Repuesto>();
             System.out.println("Va a recorrer el JsonArray de observaciones");
@@ -350,7 +350,7 @@ public class Messages {
             for(int i=0; i<  jsonArray.length();i++){
                 String obs = jsonArray.getString(i);
 
-               Repuesto r = gson.fromJson(obs, Repuesto.class);
+               r= gson.fromJson(obs, Repuesto.class);
                 System.out.println("***********Va a agg terminal a la List<Repuestos>*************Repuesto("+i+"): "+r.toString());
                 Global.REPUESTOS.add(r);
 
@@ -375,7 +375,7 @@ public class Messages {
     public static boolean unPackMsgListarObservaciones(Context c) {
 
         String tramaCompleta = "";
-
+        Observacion o=null;
 
         int indice = 0;
 
@@ -409,14 +409,16 @@ public class Messages {
 
             Global.OBSERVACIONES = new ArrayList<Observacion>();
             System.out.println("Va a recorrer el JsonArray de observaciones");
+
             if(jsonArray.length()==0){
                 Global.mensaje="No tiene observaciones";
                 return true;
             }
+
             for(int i=0; i<  jsonArray.length();i++){
                 String obs = jsonArray.getString(i);
 
-                Observacion o = gson.fromJson(obs, Observacion.class);
+                o= gson.fromJson(obs, Observacion.class);
                 System.out.println("***********Va a agg terminal a la List<Terminal>*************terminal("+i+"): "+o.toString());
                 Global.OBSERVACIONES.add(o);
 
@@ -504,7 +506,7 @@ public class Messages {
     public static boolean unPackMsgListarAsociadas(Context c) {
 
         String tramaCompleta = "";
-
+        Terminal t=null;
 
         int indice = 0;
 
@@ -513,7 +515,6 @@ public class Messages {
 
         tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
 
-
         int tramaNecesitada = tramaCompleta.indexOf("}");
 
         String trama = tramaCompleta.substring(0, tramaNecesitada + 1);//ESTA ES LA TRAMA QUE ENVIA EL SERVIDOR, ES LA QUE SE VA A DESEMPAQUETAR
@@ -521,23 +522,17 @@ public class Messages {
 
 
         String[] lineastrama = trama.split(",");
+
+        System.out.println("****************************************************************ASOCIADAS");
         Gson gson = new GsonBuilder().create();
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(tramaCompleta);
-
-            if(jsonObject.get("message").toString()!=null){
-                System.out.println("--------------ENTRÓ AL MSJ DE ERROR");
-                Global.mensaje=lineastrama[0].substring(12, tramaNecesitada-1);
-                Log.i("mensaje de error", ""+jsonObject.get("message").toString());
-                return false;
-            }
-
-            System.out.println("*********Obtiene el arreglo de terminales");
+     System.out.println("*********Obtiene el arreglo de terminales");
             JSONArray jsonArray = jsonObject.getJSONArray("terminales");
 
             Global.TERMINALES_ASOCIADAS = new ArrayList<Terminal>();
-            System.out.println("Va a recorrer el JsonArray de terminales");
+            System.out.println("Va a recorrer el JsonArray de terminales::::::tamaño: "+ jsonArray.length());
             if(jsonArray.length()==0){
                 Global.mensaje="No tiene terminales asociadas";
                 return true;
@@ -545,7 +540,7 @@ public class Messages {
             for(int i=0; i<  jsonArray.length();i++){
                 String ter = jsonArray.getString(i);
 
-                Terminal t = gson.fromJson(ter, Terminal.class);
+                t= gson.fromJson(ter, Terminal.class);
                 System.out.println("***********Va a agg terminal a la List<Terminal>*************terminal("+i+"): "+t.toString());
                 Global.TERMINALES_ASOCIADAS.add(t);
 

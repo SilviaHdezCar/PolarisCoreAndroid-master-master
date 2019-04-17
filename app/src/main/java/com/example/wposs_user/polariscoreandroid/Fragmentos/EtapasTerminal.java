@@ -31,13 +31,6 @@ public class EtapasTerminal extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_etapas_terminal, container, false);
 
-       // agregarEtapasVector();
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_etapas);
-         recyclerView.setAdapter(new AdapterEtapas(getActivity(), etapas));//le pasa los datos-> lista de usuarios
-
-        layoutManager = new LinearLayoutManager(getContext());// en forma de lista
-        recyclerView.setLayoutManager(layoutManager);
         return view;
 
     }

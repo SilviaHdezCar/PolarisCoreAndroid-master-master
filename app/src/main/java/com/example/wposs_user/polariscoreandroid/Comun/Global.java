@@ -21,6 +21,11 @@ public class Global {
 
 
 
+    public static String serial_ter= "";
+
+
+
+
 
     public static String primaryIP;
     public static int primaryPort;
@@ -90,7 +95,7 @@ public class Global {
 
 
 
-    public static List<Terminal> TERMINALES_ASOCIADAS;
+    public static List<Terminal> TERMINALES_ASOCIADAS ;
     public static List<Observacion> OBSERVACIONES;
     public static List<Validacion> VALIDACIONES;
     public static List<Tipificacion> TIPIFICACIONES;

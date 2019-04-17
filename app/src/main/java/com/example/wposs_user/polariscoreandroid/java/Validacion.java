@@ -2,39 +2,44 @@ package com.example.wposs_user.polariscoreandroid.java;
 
 public class Validacion {
 
-    private String teva_id;
-    private String teva_description;
 
 
-    public Validacion(String teva_id, String teva_description) {
-        this.teva_id = teva_id;
-        this.teva_description = teva_description;
+
+    private String tevs_terminal_serial;
+    private String tevs_terminal_validation;
+    private String tevs_status;
+
+    public Validacion(String tevs_terminal_serial, String tevs_terminal_validation, String tevs_status) {
+        this.tevs_terminal_serial = tevs_terminal_serial;
+        this.tevs_terminal_validation = tevs_terminal_validation;
+        this.tevs_status = tevs_status;
     }
+
 
     public Validacion() {
     }
 
-    public String getTeva_id() {
-        return teva_id;
+    public String getTevs_terminal_serial() {
+        return tevs_terminal_serial;
     }
 
-    public void setTeva_id(String teva_id) {
-        this.teva_id = teva_id;
+    public void setTevs_terminal_serial(String tevs_terminal_serial) {
+        this.tevs_terminal_serial = tevs_terminal_serial;
     }
 
-    public String getTeva_description() {
-        return teva_description;
+    public String getTevs_terminal_validation() {
+        return tevs_terminal_validation;
     }
 
-    public void setTeva_description(String teva_description) {
-        this.teva_description = teva_description;
+    public void setTevs_terminal_validation(String tevs_terminal_validation) {
+        this.tevs_terminal_validation = tevs_terminal_validation;
     }
 
-    @Override
-    public String toString() {
-        return "Validacion{" +
-                "teva_id='" + teva_id + '\'' +
-                ", teva_description='" + teva_description + '\'' +
-                '}';
+    public String getTevs_status() {
+        return tevs_status;
+    }
+
+    public void setTevs_status(String tevs_status) {
+        this.tevs_status = tevs_status;
     }
 }
