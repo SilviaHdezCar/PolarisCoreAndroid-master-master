@@ -14,6 +14,9 @@ public class Global {
     public static String correo;
     public static String password;
     public static String serial= "";
+    public static String modelo= "";
+
+
 
 
 

@@ -65,7 +65,7 @@ public class AdapterTerminal_asociada extends RecyclerView.Adapter<AdapterTermin
     }
 
     public interface interfaceClick {
-        void onClick(List<Terminal> button, int position);
+        void onClick(List<Terminal> terminal, int position);
     }
 
     public class ViewHolderTerminal extends RecyclerView.ViewHolder {
