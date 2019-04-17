@@ -1,6 +1,12 @@
 package com.example.wposs_user.polariscoreandroid.Comun;
 
+import com.example.wposs_user.polariscoreandroid.java.Observacion;
+import com.example.wposs_user.polariscoreandroid.java.Terminal;
+import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
+import com.example.wposs_user.polariscoreandroid.java.Validacion;
+
 import java.net.Socket;
+import java.util.List;
 
 public class Global {
 
@@ -72,4 +78,11 @@ public class Global {
 
     public static String MsgError;
     public static final String MSG_ERR_CONEXION        = "Error de Conexión: No se estableció comunicación con el servidor, revise la configuración de Datos Móviles o WIFI";
+
+
+
+    public static List<Terminal> TERMINALES_ASOCIADAS;
+    public static List<Observacion> OBSERVACIONES;
+    public static List<Validacion> VALIDACIONES;
+    public static List<Tipificacion> TIPIFICACIONES;
 }

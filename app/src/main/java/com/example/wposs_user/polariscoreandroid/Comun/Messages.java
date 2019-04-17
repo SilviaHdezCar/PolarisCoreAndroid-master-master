@@ -99,6 +99,83 @@ public class Messages {
 
 
 
+    /*****************************************************************************************
+     * EMPAQUETADO DE LISTAR VALIDACIONES, LO QUE SE ENVIA
+     *SOLO TIENE ENCABEZADO
+     * **************************************************************************************/
+    public static void packMsgListarValidaciones() {
+        // no lleva body
+        packHttpHeaderLogueado();
+
+        Global.outputData = (Global.httpHeaderBuffer).getBytes();
+
+        Global.outputLen = Global.outputData.length;
+        //Utils.dumpMemory(Global.outputData, Global.outputLen);
+        Log.i("outputData*******", "" + uninterpret_ASCII(Global.inputData, 0, Global.inputData.length));
+
+    }
+
+    /************************************************************************************************
+     * DESEMPAQUETADO DE LA RESPUESTA DEL SERVIDOR --> LISTAR LAS VALIDACIONES*************************/
+    public static boolean unPackMsgListarValidaciones(Context c) {
+
+        String tramaCompleta = "";
+
+
+        int indice = 0;
+
+        Global.inputData = Global.httpDataBuffer.getBytes();
+
+
+        tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
+
+
+        int tramaNecesitada = tramaCompleta.indexOf("}");
+
+        String trama = tramaCompleta.substring(0, tramaNecesitada + 1);//ESTA ES LA TRAMA QUE ENVIA EL SERVIDOR, ES LA QUE SE VA A DESEMPAQUETAR
+
+
+
+        String[] lineastrama = trama.split(",");
+        Gson gson = new GsonBuilder().create();
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(tramaCompleta);
+
+            if(jsonObject.get("message").toString()!=null){
+                System.out.println("--------------ENTRÓ AL MSJ DE ERROR");
+                Global.mensaje=lineastrama[0].substring(12, tramaNecesitada-1);
+                Log.i("mensaje de error", ""+jsonObject.get("message").toString());
+                return false;
+            }
+
+            System.out.println("*********Obtiene el arreglo de VALIDACIONES");
+            JSONArray jsonArray = jsonObject.getJSONArray("validaciones");
+
+            Global.VALIDACIONES = new ArrayList<Validacion>();
+            System.out.println("Va a recorrer el JsonArray de VALIDACIONES");
+            if(jsonArray.length()==0){
+                Global.mensaje="No tiene validaciones";
+                return true;
+            }
+            for(int i=0; i<  jsonArray.length();i++){
+                String val = jsonArray.getString(i);
+
+                Validacion v = gson.fromJson(val, Validacion.class);
+                System.out.println("***********Va a agg VALIDACION a la List<vALIDACIONES>**********("+i+"): "+v.toString());
+                Global.VALIDACIONES.add(v);
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+
+
+    }
+
 
 
 

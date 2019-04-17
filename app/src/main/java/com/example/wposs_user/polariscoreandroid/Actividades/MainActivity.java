@@ -389,8 +389,7 @@ public class MainActivity extends AppCompatActivity
         btn_asociadas.setBackgroundColor(0x45A5F3);
 
 
-        //consumir servicio
-        //envio codigo del tecnico
+        //envio codigo del tecnico-->lo obtiene del inicio de sesion
         //consumir servicio y obtiene las terminales
         Global.WEB_SERVICE = "/PolarisCore/Terminals//associatedsWithDiagnosis";
 
