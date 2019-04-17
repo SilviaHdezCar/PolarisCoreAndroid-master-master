@@ -46,4 +46,15 @@ public class Repuesto {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
+
+
+    @Override
+    public String toString() {
+        return "Repuesto{" +
+                "codigo='" + codigo + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", estado='" + estado + '\'' +
+                ", cantidad=" + cantidad +
+                '}';
+    }
 }

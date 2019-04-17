@@ -4,6 +4,14 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
@@ -11,6 +19,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
+import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 
 
 public class RegistroDiagnostico extends AppCompatActivity {
@@ -26,6 +35,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
     public void listarRepuestos() {
         Global.WEB_SERVICE = "/PolarisCore/Terminals/spares ";
         new TaskListarRepuestos().execute();
+        this.llenarSpinerRepuestos();
 
     }
 
@@ -129,6 +139,41 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
 
     }
+
+    public void llenarSpinerRepuestos(){
+
+        final AutoCompleteTextView et_repuesto = (AutoCompleteTextView) findViewById(R.id.et_repuesto);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+
+        for(int i=0;i<Global.REPUESTOS.size();i++){
+
+            adapter.add(Global.REPUESTOS.get(i).toString());
+
+        }
+        et_repuesto.setAdapter(adapter);
+        et_repuesto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                InputMethodManager in = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+            }
+        });
+        et_repuesto.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(i == EditorInfo.IME_ACTION_DONE){
+                    InputMethodManager in = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    in.hideSoftInputFromWindow(textView.getApplicationWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+    }
+
+
 
 
 }
