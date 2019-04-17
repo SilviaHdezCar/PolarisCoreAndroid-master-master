@@ -13,6 +13,7 @@ public class Global {
 
     public static String correo;
     public static String password;
+    public static String serial= "";
 
 
 
@@ -65,6 +66,7 @@ public class Global {
     public static String    httpDataBuffer       = "";
     public static String    httpHeaderBuffer     = "";
 
+
     public static int            inputLen;
     public static int            outputLen;
 
@@ -78,6 +80,7 @@ public class Global {
 
     public static String MsgError;
     public static final String MSG_ERR_CONEXION        = "Error de Conexión: No se estableció comunicación con el servidor, revise la configuración de Datos Móviles o WIFI";
+
 
 
 

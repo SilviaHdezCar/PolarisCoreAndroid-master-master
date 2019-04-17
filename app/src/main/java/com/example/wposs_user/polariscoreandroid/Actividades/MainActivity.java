@@ -49,6 +49,7 @@ import com.example.wposs_user.polariscoreandroid.Tools;
 import com.example.wposs_user.polariscoreandroid.java.Usuario;
 import com.example.wposs_user.polariscoreandroid.java.Etapas;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity
     Terminal t7;
     Terminal t9;
 
-    String serialObtenido="";
+    String serialObtenido = "";
 
     //private AutoCompleteTextView serial;
 
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity
 
         agregarTeminalesVector();
         agregarRepuestos();
-       // agregarEtapasVector();
+        // agregarEtapasVector();
         objeto = this;
         btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
         btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
@@ -117,8 +118,7 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
 
 
-
-       // verTerminalesAsociadas();
+        // verTerminalesAsociadas();
 
     }
 
@@ -218,32 +218,6 @@ public class MainActivity extends AppCompatActivity
     private TextView ubicacion;
 
 
-    void cargarDatosPerfil() {
-        imgPerfil = findViewById(R.id.perfil_imagen_usuario);
-        //imgPerfil.setBackground();//agregar img que viene del servicio (json) al campo  imagenText
-
-        nomUsuario = (TextView) findViewById(R.id.perfil_nombre_usuario);
-        nomUsuario.setText("Silvia HC");//agregar el nomUser que viene del servicio (json) al campo  nombre usuario
-
-        usuario = (TextView) findViewById(R.id.perfil_usuario);
-        usuario.setText("");//agregar el nomUser que viene del servicio (json) al campo  usuario
-
-        cargo = (TextView) findViewById(R.id.perfil_cargo);
-        cargo.setText("Tecnica");//agregar el cargo que viene del servicio (json) al campo  respectivo
-
-        telefono = (TextView) findViewById(R.id.perfil_telefono);
-        telefono.setText("3113203021");//agregar el telefono que viene del servicio (json) al campo  respectivo
-
-        correo = (TextView) findViewById(R.id.perfil_correo);
-        correo.setText("silviahernadez@wposs.com");//agregar el cargo que viene del servicio (json) al campo  respectivo
-
-        ubicacion = (TextView) findViewById(R.id.perfil_ubicacion);
-        ubicacion.setText("Colombia. Cúcuta");//agregar el telefono que viene del servicio (json) al campo  respectivo
-
-
-    }
-
-
     //METODO QUE MUESTRA EL PANEL PARA ACTUALIZAR LA CLAVE
     public void actualizarClave(View view) {
         CambiarClaveDialogo cambiarClaveDialogo = new CambiarClaveDialogo();
@@ -271,13 +245,13 @@ public class MainActivity extends AppCompatActivity
         t7 = new Terminal("342", "Gertec", "Newpos7220", "WIFI", "Asociada", null, null, 0, "Algo tiene mal");
         Terminal t8 = new Terminal("912", "Gertec", "Newpos6210", "DIAL", "Autorizada", null);*/
 
-        Terminal t1 = new Terminal("123","42365", "SUNMI","T1MINI", "GPRS","DIAGNOSTICO","",
-                "","", "", "", "", "365","SHERNANDEZ4" );
+        Terminal t1 = new Terminal("123", "42365", "SUNMI", "T1MINI", "GPRS", "DIAGNOSTICO", "",
+                "", "", "", "", "", "365", "SHERNANDEZ4");
 
-        Terminal t2 = new Terminal("345","7557", "SUNMI","T1MINI", "GPRS","DIAGNOSTICO","",
-                "","", "", "", "", "365","SHERNANDEZ4" );
-        Terminal t3 = new Terminal("678","75175", "SUNMI","T1MINI", "GPRS","DIAGNOSTICO","",
-                "","", "", "", "", "365","SHERNANDEZ4" );
+        Terminal t2 = new Terminal("345", "7557", "SUNMI", "T1MINI", "GPRS", "DIAGNOSTICO", "",
+                "", "", "", "", "", "365", "SHERNANDEZ4");
+        Terminal t3 = new Terminal("678", "75175", "SUNMI", "T1MINI", "GPRS", "DIAGNOSTICO", "",
+                "", "", "", "", "", "365", "SHERNANDEZ4");
 
         terminales.add(t1);
         terminales.add(t2);
@@ -308,7 +282,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     //********************************************AGREGAR REPUESTOS*********************************************************************************************
-
 
 
     private void agregarRepuestos() {
@@ -365,19 +338,15 @@ public class MainActivity extends AppCompatActivity
 
     public void buscarTerminalesFechas(View V) {
         spinner_estado_terminal = (Spinner) findViewById(R.id.sp_estado_terminal);
-      String estado= spinner_estado_terminal.getSelectedItem().toString();
+        String estado = spinner_estado_terminal.getSelectedItem().toString();
 
-     // if()
-
-
+        // if()
 
 
     }
 
 
     //METODOS PARA MOSTRAR EL CALENDARIO
-
-
 
 
     //***********TERMINALES ASOCIADAS
@@ -390,58 +359,15 @@ public class MainActivity extends AppCompatActivity
 
         btn_asociadas.setBackgroundColor(0x45A5F3);
 
-
-        //envio codigo del tecnico-->lo obtiene del inicio de sesion
-        //consumir servicio y obtiene las terminales
         Global.WEB_SERVICE = "/PolarisCore/Terminals//associatedsWithDiagnosis";
 
-        //Messages.packMsgListaAsociadas();
 
         new TaskListarTerminalesAsociadas().execute();//hacer la peticion para que me retorne la lista de terminales
 
-        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-        recyclerView.setLayoutManager(llm);
 
-//¿EL RECYCLER VIEW SE LLENA AL CONSUMIR EL SERVICIO (desempaquetado==true) o acá
 
-        final AdapterTerminal_asociada adapter = new AdapterTerminal_asociada(this.terminales, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
-
-            @Override
-            public void onClick(List<Terminal> terminal, int position) {
-//                Tools.toast("click por interface "+ terminal.get(position).idButton);
-                serialObtenido= terminal.get(position).getTerm_serial();
-                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
-            }
-        },R.layout.panel_etapas);
-
-        recyclerView.setAdapter(adapter);
-
-      /*  Global.WEB_SERVICE = "/PolarisCore/Terminals//associatedsWithDiagnosis";
-        Messages.packMsgListaAsociadas();
-
-       new TaskListarTerminalesAsociadas().execute();
-
-        Vector<Terminal> terminales_asoc = new Vector<>();
-
-        for (Terminal ter : this.terminales) {
-            if (ter.getEstado().equalsIgnoreCase("Asociada")) {
-                terminales_asoc.add(ter);
-
-            }
-
-        }
-
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_consultaTerminales_inicial);
-        recyclerView.setAdapter(new AdapterTerminal_asociada(this, terminales_asoc));//le pasa los datos-> lista de terminales
-
-        layoutManager = new LinearLayoutManager(this);// en forma de lista
-        recyclerView.setLayoutManager(layoutManager);*/
 
     }
-
-
-
-
 
 
     //Mostrar las terminales  asociadas al dar clic en el boton
@@ -497,15 +423,29 @@ public class MainActivity extends AppCompatActivity
 
             progressDialog.dismiss();
 
-            if(value) {
+            if (value) {
                 System.out.println("*********************************************************************SI SE PUDO CONECTAR LISTAR TERM****************************");
                 if (Messages.unPackMsgListarAsociadas(MainActivity.this)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
 
-                    //muestra el panel con la lista de terminales, es decir que llena el recycler view de terminales asociadas
+//************************SE MUESTRA LA LISTA DE TERMINALES ASOCIADAS
+                    LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
+                    recyclerView.setLayoutManager(llm);
 
-//OJOOOOOO LLENAR EL RECYCLER VIEW DE TERMINALES ASOCIADAS
+                     ArrayList terminals=new ArrayList<>();
+
+                     //recorro la lista obtenida y la agg a la lista
+
+                    for(Terminal ter:Global.TERMINALES_ASOCIADAS){
+                        if(ter!=null){
+                            terminals.add(ter);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
+                        }
+                    }
+
+
+
+
                 } else {
                     // Si el login no es OK, manda mensaje de error
                     try {
@@ -515,7 +455,7 @@ public class MainActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
-               // Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
+                // Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
                 // Si es falso, cierra el socket y vuelve a crearlo, si es verdadero el socket continua abierto
                 TCP.disconnect();
 
@@ -539,12 +479,11 @@ public class MainActivity extends AppCompatActivity
 
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR") ;
+            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR");
         }
 
 
     }
-
 
 
     /*********************************************************************************
@@ -552,9 +491,9 @@ public class MainActivity extends AppCompatActivity
      * ESTE METODO SE UTILIZA PARA CONSUMIR EL SERVICIO DE LISTAR OBSERVACIONES DE LA TER SELECCIONADA
      * RECIBE EL SERIAL DE LA TERMINAL DE LA CUAL DESEA VER LOS DETALLES DE LAS ETAPAS
      *************************************************************************************/
-    public void listarObservacionesTerminal(String serial){
+    public void listarObservacionesTerminal(String serial) {
         Global.WEB_SERVICE = "/PolarisCore/Terminals/observations";
-        Global.serial=serial;
+        Global.serial = serial;
 
         new TaskListarObservaciones().execute();
     }
@@ -612,7 +551,7 @@ public class MainActivity extends AppCompatActivity
 
             progressDialog.dismiss();
 
-            if(value) {
+            if (value) {
                 System.out.println("*********************************************************************SI SE PUDO CONECTAR LISTAR OBSER****************************");
                 if (Messages.unPackMsgListarObservaciones(MainActivity.this)) {
                     Global.enSesion = true;
@@ -654,15 +593,11 @@ public class MainActivity extends AppCompatActivity
 
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR OBSERVA") ;
+            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR OBSERVA");
         }
 
 
     }
-
-
-
-
 
 
     /*************************************************************************************
@@ -717,7 +652,7 @@ public class MainActivity extends AppCompatActivity
 
             progressDialog.dismiss();
 
-            if(value) {
+            if (value) {
                 System.out.println("*******************************SI SE PUDO CONECTAR LISTAR VALIDACIONES****************************");
                 if (Messages.unPackMsgListarValidaciones(MainActivity.this)) {
                     Global.enSesion = true;
@@ -758,14 +693,11 @@ public class MainActivity extends AppCompatActivity
 
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR VALIDACIONES") ;
+            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR VALIDACIONES");
         }
 
 
     }
-
-
-
 
 
     //*************AUTORIZADAS
@@ -820,6 +752,7 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(layoutManager);
     */
     }
+
     Button btn_mostrarRepuestos;
 
     public void cargarRepuesto_stock(View view) {
@@ -887,11 +820,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
     //cuando de onclick en ver detalles de la terminal, muestra la lista de observaciones
 
-    public void listasObservaciones(){
+    public void listasObservaciones() {
         Global.WEB_SERVICE = "/PolarisCore/Terminals/observations";
         //Messages.packMsgListaAsociadas();
 

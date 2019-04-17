@@ -20,7 +20,7 @@ public class AdapterTerminal_asociada extends RecyclerView.Adapter<AdapterTermin
     interfaceClick ic;
     private int layoutButton;
 
-    public AdapterTerminal_asociada(Context c, List<Terminal> list) {
+    public AdapterTerminal_asociada(List<Terminal> list) {
         this.listTerminal = list;
         this.inflador = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
