@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="letra_menu">
+        <item name="android:textColor">@color/gris_menu_letra</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="letra_contenido">
+        <item name="android:textColor">@color/negro</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="letra_botones">
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="letra_tabs">
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:textSize">13dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="letra_negrita">
+        <item name="android:textColor">@color/negro</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="letra_titulos">
+        <item name="android:textColor">@color/negro</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="letra_cuadro_etapas">
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

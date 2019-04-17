@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#C1E4E6</color>
+    <color name="botones">#2495F3</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="blanco">#FFFFFF</color>
+    <color name="fondo">#C1E4E6</color>
+    <color name="azul_nav_bar">#2196F5</color>
+    <color name="azul_claro_nav_bar">#45A5F3</color>
+    <color name="azul_botones">#2196F3</color>
+    <color name="negro">#212121</color>
+    <color name="gris_menu">#7D7D7D</color>
+    <color name="gris_menu_letra">#BDBDBD</color>
+    <color name="gris_fondo">#F2F2F2</color>
+    <color name="fondo_edit_text">#F5F5F5</color>
+    <color name="naranja">#ED863B</color>
+
+</resources>
+

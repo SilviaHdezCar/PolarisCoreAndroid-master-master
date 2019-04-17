@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">PolarisCoreAndroid</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Polaris Core</string>
+    <string name="nav_header_subtitle">For android</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="iniciar">POLARIS CORE</string>
+    <string name="iniciarSes">Iniciar Sesión</string>
+    <string name="correo">Correo de usuario</string>
+    <string name="clave">Contraseña</string>
+    <string name="action_settings">Settings</string>
+    <string name="preg">Para realizar el cambio de su contraseña debe responder de manera correcta las siguientes pregunas</string>
+    <string name="LoginHuella">Iniciar sesión mediante huella digital</string>
+    <string name="Cambiar_pass">ACTUALIZAR CONTRASEÑA</string>
+    <string name="rta">RESPUESTA</string>
+    <string name="cambiar_clave">Actualizar</string>
+    <string name="validar_rta">Verificar Respuestas</string>
+    <string name="resp">VERIFICAR RESPUESTAS</string>
+    <string name="texto">Bienvenido, por favor complete el siguiente formulario para Iniciar sesión </string>
+    <string name="Titulo_t">VERIFICAR RESPUESTAS</string>
+    <string name="Respuesta1">Respuesta 1</string>
+    <string name="Respuesta2">Respuesta 2</string>
+    <string name="Respuesta3">Respuesta 3</string>
+
+
+
+
+    <string-array name="preguntas">
+        <item> NO SELECCION</item>
+        <item>¿Cuál fue el nombre de tu primera mascota?</item>
+        <item>¿Cuál es el nombre de tu primer profesor?</item>
+        <item>¿Cuál fue tu primer número de teléfono?</item>
+        <item>A donde viajaste por primera vez en avion?</item>
+        <item>¿Cuál es el segundo apellido de tu primer novio(a)</item>
+        <item>¿Como se llamaba tu mejor amigo de tu adolescencia</item>
+        <item>Como se llamaba tu maestro favorito de la escuela</item>
+        <item>¿Cuál fue la primera pelicula que viste en cine?</item>
+        <item>¿Cuál fue la primera pelicula que viste en cine?</item>
+        <item>¿Cual es tu personaje de la infancia favorito?</item>
+    </string-array>
+    <string name="title_activity_perfil">Perfil</string>
+    <string name="title_activity_stock">Stock</string>
+    <string name="title_activity_productividad">Productividad</string>
+    <string name="title_activity_terminales_reparadas">TerminalesReparadas</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!--Formulario perfil -->
+
+    <!--Formulario cambiar clave -->
+    <string name="clave_actual">Clave actual</string>
+    <string name="clave_nueva">Clave nueva</string>
+    <string name="clave_confirmar">Confirmar clave</string>
+
+    <!--LISTAR LAS OPCIONES DE CONSULTA-->
+    <string-array name="opciones_consulta">
+        <item>Por serial</item>
+        <item>Por rango de fechas</item>
+    </string-array>
+
+    <!--TIPOS DE ESTADOS DE LA TERMINAL-->
+    <string-array name="estados">
+        <item>NO SELECCION</item>
+        <item>Diagnostico</item>
+        <item>Reparadas</item>
+    </string-array>
+    <string name="title_activity_tipificaciones_diagnostico">TipificacionesDiagnostico</string>
+
+</resources>

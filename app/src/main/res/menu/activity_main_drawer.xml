@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+    >
+
+
+        <item
+            android:id="@+id/nav_perfil"
+            android:icon="@drawable/user"
+            android:title="Perfil"
+
+            />
+        <item
+            android:id="@+id/nav_stock"
+            android:icon="@drawable/ic_stock"
+            android:title="Stock" />
+        <item
+            android:id="@+id/nav_consultar_terminales_reparadas"
+            android:icon="@drawable/ic_buscar"
+            android:title="Consultar terminales reparadas" />
+        <item
+            android:id="@+id/nav_productividad"
+            android:icon="@drawable/ic_ver_productividad"
+            android:title="Productividad" />
+
+        <item
+            android:id="@+id/nav_cerrar_sesion"
+            android:icon="@drawable/ic_cerrar_sesion"
+                 android:title="Cerrar sesion" />
+
+</menu>
