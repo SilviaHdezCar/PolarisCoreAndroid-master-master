@@ -365,12 +365,49 @@ public class MainActivity extends AppCompatActivity
         new TaskListarTerminalesAsociadas().execute();//hacer la peticion para que me retorne la lista de terminales
 
 
-
-
     }
 
 
-    //este metodo llena el recy
+    //este metodo llena el recycler view con las terminales obtenidas al consumir el servicio
+
+    public void llenarRVAsociadas(List<Terminal> terminalesRecibidas) {
+        //************************SE MUESTRA LA LISTA DE TERMINALES ASOCIADAS
+        RecyclerView rv = (RecyclerView) findViewById(R.id.recycler_view_consultaTerminales_inicial);
+        rv.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
+        recyclerView.setLayoutManager(llm);
+
+        ArrayList terminals = new ArrayList<>();
+
+        //recorro la lista obtenida y la agg a la lista
+
+        for (Terminal ter : terminalesRecibidas) {
+            if (ter != null) {
+                terminals.add(ter);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
+            }
+        }
+
+
+        final AdapterTerminal_asociada adapter = new AdapterTerminal_asociada(terminals, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
+            @Override
+            public void onClick(List<Terminal> terminal, int position) {
+
+/********************
+ *  cuando de clic en el panel de la terminal que desea ver los detalles, captura la posicion del panel donde dio clic
+ *  y consume el servicio de listarObservacionesTeerminal
+ *  **************/
+
+                Global.serial = terminal.get(position).getTerm_serial();
+                Global.modelo = terminal.get(position).getTerm_model();
+
+                listarObservacionesTerminal(Global.serial);
+            }
+        }, R.layout.panel_terminal_asociada.xml);
+
+        rv.setAdapter(adapter);
+
+    }
 
 
     //Mostrar las terminales  asociadas al dar clic en el boton
@@ -432,22 +469,7 @@ public class MainActivity extends AppCompatActivity
                     Global.enSesion = true;
                     Global.StatusExit = true;
 
-//************************SE MUESTRA LA LISTA DE TERMINALES ASOCIADAS
-                    LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-                    recyclerView.setLayoutManager(llm);
-
-                     ArrayList terminals=new ArrayList<>();
-
-                     //recorro la lista obtenida y la agg a la lista
-
-                    for(Terminal ter:Global.TERMINALES_ASOCIADAS){
-                        if(ter!=null){
-                            terminals.add(ter);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
-                        }
-                    }
-
-
-
+                    llenarRVAsociadas(Global.TERMINALES_ASOCIADAS);
 
                 } else {
                     // Si el login no es OK, manda mensaje de error
