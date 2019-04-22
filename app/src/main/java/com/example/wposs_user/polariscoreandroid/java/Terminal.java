@@ -11,23 +11,28 @@ public class Terminal {
     private String term_model;
     private String term_technology;
     private String term_status; //estado;//
-    private String  term_security_seal;//sellos;//
+    private String term_security_seal;//sellos;//
     private String term_mk;
     private String term_buy_date;///"fechaCompra;
     private String term_start_date_warranty;//":"NaN"fechaInicioGarantía;
     private String term_date_register; //fechaRegistro;//
     private String term_date_finish;//fechaLimite;//
-    private  String term_warranty_time;//periodoGarantía;//
+    private String term_warranty_time;//periodoGarantía;//
+    private String term_num_terminal;//periodoGarantía;//
+    private String term_register_by;//periodoGarantía;//
+    private String term_status_temporal;//periodoGarantía;//
 
     private String term_localication;//ubicacion;/
 
-    public Terminal(String term_serial, String term_imei, String brand, String term_model,
-                    String term_technology, String term_status, String term_security_seal, String term_mk,
-                    String term_buy_date, String term_start_date_warranty, String term_date_register,
-                    String term_date_finish, String term_warranty_time, String term_localication) {
+    public Terminal(String term_serial, String brand, String term_buy_date, String term_date_finish, String term_date_register, String term_imei,
+                    String term_localication, String term_mk, String term_model, String term_num_terminal, String term_register_by, String term_security_seal,
+                    String term_start_date_warranty, String term_status, String term_status_temporal, String term_technology, String term_warranty_time) {
         this.term_serial = term_serial;
-        this.term_imei = term_imei;
         this.brand = brand;
+        this.term_num_terminal = term_num_terminal;
+
+        this.term_imei = term_imei;
+        this.term_status_temporal = term_status_temporal;
         this.term_model = term_model;
         this.term_technology = term_technology;
         this.term_status = term_status;
@@ -40,7 +45,6 @@ public class Terminal {
         this.term_warranty_time = term_warranty_time;
         this.term_localication = term_localication;
     }
-
 
 
     public String getTerm_serial() {
@@ -76,6 +80,7 @@ public class Terminal {
     }
 
     public String getTerm_technology() {
+
         return term_technology;
     }
 
@@ -155,6 +160,30 @@ public class Terminal {
         this.term_localication = term_localication;
     }
 
+    public String getTerm_num_terminal() {
+        return term_num_terminal;
+    }
+
+    public void setTerm_num_terminal(String term_num_terminal) {
+        this.term_num_terminal = term_num_terminal;
+    }
+
+    public String getTerm_register_by() {
+        return term_register_by;
+    }
+
+    public void setTerm_register_by(String term_register_by) {
+        this.term_register_by = term_register_by;
+    }
+
+    public String getTerm_status_temporal() {
+        return term_status_temporal;
+    }
+
+    public void setTerm_status_temporal(String term_status_temporal) {
+        this.term_status_temporal = term_status_temporal;
+    }
+
     @Override
     public String toString() {
         return "Terminal{" +
@@ -171,6 +200,9 @@ public class Terminal {
                 ", term_date_register='" + term_date_register + '\'' +
                 ", term_date_finish='" + term_date_finish + '\'' +
                 ", term_warranty_time='" + term_warranty_time + '\'' +
+                ", term_num_terminal='" + term_num_terminal + '\'' +
+                ", term_register_by='" + term_register_by + '\'' +
+                ", term_status_temporal='" + term_status_temporal + '\'' +
                 ", term_localication='" + term_localication + '\'' +
                 '}';
     }

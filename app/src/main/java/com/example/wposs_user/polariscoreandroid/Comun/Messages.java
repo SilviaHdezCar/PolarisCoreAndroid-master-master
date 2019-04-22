@@ -137,7 +137,7 @@ public class Messages {
      * **************************************************************************************/
     public static void packMsgListarValidaciones() {
         // no lleva body
-        packHttpHeaderLogueado();
+        packHttpHeaderLogueadoGET();
 
         Global.outputData = (Global.httpHeaderBuffer).getBytes();
 
@@ -458,8 +458,28 @@ public class Messages {
 
 
     }
+    //ARMA LA CABECERA DE METODOS QUE VAN POR GET CUANDO ESTÁN LOGUEADOS
+    public static void packHttpHeaderLogueadoGET() {
+//cabecera
+        int tam;
+        Global.httpHeaderBuffer = "";
+        Global.httpHeaderBuffer = "GET " + Global.WEB_SERVICE + " HTTP/1.1";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "Authenticator: " + Global.TOKEN;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER1;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER2;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.INITIAL_IP;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + ":";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.INITIAL_PORT;
+//        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+//        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER3;
+//        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.httpDataBuffer.length();
 
-    //ARMA LA CABECERA
+    }
+
+    //ARMA LA CABECERA DE METODOS QUE VAN POR POST CUANDO ESTÁN LOGUEADOS
     public static void packHttpHeaderLogueado() {
 //cabecera
         int tam;

@@ -31,7 +31,6 @@ import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuesto;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidaciones;
-import com.example.wposs_user.polariscoreandroid.CambiarClaveDialogo;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
@@ -237,22 +236,23 @@ public class MainActivity extends AppCompatActivity
     public void aceptarCambioClave(View v) {
         //fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ActualizarClave_perfil()).commit();
 
-        claveActual = (EditText)findViewById(R.id.perfil_clave_actual);
-        clavenueva = (EditText)findViewById(R.id.perfil_clave_nueva);
-        claveConfirmarClave = (EditText)findViewById(R.id.perfil_clave_confirmar);
+        claveActual = (EditText) findViewById(R.id.perfil_clave_actual);
+        clavenueva = (EditText) findViewById(R.id.perfil_clave_nueva);
+        claveConfirmarClave = (EditText) findViewById(R.id.perfil_clave_confirmar);
 
-        String actual=claveActual.getText().toString();
-        String nueva=clavenueva.getText().toString();
-        String confirmacion=claveConfirmarClave.getText().toString();
+        String actual = claveActual.getText().toString();
+        String nueva = clavenueva.getText().toString();
+        String confirmacion = claveConfirmarClave.getText().toString();
 
-        final String msj=validarClave(actual, nueva,confirmacion);
+        final String msj = validarClave(actual, nueva, confirmacion);
         Toast.makeText(this, msj, Toast.LENGTH_LONG).show();
 
-        if(!msj.equalsIgnoreCase("Actualización exitosa")){
-            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).commit();
-        }else{
+        if (!msj.equalsIgnoreCase("Actualización exitosa")) {
             Toast.makeText(this, msj, Toast.LENGTH_LONG).show();
             return;
+        } else {
+
+            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).commit();
         }
 
     }
@@ -322,8 +322,6 @@ public class MainActivity extends AppCompatActivity
     public void actualizarClave(View view) {
 
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ActualizarClave_perfil()).commit();
-       /* CambiarClaveDialogo cambiarClaveDialogo = new CambiarClaveDialogo();
-        cambiarClaveDialogo.show(getSupportFragmentManager(), "Actualización de la clave.main");*/
     }
 
     public void opcionesBusqueda() {
@@ -347,7 +345,7 @@ public class MainActivity extends AppCompatActivity
         t7 = new Terminal("342", "Gertec", "Newpos7220", "WIFI", "Asociada", null, null, 0, "Algo tiene mal");
         Terminal t8 = new Terminal("912", "Gertec", "Newpos6210", "DIAL", "Autorizada", null);*/
 
-        Terminal t1 = new Terminal("123", "42365", "SUNMI", "T1MINI", "GPRS", "DIAGNOSTICO", "",
+       /* Terminal t1 = new Terminal("123", "42365", "SUNMI", "T1MINI", "GPRS", "DIAGNOSTICO", "",
                 "", "", "", "", "", "365", "SHERNANDEZ4");
 
         Terminal t2 = new Terminal("345", "7557", "SUNMI", "T1MINI", "GPRS", "DIAGNOSTICO", "",
@@ -357,7 +355,7 @@ public class MainActivity extends AppCompatActivity
 
         terminales.add(t1);
         terminales.add(t2);
-        terminales.add(t3);
+        terminales.add(t3);*/
         /*terminales.add(t4);
         terminales.add(t5);
         terminales.add(t6);
@@ -459,7 +457,7 @@ public class MainActivity extends AppCompatActivity
     public void siguienteEtapas(View v) {
         new TaskListarValidaciones().execute();
 
-        TextView marca_ter_validaciones = (TextView) findViewById(R.id.marca_ter_validaciones);
+       /* TextView marca_ter_validaciones = (TextView) findViewById(R.id.marca_ter_validaciones);
         TextView modelo_ter_validaciones = (TextView) findViewById(R.id.modelo_ter_validaciones);
         TextView serial_ter_validaciones = (TextView) findViewById(R.id.serial_ter_validaciones);
         TextView tecno_ter_validaciones = (TextView) findViewById(R.id.tecno_ter_validaciones);
@@ -487,12 +485,12 @@ public class MainActivity extends AppCompatActivity
                 fecha_recepcion_ter_validaciones.setText(ter.getTerm_date_register());
                 fechal_ans_ter_validaciones.setText(ter.getTerm_date_finish());
 
-                /**
-                 *LLAMO EL METODO QUE CONSUME EL SERVICIO DE VALIDACIOS
-                 *
-                 * **/
+                *//**
+         *LLAMO EL METODO QUE CONSUME EL SERVICIO DE VALIDACIOS
+         *
+         * **//*
             }
-        }
+        }*/
 
         //llama el servicio de validaciones
 
@@ -551,7 +549,7 @@ public class MainActivity extends AppCompatActivity
 
     public void llenarRVValidaciones(List<Validacion> validacions) {
 
-        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
+       // fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
 
         Vector<Validacion> vals = new Vector<>();
 
@@ -883,9 +881,10 @@ public class MainActivity extends AppCompatActivity
             trans = TCP.transaction(Global.outputLen);
 
             // Verifica la transacción
-            if (trans == Global.TRANSACTION_OK)
+            if (trans == Global.TRANSACTION_OK) {
+                System.out.println("-------------EMPAQUETADO CORRECTO********************************************************");
                 return true;
-            else
+            }else
                 return false;
         }
 
@@ -904,6 +903,35 @@ public class MainActivity extends AppCompatActivity
                     Global.enSesion = true;
                     Global.StatusExit = true;
                     fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
+               /*     TextView marca_ter_validaciones = (TextView) findViewById(R.id.marca_ter_validaciones);
+                    TextView modelo_ter_validaciones = (TextView) findViewById(R.id.modelo_ter_validaciones);
+                    TextView serial_ter_validaciones = (TextView) findViewById(R.id.serial_ter_validaciones);
+                    TextView tecno_ter_validaciones = (TextView) findViewById(R.id.tecno_ter_validaciones);
+                    TextView estado_ter_validaciones = (TextView) findViewById(R.id.estado_ter_validaciones);
+                    TextView garantia_ter_validaciones = (TextView) findViewById(R.id.garantia_ter_validaciones);
+                    TextView fecha_recepcion_ter_validaciones = (TextView) findViewById(R.id.fecha_recepcion_ter_validaciones);
+                    TextView fechal_ans_ter_validaciones = (TextView) findViewById(R.id.fechal_ans_ter_validaciones);
+
+                    //voy a recorrer el arreglo de terminales para que me liste la informacion de la terminal selecciona
+
+                    for (Terminal ter : Global.TERMINALES_ASOCIADAS) {
+                        if (ter.getTerm_serial().equalsIgnoreCase(Global.serial_ter)) {
+                            marca_ter_validaciones.setText(ter.getBrand());
+                            modelo_ter_validaciones.setText(ter.getTerm_model());
+                            serial_ter_validaciones.setText(ter.getTerm_serial());
+                            tecno_ter_validaciones.setText(ter.getTerm_technology());
+                            estado_ter_validaciones.setText(ter.getTerm_status());
+
+                            if (Integer.parseInt(ter.getTerm_warranty_time()) >= 0) {
+                                garantia_ter_validaciones.setText("Con garantía");
+                            } else {
+                                garantia_ter_validaciones.setText("Si garantía");
+                            }
+
+                            fecha_recepcion_ter_validaciones.setText(ter.getTerm_date_register());
+                            fechal_ans_ter_validaciones.setText(ter.getTerm_date_finish());
+                        }
+                    }*/
                     if (Global.VALIDACIONES == null) {
                         System.out.println("********************************LA TERMINAL NO TIENE VALIDACIONES ");
                         Toast.makeText(objeto, Global.serial_ter + " No tiene validaciones", Toast.LENGTH_SHORT).show();
