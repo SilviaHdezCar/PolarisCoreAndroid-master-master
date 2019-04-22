@@ -1,4 +1,4 @@
-package com.example.wposs_user.polariscoreandroid;
+package com.example.wposs_user.polariscoreandroid.Actividades;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,9 +14,10 @@ import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
+import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 
-public class UpdatePassword extends AppCompatActivity {
+public class Activity_UpdatePassword extends AppCompatActivity {
 
 
     EditText clave1;
@@ -54,7 +55,7 @@ public class UpdatePassword extends AppCompatActivity {
 
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i = new Intent(this, com.example.wposs_user.polariscoreandroid.Activity_login.class);
+        Intent i = new Intent(this,Activity_login.class);
         startActivity(i);
         finish();
     }
@@ -202,7 +203,7 @@ public class UpdatePassword extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(UpdatePassword.this, R.style.MyAlertDialogStyle);
+            progressDialog = new ProgressDialog(Activity_UpdatePassword.this, R.style.MyAlertDialogStyle);
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setCancelable(false);
             progressDialog.setMessage("conectando...");
@@ -216,7 +217,7 @@ public class UpdatePassword extends AppCompatActivity {
          *******************************************************************************/
         @Override
         protected Boolean doInBackground(String... strings) {
-            Messages.packUpdatePass();
+            Messages.packMsgUpdatePass();
             trans = TCP.transaction(Global.outputLen);
 
             // Verifica la transacción
@@ -242,10 +243,10 @@ public class UpdatePassword extends AppCompatActivity {
                     Global.enSesion = true;
                     Global.StatusExit = true;
 
-                    Utils.GoToNextActivity(UpdatePassword.this, MainActivity.class, Global.StatusExit);
+                    Utils.GoToNextActivity(Activity_UpdatePassword.this, MainActivity.class, Global.StatusExit);
 
 
-                    switch (Utils.validateErrorsConexion(false, trans, UpdatePassword.this)) {
+                    switch (Utils.validateErrorsConexion(false, trans, Activity_UpdatePassword.this)) {
 
                         case 0:                                                                         // En caso de que continue = true y error data
                             break;
@@ -258,7 +259,7 @@ public class UpdatePassword extends AppCompatActivity {
                             Global.mensaje = Global.MsgError;
                             Global.StatusExit = false;
                             // Muestra la ventana de error
-                            Toast.makeText(UpdatePassword.this, Global.mensaje, Toast.LENGTH_LONG).show();
+                            Toast.makeText(Activity_UpdatePassword.this, Global.mensaje, Toast.LENGTH_LONG).show();
                             break;
                     }
 
@@ -287,3 +288,5 @@ public class UpdatePassword extends AppCompatActivity {
 
     }
 }
+
+
