@@ -296,7 +296,7 @@ public class Messages {
         //comienza a armar la trama
         Global.httpDataBuffer = "{\"serial\": \"<SERIAL>\"}";//se arma la trama
 
-        Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", Global.serial);
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", "9220");
         //fn
 
 
@@ -339,13 +339,13 @@ public class Messages {
                 return false;
             }
 
-            System.out.println("*********Obtiene el arreglo de observaciones");
+            System.out.println("*********Obtiene el arreglo de repuestos");
             JSONArray jsonArray = jsonObject.getJSONArray("repuestos");
 
             Global.REPUESTOS = new ArrayList<Repuesto>();
-            System.out.println("Va a recorrer el JsonArray de observaciones");
+            System.out.println("Va a recorrer el JsonArray de repuestos");
             if(jsonArray.length()==0){
-                Global.mensaje="No tiene observaciones";
+                Global.mensaje="No se encontraron repuestos asociados a la terminal";
                 return true;
             }
             for(int i=0; i<  jsonArray.length();i++){

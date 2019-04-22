@@ -41,11 +41,11 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
 
     /*************************************************************************************
-     * CLASE QUE CONSUME EL SERVICIO PARA LISTAR LAS OBSERVACIONES
+     * CLASE QUE CONSUME EL SERVICIO PARA LISTAR LOS REPUESTOS ASOCIADOS A UNA TERMINAL
      *
      ***************************************************** **/
 
-//******************consumir servicio listar observaciones
+//******************consumir servicio listar Repuestos
     class TaskListarRepuestos extends AsyncTask<String, Void, Boolean> {
         ProgressDialog progressDialog;
         int trans = 0;
@@ -93,8 +93,8 @@ public class RegistroDiagnostico extends AppCompatActivity {
             progressDialog.dismiss();
 
             if (value) {
-                System.out.println("*********************************************************************SI SE PUDO CONECTAR LISTAR OBSER****************************");
-                if (Messages.unPackMsgListarObservaciones(RegistroDiagnostico.this)) {
+                System.out.println("*********************************************************************SI SE PUDIERON LISTAR LOS REPUESTOS****************************");
+                if (Messages.unPackMsgListaRepuestos(RegistroDiagnostico.this)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
 
@@ -134,7 +134,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
                 Toast.makeText(RegistroDiagnostico.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR OBSERVA");
+            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR REPUESTOS");
         }
 
 
@@ -147,7 +147,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
         for(int i=0;i<Global.REPUESTOS.size();i++){
 
-            adapter.add(Global.REPUESTOS.get(i).toString());
+            adapter.add(Global.REPUESTOS.get(i).getSpar_code()+""+Global.REPUESTOS.get(i).getSpar_name());
 
         }
         et_repuesto.setAdapter(adapter);

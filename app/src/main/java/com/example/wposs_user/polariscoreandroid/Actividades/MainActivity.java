@@ -387,13 +387,6 @@ public class MainActivity extends AppCompatActivity
     private void agregarRepuestos() {
         repuestos = new Vector<>();
 
-        Repuesto r1 = new Repuesto("AS1252", "TORNILLO", "DISPONIBLE", 3);
-        Repuesto r2 = new Repuesto("AB233", "PANTALLA", "AGOTADA", 2);
-        Repuesto r3 = new Repuesto("AW3456", "TECLADO", "DISPONIBLE", 3);
-
-        repuestos.add(r1);
-        repuestos.add(r2);
-        repuestos.add(r3);
 
     }
 
@@ -757,7 +750,7 @@ public class MainActivity extends AppCompatActivity
             progressDialog = new ProgressDialog(MainActivity.this, R.style.MyAlertDialogStyle);
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setCancelable(false);
-            progressDialog.setMessage("Buscando observaciones (etapas) de la terminal...");
+            progressDialog.setMessage("Buscando observaciones de la terminal...");
             progressDialog.show();
         }
 
@@ -768,7 +761,7 @@ public class MainActivity extends AppCompatActivity
          *******************************************************************************/
         @Override
         protected Boolean doInBackground(String... strings) {
-            Messages.packMsgListarRepuestos();
+            Messages.packMsgListarObservaciones();
 
             trans = TCP.transaction(Global.outputLen);
 
