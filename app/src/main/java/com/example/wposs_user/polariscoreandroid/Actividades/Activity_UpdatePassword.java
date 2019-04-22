@@ -31,83 +31,78 @@ public class Activity_UpdatePassword extends AppCompatActivity {
     String rta2;
     String rta3;
     Button cambioClave;
-    String msj="";
-
+    String msj = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_password);
-        clave1=(EditText)findViewById(R.id.txtClave1);
-        clave2= (EditText)findViewById(R.id.txtClave2);
+        clave1 = (EditText) findViewById(R.id.txtClave1);
+        clave2 = (EditText) findViewById(R.id.txtClave2);
        /* resp1= (EditText)findViewById(R.id.txt_resp1);
         resp2=(EditText) findViewById(R.id.txt_resp2);
         resp3=(EditText) findViewById(R.id.txt_resp3);*/
 
-        cambioClave= (Button)findViewById(R.id.cambio_clave);
-        Global.claveNueva=pas1;
+        cambioClave = (Button) findViewById(R.id.cambio_clave);
+        Global.claveNueva = pas1;
 
 
     }
-
 
 
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i = new Intent(this,Activity_login.class);
+        Intent i = new Intent(this, Activity_login.class);
         startActivity(i);
         finish();
     }
 
-    public void validaClave(View v){
+    public void validaClave(View v) {
 
-        pas1=clave1.getText().toString();
-        pas2= clave2.getText().toString();
+        pas1 = clave1.getText().toString();
+        pas2 = clave2.getText().toString();
 
         //validaciones
-        if (pas1.equals("")||pas2.equals("")) {
+        if (pas1.equals("") || pas2.equals("")) {
 
             Toast mensaje3 = Toast.makeText(this, "Debe ingresar la contraseña", Toast.LENGTH_LONG);
             mensaje3.show();
 
-        }
-        else if(pas1.equals(pas2)){
+        } else if (pas1.equals(pas2)) {
 
-            boolean rev = revisarMayMinNum(pas1);
+            boolean rev = revisarMayMinNum(pas2);
 
-            if(rev){
+            if (rev) {
 
                 Global.WEB_SERVICE = "/PolarisCore/Users/updatePassword";
                 Global.primaryIP = Global.INITIAL_IP;
                 Global.primaryPort = Global.INITIAL_PORT;
-
+                Global.claveNueva = pas1;
 
 
                 new TaskUpdatePassword().execute();//hacer la peticion
-                Toast mensaje3 = Toast.makeText(this, msj= "La contraseña se ha actualizado exitosamente", Toast.LENGTH_LONG);
+                Toast mensaje3 = Toast.makeText(this, msj = "La contraseña se ha actualizado exitosamente", Toast.LENGTH_LONG);
                 mensaje3.show();
-                resp1.setText("");
+
             }
 
-            else if(rev==false) {
+                Toast mensaje5 = Toast.makeText(this, msj = "La contraseña no cumple las condiciones minimas, debe contener una mayúscula,una minúscula 3 numeros, y longitud de 8", Toast.LENGTH_LONG);
+                mensaje5.show();
 
-                Toast mensaje3 = Toast.makeText(this, msj = "La contraseña no cumple las condiciones minimas, debe contener una mayúscula,una minúscula 3 numeros, y longitud de 8", Toast.LENGTH_LONG);
-                mensaje3.show();
-            }
         }
 
 
     }
 
-    public boolean revisarMayMinNum( String password){
-        String msj="";
+    public boolean revisarMayMinNum(String password) {
+        String msj = "";
 
         char clave;
 
-        byte  contNumero = 0;
+        byte contNumero = 0;
         byte contLetraMay = 0;
-        byte contLetraMin=0;
+        byte contLetraMin = 0;
 
         for (byte i = 0; i < password.length(); i++) {
 
@@ -128,8 +123,8 @@ public class Activity_UpdatePassword extends AppCompatActivity {
 
         }
 
-        int totalCaracteres= contNumero+contLetraMin+contLetraMay;
-        if(contLetraMay>0 && contNumero>2 && contLetraMin>0 && totalCaracteres>7){
+        int totalCaracteres = contNumero + contLetraMin + contLetraMay;
+        if (contLetraMay > 0 && contNumero > 2 && contLetraMin > 0 && totalCaracteres > 7) {
             return true;
         }
 
@@ -138,11 +133,7 @@ public class Activity_UpdatePassword extends AppCompatActivity {
     }
 
 
-
-
-
-
-    public void validaRta(View v){
+    public void validaRta(View v) {
 
         /*rta1= resp1.getText().toString();
         rta2= resp2.getText().toString();
@@ -231,8 +222,8 @@ public class Activity_UpdatePassword extends AppCompatActivity {
          Método       : onPostExecute
          Description  : Se ejecuta después de realizar el doInBackground
          *******************************************************************************/
-        @Override
-        protected void onPostExecute(Boolean value) {
+
+       /* protected void onPostExecute(Boolean value) {
 
             progressDialog.dismiss();
 
@@ -270,22 +261,23 @@ public class Activity_UpdatePassword extends AppCompatActivity {
 
 
         }
-    }
+    }*/
 
-    public void limpiarRta () {
+        public void limpiarRta() {
 
-        resp1.setText("");
-        resp2.setText("");
-        resp3.setText("");
+            resp1.setText("");
+            resp2.setText("");
+            resp3.setText("");
 
-    }
+        }
 
 
-    public void limpiarClave () {
+        public void limpiarClave() {
 
-        clave1.setText("");
-        clave2.setText("");
+            clave1.setText("");
+            clave2.setText("");
 
+        }
     }
 }
 
