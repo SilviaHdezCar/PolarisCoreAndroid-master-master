@@ -25,12 +25,13 @@
 
    <LinearLayout
        android:layout_width="wrap_content"
-       android:layout_height="wrap_content">
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
 
     <AutoCompleteTextView
         android:id="@+id/et_repuesto"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:background="@android:drawable/dialog_holo_light_frame"

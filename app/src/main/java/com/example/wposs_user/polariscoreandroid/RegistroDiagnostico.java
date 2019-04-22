@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,11 +24,14 @@ import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 
 
 public class RegistroDiagnostico extends AppCompatActivity {
+   AutoCompleteTextView  et_repuesto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_diagnostico);
+        et_repuesto= (AutoCompleteTextView)findViewById(R.id.et_repuesto);
+        this.listarRepuestos();
     }
 
     //******************consumir servicio listar Repuestos
@@ -36,6 +40,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
         Global.WEB_SERVICE = "/PolarisCore/Terminals/spares ";
         new TaskListarRepuestos().execute();
         this.llenarSpinerRepuestos();
+
 
     }
 
@@ -72,7 +77,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
          *******************************************************************************/
         @Override
         protected Boolean doInBackground(String... strings) {
-            Messages.packMsgListarObservaciones();
+            Messages.packMsgListarRepuestos();
 
             trans = TCP.transaction(Global.outputLen);
 
@@ -140,43 +145,61 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
     }
 
-    public void llenarSpinerRepuestos(){
+    /*public void llenarSpinerRepuestos(){
 
         final AutoCompleteTextView et_repuesto = (AutoCompleteTextView) findViewById(R.id.et_repuesto);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
 
-        for(int i=0;i<Global.REPUESTOS.size();i++){
 
-            adapter.add(Global.REPUESTOS.get(i).getSpar_code()+""+Global.REPUESTOS.get(i).getSpar_name());
+                    for (int i = 0; i < Global.REPUESTOS.size(); i++) {
 
-        }
-        et_repuesto.setAdapter(adapter);
-        et_repuesto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                InputMethodManager in = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+                adapter.add(Global.REPUESTOS.get(i).getSpar_code() + "" + Global.REPUESTOS.get(i).getSpar_name());
+
             }
-        });
-        et_repuesto.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i == EditorInfo.IME_ACTION_DONE){
+            et_repuesto.setAdapter(adapter);
+            et_repuesto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     InputMethodManager in = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    in.hideSoftInputFromWindow(textView.getApplicationWindowToken(), 0);
-                    return true;
+                    in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
                 }
-                return false;
-            }
-        });
+            });
+            et_repuesto.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                    if (i == EditorInfo.IME_ACTION_DONE) {
+                        InputMethodManager in = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        in.hideSoftInputFromWindow(textView.getApplicationWindowToken(), 0);
+                        return true;
+                    }
+                    return false;
+                }
+            });
 
 
-    }
+    }*/
 
-    public void registrarDiagnostico() {
+
+
+
+   public void registrarDiagnostico() {
         Global.WEB_SERVICE = "/PolarisCore/Terminals/saveDiagnosis ";
         new TaskListarRepuestos().execute();
         this.llenarSpinerRepuestos();
+
+    }
+
+    private void llenarSpinerRepuestos() {
+
+       String[] reps = this.convertirRepuestos();
+       System.out.print("NUMERO DE DATOS EN VECTOR STRING"+ reps.length);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, reps);
+        et_repuesto.setAdapter(adapter);
+
+
+
+
 
     }
 
@@ -280,6 +303,20 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
 
     }
+
+    public String[] convertirRepuestos(){
+
+        String repuestos[] = new String[Global.REPUESTOS.size()];
+
+        for(int i =0;i<Global.REPUESTOS.size();i++){
+
+            repuestos[i]= Global.REPUESTOS.get(i).getSpar_code()+"   "+Global.REPUESTOS.get(i).getSpar_name();
+
+        }
+
+        return repuestos;
+
+   }
 
 
 }

@@ -234,7 +234,7 @@ public class Messages {
         //comienza a armar la trama
         Global.httpDataBuffer = "{\"model\": \"<SERIAL>\"}";//se arma la trama
 
-        Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", Global.modelo);
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", "9220");
 
 
         //fn
@@ -312,6 +312,7 @@ public class Messages {
         String tramaCompleta = "";
         Repuesto r=null;
 
+
         int indice = 0;
 
         Global.inputData = Global.httpDataBuffer.getBytes();
@@ -331,14 +332,14 @@ public class Messages {
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(tramaCompleta);
-
+/*
             if(jsonObject.get("message").toString()!=null){
                 System.out.println("--------------ENTRÓ AL MSJ DE ERROR");
                 Global.mensaje=lineastrama[0].substring(12, tramaNecesitada-1);
                 Log.i("mensaje de error", ""+jsonObject.get("message").toString());
                 return false;
             }
-
+*/
             System.out.println("*********Obtiene el arreglo de repuestos");
             JSONArray jsonArray = jsonObject.getJSONArray("repuestos");
 
@@ -360,6 +361,7 @@ public class Messages {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        System.out.print("numero de repuestos"+"  " +Global.REPUESTOS.size());
 
         return true;
 

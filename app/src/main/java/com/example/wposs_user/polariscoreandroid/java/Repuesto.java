@@ -6,6 +6,8 @@ public class Repuesto {
 
     String spar_id,spar_code,spar_date_register,spar_name,spar_quantity, spar_register_by,spar_status,spar_status_temporal,spar_terminal_model,spar_warehouse;
 
+    public Repuesto() {
+    }
 
     public Repuesto(String spar_id, String spar_code, String spar_date_register, String spar_name, String spar_quantity, String spar_register_by, String spar_status, String spar_status_temporal, String spar_terminal_model, String spar_warehouse) {
         this.spar_id = spar_id;

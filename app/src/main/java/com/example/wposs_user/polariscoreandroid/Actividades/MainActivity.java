@@ -42,6 +42,7 @@ import com.example.wposs_user.polariscoreandroid.Fragmentos.PerfilFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ProductividadFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.StockFragment;
 import com.example.wposs_user.polariscoreandroid.R;
+import com.example.wposs_user.polariscoreandroid.RegistroDiagnostico;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.Tools;
 import com.example.wposs_user.polariscoreandroid.ValidacionesTerminalesAsociadas;
@@ -165,7 +166,13 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.btn_aumentar:
-                aumentar();
+                Intent inte= new Intent(this, RegistroDiagnostico.class);
+                startActivity(inte);
+                finish();
+
+
+
+
                 return true;
 
             case R.id.btn_disminuir:
