@@ -66,10 +66,21 @@ public class Activity_UpdatePassword extends AppCompatActivity {
         //validaciones
         if (pas1.equals("") || pas2.equals("")) {
 
-            Toast mensaje3 = Toast.makeText(this, "Debe ingresar la contraseña", Toast.LENGTH_LONG);
+            Toast mensaje3 = Toast.makeText(this, "Debe ingresar la nueva contraseña", Toast.LENGTH_SHORT);
             mensaje3.show();
 
-        } else if (pas1.equals(pas2)) {
+
+        }
+
+        else if(!pas2.equals(pas1)){
+
+            Toast mensaje3 = Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT);
+            mensaje3.show();
+
+        }
+
+
+        else if (pas1.equals(pas2)) {
 
             boolean rev = revisarMayMinNum(pas2);
 
@@ -82,8 +93,14 @@ public class Activity_UpdatePassword extends AppCompatActivity {
 
 
                 new TaskUpdatePassword().execute();//hacer la peticion
-                Toast mensaje3 = Toast.makeText(this, msj = "La contraseña se ha actualizado exitosamente", Toast.LENGTH_LONG);
+                Toast mensaje3 = Toast.makeText(this, msj = "La contraseña se ha actualizado exitosamente", Toast.LENGTH_SHORT);
                 mensaje3.show();
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+                finish();
+
+
+
 
             }
 
@@ -198,8 +215,7 @@ public class Activity_UpdatePassword extends AppCompatActivity {
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setCancelable(false);
             progressDialog.setMessage("conectando...");
-            progressDialog.show();
-        }
+             }
 
 
         /*******************************************************************************
@@ -263,22 +279,12 @@ public class Activity_UpdatePassword extends AppCompatActivity {
         }
     }*/
 
-        public void limpiarRta() {
 
-            resp1.setText("");
-            resp2.setText("");
-            resp3.setText("");
-
-        }
-
-
-        public void limpiarClave() {
-
-            clave1.setText("");
-            clave2.setText("");
-
-        }
     }
+
+
+
+
 }
 
 
