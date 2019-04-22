@@ -325,7 +325,7 @@ public class MainActivity extends AppCompatActivity
 
     public void actualizarClave(View view) {
 
-        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).commit();
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ActualizarClave_perfil()).commit();
        /* CambiarClaveDialogo cambiarClaveDialogo = new CambiarClaveDialogo();
         cambiarClaveDialogo.show(getSupportFragmentManager(), "Actualización de la clave.main");*/
     }
