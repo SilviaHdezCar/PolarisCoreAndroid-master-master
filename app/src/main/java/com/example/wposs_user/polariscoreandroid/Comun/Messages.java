@@ -215,7 +215,7 @@ public class Messages {
      * **************************************************************************************/
 
     public static void packMsgListarRepuestos() {
-        packHttpDataListarObservaciones();
+        packHttpDataListarRepuestos();
         packHttpHeaderLogueado();
 
         Global.outputData = (Global.httpHeaderBuffer + "\r\n\r\n" + Global.httpDataBuffer).getBytes();
