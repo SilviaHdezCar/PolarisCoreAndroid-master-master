@@ -58,8 +58,9 @@ public class Global {
     public static final int    INITIAL_PORT           = 3000;
 
     public static final String    HTTP_HEADER1       = "Content-Type: application/json";
-    public static final String    HTTP_HEADER2        ="Host: ";
+    public static   final String    HTTP_HEADER2        ="Host: ";
     public static final String    HTTP_HEADER3        = "Content-Length: ";
+    public static final String    HTTP_HEADER6        = "content-length: ";
 
     public static final int       SOCKET_TIMEOUT          = 20000;
 

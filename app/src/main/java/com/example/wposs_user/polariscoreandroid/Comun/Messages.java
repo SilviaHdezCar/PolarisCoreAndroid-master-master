@@ -56,10 +56,10 @@ public class Messages {
      * ***********************************************************/
     public static void packHttpUpdatePass() {
         //comienza a armar la trama
-        Global.httpDataBuffer = "{\"user_identification\": \"<cc>\"\"user_password\": \"<clave_nueva>\"}";//se arma la trama
+        Global.httpDataBuffer = "{\"user_identification\":\"<cc>\",\"user_password\":\"<clave_nueva>\"}";//se arma la trama
 
-        Global.httpDataBuffer = Global.httpDataBuffer.replace("<cc>", Global.ID);
-        Global.httpDataBuffer = Global.httpDataBuffer.replace("<clave_nueva>", Global.claveNueva);
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<cc>",Global.ID);
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<clave_nueva>",Global.claveNueva);
         //fn
 
 
@@ -483,13 +483,12 @@ public class Messages {
 
     public static void packHttpHeaderPut() {
 //cabecera
-        int tam;
-       /* Global.httpHeaderBuffer = "";
-        Global.httpHeaderBuffer = "PUT"+Global.WEB_SERVICE + "HTTP/1.1";
-       Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";*/
-       Global.httpHeaderBuffer = Global.httpHeaderBuffer + "Authenticator: " + Global.TOKEN;
-       Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
-        /*Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER1;
+        Global.httpHeaderBuffer = "";
+        Global.httpHeaderBuffer = "PUT"+Global.WEB_SERVICE + " HTTP/1.1";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "Authenticator: " + Global.TOKEN;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER1;
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER2;
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.INITIAL_IP;
@@ -497,7 +496,7 @@ public class Messages {
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.INITIAL_PORT;
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER6;
-        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.httpDataBuffer.length()*/;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.httpDataBuffer.length();
 
     }
 
