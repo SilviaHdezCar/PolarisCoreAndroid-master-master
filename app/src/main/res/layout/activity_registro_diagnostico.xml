@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".RegistroDiagnostico"
     >
 
@@ -22,25 +23,110 @@
 
     </android.support.design.widget.AppBarLayout>
 
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+
     <AutoCompleteTextView
         android:id="@+id/et_repuesto"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="10dp"
         android:background="@android:drawable/dialog_holo_light_frame"
         android:hint="Seleccione Repuesto"
         android:inputType="text"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="32px" />
 
+    <EditText
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:hint="Cantidad"
+        android:textSize="12dp"
+        android:inputType="number"
+
+        />
+
+    <Button
+        android:id="@+id/bton_agregarRep"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/azul_botones"
+        android:text="Agregar"
+        android:textAllCaps="false"
+        android:textColor="@color/blanco"
+        android:textSize="12dp" />
+
+   </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        >
+
+
+        <TextView
+
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Código"
+            />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Nombre"
+
+            />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Cantidad"
+            />
+
+        <TextView
+            android:layout_width="70dp"
+           android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Eliminar"
+            />
+
+    </LinearLayout>
+
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/blanco"
+    android:layout_margin="10dp"
+    android:hint="Observaciones"
+
+    />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/azul_botones"
+        android:text="Finalizar"
+        android:textAllCaps="false"
+        android:textColor="@color/blanco"
+        android:layout_gravity="right"
+        />
 
 
 
 
 
 
-
-
-
-</RelativeLayout>
+</LinearLayout>

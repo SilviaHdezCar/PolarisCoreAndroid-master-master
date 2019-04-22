@@ -47,6 +47,7 @@ import com.example.wposs_user.polariscoreandroid.Fragmentos.ProductividadFragmen
 import com.example.wposs_user.polariscoreandroid.Fragmentos.StockFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.TipificacionesFragment;
 import com.example.wposs_user.polariscoreandroid.R;
+import com.example.wposs_user.polariscoreandroid.RegistroDiagnostico;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.Tools;
 import com.example.wposs_user.polariscoreandroid.ValidacionesTerminalesAsociadas;
@@ -171,7 +172,13 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.btn_aumentar:
-                aumentar();
+                Intent inte= new Intent(this, RegistroDiagnostico.class);
+                startActivity(inte);
+                finish();
+
+
+
+
                 return true;
 
             case R.id.btn_disminuir:
@@ -390,13 +397,6 @@ public class MainActivity extends AppCompatActivity
     private void agregarRepuestos() {
         repuestos = new Vector<>();
 
-        Repuesto r1 = new Repuesto("AS1252", "TORNILLO", "DISPONIBLE", 3);
-        Repuesto r2 = new Repuesto("AB233", "PANTALLA", "AGOTADA", 2);
-        Repuesto r3 = new Repuesto("AW3456", "TECLADO", "DISPONIBLE", 3);
-
-        repuestos.add(r1);
-        repuestos.add(r2);
-        repuestos.add(r3);
 
     }
 
@@ -739,7 +739,7 @@ public class MainActivity extends AppCompatActivity
             progressDialog = new ProgressDialog(MainActivity.this, R.style.MyAlertDialogStyle);
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setCancelable(false);
-            progressDialog.setMessage("Buscando observaciones (etapas) de la terminal...");
+            progressDialog.setMessage("Buscando observaciones de la terminal...");
             progressDialog.show();
         }
 

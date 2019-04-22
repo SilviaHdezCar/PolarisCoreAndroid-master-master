@@ -118,7 +118,7 @@ public class TipificacionesDiagnostico extends AppCompatActivity
 
         /*******************************************************************************
          Método       : doInBackground
-         Description  : Se ejecuta para realizar la transacción y verificar coenxión
+         Description  : Se ejecuta para realizar la transacción y verificar conexión
          *******************************************************************************/
         @Override
         protected Boolean doInBackground(String... strings) {

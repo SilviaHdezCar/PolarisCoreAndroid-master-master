@@ -7,6 +7,7 @@ import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Global {
@@ -100,7 +101,8 @@ public class Global {
     public static List<Observacion> OBSERVACIONES;
     public static List<Validacion> VALIDACIONES;
     public static List<Tipificacion> TIPIFICACIONES;
-    public static List<Repuesto> REPUESTOS;
+    public static ArrayList<Repuesto> REPUESTOS = new ArrayList<>();
+
 
     public static int lenS1;
     public static String claveNueva;

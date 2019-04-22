@@ -32,10 +32,10 @@ public class AdapterRepuesto extends RecyclerView.Adapter<AdapterRepuesto.ViewHo
     @Override
     public void onBindViewHolder(ViewHolderRepuesto holder, int i) {
         Repuesto rep = this.listRepuesto.elementAt(i);
-        holder.codigo.setText(rep.getCodigo());
-        holder.nombre.setText( rep.getNombre());
-        holder.estado.setText(rep.getEstado());
-        holder.cantidad.setText(String.valueOf(rep.getCantidad()));
+        holder.codigo.setText(rep.getSpar_code());
+        holder.nombre.setText( rep.getSpar_name());
+        holder.estado.setText(rep.getSpar_status());
+        holder.cantidad.setText(rep.getSpar_quantity());
         }
 
     @Override
