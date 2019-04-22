@@ -45,6 +45,11 @@ public class Global {
     public static String POSITION;
     public static String CODE;
 
+
+
+    public static String STATUS_SERVICE;
+
+
     //variables donde se guarda lo que recibe de la trama al intentar iniciar sesion
     public static String DESCRIPCION_ERROR;
 

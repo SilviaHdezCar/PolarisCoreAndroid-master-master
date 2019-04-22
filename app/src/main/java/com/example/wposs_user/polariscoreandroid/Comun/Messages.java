@@ -59,13 +59,12 @@ public class Messages {
         //comienza a armar la trama
         Global.httpDataBuffer = "{\"user_identification\":\"<cc>\",\"user_password\":\"<clave_nueva>\"}";//se arma la trama
 
-        Global.httpDataBuffer = Global.httpDataBuffer.replace("<cc>",Global.ID);
-        Global.httpDataBuffer = Global.httpDataBuffer.replace("<clave_nueva>",Global.claveNueva);
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<cc>", Global.ID);
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<clave_nueva>", Global.claveNueva);
         //fn
 
 
     }
-
 
 
     /************************************************************************************************
@@ -74,7 +73,7 @@ public class Messages {
     public static boolean unPackMsgListarTipificaciones(Context c) {
 
         String tramaCompleta = "";
-        Tipificacion v=null;
+        Tipificacion v = null;
 
         int indice = 0;
 
@@ -89,17 +88,16 @@ public class Messages {
         String trama = tramaCompleta.substring(0, tramaNecesitada + 1);//ESTA ES LA TRAMA QUE ENVIA EL SERVIDOR, ES LA QUE SE VA A DESEMPAQUETAR
 
 
-
         String[] lineastrama = trama.split(",");
         Gson gson = new GsonBuilder().create();
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(tramaCompleta);
 
-            if(jsonObject.get("message").toString()!=null){
+            if (jsonObject.get("message").toString() != null) {
                 System.out.println("--------------ENTRÓ AL MSJ DE ERROR");
-                Global.mensaje=lineastrama[0].substring(12, tramaNecesitada-1);
-                Log.i("mensaje de error", ""+jsonObject.get("message").toString());
+                Global.mensaje = lineastrama[0].substring(12, tramaNecesitada - 1);
+                Log.i("mensaje de error", "" + jsonObject.get("message").toString());
                 return false;
             }
 
@@ -108,15 +106,15 @@ public class Messages {
 
             Global.TIPIFICACIONES = new ArrayList<Tipificacion>();
             System.out.println("Va a recorrer el JsonArray de tipificciones");
-            if(jsonArray.length()==0){
-                Global.mensaje="No tiene tipificaciones";
+            if (jsonArray.length() == 0) {
+                Global.mensaje = "No tiene tipificaciones";
                 return true;
             }
-            for(int i=0; i<  jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 String val = jsonArray.getString(i);
 
-                v= gson.fromJson(val, Tipificacion.class);
-                System.out.println("***********Va a agg tipificacion a la List<Tipificcon>**********("+i+"): "+v.toString());
+                v = gson.fromJson(val, Tipificacion.class);
+                System.out.println("***********Va a agg tipificacion a la List<Tipificcon>**********(" + i + "): " + v.toString());
                 Global.TIPIFICACIONES.add(v);
 
             }
@@ -129,7 +127,6 @@ public class Messages {
 
 
     }
-
 
 
     /*****************************************************************************************
@@ -153,7 +150,7 @@ public class Messages {
     public static boolean unPackMsgListarValidaciones(Context c) {
 
         String tramaCompleta = "";
-        Validacion v= null;
+        Validacion v = null;
 
         int indice = 0;
 
@@ -168,17 +165,16 @@ public class Messages {
         String trama = tramaCompleta.substring(0, tramaNecesitada + 1);//ESTA ES LA TRAMA QUE ENVIA EL SERVIDOR, ES LA QUE SE VA A DESEMPAQUETAR
 
 
-
         String[] lineastrama = trama.split(",");
         Gson gson = new GsonBuilder().create();
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(tramaCompleta);
 
-            if(jsonObject.get("message").toString()!=null){
+            if (jsonObject.get("message").toString() != null) {
                 System.out.println("--------------ENTRÓ AL MSJ DE ERROR");
-                Global.mensaje=lineastrama[0].substring(12, tramaNecesitada-1);
-                Log.i("mensaje de error", ""+jsonObject.get("message").toString());
+                Global.mensaje = lineastrama[0].substring(12, tramaNecesitada - 1);
+                Log.i("mensaje de error", "" + jsonObject.get("message").toString());
                 return false;
             }
 
@@ -187,15 +183,15 @@ public class Messages {
 
             Global.VALIDACIONES = new ArrayList<Validacion>();
             System.out.println("Va a recorrer el JsonArray de VALIDACIONES");
-            if(jsonArray.length()==0){
-                Global.mensaje="No tiene validaciones";
+            if (jsonArray.length() == 0) {
+                Global.mensaje = "No tiene validaciones";
                 return true;
             }
-            for(int i=0; i<  jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 String val = jsonArray.getString(i);
 
                 v = gson.fromJson(val, Validacion.class);
-                System.out.println("***********Va a agg VALIDACION a la List<vALIDACIONES>**********("+i+"): "+v.toString());
+                System.out.println("***********Va a agg VALIDACION a la List<vALIDACIONES>**********(" + i + "): " + v.toString());
                 Global.VALIDACIONES.add(v);
 
             }
@@ -260,7 +256,6 @@ public class Messages {
     }
 
 
-
     /*****************************************************************************************
      * EMPAQUETADO DE LISTAR OBSERVACIONES, LO QUE SE ENVIA
      *
@@ -289,6 +284,7 @@ public class Messages {
 
 
     }
+
     /*********************************************
      * ARMA EL CUERPO DE LA TRAMA DE ENVIO PARA LISTAR DIAGNOSTICOS
      * ***********************************************************/
@@ -303,14 +299,13 @@ public class Messages {
     }
 
 
-
     /************************************************************************************************
      * DESEMPAQUETADO DE LA RESPUESTA DEL SERVIDOR --> LISTAR LOS REPUESTOS
      *****************************************************************************************************/
     public static boolean unPackMsgListaRepuestos(Context c) {
 
         String tramaCompleta = "";
-        Repuesto r=null;
+        Repuesto r = null;
 
 
         int indice = 0;
@@ -324,7 +319,6 @@ public class Messages {
         int tramaNecesitada = tramaCompleta.indexOf("}");
 
         String trama = tramaCompleta.substring(0, tramaNecesitada + 1);//ESTA ES LA TRAMA QUE ENVIA EL SERVIDOR, ES LA QUE SE VA A DESEMPAQUETAR
-
 
 
         String[] lineastrama = trama.split(",");
@@ -345,15 +339,15 @@ public class Messages {
 
             Global.REPUESTOS = new ArrayList<Repuesto>();
             System.out.println("Va a recorrer el JsonArray de repuestos");
-            if(jsonArray.length()==0){
-                Global.mensaje="No se encontraron repuestos asociados a la terminal";
+            if (jsonArray.length() == 0) {
+                Global.mensaje = "No se encontraron repuestos asociados a la terminal";
                 return true;
             }
-            for(int i=0; i<  jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 String obs = jsonArray.getString(i);
 
-               r= gson.fromJson(obs, Repuesto.class);
-                System.out.println("***********Va a agg terminal a la List<Repuestos>*************Repuesto("+i+"): "+r.toString());
+                r = gson.fromJson(obs, Repuesto.class);
+                System.out.println("***********Va a agg terminal a la List<Repuestos>*************Repuesto(" + i + "): " + r.toString());
                 Global.REPUESTOS.add(r);
 
             }
@@ -361,15 +355,12 @@ public class Messages {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        System.out.print("numero de repuestos"+"  " +Global.REPUESTOS.size());
+        System.out.print("numero de repuestos" + "  " + Global.REPUESTOS.size());
 
         return true;
 
 
     }
-
-
-
 
 
     /************************************************************************************************
@@ -378,7 +369,7 @@ public class Messages {
     public static boolean unPackMsgListarObservaciones(Context c) {
 
         String tramaCompleta = "";
-        Observacion o=null;
+        Observacion o = null;
 
         int indice = 0;
 
@@ -391,7 +382,6 @@ public class Messages {
         int tramaNecesitada = tramaCompleta.indexOf("}");
 
         String trama = tramaCompleta.substring(0, tramaNecesitada + 1);//ESTA ES LA TRAMA QUE ENVIA EL SERVIDOR, ES LA QUE SE VA A DESEMPAQUETAR
-
 
 
         String[] lineastrama = trama.split(",");
@@ -410,17 +400,17 @@ public class Messages {
             JSONArray jsonArray = jsonObject.getJSONArray("observaciones");
 
             Global.OBSERVACIONES = new ArrayList<Observacion>();
-            System.out.println("Va a recorrer el JsonArray de observacuiones::::::tamaño: "+ jsonArray.length());
-            if(jsonArray.length()==0){
-                Global.mensaje="No tiene observaciones";
+            System.out.println("Va a recorrer el JsonArray de observacuiones::::::tamaño: " + jsonArray.length());
+            if (jsonArray.length() == 0) {
+                Global.mensaje = "No tiene observaciones";
                 return true;
             }
 
-            for(int i=0; i<  jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 String obs = jsonArray.getString(i);
 
-                o= gson.fromJson(obs, Observacion.class);
-                System.out.println("***********Va a agg observaciona la List<Observacion>*************terminal("+i+"): "+o.toString());
+                o = gson.fromJson(obs, Observacion.class);
+                System.out.println("***********Va a agg observaciona la List<Observacion>*************terminal(" + i + "): " + o.toString());
                 Global.OBSERVACIONES.add(o);
 
             }
@@ -459,6 +449,7 @@ public class Messages {
 
 
     }
+
     //ARMA LA CABECERA DE METODOS QUE VAN POR GET CUANDO ESTÁN LOGUEADOS___---------------------------------------------------------------------------
     public static void packHttpHeaderLogueadoGET() {
 //cabecera
@@ -505,17 +496,17 @@ public class Messages {
     public static void packHttpHeaderPut() {
 //cabecera
         Global.httpHeaderBuffer = " ";
-        Global.httpHeaderBuffer = "PUT "+Global.WEB_SERVICE + " HTTP/1.1";
+        Global.httpHeaderBuffer = "PUT " + Global.WEB_SERVICE + " HTTP/1.1";
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER1;
-       Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + "Authenticator: " + Global.TOKEN;
-       Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER2;
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.INITIAL_IP;
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + ":";
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.INITIAL_PORT;
-       Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER6;
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.httpDataBuffer.length();
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
@@ -528,7 +519,7 @@ public class Messages {
     public static boolean unPackMsgListarAsociadas(Context c) {
 
         String tramaCompleta = "";
-        Terminal t=null;
+        Terminal t = null;
 
         int indice = 0;
 
@@ -542,42 +533,49 @@ public class Messages {
         String trama = tramaCompleta.substring(0, tramaNecesitada + 1);//ESTA ES LA TRAMA QUE ENVIA EL SERVIDOR, ES LA QUE SE VA A DESEMPAQUETAR
 
 
-
         String[] lineastrama = trama.split(",");
 
         System.out.println("****************************************************************ASOCIADAS");
+
         Gson gson = new GsonBuilder().create();
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(tramaCompleta);
-     System.out.println("*********Obtiene el arreglo de terminales");
+
+            Global.STATUS_SERVICE = jsonObject.get("status").toString();
+            System.out.println("*********************status: "+jsonObject.get("status").toString());
+
+
+            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                Global.mensaje = jsonObject.get("message").toString();
+                return false;
+            }
+
             JSONArray jsonArray = jsonObject.getJSONArray("terminales");
 
             Global.TERMINALES_ASOCIADAS = new ArrayList<Terminal>();
-            System.out.println("Va a recorrer el JsonArray de terminales::::::tamaño: "+ jsonArray.length());
-            if(jsonArray.length()==0){
-                Global.mensaje="No tiene terminales asociadas";
+
+            System.out.println("Va a recorrer el JsonArray de terminales::::::tamaño: " + jsonArray.length());
+            if (jsonArray.length() == 0) {
+                Global.mensaje = "No tiene terminales asociadas";
                 return true;
             }
-            for(int i=0; i<  jsonArray.length();i++){
-                String ter = jsonArray.getString(i);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String ter = null;
 
-                t= gson.fromJson(ter, Terminal.class);
-                System.out.println("***********Va a agg terminal a la List<Terminal>*************terminal("+i+"): "+t.toString());
+                ter = jsonArray.getString(i);
+
+                t = gson.fromJson(ter, Terminal.class);
+                System.out.println("***********Va a agg terminal a la List<Terminal>*************terminal(" + i + "): " + t.toString());
                 Global.TERMINALES_ASOCIADAS.add(t);
-
             }
+
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return true;
-
-
     }
-
-
 //************************EMPAQUETADO DEL LOGIN*****LO QUE SE ENVIA**********************************
 
     public static void packMsgLogin() {
@@ -590,10 +588,6 @@ public class Messages {
         //Utils.dumpMemory(Global.outputData, Global.outputLen);
 
     }
-
-
-
-
 
 
     //ARMA LA TRAMA DE ENVIO DEL LOGIN
@@ -702,18 +696,15 @@ public class Messages {
     }
 
 
-    public static void packTramaCambioClave( ){
-        String tramaCompleta="";
+    public static void packTramaCambioClave() {
+        String tramaCompleta = "";
 
         //Head
 
 
+    }
 
-
-   }
-
-    public static void packHttpDataActPass(){
-
+    public static void packHttpDataActPass() {
 
 
     }
