@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity
         terminal.removeAllElements();
 
         if (serial.getText().toString().isEmpty()) {
-            Toast.makeText(this, "POR FAVOR INGRESE EL SERIAL", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Por favor ingrese el serial", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -330,7 +330,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         if (terminal.size() == 0) {
-            Toast.makeText(this, "NO SE ENCONTRARON TERMINALES REGISTRADAS CON ESE SERIAL", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No se encontraron terminales registradas con ese serial", Toast.LENGTH_SHORT).show();
             recyclerView = (RecyclerView) findViewById(R.id.recycler_view_consultaTerminales_por_serial);
             recyclerView.setAdapter(new AdapterTerminal(this, terminal));//le pasa los datos-> lista de usuarios
             layoutManager = new LinearLayoutManager(this);// en forma de lista
@@ -440,7 +440,7 @@ public class MainActivity extends AppCompatActivity
 
         }
         if(obs.size()==0){
-            Toast.makeText(MainActivity.this, "Aunno tiene observaciones", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Aún no tiene observaciones", Toast.LENGTH_SHORT).show();
         }
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_etapas);

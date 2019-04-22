@@ -61,7 +61,7 @@
 
     <!--TIPOS DE ESTADOS DE LA TERMINAL-->
     <string-array name="estados">
-        <item>NO SELECCION</item>
+        <item>Seleccione</item>
         <item>Diagnostico</item>
         <item>Reparadas</item>
     </string-array>

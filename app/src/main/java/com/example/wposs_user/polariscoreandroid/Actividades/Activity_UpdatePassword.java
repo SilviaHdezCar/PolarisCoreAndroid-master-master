@@ -1,4 +1,4 @@
-package com.example.wposs_user.polariscoreandroid;
+package com.example.wposs_user.polariscoreandroid.Actividades;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
+import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 
 public class UpdatePassword extends AppCompatActivity {
