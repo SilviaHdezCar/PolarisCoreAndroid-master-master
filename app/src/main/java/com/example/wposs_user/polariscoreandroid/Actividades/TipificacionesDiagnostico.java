@@ -1,4 +1,4 @@
-package com.example.wposs_user.polariscoreandroid;
+package com.example.wposs_user.polariscoreandroid.Actividades;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,36 +13,46 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.wposs_user.polariscoreandroid.Actividades.Activity_login;
-import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
+import com.example.wposs_user.polariscoreandroid.DialogOpcionesConsulta;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.InicialFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.PerfilFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ProductividadFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.StockFragment;
+import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
+import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 
 public class TipificacionesDiagnostico extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    FragmentManager fragmentManager;
+
+    public static TipificacionesDiagnostico objetoTipificaciones;
 
 
     //lleno el panel con la informacion de la terminal y lleno la tabla validaciones
 
-    public static MainActivity objeto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tipificaciones_diagnostico);
+
+        fragmentManager = getSupportFragmentManager();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setTitle(null);
         setSupportActionBar(toolbar);
 
+        // agregarEtapasVector();
+        objetoTipificaciones = this;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -51,6 +61,8 @@ public class TipificacionesDiagnostico extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+     //   fragmentManager.beginTransaction().replace(R.id.contenedor_tipificaciones, new InicialFragment()).commit();
 
 
 
@@ -69,6 +81,7 @@ public class TipificacionesDiagnostico extends AppCompatActivity
      *
      * DEBO OBTENER EL SERIAL DE LA TERMINAL SELECCIONADA ANTERIORMETE Y CARGAR LOS DATOS
      * ***********************************************************************************************/
+
     public void tipificacionesTerminal(){
         Global.WEB_SERVICE = "/PolarisCore/Terminals/validatorTerminal ";
 

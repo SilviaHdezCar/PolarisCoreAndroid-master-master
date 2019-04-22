@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TipificacionesDiagnostico"
+            android:name=".Actividades.TipificacionesDiagnostico"
             android:label="@string/title_activity_tipificaciones_diagnostico"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

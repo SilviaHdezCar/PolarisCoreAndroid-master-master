@@ -34,8 +34,8 @@ public class AdapterEtapas extends RecyclerView.Adapter<AdapterEtapas.ViewHolder
     public void onBindViewHolder(ViewHolderEtapas holder, int i) {
        Observacion ob = this.listEtapa.elementAt(i);
         holder.contador_etapas.setText(i);
-        holder.usuario_etapas.setText(Global.CODE);
-        holder.fecha_etapas.setText("null");
+        holder.usuario_etapas.setText(ob.getTeob_id_user());
+        holder.fecha_etapas.setText(ob.getTeob_fecha());
         holder.observaciones_etapas.setText(ob.getTeob_description());
 
     }

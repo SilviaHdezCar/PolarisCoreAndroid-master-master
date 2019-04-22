@@ -24,7 +24,6 @@ import java.util.Locale;
 
 public class ConsultaTerminalesReparadasFragm extends Fragment {
 
-    public static MainActivity objeto;
     private EditText f_inicio;
     private EditText f_fin;
 

@@ -7,7 +7,7 @@ public class Terminal {
 
     private String term_serial;
     private String term_imei;
-    private String brand;
+    private String term_brand;
     private String term_model;
     private String term_technology;
     private String term_status; //estado;//
@@ -24,11 +24,11 @@ public class Terminal {
 
     private String term_localication;//ubicacion;/
 
-    public Terminal(String term_serial, String brand, String term_buy_date, String term_date_finish, String term_date_register, String term_imei,
+    public Terminal(String term_serial, String term_brand, String term_buy_date, String term_date_finish, String term_date_register, String term_imei,
                     String term_localication, String term_mk, String term_model, String term_num_terminal, String term_register_by, String term_security_seal,
                     String term_start_date_warranty, String term_status, String term_status_temporal, String term_technology, String term_warranty_time) {
         this.term_serial = term_serial;
-        this.brand = brand;
+        this.term_brand = term_brand;
         this.term_num_terminal = term_num_terminal;
 
         this.term_imei = term_imei;
@@ -64,11 +64,11 @@ public class Terminal {
     }
 
     public String getBrand() {
-        return brand;
+        return term_brand;
     }
 
     public void setBrand(String brand) {
-        this.brand = brand;
+        this.term_brand = brand;
     }
 
     public String getTerm_model() {
@@ -189,7 +189,7 @@ public class Terminal {
         return "Terminal{" +
                 "term_serial='" + term_serial + '\'' +
                 ", term_imei='" + term_imei + '\'' +
-                ", brand='" + brand + '\'' +
+                ", term_brand='" + term_brand + '\'' +
                 ", term_model='" + term_model + '\'' +
                 ", term_technology='" + term_technology + '\'' +
                 ", term_status='" + term_status + '\'' +

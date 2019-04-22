@@ -6,7 +6,7 @@
     <string name="nav_header_subtitle">For android</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="iniciar">POLARIS CORE</string>
-    <string name="iniciarSes">Iniciar Sesión</string>
+    <string name="iniciarSes">Iniciar sesión</string>
     <string name="correo">Correo de usuario</string>
     <string name="clave">Contraseña</string>
     <string name="action_settings">Settings</string>
@@ -17,7 +17,7 @@
     <string name="cambiar_clave">Actualizar</string>
     <string name="validar_rta">Verificar Respuestas</string>
     <string name="resp">VERIFICAR RESPUESTAS</string>
-    <string name="texto">Bienvenido, por favor complete el siguiente formulario para Iniciar sesión </string>
+    <string name="texto">Bienvenido, ingrese usuario y contraseña </string>
     <string name="Titulo_t">VERIFICAR RESPUESTAS</string>
     <string name="Respuesta1">Respuesta 1</string>
     <string name="Respuesta2">Respuesta 2</string>

@@ -120,18 +120,22 @@ public class Activity_login extends AppCompatActivity {
                 System.out.println("*********************************************************************SI SE PUDO CONECTAR****************************");
                 if (Messages.unPackMsgLogin(Activity_login.this)) {
                     Global.enSesion = true;
-                    Global.StatusExit=true;
+                    Global.StatusExit = true;
 
-                    if(Integer.parseInt(Global.LOGIN)==0){
+                    if (Integer.parseInt(Global.LOGIN) == 0) {
                         Utils.GoToNextActivity(Activity_login.this, Activity_UpdatePassword.class, Global.StatusExit);
-                    }else {
+                    } else {
                         Utils.GoToNextActivity(Activity_login.this, MainActivity.class, Global.StatusExit);
                     }
 
                 } else {
                     // Si el login no es OK, manda mensaje de error
                     try {
-                       // Utils.GoToNextActivity(Activity_login.this, DialogError.class, Global.StatusExit);
+                        // Utils.GoToNextActivity(Activity_login.this, DialogError.class, Global.StatusExit);
+                        if (Global.mensaje.equalsIgnoreCase("Contrasena Invalida")) {
+                            Global.mensaje ="Contraseña inválida";
+                        }
+                        System.out.println("-------------clave incorrecta: "+Global.mensaje);
                         Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -156,7 +160,7 @@ public class Activity_login extends AppCompatActivity {
 
                     default:                                                                        // Errores de conexion
                         Global.MsgError = Global.MSG_ERR_CONEXION;
-                        Global.mensaje=Global.MsgError;
+                        Global.mensaje = Global.MsgError;
                         Global.StatusExit = false;
                         // Muestra la ventana de error
                         Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();

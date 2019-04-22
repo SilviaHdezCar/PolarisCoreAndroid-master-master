@@ -398,19 +398,17 @@ public class Messages {
         try {
             jsonObject = new JSONObject(tramaCompleta);
 
-            if(jsonObject.get("message").toString()!=null){
+           /* if(jsonObject.get("message").toString()!=null){
                 System.out.println("--------------ENTRÓ AL MSJ DE ERROR");
                 Global.mensaje=lineastrama[0].substring(12, tramaNecesitada-1);
                 Log.i("mensaje de error", ""+jsonObject.get("message").toString());
                 return false;
-            }
+            }*/
 
-            System.out.println("*********Obtiene el arreglo de observaciones");
             JSONArray jsonArray = jsonObject.getJSONArray("observaciones");
 
             Global.OBSERVACIONES = new ArrayList<Observacion>();
-            System.out.println("Va a recorrer el JsonArray de observaciones");
-
+            System.out.println("Va a recorrer el JsonArray de observacuiones::::::tamaño: "+ jsonArray.length());
             if(jsonArray.length()==0){
                 Global.mensaje="No tiene observaciones";
                 return true;
@@ -420,7 +418,7 @@ public class Messages {
                 String obs = jsonArray.getString(i);
 
                 o= gson.fromJson(obs, Observacion.class);
-                System.out.println("***********Va a agg terminal a la List<Terminal>*************terminal("+i+"): "+o.toString());
+                System.out.println("***********Va a agg observaciona la List<Observacion>*************terminal("+i+"): "+o.toString());
                 Global.OBSERVACIONES.add(o);
 
             }
@@ -459,7 +457,7 @@ public class Messages {
 
 
     }
-    //ARMA LA CABECERA DE METODOS QUE VAN POR GET CUANDO ESTÁN LOGUEADOS
+    //ARMA LA CABECERA DE METODOS QUE VAN POR GET CUANDO ESTÁN LOGUEADOS___---------------------------------------------------------------------------
     public static void packHttpHeaderLogueadoGET() {
 //cabecera
         int tam;
@@ -680,12 +678,15 @@ public class Messages {
             Global.STATUS = lineastrama[5].substring(10, lineastrama[5].length() - 1);
             Global.POSITION = lineastrama[6].substring(12, lineastrama[6].length() - 1);
             Global.CODE = lineastrama[7].substring(8, lineastrama[7].length() - 1);
-            Global.NOMBRE = lineastrama[8].substring(7, lineastrama[8].length() - 1);
+            Global.NOMBRE = lineastrama[8].substring(8, lineastrama[8].length() - 2);//se coloca -2 porque toma la llave de cerrar, si vienen más elementos se deja -1
+            //faltan más datos Celular-correo-ubicacion
+
 
             Log.i("------------STATUS: ", "" + Global.STATUS);
             Log.i("------------POSITION: ", "" + Global.POSITION);
             Log.i("------------TOKEN: ", "" + Global.TOKEN);
             Log.i("--------CODE: ", "" + Global.CODE);
+            Log.i("-------NAME: ", "" + Global.NOMBRE);
 
             if (!Global.POSITION.equalsIgnoreCase("TECNICO")) {
                 Global.mensaje = "El usuario no tiene permisos";

@@ -1,13 +1,17 @@
 package com.example.wposs_user.polariscoreandroid.Actividades;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -41,6 +45,7 @@ import com.example.wposs_user.polariscoreandroid.Fragmentos.InicialFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.PerfilFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ProductividadFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.StockFragment;
+import com.example.wposs_user.polariscoreandroid.Fragmentos.TipificacionesFragment;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.Tools;
@@ -56,8 +61,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import static com.example.wposs_user.polariscoreandroid.DialogOpcionesConsulta.objeto;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private AppBarLayout appBar;
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity
     public RecyclerView.LayoutManager layoutManager;
     Vector<Repuesto> repuestos;
     Vector<Etapas> etapas;
+
 
     private TextView claveActual;
     private TextView clavenueva;
@@ -91,6 +95,8 @@ public class MainActivity extends AppCompatActivity
     private EditText f_inicio;
     private EditText f_fin;
     FragmentManager fragmentManager;
+
+    public static MainActivity objeto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,14 +221,6 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
-    private ImageView imgPerfil;
-    private TextView nomUsuario;
-    private TextView usuario;
-    private TextView cargo;
-    private TextView telefono;
-    private TextView correo;
-    private TextView ubicacion;
-
 
     /**********************************************************************
      * METODOS PARA ACTUALIZAR LA CLAVE DESDE EL PERFIL
@@ -231,6 +229,11 @@ public class MainActivity extends AppCompatActivity
     public void cancelarCambioclave(View v) {
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).commit();
 
+    }
+
+    public void actualizarClave(View view) {
+
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ActualizarClave_perfil()).commit();
     }
 
     public void aceptarCambioClave(View v) {
@@ -319,10 +322,10 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
-    public void actualizarClave(View view) {
 
-        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ActualizarClave_perfil()).commit();
-    }
+    /**
+     * BUSQUEDA DE TERMINALES
+     **/
 
     public void opcionesBusqueda() {
         DialogOpcionesConsulta dialog = new DialogOpcionesConsulta();
@@ -455,59 +458,30 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void siguienteEtapas(View v) {
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
         new TaskListarValidaciones().execute();
 
-       /* TextView marca_ter_validaciones = (TextView) findViewById(R.id.marca_ter_validaciones);
-        TextView modelo_ter_validaciones = (TextView) findViewById(R.id.modelo_ter_validaciones);
-        TextView serial_ter_validaciones = (TextView) findViewById(R.id.serial_ter_validaciones);
-        TextView tecno_ter_validaciones = (TextView) findViewById(R.id.tecno_ter_validaciones);
-        TextView estado_ter_validaciones = (TextView) findViewById(R.id.estado_ter_validaciones);
-        TextView garantia_ter_validaciones = (TextView) findViewById(R.id.garantia_ter_validaciones);
-        TextView fecha_recepcion_ter_validaciones = (TextView) findViewById(R.id.fecha_recepcion_ter_validaciones);
-        TextView fechal_ans_ter_validaciones = (TextView) findViewById(R.id.fechal_ans_ter_validaciones);
+    }
 
-        //voy a recorrer el arreglo de terminales para que me liste la informacion de la terminal selecciona
+    //botones de layout validaciones
+    public void volverValidaciones(View view) {
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
+    }
 
-        for (Terminal ter : Global.TERMINALES_ASOCIADAS) {
-            if (ter.getTerm_serial().equalsIgnoreCase(Global.serial_ter)) {
-                marca_ter_validaciones.setText(ter.getBrand());
-                modelo_ter_validaciones.setText(ter.getTerm_model());
-                serial_ter_validaciones.setText(ter.getTerm_serial());
-                tecno_ter_validaciones.setText(ter.getTerm_technology());
-                estado_ter_validaciones.setText(ter.getTerm_status());
-
-                if (Integer.parseInt(ter.getTerm_warranty_time()) >= 0) {
-                    garantia_ter_validaciones.setText("Con garantía");
-                } else {
-                    garantia_ter_validaciones.setText("Si garantía");
-                }
-
-                fecha_recepcion_ter_validaciones.setText(ter.getTerm_date_register());
-                fechal_ans_ter_validaciones.setText(ter.getTerm_date_finish());
-
-                *//**
-         *LLAMO EL METODO QUE CONSUME EL SERVICIO DE VALIDACIOS
-         *
-         * **//*
-            }
-        }*/
-
-        //llama el servicio de validaciones
-
+    public void siguienteValidaciones(View view) {
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new TipificacionesFragment()).commit();
 
     }
+
+
     //METODOS PARA MOSTRAR EL CALENDARIO
 
 
     //***********TERMINALES ASOCIADAS
 //Listas las terminales asociadas al tecnico que inicio sesión en la app
+
     public void verTerminalesAsociadas() {
-        btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
-        btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
 
-        btn_autorizadas.setBackgroundColor(0x802196F5);
-
-        btn_asociadas.setBackgroundColor(0x45A5F3);
 
         Global.WEB_SERVICE = "/PolarisCore/Terminals//associatedsWithDiagnosis";
 
@@ -545,11 +519,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    //llenarRVValidaciones
-
     public void llenarRVValidaciones(List<Validacion> validacions) {
 
-       // fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
+        // fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
 
         Vector<Validacion> vals = new Vector<>();
 
@@ -602,9 +574,12 @@ public class MainActivity extends AppCompatActivity
                 serialObtenido = terminal.get(position).getTerm_serial();
                 Global.modelo = terminal.get(position).getTerm_model();
 
+
+
                 System.out.println("-------*****-_-**********************************VA A LISTAR LAS ETAPAS DE LA TERMINAL SELECCIONADA");
 
                 listarObservacionesTerminal(serialObtenido);
+               // listarObservacionesTerminal("prueba");
             }
         }, R.layout.panel_terminal_asociada);
 
@@ -615,7 +590,15 @@ public class MainActivity extends AppCompatActivity
 
     //Mostrar las terminales  asociadas al dar clic en el boton
     public void verTerminalesAsociadas(View v) {
-        verTerminalesAsociadas();
+        btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
+        btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
+
+
+        btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.azul_nav_bar_transparencia));//azul_nav_bar_transparencia
+
+        btn_asociadas.setBackgroundColor(getResources().getColor(R.color.azul_claro_nav_bar));
+
+       verTerminalesAsociadas();
     }
 
 
@@ -744,7 +727,6 @@ public class MainActivity extends AppCompatActivity
     class TaskListarObservaciones extends AsyncTask<String, Void, Boolean> {
         ProgressDialog progressDialog;
         int trans = 0;
-        MainActivity objeto;
 
 
         /*******************************************************************************
@@ -768,7 +750,7 @@ public class MainActivity extends AppCompatActivity
          *******************************************************************************/
         @Override
         protected Boolean doInBackground(String... strings) {
-            Messages.packMsgListarRepuestos();
+            Messages.packMsgListarObservaciones();
 
             trans = TCP.transaction(Global.outputLen);
 
@@ -796,13 +778,14 @@ public class MainActivity extends AppCompatActivity
                     fragmentManager.beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
 
 
-                    if (Global.OBSERVACIONES == null) {
+                  /*  if (Global.OBSERVACIONES == null) {
                         System.out.println("********************************LA TERMINAL NO TIENE OBERVACIONES ");
+                        serial_ter_seleccionada.setText(Global.serial_ter + " No tiene observaciones");
                         Toast.makeText(MainActivity.this, Global.serial_ter + " No tiene observaciones", Toast.LENGTH_SHORT).show();
 
                     } else {
                         objeto.llenarRVEtapas(Global.OBSERVACIONES);
-                    }
+                    }*/
 
                 } else {
                     // Si el login no es OK, manda mensaje de error
@@ -884,7 +867,7 @@ public class MainActivity extends AppCompatActivity
             if (trans == Global.TRANSACTION_OK) {
                 System.out.println("-------------EMPAQUETADO CORRECTO********************************************************");
                 return true;
-            }else
+            } else
                 return false;
         }
 
@@ -902,36 +885,8 @@ public class MainActivity extends AppCompatActivity
                 if (Messages.unPackMsgListarValidaciones(MainActivity.this)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
-                    fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
-               /*     TextView marca_ter_validaciones = (TextView) findViewById(R.id.marca_ter_validaciones);
-                    TextView modelo_ter_validaciones = (TextView) findViewById(R.id.modelo_ter_validaciones);
-                    TextView serial_ter_validaciones = (TextView) findViewById(R.id.serial_ter_validaciones);
-                    TextView tecno_ter_validaciones = (TextView) findViewById(R.id.tecno_ter_validaciones);
-                    TextView estado_ter_validaciones = (TextView) findViewById(R.id.estado_ter_validaciones);
-                    TextView garantia_ter_validaciones = (TextView) findViewById(R.id.garantia_ter_validaciones);
-                    TextView fecha_recepcion_ter_validaciones = (TextView) findViewById(R.id.fecha_recepcion_ter_validaciones);
-                    TextView fechal_ans_ter_validaciones = (TextView) findViewById(R.id.fechal_ans_ter_validaciones);
 
-                    //voy a recorrer el arreglo de terminales para que me liste la informacion de la terminal selecciona
 
-                    for (Terminal ter : Global.TERMINALES_ASOCIADAS) {
-                        if (ter.getTerm_serial().equalsIgnoreCase(Global.serial_ter)) {
-                            marca_ter_validaciones.setText(ter.getBrand());
-                            modelo_ter_validaciones.setText(ter.getTerm_model());
-                            serial_ter_validaciones.setText(ter.getTerm_serial());
-                            tecno_ter_validaciones.setText(ter.getTerm_technology());
-                            estado_ter_validaciones.setText(ter.getTerm_status());
-
-                            if (Integer.parseInt(ter.getTerm_warranty_time()) >= 0) {
-                                garantia_ter_validaciones.setText("Con garantía");
-                            } else {
-                                garantia_ter_validaciones.setText("Si garantía");
-                            }
-
-                            fecha_recepcion_ter_validaciones.setText(ter.getTerm_date_register());
-                            fechal_ans_ter_validaciones.setText(ter.getTerm_date_finish());
-                        }
-                    }*/
                     if (Global.VALIDACIONES == null) {
                         System.out.println("********************************LA TERMINAL NO TIENE VALIDACIONES ");
                         Toast.makeText(objeto, Global.serial_ter + " No tiene validaciones", Toast.LENGTH_SHORT).show();

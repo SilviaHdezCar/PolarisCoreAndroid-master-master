@@ -12,8 +12,10 @@ import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ConsultaTerminalesReparadasFragm;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ConsultaTerminalesSerial;
 
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
+
 public class DialogOpcionesConsulta extends DialogFragment {
-    public static MainActivity objeto;
+
 
 
 

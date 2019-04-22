@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <!--Validaciones con radio button-->
+
             <TextView
                 android:id="@+id/txt_validaciones"
                 android:layout_width="180dp"

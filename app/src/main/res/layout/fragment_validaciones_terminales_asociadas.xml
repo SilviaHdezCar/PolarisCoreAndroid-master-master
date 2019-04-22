@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gris_fondo"
-    tools:context=".ValidacionesTerminalesAsociadas">
+    tools:context=".Actividades.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,12 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
-            android:text="Validaciones de la terminal asociadas" />
+            android:text="Validaciones de la terminal asociada" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:layout_marginTop="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -148,8 +150,35 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
 
+            <Button
+                android:id="@+id/btn_volver_validaciones"
+                style="@style/letra_negrita"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/redondo_fondo_gris"
+                android:onClick="volverValidaciones"
+                android:text="Atrás"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_siguiente_validaciones"
+                style="@style/letra_botones"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="150dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/redondo_azul"
+                android:onClick="siguienteValidaciones"
+                android:text="Siguiente"
+                android:textAllCaps="false" />
         </LinearLayout>
     </LinearLayout>
 
