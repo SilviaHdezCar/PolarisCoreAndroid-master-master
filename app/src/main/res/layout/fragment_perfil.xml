@@ -113,7 +113,7 @@
                     style="@style/letra_negrita"
                     android:layout_width="100dp"
                     android:layout_height="20dp"
-                    android:text="Telefono: " />
+                    android:text="Celular: " />
 
                 <TextView
                     android:id="@+id/perfil_telefono"
@@ -171,10 +171,12 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_cambiar_clave"
-                android:text="Actualizar clave"
+                android:text="Actualizar contraseña"
+                android:textAllCaps="false"
                 android:layout_marginTop="15dp"
                 android:onClick="actualizarClave"
                 android:background="@drawable/redondo_azul"
+                android:layout_gravity="center_horizontal"
                 style="@style/letra_botones"/>
 
 

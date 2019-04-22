@@ -38,6 +38,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.DialogOpcionesConsulta;
+import com.example.wposs_user.polariscoreandroid.Fragmentos.ActualizarClave_perfil;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.EtapasTerminal;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.InicialFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.PerfilFragment;
@@ -71,6 +72,10 @@ public class MainActivity extends AppCompatActivity
     public RecyclerView.LayoutManager layoutManager;
     Vector<Repuesto> repuestos;
     Vector<Etapas> etapas;
+
+    private TextView claveActual;
+    private TextView clavenueva;
+    private TextView claveConfirmarClave;
 
     private Button btn_asociadas;
     private Button btn_autorizadas;
@@ -224,10 +229,105 @@ public class MainActivity extends AppCompatActivity
     private TextView ubicacion;
 
 
-    //METODO QUE MUESTRA EL PANEL PARA ACTUALIZAR LA CLAVE
+    /**********************************************************************
+     * METODOS PARA ACTUALIZAR LA CLAVE DESDE EL PERFIL
+     * **/
+
+    public void cancelarCambioclave(View v) {
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).commit();
+
+    }
+
+    public void aceptarCambioClave(View v) {
+        //fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ActualizarClave_perfil()).commit();
+
+        claveActual = (EditText)findViewById(R.id.perfil_clave_actual);
+        clavenueva = (EditText)findViewById(R.id.perfil_clave_nueva);
+        claveConfirmarClave = (EditText)findViewById(R.id.perfil_clave_confirmar);
+
+        String actual=claveActual.getText().toString();
+        String nueva=clavenueva.getText().toString();
+        String confirmacion=claveConfirmarClave.getText().toString();
+
+        final String msj=validarClave(actual, nueva,confirmacion);
+        Toast.makeText(this, msj, Toast.LENGTH_LONG).show();
+
+        if(!msj.equalsIgnoreCase("Actualización exitosa")){
+            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).commit();
+        }else{
+            Toast.makeText(this, msj, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+    }
+
+    //este metodo hace las validaciones escritas en el cuaderno
+    private String validarClave(String actual, String nueva, String confirmacion) {
+        String msj = "Actualización exitosa";
+        //validaciones
+        if (actual.isEmpty()) {
+            return "Debe ingresar la contraseña actual";
+        } else if (nueva.isEmpty()) {
+            return "Debe ingresar la contraseña nueva";
+        } else if (confirmacion.isEmpty()) {
+            return "Debe confirmar la contraseña nueva";
+        } else if (!actual.equals("1")) {
+            return "La contraseña actual es incorrecta";
+        } else if (!(nueva.length() >= 8)) {
+            return "La contraseña debe contener como minimo 8 caracteres";
+        } else if (!revisarMayMinNum(nueva)) {
+            return "La contraseña debe contener números, letras en mayúscula y minúscula";
+        } else if (nueva.equals(actual)) {
+            return "La contraseña  nueva debe ser diferente a la actual";
+        } else if (!nueva.equals(confirmacion)) {
+            return "La confirmación de contraseña no coincide con la clave ingresada";
+        }
+        //consumir servicio para cambiar clave
+
+
+        return msj;
+    }
+
+    //este metodo es para validar que la clave contenga numeros, letras minus y mayus
+    public boolean revisarMayMinNum(String password) {
+        String msj = "";
+
+        char clave;
+
+        byte contNumero = 0;
+        byte contLetraMay = 0;
+        byte contLetraMin = 0;
+
+        for (byte i = 0; i < password.length(); i++) {
+
+            clave = password.charAt(i);
+
+            String passValue = String.valueOf(clave);
+
+            if (passValue.matches("[A-Z]")) {
+
+                contLetraMay++;
+            } else if (passValue.matches("[a-z]")) {
+
+                contLetraMin++;
+            } else if (passValue.matches("[0-9]")) {
+
+                contNumero++;
+            }
+        }
+        if (contLetraMay > 0 && contNumero > 2 && contLetraMin > 0) {
+            return true;
+        }
+
+
+        return false;
+    }
+
     public void actualizarClave(View view) {
-        CambiarClaveDialogo cambiarClaveDialogo = new CambiarClaveDialogo();
-        cambiarClaveDialogo.show(getSupportFragmentManager(), "Actualización de la clave.main");
+
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).commit();
+       /* CambiarClaveDialogo cambiarClaveDialogo = new CambiarClaveDialogo();
+        cambiarClaveDialogo.show(getSupportFragmentManager(), "Actualización de la clave.main");*/
     }
 
     public void opcionesBusqueda() {
@@ -361,7 +461,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void siguienteEtapas(View v) {
-        new  TaskListarValidaciones().execute();
+        new TaskListarValidaciones().execute();
 
         TextView marca_ter_validaciones = (TextView) findViewById(R.id.marca_ter_validaciones);
         TextView modelo_ter_validaciones = (TextView) findViewById(R.id.modelo_ter_validaciones);
@@ -401,7 +501,6 @@ public class MainActivity extends AppCompatActivity
         //llama el servicio de validaciones
 
 
-
     }
     //METODOS PARA MOSTRAR EL CALENDARIO
 
@@ -426,20 +525,20 @@ public class MainActivity extends AppCompatActivity
 
 
     /**
-     * **/
+     *
+     **/
     public void llenarRVEtapas(List<Observacion> observaciones) {
-
 
 
         Vector<Observacion> obs = new Vector<>();
 
-        for (Observacion o: observaciones) {
-            if(o!=null){
+        for (Observacion o : observaciones) {
+            if (o != null) {
                 obs.add(o);
             }
 
         }
-        if(obs.size()==0){
+        if (obs.size() == 0) {
             Toast.makeText(MainActivity.this, "Aún no tiene observaciones", Toast.LENGTH_SHORT).show();
         }
 
@@ -460,8 +559,8 @@ public class MainActivity extends AppCompatActivity
 
         Vector<Validacion> vals = new Vector<>();
 
-        for (Validacion v: validacions) {
-            if(v!=null){
+        for (Validacion v : validacions) {
+            if (v != null) {
                 vals.add(v);
             }
 
@@ -501,10 +600,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(List<Terminal> terminal, int position) {
 
-                    /********************
-                    *  cuando de clic en el panel de la terminal que desea ver los detalles, captura la posicion del panel donde dio clic
-                     *  y consume el servicio de listarObservacionesTeerminal
-                     *  **************/
+                /********************
+                 *  cuando de clic en el panel de la terminal que desea ver los detalles, captura la posicion del panel donde dio clic
+                 *  y consume el servicio de listarObservacionesTeerminal
+                 *  **************/
 
                 serialObtenido = terminal.get(position).getTerm_serial();
                 Global.modelo = terminal.get(position).getTerm_model();
@@ -705,7 +804,7 @@ public class MainActivity extends AppCompatActivity
 
                     if (Global.OBSERVACIONES == null) {
                         System.out.println("********************************LA TERMINAL NO TIENE OBERVACIONES ");
-                        Toast.makeText(MainActivity.this,  Global.serial_ter+" No tiene observaciones", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, Global.serial_ter + " No tiene observaciones", Toast.LENGTH_SHORT).show();
 
                     } else {
                         objeto.llenarRVEtapas(Global.OBSERVACIONES);
