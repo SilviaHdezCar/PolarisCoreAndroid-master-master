@@ -463,6 +463,8 @@ public class MainActivity extends AppCompatActivity
 
     public void siguienteEtapas(View v) {
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
+
+        Global.WEB_SERVICE="/PolarisCore/Terminals/validatorTerminal";
         new TaskListarValidaciones().execute();
 
     }
@@ -474,6 +476,8 @@ public class MainActivity extends AppCompatActivity
 
     public void siguienteValidaciones(View view) {
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new TipificacionesFragment()).commit();
+
+        Global.WEB_SERVICE="/PolarisCore/Terminals/tipesValidatorTerminal";
         new TaskListarTipificaciones().execute();
     }
 
@@ -859,10 +863,10 @@ public class MainActivity extends AppCompatActivity
             Messages.packMsgListarValidaciones();
 
             trans = TCP.transaction(Global.outputLen);
-
+            System.out.println("-----------RESULTADO TRANS = "+trans);
             // Verifica la transacción
             if (trans == Global.TRANSACTION_OK) {
-                System.out.println("-------------EMPAQUETADO CORRECTO********************************************************");
+                System.out.println("-------------trans == Global.TRANSACTION_OK*******************************************************");
                 return true;
             } else
                 return false;

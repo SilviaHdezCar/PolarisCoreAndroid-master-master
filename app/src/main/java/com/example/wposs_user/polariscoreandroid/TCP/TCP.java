@@ -113,6 +113,7 @@ public class TCP {
 
        String [] data = aux.split("\n");
        statusLine = data[0];
+        Log.i("----STATUS:--", "boolean valida_http() ");
 
        if(!validaErrorHttp(statusLine)){
         return false;
@@ -132,8 +133,12 @@ public class TCP {
         String ok_status = "200";
         String []aux = status.split(" ");
 
+        Log.i("----STATUS:--", "mETODO private static boolean validaErrorHttp: "+aux[1]);
         if(!aux[1].equals(ok_status)){
-            Global.mensaje="ERROR \n Problemas de HTTP";                       // Caja cerrada
+            Global.mensaje="ERROR \n Problemas de HTTP";
+
+            Log.i("ValidarError", ""+Global.mensaje);
+            // Caja cerrada
             return false;
         }
       return true;

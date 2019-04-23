@@ -26,7 +26,7 @@ public class AdapterValidaciones extends RecyclerView.Adapter<AdapterValidacione
 
     @Override
     public ViewHolderValidaciones onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_validaciones_terminales_asociadas, null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.panel_validaciones, null);
 
         return new ViewHolderValidaciones(v);
     }
@@ -34,7 +34,7 @@ public class AdapterValidaciones extends RecyclerView.Adapter<AdapterValidacione
     @Override
     public void onBindViewHolder(ViewHolderValidaciones holder, int i) {
        Validacion ob = this.listValidaciones.elementAt(i);
-        holder.txt_validaciones.setText(ob.getTevs_terminal_validation());
+        holder.txt_validaciones.setText(ob.getTeva_description());
 
     }
 

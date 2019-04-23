@@ -135,7 +135,9 @@ public class Messages {
      * **************************************************************************************/
     public static void packMsgListarValidaciones() {
         // no lleva body
+        Global.httpDataBuffer = "";
         packHttpHeaderLogueadoValidaciones();
+
 
         Global.outputData = (Global.httpHeaderBuffer).getBytes();
 
@@ -447,6 +449,7 @@ public class Messages {
 //cabecera
         int tam;
         Global.httpHeaderBuffer = "";
+
         Global.httpHeaderBuffer = "POST " + Global.WEB_SERVICE + " HTTP/1.1";
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + "Authenticator: " + Global.TOKEN;
@@ -458,6 +461,8 @@ public class Messages {
        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER3;
        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.httpDataBuffer.length();
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
 
     }
 
