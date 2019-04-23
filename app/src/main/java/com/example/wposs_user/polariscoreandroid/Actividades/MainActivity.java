@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -98,6 +99,9 @@ public class MainActivity extends AppCompatActivity
     FragmentManager fragmentManager;
 
     public static MainActivity objeto;
+
+    private LinearLayout layout_terminal_etapas;
+    private TextView serial_ter_seleccionada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -470,7 +474,7 @@ public class MainActivity extends AppCompatActivity
 
     public void siguienteValidaciones(View view) {
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new TipificacionesFragment()).commit();
-
+        new TaskListarTipificaciones().execute();
     }
 
 
@@ -497,8 +501,7 @@ public class MainActivity extends AppCompatActivity
      **/
     public void llenarRVEtapas(List<Observacion> observaciones) {
 
-
-        Vector<Observacion> obs = new Vector<>();
+       /* Vector<Observacion> obs = new Vector<>();
 
         for (Observacion o : observaciones) {
             if (o != null) {
@@ -510,11 +513,11 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(MainActivity.this, "Aún no tiene observaciones", Toast.LENGTH_SHORT).show();
         }
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_etapas);
-        recyclerView.setAdapter(new AdapterEtapas(objeto, obs));//le pasa los datos-> lista de usuarios
+      //  recyclerView = (RecyclerView) findViewById(R.id.recycler_view_etapas);
+        recyclerView.setAdapter(new AdapterEtapas(MainActivity.this, obs));//le pasa los datos-> lista de usuarios
 
         layoutManager = new LinearLayoutManager(this);// en forma de lista
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);*/
 
 
     }
@@ -592,11 +595,12 @@ public class MainActivity extends AppCompatActivity
     public void verTerminalesAsociadas(View v) {
         btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
         btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
-
+        layout_terminal_etapas=(LinearLayout)findViewById(R.id.layout_terminal_etapas);
 
         btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.azul_nav_bar_transparencia));//azul_nav_bar_transparencia
 
         btn_asociadas.setBackgroundColor(getResources().getColor(R.color.azul_claro_nav_bar));
+
 
        verTerminalesAsociadas();
     }
@@ -778,14 +782,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentManager.beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
 
 
-                  /*  if (Global.OBSERVACIONES == null) {
-                        System.out.println("********************************LA TERMINAL NO TIENE OBERVACIONES ");
-                        serial_ter_seleccionada.setText(Global.serial_ter + " No tiene observaciones");
-                        Toast.makeText(MainActivity.this, Global.serial_ter + " No tiene observaciones", Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        objeto.llenarRVEtapas(Global.OBSERVACIONES);
-                    }*/
+                 //   objeto.llenarRVEtapas(Global.OBSERVACIONES);
 
                 } else {
                     // Si el login no es OK, manda mensaje de error
@@ -934,6 +931,104 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    /*************************************************************************************
+     * CLASE QUE CONSUME EL SERVICIO PARA LISTAR LAS VALIDACIONES
+     *
+     ***************************************************** **/
+
+//******************consumir servicio listar observaciones
+    class TaskListarTipificaciones extends AsyncTask<String, Void, Boolean> {
+        ProgressDialog progressDialog;
+        int trans = 0;
+
+
+        /*******************************************************************************
+         Método       : onPreExecute
+         Description  : Se ejecuta antes de realizar el proceso, muestra una ventana con uin msj de espera
+         *******************************************************************************/
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(objeto, R.style.MyAlertDialogStyle);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage("Buscando tipificaciones del diagnóstico...");
+            progressDialog.show();
+        }
+
+
+        /*******************************************************************************
+         Método       : doInBackground
+         Description  : Se ejecuta para realizar la transacción y verificar conexión
+         *******************************************************************************/
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            Messages.packMsgListarTipificaciones();
+
+            trans = TCP.transaction(Global.outputLen);
+
+            // Verifica la transacción
+            if (trans == Global.TRANSACTION_OK)
+                return true;
+            else
+                return false;
+        }
+
+        /*******************************************************************************
+         Método       : onPostExecute
+         Description  : Se ejecuta después de realizar el doInBackground
+         *******************************************************************************/
+        @Override
+        protected void onPostExecute(Boolean value) {
+
+            progressDialog.dismiss();
+
+            if(value) {
+                System.out.println("*******************************SI SE PUDO CONECTAR LISTAR TIPIFICACIONES****************************");
+                if (Messages.unPackMsgListarTipificaciones(objeto)) {
+                    Global.enSesion = true;
+                    Global.StatusExit = true;
+
+                    //UN METODO QUE LLENE LA UINFORMACION DE LAS TIPIFICQAIONES
+                } else {
+                    // Si el login no es OK, manda mensaje de error
+                    try {
+                        Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                // Si es falso, cierra el socket y vuelve a crearlo, si es verdadero el socket continua abierto
+                TCP.disconnect();
+
+            } else {
+                switch (Utils.validateErrorsConexion(false, trans, objeto)) {
+
+                    case 0:                                                                         // En caso de que continue = true y error data
+                        break;
+
+                    case 1:                                                                         // En caso de que continue = false y error data
+                        break;
+
+                    default:                                                                        // Errores de conexion
+                        Global.MsgError = Global.MSG_ERR_CONEXION;
+                        Global.mensaje = Global.MsgError;
+                        Global.StatusExit = false;
+                        // Muestra la ventana de error
+                        Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_LONG).show();
+                        break;
+                }
+
+                Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_LONG).show();
+            }
+            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR TIPIFICAICONES") ;
+        }
+
+
+    }
+
+
     //*************AUTORIZADAS
     public void verTerminalesAutorizadas(View v) {
         btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
@@ -959,19 +1054,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    //METODOS LISTA LAS TERMINALES QUE TIENEN DIAGNOSTICO*************************ESTE METODO SE DEBE ELIMINAR, PORQUE ESTA LISTAROBSERVACONES
-    public void verDetalles(View view) {
-        TextView cod = (TextView) findViewById(R.id.serial_ter_asociada);
-        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
-        Toast.makeText(this, "seleccionó: " + cod.getText().toString(), Toast.LENGTH_LONG).show();
-
-    }
-
-
-    //*****CARGAR TERMINALES A STOCK
-
-
-    private Button btn_mostrarTerminales;
 
 
     public void cargarTerminal_stock(View view) {
@@ -1054,13 +1136,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    //cuando de onclick en ver detalles de la terminal, muestra la lista de observaciones
-
-    public void listasObservaciones() {
-        Global.WEB_SERVICE = "/PolarisCore/Terminals/observations";
-        //Messages.packMsgListaAsociadas();
-
-    }
 }
 
 
