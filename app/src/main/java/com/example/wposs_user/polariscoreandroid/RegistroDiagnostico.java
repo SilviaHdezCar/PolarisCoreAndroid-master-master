@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -24,14 +25,17 @@ import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 
 
 public class RegistroDiagnostico extends AppCompatActivity {
-   AutoCompleteTextView  et_repuesto;
+  Spinner  et_repuesto;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro_diagnostico);
-        et_repuesto= (AutoCompleteTextView)findViewById(R.id.et_repuesto);
-        this.listarRepuestos();
+         setContentView(R.layout.activity_registro_diagnostico);
+          this.listarRepuestos();
+        et_repuesto= (Spinner) findViewById(R.id.et_repuesto);
+
+
     }
 
     //******************consumir servicio listar Repuestos
@@ -39,10 +43,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
     public void listarRepuestos() {
         Global.WEB_SERVICE = "/PolarisCore/Terminals/spares ";
         new TaskListarRepuestos().execute();
-        this.llenarSpinerRepuestos();
-
-
-    }
+        }
 
 
     /*************************************************************************************
@@ -102,8 +103,11 @@ public class RegistroDiagnostico extends AppCompatActivity {
                 if (Messages.unPackMsgListaRepuestos(RegistroDiagnostico.this)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
+                     llenarSpiner();
 
-                    //muestra el panel con la lista de observaciones, es decir que llena el recycler view de observaciones
+
+
+                    //muestra el panel con la lista de Repuestos, es decir que llena el autocomplete
 
 //OJOOOOOO LLENAR EL RECYCLER VIEW DE  OBSERVACIONES?
                 } else {
@@ -145,63 +149,18 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
     }
 
-    /*public void llenarSpinerRepuestos(){
-
-        final AutoCompleteTextView et_repuesto = (AutoCompleteTextView) findViewById(R.id.et_repuesto);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-
-
-                    for (int i = 0; i < Global.REPUESTOS.size(); i++) {
-
-                adapter.add(Global.REPUESTOS.get(i).getSpar_code() + "" + Global.REPUESTOS.get(i).getSpar_name());
-
-            }
-            et_repuesto.setAdapter(adapter);
-            et_repuesto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    InputMethodManager in = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
-                }
-            });
-            et_repuesto.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                    if (i == EditorInfo.IME_ACTION_DONE) {
-                        InputMethodManager in = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                        in.hideSoftInputFromWindow(textView.getApplicationWindowToken(), 0);
-                        return true;
-                    }
-                    return false;
-                }
-            });
-
-
-    }*/
 
 
 
 
-   public void registrarDiagnostico() {
+   public void registrarDiagnostico(View v) {
         Global.WEB_SERVICE = "/PolarisCore/Terminals/saveDiagnosis ";
         new TaskListarRepuestos().execute();
-        this.llenarSpinerRepuestos();
-
-    }
-
-    private void llenarSpinerRepuestos() {
-
-       String[] reps = this.convertirRepuestos();
-       System.out.print("NUMERO DE DATOS EN VECTOR STRING"+ reps.length);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, reps);
-        et_repuesto.setAdapter(adapter);
-
-
-
 
 
     }
+
+
 
 
     /*************************************************************************************
@@ -306,17 +265,30 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
     public String[] convertirRepuestos(){
 
-        String repuestos[] = new String[Global.REPUESTOS.size()];
+        String[] rep  = new String[Global.REPUESTOS.size()];
+
 
         for(int i =0;i<Global.REPUESTOS.size();i++){
 
-            repuestos[i]= Global.REPUESTOS.get(i).getSpar_code()+"   "+Global.REPUESTOS.get(i).getSpar_name();
+            rep[i]= Global.REPUESTOS.get(i).getSpar_code()+"  "+Global.REPUESTOS.get(i).getSpar_name();
+
+        }
+        return rep;
 
         }
 
-        return repuestos;
 
-   }
+        public void llenarSpiner(){
+            et_repuesto= (Spinner) findViewById(R.id.et_repuesto);
+            String [] rep = this.convertirRepuestos();
+             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_sytle,rep);
+            et_repuesto.setAdapter(adapter);
+           Log.i("ADAPTADOR SIZE ", "" + adapter.getItem(0));
+
+
+        }
+
+
 
 
 }

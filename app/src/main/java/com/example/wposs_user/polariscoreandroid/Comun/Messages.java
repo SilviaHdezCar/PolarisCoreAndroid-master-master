@@ -10,6 +10,7 @@ import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -314,26 +315,23 @@ public class Messages {
 
         tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
 
-
-        int tramaNecesitada = tramaCompleta.indexOf("}");
-
-        String trama = tramaCompleta.substring(0, tramaNecesitada + 1);//ESTA ES LA TRAMA QUE ENVIA EL SERVIDOR, ES LA QUE SE VA A DESEMPAQUETAR
-
-
-        String[] lineastrama = trama.split(",");
-        Gson gson = new GsonBuilder().create();
+         Gson gson = new GsonBuilder().create();
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(tramaCompleta);
-/*
-            if(jsonObject.get("message").toString()!=null){
+
+            if(jsonObject.get("status").toString().equals("fail")){
+                Global.STATUS_SERVICE= jsonObject.getString("status");
                 System.out.println("--------------ENTRÓ AL MSJ DE ERROR");
-                Global.mensaje=lineastrama[0].substring(12, tramaNecesitada-1);
-                Log.i("mensaje de error", ""+jsonObject.get("message").toString());
-                return false;
+                 return false;
+
             }
-*/
+
             System.out.println("*********Obtiene el arreglo de repuestos");
+
+            Object data = jsonObject.get("data");
+            jsonObject = new JSONObject(data.toString());
+
             JSONArray jsonArray = jsonObject.getJSONArray("repuestos");
 
             Global.REPUESTOS = new ArrayList<Repuesto>();
@@ -346,7 +344,7 @@ public class Messages {
                 String obs = jsonArray.getString(i);
 
                 r = gson.fromJson(obs, Repuesto.class);
-                System.out.println("***********Va a agg terminal a la List<Repuestos>*************Repuesto(" + i + "): " + r.toString());
+                System.out.println("***********Va a agg Repuesto a la List<Repuestos>*************Repuesto(" + i + "): " + r.toString());
                 Global.REPUESTOS.add(r);
 
             }

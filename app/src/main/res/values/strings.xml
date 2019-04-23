@@ -10,7 +10,7 @@
     <string name="correo">Correo de usuario</string>
     <string name="clave">Contraseña</string>
     <string name="action_settings">Settings</string>
-    <string name="preg">Por favor digite su nueva contraseña, recuerde que esta debe contener como minimo una mayúscula,una minúscula, 3 números y tener mínimo de una longitud de 8 </string>
+    <string name="preg">Para iniciar se recomienda cambiar su contraseña por una mas segura, recuerde que esta debe contener una mayuscula una minuscula y 3 numeros y tener una longitud de 8 o mas </string>
     <string name="LoginHuella">Iniciar sesión mediante huella digital</string>
     <string name="Cambiar_pass">ACTUALIZAR CONTRASEÑA</string>
     <string name="rta">RESPUESTA</string>
@@ -22,6 +22,7 @@
     <string name="Respuesta1">Respuesta 1</string>
     <string name="Respuesta2">Respuesta 2</string>
     <string name="Respuesta3">Respuesta 3</string>
+    <string name="titulo_spiner">Seleccione un repuesto</string>
 
 
     <string-array name="preguntas">

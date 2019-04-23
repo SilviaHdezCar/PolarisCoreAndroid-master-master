@@ -5,7 +5,7 @@
    <solid android:endColor="#802196F5"/>
 
     <stroke
-        android:width="5px"
+        android:width="0.1px"
         android:endColor="#ffffff" />
 
     <!-- android:shape="rectangle">

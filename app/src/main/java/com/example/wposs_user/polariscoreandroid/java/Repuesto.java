@@ -102,5 +102,9 @@ public class Repuesto {
         this.spar_warehouse = spar_warehouse;
     }
 
-
+    @Override
+    public String toString() {
+        return
+                "Codigo=" + spar_code +  ", Nombre=" + spar_name + ", Cantidad= " + spar_quantity ;
+    }
 }
