@@ -22,6 +22,7 @@
     <string name="Respuesta1">Respuesta 1</string>
     <string name="Respuesta2">Respuesta 2</string>
     <string name="Respuesta3">Respuesta 3</string>
+    <string name="titulo_spiner">Seleccione un repuesto</string>
 
 
     <string-array name="preguntas">

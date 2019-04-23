@@ -25,14 +25,15 @@ import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 
 
 public class RegistroDiagnostico extends AppCompatActivity {
-   AutoCompleteTextView  et_repuesto;
+  Spinner  et_repuesto;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
          setContentView(R.layout.activity_registro_diagnostico);
-         this.listarRepuestos();
+          this.listarRepuestos();
+        et_repuesto= (Spinner) findViewById(R.id.et_repuesto);
 
 
     }
@@ -148,39 +149,6 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
     }
 
-    /*public void llenarSpinerRepuestos(){
-
-        final AutoCompleteTextView et_repuesto = (AutoCompleteTextView) findViewById(R.id.et_repuesto);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-
-
-                    for (int i = 0; i < Global.REPUESTOS.size(); i++) {
-
-                adapter.add(Global.REPUESTOS.get(i).getSpar_code() + "" + Global.REPUESTOS.get(i).getSpar_name());
-
-            }
-            et_repuesto.setAdapter(adapter);
-            et_repuesto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    InputMethodManager in = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
-                }
-            });
-            et_repuesto.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                    if (i == EditorInfo.IME_ACTION_DONE) {
-                        InputMethodManager in = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                        in.hideSoftInputFromWindow(textView.getApplicationWindowToken(), 0);
-                        return true;
-                    }
-                    return false;
-                }
-            });
-
-
-    }*/
 
 
 
@@ -299,9 +267,10 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
         String[] rep  = new String[Global.REPUESTOS.size()];
 
+
         for(int i =0;i<Global.REPUESTOS.size();i++){
 
-            rep[i]= Global.REPUESTOS.get(i).toString();
+            rep[i]= Global.REPUESTOS.get(i).getSpar_code()+"  "+Global.REPUESTOS.get(i).getSpar_name();
 
         }
         return rep;
@@ -310,12 +279,11 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
 
         public void llenarSpiner(){
-            et_repuesto= (AutoCompleteTextView)findViewById(R.id.et_repuesto);
+            et_repuesto= (Spinner) findViewById(R.id.et_repuesto);
             String [] rep = this.convertirRepuestos();
-            Log.i("TAMAÑO DEL VECTOR:    ", "" + rep.length);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,rep);
+             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_sytle,rep);
             et_repuesto.setAdapter(adapter);
-            et_repuesto.setThreshold(2);
+           Log.i("ADAPTADOR SIZE ", "" + adapter.getItem(0));
 
 
         }
