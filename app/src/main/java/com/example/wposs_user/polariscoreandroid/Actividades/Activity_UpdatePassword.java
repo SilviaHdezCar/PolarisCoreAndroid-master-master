@@ -99,9 +99,6 @@ public class Activity_UpdatePassword extends AppCompatActivity {
                 startActivity(i);
                 finish();
 
-
-
-
             }
 
                 Toast mensaje5 = Toast.makeText(this, msj = "La contraseña no cumple las condiciones minimas, debe contener una mayúscula,una minúscula 3 numeros, y longitud de 8", Toast.LENGTH_LONG);
@@ -150,51 +147,10 @@ public class Activity_UpdatePassword extends AppCompatActivity {
     }
 
 
-    public void validaRta(View v) {
-
-        /*rta1= resp1.getText().toString();
-        rta2= resp2.getText().toString();
-        rta3= resp3.getText().toString();
-
-        int respu1 = rta1.length();
-        int respu2= rta2.length();
-        int respu3=rta3.length();
-
-
-        System.out.println(rta1);
-        System.out.println(rta1);
-        System.out.println(rta1);
-
-
-        if(rta1.isEmpty()||rta2.isEmpty()||rta3.isEmpty()){
-            Toast mensaje3 = Toast.makeText(this, msj= "Falta una o mas preguntas por responder", Toast.LENGTH_SHORT);
-            mensaje3.show();
-            limpiarRta();
-            return;
-        }
-        else   if(respu1<5||respu2<5||respu3<5){
-            Toast mensaje3 = Toast.makeText(this, msj= "Las respuestas deben tener una longitud de minimo 5", Toast.LENGTH_LONG);
-            mensaje3.show();
-            limpiarRta();
-            return;
-        }
-
-
-        else
-        if(respu1>5&& respu2>5&&respu3>5) {
-            clave1.setVisibility(View.VISIBLE);
-            clave2.setVisibility(View.VISIBLE);
-            cambioClave.setVisibility(View.VISIBLE);
-            Toast mensaje5 = Toast.makeText(this, msj = "Las preguntas se han validado satisfactoriamente", Toast.LENGTH_LONG);
-            mensaje5.show();
 
 
 
 
-        }*/
-
-
-    }
 
 
     class TaskUpdatePassword extends AsyncTask<String, Void, Boolean> {
@@ -215,7 +171,7 @@ public class Activity_UpdatePassword extends AppCompatActivity {
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setCancelable(false);
             progressDialog.setMessage("conectando...");
-             }
+        }
 
 
         /*******************************************************************************
@@ -234,54 +190,8 @@ public class Activity_UpdatePassword extends AppCompatActivity {
                 return false;
         }
 
-        /*******************************************************************************
-         Método       : onPostExecute
-         Description  : Se ejecuta después de realizar el doInBackground
-         *******************************************************************************/
-
-       /* protected void onPostExecute(Boolean value) {
-
-            progressDialog.dismiss();
-
-            if (value) {
-                System.out.println("*********************************************************************SI SE PUDO CONECTAR****************************");
-                {
-
-                    Global.enSesion = true;
-                    Global.StatusExit = true;
-
-                    Utils.GoToNextActivity(Activity_UpdatePassword.this, MainActivity.class, Global.StatusExit);
-
-
-                    switch (Utils.validateErrorsConexion(false, trans, Activity_UpdatePassword.this)) {
-
-                        case 0:                                                                         // En caso de que continue = true y error data
-                            break;
-
-                        case 1:                                                                         // En caso de que continue = false y error data
-                            break;
-
-                        default:                                                                        // Errores de conexion
-                            Global.MsgError = Global.MSG_ERR_CONEXION;
-                            Global.mensaje = Global.MsgError;
-                            Global.StatusExit = false;
-                            // Muestra la ventana de error
-                            Toast.makeText(Activity_UpdatePassword.this, Global.mensaje, Toast.LENGTH_LONG).show();
-                            break;
-                    }
-
-
-                }
-            }
-
-
-
-        }
-    }*/
-
 
     }
-
 
 
 
