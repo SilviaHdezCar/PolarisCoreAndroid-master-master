@@ -23,24 +23,31 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"/>
 
-            <RadioButton
-                android:id="@+id/bton_ok"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/r_btn_validaciones"
+                android:orientation="horizontal">
 
-                android:layout_marginLeft="30dp" />
+                <RadioButton
+                    android:id="@+id/bton_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-            <RadioButton
-                android:id="@+id/bton_falla"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp" />
+                    android:layout_marginLeft="30dp" />
 
-            <RadioButton
-                android:id="@+id/bton_Naplica"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp" />
+                <RadioButton
+                    android:id="@+id/bton_falla"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp" />
+
+                <RadioButton
+                    android:id="@+id/bton_Naplica"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp" />
+            </RadioGroup>
 
         </LinearLayout>
 
