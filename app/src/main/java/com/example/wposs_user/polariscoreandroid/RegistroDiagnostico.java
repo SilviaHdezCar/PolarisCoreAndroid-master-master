@@ -1,6 +1,3 @@
-
-
-
 package com.example.wposs_user.polariscoreandroid;
 
 import android.app.ProgressDialog;
@@ -28,16 +25,15 @@ import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 
 
 public class RegistroDiagnostico extends AppCompatActivity {
-    AutoCompleteTextView aut;
+  Spinner  et_repuesto;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro_diagnostico);
-        this.listarRepuestos();
-        aut=(AutoCompleteTextView)findViewById(R.id.auto_repuesto);
-
+         setContentView(R.layout.activity_registro_diagnostico);
+          this.listarRepuestos();
+        et_repuesto= (Spinner) findViewById(R.id.et_repuesto);
 
 
     }
@@ -47,7 +43,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
     public void listarRepuestos() {
         Global.WEB_SERVICE = "/PolarisCore/Terminals/spares ";
         new TaskListarRepuestos().execute();
-    }
+        }
 
 
     /*************************************************************************************
@@ -107,7 +103,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
                 if (Messages.unPackMsgListaRepuestos(RegistroDiagnostico.this)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
-                    llenarAutocomplete();
+                     llenarSpiner();
 
 
 
@@ -157,7 +153,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
 
 
-    public void registrarDiagnostico(View v) {
+   public void registrarDiagnostico(View v) {
         Global.WEB_SERVICE = "/PolarisCore/Terminals/saveDiagnosis ";
         new TaskListarRepuestos().execute();
 
@@ -279,22 +275,18 @@ public class RegistroDiagnostico extends AppCompatActivity {
         }
         return rep;
 
-    }
+        }
 
 
-    public void llenarAutocomplete(){
-
-        aut=(AutoCompleteTextView)findViewById(R.id.auto_repuesto);
-        String [] rep = this.convertirRepuestos();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_sytle,rep);
-        aut.setAdapter(adapter);
-        aut.setThreshold(2);
-
-
-        Log.i("ADAPTADOR SIZE ", "" + adapter.getItem(0));
+        public void llenarSpiner(){
+            et_repuesto= (Spinner) findViewById(R.id.et_repuesto);
+            String [] rep = this.convertirRepuestos();
+             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_sytle,rep);
+            et_repuesto.setAdapter(adapter);
+           Log.i("ADAPTADOR SIZE ", "" + adapter.getItem(0));
 
 
-    }
+        }
 
 
 
