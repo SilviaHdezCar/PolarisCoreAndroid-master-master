@@ -13,7 +13,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 
 
-public class ValidacionesTerminalesAsociadas extends Fragment {
+public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE DEBE LLENAR EL RCV
     TextView marca_ter_validaciones;
     TextView modelo_ter_validaciones;
     TextView serial_ter_validaciones;

@@ -76,11 +76,15 @@ public class TCP {
         }
 
         if (Global.inputLen > 0) {
-            Global.inputData=Utils.replaceSpecialChars(Global.inputData, Global.inputData.length);
+            //Global.inputData=Utils.replaceSpecialChars(Global.inputData, Global.inputData.length);
+            byte[]  data=  Utils.replaceSpecialChars(Global.inputData, Global.inputLen);
+            System.arraycopy(data, 0, Global.inputData, 0, data.length);
 
-            System.out.println("--------------------------------------------------------------------");
+            Global.inputLen = data.length;
+
+                    System.out.println("--------------------------------------------------------------------");
             System.out.println("Recibido: ");
-            Utils.dumpMemory(Global.inputData, Global.inputLen);
+           Utils.dumpMemory(Global.inputData, Global.inputLen);
             System.out.println("--------------------------------------------------------------------");
 
 
@@ -109,11 +113,11 @@ public class TCP {
 
         String statusLine = "";
         String aux = uninterpret_ASCII(Global.inputData, 0, Global.inputData.length);
-        Log.d("VALIDA INPUT", "VALIDANDO--"+aux);
+        //Log.d("VALIDA INPUT", "VALIDANDO--"+aux);
 
        String [] data = aux.split("\n");
        statusLine = data[0];
-        Log.i("----STATUS:--", "boolean valida_http() ");
+        //Log.i("----STATUS:--", "boolean valida_http() ");
 
        if(!validaErrorHttp(statusLine)){
         return false;
@@ -121,8 +125,8 @@ public class TCP {
 
        Global.httpDataBuffer = data[data.length-1];
 
-        Log.d("VALIDA INPUT", "VALIDANDO HEADER--"+data[0]);
-        Log.d("VALIDA INPUT", "VALIDANDO DATA--"+data[data.length-1]);
+        //Log.d("VALIDA INPUT", "VALIDANDO HEADER--"+data[0]);
+        //Log.d("VALIDA INPUT", "VALIDANDO DATA--"+data[data.length-1]);
         return true;
     }
 

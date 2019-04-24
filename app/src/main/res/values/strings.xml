@@ -66,6 +66,14 @@
         <item>Diagnostico</item>
         <item>Reparadas</item>
     </string-array>
+
+    <!--ENCABEZADO TABLA TIPIFICACIONES-->
+    <string-array name="tabla_tipificaciones">
+        <item>Id fila</item>
+        <item>Nombre</item>
+        <item>Eliminar</item>
+    </string-array>
+
     <string name="title_activity_tipificaciones_diagnostico">TipificacionesDiagnostico</string>
 
 </resources>

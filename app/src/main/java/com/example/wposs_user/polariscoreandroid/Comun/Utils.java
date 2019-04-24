@@ -896,6 +896,10 @@ public class Utils {
         byte[] UTF8_u = new byte[]{ (byte) 0xC3, (byte) 0xBA};
         byte[] UTF8_int= new byte[]{ (byte) 0xC2, (byte) 0xBF};
         byte[] UTF8_adm= new byte[]{ (byte) 0xC2, (byte) 0xA1};
+        byte[] UTF8_nn= new byte[]{ (byte) 0xC3, (byte) 0x83, (byte) 0xC2, (byte) 0xB1};
+
+
+        cnt = replace_all_bytes_secuences(data, UTF8_nn, "n".getBytes(), cnt, 4, 1);
 
         cnt = replace_all_bytes_secuences(data, UTF8_n, "n".getBytes(), cnt, 2, 1);
         cnt = replace_all_bytes_secuences(data, UTF8_N, "N".getBytes(), cnt, 2, 1);

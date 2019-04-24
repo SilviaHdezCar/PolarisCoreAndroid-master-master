@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -56,6 +57,7 @@ import com.example.wposs_user.polariscoreandroid.java.Etapas;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
+import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.example.wposs_user.polariscoreandroid.java.Usuario;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 
@@ -70,8 +72,8 @@ public class MainActivity extends AppCompatActivity
     private ViewPager viewPager;
     public RecyclerView recyclerView;
     public RecyclerView.LayoutManager layoutManager;
-    Vector<Repuesto> repuestos;
-    Vector<Etapas> etapas;
+    private Vector<Repuesto> repuestos;
+    private AutoCompleteTextView autocomplete_tipificaciones;
 
 
     private TextView claveActual;
@@ -114,9 +116,7 @@ public class MainActivity extends AppCompatActivity
         setTitle(null);
         setSupportActionBar(toolbar);
 
-        agregarTeminalesVector();
         agregarRepuestos();
-        // agregarEtapasVector();
         objeto = this;
         btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
         btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
@@ -176,11 +176,9 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.btn_aumentar:
-                Intent inte= new Intent(this, RegistroDiagnostico.class);
+                Intent inte = new Intent(this, RegistroDiagnostico.class);
                 startActivity(inte);
                 finish();
-
-
 
 
                 return true;
@@ -347,53 +345,9 @@ public class MainActivity extends AppCompatActivity
     //********************************************AGREGAR TERMINALES*********************************************************************************************
 
 
-    private void agregarTeminalesVector() {
-        this.terminales = new ArrayList<>();
-    /*    Terminal t1 = new Terminal("12AAE4D", "Gertec", "Newpos9220", "WIFI", "nuevo", null);
-        Terminal t2 = new Terminal("345", "Gertec", "Newpos6210", "LAN", "Diagnostico", null);
-        Terminal t3 = new Terminal("ASFAFAD", "Gertec", "Newpos7210", "DIAL", "Reparación", null);
-        Terminal t4 = new Terminal("123", "Gertec", "Newpos7210", "DIAL", "Reparación", null);
-        Terminal t5 = new Terminal("1425", "Gertec", "Newpos6210", "DIAL", "Autorizada", null);
-        t6 = new Terminal("678", "Gertec", "Newpos9220", "DIAL", "Asociada", null, null, 56, "Le está fallando algo");
-        t9 = new Terminal("147", "Newposs", "9220", "DIAL", "Asociada", null, null, -3, "Cuidado, Le está fallando algo");
-        t7 = new Terminal("342", "Gertec", "Newpos7220", "WIFI", "Asociada", null, null, 0, "Algo tiene mal");
-        Terminal t8 = new Terminal("912", "Gertec", "Newpos6210", "DIAL", "Autorizada", null);*/
-
-       /* Terminal t1 = new Terminal("123", "42365", "SUNMI", "T1MINI", "GPRS", "DIAGNOSTICO", "",
-                "", "", "", "", "", "365", "SHERNANDEZ4");
-
-        Terminal t2 = new Terminal("345", "7557", "SUNMI", "T1MINI", "GPRS", "DIAGNOSTICO", "",
-                "", "", "", "", "", "365", "SHERNANDEZ4");
-        Terminal t3 = new Terminal("678", "75175", "SUNMI", "T1MINI", "GPRS", "DIAGNOSTICO", "",
-                "", "", "", "", "", "365", "SHERNANDEZ4");
-
-        terminales.add(t1);
-        terminales.add(t2);
-        terminales.add(t3);*/
-        /*terminales.add(t4);
-        terminales.add(t5);
-        terminales.add(t6);
-        terminales.add(t7);
-        terminales.add(t8);*/
-    }
-
-    //***********************************AGREGAR  ETAPAS*************************************
-    private void agregarEtapasVector() {
-        Usuario us = new Usuario("Silvia", "Hernandez");
-
-        Vector<Etapas> et = new Vector<Etapas>();
-        Etapas e1 = new Etapas("en buen estado", null, new Usuario("Silvia", "Hernandez"));
-        Etapas e2 = new Etapas("en buen estado", null, new Usuario("Hender", "Guarin"));
-        Etapas e3 = new Etapas("en buen estado", null, new Usuario("Andres", "Gonzalez"));
-
-        etapas.add(e1);
-        etapas.add(e2);
-        etapas.add(e3);
-
-        System.err.println("******************estapas creadas");
 
 
-    }
+
 
     //********************************************AGREGAR REPUESTOS*********************************************************************************************
 
@@ -452,6 +406,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+
     /**********************************************************************************************************
      * METODOS ATRÁS DE LOS BOTONES     * siguienteEtapas
      * *******************************************************************************************************/
@@ -462,22 +417,29 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void siguienteEtapas(View v) {
+
+
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
 
-        Global.WEB_SERVICE="/PolarisCore/Terminals/validatorTerminal";
+        Global.WEB_SERVICE = "/PolarisCore/Terminals/validatorTerminal";
         new TaskListarValidaciones().execute();
 
     }
 
-    //botones de layout validaciones
+    /**********************************************************************************************************
+     * METODOS ATRÁS Y SIGUIENTE DE LOS BOTONES     VALIDACIONES
+     * *******************************************************************************************************/
     public void volverValidaciones(View view) {
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
     }
 
     public void siguienteValidaciones(View view) {
-        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new TipificacionesFragment()).commit();
 
-        Global.WEB_SERVICE="/PolarisCore/Terminals/tipesValidatorTerminal";
+        //Hacer un mtodo y llamrlo acá --> en el que agregue a un arreglo la lista de validaciones
+
+
+        Global.WEB_SERVICE = "/PolarisCore/Terminals/tipesValidatorTerminal";
+
         new TaskListarTipificaciones().execute();
     }
 
@@ -582,11 +544,10 @@ public class MainActivity extends AppCompatActivity
                 Global.modelo = terminal.get(position).getTerm_model();
 
 
-
                 System.out.println("-------*****-_-**********************************VA A LISTAR LAS ETAPAS DE LA TERMINAL SELECCIONADA");
 
                 listarObservacionesTerminal(serialObtenido);
-               // listarObservacionesTerminal("prueba");
+                // listarObservacionesTerminal("prueba");
             }
         }, R.layout.panel_terminal_asociada);
 
@@ -594,19 +555,46 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /********************************************************
+     * INICIO----->METODOS DEL FRAGMENT TIPIFICACIONES     *
+     *****************************************************************/
+
+
+
+    //boton atras de la calse TIPIFICACIONES
+    public void volverTipificaciones(View v) {
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
+        //LLENAR RCV CON EL ARREGLO GLOBAL DE VALIDACIONES
+    }
+
+    //boton SIGUIENTE de la calse TIPIFICACIONES
+    public void siguienteTipificaciones(View v) {
+
+
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
+
+        Global.WEB_SERVICE = "/PolarisCore/Terminals/validatorTerminal";
+        new TaskListarValidaciones().execute();
+
+    }
+
+    /********************************************************
+     * FIN----->METODOS DEL FRAGMENT TIPIFICACIONES     *
+     *****************************************************************/
+
 
     //Mostrar las terminales  asociadas al dar clic en el boton
     public void verTerminalesAsociadas(View v) {
         btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
         btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
-        layout_terminal_etapas=(LinearLayout)findViewById(R.id.layout_terminal_etapas);
+        layout_terminal_etapas = (LinearLayout) findViewById(R.id.layout_terminal_etapas);
 
         btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.azul_nav_bar_transparencia));//azul_nav_bar_transparencia
 
         btn_asociadas.setBackgroundColor(getResources().getColor(R.color.azul_claro_nav_bar));
 
 
-       verTerminalesAsociadas();
+        verTerminalesAsociadas();
     }
 
 
@@ -666,7 +654,6 @@ public class MainActivity extends AppCompatActivity
                     Global.StatusExit = true;
 
                     if (Global.TERMINALES_ASOCIADAS == null) {
-                        System.out.println("********************************NO TIENE TERMINALES ASOCIADAS");
                         Toast.makeText(objeto, Global.CODE + " No tiene terminales asociadas", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -786,7 +773,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentManager.beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
 
 
-                 //   objeto.llenarRVEtapas(Global.OBSERVACIONES);
+                    //   objeto.llenarRVEtapas(Global.OBSERVACIONES);
 
                 } else {
                     // Si el login no es OK, manda mensaje de error
@@ -863,7 +850,7 @@ public class MainActivity extends AppCompatActivity
             Messages.packMsgListarValidaciones();
 
             trans = TCP.transaction(Global.outputLen);
-            System.out.println("-----------RESULTADO TRANS = "+trans);
+            System.out.println("-----------RESULTADO TRANS = " + trans);
             // Verifica la transacción
             if (trans == Global.TRANSACTION_OK) {
                 System.out.println("-------------trans == Global.TRANSACTION_OK*******************************************************");
@@ -889,7 +876,6 @@ public class MainActivity extends AppCompatActivity
 
 
                     if (Global.VALIDACIONES == null) {
-                        System.out.println("********************************LA TERMINAL NO TIENE VALIDACIONES ");
                         Toast.makeText(objeto, Global.serial_ter + " No tiene validaciones", Toast.LENGTH_SHORT).show();
 
                     } else {
@@ -987,13 +973,13 @@ public class MainActivity extends AppCompatActivity
 
             progressDialog.dismiss();
 
-            if(value) {
+            if (value) {
                 System.out.println("*******************************SI SE PUDO CONECTAR LISTAR TIPIFICACIONES****************************");
                 if (Messages.unPackMsgListarTipificaciones(objeto)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
-
-                    //UN METODO QUE LLENE LA UINFORMACION DE LAS TIPIFICQAIONES
+                    fragmentManager.beginTransaction().replace(R.id.contenedor_main, new TipificacionesFragment()).commit();
+                    //inflar el fragmento de tipificaciones y cargar las tipificaciones en el autocomplete
                 } else {
                     // Si el login no es OK, manda mensaje de error
                     try {
@@ -1026,7 +1012,7 @@ public class MainActivity extends AppCompatActivity
 
                 Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_LONG).show();
             }
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR TIPIFICAICONES") ;
+            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR TIPIFICAICONES");
         }
 
 
@@ -1056,8 +1042,6 @@ public class MainActivity extends AppCompatActivity
         layoutManager = new LinearLayoutManager(this);// en forma de lista
         recyclerView.setLayoutManager(layoutManager);
     }
-
-
 
 
     public void cargarTerminal_stock(View view) {
@@ -1123,9 +1107,6 @@ public class MainActivity extends AppCompatActivity
         this.f_fin = f_fin;
     }
 
-    public Vector<Etapas> getEtapas() {
-        return etapas;
-    }
 
     public Terminal getT6() {
         return t6;

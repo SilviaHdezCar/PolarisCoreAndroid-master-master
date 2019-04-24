@@ -6,26 +6,128 @@
     android:background="@color/gris_fondo"
     tools:context=".Actividades.MainActivity">
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:layout_marginTop="50dp"
-       android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
 
-       <AutoCompleteTextView
-           android:layout_width="200dp"
-           android:layout_height="50dp"
-           android:id="@+id/autocomplete_tipificaciones"
-           android:background="@drawable/redondo_fondo_gris"
-           android:layout_gravity="center_horizontal"
-           android:layout_marginTop="20dp"
-           android:hint="Tipíficaciones"
-           android:inputType="text"
-           android:paddingLeft="5dp"
-           style="@style/letra_contenido"
+        <TextView
+            android:id="@+id/lbl_msj_tipificaciones"
+            style="@style/letra_contenido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:text="msj" />
 
-           />
+        <LinearLayout
+            android:id="@+id/layout_tipificaciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-   </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autocomplete_tipificaciones"
+                    style="@style/letra_contenido"
+                    android:layout_width="220dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/redondo_fondo_gris"
+                    android:hint="Tipíficaciones"
+                    android:inputType="text"
+                    android:paddingLeft="5dp" />
+
+                <Button
+                    android:id="@+id/btn_agregarTipificaciones"
+                    style="@style/letra_botones"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/redondo_azul"
+                    android:onClick="agregarTipificacion"
+                    android:text="Agregar"
+                    android:layout_gravity="center"
+                    android:textAllCaps="false" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/layoutTablaTipificaciones"
+            android:gravity="center">
+
+            <ScrollView
+                android:id="@+id/scrollverticalTipificaciones"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:layout_weight="1">
+
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/scrollhorizontalTipificaciones"
+                    android:scrollbars="horizontal"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TableLayout
+                            android:id="@+id/tablaTipificaciones"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                        </TableLayout>
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_volver_Tipificaciones"
+                style="@style/letra_negrita"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/redondo_fondo_gris"
+                android:onClick="volverTipificaciones"
+                android:text="Atrás"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_siguiente_Tipificaciones"
+                style="@style/letra_botones"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="150dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/redondo_azul"
+                android:onClick="siguienteTipificaciones"
+                android:text="Siguiente"
+                android:textAllCaps="false" />
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>

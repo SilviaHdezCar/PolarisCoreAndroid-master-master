@@ -47,6 +47,9 @@ public class Global {
 
 
 
+
+
+
     public static String STATUS_SERVICE;
 
 
@@ -90,6 +93,7 @@ public class Global {
 
     public static byte[]         outputData               = new byte[MAX_LEN_OUTPUTDATA];
     public static byte[]         inputData                = new byte[MAX_LEN_INPUTDATA];
+    //public static byte[]         inputData                = null;
 
 
     public static boolean enSesion=false;
@@ -105,10 +109,15 @@ public class Global {
     public static List<Terminal> TERMINALES_ASOCIADAS ;
     public static List<Observacion> OBSERVACIONES;
     public static List<Validacion> VALIDACIONES;
+    public static List<Validacion> VALIDACIONES_DIAGNOSTICO;
     public static List<Tipificacion> TIPIFICACIONES;
+    public static List<Tipificacion> TIPIFICACIONES_DIAGNOSTICO;
     public static ArrayList<Repuesto> REPUESTOS = new ArrayList<>();
 
 
     public static int lenS1;
     public static String claveNueva;
+
+
+    public static String descripcionTipificaion ="" ;
 }
