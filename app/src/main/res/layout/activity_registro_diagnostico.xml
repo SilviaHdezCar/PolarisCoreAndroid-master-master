@@ -14,21 +14,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/et_repuesto"
-            style="@style/Widget.AppCompat.Spinner"
-            android:layout_width="wrap_content"
+        <AutoCompleteTextView
+            android:id="@+id/auto_repuesto"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:prompt="@string/titulo_spiner"
-            android:spinnerMode="dialog"
-            android:textSize="12dp" />
+            android:layout_margin="10dp"
+            android:layout_marginTop="20dp"
+            android:hint="Digite el repuesto" />
 
         <EditText
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:hint="Cantidad"
             android:inputType="number"
@@ -104,6 +101,8 @@
         android:text="Finalizar"
         android:textAllCaps="false"
         android:textColor="@color/blanco" />
+
+
 
 
 </LinearLayout>
