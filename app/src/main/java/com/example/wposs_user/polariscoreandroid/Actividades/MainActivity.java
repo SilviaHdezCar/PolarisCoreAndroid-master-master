@@ -1,17 +1,13 @@
 package com.example.wposs_user.polariscoreandroid.Actividades;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -23,15 +19,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterEtapas;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuesto;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
@@ -45,10 +40,10 @@ import com.example.wposs_user.polariscoreandroid.Fragmentos.EtapasTerminal;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.InicialFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.PerfilFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ProductividadFragment;
+import com.example.wposs_user.polariscoreandroid.Fragmentos.Registro_diagnostico;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.StockFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.TipificacionesFragment;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.RegistroDiagnostico;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.Tools;
 import com.example.wposs_user.polariscoreandroid.ValidacionesTerminalesAsociadas;
@@ -63,8 +58,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private AppBarLayout appBar;
     private TabLayout tabs;
     private ViewPager viewPager;
@@ -77,6 +71,7 @@ public class MainActivity extends AppCompatActivity
     private TextView claveActual;
     private TextView clavenueva;
     private TextView claveConfirmarClave;
+
 
     private Button btn_asociadas;
     private Button btn_autorizadas;
@@ -97,6 +92,7 @@ public class MainActivity extends AppCompatActivity
     private EditText f_inicio;
     private EditText f_fin;
     FragmentManager fragmentManager;
+    private TextView prueba;
 
     public static MainActivity objeto;
 
@@ -139,7 +135,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @Override
+      @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -176,11 +172,11 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.btn_aumentar:
-                Intent inte= new Intent(this, RegistroDiagnostico.class);
-                startActivity(inte);
-                finish();
+//                Intent inte= new Intent(this, RegistroDiagnostico.class);
+//                startActivity(inte);
+//                finish();
 
-
+                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).commit();
 
 
                 return true;
@@ -1086,6 +1082,8 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
+
     public List<Terminal> getTerminales() {
         System.out.println("***************************************LISTA DE TERMINALES********************************************" + this.terminales.size());
         return terminales;
@@ -1138,6 +1136,72 @@ public class MainActivity extends AppCompatActivity
     public Terminal getT9() {
         return t9;
     }
+
+/*************************** metodo que permite cargar los repuestos seleccionados al recicler view*******************/
+
+    public void agregarRepuestos(View view) {
+
+   /*     AutoCompleteTextView aut= findViewById(R.id.auto_repuesto);
+        EditText ca= (EditText)findViewById(R.id.txt_cant);
+
+
+          if(ca.getText().toString().isEmpty()||Global.codigo_rep.isEmpty()){
+            Toast mensaje = Toast.makeText(this, "Faltan datos", Toast.LENGTH_SHORT);
+            mensaje.show();
+            return;
+
+        }
+
+
+
+            int canti = Integer.parseInt(ca.getText().toString());
+            String serial_buscar = Global.codigo_rep;
+            String[] codigo = serial_buscar.split(" ");
+            String serial_rep = codigo[0];
+
+            for (Repuesto r : Global.REPUESTOS) {
+
+                if (r.getSpar_code().equals(serial_rep)) {
+
+                    if (r.getSpar_quantity() > canti) {
+                        Repuesto re = new Repuesto(r.getSpar_code(), r.getSpar_name(), canti);
+                        Global.REPUESTOS_DIAGONOSTICO.add(re);
+                        recyclerView = (RecyclerView) findViewById(R.id.rv_observa);
+                        recyclerView.setAdapter(new AdapterRepuesto_Diag(this, Global.REPUESTOS_DIAGONOSTICO));//le pasa los repuestos> seleccionados por el usuario
+                        layoutManager = new LinearLayoutManager(this);// en forma de lista
+                        recyclerView.setLayoutManager(layoutManager);
+                        aut.setText("");
+                        ca.setText("");
+                        Toast mensaje = Toast.makeText(this, "El repuesto se agrego exitosamente", Toast.LENGTH_SHORT);
+                        mensaje.show();
+                        Global.codigo_rep="";
+                        return;
+
+                    }
+
+               if (r.getSpar_quantity() < canti) {
+
+                        Toast mensaje = Toast.makeText(this, "El repuesto no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT);
+                        mensaje.show();
+                        return;
+
+                    }
+                }
+
+
+                }
+
+              Toast mensaje = Toast.makeText(this, "No se encontro el repuesto solicitado", Toast.LENGTH_SHORT);
+              mensaje.show();*/
+        }
+
+
+
+
+
+
+
+
 
 
 }

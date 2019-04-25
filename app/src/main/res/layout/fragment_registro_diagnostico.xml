@@ -6,42 +6,44 @@
     android:layout_height="match_parent"
     android:divider="@drawable/button_border"
     android:orientation="vertical"
-    tools:context=".RegistroDiagnostico">
+    tools:context=".Actividades.MainActivity">
 
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
 
-        <Spinner
-            android:id="@+id/et_repuesto"
-            style="@style/Widget.AppCompat.Spinner"
+        >
+
+        <AutoCompleteTextView
+            android:id="@+id/auto_repuesto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:prompt="@string/titulo_spiner"
-            android:spinnerMode="dialog"
+            android:hint="seleccione el repuesto"
+
             android:textSize="12dp" />
 
         <EditText
+            android:id="@+id/txt_cant"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
             android:hint="Cantidad"
             android:inputType="number"
-            android:textSize="12dp"
 
-            />
+
+            android:textSize="12dp" />
 
         <Button
             android:id="@+id/bton_agregarRep"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+
             android:background="@color/azul_botones"
             android:text="Agregar"
             android:textAllCaps="false"
@@ -55,7 +57,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+
+        >
 
 
         <TextView
@@ -86,13 +91,23 @@
 
     </LinearLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_margin="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
         android:background="@color/blanco"
         android:hint="Observaciones"
         android:textSize="12dp"
+        android:layout_marginLeft="20dp"
+
 
         />
 
@@ -102,6 +117,8 @@
         android:layout_gravity="right"
         android:background="@color/azul_botones"
         android:text="Finalizar"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:textAllCaps="false"
         android:textColor="@color/blanco" />
 

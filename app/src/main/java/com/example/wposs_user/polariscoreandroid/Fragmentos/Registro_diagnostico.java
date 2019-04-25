@@ -1,49 +1,47 @@
-package com.example.wposs_user.polariscoreandroid;
+package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
+import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
-import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 
 
-public class RegistroDiagnostico extends AppCompatActivity {
-  Spinner  et_repuesto;
+public class Registro_diagnostico extends Fragment {
+
+    AutoCompleteTextView aut;
+    View v;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-         setContentView(R.layout.activity_registro_diagnostico);
-          this.listarRepuestos();
-        et_repuesto= (Spinner) findViewById(R.id.et_repuesto);
 
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
+        v=inflater.inflate(R.layout.fragment_registro_diagnostico, container, false);
+        aut=(AutoCompleteTextView)v.findViewById(R.id.auto_repuesto);
+        // Inflate the layout for this fragment
+        this.listarRepuestos();
+        return v;
     }
 
-    //******************consumir servicio listar Repuestos
 
     public void listarRepuestos() {
         Global.WEB_SERVICE = "/PolarisCore/Terminals/spares ";
         new TaskListarRepuestos().execute();
-        }
+    }
 
 
     /*************************************************************************************
@@ -64,7 +62,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(RegistroDiagnostico.this, R.style.MyAlertDialogStyle);
+            progressDialog = new ProgressDialog(v.getContext(), R.style.MyAlertDialogStyle);
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setCancelable(false);
             progressDialog.setMessage("Buscando repuestos asociados a la terminal...");
@@ -100,10 +98,10 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
             if (value) {
                 System.out.println("*********************************************************************SI SE PUDIERON LISTAR LOS REPUESTOS****************************");
-                if (Messages.unPackMsgListaRepuestos(RegistroDiagnostico.this)) {
+                if (Messages.unPackMsgListaRepuestos(v.getContext())) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
-                     llenarSpiner();
+                    llenarSpiner();
 
 
 
@@ -114,7 +112,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
                     // Si el login no es OK, manda mensaje de error
                     try {
                         // Utils.GoToNextActivity(Activity_login.this, DialogError.class, Global.StatusExit);
-                        Toast.makeText(RegistroDiagnostico.this, Global.mensaje, Toast.LENGTH_LONG).show();
+                        Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -124,7 +122,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
                 TCP.disconnect();
 
             } else {
-                switch (Utils.validateErrorsConexion(false, trans, RegistroDiagnostico.this)) {
+                switch (Utils.validateErrorsConexion(false, trans, v.getContext())) {
 
                     case 0:                                                                         // En caso de que continue = true y error data
                         break;
@@ -137,11 +135,11 @@ public class RegistroDiagnostico extends AppCompatActivity {
                         Global.mensaje = Global.MsgError;
                         Global.StatusExit = false;
                         // Muestra la ventana de error
-                        Toast.makeText(RegistroDiagnostico.this, Global.mensaje, Toast.LENGTH_LONG).show();
+                        Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
                         break;
                 }
 
-                Toast.makeText(RegistroDiagnostico.this, Global.mensaje, Toast.LENGTH_LONG).show();
+                Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
             }
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR REPUESTOS");
         }
@@ -153,7 +151,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
 
 
-   public void registrarDiagnostico(View v) {
+    public void registrarDiagnostico(View v) {
         Global.WEB_SERVICE = "/PolarisCore/Terminals/saveDiagnosis ";
         new TaskListarRepuestos().execute();
 
@@ -181,7 +179,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(RegistroDiagnostico.this, R.style.MyAlertDialogStyle);
+            progressDialog = new ProgressDialog(v.getContext(), R.style.MyAlertDialogStyle);
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setCancelable(false);
             progressDialog.setMessage("Enviando registro...");
@@ -217,9 +215,10 @@ public class RegistroDiagnostico extends AppCompatActivity {
 
             if (value) {
                 System.out.println("*********************************************************************SI SE PUDO CONECTAR LISTAR OBSER****************************");
-                if (Messages.unPackMsgListarObservaciones(RegistroDiagnostico.this)) {
+                if (Messages.unPackMsgListarObservaciones(v.getContext())) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
+
 
                     //muestra el panel con la lista de observaciones, es decir que llena el recycler view de observaciones
 
@@ -228,7 +227,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
                     // Si el login no es OK, manda mensaje de error
                     try {
                         // Utils.GoToNextActivity(Activity_login.this, DialogError.class, Global.StatusExit);
-                        Toast.makeText(RegistroDiagnostico.this, Global.mensaje, Toast.LENGTH_LONG).show();
+                        Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -238,7 +237,7 @@ public class RegistroDiagnostico extends AppCompatActivity {
                 TCP.disconnect();
 
             } else {
-                switch (Utils.validateErrorsConexion(false, trans, RegistroDiagnostico.this)) {
+                switch (Utils.validateErrorsConexion(false, trans, v.getContext())) {
 
                     case 0:                                                                         // En caso de que continue = true y error data
                         break;
@@ -251,11 +250,11 @@ public class RegistroDiagnostico extends AppCompatActivity {
                         Global.mensaje = Global.MsgError;
                         Global.StatusExit = false;
                         // Muestra la ventana de error
-                        Toast.makeText(RegistroDiagnostico.this, Global.mensaje, Toast.LENGTH_LONG).show();
+                        Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
                         break;
                 }
 
-                Toast.makeText(RegistroDiagnostico.this, Global.mensaje, Toast.LENGTH_LONG).show();
+                Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
             }
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR OBSERVA");
         }
@@ -275,18 +274,18 @@ public class RegistroDiagnostico extends AppCompatActivity {
         }
         return rep;
 
-        }
+    }
 
 
-        public void llenarSpiner(){
-            et_repuesto= (Spinner) findViewById(R.id.et_repuesto);
-            String [] rep = this.convertirRepuestos();
-             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_sytle,rep);
-            et_repuesto.setAdapter(adapter);
-           Log.i("ADAPTADOR SIZE ", "" + adapter.getItem(0));
+    public void llenarSpiner(){
+        aut = (AutoCompleteTextView)v.findViewById(R.id.auto_repuesto);
+        String [] rep = this.convertirRepuestos();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(),R.layout.spinner_sytle,rep);
+        aut.setAdapter(adapter);
 
 
-        }
+    }
+
 
 
 
