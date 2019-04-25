@@ -14,11 +14,12 @@ import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class AdapterRepuestoDiag extends RecyclerView.Adapter<AdapterRepuestoDiag.ViewHolderRepuestoDiag> {
+public class AdapterRepuestoDiag extends RecyclerView.Adapter<AdapterRepuestoDiag.ViewHolderRepuestoDiag>implements View.OnClickListener {
 
 
     private ArrayList<Repuesto> listRepuesto;
     private LayoutInflater inflador;
+    private View.OnClickListener listener;
 
     public AdapterRepuestoDiag(Context c,ArrayList<Repuesto> list) {
         this.listRepuesto = list;
@@ -28,6 +29,7 @@ public class AdapterRepuestoDiag extends RecyclerView.Adapter<AdapterRepuestoDia
 
     public AdapterRepuestoDiag.ViewHolderRepuestoDiag onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.panel_agregarep, null);
+        v.setOnClickListener(this);
 
         return new AdapterRepuestoDiag.ViewHolderRepuestoDiag(v);
     }
@@ -44,6 +46,22 @@ public class AdapterRepuestoDiag extends RecyclerView.Adapter<AdapterRepuestoDia
 
     public int getItemCount() {
         return listRepuesto.size();
+
+    }
+
+    public void setOnClickListener(View.OnClickListener listener){
+
+    this.listener=listener;
+
+    }
+
+
+    @Override
+    public void onClick(View v) {
+
+        if(listener!=null){
+            listener.onClick(v);
+        }
 
     }
 
@@ -66,5 +84,6 @@ public class AdapterRepuestoDiag extends RecyclerView.Adapter<AdapterRepuestoDia
 
 
     }
+
 
 }

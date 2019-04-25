@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Actividades.MainActivity">
-
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:divider="@drawable/button_border"
     android:orientation="vertical"
+    tools:context=".Actividades.MainActivity"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
 
     >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        >
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Digite el codigo o nombre del repuesto "
+        android:textSize="14dp"
+        />
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -23,27 +35,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="70dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         style="@style/letra_contenido"
 
         >
 
         <AutoCompleteTextView
             android:id="@+id/auto_repuesto"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:hint="Digite el codigo o nombre"
+            android:hint="Codigo o nombre"
+            android:textSize="14dp"
             />
 
         <EditText
             android:id="@+id/txt_cant"
-            android:layout_width="70dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:hint="Cantidad"
             android:inputType="number"
+            android:textSize="14dp"
             />
 
         <Button
@@ -57,6 +69,7 @@
             android:textColor="@color/blanco"
             android:onClick="agregarRepuestos"
             style="@style/letra_botones"
+            android:textSize="14dp"
             />
 
     </LinearLayout>
@@ -67,8 +80,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="30dp"
         android:orientation="horizontal"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
+
         android:background="@drawable/button_border"
          >
 
@@ -80,6 +92,7 @@
             android:text="Código"
             android:layout_marginLeft="10dp"
             style="@style/letra_titulos"
+            android:textSize="14dp"
 
             />
 
@@ -89,6 +102,7 @@
             android:layout_marginLeft="10dp"
             android:text="Nombre"
             style="@style/letra_titulos"
+            android:textSize="14dp"
 
             />
 
@@ -98,6 +112,7 @@
             android:layout_marginLeft="10dp"
             android:text="Cantidad"
             style="@style/letra_titulos"
+            android:textSize="14dp"
 
 
             />
@@ -110,6 +125,7 @@
             android:text="Eliminar"
             android:layout_marginRight="10dp"
             style="@style/letra_titulos"
+            android:textSize="14dp"
             />
 
     </LinearLayout>
@@ -118,21 +134,18 @@
         android:id="@+id/rv_repuestos_diag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+
         android:background="@drawable/button_border"
          />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+       android:layout_marginTop="10dp"
         android:background="@color/blanco"
         android:hint="Observaciones"
-
-        android:layout_marginLeft="20dp"
         style="@style/letra_contenido"
+        android:textSize="14dp"
 
 
         />
@@ -143,11 +156,10 @@
         android:layout_gravity="right"
         android:background="@color/azul_botones"
         android:text="Finalizar"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:textAllCaps="false"
         android:textColor="@color/blanco"
         style="@style/letra_botones"/>
 
+
 </LinearLayout>
-</HorizontalScrollView>

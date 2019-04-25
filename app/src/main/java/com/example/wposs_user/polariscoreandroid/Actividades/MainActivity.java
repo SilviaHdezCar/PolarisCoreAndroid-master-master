@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public RecyclerView.LayoutManager layoutManager;
     Vector<Repuesto> repuestos;
     Vector<Etapas> etapas;
+    AdapterRepuestoDiag adapter;
 
 
     private TextView claveActual;
@@ -1195,6 +1196,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
               Toast mensaje = Toast.makeText(this, "No se encontro el repuesto solicitado", Toast.LENGTH_SHORT);
               mensaje.show();
+
+        }
+
+
+
+
+
+        public void removerRep(){
+        RecyclerView rev;
+
+
+
 
         }
 

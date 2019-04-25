@@ -24,6 +24,7 @@
        android:layout_height="wrap_content"
        android:layout_marginLeft="10dp"
        style="@style/letra_contenido"
+            android:textSize="14dp"
 
             />
 
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             style="@style/letra_contenido"
+            android:textSize="14dp"
 
             />
 
@@ -42,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             style="@style/letra_contenido"
+            android:textSize="14dp"
            />
 
 
