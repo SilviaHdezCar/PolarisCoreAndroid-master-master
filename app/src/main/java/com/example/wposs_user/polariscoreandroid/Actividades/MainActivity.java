@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuesto;
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuestoDiag;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidaciones;
@@ -1141,8 +1142,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void agregarRepuestos(View view) {
 
-   /*     AutoCompleteTextView aut= findViewById(R.id.auto_repuesto);
-        EditText ca= (EditText)findViewById(R.id.txt_cant);
+     AutoCompleteTextView aut= findViewById(R.id.auto_repuesto);
+     EditText ca= (EditText)findViewById(R.id.txt_cant);
 
 
           if(ca.getText().toString().isEmpty()||Global.codigo_rep.isEmpty()){
@@ -1157,7 +1158,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             int canti = Integer.parseInt(ca.getText().toString());
             String serial_buscar = Global.codigo_rep;
             String[] codigo = serial_buscar.split(" ");
-            String serial_rep = codigo[0];
+             String serial_rep = codigo[0];
+             System.out.print(serial_rep);
 
             for (Repuesto r : Global.REPUESTOS) {
 
@@ -1166,8 +1168,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (r.getSpar_quantity() > canti) {
                         Repuesto re = new Repuesto(r.getSpar_code(), r.getSpar_name(), canti);
                         Global.REPUESTOS_DIAGONOSTICO.add(re);
-                        recyclerView = (RecyclerView) findViewById(R.id.rv_observa);
-                        recyclerView.setAdapter(new AdapterRepuesto_Diag(this, Global.REPUESTOS_DIAGONOSTICO));//le pasa los repuestos> seleccionados por el usuario
+                        recyclerView = (RecyclerView) findViewById(R.id.rv_repuestos_diag);
+                        recyclerView.setAdapter(new AdapterRepuestoDiag(this, Global.REPUESTOS_DIAGONOSTICO));//le pasa los repuestos> seleccionados por el usuario
                         layoutManager = new LinearLayoutManager(this);// en forma de lista
                         recyclerView.setLayoutManager(layoutManager);
                         aut.setText("");
@@ -1192,7 +1194,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
               Toast mensaje = Toast.makeText(this, "No se encontro el repuesto solicitado", Toast.LENGTH_SHORT);
-              mensaje.show();*/
+              mensaje.show();
+
         }
 
 

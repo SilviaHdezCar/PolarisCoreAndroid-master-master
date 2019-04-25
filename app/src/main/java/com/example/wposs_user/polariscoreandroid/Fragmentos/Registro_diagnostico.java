@@ -5,12 +5,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
@@ -18,6 +23,8 @@ import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 
 public class Registro_diagnostico extends Fragment {
@@ -257,6 +264,7 @@ public class Registro_diagnostico extends Fragment {
                 Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
             }
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR OBSERVA");
+            TCP.disconnect();
         }
 
 
@@ -278,10 +286,41 @@ public class Registro_diagnostico extends Fragment {
 
 
     public void llenarSpiner(){
-        aut = (AutoCompleteTextView)v.findViewById(R.id.auto_repuesto);
+     /*   aut = (AutoCompleteTextView)v.findViewById(R.id.auto_repuesto);
         String [] rep = this.convertirRepuestos();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(),R.layout.spinner_sytle,rep);
         aut.setAdapter(adapter);
+*/
+        final String [] rep = this.convertirRepuestos();
+        aut = (AutoCompleteTextView)v.findViewById(R.id.auto_repuesto);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(), R.layout.spinner_sytle, rep);
+
+       aut.setAdapter(adapter);
+       aut.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       @Override
+       public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+           Global.codigo_rep=adapter.getItem(i);
+
+                System.out.println(" Codigo del repuesto seleccionado;"+Global.codigo_rep);
+                InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
+                in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+            }
+        });
+       aut.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+
+                if(i == EditorInfo.IME_ACTION_DONE){
+
+                    Global.codigo_rep=rep[i];
+                      InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
+                    in.hideSoftInputFromWindow(textView.getApplicationWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
 
     }

@@ -18,6 +18,7 @@ public class Global {
     public static String password;
     public static String serial= "";
     public static String modelo= "";
+    public static String codigo_rep = "";
 
 
 
@@ -107,6 +108,7 @@ public class Global {
     public static List<Validacion> VALIDACIONES;
     public static List<Tipificacion> TIPIFICACIONES;
     public static ArrayList<Repuesto> REPUESTOS = new ArrayList<>();
+    public static ArrayList<Repuesto> REPUESTOS_DIAGONOSTICO= new ArrayList<>();
 
 
     public static int lenS1;
