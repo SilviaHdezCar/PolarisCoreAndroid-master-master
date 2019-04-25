@@ -13,7 +13,7 @@ import java.util.List;
 public class Global {
 
 
-    public static String NOMBRE = "";
+
     public static String correo;
     public static String password;
     public static String serial= "";
@@ -44,7 +44,11 @@ public class Global {
     public static String STATUS;
     public static String POSITION;
     public static String CODE;
-
+    public static String NOMBRE = "";
+    public static String EMAIL = "";
+    public static String LOCATION = "";
+    public static String PHONE = "";
+    public static String PHOTO = "";
 
 
 
@@ -109,7 +113,7 @@ public class Global {
     public static List<Terminal> TERMINALES_ASOCIADAS ;
     public static List<Observacion> OBSERVACIONES;
     public static List<Validacion> VALIDACIONES;
-    public static List<Validacion> VALIDACIONES_DIAGNOSTICO;
+    public static List<String> VALIDACIONES_DIAGNOSTICO;
     public static List<Tipificacion> TIPIFICACIONES;
     public static List<Tipificacion> TIPIFICACIONES_DIAGNOSTICO;
     public static ArrayList<Repuesto> REPUESTOS = new ArrayList<>();

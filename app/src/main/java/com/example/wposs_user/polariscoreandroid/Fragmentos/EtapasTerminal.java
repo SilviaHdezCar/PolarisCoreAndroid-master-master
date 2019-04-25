@@ -44,7 +44,7 @@ public class EtapasTerminal extends Fragment {
 
         if (Global.OBSERVACIONES == null) {
             //serial_ter_seleccionada.setText(Global.serial_ter + " No tiene observaciones");
-            serial_ter_seleccionada.setText(Global.serial_ter + " " + Global.mensaje);
+            serial_ter_seleccionada.setText(Global.serial_ter + " " + Global.mensaje+" no tiene observaciones");
         } else {
             serial_ter_seleccionada.setText("Serial: " + Global.serial_ter);
             llenarRVEtapas(Global.OBSERVACIONES);
@@ -68,9 +68,6 @@ public class EtapasTerminal extends Fragment {
                 obs.add(o);
             }
 
-        }
-        if (obs.size() == 0) {
-            Toast.makeText(objeto, "Aún no tiene observaciones", Toast.LENGTH_SHORT).show();
         }
 
         objeto.recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_etapas);

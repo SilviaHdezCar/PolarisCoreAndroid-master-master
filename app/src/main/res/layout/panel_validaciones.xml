@@ -24,7 +24,7 @@
                 android:background="@drawable/borde_izq_sup_inf_gris"/>
 
             <RadioGroup
-                android:id="@+id/r_btn_validaciones"
+                android:id="@+id/radio_group_validaciones"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
@@ -44,7 +44,7 @@
                     android:background="@drawable/borde_izq_sup_inf_gris" />
 
                 <RadioButton
-                    android:id="@+id/bton_Naplica"
+                    android:id="@+id/bton_NA"
                     android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:gravity="center"

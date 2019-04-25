@@ -36,6 +36,9 @@ public class PerfilFragment extends Fragment {
         nomUsuario.setText(Global.NOMBRE);
         usuario.setText(Global.CODE);
         cargo.setText(Global.POSITION);
+        telefono.setText(Global.PHONE);
+        correo.setText(Global.EMAIL);
+        ubicacion.setText(Global.LOCATION);
 
 
 

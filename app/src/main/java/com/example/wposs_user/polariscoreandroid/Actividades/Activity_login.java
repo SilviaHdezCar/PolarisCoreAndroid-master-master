@@ -146,8 +146,7 @@ public class Activity_login extends AppCompatActivity {
 
                 limpiarLogin();
                 Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
-                // Si es falso, cierra el socket y vuelve a crearlo, si es verdadero el socket continua abierto
-                TCP.disconnect();
+
 
             } else {
                 switch (Utils.validateErrorsConexion(false, trans, Activity_login.this)) {
@@ -171,6 +170,7 @@ public class Activity_login extends AppCompatActivity {
                 limpiarLogin();
 
             }
+
         }
 
 

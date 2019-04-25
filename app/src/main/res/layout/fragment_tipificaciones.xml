@@ -13,12 +13,21 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/letra_titulos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="Tipificaciones dela termianal" />
+
+        <TextView
             android:id="@+id/lbl_msj_tipificaciones"
             style="@style/letra_contenido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:padding="5dp"
+            android:layout_marginTop="10dp"
             android:text="msj" />
 
         <LinearLayout
@@ -30,8 +39,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
 
                 <AutoCompleteTextView
                     android:id="@+id/autocomplete_tipificaciones"
@@ -49,85 +58,101 @@
                     style="@style/letra_botones"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/redondo_azul"
                     android:onClick="agregarTipificacion"
                     android:text="Agregar"
-                    android:layout_gravity="center"
                     android:textAllCaps="false" />
 
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/layoutTablaTipificaciones"
-            android:gravity="center">
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/cuadrado_gris"
+            android:orientation="horizontal"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal"
+            >
 
-            <ScrollView
-                android:id="@+id/scrollverticalTipificaciones"
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="match_parent"
+                style="@style/letra_titulos"
+                android:text="Tipificación"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:background="@drawable/borde_izq_sup_inf_gris"/>
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                style="@style/letra_titulos"
+                android:text="Eliminar"
+                android:gravity="center"
+                android:background="@drawable/borde_todos_gris"/>
+
+
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                android:layout_weight="1">
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingLeft="5dp">
 
-                <HorizontalScrollView
-                    android:layout_width="wrap_content"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_tipificaciones"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/scrollhorizontalTipificaciones"
-                    android:scrollbars="horizontal"
-                    android:layout_weight="1">
-                    <LinearLayout
-                        android:orientation="vertical"
+                    android:layout_marginBottom="3dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_volver_Tipificaciones"
+                        style="@style/letra_negrita"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <TableLayout
-                            android:id="@+id/tablaTipificaciones"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-                        </TableLayout>
-                    </LinearLayout>
-                </HorizontalScrollView>
+                        android:layout_height="40dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/redondo_fondo_gris"
+                        android:onClick="volverTipificaciones"
+                        android:text="Atrás"
+                        android:textAllCaps="false" />
 
-            </ScrollView>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_volver_Tipificaciones"
-                style="@style/letra_negrita"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/redondo_fondo_gris"
-                android:onClick="volverTipificaciones"
-                android:text="Atrás"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/btn_siguiente_Tipificaciones"
-                style="@style/letra_botones"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="150dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/redondo_azul"
-                android:onClick="siguienteTipificaciones"
-                android:text="Siguiente"
-                android:textAllCaps="false" />
-        </LinearLayout>
+                    <Button
+                        android:id="@+id/btn_siguiente_Tipificaciones"
+                        style="@style/letra_botones"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="150dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/redondo_azul"
+                        android:onClick="siguienteTipificaciones"
+                        android:text="Siguiente"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
 </FrameLayout>

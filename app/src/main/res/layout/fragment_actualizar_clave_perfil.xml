@@ -24,16 +24,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="60dp"
             android:text="Actualización de contraseña" />
 
         <TextView
             style="@style/letra_contenido"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:layout_marginTop="20dp"
-            android:text="Recuerda que la clave debe contener mayúsculas, minúsculas y números." />
+            android:text="Recuerda que la clave debe contener mayúsculas, minúsculas y mínimo 4 números." />
 
 
         <EditText
@@ -45,7 +46,7 @@
             android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ"
             android:hint="@string/clave_actual"
             android:inputType="textPassword"
-            android:padding="8dp" />
+            android:padding="10dp" />
 
         <EditText
             android:id="@+id/perfil_clave_nueva"
@@ -56,7 +57,7 @@
             android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ"
             android:hint="@string/clave_nueva"
             android:inputType="textPassword"
-            android:padding="8dp" />
+            android:padding="10dp" />
 
         <EditText
             android:id="@+id/perfil_clave_confirmar"
@@ -66,7 +67,8 @@
             android:background="@drawable/redondo_gris"
             android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ"
             android:hint="@string/clave_confirmar"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:paddingLeft="10dp"/>
 
         </LinearLayout>
         <LinearLayout
