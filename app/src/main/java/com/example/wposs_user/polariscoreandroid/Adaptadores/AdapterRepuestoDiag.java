@@ -6,22 +6,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
+import com.example.wposs_user.polariscoreandroid.java.Terminal;
 
-import java.util.ArrayList;
+
+import java.util.List;
 import java.util.Vector;
 
 public class AdapterRepuestoDiag extends RecyclerView.Adapter<AdapterRepuestoDiag.ViewHolderRepuestoDiag> {
 
 
-    private ArrayList<Repuesto> listRepuesto;
+    private List<Repuesto> listRepuesto;
     private LayoutInflater inflador;
-    private View.OnClickListener listener;
+    private View.OnClickListener listener; AdapterRepuestoDiag.interfaceClick ic;
 
-    public AdapterRepuestoDiag(Context c,ArrayList<Repuesto> list) {
+
+    public AdapterRepuestoDiag(Context c,List<Repuesto> list) {
         this.listRepuesto = list;
         this.inflador = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -34,17 +38,33 @@ public class AdapterRepuestoDiag extends RecyclerView.Adapter<AdapterRepuestoDia
 
 
 
-    public void onBindViewHolder(AdapterRepuestoDiag.ViewHolderRepuestoDiag holder, int i) {
+    public void onBindViewHolder(AdapterRepuestoDiag.ViewHolderRepuestoDiag holder, final int i) {
         Repuesto rep = this.listRepuesto.get(i);
         holder.codigo.setText(rep.getSpar_code());
         holder.nombre.setText( rep.getSpar_name());
          holder.cantidad.setText(""+rep.getSpar_quantity());
+
+        holder.img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ic.onClick(listRepuesto,i);
+            }
+
+        });
+
     }
 
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
 
     public int getItemCount() {
         return listRepuesto.size();
+    }
 
+    public interface interfaceClick {
+        void onClick(List<Repuesto> repuestos, int position);
     }
 
 
@@ -55,6 +75,8 @@ public class AdapterRepuestoDiag extends RecyclerView.Adapter<AdapterRepuestoDia
         TextView codigo;
         TextView nombre;
         TextView cantidad;
+        ImageButton img;
+
 
 
         public ViewHolderRepuestoDiag(View v) {
@@ -62,8 +84,7 @@ public class AdapterRepuestoDiag extends RecyclerView.Adapter<AdapterRepuestoDia
             codigo = (TextView) v.findViewById(R.id.txt_CodAgregarRep);
             nombre = (TextView) v.findViewById(R.id.txt_NomAgregarRep);
             cantidad = (TextView) v.findViewById(R.id.txt_CantAgregarRep);
-
-
+            ImageButton img= (ImageButton)v.findViewById(R.id.btn_delete_rep);
 
         }
 
