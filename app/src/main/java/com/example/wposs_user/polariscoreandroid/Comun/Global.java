@@ -85,8 +85,12 @@ public class Global {
     public static final int       ERR_DATA_RECEIVED       = -5;
 
 
-    public static final int       MAX_LEN_OUTPUTDATA	  = 2048;
-    public static final int       MAX_LEN_INPUTDATA		  = 4096;
+    public static final int       MAX_LEN_OUTPUTDATA	  = 10 * 1024;
+//  public static final int       MAX_LEN_OUTPUTDATA	  = 2048;
+    public static final int       MAX_LEN_INPUTDATA		  = 64 * 1024;
+//  public static final int       MAX_LEN_INPUTDATA		  = 2 * 4096;
+
+
 
     public static String    httpDataBuffer       = "";
     public static String    httpHeaderBuffer     = "";
@@ -97,6 +101,7 @@ public class Global {
 
     public static byte[]         outputData               = new byte[MAX_LEN_OUTPUTDATA];
     public static byte[]         inputData                = new byte[MAX_LEN_INPUTDATA];
+    public static byte[]         inputDataTemp            = new byte[MAX_LEN_INPUTDATA];
     //public static byte[]         inputData                = null;
 
 

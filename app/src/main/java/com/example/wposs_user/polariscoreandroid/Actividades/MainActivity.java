@@ -244,6 +244,8 @@ public class MainActivity extends AppCompatActivity
 
     public void actualizarClave(View view) {
 
+
+
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ActualizarClave_perfil()).commit();
     }
 
@@ -435,8 +437,7 @@ public class MainActivity extends AppCompatActivity
 
     public void siguienteValidaciones(View view) {
 
-
-        if (llenarValidacionesDiagnostico(Global.VALIDACIONES)) {
+        if (llenarValidacionesDiagnostico()) {
             Global.WEB_SERVICE = "/PolarisCore/Terminals/tipesValidatorTerminal";
             new TaskListarTipificaciones().execute();
         }
@@ -445,11 +446,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     //Armo el arraylist     que voy a enviar al consumir el servicio de registrar diagnostico
-    public boolean llenarValidacionesDiagnostico(List<Validacion> listValidaciones) {
+    public boolean llenarValidacionesDiagnostico() {
         boolean retorno = true;
         Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<String>();
         String cadena = "";
-        for (Validacion val : listValidaciones) {
+        for (Validacion val : Global.VALIDACIONES) {
             if (val != null) {
                 if (val.getEstado().isEmpty()) {
                     AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();

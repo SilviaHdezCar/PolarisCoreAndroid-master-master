@@ -14,6 +14,7 @@ import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.sql.SQLOutput;
 
 import static com.example.wposs_user.polariscoreandroid.Comun.Utils.uninterpret_ASCII;
 
@@ -65,10 +66,39 @@ public class TCP {
             System.out.println("Error setSoTimeout"+ e.getMessage() );
             return Global.ERR_TIMEOUT_SOCKET;
         }
+
         try {
-            input = Global.tcpSocket.getInputStream();
+            /*input = Global.tcpSocket.getInputStream();
             //recibe respuesta
-            Global.inputLen = input.read(Global.inputData);
+            Global.inputLen = input.read(Global.inputData);*/
+
+            int ciclo =1;
+            int total_length = 0;
+            int indice = 0;
+
+            input = Global.tcpSocket.getInputStream();
+
+            while ( (Global.inputLen = input.read(Global.inputDataTemp)) != -1 ) {
+
+                //Utils.dumpMemory(Global.inputDataTemp,Global.inputLen);
+
+                System.arraycopy(Global.inputDataTemp, 0, Global.inputData, indice, Global.inputLen);
+                indice += Global.inputLen;
+
+                Global.inputLen = indice;
+
+                System.out.println("CICLO ********************" + ciclo);
+                System.out.println("Global.inputLen "+Global.inputLen);
+
+                if(ciclo==1)
+                    total_length = Utils.calculateTotalLength();
+
+                if( total_length == indice)
+                    break;
+
+                ciclo++;
+            }
+
         } catch (IOException e) {
             //Log.e("E/TCP Client 2 :", "" + ex.getMessage());
             System.out.println("Error getInputStream"+ e.getMessage() );
