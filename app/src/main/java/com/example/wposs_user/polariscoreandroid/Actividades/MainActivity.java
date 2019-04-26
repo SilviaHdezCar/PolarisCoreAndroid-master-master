@@ -63,8 +63,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private AppBarLayout appBar;
     private TabLayout tabs;
     private ViewPager viewPager;
@@ -75,40 +74,30 @@ public class MainActivity extends AppCompatActivity
     private Vector<Etapas> etapas;
     AdapterRepuestoDiag adapter;
 
-
+//********************************Variables usadas************//////////////
     private TextView claveActual;
     private TextView clavenueva;
     private TextView claveConfirmarClave;
-
     private Button btn_asociadas;
     private Button btn_autorizadas;
-
-
     private TextView serial;
     private Button buscar_serial_terminal;
     private List<Terminal> terminales;
-    Terminal t6;
-    Terminal t7;
-    Terminal t9;
-
+    private Terminal t6;
+    private Terminal t7;
+    private Terminal t9;
     String serialObtenido = "";
-
-    //private AutoCompleteTextView serial;
-
     private Spinner spinner_estado_terminal;
     private EditText f_inicio;
     private EditText f_fin;
     FragmentManager fragmentManager;
-
     public static MainActivity objeto;
-
     private LinearLayout layout_terminal_etapas;
     private TextView serial_ter_seleccionada;
 
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
         fragmentManager = getSupportFragmentManager();
@@ -116,15 +105,12 @@ public class MainActivity extends AppCompatActivity
         setTitle(null);
         setSupportActionBar(toolbar);
 
-        agregarRepuestos();
         objeto = this;
         btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
         btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -134,13 +120,9 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
 
+        }
 
-        // verTerminalesAsociadas();
-
-    }
-
-    @Override
-    public void onBackPressed() {
+      public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -148,30 +130,19 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-    /*public void onBackPressed() {
-        super.onBackPressed();
-        Intent i = new Intent(this, Activity_login.class);
-        startActivity(i);
-        finish();
-    }*/
 
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-
-        return true;
+    getMenuInflater().inflate(R.menu.main, menu);
+    return true;
     }
 
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent i;
-        FragmentManager fragmentManager = getSupportFragmentManager();
+     Intent i;
+     FragmentManager fragmentManager = getSupportFragmentManager();
 
-        switch (item.getItemId()) {
+     switch (item.getItemId()) {
 
-
-            case R.id.btn_home:
+         case R.id.btn_home:
                 fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
                 return true;
 
@@ -185,12 +156,11 @@ public class MainActivity extends AppCompatActivity
             case R.id.btn_disminuir:
                 dismuir();
                 return true;
-
-
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     private void dismuir() {
 
@@ -200,11 +170,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // AL SELECCIONAR ALGUUNA OPCION DEL MENU
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        // FragmentManager fragmentManager = getSupportFragmentManager();
         int id = item.getItemId();
 
         if (id == R.id.nav_perfil) {
@@ -341,20 +309,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    //********************************************AGREGAR TERMINALES*********************************************************************************************
-
-
-    //********************************************AGREGAR REPUESTOS*********************************************************************************************
-
-
-    private void agregarRepuestos() {
-        repuestos = new Vector<>();
-
-
-    }
-
-
-    //*******************************BUSQUEDA POR SERIAL
+       //*******************************BUSQUEDA POR SERIAL
 
     public void buscarTerminalesPorSerial(View v) {
         this.buscar_serial_terminal = (Button) findViewById(R.id.btn_buscar_terminales_serial);
@@ -498,48 +453,9 @@ public class MainActivity extends AppCompatActivity
      **/
     public void llenarRVEtapas(List<Observacion> observaciones) {
 
-       /* Vector<Observacion> obs = new Vector<>();
-
-        for (Observacion o : observaciones) {
-            if (o != null) {
-                obs.add(o);
-            }
-
-        }
-        if (obs.size() == 0) {
-            Toast.makeText(MainActivity.this, "Aún no tiene observaciones", Toast.LENGTH_SHORT).show();
-        }
-
-      //  recyclerView = (RecyclerView) findViewById(R.id.recycler_view_etapas);
-        recyclerView.setAdapter(new AdapterEtapas(MainActivity.this, obs));//le pasa los datos-> lista de usuarios
-
-        layoutManager = new LinearLayoutManager(this);// en forma de lista
-        recyclerView.setLayoutManager(layoutManager);*/
-
 
     }
 
- /*   public void llenarRVValidaciones(List<Validacion> validacions) {
-
-        // fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
-
-        Vector<Validacion> vals = new Vector<>();
-
-        for (Validacion v : validacions) {
-            if (v != null) {
-                vals.add(v);
-            }
-
-        }
-
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_validaciones);
-        recyclerView.setAdapter(new AdapterValidaciones(objeto, vals));//le pasa los datos-> lista de usuarios
-
-        layoutManager = new LinearLayoutManager(this);// en forma de lista
-        recyclerView.setLayoutManager(layoutManager);
-
-
-    }*/
 
     //este metodo llena el recycler view con las terminales obtenidas al consumir el servicio
 
@@ -1071,15 +987,6 @@ public class MainActivity extends AppCompatActivity
 
     public void cargarTerminal_stock(View view) {
 
-
-      /*  btn_mostrarTerminales = (Button) findViewById(R.id.btn_ter_stock);
-
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_stock);
-        recyclerView.setAdapter(new AdapterTerminal(this, this.terminales));//le pasa los datos-> lista de usuarios
-
-        layoutManager = new LinearLayoutManager(this);// en forma de lista
-        recyclerView.setLayoutManager(layoutManager);
-    */
     }
 
     Button btn_mostrarRepuestos;
@@ -1153,75 +1060,47 @@ public class MainActivity extends AppCompatActivity
      EditText ca= (EditText)findViewById(R.id.txt_cant);
 
 
-          if(ca.getText().toString().isEmpty()||Global.codigo_rep.isEmpty()){
-            Toast mensaje = Toast.makeText(this, "Faltan datos", Toast.LENGTH_SHORT);
-            mensaje.show();
-            return;
-
+     if(ca.getText().toString().isEmpty()||Global.codigo_rep.isEmpty()){
+         Toast mensaje = Toast.makeText(this, "Faltan datos", Toast.LENGTH_SHORT);
+         mensaje.show();
+         return;
         }
 
+     int canti = Integer.parseInt(ca.getText().toString());
+     String serial_buscar = Global.codigo_rep;
+     String[] codigo = serial_buscar.split(" ");
+     String serial_rep = codigo[0];
+     System.out.print(serial_rep);
+
+     for (Repuesto r : Global.REPUESTOS) {
+
+         if (r.getSpar_code().equals(serial_rep)) {
+             if (r.getSpar_quantity() > canti) {
+              Repuesto re = new Repuesto(r.getSpar_code(), r.getSpar_name(), canti);
+              Global.REPUESTOS_DIAGONOSTICO.add(re);
+              recyclerView = (RecyclerView) findViewById(R.id.rv_repuestos_diag);
+              recyclerView.setAdapter(new AdapterRepuestoDiag(this, Global.REPUESTOS_DIAGONOSTICO));//le pasa los repuestos> seleccionados por el usuario
+              layoutManager = new LinearLayoutManager(this);// en forma de lista
+              recyclerView.setLayoutManager(layoutManager);
+              aut.setText("");
+              ca.setText("");
+              Toast mensaje = Toast.makeText(this, "El repuesto se agrego exitosamente", Toast.LENGTH_SHORT);
+              mensaje.show();
+              Global.codigo_rep="";
+               return;}
 
 
-            int canti = Integer.parseInt(ca.getText().toString());
-            String serial_buscar = Global.codigo_rep;
-            String[] codigo = serial_buscar.split(" ");
-             String serial_rep = codigo[0];
-             System.out.print(serial_rep);
-
-            for (Repuesto r : Global.REPUESTOS) {
-
-                if (r.getSpar_code().equals(serial_rep)) {
-
-                    if (r.getSpar_quantity() > canti) {
-                        Repuesto re = new Repuesto(r.getSpar_code(), r.getSpar_name(), canti);
-                        Global.REPUESTOS_DIAGONOSTICO.add(re);
-                        recyclerView = (RecyclerView) findViewById(R.id.rv_repuestos_diag);
-                        recyclerView.setAdapter(new AdapterRepuestoDiag(this, Global.REPUESTOS_DIAGONOSTICO));//le pasa los repuestos> seleccionados por el usuario
-                        layoutManager = new LinearLayoutManager(this);// en forma de lista
-                        recyclerView.setLayoutManager(layoutManager);
-                        aut.setText("");
-                        ca.setText("");
-                        Toast mensaje = Toast.makeText(this, "El repuesto se agrego exitosamente", Toast.LENGTH_SHORT);
-                        mensaje.show();
-                        Global.codigo_rep="";
-                        return;
-
-                    }
-
-               if (r.getSpar_quantity() < canti) {
-
-                        Toast mensaje = Toast.makeText(this, "El repuesto no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT);
-                        mensaje.show();
-                        return;
-
-                    }
-                }
-
-
-                }
+          if (r.getSpar_quantity() < canti) {
+          Toast mensaje = Toast.makeText(this, "El repuesto no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT);
+           mensaje.show();
+           return;
+          }
+         }
+         }
 
               Toast mensaje = Toast.makeText(this, "No se encontro el repuesto solicitado", Toast.LENGTH_SHORT);
               mensaje.show();
-
         }
-
-
-
-
-
-        public void removerRep(){
-        RecyclerView rev;
-
-
-
-
-        }
-
-
-
-
-
-
 
 
 
