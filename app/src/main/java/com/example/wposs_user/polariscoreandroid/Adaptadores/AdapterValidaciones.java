@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.R;
@@ -19,6 +20,8 @@ import com.example.wposs_user.polariscoreandroid.java.Validacion;
 
 import java.util.List;
 import java.util.Vector;
+
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 public class AdapterValidaciones extends RecyclerView.Adapter<AdapterValidaciones.ViewHolderValidaciones> {
 
@@ -51,6 +54,7 @@ public class AdapterValidaciones extends RecyclerView.Adapter<AdapterValidacione
 
             //inici los rdios fakse
         holder.ok.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 // Tools.toast("click: "+ buttonCards.get(position).text1);
@@ -59,6 +63,7 @@ public class AdapterValidaciones extends RecyclerView.Adapter<AdapterValidacione
                 listValidaciones.get(position).setFalla(false);
                 listValidaciones.get(position).setNo_aplica(false);
                 listValidaciones.get(position).setEstado("OK");
+                Toast.makeText(objeto, "HIZO CLIC OK", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -72,6 +77,7 @@ public class AdapterValidaciones extends RecyclerView.Adapter<AdapterValidacione
                 listValidaciones.get(position).setFalla(true);
                 listValidaciones.get(position).setNo_aplica(false);
                 listValidaciones.get(position).setEstado("Falla");
+                Toast.makeText(objeto, "HIZO CLIC FALLA", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -85,6 +91,7 @@ public class AdapterValidaciones extends RecyclerView.Adapter<AdapterValidacione
                 listValidaciones.get(position).setFalla(false);
                 listValidaciones.get(position).setNo_aplica(true);
                 listValidaciones.get(position).setEstado("No aplica");
+                Toast.makeText(objeto, "HIZO CLIC NO APLICA", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -118,7 +125,7 @@ public class AdapterValidaciones extends RecyclerView.Adapter<AdapterValidacione
         ViewHolderValidaciones(View itemView) {
             super(itemView);
             txt_validaciones = (TextView) itemView.findViewById(R.id.txt_validaciones);
-            cv = (RadioGroup)itemView.findViewById(R.id.radio_group_validaciones);
+            cv = (RadioGroup)itemView.findViewById(R.id.radios_validaciones);
             ok = (RadioButton)itemView.findViewById(R.id.bton_ok);
             falla = (RadioButton)itemView.findViewById(R.id.bton_falla);
             no_aplica = (RadioButton)itemView.findViewById(R.id.bton_NA);

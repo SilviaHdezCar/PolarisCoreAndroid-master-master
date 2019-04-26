@@ -147,7 +147,7 @@ public class Messages {
     /************************************************************************************************
      * DESEMPAQUETADO DE LA RESPUESTA DEL SERVIDOR --> LISTAR LAS VALIDACIONES*************************/
     public static boolean unPackMsgListarValidaciones(Context c) {
-
+        Global.VALIDACIONES = new ArrayList<Validacion>();
         String tramaCompleta = "";
         Validacion v = null;
 
@@ -157,7 +157,7 @@ public class Messages {
 
 
         tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
-        System.out.println("TAMAÑO DE LA TRAMA "+Global.httpDataBuffer.length()+" inputData "+Global.inputData.length);
+        System.out.println("TAMAÑO DE LA TRAMA " + Global.httpDataBuffer.length() + " inputData " + Global.inputData.length);
 
 
         Gson gson = new GsonBuilder().create();
@@ -175,12 +175,12 @@ public class Messages {
             }
 
 
-          jsonObject = new JSONObject(jsonObject.get("data").toString());
+            jsonObject = new JSONObject(jsonObject.get("data").toString());
 
 
             JSONArray jsonArray = jsonObject.getJSONArray("validaciones");
 
-            Global.VALIDACIONES = new ArrayList<Validacion>();
+
             System.out.println("**************************TAMAÑO DEL ARREGLO DE VALIDACIONES: " + jsonArray.length());
             if (jsonArray.length() == 0) {
                 Global.mensaje = "No tiene validaciones";
@@ -190,7 +190,7 @@ public class Messages {
                 String val = jsonArray.getString(i);
 
                 v = gson.fromJson(val, Validacion.class);
-                System.out.println("unpackVlidaciones: v- "+v.toString());
+                System.out.println("unpackVlidaciones: v- " + v.toString());
                 Global.VALIDACIONES.add(v);
 
             }
@@ -313,7 +313,6 @@ public class Messages {
 
 
         tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
-
 
 
         Gson gson = new GsonBuilder().create();
@@ -653,34 +652,41 @@ public class Messages {
             return false;
         } else {
             Global.mensaje = "";
-            Global.TOKEN = lineastrama[0].substring(10, lineastrama[0].length() - 1);
-            Global.MESSAGE = lineastrama[1].substring(11, lineastrama[1].length() - 1);
-            Global.ROL = lineastrama[2].substring(9, lineastrama[2].length() - 1);
-            Global.LOGIN = lineastrama[3].substring(9, lineastrama[3].length() - 1);
-            Global.ID = lineastrama[4].substring(6, lineastrama[4].length() - 1);//CEDULA
-            Global.STATUS = lineastrama[5].substring(10, lineastrama[5].length() - 1);
-            Global.POSITION = lineastrama[6].substring(12, lineastrama[6].length() - 1);
-            Global.CODE = lineastrama[7].substring(8, lineastrama[7].length() - 1);
-            Global.NOMBRE = lineastrama[8].substring(8, lineastrama[8].length() - 1);
-            Global.EMAIL = lineastrama[9].substring(9, lineastrama[9].length() - 1);
-            Global.LOCATION = lineastrama[10].substring(12, lineastrama[10].length() - 1);
-            Global.PHONE = lineastrama[11].substring(10, lineastrama[11].length() - 1);
-           // Global.PHOTO = lineastrama[12].substring(10, lineastrama[9].length() - 2);
+            try {
+                Global.TOKEN = jsonObject.get("token").toString();
+               // Global.MESSAGE = lineastrama[1].substring(11, lineastrama[1].length() - 1);
+                Global.ROL = jsonObject.get("roles").toString();
+                Global.LOGIN = jsonObject.get("login").toString();;
+                Global.ID = jsonObject.get("id").toString();//CEDULA
+                Global.STATUS = jsonObject.get("status").toString();
+                Global.POSITION = jsonObject.get("position").toString();
+                Global.CODE =jsonObject.get("code").toString();
+                Global.NOMBRE = jsonObject.get("name").toString();
+                Global.EMAIL = jsonObject.get("email").toString();
+                Global.LOCATION = jsonObject.get("location").toString();
+                Global.PHONE = jsonObject.get("phone").toString();
+                // Global.PHOTO = jsonObject.get("photo").toString();;
 
 
-            Log.i("------------STATUS: ", "" + Global.STATUS);
-            Log.i("------------POSITION: ", "" + Global.POSITION);
-            Log.i("------------TOKEN: ", "" + Global.TOKEN);
-            Log.i("--------CODE: ", "" + Global.CODE);
-            Log.i("-------NAME: ", "" + Global.NOMBRE);
+                Log.i("------------STATUS: ", "" + Global.STATUS);
+                Log.i("------------POSITION: ", "" + Global.POSITION);
+                Log.i("------------TOKEN: ", "" + Global.TOKEN);
+                Log.i("--------CODE: ", "" + Global.CODE);
+                Log.i("-------NAME: ", "" + Global.NOMBRE);
 
-            if (!Global.POSITION.equalsIgnoreCase("TECNICO")) {
-                Global.mensaje = "El usuario no tiene permisos";
-                return false;
-            } else if (Global.STATUS.equalsIgnoreCase("INACTIVO")) {
-                Global.mensaje = "El usuario está inactivo";
-                return false;
+                if (!Global.POSITION.equalsIgnoreCase("TECNICO")) {
+                    Global.mensaje = "El usuario no tiene permisos";
+                    return false;
+                } else if (Global.STATUS.equalsIgnoreCase("INACTIVO")) {
+                    Global.mensaje = "El usuario está inactivo";
+                    return false;
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            ;
+
             return true;
         }
     }
