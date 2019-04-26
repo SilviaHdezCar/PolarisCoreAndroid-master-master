@@ -190,7 +190,6 @@ public class Messages {
                 String val = jsonArray.getString(i);
 
                 v = gson.fromJson(val, Validacion.class);
-                System.out.println("unpackVlidaciones: v- " + v.toString());
                 Global.VALIDACIONES.add(v);
 
             }

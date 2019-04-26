@@ -434,8 +434,6 @@ public class MainActivity extends AppCompatActivity
         if (llenarValidacionesDiagnostico()) {
             Global.WEB_SERVICE = "/PolarisCore/Terminals/tipesValidatorTerminal";
             new TaskListarTipificaciones().execute();
-        }else{
-            Toast.makeText(objeto, "llenarValidacionesDiagnostico()==FALSE", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -453,14 +451,14 @@ public class MainActivity extends AppCompatActivity
                     AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                     alertDialog.setTitle("¡ATENCIÓN!");
                     alertDialog.setMessage("Verifique el estado de la validación: "+val.getTeva_description());
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "ACEPTAR",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }
                             });
                     alertDialog.show();
-                    retorno= false;
+                    return false;
                 } else {
 //        "validaciones": [{"tevs_terminal_serial":"212","tevs_terminal_validation":"sadasdasd","tevs_status":"ok"},}
 //        {"tevs_terminal_serial":"212","tevs_terminal_validation":"sadasdasd","tevs_status":"falla"}],
@@ -570,19 +568,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(List<Terminal> terminal, int position) {
 
-                /********************
-                 *  cuando de clic en el panel de la terminal que desea ver los detalles, captura la posicion del panel donde dio clic
-                 *  y consume el servicio de listarObservacionesTeerminal
-                 *  **************/
 
                 serialObtenido = terminal.get(position).getTerm_serial();
                 Global.modelo = terminal.get(position).getTerm_model();
 
-
-                System.out.println("-------*****-_-**********************************VA A LISTAR LAS ETAPAS DE LA TERMINAL SELECCIONADA");
-
                 listarObservacionesTerminal(serialObtenido);
-                // listarObservacionesTerminal("prueba");
             }
         }, R.layout.panel_terminal_asociada);
 
