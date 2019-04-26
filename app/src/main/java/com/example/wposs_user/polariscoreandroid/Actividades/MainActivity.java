@@ -1,6 +1,9 @@
 package com.example.wposs_user.polariscoreandroid.Actividades;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -69,7 +72,6 @@ public class MainActivity extends AppCompatActivity
     public RecyclerView.LayoutManager layoutManager;
     private Vector<Repuesto> repuestos;
     private AutoCompleteTextView autocomplete_tipificaciones;
-    private Vector<Repuesto> repuestos;
     private Vector<Etapas> etapas;
     AdapterRepuestoDiag adapter;
 
@@ -342,10 +344,6 @@ public class MainActivity extends AppCompatActivity
     //********************************************AGREGAR TERMINALES*********************************************************************************************
 
 
-
-
-
-
     //********************************************AGREGAR REPUESTOS*********************************************************************************************
 
 
@@ -371,7 +369,7 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        for (Terminal ter : this.terminales) {
+        for (Terminal ter : Global.TERMINALES_ASOCIADAS) {
             if (ter.getTerm_serial().equalsIgnoreCase(serial.getText().toString())) {
                 terminal.add(ter);
                 recyclerView = (RecyclerView) findViewById(R.id.recycler_view_consultaTerminales_por_serial);
@@ -404,7 +402,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**********************************************************************************************************
-     * METODOS ATRÁS DE LOS BOTONES     * siguienteEtapas
+     * METODOS DE LA VISTA ETAPAS
      * *******************************************************************************************************/
 
     //boton atras de la calse etapas
@@ -413,26 +411,67 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void siguienteEtapas(View v) {
-        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
 
         Global.WEB_SERVICE = "/PolarisCore/Terminals/validatorTerminal";
         new TaskListarValidaciones().execute();
 
     }
+    /*******************************************
+     * FIN  METODOS DE LA VISTA ETAPAS
+     * ********************************************/
+
 
     /**********************************************************************************************************
-     * METODOS ATRÁS Y SIGUIENTE DE LOS BOTONES     VALIDACIONES
+     * INICIO METODOS DE LA VISTA VALICIONES
      * *******************************************************************************************************/
+    ////
     public void volverValidaciones(View view) {
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
     }
 
     public void siguienteValidaciones(View view) {
-        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new TipificacionesFragment()).commit();
 
-        Global.WEB_SERVICE = "/PolarisCore/Terminals/tipesValidatorTerminal";
+        if (llenarValidacionesDiagnostico()) {
+            Global.WEB_SERVICE = "/PolarisCore/Terminals/tipesValidatorTerminal";
+            new TaskListarTipificaciones().execute();
+        }
 
-        new TaskListarTipificaciones().execute();
+
+    }
+
+    //Armo el arraylist     que voy a enviar al consumir el servicio de registrar diagnostico
+    public boolean llenarValidacionesDiagnostico() {
+        boolean retorno = true;
+        Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<String>();
+        String cadena = "";
+        for (Validacion val : Global.VALIDACIONES) {
+            if (val != null) {
+                if (val.getEstado().isEmpty()) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                    alertDialog.setTitle("¡ATENCIÓN!");
+                    alertDialog.setMessage("No fue seleccionado el estado de algunas validaciones");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                    return false;
+                } else {
+//        "validaciones": [{"tevs_terminal_serial":"212","tevs_terminal_validation":"sadasdasd","tevs_status":"ok"},}
+//        {"tevs_terminal_serial":"212","tevs_terminal_validation":"sadasdasd","tevs_status":"falla"}],
+                    cadena = "{\"tevs_terminal_serial\": \"<SERIAL>\",\"tevs_terminal_validation\": \"<DESCRIPCION>\",\"tevs_status\": \"<ESTADO>\"}";
+                    cadena = cadena.replace("<SERIAL>", val.getTeva_id());
+                    cadena = cadena.replace("<DESCRIPCION>", val.getTeva_description());
+                    cadena = cadena.replace("<ESTADO>", val.getEstado());
+                    Global.VALIDACIONES_DIAGNOSTICO.add(cadena);
+                }
+
+            }
+        }
+        return retorno;
+
     }
 
 
@@ -480,7 +519,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void llenarRVValidaciones(List<Validacion> validacions) {
+ /*   public void llenarRVValidaciones(List<Validacion> validacions) {
 
         // fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
 
@@ -500,7 +539,7 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(layoutManager);
 
 
-    }
+    }*/
 
     //este metodo llena el recycler view con las terminales obtenidas al consumir el servicio
 
@@ -539,7 +578,7 @@ public class MainActivity extends AppCompatActivity
                 System.out.println("-------*****-_-**********************************VA A LISTAR LAS ETAPAS DE LA TERMINAL SELECCIONADA");
 
                 listarObservacionesTerminal(serialObtenido);
-               // listarObservacionesTerminal("prueba");
+                // listarObservacionesTerminal("prueba");
             }
         }, R.layout.panel_terminal_asociada);
 
@@ -550,7 +589,6 @@ public class MainActivity extends AppCompatActivity
     /********************************************************
      * INICIO----->METODOS DEL FRAGMENT TIPIFICACIONES     *
      *****************************************************************/
-
 
 
     //boton atras de la calse TIPIFICACIONES
@@ -661,9 +699,6 @@ public class MainActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
-                // Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
-                // Si es falso, cierra el socket y vuelve a crearlo, si es verdadero el socket continua abierto
-                TCP.disconnect();
 
             } else {
                 switch (Utils.validateErrorsConexion(false, trans, MainActivity.this)) {
@@ -685,7 +720,9 @@ public class MainActivity extends AppCompatActivity
 
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR");
+            //  cierra el socket despues de la transaccion
+            TCP.disconnect();
+            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR cierra el socket");
         }
 
 
@@ -774,9 +811,6 @@ public class MainActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
-                // Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
-                // Si es falso, cierra el socket y vuelve a crearlo, si es verdadero el socket continua abierto
-                TCP.disconnect();
 
             } else {
                 switch (Utils.validateErrorsConexion(false, trans, MainActivity.this)) {
@@ -798,6 +832,8 @@ public class MainActivity extends AppCompatActivity
 
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
+            //  cierra el socket despues de la transaccion
+            TCP.disconnect();
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR OBSERVA");
         }
 
@@ -865,12 +901,13 @@ public class MainActivity extends AppCompatActivity
                     Global.StatusExit = true;
 
 
-                    if (Global.VALIDACIONES == null) {
+                    fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
+                   /* if (Global.VALIDACIONES == null) {
                         Toast.makeText(objeto, Global.serial_ter + " No tiene validaciones", Toast.LENGTH_SHORT).show();
 
                     } else {
                         objeto.llenarRVValidaciones(Global.VALIDACIONES);
-                    }
+                    }*/
                 } else {
                     // Si el login no es OK, manda mensaje de error
                     try {
@@ -880,9 +917,6 @@ public class MainActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
-                // Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
-                // Si es falso, cierra el socket y vuelve a crearlo, si es verdadero el socket continua abierto
-                TCP.disconnect();
 
             } else {
                 switch (Utils.validateErrorsConexion(false, trans, MainActivity.this)) {
@@ -904,6 +938,8 @@ public class MainActivity extends AppCompatActivity
 
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
+            //  cierra el socket despues de la transaccion
+            TCP.disconnect();
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR VALIDACIONES");
         }
 
@@ -979,9 +1015,6 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
 
-                // Si es falso, cierra el socket y vuelve a crearlo, si es verdadero el socket continua abierto
-                TCP.disconnect();
-
             } else {
                 switch (Utils.validateErrorsConexion(false, trans, objeto)) {
 
@@ -1002,7 +1035,9 @@ public class MainActivity extends AppCompatActivity
 
                 Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_LONG).show();
             }
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR TIPIFICAICONES") ;
+            //  cierra el socket despues de la transaccion
+            TCP.disconnect();
+            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR TIPIFICAICONES");
         }
 
 

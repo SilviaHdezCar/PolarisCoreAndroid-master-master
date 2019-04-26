@@ -15,7 +15,7 @@
         <TextView
             style="@style/letra_titulos"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
             android:text="Validaciones de la terminal asociada" />
@@ -144,51 +144,59 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/lbl_msj_validaciones"
+            style="@style/letra_contenido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:text="msj" />
+
         <LinearLayout
+            android:id="@+id/layout_encabezado_tipificaciones"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:background="@drawable/cuadrado_gris"
-            android:orientation="horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
             android:layout_gravity="center_horizontal"
-            >
-
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/cuadrado_gris"
+            android:orientation="horizontal">
 
             <TextView
+                style="@style/letra_titulos"
                 android:layout_width="170dp"
                 android:layout_height="match_parent"
-                style="@style/letra_titulos"
-                android:text="Nombre"
+                android:background="@drawable/borde_izq_sup_inf_gris"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dp"
-                android:background="@drawable/borde_izq_sup_inf_gris"/>
+                android:text="Validación" />
 
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    style="@style/letra_titulos"
-                    android:text="Ok"
-                    android:gravity="center"
-                    android:background="@drawable/borde_izq_sup_inf_gris"/>
+            <TextView
+                style="@style/letra_titulos"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/borde_izq_sup_inf_gris"
+                android:gravity="center"
+                android:text="Ok" />
 
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    style="@style/letra_titulos"
-                    android:text="Falla"
-                    android:gravity="center"
-                    android:background="@drawable/borde_izq_sup_inf_gris"
-                    />
+            <TextView
+                style="@style/letra_titulos"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/borde_izq_sup_inf_gris"
+                android:gravity="center"
+                android:text="Falla" />
 
-                <TextView
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    style="@style/letra_titulos"
-                    android:text="No aplica"
-                    android:gravity="center"
-                    android:background="@drawable/borde_todos_gris"/>
+            <TextView
+                style="@style/letra_titulos"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/borde_todos_gris"
+                android:gravity="center"
+                android:text="No aplica" />
 
 
         </LinearLayout>
@@ -200,15 +208,15 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingLeft="5dp"
-                android:layout_gravity="center_horizontal">
+                android:paddingLeft="5dp">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view_validaciones"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="3dp" />
+                     />
 
 
                 <LinearLayout

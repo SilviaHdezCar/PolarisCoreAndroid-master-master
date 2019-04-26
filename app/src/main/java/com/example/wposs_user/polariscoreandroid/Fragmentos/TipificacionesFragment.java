@@ -48,9 +48,6 @@ public class TipificacionesFragment extends Fragment {
         lbl_msj_tipificaciones=(TextView) v.findViewById(R.id.lbl_msj_tipificaciones);
         layout_tipificaciones=(LinearLayout)v.findViewById(R.id.layout_tipificaciones);
         autocomplete_tipificaciones=(AutoCompleteTextView)v.findViewById(R.id.autocomplete_tipificaciones);
-        tabla = new Tabla(objeto, (TableLayout)v.findViewById(R.id.tablaTipificaciones));
-        tabla.agregarCabecera(R.array.tabla_tipificaciones);
-        llenarFilasTabla();
 
         //cada vez que inicie, el arreglo vacía el arreglo de tipificaciones que se va a enviar
 
@@ -62,7 +59,7 @@ public class TipificacionesFragment extends Fragment {
             layout_tipificaciones.setVisibility(View.INVISIBLE);
         }else{ //si no está vacio, llena el autocomplte
             lbl_msj_tipificaciones.setVisibility(View.INVISIBLE);
-            llenarAutocomplete();
+
 
         }
 

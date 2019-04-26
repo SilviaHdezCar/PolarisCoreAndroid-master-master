@@ -661,8 +661,11 @@ public class Messages {
             Global.STATUS = lineastrama[5].substring(10, lineastrama[5].length() - 1);
             Global.POSITION = lineastrama[6].substring(12, lineastrama[6].length() - 1);
             Global.CODE = lineastrama[7].substring(8, lineastrama[7].length() - 1);
-            Global.NOMBRE = lineastrama[8].substring(8, lineastrama[8].length() - 1);//se coloca -2 porque toma la llave de cerrar, si vienen más elementos se deja -1
-            //faltan más datos Celular-correo-ubicacion
+            Global.NOMBRE = lineastrama[8].substring(8, lineastrama[8].length() - 1);
+            Global.EMAIL = lineastrama[9].substring(9, lineastrama[9].length() - 1);
+            Global.LOCATION = lineastrama[10].substring(12, lineastrama[10].length() - 1);
+            Global.PHONE = lineastrama[11].substring(10, lineastrama[11].length() - 1);
+           // Global.PHOTO = lineastrama[12].substring(10, lineastrama[9].length() - 2);
 
 
             Log.i("------------STATUS: ", "" + Global.STATUS);

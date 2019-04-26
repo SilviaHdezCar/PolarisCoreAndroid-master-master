@@ -1024,6 +1024,48 @@ public class Utils {
     }
 
 
+    /*********
+     Function:	  find_bytes_secuence
+     Description: encuentra la primera ocurrencia de la secuencia de Bytes S2 en S1
+     Input:		  S1 = array de Bytes base
+     S2 = array de Bytes a buscar
+     lenS1 = longitud del Array S1
+     lenS2 = longitud del Array S2
+     Return:
+
+     retorna el indice de la secuencia encontrada
+     retorna -1 sino encontró la secuencia
+     *********/
+    public static int find_bytes_secuence(byte[] S1, byte[] S2, int lenS1, int lenS2, int indice1, int indice2){
+        int i, j, len = 0;
+        boolean primeraCoincidencia = false;
+
+        for(i=indice1; i<lenS1; i++){
+
+            len=0;
+            for(j=indice2; j<lenS2; j++){
+
+                if(S1[i + j] == S2[j]){
+                    len++;
+                    primeraCoincidencia = true;
+                    if(len == lenS2)
+                        return(i - indice1);
+                }
+                else{
+                    if (primeraCoincidencia)
+                        len = 0;
+
+                    i+=len;
+                    break;
+                }
+            }
+
+        }
+
+        return -1;
+
+    }
+
 
     /*********
      Function:	  find_bytes_secuence
@@ -1183,5 +1225,64 @@ public class Utils {
         if (finaliza){
             activity.finish();
         }
+    }
+
+    /***************************
+     Function    : calculateContentLength
+     Description : calcula la longitud de la data http
+     Input       : Nothing
+     Return      : retorna la longitud de la data http
+     ***************************/
+    public static int calculateContentLength() {
+        byte[] left_limit = "Content-Length: ".getBytes();
+        byte[] right_limit = "\r\n".getBytes();
+        byte[] str = new byte[6 + 1];
+        int i, j, content_length = -1;
+
+        dumpMemory(left_limit,left_limit.length);
+
+        dumpMemory(right_limit,right_limit.length);
+
+        i = find_bytes_secuence(Global.inputData,left_limit,Global.inputLen,left_limit.length);
+
+        if (i != -1) {
+            //j = find_str(inputData + i + strlen(left_limit), right_limit);
+            int indiceArray = i + left_limit.length;
+            j = find_bytes_secuence(Global.inputData,right_limit,Global.inputLen,right_limit.length,indiceArray,0);
+
+            if (j != -1) {
+                memSet(str,(byte) 0x00, str.length);
+                System.arraycopy(Global.inputData, i + left_limit.length, str, 0, j);
+                content_length = Integer.parseInt( uninterpret_ASCII(str,0,j) );
+            } else
+                content_length = 0;
+        }
+
+        return content_length;
+
+    }
+
+
+    /***************************
+     Function    : calculateTotalLength
+     Description : calcula la longitud total del mensaje http mensaje HTTP
+     la longitud es el tamaño de la data mas el tamaño de la cabecera
+     Input       : Nothing
+     Return      : retorna la longitud del mensaje recibido
+     ***************************/
+    public static int calculateTotalLength(){
+        byte[] right_limit = new byte[]{(byte) 0x0D,(byte) 0x0A,(byte) 0x0D,(byte) 0x0A};
+        int http_header_length, content_length, total_length = 0;
+
+        content_length = calculateContentLength();
+        http_header_length = find_bytes_secuence(Global.inputData, right_limit,Global.inputLen,right_limit.length);
+
+        if(content_length == -1 || http_header_length == -1)
+            return( Global.inputData.length );
+
+        total_length = content_length + http_header_length + right_limit.length;
+
+        return total_length;
+
     }
 }
