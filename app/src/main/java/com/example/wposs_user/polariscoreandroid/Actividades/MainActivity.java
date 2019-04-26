@@ -1,17 +1,13 @@
 package com.example.wposs_user.polariscoreandroid.Actividades;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -26,14 +22,13 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterEtapas;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuesto;
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuestoDiag;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidaciones;
@@ -46,10 +41,10 @@ import com.example.wposs_user.polariscoreandroid.Fragmentos.EtapasTerminal;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.InicialFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.PerfilFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ProductividadFragment;
+import com.example.wposs_user.polariscoreandroid.Fragmentos.Registro_diagnostico;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.StockFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.TipificacionesFragment;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.RegistroDiagnostico;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.Tools;
 import com.example.wposs_user.polariscoreandroid.ValidacionesTerminalesAsociadas;
@@ -74,6 +69,9 @@ public class MainActivity extends AppCompatActivity
     public RecyclerView.LayoutManager layoutManager;
     private Vector<Repuesto> repuestos;
     private AutoCompleteTextView autocomplete_tipificaciones;
+    private Vector<Repuesto> repuestos;
+    private Vector<Etapas> etapas;
+    AdapterRepuestoDiag adapter;
 
 
     private TextView claveActual;
@@ -176,9 +174,8 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.btn_aumentar:
-                Intent inte = new Intent(this, RegistroDiagnostico.class);
-                startActivity(inte);
-                finish();
+
+                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).commit();
 
 
                 return true;
@@ -406,7 +403,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
     /**********************************************************************************************************
      * METODOS ATRÁS DE LOS BOTONES     * siguienteEtapas
      * *******************************************************************************************************/
@@ -417,8 +413,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void siguienteEtapas(View v) {
-
-
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
 
         Global.WEB_SERVICE = "/PolarisCore/Terminals/validatorTerminal";
@@ -434,9 +428,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void siguienteValidaciones(View view) {
-
-        //Hacer un mtodo y llamrlo acá --> en el que agregue a un arreglo la lista de validaciones
-
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new TipificacionesFragment()).commit();
 
         Global.WEB_SERVICE = "/PolarisCore/Terminals/tipesValidatorTerminal";
 
@@ -547,7 +539,7 @@ public class MainActivity extends AppCompatActivity
                 System.out.println("-------*****-_-**********************************VA A LISTAR LAS ETAPAS DE LA TERMINAL SELECCIONADA");
 
                 listarObservacionesTerminal(serialObtenido);
-                // listarObservacionesTerminal("prueba");
+               // listarObservacionesTerminal("prueba");
             }
         }, R.layout.panel_terminal_asociada);
 
@@ -772,8 +764,6 @@ public class MainActivity extends AppCompatActivity
                     Global.StatusExit = true;
                     fragmentManager.beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
 
-
-                    //   objeto.llenarRVEtapas(Global.OBSERVACIONES);
 
                 } else {
                     // Si el login no es OK, manda mensaje de error
@@ -1012,7 +1002,7 @@ public class MainActivity extends AppCompatActivity
 
                 Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_LONG).show();
             }
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR TIPIFICAICONES");
+            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR TIPIFICAICONES") ;
         }
 
 
@@ -1119,6 +1109,86 @@ public class MainActivity extends AppCompatActivity
     public Terminal getT9() {
         return t9;
     }
+
+/*************************** metodo que permite cargar los repuestos seleccionados al recicler view*******************/
+
+    public void agregarRepuestos(View view) {
+
+     AutoCompleteTextView aut= findViewById(R.id.auto_repuesto);
+     EditText ca= (EditText)findViewById(R.id.txt_cant);
+
+
+          if(ca.getText().toString().isEmpty()||Global.codigo_rep.isEmpty()){
+            Toast mensaje = Toast.makeText(this, "Faltan datos", Toast.LENGTH_SHORT);
+            mensaje.show();
+            return;
+
+        }
+
+
+
+            int canti = Integer.parseInt(ca.getText().toString());
+            String serial_buscar = Global.codigo_rep;
+            String[] codigo = serial_buscar.split(" ");
+             String serial_rep = codigo[0];
+             System.out.print(serial_rep);
+
+            for (Repuesto r : Global.REPUESTOS) {
+
+                if (r.getSpar_code().equals(serial_rep)) {
+
+                    if (r.getSpar_quantity() > canti) {
+                        Repuesto re = new Repuesto(r.getSpar_code(), r.getSpar_name(), canti);
+                        Global.REPUESTOS_DIAGONOSTICO.add(re);
+                        recyclerView = (RecyclerView) findViewById(R.id.rv_repuestos_diag);
+                        recyclerView.setAdapter(new AdapterRepuestoDiag(this, Global.REPUESTOS_DIAGONOSTICO));//le pasa los repuestos> seleccionados por el usuario
+                        layoutManager = new LinearLayoutManager(this);// en forma de lista
+                        recyclerView.setLayoutManager(layoutManager);
+                        aut.setText("");
+                        ca.setText("");
+                        Toast mensaje = Toast.makeText(this, "El repuesto se agrego exitosamente", Toast.LENGTH_SHORT);
+                        mensaje.show();
+                        Global.codigo_rep="";
+                        return;
+
+                    }
+
+               if (r.getSpar_quantity() < canti) {
+
+                        Toast mensaje = Toast.makeText(this, "El repuesto no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT);
+                        mensaje.show();
+                        return;
+
+                    }
+                }
+
+
+                }
+
+              Toast mensaje = Toast.makeText(this, "No se encontro el repuesto solicitado", Toast.LENGTH_SHORT);
+              mensaje.show();
+
+        }
+
+
+
+
+
+        public void removerRep(){
+        RecyclerView rev;
+
+
+
+
+        }
+
+
+
+
+
+
+
+
 
 
 }
