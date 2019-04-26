@@ -30,7 +30,6 @@ public class AdapterRepuestoDiag extends RecyclerView.Adapter<AdapterRepuestoDia
     public AdapterRepuestoDiag.ViewHolderRepuestoDiag onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.panel_agregarep, null);
         v.setOnClickListener(this);
-
         return new AdapterRepuestoDiag.ViewHolderRepuestoDiag(v);
     }
 
