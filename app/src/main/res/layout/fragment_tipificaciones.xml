@@ -61,7 +61,6 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/redondo_azul"
-                    android:onClick="agregarTipificacion"
                     android:text="Agregar"
                     android:textAllCaps="false" />
 
@@ -80,6 +79,7 @@
             >
 
 
+
             <TextView
                 android:layout_width="220dp"
                 android:layout_height="match_parent"
@@ -90,7 +90,7 @@
                 android:background="@drawable/borde_izq_sup_inf_gris"/>
 
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="60dp"
                 android:layout_height="match_parent"
                 style="@style/letra_titulos"
                 android:text="Eliminar"
@@ -116,8 +116,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view_tipificaciones"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="3dp" />
+                    android:layout_height="wrap_content"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

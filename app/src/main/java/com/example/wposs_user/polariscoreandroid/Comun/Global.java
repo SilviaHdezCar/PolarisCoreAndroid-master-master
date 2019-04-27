@@ -130,5 +130,5 @@ public class Global {
     public static String claveNueva;
 
 
-    public static String descripcionTipificaion ="" ;
+
 }

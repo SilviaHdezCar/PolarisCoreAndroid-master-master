@@ -54,7 +54,7 @@
             android:layout_height="@dimen/size_height_editText"
             android:layout_marginTop="20dp"
             android:background="@drawable/redondo_gris"
-            android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ"
+            android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ."
             android:hint="@string/clave_nueva"
             android:inputType="textPassword"
             android:padding="10dp" />
@@ -65,7 +65,7 @@
             android:layout_height="@dimen/size_height_editText"
             android:layout_marginTop="20dp"
             android:background="@drawable/redondo_gris"
-            android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ"
+            android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ."
             android:hint="@string/clave_confirmar"
             android:inputType="textPassword"
             android:paddingLeft="10dp"/>

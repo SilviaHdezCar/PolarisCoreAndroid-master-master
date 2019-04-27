@@ -1,13 +1,9 @@
 package com.example.wposs_user.polariscoreandroid.java;
 
 public class Validacion {
-
-
-
-
     private String teva_id;
     private String teva_description;
-    private boolean ok=false;
+    private boolean ok;
     private boolean falla;
     private boolean no_aplica;
     private String estado;
@@ -76,6 +72,10 @@ public class Validacion {
         return "Validacion{" +
                 "teva_id='" + teva_id + '\'' +
                 ", teva_description='" + teva_description + '\'' +
+                ", ok=" + ok +
+                ", falla=" + falla +
+                ", no_aplica=" + no_aplica +
+                ", estado='" + estado + '\'' +
                 '}';
     }
 }

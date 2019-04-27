@@ -114,20 +114,20 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
             if (val != null) {
                 validaciones.add(val);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
             }
-        }
-
-        final AdapterValidaciones adapter = new AdapterValidaciones(validaciones, new AdapterValidaciones.interfaceClick() {
-            @Override
-            public void onClick(List<Validacion> val, int position, int pos_radio) {
-
-            }
 
 
-        }, R.layout.panel_validaciones);
+            final AdapterValidaciones adapter = new AdapterValidaciones(validaciones, new AdapterValidaciones.interfaceClick() {
+                @Override
+                public void onClick(List<Validacion> listValidaciones, int position, int pos_radio) {
+                    System.out.println("al dar clic---- position " + position + "pos_radio " + pos_radio);
 
-        rv.setAdapter(adapter);
+                }
 
+
+            }, R.layout.panel_validaciones);
+
+            rv.setAdapter(adapter);
+
+        }System.out.println("Tamaño del arreglo " + validaciones.size());
     }
-
-
 }

@@ -441,16 +441,17 @@ public class MainActivity extends AppCompatActivity
 
     //Armo el arraylist     que voy a enviar al consumir el servicio de registrar diagnostico
     public boolean llenarValidacionesDiagnostico() {
-        boolean retorno = true;
+        boolean retorno=false;
         Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<String>();
         String cadena = "";
         for (Validacion val : Global.VALIDACIONES) {
             if (val != null) {
-                if (val.getEstado().isEmpty()) {
+                System.out.println("toString val: "+val.toString());
+                if (val.getEstado()==null) {
                     AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                     alertDialog.setTitle("¡ATENCIÓN!");
-                    alertDialog.setMessage("No fue seleccionado el estado de algunas validaciones");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    alertDialog.setMessage("Verifique el estado de la validación: "+val.getTeva_description());
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "ACEPTAR",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -466,6 +467,7 @@ public class MainActivity extends AppCompatActivity
                     cadena = cadena.replace("<DESCRIPCION>", val.getTeva_description());
                     cadena = cadena.replace("<ESTADO>", val.getEstado());
                     Global.VALIDACIONES_DIAGNOSTICO.add(cadena);
+                    retorno=true;
                 }
 
             }
@@ -566,19 +568,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(List<Terminal> terminal, int position) {
 
-                /********************
-                 *  cuando de clic en el panel de la terminal que desea ver los detalles, captura la posicion del panel donde dio clic
-                 *  y consume el servicio de listarObservacionesTeerminal
-                 *  **************/
 
                 serialObtenido = terminal.get(position).getTerm_serial();
                 Global.modelo = terminal.get(position).getTerm_model();
 
-
-                System.out.println("-------*****-_-**********************************VA A LISTAR LAS ETAPAS DE LA TERMINAL SELECCIONADA");
-
                 listarObservacionesTerminal(serialObtenido);
-                // listarObservacionesTerminal("prueba");
             }
         }, R.layout.panel_terminal_asociada);
 
@@ -848,6 +842,7 @@ public class MainActivity extends AppCompatActivity
 
 //******************consumir servicio listar observaciones
     class TaskListarValidaciones extends AsyncTask<String, Void, Boolean> {
+
         ProgressDialog progressDialog;
         int trans = 0;
 
