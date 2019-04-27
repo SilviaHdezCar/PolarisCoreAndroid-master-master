@@ -227,9 +227,11 @@ public class Messages {
      * ***********************************************************/
     public static void packHttpDataListarRepuestos() {
         //comienza a armar la trama
-        Global.httpDataBuffer = "{\"model\": \"<SERIAL>\"}";//se arma la trama
+        Global.httpDataBuffer = "{\"user\": \"<usuario>\", \"model\": \"<SERIAL>\"}";//se arma la trama
 
         Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", "9220");
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<usuario>", Global.CODE);
+
 
 
         //fn

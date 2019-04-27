@@ -43,17 +43,7 @@ public class AdapterRepuestoDiag extends RecyclerView.Adapter<AdapterRepuestoDia
         holder.codigo.setText(rep.getSpar_code());
         holder.nombre.setText( rep.getSpar_name());
          holder.cantidad.setText(""+rep.getSpar_quantity());
-
-        holder.img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ic.onClick(listRepuesto,i);
-            }
-
-        });
-
-    }
+           }
 
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
