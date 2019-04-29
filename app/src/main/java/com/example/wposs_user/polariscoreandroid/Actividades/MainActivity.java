@@ -1,6 +1,5 @@
 package com.example.wposs_user.polariscoreandroid.Actividades;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -31,10 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuesto;
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuestoDiag;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidaciones;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
@@ -55,8 +52,6 @@ import com.example.wposs_user.polariscoreandroid.java.Etapas;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
-import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
-import com.example.wposs_user.polariscoreandroid.java.Usuario;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 
 import java.util.ArrayList;
@@ -72,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Vector<Repuesto> repuestos;
     private AutoCompleteTextView autocomplete_tipificaciones;
     private Vector<Etapas> etapas;
-    AdapterRepuestoDiag adapter;
+
 
 //********************************Variables usadas************//////////////
     private TextView claveActual;
@@ -991,17 +986,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     Button btn_mostrarRepuestos;
 
-    public void cargarRepuesto_stock(View view) {
-
-        btn_mostrarRepuestos = (Button) findViewById(R.id.btn_rep_stock);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_stock);
-        recyclerView.setAdapter(new AdapterRepuesto(this, repuestos));//le pasa los datos-> lista de usuarios
-
-        layoutManager = new LinearLayoutManager(this);// en forma de lista
-        recyclerView.setLayoutManager(layoutManager);
-    }
-
-
     public List<Terminal> getTerminales() {
         System.out.println("***************************************LISTA DE TERMINALES********************************************" + this.terminales.size());
         return terminales;
@@ -1051,58 +1035,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public Terminal getT9() {
         return t9;
     }
-
-/*************************** metodo que permite cargar los repuestos seleccionados al recicler view*******************/
-
-    public void agregarRepuestos(View view) {
-
-     AutoCompleteTextView aut= findViewById(R.id.auto_repuesto);
-     EditText ca= (EditText)findViewById(R.id.txt_cant);
-
-
-     if(ca.getText().toString().isEmpty()||Global.codigo_rep.isEmpty()){
-         Toast mensaje = Toast.makeText(this, "Faltan datos", Toast.LENGTH_SHORT);
-         mensaje.show();
-         return;
-        }
-
-     int canti = Integer.parseInt(ca.getText().toString());
-     String serial_buscar = Global.codigo_rep;
-     String[] codigo = serial_buscar.split(" ");
-     String serial_rep = codigo[0];
-     System.out.print(serial_rep);
-
-     for (Repuesto r : Global.REPUESTOS) {
-
-         if (r.getSpar_code().equals(serial_rep)) {
-             if (r.getSpar_quantity() > canti) {
-              Repuesto re = new Repuesto(r.getSpar_code(), r.getSpar_name(), canti);
-              Global.REPUESTOS_DIAGONOSTICO.add(re);
-              recyclerView = (RecyclerView) findViewById(R.id.rv_repuestos_diag);
-              recyclerView.setAdapter(new AdapterRepuestoDiag(this, Global.REPUESTOS_DIAGONOSTICO));//le pasa los repuestos> seleccionados por el usuario
-              layoutManager = new LinearLayoutManager(this);// en forma de lista
-              recyclerView.setLayoutManager(layoutManager);
-              aut.setText("");
-              ca.setText("");
-              Toast mensaje = Toast.makeText(this, "El repuesto se agrego exitosamente", Toast.LENGTH_SHORT);
-              mensaje.show();
-              Global.codigo_rep="";
-               return;}
-
-
-          if (r.getSpar_quantity() < canti) {
-          Toast mensaje = Toast.makeText(this, "El repuesto no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT);
-           mensaje.show();
-           return;
-          }
-         }
-         }
-
-              Toast mensaje = Toast.makeText(this, "No se encontro el repuesto solicitado", Toast.LENGTH_SHORT);
-              mensaje.show();
-        }
-
-
 
 
 }

@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:divider="@drawable/button_border"
     android:orientation="vertical"
-    tools:context=".Actividades.MainActivity"
+    tools:context=".Fragmentos.Registro_diagnostico"
     android:layout_marginRight="10dp"
     android:layout_marginLeft="10dp"
 
@@ -49,7 +49,7 @@
             />
 
         <EditText
-            android:id="@+id/txt_cant"
+            android:id="@+id/txt_cantReq"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -59,16 +59,16 @@
             />
 
         <Button
-            android:id="@+id/bton_agregarRep"
-             android:layout_width="wrap_content"
+            android:id="@+id/bton_agregarRepuesto"
+                       android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"
             android:background="@color/azul_botones"
             android:text="Agregar"
             android:textAllCaps="false"
             android:textColor="@color/blanco"
-            android:onClick="agregarRepuestos"
             style="@style/letra_botones"
+            android:onClick="agregarRepuesto"
             android:textSize="14dp"
             />
 
@@ -139,16 +139,16 @@
          />
 
     <EditText
+        android:id="@+id/txt_observaciones"
+        style="@style/letra_contenido"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-       android:layout_marginTop="10dp"
+        android:layout_marginTop="10dp"
         android:background="@color/blanco"
         android:hint="Observaciones"
-        style="@style/letra_contenido"
-        android:textSize="14dp"
 
 
-        />
+        android:textSize="14dp" />
 
     <Button
         android:layout_width="wrap_content"
