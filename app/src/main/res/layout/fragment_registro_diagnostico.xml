@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:divider="@drawable/button_border"
     android:orientation="vertical"
     tools:context=".Fragmentos.Registro_diagnostico"
-    android:layout_marginRight="10dp"
-    android:layout_marginLeft="10dp"
-
     >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@drawable/button_border"
+        android:orientation="vertical"
+        tools:context=".Fragmentos.Registro_diagnostico"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+
+        >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,6 +34,7 @@
         android:layout_height="wrap_content"
         android:text="Digite el codigo o nombre del repuesto "
         android:textSize="14dp"
+        style="@style/letra_titulos"
         />
 
     </LinearLayout>
@@ -42,17 +52,27 @@
 
         <AutoCompleteTextView
             android:id="@+id/auto_repuesto"
-            android:layout_width="120dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:hint="Codigo o nombre"
             android:textSize="14dp"
+            android:layout_marginLeft="5dp"
             />
+
+         </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+
+        >
 
         <EditText
             android:id="@+id/txt_cantReq"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="5dp"
             android:hint="Cantidad"
             android:inputType="number"
             android:textSize="14dp"
@@ -60,17 +80,18 @@
 
         <Button
             android:id="@+id/bton_agregarRepuesto"
-                       android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="40dp"
             android:background="@color/azul_botones"
             android:text="Agregar"
             android:textAllCaps="false"
             android:textColor="@color/blanco"
             style="@style/letra_botones"
-            android:onClick="agregarRepuesto"
-            android:textSize="14dp"
+             android:textSize="14dp"
             />
+
+
 
     </LinearLayout>
 
@@ -128,15 +149,22 @@
             android:textSize="14dp"
             />
 
+
+
     </LinearLayout>
 
+
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_repuestos_diag"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
 
         android:background="@drawable/button_border"
          />
+
 
     <EditText
         android:id="@+id/txt_observaciones"
@@ -163,3 +191,5 @@
 
 
 </LinearLayout>
+
+</ScrollView>

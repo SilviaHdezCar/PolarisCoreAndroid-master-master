@@ -324,6 +324,7 @@ public class Registro_diagnostico extends Fragment {
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(), R.layout.spinner_sytle, rep);
 
         aut_repuesto.setAdapter(adapter);
+        aut_repuesto.setThreshold(0);
         aut_repuesto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
        @Override
        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -367,15 +368,21 @@ public class Registro_diagnostico extends Fragment {
 
             int cant_solicitada= Integer.parseInt(cant);
 
+        if(cant_solicitada<=0){
+
+            Toast.makeText(objeto, "Debe solicitar como minimo 1 repuesto", Toast.LENGTH_SHORT).show();
+
+        }
+
             for (int i =0;i< Global.REPUESTOS.size();i++) {
 
                 if(Global.REPUESTOS.get(i).getSpar_code().equals(Global.codigo_rep)){
-                    Toast.makeText(objeto,Global.REPUESTOS.get(2).getSpar_code(), Toast.LENGTH_SHORT).show();
 
-                    if(Global.REPUESTOS.get(i).getSpar_quantity()<cant_solicitada){
+                  if(Global.REPUESTOS.get(i).getSpar_quantity()<cant_solicitada){
                         Toast.makeText(objeto, "El repuesto seleccionado no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT).show();
                         return;
                     }
+
                     Repuesto r = new Repuesto(Global.REPUESTOS.get(i).getSpar_code(),Global.REPUESTOS.get(i).getSpar_name(),cant_solicitada);
                     Global.REPUESTOS_DIAGONOSTICO.add(r);
                     Toast.makeText(objeto, "El repuesto fue agregado exitosamente", Toast.LENGTH_SHORT).show();
