@@ -189,7 +189,7 @@ public class TipificacionesFragment extends Fragment {
     }
 
 
-    //Metodo utilizado para llenarel recycler view de tipificaciones
+    //Metodo utilizado para llenar el arreglo que se le pasa al recycler view de tipificaciones
     public void llenarRVTipificaciones() {
 
         tipificaciones = new ArrayList<>();

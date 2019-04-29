@@ -10,7 +10,6 @@ import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +18,167 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Messages {
+    /*****************************************************************************************
+     * EMPAQUETADO DE CERRAR SESION
+     *
+     * **************************************************************************************/
+    public static void packMsgCerrarSesion() {
+        packHttpDataCerrarSesion();
+        packHttpHeaderLogueado();
 
+        Global.outputData = (Global.httpHeaderBuffer + "\r\n\r\n" + Global.httpDataBuffer).getBytes();
+
+        Global.outputLen = Global.outputData.length;
+        //Utils.dumpMemory(Global.outputData, Global.outputLen);
+        Log.i("outputData*******", "" + uninterpret_ASCII(Global.inputData, 0, Global.inputData.length));
+
+    }
+
+    /*********************************************
+     * ARMA EL CUERPO DE LA TRAMA CERRAR SESION
+     * ***********************************************************/
+    public static void packHttpDataCerrarSesion() {
+        //comienza a armar la trama
+        Global.httpDataBuffer = "{\"user\": \"<ID>\"}";//se arma la trama
+
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<ID>", Global.ID);
+
+
+    }
+
+
+
+    /*****************************************************************************************
+     * EMPAQUETADO DE Validar CLAVE, LO QUE SE ENVIA
+     *
+     * **************************************************************************************/
+    public static void packMsgValidarClave() {
+        packHttpDataValidarClave();
+        packHttpHeaderLogueado();
+
+        Global.outputData = (Global.httpHeaderBuffer + "\r\n\r\n" + Global.httpDataBuffer).getBytes();
+
+        Global.outputLen = Global.outputData.length;
+        //Utils.dumpMemory(Global.outputData, Global.outputLen);
+        Log.i("outputData*******", "" + uninterpret_ASCII(Global.inputData, 0, Global.inputData.length));
+
+    }
+
+    /*********************************************
+     * ARMA EL CUERPO DE LA TRAMA DE ENVIO PARA VALIDAR CLAVE
+     * ***********************************************************/
+    public static void packHttpDataValidarClave() {
+        //comienza a armar la trama
+        Global.httpDataBuffer = "{\"user_email\": \"<CORREO>\",\"user_password\": \"<PASSWORD>\"}";//se arma la trama
+
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<CORREO>", Global.correo);
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<PASSWORD>", Global.validar_actual);
+
+
+    }
+
+    /************************************************************************************************
+     * DESEMPAQUETADO DE LA RESPUESTA DEL SERVIDOR --> CERRAR SESION
+     *****************************************************************************************************/
+    public static boolean unPackMsgCerrarSesion(Context c) {
+
+        String tramaCompleta = "";
+
+        int indice = 0;
+
+        Global.inputData = Global.httpDataBuffer.getBytes();
+
+        tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
+        System.out.println("trama completa: "+tramaCompleta);
+
+        JSONObject jsonObject = null;
+        try {
+
+            jsonObject = new JSONObject(tramaCompleta);
+
+            Global.STATUS_SERVICE = jsonObject.get("status").toString();
+
+            Global.mensaje = jsonObject.get("message").toString();
+            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                return false;
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+
+
+    }
+
+
+    /************************************************************************************************
+     * DESEMPAQUETADO DE LA RESPUESTA DEL SERVIDOR --> ValidarClave
+     *****************************************************************************************************/
+    public static boolean unPackMsgValidarClave(Context c) {
+
+        String tramaCompleta = "";
+
+        int indice = 0;
+
+        Global.inputData = Global.httpDataBuffer.getBytes();
+
+        tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
+
+        JSONObject jsonObject = null;
+        try {
+
+            jsonObject = new JSONObject(tramaCompleta);
+
+            Global.STATUS_SERVICE = jsonObject.get("status").toString();
+
+            Global.mensaje = jsonObject.get("message").toString();
+            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                return false;
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+
+
+    }
+
+    /************************************************************************************************
+     * DESEMPAQUETADO DE LA RESPUESTA DEL SERVIDOR --> CambiarClave
+     *****************************************************************************************************/
+    public static boolean unPackMsgCambiarClave(Context c) {
+
+        String tramaCompleta = "";
+
+        int indice = 0;
+
+        Global.inputData = Global.httpDataBuffer.getBytes();
+
+        tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
+
+        JSONObject jsonObject = null;
+        try {
+
+            jsonObject = new JSONObject(tramaCompleta);
+
+            Global.MESSAGE = jsonObject.get("message").toString();
+
+            if (!Global.MESSAGE.equalsIgnoreCase("success")) {
+                Global.mensaje = jsonObject.get("message").toString();
+                return false;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+
+
+    }
 
     /*****************************************************************************************
      * EMPAQUETADO DE LISTAR Tipificaciones, LO QUE SE ENVIA
@@ -63,7 +222,6 @@ public class Messages {
         Global.httpDataBuffer = Global.httpDataBuffer.replace("<cc>", Global.ID);
         Global.httpDataBuffer = Global.httpDataBuffer.replace("<clave_nueva>", Global.claveNueva);
         //fn
-
 
     }
 
@@ -441,7 +599,7 @@ public class Messages {
 
     }
 
-    //ARMA LA CABECERA DE METODOS QUE VAN POR GET CUANDO ESTÁN LOGUEADOS___---------------------------------------------------------------------------
+    //ARMA LA CABECERA DE METODOS QUE VAN POR GET CUANDO ESTÁN LOGUEADOS___----No tiene content_type-----------------------------------------------------------------------
     public static void packHttpHeaderLogueadoValidaciones() {
 //cabecera
         int tam;
@@ -464,6 +622,7 @@ public class Messages {
     }
 
     //ARMA LA CABECERA DE METODOS QUE VAN POR POST CUANDO ESTÁN LOGUEADOS
+    //tiene content_type
     public static void packHttpHeaderLogueado() {
 //cabecera
         int tam;
@@ -566,11 +725,11 @@ public class Messages {
     public static void packMsgLogin() {
         packHttpData();
         packHttpHeader();
-        Global.inputData  = new byte[Global.MAX_LEN_INPUTDATA];
-        Global.outputData  = new byte[Global.MAX_LEN_OUTPUTDATA];
+        Global.inputData = new byte[Global.MAX_LEN_INPUTDATA];
+        Global.outputData = new byte[Global.MAX_LEN_OUTPUTDATA];
         Global.inputDataTemp = new byte[Global.MAX_LEN_INPUTDATA];
         Global.outputLen = 0;
-        Global.inputLen=0;
+        Global.inputLen = 0;
 
         Global.outputData = (Global.httpHeaderBuffer + "\r\n\r\n" + Global.httpDataBuffer).getBytes();
         Global.outputLen = Global.outputData.length;
@@ -655,13 +814,14 @@ public class Messages {
             Global.mensaje = "";
             try {
                 Global.TOKEN = jsonObject.get("token").toString();
-               // Global.MESSAGE = lineastrama[1].substring(11, lineastrama[1].length() - 1);
+                // Global.MESSAGE = lineastrama[1].substring(11, lineastrama[1].length() - 1);
                 Global.ROL = jsonObject.get("roles").toString();
-                Global.LOGIN = jsonObject.get("login").toString();;
+                Global.LOGIN = jsonObject.get("login").toString();
+                ;
                 Global.ID = jsonObject.get("id").toString();//CEDULA
                 Global.STATUS = jsonObject.get("status").toString();
                 Global.POSITION = jsonObject.get("position").toString();
-                Global.CODE =jsonObject.get("code").toString();
+                Global.CODE = jsonObject.get("code").toString();
                 Global.NOMBRE = jsonObject.get("name").toString();
                 Global.EMAIL = jsonObject.get("email").toString();
                 Global.LOCATION = jsonObject.get("location").toString();

@@ -19,6 +19,7 @@ public class Global {
     public static String serial= "";
     public static String modelo= "";
     public static String codigo_rep = "";
+    public static String validar_actual= "";//es la que se envia al serviso al validar la clave
 
 
 

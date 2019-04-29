@@ -151,8 +151,6 @@ public class Activity_login extends AppCompatActivity {
 
                 limpiarLogin();
                 Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
-
-
             } else {
                 switch (Utils.validateErrorsConexion(false, trans, Activity_login.this)) {
 
