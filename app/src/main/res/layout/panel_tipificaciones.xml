@@ -6,12 +6,10 @@
 
     <LinearLayout
         android:id="@+id/panel_tipificaciones"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/borde_todos_gris"
+        android:background="@drawable/cuadrado_gris"
         android:orientation="horizontal">
 
 
@@ -19,7 +17,7 @@
             android:id="@+id/txt_tipificaciones"
             android:layout_width="220dp"
             android:layout_height="match_parent"
-            android:background="@drawable/borde_derecho_negro"
+            android:background="@drawable/borde_izq_sup_inf_gris"
             android:gravity="center_vertical"
             android:paddingLeft="5dp" />
 
@@ -30,9 +28,10 @@
 
             <ImageButton
                 android:id="@+id/btn_eliminar_tipificacion"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:padding="1dp"
                 android:background="@mipmap/papelera" />
         </LinearLayout>
 

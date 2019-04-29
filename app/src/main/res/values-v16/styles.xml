@@ -13,6 +13,11 @@
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
+    <style name="letra_enlace">
+        <item name="android:textColor">@color/azul_botones</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
 
     <style name="letra_botones">
         <item name="android:textColor">@color/blanco</item>

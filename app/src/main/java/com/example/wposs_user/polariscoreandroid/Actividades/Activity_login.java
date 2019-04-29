@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -73,6 +74,7 @@ public class Activity_login extends AppCompatActivity {
         int trans = 0;
 
 
+
         /*******************************************************************************
          Método       : onPreExecute
          Description  : Se ejecuta antes de realizar el proceso, muestra una ventana con uin msj de espera
@@ -97,6 +99,9 @@ public class Activity_login extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... strings) {
             Messages.packMsgLogin();
+            Log.i("Correo: ",""+Global.correo);
+            Log.i("Clave: ",""+Global.password);
+
 
             trans = TCP.transaction(Global.outputLen);
 

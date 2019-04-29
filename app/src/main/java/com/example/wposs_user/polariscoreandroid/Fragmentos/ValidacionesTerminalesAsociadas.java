@@ -1,4 +1,4 @@
-package com.example.wposs_user.polariscoreandroid;
+package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidaciones;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
+import com.example.wposs_user.polariscoreandroid.R;
+import com.example.wposs_user.polariscoreandroid.Tools;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 

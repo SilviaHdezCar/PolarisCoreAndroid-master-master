@@ -566,9 +566,13 @@ public class Messages {
     public static void packMsgLogin() {
         packHttpData();
         packHttpHeader();
+        Global.inputData  = new byte[Global.MAX_LEN_INPUTDATA];
+        Global.outputData  = new byte[Global.MAX_LEN_OUTPUTDATA];
+        Global.inputDataTemp = new byte[Global.MAX_LEN_INPUTDATA];
+        Global.outputLen = 0;
+        Global.inputLen=0;
 
         Global.outputData = (Global.httpHeaderBuffer + "\r\n\r\n" + Global.httpDataBuffer).getBytes();
-
         Global.outputLen = Global.outputData.length;
         //Utils.dumpMemory(Global.outputData, Global.outputLen);
 
@@ -616,6 +620,8 @@ public class Messages {
 
         int indice = 0;
 
+        Log.i("TRAMA DATA:    ", "" + Global.httpDataBuffer);
+
         Global.inputData = Global.httpDataBuffer.getBytes();
         //Global.inputData = Utils.replaceSpecialChars(Global.inputData, Global.inputData.length);
 
@@ -625,12 +631,8 @@ public class Messages {
         tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
 
 
-        int tramaNecesitada = tramaCompleta.indexOf("}");
-
-        String trama = tramaCompleta.substring(0, tramaNecesitada + 1);//ESTA ES LA TRAMA QUE ENVIA EL SERVIDOR, ES LA QUE SE VA A DESEMPAQUETAR
         Log.i("TRAMA OBTENIDA:    ", "" + tramaCompleta);
 
-        String[] lineastrama = trama.split(",");
 
         JSONObject jsonObject = null;
         try {

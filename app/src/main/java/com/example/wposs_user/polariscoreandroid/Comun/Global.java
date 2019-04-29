@@ -119,11 +119,17 @@ public class Global {
     public static List<Terminal> TERMINALES_ASOCIADAS ;
     public static List<Observacion> OBSERVACIONES;
     public static List<Validacion> VALIDACIONES;
-    public static List<String> VALIDACIONES_DIAGNOSTICO;
+
     public static List<Tipificacion> TIPIFICACIONES;
-    public static List<Tipificacion> TIPIFICACIONES_DIAGNOSTICO;
     public static ArrayList<Repuesto> REPUESTOS = new ArrayList<>();
     public static ArrayList<Repuesto> REPUESTOS_DIAGONOSTICO= new ArrayList<>();
+
+
+    public static List<String> VALIDACIONES_DIAGNOSTICO;
+    public static List<String> TIPIFICACIONES_DIAGNOSTICO;
+    public static String reparable="";
+    public static String fallaDetectada="";
+
 
 
     public static int lenS1;

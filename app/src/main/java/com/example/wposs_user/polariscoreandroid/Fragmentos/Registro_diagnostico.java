@@ -126,7 +126,7 @@ public class Registro_diagnostico extends Fragment {
                 }
                 // Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
                 // Si es falso, cierra el socket y vuelve a crearlo, si es verdadero el socket continua abierto
-                TCP.disconnect();
+               TCP.disconnect();
 
             } else {
                 switch (Utils.validateErrorsConexion(false, trans, v.getContext())) {
@@ -241,7 +241,7 @@ public class Registro_diagnostico extends Fragment {
                 }
                 // Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
                 // Si es falso, cierra el socket y vuelve a crearlo, si es verdadero el socket continua abierto
-                TCP.disconnect();
+              TCP.disconnect();
 
             } else {
                 switch (Utils.validateErrorsConexion(false, trans, v.getContext())) {
@@ -264,7 +264,7 @@ public class Registro_diagnostico extends Fragment {
                 Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
             }
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR OBSERVA");
-            TCP.disconnect();
+           TCP.disconnect();
         }
 
 

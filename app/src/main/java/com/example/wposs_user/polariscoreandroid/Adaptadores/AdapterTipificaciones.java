@@ -49,7 +49,7 @@ public class AdapterTipificaciones extends RecyclerView.Adapter<AdapterTipificac
         holder.btn_eliminar_tipificacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listTipificaciones.remove(position);
+
                 ic.onClick(listTipificaciones,position);
             }
 

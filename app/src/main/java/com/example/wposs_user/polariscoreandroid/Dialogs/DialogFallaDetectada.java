@@ -1,4 +1,4 @@
-package com.example.wposs_user.polariscoreandroid;
+package com.example.wposs_user.polariscoreandroid.Dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,13 +8,15 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 
-import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
+import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ConsultaTerminalesReparadasFragm;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ConsultaTerminalesSerial;
+import com.example.wposs_user.polariscoreandroid.Fragmentos.Registro_diagnostico;
+import com.example.wposs_user.polariscoreandroid.R;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
-public class DialogOpcionesConsulta extends DialogFragment {
+public class DialogFallaDetectada extends DialogFragment {
 
 
 
@@ -32,15 +34,18 @@ public class DialogOpcionesConsulta extends DialogFragment {
 
 
         builder
-                .setTitle("Seleccione el tipo de consulta")
-                .setItems(R.array.opciones_consulta, new DialogInterface.OnClickListener() {
+                .setTitle("Falla detectada por: ")
+                .setItems(R.array.falla_detectada, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesSerial()).commit();
+                            Global.fallaDetectada="Uso";
+                            //consumir servioco repuestos
+                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).commit();
 
                         } else if (which == 1) {
-                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesReparadasFragm()).commit();
+                            Global.fallaDetectada="Fábrica";
+                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).commit();
                         }
                     }
                 });

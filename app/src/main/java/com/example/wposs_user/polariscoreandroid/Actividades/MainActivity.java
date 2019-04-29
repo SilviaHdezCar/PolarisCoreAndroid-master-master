@@ -1,6 +1,5 @@
 package com.example.wposs_user.polariscoreandroid.Actividades;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -34,11 +33,10 @@ import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuesto;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuestoDiag;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidaciones;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
-import com.example.wposs_user.polariscoreandroid.DialogOpcionesConsulta;
+import com.example.wposs_user.polariscoreandroid.Dialogs.DialogOpcionesConsulta;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ActualizarClave_perfil;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.EtapasTerminal;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.InicialFragment;
@@ -50,13 +48,10 @@ import com.example.wposs_user.polariscoreandroid.Fragmentos.TipificacionesFragme
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.Tools;
-import com.example.wposs_user.polariscoreandroid.ValidacionesTerminalesAsociadas;
+import com.example.wposs_user.polariscoreandroid.Fragmentos.ValidacionesTerminalesAsociadas;
 import com.example.wposs_user.polariscoreandroid.java.Etapas;
-import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
-import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
-import com.example.wposs_user.polariscoreandroid.java.Usuario;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 
 import java.util.ArrayList;
@@ -131,7 +126,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
 
 
@@ -219,9 +213,10 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ProductividadFragment()).commit();
 
         } else if (id == R.id.nav_cerrar_sesion) {
-            Intent i = new Intent(this, Activity_login.class);
-            startActivity(i);
-            finish();
+            Global.WEB_SERVICE = "PolarisCore/Users/close";
+
+            new TaskCerrarSesion().execute();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -244,91 +239,8 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ActualizarClave_perfil()).commit();
     }
 
-    public void aceptarCambioClave(View v) {
-        //fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ActualizarClave_perfil()).commit();
-
-        claveActual = (EditText) findViewById(R.id.perfil_clave_actual);
-        clavenueva = (EditText) findViewById(R.id.perfil_clave_nueva);
-        claveConfirmarClave = (EditText) findViewById(R.id.perfil_clave_confirmar);
-
-        String actual = claveActual.getText().toString();
-        String nueva = clavenueva.getText().toString();
-        String confirmacion = claveConfirmarClave.getText().toString();
-
-        final String msj = validarClave(actual, nueva, confirmacion);
-        Toast.makeText(this, msj, Toast.LENGTH_LONG).show();
-
-        if (!msj.equalsIgnoreCase("Actualización exitosa")) {
-            Toast.makeText(this, msj, Toast.LENGTH_LONG).show();
-            return;
-        } else {
-
-            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).commit();
-        }
-
-    }
-
-    //este metodo hace las validaciones escritas en el cuaderno
-    private String validarClave(String actual, String nueva, String confirmacion) {
-        String msj = "Actualización exitosa";
-        //validaciones
-        if (actual.isEmpty()) {
-            return "Debe ingresar la contraseña actual";
-        } else if (nueva.isEmpty()) {
-            return "Debe ingresar la contraseña nueva";
-        } else if (confirmacion.isEmpty()) {
-            return "Debe confirmar la contraseña nueva";
-        } else if (!actual.equals("1")) {
-            return "La contraseña actual es incorrecta";
-        } else if (!(nueva.length() >= 8)) {
-            return "La contraseña debe contener como minimo 8 caracteres";
-        } else if (!revisarMayMinNum(nueva)) {
-            return "La contraseña debe contener números, letras en mayúscula y minúscula";
-        } else if (nueva.equals(actual)) {
-            return "La contraseña  nueva debe ser diferente a la actual";
-        } else if (!nueva.equals(confirmacion)) {
-            return "La confirmación de contraseña no coincide con la clave ingresada";
-        }
-        //consumir servicio para cambiar clave
 
 
-        return msj;
-    }
-
-    //este metodo es para validar que la clave contenga numeros, letras minus y mayus
-    public boolean revisarMayMinNum(String password) {
-        String msj = "";
-
-        char clave;
-
-        byte contNumero = 0;
-        byte contLetraMay = 0;
-        byte contLetraMin = 0;
-
-        for (byte i = 0; i < password.length(); i++) {
-
-            clave = password.charAt(i);
-
-            String passValue = String.valueOf(clave);
-
-            if (passValue.matches("[A-Z]")) {
-
-                contLetraMay++;
-            } else if (passValue.matches("[a-z]")) {
-
-                contLetraMin++;
-            } else if (passValue.matches("[0-9]")) {
-
-                contNumero++;
-            }
-        }
-        if (contLetraMay > 0 && contNumero > 2 && contLetraMin > 0) {
-            return true;
-        }
-
-
-        return false;
-    }
 
 
     /**
@@ -473,7 +385,6 @@ public class MainActivity extends AppCompatActivity
             }
         }
         return retorno;
-
     }
 
 
@@ -494,54 +405,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
-    /**
-     *
-     **/
-    public void llenarRVEtapas(List<Observacion> observaciones) {
-
-       /* Vector<Observacion> obs = new Vector<>();
-
-        for (Observacion o : observaciones) {
-            if (o != null) {
-                obs.add(o);
-            }
-
-        }
-        if (obs.size() == 0) {
-            Toast.makeText(MainActivity.this, "Aún no tiene observaciones", Toast.LENGTH_SHORT).show();
-        }
-
-      //  recyclerView = (RecyclerView) findViewById(R.id.recycler_view_etapas);
-        recyclerView.setAdapter(new AdapterEtapas(MainActivity.this, obs));//le pasa los datos-> lista de usuarios
-
-        layoutManager = new LinearLayoutManager(this);// en forma de lista
-        recyclerView.setLayoutManager(layoutManager);*/
-
-
-    }
-
- /*   public void llenarRVValidaciones(List<Validacion> validacions) {
-
-        // fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
-
-        Vector<Validacion> vals = new Vector<>();
-
-        for (Validacion v : validacions) {
-            if (v != null) {
-                vals.add(v);
-            }
-
-        }
-
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_validaciones);
-        recyclerView.setAdapter(new AdapterValidaciones(objeto, vals));//le pasa los datos-> lista de usuarios
-
-        layoutManager = new LinearLayoutManager(this);// en forma de lista
-        recyclerView.setLayoutManager(layoutManager);
-
-
-    }*/
 
     //este metodo llena el recycler view con las terminales obtenidas al consumir el servicio
 
@@ -588,19 +451,10 @@ public class MainActivity extends AppCompatActivity
     //boton atras de la calse TIPIFICACIONES
     public void volverTipificaciones(View v) {
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
-        //LLENAR RCV CON EL ARREGLO GLOBAL DE VALIDACIONES
-    }
-
-    //boton SIGUIENTE de la calse TIPIFICACIONES
-    public void siguienteTipificaciones(View v) {
-
-
-        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
-
-        Global.WEB_SERVICE = "/PolarisCore/Terminals/validatorTerminal";
-        new TaskListarValidaciones().execute();
 
     }
+
+
 
     /********************************************************
      * FIN----->METODOS DEL FRAGMENT TIPIFICACIONES     *
@@ -715,7 +569,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
             //  cierra el socket despues de la transaccion
-            TCP.disconnect();
+          //  TCP.disconnect();
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR cierra el socket");
         }
 
@@ -827,12 +681,116 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
             //  cierra el socket despues de la transaccion
-            TCP.disconnect();
+          //  TCP.disconnect();
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR OBSERVA");
         }
 
 
     }
+
+    /*************************************************************************************
+     * CLASE QUE CONSUME EL SERVICIO PARA LISTAR LAS VALIDACIONES
+     *
+     ***************************************************** **/
+
+//******************consumir servicio cerrar sesion
+    class TaskCerrarSesion extends AsyncTask<String, Void, Boolean> {
+
+        ProgressDialog progressDialog;
+        int trans = 0;
+
+
+        /*******************************************************************************
+         Método       : onPreExecute
+         Description  : Se ejecuta antes de realizar el proceso, muestra una ventana con uin msj de espera
+         *******************************************************************************/
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(MainActivity.this, R.style.MyAlertDialogStyle);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage("Finalizando sesión...");
+            progressDialog.show();
+        }
+
+
+        /*******************************************************************************
+         Método       : doInBackground
+         Description  : Se ejecuta para realizar la transacción y verificar coenxión
+         *******************************************************************************/
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            Messages.packMsgCerrarSesion();
+
+            trans = TCP.transaction(Global.outputLen);
+            System.out.println("-----------RESULTADO TRANS = " + trans);
+            // Verifica la transacción
+            if (trans == Global.TRANSACTION_OK) {
+                System.out.println("-------------trans == Global.TRANSACTION_OK*******************************************************");
+                return true;
+            } else
+                return false;
+        }
+
+        /*******************************************************************************
+         Método       : onPostExecute
+         Description  : Se ejecuta después de realizar el doInBackground
+         *******************************************************************************/
+        @Override
+        protected void onPostExecute(Boolean value) {
+
+            progressDialog.dismiss();
+
+            if (value) {
+
+                if (Messages.unPackMsgCerrarSesion(objeto)) {
+                    Global.enSesion = true;
+                    Global.StatusExit = true;
+
+                    Toast.makeText(objeto, " cerrar aisoj", Toast.LENGTH_SHORT).show();
+
+                   /* Intent i = new Intent(objeto, Activity_login.class);
+                    startActivity(i);
+                    finish();*/
+                } else {
+                    // Si el login no es OK, manda mensaje de error
+                    try {
+                        // Utils.GoToNextActivity(Activity_login.this, DialogError.class, Global.StatusExit);
+                        Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            } else {
+                switch (Utils.validateErrorsConexion(false, trans, MainActivity.this)) {
+
+                    case 0:                                                                         // En caso de que continue = true y error data
+                        break;
+
+                    case 1:                                                                         // En caso de que continue = false y error data
+                        break;
+
+                    default:                                                                        // Errores de conexion
+                        Global.MsgError = Global.MSG_ERR_CONEXION;
+                        Global.mensaje = Global.MsgError;
+                        Global.StatusExit = false;
+                        // Muestra la ventana de error
+                        Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
+                        break;
+                }
+
+                Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
+            }
+            //  cierra el socket despues de la transaccion
+            // TCP.disconnect();
+            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR VALIDACIONES");
+        }
+
+
+    }
+
 
 
     /*************************************************************************************
@@ -934,7 +892,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
             //  cierra el socket despues de la transaccion
-            TCP.disconnect();
+           // TCP.disconnect();
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR VALIDACIONES");
         }
 
@@ -1031,7 +989,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_LONG).show();
             }
             //  cierra el socket despues de la transaccion
-            TCP.disconnect();
+          //  TCP.disconnect();
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR TIPIFICAICONES");
         }
 

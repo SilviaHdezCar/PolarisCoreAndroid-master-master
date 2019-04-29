@@ -3,12 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Actividades.MainActivity">
+    tools:context=".Actividades.MainActivity"
+    android:background="@color/gris_fondo">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gris_fondo"
+
         android:gravity="center_horizontal"
         android:orientation="vertical"
         tools:context=".Actividades.MainActivity">
@@ -43,66 +44,106 @@
             android:layout_height="@dimen/size_height_editText"
             android:layout_marginTop="20dp"
             android:background="@drawable/redondo_gris"
-            android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ"
+            android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ.-"
             android:hint="@string/clave_actual"
             android:inputType="textPassword"
             android:padding="10dp" />
 
-        <EditText
-            android:id="@+id/perfil_clave_nueva"
-            android:layout_width="@dimen/size_width_editText"
-            android:layout_height="@dimen/size_height_editText"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/redondo_gris"
-            android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ."
-            android:hint="@string/clave_nueva"
-            android:inputType="textPassword"
-            android:padding="10dp" />
+            <LinearLayout
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp">
 
-        <EditText
-            android:id="@+id/perfil_clave_confirmar"
-            android:layout_width="@dimen/size_width_editText"
-            android:layout_height="@dimen/size_height_editText"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/redondo_gris"
-            android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ."
-            android:hint="@string/clave_confirmar"
-            android:inputType="textPassword"
-            android:paddingLeft="10dp"/>
+                <TextView
+                    android:id="@+id/lbl_salir_validarClave"
+                    style="@style/letra_enlace"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="Cancelar"
+                    android:onClick="cancelarCambioclave"
+                    android:gravity="center"
+                    />
 
+                <TextView
+                    android:id="@+id/lbl_validarClave"
+                    style="@style/letra_enlace"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="40dp"
+                    android:text="Validar clave"
+                    android:gravity="center"
+
+                    />
+            </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/layout_datos_cambiar_clave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp">
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <EditText
+                android:id="@+id/perfil_clave_nueva"
+                android:layout_width="@dimen/size_width_editText"
+                android:layout_height="@dimen/size_height_editText"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/redondo_gris"
+                android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ."
+                android:hint="@string/clave_nueva"
+                android:inputType="textPassword"
+                android:padding="10dp" />
 
-            <Button
-                android:id="@+id/btn_cancelar_cambio_clave"
-                style="@style/letra_negrita"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="60dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/redondo_fondo_gris"
-                android:onClick="cancelarCambioclave"
-                android:text="Atrás"
-                android:textAllCaps="false" />
+            <EditText
+                android:id="@+id/perfil_clave_confirmar"
+                android:layout_width="@dimen/size_width_editText"
+                android:layout_height="@dimen/size_height_editText"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/redondo_gris"
+                android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ."
+                android:hint="@string/clave_confirmar"
+                android:inputType="textPassword"
+                android:paddingLeft="10dp"/>
 
-            <Button
-                android:id="@+id/btn_aceptar_cambio_clave"
-                style="@style/letra_botones"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="90dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/redondo_azul"
-                android:onClick="aceptarCambioClave"
-                android:text="Aceptar"
-                android:textAllCaps="false" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+
+                <Button
+                    android:id="@+id/btn_cancelar_cambio_clave"
+                    style="@style/letra_negrita"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/redondo_fondo_gris"
+                    android:onClick="cancelarCambioclave"
+                    android:text="Atrás"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/btn_aceptar_cambio_clave"
+                    style="@style/letra_botones"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="90dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/redondo_azul"
+                    android:text="Aceptar"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+
         </LinearLayout>
+
     </LinearLayout>
 
 </FrameLayout>

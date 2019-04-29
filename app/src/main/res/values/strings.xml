@@ -60,6 +60,18 @@
         <item>Por rango de fechas</item>
     </string-array>
 
+    <!--LISTA ES REPARABLE-->
+    <string-array name="esReparable">
+        <item>SI</item>
+        <item>NO</item>
+    </string-array>
+
+    <!--FALLA DETECTADA-->
+    <string-array name="falla_detectada">
+        <item>Uso</item>
+        <item>Fábrica</item>
+    </string-array>
+
     <!--TIPOS DE ESTADOS DE LA TERMINAL-->
     <string-array name="estados">
         <item>Seleccione</item>

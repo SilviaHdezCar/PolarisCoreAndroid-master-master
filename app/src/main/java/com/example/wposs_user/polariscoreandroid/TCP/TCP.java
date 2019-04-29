@@ -35,6 +35,7 @@ public class TCP {
         String received = "";
         PrintStream output;
         InputStream input;
+        //byte[]  data = null;
 
         //Se conecta al servidor
         if ( tcpOpenSocket() == false){
@@ -78,7 +79,9 @@ public class TCP {
 
             input = Global.tcpSocket.getInputStream();
 
-            while ( (Global.inputLen = input.read(Global.inputDataTemp)) != -1 ) {
+            //
+            System.out.println("INPUTLEN"  +Global.inputLen);
+            while ((Global.inputLen = input.read(Global.inputDataTemp)) != -1 ) {//este no funciona cuando se se logue mal y luegio ingresa bien
 
                 //Utils.dumpMemory(Global.inputDataTemp,Global.inputLen);
 
@@ -87,11 +90,24 @@ public class TCP {
 
                 Global.inputLen = indice;
 
+                byte[]  data =  Utils.replaceSpecialChars(Global.inputData, Global.inputLen);
+                System.arraycopy(data, 0, Global.inputData, 0, data.length);
+
+                Global.inputLen = data.length;
+
+
                 System.out.println("CICLO ********************" + ciclo);
                 System.out.println("Global.inputLen "+Global.inputLen);
 
-                if(ciclo==1)
+                if(ciclo==1) {
+
+                    if(!valida_http()){
+                        disconnect();
+                        return -1;
+                    }
+
                     total_length = Utils.calculateTotalLength();
+                }
 
                 if( total_length == indice)
                     break;
@@ -99,20 +115,23 @@ public class TCP {
                 ciclo++;
             }
 
+
+
         } catch (IOException e) {
             //Log.e("E/TCP Client 2 :", "" + ex.getMessage());
             System.out.println("Error getInputStream"+ e.getMessage() );
             return Global.ERR_READ_SOCKET;
         }
-
+        System.out.println("INPUTLEN2"  +Global.inputLen);
         if (Global.inputLen > 0) {
             //Global.inputData=Utils.replaceSpecialChars(Global.inputData, Global.inputData.length);
+            /*
             byte[]  data=  Utils.replaceSpecialChars(Global.inputData, Global.inputLen);
             System.arraycopy(data, 0, Global.inputData, 0, data.length);
 
             Global.inputLen = data.length;
-
-                    System.out.println("--------------------------------------------------------------------");
+            */
+           System.out.println("---------------------------ENTRÓ A RECCIBIR-----------------------------------------");
             System.out.println("Recibido: ");
            Utils.dumpMemory(Global.inputData, Global.inputLen);
             System.out.println("--------------------------------------------------------------------");
@@ -122,9 +141,11 @@ public class TCP {
             // Reemplaza los caracteres especiales
             //Utils.replaceSpecialChars(Global.inputData, Global.inputData.length);            // Reemplaza los caracteres especiales
 
+            /*
             if(!valida_http()){
                 return -1;
             }
+            */
 
         }
 
@@ -134,7 +155,10 @@ public class TCP {
            Global.timerPing.start();
        }*/
 
-        return Global.TRANSACTION_OK;
+       // Si la conexiobn es por demanda entonces cierro el socket
+       disconnect();
+
+       return Global.TRANSACTION_OK;
 
     }
 

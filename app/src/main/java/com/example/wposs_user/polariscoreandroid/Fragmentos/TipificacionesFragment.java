@@ -1,12 +1,11 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
-import android.content.Context;
-import android.net.Uri;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,20 +16,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTipificaciones;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
+import com.example.wposs_user.polariscoreandroid.Dialogs.DialogEsRepable;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.Tools;
-import com.example.wposs_user.polariscoreandroid.java.Tabla;
 import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
-import com.example.wposs_user.polariscoreandroid.java.Validacion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +43,9 @@ public class TipificacionesFragment extends Fragment {
     private RecyclerView rv;
     private ArrayList<Tipificacion> listTipificaciones;
     public String descripcionTipificaion;
+    private static ArrayList tipificaciones;
+    private Button btn_volver_Tipificaciones;
+    private Button btn_siguiente_Tipificaciones;
 
 
     @Override
@@ -59,13 +57,14 @@ public class TipificacionesFragment extends Fragment {
         layout_tipificaciones = (LinearLayout) v.findViewById(R.id.layout_tipificaciones);
         autocomplete_tipificaciones = (AutoCompleteTextView) v.findViewById(R.id.autocomplete_tipificaciones);
         btn_agregarTipificaciones = (Button) v.findViewById(R.id.btn_agregarTipificaciones);
+        btn_volver_Tipificaciones = (Button) v.findViewById(R.id.btn_volver_Tipificaciones);
+        btn_siguiente_Tipificaciones = (Button) v.findViewById(R.id.btn_siguiente_Tipificaciones);
+
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_tipificaciones);
+
         this.listTipificaciones = new ArrayList<Tipificacion>();
 
-        //cada vez que inicie, el arreglo vacía el arreglo de tipificaciones que se va a enviar
-
-
-        Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<Tipificacion>();
+        Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<String>();
 
         //validar si el arreglo de tipificaiones está vacio
         if (Global.TIPIFICACIONES.size() == 0) {
@@ -76,8 +75,6 @@ public class TipificacionesFragment extends Fragment {
             lbl_msj_tipificaciones.setVisibility(View.INVISIBLE);
 
             llenarAutocomplete();
-
-
             //agregar al RV la tipificación seleccionada
             btn_agregarTipificaciones.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,10 +84,17 @@ public class TipificacionesFragment extends Fragment {
             });
         }
 
+        btn_siguiente_Tipificaciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                siguienteTipificaciones();
+            }
+        });
+
+
         return v;
 
     }
-
 
     //Concierte el arreglode tipificaciones a un arreglo de String
     public String[] getTipificaciones() {
@@ -143,13 +147,15 @@ public class TipificacionesFragment extends Fragment {
 
     }
 
+    /**
+     * Al prsionar agregar tipificacion
+     * **/
     private void agregarTipificacion() {
 
         if (descripcionTipificaion.isEmpty()) {
             Toast.makeText(objeto, "Debe seleccionar una tipificación", Toast.LENGTH_SHORT).show();
             return;
         } else {
-            Toast.makeText(objeto, descripcionTipificaion, Toast.LENGTH_SHORT).show();
             for (Tipificacion tip : Global.TIPIFICACIONES) {
                 if (tip != null) {
                     if (tip.getTetv_description().equalsIgnoreCase(descripcionTipificaion)) {
@@ -157,8 +163,11 @@ public class TipificacionesFragment extends Fragment {
                             listTipificaciones.add(tip);
                             llenarRVTipificaciones();
                             descripcionTipificaion = "";
-                        }else {
+                            autocomplete_tipificaciones.setText("");
+                        } else {
                             Toast.makeText(objeto, "La tipificación ya fue agregada", Toast.LENGTH_SHORT).show();
+                            descripcionTipificaion = "";
+                            autocomplete_tipificaciones.setText("");
                             return;
                         }
                     }
@@ -180,38 +189,97 @@ public class TipificacionesFragment extends Fragment {
     }
 
 
-    //Metodo utilizado para llenarel rect¿ycler view de tipificaciones
+    //Metodo utilizado para llenarel recycler view de tipificaciones
     public void llenarRVTipificaciones() {
+
+        tipificaciones = new ArrayList<>();
+
+        for (Tipificacion ter : listTipificaciones) {
+            if (ter != null) {
+                tipificaciones.add(ter);
+            }
+        }
+        llenarRv();
+
+    }
+
+
+    private void llenarRv() {
         rv.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
         rv.setLayoutManager(llm);
 
-        ArrayList tipificaciones = new ArrayList<>();
-
-        //recorro la lista obtenida y la agg a la lista
-
-        for (Tipificacion ter : listTipificaciones) {
-            if (ter != null) {
-                tipificaciones.add(ter);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
-            }
-        }
-
         final AdapterTipificaciones adapter = new AdapterTipificaciones(tipificaciones, new AdapterTipificaciones.interfaceClick() {//seria termi asoc
             @Override
             public void onClick(List<Tipificacion> terminal, int position) {
 
-
-            /*serialObtenido = terminal.get(position).getTerm_serial();
-            Global.modelo = terminal.get(position).getTerm_model();
-
-            listarObservacionesTerminal(serialObtenido);*/
+                listTipificaciones.remove(position);
+                tipificaciones.remove(position);
+                llenarRv();
             }
         }, R.layout.panel_tipificaciones);
 
         rv.setAdapter(adapter);
 
     }
+
+
+    /**
+     * Muestra el cuadro de dialogo para seleccionar si es reparable
+     *           NO-->Llenar el panel de observaciones
+     *           SI-->  Mostrar cuadro de dialogo que pregunta si es por USO o FABRICA-->Pasar a la selección de repuestos
+     * **/
+    public void siguienteTipificaciones() {
+
+        if(llenarTipificacionesDiagnostico()){
+            esReparable();
+        }
+
+    }
+
+    //Armo el arraylist     que voy a enviar al consumir el servicio de registrar diagnostico
+    public boolean llenarTipificacionesDiagnostico() {
+        boolean retorno=false;
+        String cadena = "";
+
+        if(listTipificaciones.size()==0){
+            AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+            alertDialog.setTitle("¡ATENCIÓN!");
+            alertDialog.setMessage("Debe seleccionar al menos una tipificacion");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "ACEPTAR",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+            return false;
+        }else {
+           int  cont=0;
+            for (Tipificacion tipi:listTipificaciones){
+                if(tipi!=null){
+    //        "Tipificaciones":[{"tets_terminal_serial":"212","tets_terminal_type_validation":"sadasdasd","tets_status":"ok"}]
+                    cadena = "{\"tets_terminal_serial\": \"<SERIAL>\",\"tets_terminal_type_validation\": \"<TIPO>\",\"tets_status\": \"ok\"}";
+                    cadena = cadena.replace("<SERIAL>", tipi.getTetv_id());
+                    cadena = cadena.replace("<TIPO>", tipi.getTetv_description());
+                    Global.TIPIFICACIONES_DIAGNOSTICO.add(cadena);
+                    System.out.println("Pos: "+cont+"  Cadena: "+cadena);
+                }
+                cont++;
+            }
+            retorno=true;
+        }
+
+
+        return retorno;
+    }
+
+    public void esReparable() {
+        DialogEsRepable dialog = new DialogEsRepable();
+        dialog.show(objeto.getSupportFragmentManager(), "");
+    }
+
 
 
 }
