@@ -31,8 +31,10 @@ import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.Tools;
+import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
@@ -137,24 +139,16 @@ public class Registro_diagnostico extends Fragment {
                     Global.enSesion = true;
                     Global.StatusExit = true;
                     llenarAutocomplete();
+                          } else {
 
-
-
-                    //muestra el panel con la lista de Repuestos, es decir que llena el autocomplete
-
-//OJOOOOOO LLENAR EL RECYCLER VIEW DE  OBSERVACIONES?
-                } else {
-                    // Si el login no es OK, manda mensaje de error
                     try {
-                        // Utils.GoToNextActivity(Activity_login.this, DialogError.class, Global.StatusExit);
+
                         Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                // Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
-                // Si es falso, cierra el socket y vuelve a crearlo, si es verdadero el socket continua abierto
-                TCP.disconnect();
+                      TCP.disconnect();
 
             } else {
                 switch (Utils.validateErrorsConexion(false, trans, v.getContext())) {
@@ -377,14 +371,21 @@ public class Registro_diagnostico extends Fragment {
             for (int i =0;i< Global.REPUESTOS.size();i++) {
 
                 if(Global.REPUESTOS.get(i).getSpar_code().equals(Global.codigo_rep)){
-
-                  if(Global.REPUESTOS.get(i).getSpar_quantity()<cant_solicitada){
+                        if(Global.REPUESTOS.get(i).getSpar_quantity()<cant_solicitada){
                         Toast.makeText(objeto, "El repuesto seleccionado no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     Repuesto r = new Repuesto(Global.REPUESTOS.get(i).getSpar_code(),Global.REPUESTOS.get(i).getSpar_name(),cant_solicitada);
                     Global.REPUESTOS_DIAGONOSTICO.add(r);
+                    Observacion o;
+                    o = new Observacion("0A4545", "se encontraba la pantalla dañada","24/04/2019", "abcd", "","9220");
+                    Global.OBSERVACIONES= new ArrayList<>();
+                    Global.OBSERVACIONES.add(o);
+                    observ.setText(Global.OBSERVACIONES.toString());
+
+
+
                     Toast.makeText(objeto, "El repuesto fue agregado exitosamente", Toast.LENGTH_SHORT).show();
                     this.llenarRv();
                     cantidad_req.setText("");
@@ -416,6 +417,110 @@ public class Registro_diagnostico extends Fragment {
         rv.setAdapter(adapter);
 
     }
+
+
+
+
+    /*************************************************************************************
+     * CLASE QUE CONSUME EL SERVICIO PARA REGISTRAR EL DIAGNOSTICO SI LA TERMINAL ES REPARABLE
+     *
+     ***************************************************** **/
+
+//******************consumir servicio listar Repuestos
+    class TaskRegistrarDiagnosticos extends AsyncTask<String, Void, Boolean> {
+        ProgressDialog progressDialog;
+        int trans = 0;
+
+
+        /*******************************************************************************
+         Método       : onPreExecute
+         Description  : Se ejecuta antes de realizar el proceso, muestra una ventana con uin msj de espera
+         *******************************************************************************/
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(v.getContext(), R.style.MyAlertDialogStyle);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage("Enviando los datos del diagnostico");
+            progressDialog.show();
+        }
+
+
+        /*******************************************************************************
+         Método       : doInBackground
+         Description  : Se ejecuta para realizar la transacción y verificar coenxión
+         *******************************************************************************/
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            Messages.packMsgRegistrarDiagnosticos();
+
+            trans = TCP.transaction(Global.outputLen);
+
+            // Verifica la transacción
+            if (trans == Global.TRANSACTION_OK)
+                return true;
+            else
+                return false;
+        }
+
+        /*******************************************************************************
+         Método       : onPostExecute
+         Description  : Se ejecuta después de realizar el doInBackground
+         *******************************************************************************/
+        @Override
+        protected void onPostExecute(Boolean value) {
+
+            progressDialog.dismiss();
+
+            if (value) {
+                System.out.println("*********************************************************************SI SE PUDIERON LISTAR LOS REPUESTOS****************************");
+                if (Messages.unPackMsgListaRepuestos(v.getContext())) {
+                    Global.enSesion = true;
+                    Global.StatusExit = true;
+                    llenarAutocomplete();
+                } else {
+
+                    try {
+
+                        Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                TCP.disconnect();
+
+            } else {
+                switch (Utils.validateErrorsConexion(false, trans, v.getContext())) {
+
+                    case 0:                                                                         // En caso de que continue = true y error data
+                        break;
+
+                    case 1:                                                                         // En caso de que continue = false y error data
+                        break;
+
+                    default:                                                                        // Errores de conexion
+                        Global.MsgError = Global.MSG_ERR_CONEXION;
+                        Global.mensaje = Global.MsgError;
+                        Global.StatusExit = false;
+                        // Muestra la ventana de error
+                        Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
+                        break;
+                }
+
+                Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
+            }
+            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR REPUESTOS");
+        }
+
+
+    }
+
+
+
+
+
+
 
 
 
