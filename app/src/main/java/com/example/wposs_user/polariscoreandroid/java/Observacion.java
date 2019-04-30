@@ -1,5 +1,7 @@
 package com.example.wposs_user.polariscoreandroid.java;
 
+import com.example.wposs_user.polariscoreandroid.Comun.Global;
+
 public class Observacion {
 
     //colocarle los mismos atributos que estan en la BD
@@ -71,13 +73,7 @@ public class Observacion {
 
     @Override
     public String toString() {
-        return "Observacion{" +
-                "teob_id='" + teob_id + '\'' +
-                ", teob_description='" + teob_description + '\'' +
-                ", teob_fecha='" + teob_fecha + '\'' +
-                ", teob_id_user='" + teob_id_user + '\'' +
-                ", teob_photo='" + teob_photo + '\'' +
-                ", teob_serial_terminal='" + teob_serial_terminal + '\'' +
-                '}';
+        return (char)34+"Observacion"+(char)34+":"+"{"+(char)34+"teob_description"+(char)34 + ": "+ (char)34+ teob_description + (char)34+"," +" "+ (char)34+"teob_serial_terminal" +(char)34+":"+(char)34+ Global.serial_ter+(char)34+","+ (char)34+"teob_photo"+(char)34+":" +(char)34+"teob_photo"+(char)34+":" +(char)34 +" "+ (char)34+ '}';
+
     }
 }

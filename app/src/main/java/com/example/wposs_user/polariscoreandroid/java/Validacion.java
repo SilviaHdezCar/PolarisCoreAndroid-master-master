@@ -69,7 +69,7 @@ public class Validacion {
 
     @Override
     public String toString() {
-        return "Validacion{" +
+        return" {" +
                 "teva_id='" + teva_id + '\'' +
                 ", teva_description='" + teva_description + '\'' +
                 ", ok=" + ok +
