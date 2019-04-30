@@ -379,14 +379,53 @@ public class Messages {
     }
 
 
+    /*****************************************************************************************
+     * EMPAQUETADO DE LISTAR Diagnosticos, LO QUE SE ENVIA
+     *
+     * **************************************************************************************/
+
+    public static void packMsgRegistrarDiagnosticos() {
+        packHttpDataRegistrarDiagnostico();
+        packHttpHeaderLogueado();
+
+        Global.outputData = (Global.httpHeaderBuffer + "\r\n\r\n" + Global.httpDataBuffer).getBytes();
+
+        Global.outputLen = Global.outputData.length;
+        //Utils.dumpMemory(Global.outputData, Global.outputLen);
+        Log.i("outputData*******", "" + uninterpret_ASCII(Global.inputData, 0, Global.inputData.length));
+
+    }
+
+
     /*********************************************
      * ARMA EL CUERPO DE LA TRAMA DE ENVIO PARA LISTAR REPUESTOS
      * ***********************************************************/
     public static void packHttpDataListarRepuestos() {
         //comienza a armar la trama
-        Global.httpDataBuffer = "{\"model\": \"<SERIAL>\"}";//se arma la trama
+        Global.httpDataBuffer = "{\"user\": \"<usuario>\", \"model\": \"<SERIAL>\"}";//se arma la trama
 
         Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", "9220");
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<usuario>", Global.CODE);
+
+
+
+        //fn
+
+
+    }
+
+
+
+    /*********************************************
+     * ARMA EL CUERPO DE LA TRAMA DE ENVIO PARA REGISTRAR LOS DIAGNOSTICOS SI LA TERMINAL ES REPARABLE
+     * ***********************************************************/
+    public static void packHttpDataRegistrarDiagnostico() {
+        //comienza a armar la trama
+        Global.httpDataBuffer = "{\"user\": \"<usuario>\", \"model\": \"<SERIAL>\"}";//se arma la trama
+
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", "9220");
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<usuario>", Global.CODE);
+
 
 
         //fn
