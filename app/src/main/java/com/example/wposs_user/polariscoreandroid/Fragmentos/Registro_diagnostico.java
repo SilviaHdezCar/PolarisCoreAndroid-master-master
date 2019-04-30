@@ -58,6 +58,7 @@ public class Registro_diagnostico extends Fragment {
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_registro_diagnostico, container, false);
+
         aut_repuesto = (AutoCompleteTextView) v.findViewById(R.id.auto_repuesto);
         cantidad_req = v.findViewById(R.id.txt_cantReq);
         rv = (RecyclerView) v.findViewById(R.id.rv_repuestos_diag);
@@ -535,6 +536,7 @@ public class Registro_diagnostico extends Fragment {
 
 
     public void registrarDiagnostico(){
+
 
         Global.WEB_SERVICE = "PolarisCore/Terminals/saveDiagnosis";
 

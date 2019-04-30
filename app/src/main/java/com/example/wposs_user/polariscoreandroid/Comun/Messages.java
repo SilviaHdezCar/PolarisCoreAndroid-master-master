@@ -403,7 +403,7 @@ public class Messages {
         //comienza a armar la trama
         Global.httpDataBuffer = "{\"user\": \"<usuario>\", \"model\": \"<SERIAL>\"}";//se arma la trama
 
-        Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", Global.serial_ter);
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", "9220");
         Global.httpDataBuffer = Global.httpDataBuffer.replace("<usuario>", Global.CODE);
 
 
@@ -418,12 +418,16 @@ public class Messages {
      * ***********************************************************/
     public static void packHttpDataRegistrarDiagnostico() {
         //comienza a armar la trama
-        Global.httpDataBuffer = "{" + (char) 34 + "validaciones" + (char) 34 + ":" + Global.VALIDACIONES_DIAGNOSTICO.toString() + Global.TIPIFICACIONES_DIAGNOSTICO.toString() +
-                (char) 34 + "reparable" + (char) 34 + ":" + (char) 34 + "SI" + (char) 34 + "," + Global.observacion + "," + (char) 34 + "falla" + (char) 34 + ":" + (char) 34 + "SI" + (char) 34 + "repuestos" + (char) 34 +
+        Global.httpDataBuffer = "{" + (char) 34 + "validaciones" + (char) 34 + ":" + Global.VALIDACIONES_DIAGNOSTICO.toString() + ","+(char) 34 + "tipificaciones" + (char) 34+":"+Global.TIPIFICACIONES_DIAGNOSTICO.toString() +
+                (char) 34 + "reparable" + (char) 34 + ":" + (char) 34 + "SI" + (char) 34 + "," + Global.observacion + "," + (char) 34 + "falla" + (char) 34 + ":" + (char) 34 + "FABRICA" + (char) 34 + "repuestos" + (char) 34 +
                 ":" + "{" + (char) 34 + "tesw_serial" + Global.serial_ter + "," + (char) 34 + "," + (char) 34 + "tesw-repuestos" + (char) 34 + ":" + Global.REPUESTOS_DIAGONOSTICO.toString() + "}";
 
 
         //fn
+
+
+
+
 
 
     }

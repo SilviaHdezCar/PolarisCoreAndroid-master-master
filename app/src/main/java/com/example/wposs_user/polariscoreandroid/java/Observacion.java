@@ -73,7 +73,7 @@ public class Observacion {
 
     @Override
     public String toString() {
-        return (char)34+"Observacion"+(char)34+":"+"{"+(char)34+"teob_description"+(char)34 + ": "+ (char)34+ teob_description + (char)34+"," +" "+ (char)34+"teob_serial_terminal" +(char)34+":"+(char)34+ Global.serial_ter+(char)34+","+ (char)34+"teob_photo"+(char)34+":" +(char)34+"teob_photo"+(char)34+":" +(char)34 +" "+ (char)34+ '}';
+        return (char)34+"observacion"+(char)34+":"+"{"+(char)34+"teob_description"+(char)34 + ": "+ (char)34+ teob_description + (char)34+"," +" "+ (char)34+"teob_serial_terminal" +(char)34+":"+(char)34+ Global.serial_ter+(char)34+","+ (char)34+"teob_photo"+(char)34+":" +(char)34 +" "+ (char)34+ '}';
 
     }
 }

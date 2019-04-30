@@ -111,6 +111,6 @@ public class Repuesto {
 
     @Override
     public String toString() {
-        return "{"+(char)34+ "codigo"+(char)34 +":"+ spar_code +","+(char)34+ "cantidad"+(char)34+":"+ spar_quantity +'}';
+        return "{"+(char)34+ "codigo"+(char)34 +":"+ spar_code +","+(char)34+ "cantidad"+(char)34+":"+ (char)34+spar_quantity+(char)34+"}";
     }
 }
