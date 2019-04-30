@@ -13,8 +13,9 @@
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
-    <style name="letra_enlace">
-        <item name="android:textColor">@color/azul_botones</item>
+
+    <style name="letra_contenido_blanco">
+        <item name="android:textColor">@color/blanco</item>
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
@@ -38,6 +39,24 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="letra_negrita_terminal">
+        <item name="android:textColor">@color/negro</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="letra_negrita_terminal_gris_grande">
+        <item name="android:textColor">@color/gris_letra</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="letra_negrita_terminal_gris_peq">
+        <item name="android:textColor">@color/gris_letra</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
 
     <style name="letra_titulos">
         <item name="android:textColor">@color/negro</item>

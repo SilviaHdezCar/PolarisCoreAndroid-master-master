@@ -29,7 +29,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuesto;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
@@ -39,6 +38,7 @@ import com.example.wposs_user.polariscoreandroid.Dialogs.DialogOpcionesConsulta;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ActualizarClave_perfil;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.EtapasTerminal;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.InicialFragment;
+import com.example.wposs_user.polariscoreandroid.Fragmentos.ObservacionesFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.PerfilFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ProductividadFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.Registro_diagnostico;
@@ -46,7 +46,7 @@ import com.example.wposs_user.polariscoreandroid.Fragmentos.StockFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.TipificacionesFragment;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
-import com.example.wposs_user.polariscoreandroid.Tools;
+import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ValidacionesTerminalesAsociadas;
 import com.example.wposs_user.polariscoreandroid.java.Etapas;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout layout_terminal_etapas;
     private TextView serial_ter_seleccionada;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity
         btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -111,22 +112,26 @@ public class MainActivity extends AppCompatActivity
 
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
 
-        }
+    }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
+
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
             super.onBackPressed();
+            //additional code
+        } else {
+            getSupportFragmentManager().popBackStack();
         }
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.main, menu);
-    return true;
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override
@@ -134,9 +139,9 @@ public class MainActivity extends AppCompatActivity
         Intent i;
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-     switch (item.getItemId()) {
+        switch (item.getItemId()) {
 
-         case R.id.btn_home:
+            case R.id.btn_home:
                 fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
                 return true;
 
@@ -148,7 +153,8 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.btn_disminuir:
-                dismuir();
+                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ObservacionesFragment()).commit();
+                // dismuir();
                 return true;
         }
 
@@ -172,7 +178,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_perfil) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
             // cargarDatosPerfil();
         } else if (id == R.id.nav_stock) {
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new StockFragment()).commit();
@@ -183,7 +189,7 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ProductividadFragment()).commit();
 
         } else if (id == R.id.nav_cerrar_sesion) {
-            Global.WEB_SERVICE = "PolarisCore/Users/close";
+            Global.WEB_SERVICE = "/PolarisCore/Users/close";
 
             new TaskCerrarSesion().execute();
 
@@ -210,9 +216,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
-
     /**
      * BUSQUEDA DE TERMINALES
      **/
@@ -223,7 +226,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-       //*******************************BUSQUEDA POR SERIAL
+    //*******************************BUSQUEDA POR SERIAL
 
     public void buscarTerminalesPorSerial(View v) {
         this.buscar_serial_terminal = (Button) findViewById(R.id.btn_buscar_terminales_serial);
@@ -310,13 +313,13 @@ public class MainActivity extends AppCompatActivity
 
     //Armo el arraylist     que voy a enviar al consumir el servicio de registrar diagnostico
     public boolean llenarValidacionesDiagnostico() {
-        boolean retorno=false;
+        boolean retorno = false;
         Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<String>();
         String cadena = "";
         for (Validacion val : Global.VALIDACIONES) {
             if (val != null) {
 
-                if (val.getEstado()==null) {
+                if (val.getEstado() == null) {
                     AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                     alertDialog.setTitle("¡ATENCIÓN!");
                     alertDialog.setMessage("Debe marcar todas las validaciones");
@@ -336,7 +339,7 @@ public class MainActivity extends AppCompatActivity
                     cadena = cadena.replace("<DESCRIPCION>", val.getTeva_description());
                     cadena = cadena.replace("<ESTADO>", val.getEstado());
                     Global.VALIDACIONES_DIAGNOSTICO.add(cadena);
-                    retorno=true;
+                    retorno = true;
                 }
 
             }
@@ -410,7 +413,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     /********************************************************
      * FIN----->METODOS DEL FRAGMENT TIPIFICACIONES     *
      *****************************************************************/
@@ -481,17 +483,15 @@ public class MainActivity extends AppCompatActivity
             progressDialog.dismiss();
 
             if (value) {
-                System.out.println("*********************************************************************SI SE PUDO CONECTAR LISTAR TERM****************************");
                 if (Messages.unPackMsgListarAsociadas(MainActivity.this)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
-
-                    if (Global.TERMINALES_ASOCIADAS == null) {
+                    if (Global.TERMINALES_ASOCIADAS == null ||Global.TERMINALES_ASOCIADAS.size()==0) {
                         Toast.makeText(objeto, Global.CODE + " No tiene terminales asociadas", Toast.LENGTH_SHORT).show();
                         return;
+                    }else {
+                        llenarRVAsociadas(Global.TERMINALES_ASOCIADAS);
                     }
-                    llenarRVAsociadas(Global.TERMINALES_ASOCIADAS);
-
 
                 } else {
                     // Si el login no es OK, manda mensaje de error
@@ -524,8 +524,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
             //  cierra el socket despues de la transaccion
-          //  TCP.disconnect();
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR cierra el socket");
+            //  TCP.disconnect();
         }
 
 
@@ -636,7 +635,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
             //  cierra el socket despues de la transaccion
-          //  TCP.disconnect();
+            //  TCP.disconnect();
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR OBSERVA");
         }
 
@@ -679,10 +678,8 @@ public class MainActivity extends AppCompatActivity
             Messages.packMsgCerrarSesion();
 
             trans = TCP.transaction(Global.outputLen);
-            System.out.println("-----------RESULTADO TRANS = " + trans);
             // Verifica la transacción
             if (trans == Global.TRANSACTION_OK) {
-                System.out.println("-------------trans == Global.TRANSACTION_OK*******************************************************");
                 return true;
             } else
                 return false;
@@ -698,16 +695,12 @@ public class MainActivity extends AppCompatActivity
             progressDialog.dismiss();
 
             if (value) {
-
                 if (Messages.unPackMsgCerrarSesion(objeto)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
-
-                    Toast.makeText(objeto, " cerrar aisoj", Toast.LENGTH_SHORT).show();
-
-                   /* Intent i = new Intent(objeto, Activity_login.class);
+                    Intent i = new Intent(objeto, Activity_login.class);
                     startActivity(i);
-                    finish();*/
+                    finish();
                 } else {
                     // Si el login no es OK, manda mensaje de error
                     try {
@@ -731,21 +724,17 @@ public class MainActivity extends AppCompatActivity
                         Global.MsgError = Global.MSG_ERR_CONEXION;
                         Global.mensaje = Global.MsgError;
                         Global.StatusExit = false;
-                        // Muestra la ventana de error
                         Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
                         break;
                 }
 
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
-            //  cierra el socket despues de la transaccion
             // TCP.disconnect();
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR VALIDACIONES");
         }
 
 
     }
-
 
 
     /*************************************************************************************
@@ -846,7 +835,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
             //  cierra el socket despues de la transaccion
-           // TCP.disconnect();
+            // TCP.disconnect();
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR VALIDACIONES");
         }
 
@@ -943,7 +932,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_LONG).show();
             }
             //  cierra el socket despues de la transaccion
-          //  TCP.disconnect();
+            //  TCP.disconnect();
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR TIPIFICAICONES");
         }
 
@@ -960,7 +949,7 @@ public class MainActivity extends AppCompatActivity
 
         btn_autorizadas.setBackgroundColor(0x45A5F3);
 
-        Vector<Terminal> terminales_aut = new Vector<>();
+     /*   Vector<Terminal> terminales_aut = new Vector<>();
         for (Terminal ter : this.terminales) {
             if ((ter.getTerm_status()).equalsIgnoreCase("Autorizada")) {
                 terminales_aut.add(ter);
@@ -972,7 +961,7 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setAdapter(new AdapterTerminal(this, terminales_aut));//le pasa los datos-> lista de usuarios
 
         layoutManager = new LinearLayoutManager(this);// en forma de lista
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);*/
     }
 
 
@@ -1018,8 +1007,6 @@ public class MainActivity extends AppCompatActivity
     public void setF_fin(EditText f_fin) {
         this.f_fin = f_fin;
     }
-
-
 
 
 }

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -28,6 +28,10 @@
     <style name="DialogColor" parent="android:Theme.Holo.Light.Dialog">
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
-
+    <style name="letra_enlace">
+        <item name="android:textColor">@color/azul_botones</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif</item>
+    </style>
 
 </resources>

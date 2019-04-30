@@ -219,9 +219,11 @@ public class ActualizarClave_perfil extends Fragment {
                         // Utils.GoToNextActivity(Activity_login.this, DialogError.class, Global.StatusExit);
                         if (Global.mensaje.equalsIgnoreCase("incomplete petition")) {
                             Global.mensaje = "Faltaron datos";
-                        }if (Global.mensaje.equalsIgnoreCase("invalid email")) {
+                        }
+                        if (Global.mensaje.equalsIgnoreCase("invalid email")) {
                             Global.mensaje = "El correo no es válido";
-                        }if (Global.mensaje.equalsIgnoreCase("invalid  password")) {
+                        }
+                        if (Global.mensaje.equalsIgnoreCase("invalid  password")) {
                             Global.mensaje = "Contraseña inválida";
                         }
 
@@ -282,6 +284,7 @@ public class ActualizarClave_perfil extends Fragment {
     class TaskCambiarClave extends AsyncTask<String, Void, Boolean> {
         ProgressDialog progressDialog;
         int trans = 0;
+
         /*******************************************************************************
          Método       : onPreExecute
          Description  : Se ejecuta antes de realizar el proceso, muestra una ventana con uin msj de espera

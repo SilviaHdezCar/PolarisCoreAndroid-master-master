@@ -102,6 +102,7 @@ public class TCP {
                 if(ciclo==1) {
 
                     if(!valida_http()){
+                        System.out.println("valida_http(): "+false);
                         disconnect();
                         return -1;
                     }
@@ -109,16 +110,16 @@ public class TCP {
                     total_length = Utils.calculateTotalLength();
                 }
 
-                if( total_length == indice)
+                if( total_length == indice) {
+                    System.out.println("total_length == indice ");
                     break;
-
+                }
                 ciclo++;
             }
 
 
 
         } catch (IOException e) {
-            //Log.e("E/TCP Client 2 :", "" + ex.getMessage());
             System.out.println("Error getInputStream"+ e.getMessage() );
             return Global.ERR_READ_SOCKET;
         }
@@ -192,7 +193,11 @@ public class TCP {
         String []aux = status.split(" ");
 
         Log.i("----STATUS:--", "mETODO private static boolean validaErrorHttp: "+aux[1]);
-        if(!aux[1].equals(ok_status)){
+
+        if(aux[1].equals("400")){
+            Global.mensaje="ERROR \n  al establecer la conexión con el servidor\n la estructura de los datos es incorrecta";
+            return false;
+        }else     if(!aux[1].equals(ok_status)){
             Global.mensaje="ERROR \n Problemas de HTTP";
 
             Log.i("ValidarError", ""+Global.mensaje);

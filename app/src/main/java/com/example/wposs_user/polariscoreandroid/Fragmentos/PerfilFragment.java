@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.R;
 
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
+
 
 public class PerfilFragment extends Fragment {
     //PERFIL USUARIO
@@ -21,17 +23,18 @@ public class PerfilFragment extends Fragment {
     private TextView telefono;
     private TextView correo;
     private TextView ubicacion;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.fragment_perfil, container, false);
+        View v = inflater.inflate(R.layout.fragment_perfil, container, false);
 
-        nomUsuario=(TextView)v.findViewById(R.id.perfil_nombre_usuario);
-        usuario=(TextView)v.findViewById(R.id.perfil_usuario);
-        cargo=(TextView)v.findViewById(R.id.perfil_cargo);
-        telefono=(TextView)v.findViewById(R.id.perfil_telefono);
-        correo=(TextView)v.findViewById(R.id.perfil_correo);
-        ubicacion=(TextView)v.findViewById(R.id.perfil_ubicacion);
+        nomUsuario = (TextView) v.findViewById(R.id.perfil_nombre_usuario);
+        usuario = (TextView) v.findViewById(R.id.perfil_usuario);
+        cargo = (TextView) v.findViewById(R.id.perfil_cargo);
+        telefono = (TextView) v.findViewById(R.id.perfil_telefono);
+        correo = (TextView) v.findViewById(R.id.perfil_correo);
+        ubicacion = (TextView) v.findViewById(R.id.perfil_ubicacion);
 
         nomUsuario.setText(Global.NOMBRE);
         usuario.setText(Global.CODE);
@@ -42,9 +45,9 @@ public class PerfilFragment extends Fragment {
 
 
 
-
-
         return v;
 
     }
+
+
 }

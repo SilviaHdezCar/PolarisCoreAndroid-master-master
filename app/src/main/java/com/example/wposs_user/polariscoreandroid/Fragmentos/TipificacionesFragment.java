@@ -24,7 +24,7 @@ import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTipificacion
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogEsRepable;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.Tools;
+import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 
 import java.util.ArrayList;
@@ -264,7 +264,6 @@ public class TipificacionesFragment extends Fragment {
                     cadena = cadena.replace("<SERIAL>", tipi.getTetv_id());
                     cadena = cadena.replace("<TIPO>", tipi.getTetv_description());
                     Global.TIPIFICACIONES_DIAGNOSTICO.add(cadena);
-                    System.out.println("Pos: "+cont+"  Cadena: "+cadena);
                 }
                 cont++;
             }

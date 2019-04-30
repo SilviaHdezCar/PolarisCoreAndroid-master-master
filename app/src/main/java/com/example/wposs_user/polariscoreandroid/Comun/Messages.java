@@ -18,6 +18,72 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Messages {
+
+    /*****************************************************************************************
+     * EMPAQUETADO DE FINALIZAR DIAGNÓSTICO (Cuando no es reparable)
+     *
+     * **************************************************************************************/
+    public static void packMsgFinalizarDiagnostico() {
+        packHttpDataFinalizarDiagnostico();
+        packHttpHeaderLogueado();
+
+        Global.outputData = (Global.httpHeaderBuffer + "\r\n\r\n" + Global.httpDataBuffer).getBytes();
+
+        Global.outputLen = Global.outputData.length;
+        //Utils.dumpMemory(Global.outputData, Global.outputLen);
+        Log.i("outputData*******", "" + uninterpret_ASCII(Global.inputData, 0, Global.inputData.length));
+
+    }
+
+    /*********************************************
+     * ARMA EL CUERPO DE LA TRAMA DE ENVIO PARA finalizar el diagnostico
+     * ***********************************************************/
+    public static void packHttpDataFinalizarDiagnostico() {
+        //comienza a armar la trama
+      /*  Global.httpDataBuffer = "{\"user_email\": \"<CORREO>\",\"user_password\": \"<PASSWORD>\"}";//se arma la trama
+
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<CORREO>", Global.correo);
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<PASSWORD>", Global.validar_actual);*/
+
+
+    }
+
+    /************************************************************************************************
+     * DESEMPAQUETADO DE LA RESPUESTA DEL SERVIDOR --> CERRAR SESION
+     *****************************************************************************************************/
+    public static boolean unPackMsgFinalizarDiagnostico(Context c) {
+
+        String tramaCompleta = "";
+/*
+        int indice = 0;
+
+        Global.inputData = Global.httpDataBuffer.getBytes();
+
+        tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
+        System.out.println("trama completa: " + tramaCompleta);
+
+        JSONObject jsonObject = null;
+        try {
+
+            jsonObject = new JSONObject(tramaCompleta);
+
+            Global.STATUS_SERVICE = jsonObject.get("status").toString();
+
+            Global.mensaje = jsonObject.get("message").toString();
+            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                return false;
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
+
+        return true;
+
+
+    }
+
+
     /*****************************************************************************************
      * EMPAQUETADO DE CERRAR SESION
      *
@@ -39,13 +105,12 @@ public class Messages {
      * ***********************************************************/
     public static void packHttpDataCerrarSesion() {
         //comienza a armar la trama
-        Global.httpDataBuffer = "{\"user\": \"<ID>\"}";//se arma la trama
+        Global.httpDataBuffer = "{\"user\":\"<ID>\"}";//se arma la trama
 
         Global.httpDataBuffer = Global.httpDataBuffer.replace("<ID>", Global.ID);
 
 
     }
-
 
 
     /*****************************************************************************************
@@ -89,7 +154,7 @@ public class Messages {
         Global.inputData = Global.httpDataBuffer.getBytes();
 
         tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
-        System.out.println("trama completa: "+tramaCompleta);
+        System.out.println("trama completa: " + tramaCompleta);
 
         JSONObject jsonObject = null;
         try {
@@ -408,12 +473,10 @@ public class Messages {
         Global.httpDataBuffer = Global.httpDataBuffer.replace("<usuario>", Global.CODE);
 
 
-
         //fn
 
 
     }
-
 
 
     /*********************************************
@@ -425,7 +488,6 @@ public class Messages {
 
         Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", "9220");
         Global.httpDataBuffer = Global.httpDataBuffer.replace("<usuario>", Global.CODE);
-
 
 
         //fn

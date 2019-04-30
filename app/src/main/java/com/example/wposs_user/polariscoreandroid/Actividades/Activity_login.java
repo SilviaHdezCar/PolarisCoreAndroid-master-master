@@ -99,9 +99,6 @@ public class Activity_login extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... strings) {
             Messages.packMsgLogin();
-            Log.i("Correo: ",""+Global.correo);
-            Log.i("Clave: ",""+Global.password);
-
 
             trans = TCP.transaction(Global.outputLen);
 
@@ -140,17 +137,13 @@ public class Activity_login extends AppCompatActivity {
                         if (Global.mensaje.equalsIgnoreCase("Contrasena Invalida")) {
                             Global.mensaje ="Contraseña inválida";
                         }
-                        System.out.println("-------------clave incorrecta: "+Global.mensaje);
-                        Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
+                    Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     // Limpia el login
 
-                }
-
-                limpiarLogin();
-                Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
+                }limpiarLogin();
             } else {
                 switch (Utils.validateErrorsConexion(false, trans, Activity_login.this)) {
 
@@ -167,10 +160,7 @@ public class Activity_login extends AppCompatActivity {
                         // Muestra la ventana de error
                         Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
                         break;
-                }
-
-                Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
-                limpiarLogin();
+                } limpiarLogin();
 
             }
 

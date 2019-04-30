@@ -1,4 +1,4 @@
-package com.example.wposs_user.polariscoreandroid;
+package com.example.wposs_user.polariscoreandroid.Comun;
 
 import android.content.Context;
 
