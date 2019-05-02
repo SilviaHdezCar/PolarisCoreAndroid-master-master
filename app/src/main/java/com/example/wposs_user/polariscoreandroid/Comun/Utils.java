@@ -31,29 +31,35 @@ import java.util.Random;
 import java.util.TimeZone;
 
 /**
- *
  * @author Yeison Sanchez
  */
 public class Utils {
 
-    /** Creates a new instance of Utils */
+    /**
+     * Creates a new instance of Utils
+     */
     public Utils() {
     }
 
-    /** Este metodo realiza un retardo en milisegundos                          
+    /**
+     * Este metodo realiza un retardo en milisegundos
+     *
      * @
      */
-    public static void delay(long milisecs){
+    public static void delay(long milisecs) {
         long t0 = System.currentTimeMillis() + milisecs;
 
-        while(System.currentTimeMillis() < t0);
+        while (System.currentTimeMillis() < t0) ;
 
     }
 
-    /** Este metodo convierte un array de Bytes a un objeto tipo String                          
+    /**
+     * Este metodo convierte un array de Bytes a un objeto tipo String
+     *
      * @retorna la cadena tipo String
      */
-    public static String uninterpret_ASCII(byte[] rawData, int offset, int length){
+    public static String variable1="";
+    public static String uninterpret_ASCII(byte[] rawData, int offset, int length) {
         char[] ret = new char[length];
         for (int i = 0; i < length; i++)
         {
@@ -71,27 +77,29 @@ public class Utils {
      len= longitud a recorrer en el buffer
      Return:   Nothing
      *******************************************************************************/
-    public static void replaceChar(byte[] outputData, byte antiguo , byte nuevo, int len){
+    public static void replaceChar(byte[] outputData, byte antiguo, byte nuevo, int len) {
         int i;
 
-        for(i=0; i<len; i++)
-            if(outputData[i] == antiguo)
+        for (i = 0; i < len; i++)
+            if (outputData[i] == antiguo)
                 outputData[i] = nuevo;
     }
 
-    /** Este metodo separa un array de bytes en tokens dependiendo del caracter recibido  
+    /**
+     * Este metodo separa un array de bytes en tokens dependiendo del caracter recibido
+     *
      * @Retorna un array de cadenas con los tokens separados
      */
-    public static String[] tokenizer(byte[] array, int offset, int length, byte separator, int numTokens){
+    public static String[] tokenizer(byte[] array, int offset, int length, byte separator, int numTokens) {
         String[] tokens = new String[numTokens];
-        int i, len_tok, j=0;
+        int i, len_tok, j = 0;
 
-        while(j < numTokens){
-            len_tok=0;
-            for(i=offset; i<length; i++){
-                if(array[i] == separator){
+        while (j < numTokens) {
+            len_tok = 0;
+            for (i = offset; i < length; i++) {
+                if (array[i] == separator) {
 
-                    tokens[j]= uninterpret_ASCII(array, offset, len_tok);
+                    tokens[j] = uninterpret_ASCII(array, offset, len_tok);
 
                     offset += (len_tok + 1);
                     j++;
@@ -104,47 +112,51 @@ public class Utils {
         return tokens;
     }
 
-    /** Este metodo separa un array de bytes en tokens dependiendo del tama�o (LV)  
+    /**
+     * Este metodo separa un array de bytes en tokens dependiendo del tama�o (LV)
+     *
      * @Retorna un array de cadenas con los tokens separados
      */
-    public static String[] tokenizer(byte[] array, int offset, int numTokens){
+    public static String[] tokenizer(byte[] array, int offset, int numTokens) {
         String[] tokens = new String[numTokens];
         int i;
 
-        for(i=0; i<numTokens; i++){
-            tokens[i]= uninterpret_ASCII(array, offset + 1, array[offset]);
+        for (i = 0; i < numTokens; i++) {
+            tokens[i] = uninterpret_ASCII(array, offset + 1, array[offset]);
             offset += (array[offset] + 1);
         }
 
         return tokens;
     }
 
-    /** Este metodo obtiene la fecha y hora actual
-     *  en el formato YYYYMMDDhhmmss  
+    /**
+     * Este metodo obtiene la fecha y hora actual
+     * en el formato YYYYMMDDhhmmss
+     *
      * @Retorna una cadena con el formato de fecha y hora
      */
-    public static String getDateTime(){
+    public static String getDateTime() {
         String day, month, year, hour, minute, second;
         TimeZone tz = TimeZone.getTimeZone("GMT-5");
         Calendar actualDateTime = Calendar.getInstance(tz);
 
-        year= String.valueOf(actualDateTime.get(actualDateTime.YEAR));
-        month= String.valueOf(actualDateTime.get(actualDateTime.MONTH) + 1);
-        day= String.valueOf(actualDateTime.get(actualDateTime.DAY_OF_MONTH));
-        hour= String.valueOf(actualDateTime.get(actualDateTime.HOUR_OF_DAY));
-        minute= String.valueOf(actualDateTime.get(actualDateTime.MINUTE));
-        second= String.valueOf(actualDateTime.get(actualDateTime.SECOND));
+        year = String.valueOf(actualDateTime.get(actualDateTime.YEAR));
+        month = String.valueOf(actualDateTime.get(actualDateTime.MONTH) + 1);
+        day = String.valueOf(actualDateTime.get(actualDateTime.DAY_OF_MONTH));
+        hour = String.valueOf(actualDateTime.get(actualDateTime.HOUR_OF_DAY));
+        minute = String.valueOf(actualDateTime.get(actualDateTime.MINUTE));
+        second = String.valueOf(actualDateTime.get(actualDateTime.SECOND));
 
-        if((actualDateTime.get(actualDateTime.MONTH) + 1) < 10)
-            month= "0" + month ;
-        if(actualDateTime.get(actualDateTime.DAY_OF_MONTH) < 10)
-            day= "0" + day ;
-        if(actualDateTime.get(actualDateTime.HOUR_OF_DAY) < 10)
-            hour= "0" + hour ;
-        if(actualDateTime.get(actualDateTime.MINUTE) < 10)
-            minute= "0" + minute ;
-        if(actualDateTime.get(actualDateTime.SECOND) < 10)
-            second= "0" + second ;
+        if ((actualDateTime.get(actualDateTime.MONTH) + 1) < 10)
+            month = "0" + month;
+        if (actualDateTime.get(actualDateTime.DAY_OF_MONTH) < 10)
+            day = "0" + day;
+        if (actualDateTime.get(actualDateTime.HOUR_OF_DAY) < 10)
+            hour = "0" + hour;
+        if (actualDateTime.get(actualDateTime.MINUTE) < 10)
+            minute = "0" + minute;
+        if (actualDateTime.get(actualDateTime.SECOND) < 10)
+            second = "0" + second;
 
         //year = year.substring(2,4);
 
@@ -153,36 +165,34 @@ public class Utils {
     }
 
 
-    public static String getDateTime2(){
+    public static String getDateTime2() {
         String day, month, year, hour, minute, second;
         TimeZone tz = TimeZone.getTimeZone("GMT-5");
         Calendar actualDateTime = Calendar.getInstance(tz);
 
-        year= String.valueOf(actualDateTime.get(actualDateTime.YEAR));
-        month= String.valueOf(actualDateTime.get(actualDateTime.MONTH) + 1);
-        day= String.valueOf(actualDateTime.get(actualDateTime.DAY_OF_MONTH));
-        hour= String.valueOf(actualDateTime.get(actualDateTime.HOUR_OF_DAY));
-        minute= String.valueOf(actualDateTime.get(actualDateTime.MINUTE));
-        second= String.valueOf(actualDateTime.get(actualDateTime.SECOND));
+        year = String.valueOf(actualDateTime.get(actualDateTime.YEAR));
+        month = String.valueOf(actualDateTime.get(actualDateTime.MONTH) + 1);
+        day = String.valueOf(actualDateTime.get(actualDateTime.DAY_OF_MONTH));
+        hour = String.valueOf(actualDateTime.get(actualDateTime.HOUR_OF_DAY));
+        minute = String.valueOf(actualDateTime.get(actualDateTime.MINUTE));
+        second = String.valueOf(actualDateTime.get(actualDateTime.SECOND));
 
-        if((actualDateTime.get(actualDateTime.MONTH) + 1) < 10)
-            month= "0" + month ;
-        if(actualDateTime.get(actualDateTime.DAY_OF_MONTH) < 10)
-            day= "0" + day ;
-        if(actualDateTime.get(actualDateTime.HOUR_OF_DAY) < 10)
-            hour= "0" + hour ;
-        if(actualDateTime.get(actualDateTime.MINUTE) < 10)
-            minute= "0" + minute ;
-        if(actualDateTime.get(actualDateTime.SECOND) < 10)
-            second= "0" + second ;
+        if ((actualDateTime.get(actualDateTime.MONTH) + 1) < 10)
+            month = "0" + month;
+        if (actualDateTime.get(actualDateTime.DAY_OF_MONTH) < 10)
+            day = "0" + day;
+        if (actualDateTime.get(actualDateTime.HOUR_OF_DAY) < 10)
+            hour = "0" + hour;
+        if (actualDateTime.get(actualDateTime.MINUTE) < 10)
+            minute = "0" + minute;
+        if (actualDateTime.get(actualDateTime.SECOND) < 10)
+            second = "0" + second;
 
-        year = year.substring(2,4);
+        year = year.substring(2, 4);
 
         String dateTime = year + month + day + hour + minute;
         return dateTime;
     }
-
-
 
 
     /*******************************************************************************
@@ -190,30 +200,30 @@ public class Utils {
      Description     : Recibe la fecha en formato Dia/mes/año (20/01/18)
      Return          : Fecha
      ******************************************************************************/
-    public static String getDate(){
+    public static String getDate() {
         String day, month, year, hour, minute, second;
         TimeZone tz = TimeZone.getTimeZone("GMT-5");
         Calendar actualDateTime = Calendar.getInstance(tz);
 
-        year= String.valueOf(actualDateTime.get(actualDateTime.YEAR));
-        month= String.valueOf(actualDateTime.get(actualDateTime.MONTH) + 1);
-        day= String.valueOf(actualDateTime.get(actualDateTime.DAY_OF_MONTH));
-        hour= String.valueOf(actualDateTime.get(actualDateTime.HOUR_OF_DAY));
-        minute= String.valueOf(actualDateTime.get(actualDateTime.MINUTE));
-        second= String.valueOf(actualDateTime.get(actualDateTime.SECOND));
+        year = String.valueOf(actualDateTime.get(actualDateTime.YEAR));
+        month = String.valueOf(actualDateTime.get(actualDateTime.MONTH) + 1);
+        day = String.valueOf(actualDateTime.get(actualDateTime.DAY_OF_MONTH));
+        hour = String.valueOf(actualDateTime.get(actualDateTime.HOUR_OF_DAY));
+        minute = String.valueOf(actualDateTime.get(actualDateTime.MINUTE));
+        second = String.valueOf(actualDateTime.get(actualDateTime.SECOND));
 
-        if((actualDateTime.get(actualDateTime.MONTH) + 1) < 10)
-            month= "0" + month ;
-        if(actualDateTime.get(actualDateTime.DAY_OF_MONTH) < 10)
-            day= "0" + day ;
-        if(actualDateTime.get(actualDateTime.HOUR_OF_DAY) < 10)
-            hour= "0" + hour ;
-        if(actualDateTime.get(actualDateTime.MINUTE) < 10)
-            minute= "0" + minute ;
-        if(actualDateTime.get(actualDateTime.SECOND) < 10)
-            second= "0" + second ;
+        if ((actualDateTime.get(actualDateTime.MONTH) + 1) < 10)
+            month = "0" + month;
+        if (actualDateTime.get(actualDateTime.DAY_OF_MONTH) < 10)
+            day = "0" + day;
+        if (actualDateTime.get(actualDateTime.HOUR_OF_DAY) < 10)
+            hour = "0" + hour;
+        if (actualDateTime.get(actualDateTime.MINUTE) < 10)
+            minute = "0" + minute;
+        if (actualDateTime.get(actualDateTime.SECOND) < 10)
+            second = "0" + second;
 
-        year = year.substring(2,4);
+        year = year.substring(2, 4);
 
         //String dateTime = year + month + day + hour + minute + second;
         String dateTime = day + "/" + month + "/" + year;
@@ -225,21 +235,21 @@ public class Utils {
      Description     : Recibe la hora en formato HH:MM (Hora:Minuto)
      Return          : Hora
      ******************************************************************************/
-    public static String getTime(){
+    public static String getTime() {
 
         String time;
         String day, month, year, hour, minute, second, ampm;
         TimeZone tz = TimeZone.getTimeZone("GMT-5");
         Calendar actualDateTime = Calendar.getInstance(tz);
 
-        hour= String.valueOf(actualDateTime.get(actualDateTime.HOUR_OF_DAY));
-        minute= String.valueOf(actualDateTime.get(actualDateTime.MINUTE));
+        hour = String.valueOf(actualDateTime.get(actualDateTime.HOUR_OF_DAY));
+        minute = String.valueOf(actualDateTime.get(actualDateTime.MINUTE));
 
 
-        if(actualDateTime.get(actualDateTime.HOUR_OF_DAY) < 10)
-            hour= "0" + hour ;
-        if(actualDateTime.get(actualDateTime.MINUTE) < 10)
-            minute= "0" + minute ;
+        if (actualDateTime.get(actualDateTime.HOUR_OF_DAY) < 10)
+            hour = "0" + hour;
+        if (actualDateTime.get(actualDateTime.MINUTE) < 10)
+            minute = "0" + minute;
 
         time = hour + ":" + minute;
 
@@ -252,9 +262,9 @@ public class Utils {
      Input           : mes = mes en entero a convertir
      Return          : Cadena con fecha
      ******************************************************************************/
-    public static String obtenerMesLetras(int mes){
+    public static String obtenerMesLetras(int mes) {
 
-        switch (mes){
+        switch (mes) {
             case 1:
                 return "Ene";
             case 2:
@@ -285,42 +295,47 @@ public class Utils {
 
     }
 
-    /** Obtiene un numero (int) aleatorio en un inervalo determinado
-     *  int: 32 bits [ -2.147.483.648  a  2.147.483.647 ]
-     * @desde = Limite inferior  
+    /**
+     * Obtiene un numero (int) aleatorio en un inervalo determinado
+     * int: 32 bits [ -2.147.483.648  a  2.147.483.647 ]
+     *
+     * @desde = Limite inferior
      * @hasta = Limite superior
      * @Retorna el numero aleatorio
      */
-    public static int getRandomInt(int desde , int hasta){
+    public static int getRandomInt(int desde, int hasta) {
         Random azar;
         azar = new Random(System.currentTimeMillis());
         return desde + Math.abs(azar.nextInt()) % (hasta - desde + 1);
     }
 
 
-    /** Obtiene un numero (long) aleatorio en un inervalo determinado
-     *  long: 64 bits [ -9.223.372.036.854.775.808  a  9.223.372.036.854.775.807 ]
-     * @desde = Limite inferior  
+    /**
+     * Obtiene un numero (long) aleatorio en un inervalo determinado
+     * long: 64 bits [ -9.223.372.036.854.775.808  a  9.223.372.036.854.775.807 ]
+     *
+     * @desde = Limite inferior
      * @hasta = Limite superior
      * @Retorna el numero aleatorio
      */
-    public static long getRandomLong(long desde , long hasta){
+    public static long getRandomLong(long desde, long hasta) {
         Random azar;
         azar = new Random(System.currentTimeMillis());
         return desde + Math.abs(azar.nextLong()) % (hasta - desde + 1);
     }
 
 
-   /**
-    * Asigna al Buffer el caracter especificado en cada una de sus posiciones hasta completar size
-    * @param Buffer: buffer de tipo byte que se va a modificar
-    * @param caracter: caracter a agregar al buffer
-    * @param size: Tama�o que se va copiar
-    */
-    public static void memSet(byte[] Buffer, byte caracter, int size ) {
+    /**
+     * Asigna al Buffer el caracter especificado en cada una de sus posiciones hasta completar size
+     *
+     * @param Buffer:   buffer de tipo byte que se va a modificar
+     * @param caracter: caracter a agregar al buffer
+     * @param size:     Tama�o que se va copiar
+     */
+    public static void memSet(byte[] Buffer, byte caracter, int size) {
         int i;
 
-        for(i=0; i<size; i++){
+        for (i = 0; i < size; i++) {
             Buffer[i] = caracter;
         }
     }
@@ -328,17 +343,17 @@ public class Utils {
 
     /**
      * Muestra la memoria de un boffer en hexa y ascii
+     *
      * @param Buffer: buffer que se va a mostrar
-     * @param tam: Tama�o que se va a mostrar     
+     * @param tam:    Tama�o que se va a mostrar
      */
-    public static void dumpMemory(byte[] Buffer, int tam)
-    {
+    public static void dumpMemory(byte[] Buffer, int tam) {
         int i;
 
         byte[] BufferDisplay = new byte[tam];
 
-        for(i=0; i<tam; i++){
-            if( Buffer[i] >= 32 && Buffer[i] <= 126 )
+        for (i = 0; i < tam; i++) {
+            if (Buffer[i] >= 32 && Buffer[i] <= 126)
                 BufferDisplay[i] = Buffer[i];
             else
                 BufferDisplay[i] = '.';
@@ -346,22 +361,21 @@ public class Utils {
 
         System.out.println("\n\n\n");
 
-        for(i=0; i<tam; i++){
+        for (i = 0; i < tam; i++) {
 
             //System.out.print( ISOUtil.unPadLeft( (ISOUtil.padleft(Integer.toHexString(Buffer[i]), 2, '0').toUpperCase() ) , 'F' ) + " " );
 
             System.out.print(ISOUtil.hexString(Buffer[i]) + " ");
 
-            if( (i+1) % 16 == 0){
-               System.out.print( "   "  + uninterpret_ASCII(BufferDisplay, i - 15, 16) );
-               System.out.println();
-            }
-            else if(i+1 == tam){
+            if ((i + 1) % 16 == 0) {
+                System.out.print("   " + uninterpret_ASCII(BufferDisplay, i - 15, 16));
+                System.out.println();
+            } else if (i + 1 == tam) {
 
-               System.out.print( ISOUtil.padleft( "   ", 3*(16-tam%16), ' ' ) );
-               System.out.print( "   " + uninterpret_ASCII(BufferDisplay, i - (tam%16) + 1, tam%16) );
+                System.out.print(ISOUtil.padleft("   ", 3 * (16 - tam % 16), ' '));
+                System.out.print("   " + uninterpret_ASCII(BufferDisplay, i - (tam % 16) + 1, tam % 16));
 
-               System.out.println();
+                System.out.println();
             }
 
         }
@@ -381,8 +395,8 @@ public class Utils {
     public static int strLen(byte[] Buffer) {
         int i;
 
-        for(i=0; i<Buffer.length; i++){
-            if(Buffer[i] == 0x00)
+        for (i = 0; i < Buffer.length; i++) {
+            if (Buffer[i] == 0x00)
                 break;
         }
 
@@ -396,7 +410,7 @@ public class Utils {
      Input           : cadena = Cadena a convertir
      Return          : cadena formateada
      ******************************************************************************/
-    public static String formatMiles(String cadena){
+    public static String formatMiles(String cadena) {
         int i, k = 0;
         int j = 0;
         int tam;
@@ -406,39 +420,40 @@ public class Utils {
         byte[] cadena_orig = cadena.getBytes();
         byte[] cad_destino = new byte[50];
 
-        i=tam/3;															// Calc�lo la cantidad de puntos de mil que se van a agregar
-        if(i*3==tam) i--;
-	k=0;
+        i = tam / 3;                                                            // Calc�lo la cantidad de puntos de mil que se van a agregar
+        if (i * 3 == tam) i--;
+        k = 0;
 
-	for(j=tam-1; j>=0; j--){
-            cad_destino[j+i]=cadena_orig[j];
+        for (j = tam - 1; j >= 0; j--) {
+            cad_destino[j + i] = cadena_orig[j];
             k++;
-            if( (k/3)*3==k ){
+            if ((k / 3) * 3 == k) {
                 i--;
 
-                if( (j+i) > 0 )
-                    cad_destino[j+i]='.';
+                if ((j + i) > 0)
+                    cad_destino[j + i] = '.';
             }
-	}
+        }
 
-        return uninterpret_ASCII(cad_destino, 0, strLen(cad_destino) ) ;
+        return uninterpret_ASCII(cad_destino, 0, strLen(cad_destino));
     }
 
     /**
      * 弹出撤销框
      */
     private static int toByte(char c) {
-        byte b = (byte)"0123456789ABCDEF".indexOf(c);
+        byte b = (byte) "0123456789ABCDEF".indexOf(c);
         return b;
     }
+
     public static byte[] hexStringToByteArray(String hex) {
         int len = hex.length() / 2;
         byte[] result = new byte[len];
         char[] achar = hex.toCharArray();
 
-        for(int i = 0; i < len; ++i) {
+        for (int i = 0; i < len; ++i) {
             int pos = i * 2;
-            result[i] = (byte)(toByte(achar[pos]) << 4 | toByte(achar[pos + 1]));
+            result[i] = (byte) (toByte(achar[pos]) << 4 | toByte(achar[pos + 1]));
         }
 
         return result;
@@ -450,12 +465,12 @@ public class Utils {
      Input           : s = Cadena a extraer
      Return          : cadena final
      ******************************************************************************/
-    public static String extraerString(String s){
-        String strfinal="";
+    public static String extraerString(String s) {
+        String strfinal = "";
 
-        for(int i =0; i< s.length();i++) {
-            strfinal +="3";
-            strfinal += s.substring(i,i+1);
+        for (int i = 0; i < s.length(); i++) {
+            strfinal += "3";
+            strfinal += s.substring(i, i + 1);
 
         }
         return strfinal;
@@ -465,13 +480,13 @@ public class Utils {
      Function        : writeLOG
      Description     :
      Input           : data =
-                       tipo =
+     tipo =
      Return          : 0
      ******************************************************************************/
-    public  static int writeLOG(String data, String tipo) {
+    public static int writeLOG(String data, String tipo) {
 
         File extStore = Environment.getExternalStorageDirectory();
-        String fileName = tipo+".txt";
+        String fileName = tipo + ".txt";
         String path = extStore.getAbsolutePath() + "/" + fileName;
         try {
             File myFile = new File(path);
@@ -555,12 +570,12 @@ public class Utils {
      Function        : contarCaracter
      Description     : Cuenta caracteres
      Input           : array = Array a dividir
-                       offset = inicio
-                       length = longitud
-                       separator = separador
+     offset = inicio
+     length = longitud
+     separator = separador
      Return          : numero de caracteres
      ******************************************************************************/
-    public static int contarCaracter (byte[] array, int offset, int length, byte separator) {
+    public static int contarCaracter(byte[] array, int offset, int length, byte separator) {
 
         int i;
         int numCaracteres = 0;
@@ -582,18 +597,18 @@ public class Utils {
      Input           : horaLlegada = Hora a convertir
      Return          : hora convertida
      ******************************************************************************/
-    public static int timeStrToInt_12h (String horaLlegada){
+    public static int timeStrToInt_12h(String horaLlegada) {
         String meridiano;
         String horas24 = "";
 
-        meridiano = horaLlegada.substring(6,8);
+        meridiano = horaLlegada.substring(6, 8);
 
-        horaLlegada = horaLlegada.substring(0,5);
-        horaLlegada = horaLlegada.replace(":","");
+        horaLlegada = horaLlegada.substring(0, 5);
+        horaLlegada = horaLlegada.replace(":", "");
 
-        if (meridiano.equals("PM") ){
-            horas24 = String.valueOf( Integer.parseInt( horaLlegada.substring(0,2) ) + 12 );
-            horaLlegada = horaLlegada.substring( 2, horaLlegada.length() );
+        if (meridiano.equals("PM")) {
+            horas24 = String.valueOf(Integer.parseInt(horaLlegada.substring(0, 2)) + 12);
+            horaLlegada = horaLlegada.substring(2, horaLlegada.length());
         }
 
         horaLlegada = horas24 + horaLlegada;
@@ -607,10 +622,10 @@ public class Utils {
      Input           : horaLlegada = Hora a convertir
      Return          : hora convertida
      ******************************************************************************/
-    public static int timeStrToInt_24h (String horaActual){
+    public static int timeStrToInt_24h(String horaActual) {
 
-        horaActual = horaActual.substring(0,5);
-        horaActual = horaActual.replace(":","");
+        horaActual = horaActual.substring(0, 5);
+        horaActual = horaActual.replace(":", "");
 
         return Integer.parseInt(horaActual);
     }
@@ -655,9 +670,9 @@ public class Utils {
      Function        : CustomAlertDialog
      Description     : Crea un dialogo customizado
      Input           : c = Contexto
-                       titulo = Titulo del dialogo
-                       msg = Mensaje del dialogo
-                       tiempo = Tiempo del dialogo
+     titulo = Titulo del dialogo
+     msg = Mensaje del dialogo
+     tiempo = Tiempo del dialogo
      Return          : Ninguno
      ******************************************************************************/
    /* public static void CustomAlertDialog (Context c, String titulo, String msg, int tiempo){
@@ -688,13 +703,13 @@ public class Utils {
     }
 */
     /*******************************************************************************
-    Function        : CustomAlertDialogImpresion
-    Description     : Crea un dialogo customizado
-    Input           : c = Contexto
-                      titulo = Titulo del dialogo
-                      msg = Mensaje del dialogo
-                      tiempo = Tiempo del dialogo
-    Return          : Ninguno
+     Function        : CustomAlertDialogImpresion
+     Description     : Crea un dialogo customizado
+     Input           : c = Contexto
+     titulo = Titulo del dialogo
+     msg = Mensaje del dialogo
+     tiempo = Tiempo del dialogo
+     Return          : Ninguno
      ******************************************************************************/
     /*public static void CustomAlertDialogImpresion (Context c, String titulo, String msg, int tiempo){
 
@@ -726,9 +741,9 @@ public class Utils {
      Function        : CustomToast
      Description     : Crea un toast customizado
      Input           : c = Contexto
-                       titulo = Titulo del dialogo
-                       msg = Mensaje del dialogo
-                       duracion = Duración del dialogo
+     titulo = Titulo del dialogo
+     msg = Mensaje del dialogo
+     duracion = Duración del dialogo
      Return          : Ninguno
      ******************************************************************************/
    /* public static void CustomToast(Context c, String titulo, String msg, int duracion){
@@ -750,7 +765,7 @@ public class Utils {
      Function        : getDecimals
      Description     : Recibe un numero decimal y retorna una cadena con los digitos decimales deseados
      Input           : numero = numero a convertir
-                       cantDecimales = Cantidad de decimales
+     cantDecimales = Cantidad de decimales
      Return          : cadena con los decimales seleccionados
      ******************************************************************************/
    /* public static String getDecimals(String numero, int cantDecimales){
@@ -781,7 +796,7 @@ public class Utils {
      Function        : pintarLineaDialogo
      Description     : Pinta la linea de un AlertDialog de color verde
      Input           : c = Contexto
-                       dialog = Dialogo a pintar
+     dialog = Dialogo a pintar
      Return          : cadena con los decimales seleccionados
      ******************************************************************************/
   /*  public static void pintarLineaDialogo(Context c, Dialog dialog) {
@@ -837,20 +852,21 @@ public class Utils {
         }
     }
 */
+
     /*******************************************************************************
      Function        : format32CharsPerLine
      Description     : Reemplaza por un salto de linea al llegar a 40
      Input           : str = cadena de llegada
      Return          : Cadena a imprimir
      ******************************************************************************/
-    public static String format32CharsPerLine(String str){
+    public static String format32CharsPerLine(String str) {
         String strRet = "";
         int i = 0;
 
-        for (i=0; i < str.length() - 32; i += 32)
+        for (i = 0; i < str.length() - 32; i += 32)
             strRet = strRet + str.substring(i, i + 32) + "\n";
 
-        strRet = strRet + str.substring(i, str.length() );
+        strRet = strRet + str.substring(i, str.length());
 
         return strRet;
     }
@@ -879,25 +895,34 @@ public class Utils {
         replaceChar(Global.inputData, (byte) 0xBF, (byte) ' ', Global.inputData.length); // Cambio la ¿ tildada por " "
         replaceChar(Global.inputData, (byte) 0xA1, (byte) ' ', Global.inputData.length); // Cambio la ¡ tildada por " "
     }*/
-
     public static byte[] replaceSpecialChars(byte[] data, int cnt) {
 
-        byte[] UTF8_n = new byte[]{ (byte) 0xC3, (byte) 0xB1};
-        byte[] UTF8_N = new byte[]{ (byte) 0xC3, (byte) 0x91};
-        byte[] UTF8_A = new byte[]{ (byte) 0xC3, (byte) 0x81};
-        byte[] UTF8_E = new byte[]{ (byte) 0xC3, (byte) 0x89};
-        byte[] UTF8_I = new byte[]{ (byte) 0xC3, (byte) 0x8D};
-        byte[] UTF8_O = new byte[]{ (byte) 0xC3, (byte) 0x93};
-        byte[] UTF8_U = new byte[]{ (byte) 0xC3, (byte) 0x9A};
-        byte[] UTF8_a = new byte[]{ (byte) 0xC3, (byte) 0xA1};
-        byte[] UTF8_e = new byte[]{ (byte) 0xC3, (byte) 0xA9};
-        byte[] UTF8_i = new byte[]{ (byte) 0xC3, (byte) 0xAD};
-        byte[] UTF8_o = new byte[]{ (byte) 0xC3, (byte) 0xB3};
-        byte[] UTF8_u = new byte[]{ (byte) 0xC3, (byte) 0xBA};
-        byte[] UTF8_int= new byte[]{ (byte) 0xC2, (byte) 0xBF};
-        byte[] UTF8_adm= new byte[]{ (byte) 0xC2, (byte) 0xA1};
-        byte[] UTF8_nn= new byte[]{ (byte) 0xC3, (byte) 0x83, (byte) 0xC2, (byte) 0xB1};
-
+        byte[] UTF8_n = new byte[]{(byte) 0xC3, (byte) 0xB1};
+        byte[] UTF8_N = new byte[]{(byte) 0xC3, (byte) 0x91};
+        byte[] UTF8_A = new byte[]{(byte) 0xC3, (byte) 0x81};
+        byte[] UTF8_E = new byte[]{(byte) 0xC3, (byte) 0x89};
+        byte[] UTF8_I = new byte[]{(byte) 0xC3, (byte) 0x8D};
+        byte[] UTF8_O = new byte[]{(byte) 0xC3, (byte) 0x93};
+        byte[] UTF8_U = new byte[]{(byte) 0xC3, (byte) 0x9A};
+        byte[] UTF8_a = new byte[]{(byte) 0xC3, (byte) 0xA1};
+        byte[] UTF8_e = new byte[]{(byte) 0xC3, (byte) 0xA9};
+        byte[] UTF8_i = new byte[]{(byte) 0xC3, (byte) 0xAD};
+        byte[] UTF8_o = new byte[]{(byte) 0xC3, (byte) 0xB3};
+        byte[] UTF8_u = new byte[]{(byte) 0xC3, (byte) 0xBA};
+        byte[] UTF8_int = new byte[]{(byte) 0xC2, (byte) 0xBF};
+        byte[] UTF8_adm = new byte[]{(byte) 0xC2, (byte) 0xA1};
+        byte[] UTF8_nn = new byte[]{(byte) 0xC3, (byte) 0x83, (byte) 0xC2, (byte) 0xB1};//ñ
+        byte[] UTF8_A_n = new byte[]{(byte) 0xC3, (byte) 0x93};//A con ñ
+        byte[] UTF8_A_tilde = new byte[]{(byte) 0xC3, (byte) 0x80};//tilde al revés
+        byte[] UTF8_a_tilde = new byte[]{(byte) 0xC3, (byte) 0xa0};//tilde al revés
+        byte[] UTF8_E_tilde = new byte[]{(byte) 0xC3, (byte) 0x88};//tilde al revés
+        byte[] UTF8_e_tilde = new byte[]{(byte) 0xC3, (byte) 0x88};//tilde al revés
+        byte[] UTF8_I_tilde = new byte[]{(byte) 0xC3, (byte) 0x8c};//tilde al revés
+        byte[] UTF8_i_tilde = new byte[]{(byte) 0xC3, (byte) 0xac};//tilde al revés
+        byte[] UTF8_O_tilde = new byte[]{(byte) 0xC3, (byte) 0x92};//tilde al revés
+        byte[] UTF8_o_tilde = new byte[]{(byte) 0xC3, (byte) 0xa8};//tilde al revés
+        byte[] UTF8_U_tilde = new byte[]{(byte) 0xC3, (byte) 0x99};//tilde al revés
+        byte[] UTF8_u_tilde = new byte[]{(byte) 0xC3, (byte) 0xb9};//tilde al revés
 
         cnt = replace_all_bytes_secuences(data, UTF8_nn, "n".getBytes(), cnt, 4, 1);
 
@@ -915,12 +940,18 @@ public class Utils {
         cnt = replace_all_bytes_secuences(data, UTF8_u, "u".getBytes(), cnt, 2, 1);
         cnt = replace_all_bytes_secuences(data, UTF8_int, " ".getBytes(), cnt, 2, 1);
         cnt = replace_all_bytes_secuences(data, UTF8_adm, " ".getBytes(), cnt, 2, 1);
+        cnt = replace_all_bytes_secuences(data, UTF8_A_n, "A".getBytes(), cnt, 2, 1); //Ã
+        cnt = replace_all_bytes_secuences(data, UTF8_A_tilde, "A".getBytes(), cnt, 2, 1);
+        cnt = replace_all_bytes_secuences(data, UTF8_a_tilde, "a".getBytes(), cnt, 2, 1);
+        cnt = replace_all_bytes_secuences(data, UTF8_O_tilde, "O".getBytes(), cnt, 2, 1);
+        cnt = replace_all_bytes_secuences(data, UTF8_o_tilde, "o".getBytes(), cnt, 2, 1);
 
         byte[] newData = new byte[cnt];
         System.arraycopy(data, 0, newData, 0, cnt);
 
         return newData;
     }
+
     /***
      Function:	  replace_all_bytes_secuences
      Description: reemplaza todas las ocurrencias de la secuencia de Bytes S2 en S1 por S3
@@ -932,18 +963,18 @@ public class Utils {
      lenS3 = longitud del Array S3
      Return:	  longitud del nuevo array de Bytes S1
      ***/
-    private static int replace_all_bytes_secuences(byte[] S1, byte[] S2, byte[] S3, int lenS1, int lenS2, int lenS3){
-        int i=0, indice= 0;
+    private static int replace_all_bytes_secuences(byte[] S1, byte[] S2, byte[] S3, int lenS1, int lenS2, int lenS3) {
+        int i = 0, indice = 0;
 
         Global.lenS1 = lenS1;
 
-        do{
-            indice= replace_bytes_secuence(S1, S2, S3, lenS2, lenS3);
+        do {
+            indice = replace_bytes_secuence(S1, S2, S3, lenS2, lenS3);
 
-            if(indice != 0)
+            if (indice != 0)
                 i += indice;
 
-        }while(indice != 0);
+        } while (indice != 0);
 
         return Global.lenS1;
 
@@ -962,16 +993,16 @@ public class Utils {
      retorna 0 sino encontró la cadena
      ***/
 
-    private static int replace_bytes_secuence(byte[] S1, byte[] S2, byte[] S3, int lenS2, int lenS3){
+    private static int replace_bytes_secuence(byte[] S1, byte[] S2, byte[] S3, int lenS2, int lenS3) {
         byte[] buffer = new byte[Global.MAX_LEN_INPUTDATA];
         int i, lenBuffer;
 
         i = find_bytes_secuence(S1, S2, Global.lenS1, lenS2);
 
-        if( i == -1 )
+        if (i == -1)
             return 0;
 
-        lenBuffer =  Global.lenS1 - (i + lenS2);
+        lenBuffer = Global.lenS1 - (i + lenS2);
 
         System.arraycopy(S1, i + lenS2, buffer, 0, lenBuffer);
 
@@ -994,25 +1025,24 @@ public class Utils {
      Return:	  retorna el indice de la secuencia encontrada
      retorna -1 sino encontró la secuencia
      ***/
-    public static int find_bytes_secuence(byte[] S1, byte[] S2, int lenS1, int lenS2){
+    public static int find_bytes_secuence(byte[] S1, byte[] S2, int lenS1, int lenS2) {
         int i, j, len = 0;
         boolean primeraCoincidencia = false;
 
-        for(i=0; i<lenS1; i++){
+        for (i = 0; i < lenS1; i++) {
 
-            len=0;
-            for(j=0; j<lenS2; j++){
-                if(S1[i + j] == S2[j]){
+            len = 0;
+            for (j = 0; j < lenS2; j++) {
+                if (S1[i + j] == S2[j]) {
                     len++;
                     primeraCoincidencia = true;
-                    if(len == lenS2)
-                        return(i);
-                }
-                else{
+                    if (len == lenS2)
+                        return (i);
+                } else {
                     if (primeraCoincidencia)
                         len = 0;
 
-                    i+=len;
+                    i += len;
                     break;
                 }
             }
@@ -1036,26 +1066,25 @@ public class Utils {
      retorna el indice de la secuencia encontrada
      retorna -1 sino encontró la secuencia
      *********/
-    public static int find_bytes_secuence(byte[] S1, byte[] S2, int lenS1, int lenS2, int indice1, int indice2){
+    public static int find_bytes_secuence(byte[] S1, byte[] S2, int lenS1, int lenS2, int indice1, int indice2) {
         int i, j, len = 0;
         boolean primeraCoincidencia = false;
 
-        for(i=indice1; i<lenS1; i++){
+        for (i = indice1; i < lenS1; i++) {
 
-            len=0;
-            for(j=indice2; j<lenS2; j++){
+            len = 0;
+            for (j = indice2; j < lenS2; j++) {
 
-                if(S1[i + j] == S2[j]){
+                if (S1[i + j] == S2[j]) {
                     len++;
                     primeraCoincidencia = true;
-                    if(len == lenS2)
-                        return(i - indice1);
-                }
-                else{
+                    if (len == lenS2)
+                        return (i - indice1);
+                } else {
                     if (primeraCoincidencia)
                         len = 0;
 
-                    i+=len;
+                    i += len;
                     break;
                 }
             }
@@ -1192,12 +1221,12 @@ public class Utils {
      Return          : 0 = Si retorna dialogo de error
      -1 = Si retorna actividad de error
      ******************************************************************************/
-   public static int validateErrorsConexion(boolean continua, int errors, Context context){
+    public static int validateErrorsConexion(boolean continua, int errors, Context context) {
 
         switch (errors) {
             case Global.ERR_DATA_RECEIVED:
 
-                Global.mensaje="Error \n No se ha podido descargar el producto";
+                Global.mensaje = "Error \n No se ha podido descargar el producto";
                 if (continua)
                     return 0;
                 else
@@ -1205,24 +1234,24 @@ public class Utils {
 
             default:
                 Global.StatusExit = false;
-                return  -1;
+                return -1;
         }
     }
-   /*******************************************************************************
+
+    /*******************************************************************************
      Método       : GoToNextActivity
      Description  : Se dirige a otra actividad
      Input        : activity = Clase donde se encuentra
-                    clase = Clase a la que se dirige
-                    finaliza = TRUE: Finaliza la clase
-                               FALSE: No Finaliza la clase
+     clase = Clase a la que se dirige
+     finaliza = TRUE: Finaliza la clase
+     FALSE: No Finaliza la clase
      Return       : nothing
      *******************************************************************************/
-    public static void GoToNextActivity(Activity activity, Class clase, boolean finaliza)
-    {
-        Intent intent = new Intent(activity, clase );
+    public static void GoToNextActivity(Activity activity, Class clase, boolean finaliza) {
+        Intent intent = new Intent(activity, clase);
         activity.startActivity(intent);
 
-        if (finaliza){
+        if (finaliza) {
             activity.finish();
         }
     }
@@ -1239,21 +1268,21 @@ public class Utils {
         byte[] str = new byte[6 + 1];
         int i, j, content_length = -1;
 
-        dumpMemory(left_limit,left_limit.length);
+        dumpMemory(left_limit, left_limit.length);
 
-        dumpMemory(right_limit,right_limit.length);
+        dumpMemory(right_limit, right_limit.length);
 
-        i = find_bytes_secuence(Global.inputData,left_limit,Global.inputLen,left_limit.length);
+        i = find_bytes_secuence(Global.inputData, left_limit, Global.inputLen, left_limit.length);
 
         if (i != -1) {
             //j = find_str(inputData + i + strlen(left_limit), right_limit);
             int indiceArray = i + left_limit.length;
-            j = find_bytes_secuence(Global.inputData,right_limit,Global.inputLen,right_limit.length,indiceArray,0);
+            j = find_bytes_secuence(Global.inputData, right_limit, Global.inputLen, right_limit.length, indiceArray, 0);
 
             if (j != -1) {
-                memSet(str,(byte) 0x00, str.length);
+                memSet(str, (byte) 0x00, str.length);
                 System.arraycopy(Global.inputData, i + left_limit.length, str, 0, j);
-                content_length = Integer.parseInt( uninterpret_ASCII(str,0,j) );
+                content_length = Integer.parseInt(uninterpret_ASCII(str, 0, j));
             } else
                 content_length = 0;
         }
@@ -1270,15 +1299,15 @@ public class Utils {
      Input       : Nothing
      Return      : retorna la longitud del mensaje recibido
      ***************************/
-    public static int calculateTotalLength(){
-        byte[] right_limit = new byte[]{(byte) 0x0D,(byte) 0x0A,(byte) 0x0D,(byte) 0x0A};
+    public static int calculateTotalLength() {
+        byte[] right_limit = new byte[]{(byte) 0x0D, (byte) 0x0A, (byte) 0x0D, (byte) 0x0A};
         int http_header_length, content_length, total_length = 0;
 
         content_length = calculateContentLength();
-        http_header_length = find_bytes_secuence(Global.inputData, right_limit,Global.inputLen,right_limit.length);
+        http_header_length = find_bytes_secuence(Global.inputData, right_limit, Global.inputLen, right_limit.length);
 
-        if(content_length == -1 || http_header_length == -1)
-            return( Global.inputData.length );
+        if (content_length == -1 || http_header_length == -1)
+            return (Global.inputData.length);
 
         total_length = content_length + http_header_length + right_limit.length;
 

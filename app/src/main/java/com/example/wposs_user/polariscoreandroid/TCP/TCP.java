@@ -15,6 +15,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.sql.SQLOutput;
+import java.util.StringTokenizer;
 
 import static com.example.wposs_user.polariscoreandroid.Comun.Utils.uninterpret_ASCII;
 
@@ -135,7 +136,7 @@ public class TCP {
            System.out.println("---------------------------ENTRÓ A RECCIBIR-----------------------------------------");
             System.out.println("Recibido: ");
            Utils.dumpMemory(Global.inputData, Global.inputLen);
-            System.out.println("--------------------------------------------------------------------");
+            System.out.println("---------------------------fin dumpMemory  TCP-----------------------------------------");
 
 
             //System.out.println("*********************************************************************************outpu");
@@ -177,6 +178,7 @@ public class TCP {
        if(!validaErrorHttp(statusLine)){
         return false;
        }
+
 
        Global.httpDataBuffer = data[data.length-1];
 

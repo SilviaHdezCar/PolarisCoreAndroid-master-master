@@ -33,6 +33,7 @@ public class ActualizarClave_perfil extends Fragment {
     private EditText perfil_clave_confirmar;
     private LinearLayout layout_datos_cambiar_clave;
     private Button btn_aceptar_cambio_clave;
+    private String actual;
     private String nueva;
     private String confirmacion;
 
@@ -53,13 +54,14 @@ public class ActualizarClave_perfil extends Fragment {
         layout_datos_cambiar_clave.setVisibility(View.INVISIBLE);
 
 
+        actual = "";
         nueva = "";
         confirmacion = "";
 
         btn_validar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String actual = perfil_clave_actual.getText().toString();
+                actual = perfil_clave_actual.getText().toString();
                 if (actual.isEmpty()) {
                     Toast.makeText(objeto, "Por favor ingrese la clave actual", Toast.LENGTH_SHORT).show();
                     return;
@@ -112,6 +114,8 @@ public class ActualizarClave_perfil extends Fragment {
             return "Por favor ingrese contraseña nueva";
         } else if (confirmacion.isEmpty()) {
             return "Por favor ingrese  confirmarción de contraseña";
+        } else if(nueva.equals(actual)){
+            return "La clave nueva no puede ser igual a la antigua";
         } else if (!(nueva.length() >= 8)) {
             return "La contraseña debe contener como minimo 8 caracteres";
         } else if (!revisarMayMinNum(nueva)) {
