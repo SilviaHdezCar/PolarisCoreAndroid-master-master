@@ -790,7 +790,7 @@ public class Messages {
         Gson gson = new GsonBuilder().create();
         JSONObject jsonObject = null;
         try {
-            jsonObject = new JSONObject(prueba);
+            jsonObject = new JSONObject(Global.httpDataBuffer);
 
             Global.STATUS_SERVICE = jsonObject.get("status").toString();
 

@@ -171,7 +171,7 @@ public class TCP {
         String aux = uninterpret_ASCII(Global.inputData, 0, Global.inputData.length);
         //Log.d("VALIDA INPUT", "VALIDANDO--"+aux);
 
-       String [] data = aux.split("\n");
+       String [] data = aux.split("\\n");
        statusLine = data[0];
         //Log.i("----STATUS:--", "boolean valida_http() ");
 

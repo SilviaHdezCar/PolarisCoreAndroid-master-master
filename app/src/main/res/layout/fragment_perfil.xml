@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,18 +10,22 @@
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:orientation="vertical"
-        android:background="@color/blanco">
+        android:background="@color/blanco"
+        android:orientation="vertical">
 
 
-
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/perfil_imagen_usuario"
+            layout_alignParentTop="true"
+            layout_centerHorizontal="true"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            app:civ_border_color="@color/azul_circulo_foto"
+            app:civ_border_width="2dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:src="@drawable/user" />
+            />
+
 
         <LinearLayout
             android:layout_width="280dp"
@@ -34,8 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
                 android:background="@drawable/borde_inferior_gris"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
@@ -57,8 +62,8 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
                 android:background="@drawable/borde_inferior_gris"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -97,8 +102,8 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
                 android:background="@drawable/borde_inferior_gris"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -137,9 +142,9 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/borde_inferior_gris"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@drawable/borde_inferior_gris">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -176,9 +181,9 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/borde_inferior_gris"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@drawable/borde_inferior_gris">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -216,9 +221,9 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/borde_inferior_gris"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@drawable/borde_inferior_gris">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -231,8 +236,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
 
                     <TextView
                         style="@style/letra_negrita"
@@ -256,10 +260,10 @@
             <Button
                 android:id="@+id/btn_cambiar_clave"
                 style="@style/letra_contenido_blanco"
-                android:layout_width="1500dp"
-                android:layout_height="wrap_content"
+                android:layout_width="180dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/redondo_botones"
                 android:onClick="actualizarClave"
                 android:text="Actualizar contraseña"

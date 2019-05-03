@@ -21,7 +21,7 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 
 public class PerfilFragment extends Fragment {
     //PERFIL USUARIO
-    private ImageView imgPerfil;
+    private ImageView imageView;
     private TextView nomUsuario;
     private TextView usuario;
     private TextView cargo;
@@ -41,7 +41,7 @@ public class PerfilFragment extends Fragment {
         telefono = (TextView) v.findViewById(R.id.perfil_telefono);
         correo = (TextView) v.findViewById(R.id.perfil_correo);
         ubicacion = (TextView) v.findViewById(R.id.perfil_ubicacion);
-
+        imageView = (ImageView) v.findViewById(R.id.perfil_imagen_usuario);
 
           //extraemos el drawable en un bitmap
         Drawable originalDrawable = getResources().getDrawable(R.drawable.foto_perfil);
@@ -54,7 +54,7 @@ public class PerfilFragment extends Fragment {
         //asignamos el CornerRadius
         roundedDrawable.setCornerRadius(originalBitmap.getHeight());
 
-        ImageView imageView = (ImageView) v.findViewById(R.id.perfil_imagen_usuario);
+
 
         imageView.setImageDrawable(roundedDrawable.getCurrent());
 
@@ -70,6 +70,8 @@ public class PerfilFragment extends Fragment {
         return v;
 
     }
+
+
 
 
 }
