@@ -3,23 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/gris_fondo"
     tools:context=".Actividades.MainActivity">
 
     <LinearLayout
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/blanco">
 
 
-        <TextView
-            style="@style/letra_titulos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:text="Datos del usuario" />
 
         <ImageView
             android:id="@+id/perfil_imagen_usuario"
@@ -30,24 +23,26 @@
             android:src="@drawable/user" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:background="@drawable/borde_inferior_gris"
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/letra_negrita"
                     android:layout_width="100dp"
                     android:layout_height="20dp"
-                    android:text="Nombre: " />
+                    android:text="Nombre" />
 
                 <TextView
                     android:id="@+id/perfil_nombre_usuario"
@@ -59,129 +54,219 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
+                android:background="@drawable/borde_inferior_gris"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/letra_negrita"
-                    android:layout_width="100dp"
-                    android:layout_height="20dp"
-                    android:text="Usuario: " />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="left"
+                    android:src="@mipmap/user_grey"
+                    android:tint="@color/gris_menu_letra" />
 
-                <TextView
-                    android:id="@+id/perfil_usuario"
-                    style="@style/letra_contenido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="shc01" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/letra_negrita"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:text="Usuario " />
+
+                    <TextView
+                        android:id="@+id/perfil_usuario"
+                        style="@style/letra_contenido"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="shc01"
+                        android:textAllCaps="true" />
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
+                android:background="@drawable/borde_inferior_gris"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/letra_negrita"
-                    android:layout_width="100dp"
-                    android:layout_height="20dp"
-                    android:text="Cargo: " />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="left"
+                    android:src="@mipmap/portfolio"
+                    android:tint="@color/gris_menu_letra" />
 
-                <TextView
-                    android:id="@+id/perfil_cargo"
-                    style="@style/letra_contenido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="Tec. Campo" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/letra_negrita"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:text="Cargo " />
+
+                    <TextView
+                        android:id="@+id/perfil_cargo"
+                        style="@style/letra_contenido"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="Tec. Campo"
+                        android:textAllCaps="true" />
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="@drawable/borde_inferior_gris">
 
-                <TextView
-                    style="@style/letra_negrita"
-                    android:layout_width="100dp"
-                    android:layout_height="20dp"
-                    android:text="Celular: " />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="left"
+                    android:src="@mipmap/phone"
+                    android:tint="@color/gris_menu_letra" />
 
-                <TextView
-                    android:id="@+id/perfil_telefono"
-                    style="@style/letra_contenido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="3233021245" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/letra_negrita"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:text="Celular " />
+
+                    <TextView
+                        android:id="@+id/perfil_telefono"
+                        style="@style/letra_contenido"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="3233021245" />
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="@drawable/borde_inferior_gris">
 
-                <TextView
-                    style="@style/letra_negrita"
-                    android:layout_width="100dp"
-                    android:layout_height="20dp"
-                    android:text="Correo: " />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="left"
+                    android:src="@mipmap/mail"
+                    android:tint="@color/gris_menu_letra" />
 
-                <TextView
-                    android:id="@+id/perfil_correo"
-                    style="@style/letra_contenido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="silviahernandez@wposs.com" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/letra_negrita"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:text="Correo " />
+
+                    <TextView
+                        android:id="@+id/perfil_correo"
+                        style="@style/letra_contenido"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="silviahernandez@wposs.com"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="@drawable/borde_inferior_gris">
 
-                <TextView
-                    style="@style/letra_negrita"
-                    android:layout_width="100dp"
-                    android:layout_height="20dp"
-                    android:text="Ubicación: " />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="left"
+                    android:src="@mipmap/location"
+                    android:tint="@color/gris_menu_letra" />
 
-                <TextView
-                    android:id="@+id/perfil_ubicacion"
-                    style="@style/letra_contenido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="Cúcuta, Colombia" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        style="@style/letra_negrita"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:text="Ubicación " />
+
+                    <TextView
+                        android:id="@+id/perfil_ubicacion"
+                        style="@style/letra_contenido"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="Cúcuta, Colombia"
+                        android:textAllCaps="true" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <Button
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
                 android:id="@+id/btn_cambiar_clave"
-                android:text="Actualizar contraseña"
-                android:textAllCaps="false"
-                android:layout_marginTop="15dp"
-                android:onClick="actualizarClave"
-                android:background="@drawable/redondo_azul"
+                style="@style/letra_contenido_blanco"
+                android:layout_width="1500dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                style="@style/letra_botones"/>
+                android:layout_marginTop="15dp"
+                android:background="@drawable/redondo_botones"
+                android:onClick="actualizarClave"
+                android:text="Actualizar contraseña"
+                android:textAllCaps="false" />
 
 
         </LinearLayout>
-
 
 
     </LinearLayout>

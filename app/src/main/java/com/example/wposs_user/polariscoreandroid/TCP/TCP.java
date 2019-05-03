@@ -14,6 +14,8 @@ import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.sql.SQLOutput;
+import java.util.StringTokenizer;
 
 import static com.example.wposs_user.polariscoreandroid.Comun.Utils.uninterpret_ASCII;
 
@@ -34,6 +36,7 @@ public class TCP {
         String received = "";
         PrintStream output;
         InputStream input;
+        //byte[]  data = null;
 
         //Se conecta al servidor
         if ( tcpOpenSocket() == false){
@@ -65,32 +68,86 @@ public class TCP {
             System.out.println("Error setSoTimeout"+ e.getMessage() );
             return Global.ERR_TIMEOUT_SOCKET;
         }
+
         try {
-            input = Global.tcpSocket.getInputStream();
+            /*input = Global.tcpSocket.getInputStream();
             //recibe respuesta
-            Global.inputLen = input.read(Global.inputData);
+            Global.inputLen = input.read(Global.inputData);*/
+
+            int ciclo =1;
+            int total_length = 0;
+            int indice = 0;
+
+            input = Global.tcpSocket.getInputStream();
+
+            //
+            System.out.println("INPUTLEN"  +Global.inputLen);
+            while ((Global.inputLen = input.read(Global.inputDataTemp)) != -1 ) {//este no funciona cuando se se logue mal y luegio ingresa bien
+
+                //Utils.dumpMemory(Global.inputDataTemp,Global.inputLen);
+
+                System.arraycopy(Global.inputDataTemp, 0, Global.inputData, indice, Global.inputLen);
+                indice += Global.inputLen;
+
+                Global.inputLen = indice;
+
+                byte[]  data =  Utils.replaceSpecialChars(Global.inputData, Global.inputLen);
+                System.arraycopy(data, 0, Global.inputData, 0, data.length);
+
+                Global.inputLen = data.length;
+
+
+                System.out.println("CICLO ********************" + ciclo);
+                System.out.println("Global.inputLen "+Global.inputLen);
+
+                if(ciclo==1) {
+
+                    if(!valida_http()){
+                        System.out.println("valida_http(): "+false);
+                        disconnect();
+                        return -1;
+                    }
+
+                    total_length = Utils.calculateTotalLength();
+                }
+
+                if( total_length == indice) {
+                    System.out.println("total_length == indice ");
+                    break;
+                }
+                ciclo++;
+            }
+
+
+
         } catch (IOException e) {
-            //Log.e("E/TCP Client 2 :", "" + ex.getMessage());
             System.out.println("Error getInputStream"+ e.getMessage() );
             return Global.ERR_READ_SOCKET;
         }
-
+        System.out.println("INPUTLEN2"  +Global.inputLen);
         if (Global.inputLen > 0) {
-            Global.inputData=Utils.replaceSpecialChars(Global.inputData, Global.inputData.length);
+            //Global.inputData=Utils.replaceSpecialChars(Global.inputData, Global.inputData.length);
+            /*
+            byte[]  data=  Utils.replaceSpecialChars(Global.inputData, Global.inputLen);
+            System.arraycopy(data, 0, Global.inputData, 0, data.length);
 
-            System.out.println("--------------------------------------------------------------------");
+            Global.inputLen = data.length;
+            */
+           System.out.println("---------------------------ENTRÓ A RECCIBIR-----------------------------------------");
             System.out.println("Recibido: ");
-            Utils.dumpMemory(Global.inputData, Global.inputLen);
-            System.out.println("--------------------------------------------------------------------");
+           Utils.dumpMemory(Global.inputData, Global.inputLen);
+            System.out.println("---------------------------fin dumpMemory  TCP-----------------------------------------");
 
 
             //System.out.println("*********************************************************************************outpu");
             // Reemplaza los caracteres especiales
             //Utils.replaceSpecialChars(Global.inputData, Global.inputData.length);            // Reemplaza los caracteres especiales
 
+            /*
             if(!valida_http()){
                 return -1;
             }
+            */
 
         }
 
@@ -100,7 +157,10 @@ public class TCP {
            Global.timerPing.start();
        }*/
 
-        return Global.TRANSACTION_OK;
+       // Si la conexiobn es por demanda entonces cierro el socket
+       disconnect();
+
+       return Global.TRANSACTION_OK;
 
     }
 
@@ -109,20 +169,21 @@ public class TCP {
 
         String statusLine = "";
         String aux = uninterpret_ASCII(Global.inputData, 0, Global.inputData.length);
-        Log.d("VALIDA INPUT", "VALIDANDO--"+aux);
+        //Log.d("VALIDA INPUT", "VALIDANDO--"+aux);
 
        String [] data = aux.split("\n");
        statusLine = data[0];
-        Log.i("----STATUS:--", "boolean valida_http() ");
+        //Log.i("----STATUS:--", "boolean valida_http() ");
 
        if(!validaErrorHttp(statusLine)){
         return false;
        }
 
+
        Global.httpDataBuffer = data[data.length-1];
 
-        Log.d("VALIDA INPUT", "VALIDANDO HEADER--"+data[0]);
-        Log.d("VALIDA INPUT", "VALIDANDO DATA--"+data[data.length-1]);
+        //Log.d("VALIDA INPUT", "VALIDANDO HEADER--"+data[0]);
+        //Log.d("VALIDA INPUT", "VALIDANDO DATA--"+data[data.length-1]);
         return true;
     }
 
@@ -134,7 +195,11 @@ public class TCP {
         String []aux = status.split(" ");
 
         Log.i("----STATUS:--", "mETODO private static boolean validaErrorHttp: "+aux[1]);
-        if(!aux[1].equals(ok_status)){
+
+        if(aux[1].equals("400")){
+            Global.mensaje="ERROR \n  al establecer la conexión con el servidor\n la estructura de los datos es incorrecta";
+            return false;
+        }else     if(!aux[1].equals(ok_status)){
             Global.mensaje="ERROR \n Problemas de HTTP";
 
             Log.i("ValidarError", ""+Global.mensaje);

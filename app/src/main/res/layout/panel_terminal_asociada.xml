@@ -10,36 +10,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@drawable/borde_derecho"
-        android:orientation="horizontal">
+        android:background="@drawable/borde_todos_rojo"
+        android:orientation="horizontal"
+        android:padding="2dp">
 
         <ImageView
             android:id="@+id/imagen_asociada"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginLeft="13dp"
-            android:src="@drawable/ic_dataphone" />
+            android:src="@drawable/img_datafono"
+            android:layout_gravity="center"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_margin="2dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="@drawable/borde_inferior_gris">
 
                 <TextView
                     android:id="@+id/serial_ter_asociada"
-                    style="@style/letra_contenido"
+                    style="@style/letra_negrita_terminal"
+                    android:textAllCaps="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    />
 
                 <TextView
-                    style="@style/letra_contenido"
+                    style="@style/letra_negrita_terminal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -47,7 +52,8 @@
 
                 <TextView
                     android:id="@+id/marca_ter_asociada"
-                    style="@style/letra_contenido"
+                    style="@style/letra_negrita_terminal"
+                    android:textAllCaps="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -65,19 +71,21 @@
 
                 <TextView
                     android:id="@+id/modelo_ter_asociada"
-                    style="@style/letra_contenido"
+                    style="@style/letra_negrita_terminal_gris_peq"
+                    android:textAllCaps="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    style="@style/letra_contenido"
+                    style="@style/letra_negrita_terminal_gris_peq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" - " />
 
                 <TextView
                     android:id="@+id/tecno_ter_asociada"
-                    style="@style/letra_contenido"
+                    style="@style/letra_negrita_terminal_gris_peq"
+                    android:textAllCaps="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp" />
@@ -92,23 +100,36 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/letra_negrita_terminal_gris_grande"
+                    android:textAllCaps="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="estado: "/>
+                <TextView
                     android:id="@+id/estado_ter_asociada"
-                    style="@style/letra_contenido"
+                    style="@style/letra_negrita_terminal_gris_grande"
+                    android:textAllCaps="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <TextView
-                    style="@style/letra_contenido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" - " />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:orientation="horizontal"
+                android:gravity="right"
+                >
 
                 <TextView
                     android:id="@+id/fechal_ter_asociada"
-                    style="@style/letra_contenido"
+                    style="@style/letra_negrita_terminal_gris_peq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp" />
+                    android:layout_marginLeft="4dp"
+                    android:text="fecha"/>
             </LinearLayout>
 
         </LinearLayout>
