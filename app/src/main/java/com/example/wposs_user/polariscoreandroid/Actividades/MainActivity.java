@@ -23,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +35,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
@@ -59,8 +59,11 @@ import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity
@@ -130,7 +133,7 @@ public class MainActivity extends AppCompatActivity
         ImageView imageView = (ImageView) findViewById(R.id.imageView_perfil);
 
         imageView.setImageDrawable(roundedDrawable.getCurrent());*/
-     fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
 
     }
 
@@ -173,6 +176,7 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.btn_disminuir:
+
                 fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ObservacionesFragment()).commit();
                 // dismuir();
                 return true;
@@ -199,7 +203,8 @@ public class MainActivity extends AppCompatActivity
        /* if (id == R.id.imageView_perfil) {
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
             // cargarDatosPerfil();
-        }else */ if (id == R.id.nav_perfil) {
+        }else */
+        if (id == R.id.nav_perfil) {
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
             // cargarDatosPerfil();
         } else if (id == R.id.nav_stock) {
@@ -508,10 +513,10 @@ public class MainActivity extends AppCompatActivity
                 if (Messages.unPackMsgListarAsociadas(MainActivity.this)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
-                    if (Global.TERMINALES_ASOCIADAS == null ||Global.TERMINALES_ASOCIADAS.size()==0) {
+                    if (Global.TERMINALES_ASOCIADAS == null || Global.TERMINALES_ASOCIADAS.size() == 0) {
                         Toast.makeText(objeto, Global.CODE + " No tiene terminales asociadas", Toast.LENGTH_SHORT).show();
                         return;
-                    }else {
+                    } else {
                         llenarRVAsociadas(Global.TERMINALES_ASOCIADAS);
                     }
 

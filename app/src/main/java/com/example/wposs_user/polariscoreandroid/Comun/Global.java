@@ -65,6 +65,8 @@ public class Global {
 
 
 
+    public static final byte PIPE ='|';
+    public static  String [] tokens =null;
     public static  int tamañoTrama;
 
     public static  String    WEB_SERVICE          = "";
@@ -94,6 +96,7 @@ public class Global {
 
 
 
+    public static String    httpDataBufferAux       = "";
     public static String    httpDataBuffer       = "";
     public static String    httpHeaderBuffer     = "";
 

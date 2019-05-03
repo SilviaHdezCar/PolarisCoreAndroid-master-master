@@ -82,7 +82,7 @@ public class TCP {
 
             //
             System.out.println("INPUTLEN"  +Global.inputLen);
-            while ((Global.inputLen = input.read(Global.inputDataTemp)) != -1 ) {//este no funciona cuando se se logue mal y luegio ingresa bien
+            while ((Global.inputLen = input.read(Global.inputDataTemp)) != -1 ) {
 
                 //Utils.dumpMemory(Global.inputDataTemp,Global.inputLen);
 
@@ -90,7 +90,6 @@ public class TCP {
                 indice += Global.inputLen;
 
                 Global.inputLen = indice;
-
                 byte[]  data =  Utils.replaceSpecialChars(Global.inputData, Global.inputLen);
                 System.arraycopy(data, 0, Global.inputData, 0, data.length);
 
@@ -169,6 +168,13 @@ public class TCP {
 
         String statusLine = "";
         String aux = uninterpret_ASCII(Global.inputData, 0, Global.inputData.length);
+
+        System.out.println("************************--Global.inputData.length------"+Global.inputData.length);
+
+
+
+
+
         //Log.d("VALIDA INPUT", "VALIDANDO--"+aux);
 
        String [] data = aux.split("\\n");
@@ -178,9 +184,10 @@ public class TCP {
        if(!validaErrorHttp(statusLine)){
         return false;
        }
-
-
+        Global.httpDataBufferAux=aux;
+        System.out.println("************************TAMAÑO AUX----TCP----"+Global.httpDataBufferAux.length());
        Global.httpDataBuffer = data[data.length-1];
+
 
         //Log.d("VALIDA INPUT", "VALIDANDO HEADER--"+data[0]);
         //Log.d("VALIDA INPUT", "VALIDANDO DATA--"+data[data.length-1]);

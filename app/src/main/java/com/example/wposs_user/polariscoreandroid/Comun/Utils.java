@@ -80,9 +80,13 @@ public class Utils {
     public static void replaceChar(byte[] outputData, byte antiguo, byte nuevo, int len) {
         int i;
 
-        for (i = 0; i < len; i++)
+        outputData[len]= antiguo;
+        for (i = 0; i < len; i++) {
             if (outputData[i] == antiguo)
                 outputData[i] = nuevo;
+        }
+
+
     }
 
     /**
@@ -1314,4 +1318,6 @@ public class Utils {
         return total_length;
 
     }
+
+
 }
