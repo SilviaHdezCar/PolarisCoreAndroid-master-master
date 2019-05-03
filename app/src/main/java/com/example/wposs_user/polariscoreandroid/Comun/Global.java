@@ -89,7 +89,7 @@ public class Global {
 
     public static final int       MAX_LEN_OUTPUTDATA	  = 10 * 1024;
 //  public static final int       MAX_LEN_OUTPUTDATA	  = 2048;
-    public static final int       MAX_LEN_INPUTDATA		  = 64 * 1024;
+    public static final int       MAX_LEN_INPUTDATA		  = 128 * 1024;
 //  public static final int       MAX_LEN_INPUTDATA		  = 2 * 4096;
 
 

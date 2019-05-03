@@ -18,6 +18,72 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Messages {
+
+    /*****************************************************************************************
+     * EMPAQUETADO DE FINALIZAR DIAGNÓSTICO (Cuando no es reparable)
+     *
+     * **************************************************************************************/
+    public static void packMsgFinalizarDiagnostico() {
+        packHttpDataFinalizarDiagnostico();
+        packHttpHeaderLogueado();
+
+        Global.outputData = (Global.httpHeaderBuffer + "\r\n\r\n" + Global.httpDataBuffer).getBytes();
+
+        Global.outputLen = Global.outputData.length;
+        //Utils.dumpMemory(Global.outputData, Global.outputLen);
+        Log.i("outputData*******", "" + uninterpret_ASCII(Global.inputData, 0, Global.inputData.length));
+
+    }
+
+    /*********************************************
+     * ARMA EL CUERPO DE LA TRAMA DE ENVIO PARA finalizar el diagnostico
+     * ***********************************************************/
+    public static void packHttpDataFinalizarDiagnostico() {
+        //comienza a armar la trama
+      /*  Global.httpDataBuffer = "{\"user_email\": \"<CORREO>\",\"user_password\": \"<PASSWORD>\"}";//se arma la trama
+
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<CORREO>", Global.correo);
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<PASSWORD>", Global.validar_actual);*/
+
+
+    }
+
+    /************************************************************************************************
+     * DESEMPAQUETADO DE LA RESPUESTA DEL SERVIDOR --> CERRAR SESION
+     *****************************************************************************************************/
+    public static boolean unPackMsgFinalizarDiagnostico(Context c) {
+
+        String tramaCompleta = "";
+/*
+        int indice = 0;
+
+        Global.inputData = Global.httpDataBuffer.getBytes();
+
+        tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
+        System.out.println("trama completa: " + tramaCompleta);
+
+        JSONObject jsonObject = null;
+        try {
+
+            jsonObject = new JSONObject(tramaCompleta);
+
+            Global.STATUS_SERVICE = jsonObject.get("status").toString();
+
+            Global.mensaje = jsonObject.get("message").toString();
+            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                return false;
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
+
+        return true;
+
+
+    }
+
+
     /*****************************************************************************************
      * EMPAQUETADO DE CERRAR SESION
      *
@@ -39,13 +105,12 @@ public class Messages {
      * ***********************************************************/
     public static void packHttpDataCerrarSesion() {
         //comienza a armar la trama
-        Global.httpDataBuffer = "{\"user\": \"<ID>\"}";//se arma la trama
+        Global.httpDataBuffer = "{\"user\":\"<ID>\"}";//se arma la trama
 
         Global.httpDataBuffer = Global.httpDataBuffer.replace("<ID>", Global.ID);
 
 
     }
-
 
 
     /*****************************************************************************************
@@ -89,7 +154,7 @@ public class Messages {
         Global.inputData = Global.httpDataBuffer.getBytes();
 
         tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
-        System.out.println("trama completa: "+tramaCompleta);
+        System.out.println("trama completa: " + tramaCompleta);
 
         JSONObject jsonObject = null;
         try {
@@ -408,12 +473,10 @@ public class Messages {
         Global.httpDataBuffer = Global.httpDataBuffer.replace("<usuario>", Global.CODE);
 
 
-
         //fn
 
 
     }
-
 
 
     /*********************************************
@@ -425,7 +488,6 @@ public class Messages {
 
         Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", "9220");
         Global.httpDataBuffer = Global.httpDataBuffer.replace("<usuario>", Global.CODE);
-
 
 
         //fn
@@ -712,17 +774,23 @@ public class Messages {
         Terminal t = null;
 
         int indice = 0;
+        String prueba="{\"message\":\"success\",\"status\":\"ok\",\"data\":{\"terminales\":[{\"term_serial\":\"123456825\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000036\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL,LAN,GPRS\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456823\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T700\",\"term_num_terminal\":\"000034\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" LAN\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456822\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000033\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456827\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000\",\"term_num_terminal\":\"000038\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" WIFI\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456838\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T700\",\"term_num_terminal\":\"000049\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" LAN,GPRS,WIFI\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456828\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000039\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456829\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T700\",\"term_num_terminal\":\"000040\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" LAN\",\"term_warranty_time\":\"6\"}]}}";
+        System.out.println("prueba\n"+prueba);
 
-        Global.inputData = Global.httpDataBuffer.getBytes();
+
+        //Global.inputData = Global.httpDataBuffer.getBytes();
+        Global.inputData = prueba.getBytes();
 
 
         tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
+        System.out.println("trama completa: " + tramaCompleta);
 
+        Log.i("httdatabuffer", Global.httpDataBuffer);
 
         Gson gson = new GsonBuilder().create();
         JSONObject jsonObject = null;
         try {
-            jsonObject = new JSONObject(tramaCompleta);
+            jsonObject = new JSONObject(prueba);
 
             Global.STATUS_SERVICE = jsonObject.get("status").toString();
 

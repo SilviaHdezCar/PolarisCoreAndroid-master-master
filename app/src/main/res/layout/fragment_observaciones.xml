@@ -21,31 +21,44 @@
             android:text="Observación" />
 
         <EditText
-            android:id="@+id/txt_observación"
+            android:id="@+id/txt_observacion_fin"
             style="@style/letra_contenido"
             android:layout_width="350dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:background="@drawable/redondo_fondo_blanco"
-            android:maxLength="280" />
+            android:maxLength="280"
+            android:inputType="textCapSentences" />
 
 
-            <TextView
-                android:id="@+id/lbl_cargarFoto"
-                style="@style/letra_enlace"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:text="Tomar foto"
-                />
+        <TextView
+            android:id="@+id/lbl_cargarFoto"
+            style="@style/letra_enlace"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Tomar foto" />
+
         <ImageView
             android:id="@+id/imagen_observación"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/img_no_disponible"/>
+            android:src="@drawable/img_no_disponible" />
+
+        <Button
+            android:id="@+id/btn_finalizar_observacion"
+            style="@style/letra_botones"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/redondo_azul"
+            android:text="Siguiente"
+            android:layout_gravity="right"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="35dp"
+            android:textAllCaps="false" />
 
 
     </LinearLayout>

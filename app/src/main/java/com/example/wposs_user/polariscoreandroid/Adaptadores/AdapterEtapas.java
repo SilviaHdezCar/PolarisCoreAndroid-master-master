@@ -69,4 +69,5 @@ public class AdapterEtapas extends RecyclerView.Adapter<AdapterEtapas.ViewHolder
     }
 
 
+
 }

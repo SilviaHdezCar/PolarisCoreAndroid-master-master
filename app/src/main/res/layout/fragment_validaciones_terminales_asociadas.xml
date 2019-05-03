@@ -6,6 +6,7 @@
     android:background="@color/gris_fondo"
     tools:context=".Actividades.MainActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

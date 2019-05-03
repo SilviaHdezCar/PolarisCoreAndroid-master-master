@@ -28,7 +28,15 @@ public class Activity_login extends AppCompatActivity {
 
         txtCorreo = (EditText) findViewById(R.id.txtCorreo);
         txtPass = (EditText) findViewById(R.id.txtPass);
+        StringBuilder str=new StringBuilder();
 
+   /*     for(int i=0; i<Global.inputData.length;i++){
+          //  str.append("{\"message\":\"success\",\"status\":\"ok\",\"data\":{\"terminales\":[{\"term_serial\":\"123456831\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000042\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL,LAN,GPRS\",\"term_warranty_time\":\"6\"}]}}");
+            str.append("{\"message\":\"success\",\"status\":\"ok\",\"data\":{\"terminales\":[{\"term_serial\":\"123456833\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000\",\"term_num_terminal\":\"000044\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" WIFI\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456825\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000036\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL,LAN,GPRS\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456823\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T700\",\"term_num_terminal\":\"000034\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" LAN\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456834\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000045\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456822\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000033\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456827\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000\",\"term_num_terminal\":\"000038\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" WIFI\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456838\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T700\",\"term_num_terminal\":\"000049\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" LAN,GPRS,WIFI\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456828\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000039\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456837\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000048\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL,LAN,GPRS\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456829\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T700\",\"term_num_terminal\":\"000040\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" LAN\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456832\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T700\",\"term_num_terminal\":\"000043\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" LAN,GPRS,WIFI\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456835\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T700\",\"term_num_terminal\":\"000046\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" LAN\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456830\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000\",\"term_num_terminal\":\"000041\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" GPRS\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456831\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000042\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL,LAN,GPRS\",\"term_warranty_time\":\"6\"}]}}");
+        }
+
+        System.out.println("-------------CADENA ÑLARGA");
+        System.out.println(str.length());*/
 
     }
 
@@ -99,9 +107,6 @@ public class Activity_login extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... strings) {
             Messages.packMsgLogin();
-            Log.i("Correo: ",""+Global.correo);
-            Log.i("Clave: ",""+Global.password);
-
 
             trans = TCP.transaction(Global.outputLen);
 
@@ -140,17 +145,13 @@ public class Activity_login extends AppCompatActivity {
                         if (Global.mensaje.equalsIgnoreCase("Contrasena Invalida")) {
                             Global.mensaje ="Contraseña inválida";
                         }
-                        System.out.println("-------------clave incorrecta: "+Global.mensaje);
-                        Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
+                    Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     // Limpia el login
 
-                }
-
-                limpiarLogin();
-                Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
+                }limpiarLogin();
             } else {
                 switch (Utils.validateErrorsConexion(false, trans, Activity_login.this)) {
 
@@ -167,10 +168,7 @@ public class Activity_login extends AppCompatActivity {
                         // Muestra la ventana de error
                         Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
                         break;
-                }
-
-                Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
-                limpiarLogin();
+                } limpiarLogin();
 
             }
 

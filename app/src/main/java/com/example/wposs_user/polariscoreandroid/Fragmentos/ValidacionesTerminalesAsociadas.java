@@ -1,9 +1,5 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,23 +7,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidaciones;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.Tools;
+import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 
 public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE DEBE LLENAR EL RCV
@@ -110,11 +101,9 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
 
         final ArrayList validaciones = new ArrayList<>();
 
-        //recorro la lista obtenida y la agg a la lista
-
         for (Validacion val : validacionesRecibidas) {
             if (val != null) {
-                validaciones.add(val);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
+                validaciones.add(val);
             }
 
 

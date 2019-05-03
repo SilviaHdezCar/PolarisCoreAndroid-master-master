@@ -5,18 +5,38 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="blanco">#FFFFFF</color>
+
+    <color name="rojo_borde">#C44C49</color>
+    <color name="gris_linea">#EEEEEE</color>
+    <color name="gris_letra">#8B8B8B</color>
+
+
+<!--Colores utilizados en el nav_bar-->
+
+    <color name="circulo_nav_bar">#91ADB0</color>
+    <color name="verde_osc_nav_bar">#022529</color>
+
     <color name="fondo">#C1E4E6</color>
-    <color name="azul_nav_bar">#2196F5</color>
+    <color name="verde_nav_bar">#028893</color>
     <color name="azul_nav_bar_transparencia">#2196F5</color>
     <color name="azul_claro_nav_bar">#45A5F3</color>
+    <color name="lineas_nav_bar">#2E5157</color>
+
+
     <color name="azul_botones">#2196F3</color>
     <color name="negro">#212121</color>
     <color name="gris_menu">#7D7D7D</color>
+    <color name="gris_iconos">#9EC2C9</color>
     <color name="gris_menu_letra">#BDBDBD</color>
     <color name="gris_fondo">#F2F2F2</color>
     <color name="fondo_edit_text">#F5F5F5</color>
     <color name="naranja">#ED863B</color>
 
+    <!--Colores nuevos para aplicar a las vistas del diseñador-->
+    <color name="fondo_verde_edit_text">#036C79</color>
+    <color name="borde_verde_edit_text">#287C83</color>
+    <color name="fondo_verde_botones">#02373B</color>
+    <color name="borde_verde_botones">#04807B</color>
 
 </resources>
 
