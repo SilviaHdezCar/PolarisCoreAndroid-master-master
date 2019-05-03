@@ -538,7 +538,7 @@ public class Registro_diagnostico extends Fragment {
     public void registrarDiagnostico(){
 
 
-        Global.WEB_SERVICE = "PolarisCore/Terminals/saveDiagnosis";
+        Global.WEB_SERVICE = "/PolarisCore/Terminals/saveDiagnosis";
 
 
 
@@ -562,14 +562,10 @@ public class Registro_diagnostico extends Fragment {
 
     new TaskRegistrarDiagnosticos().execute();
 
-
-
-
-
-
-
-
     }
+
+
+
 
 
 
