@@ -1,5 +1,6 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wposs_user.polariscoreandroid.Actividades.Activity_login;
+import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuesto;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
@@ -36,7 +38,11 @@ import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
@@ -51,6 +57,7 @@ public class Registro_diagnostico extends Fragment {
     private Button agregar;
     private EditText observ;
     private Button registroDiag;
+    android.support.v4.app.FragmentManager fragmentManager;
 
 
 
@@ -534,6 +541,9 @@ public class Registro_diagnostico extends Fragment {
 
 
 
+/***********************Metodo utilizado para Registrar el Diagnostico de una terminal*********************/
+
+
 
     public void registrarDiagnostico(){
 
@@ -558,24 +568,22 @@ public class Registro_diagnostico extends Fragment {
 
     }
 
-      Global.observacion= obs.toString();
+    Global.observacion= obs.toString();
 
     new TaskRegistrarDiagnosticos().execute();
+
+        Intent i = new Intent(v.getContext(), MainActivity.class); // inicio una nueva activiy
+        getFragmentManager().beginTransaction().remove(this).commit(); /// remuevo el fragment usado
+         startActivity(i);
+
+
+
+
+
+
+        }
+
 
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-}

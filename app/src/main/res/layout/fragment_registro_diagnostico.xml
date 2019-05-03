@@ -50,7 +50,7 @@
 
         <AutoCompleteTextView
             android:id="@+id/auto_repuesto"
-            android:layout_width="200dp"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:hint="Codigo o nombre"
             android:textSize="14dp"
@@ -162,17 +162,18 @@
          />
 
 
-    <EditText
-        android:id="@+id/txt_observaciones"
-        style="@style/letra_contenido"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/blanco"
-        android:hint="Observaciones"
+        <EditText
+            android:id="@+id/txt_observaciones"
+            style="@style/letra_contenido"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/blanco"
+            android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ. "
+            android:hint="Observaciones"
 
 
-        android:textSize="14dp" />
+            android:textSize="14dp" />
 
         <Button
             android:id="@+id/btn_registroDioagnostico"

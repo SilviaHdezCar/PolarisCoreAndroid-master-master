@@ -335,7 +335,7 @@ public class MainActivity extends AppCompatActivity
                     //cadena = cadena.replace("<SERIAL>", val.getTeva_id());
                     //cadena = cadena.replace("<DESCRIPCION>", val.getTeva_description());
                     //cadena = cadena.replace("<ESTADO>", val.getEstado());
-                    cadena= "{"+(char)34+ "tevs_terminal_serial"+(char)34 +":"+(char)34+ val.getTeva_id() +(char)34+","+(char)34+ "tevs_terminal_validation"+(char)34 +":"+(char)34+ val.getTeva_id() +(char)34+","+(char)34+ "tevs_status"+(char)34+":"+ (char)34+val.getEstado()+(char)34+"}";
+                    cadena= "{"+(char)34+ "tevs_terminal_serial"+(char)34 +":"+(char)34+ Global.serial_ter +(char)34+","+(char)34+ "tevs_terminal_validation"+(char)34 +":"+(char)34+ val.getTeva_description() +(char)34+","+(char)34+ "tevs_status"+(char)34+":"+ (char)34+val.getEstado()+(char)34+"}";
                     Global.VALIDACIONES_DIAGNOSTICO.add(cadena);
                     retorno=true;
                 }
