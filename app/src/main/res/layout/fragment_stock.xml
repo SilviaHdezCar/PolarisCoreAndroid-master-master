@@ -29,7 +29,6 @@
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:background="@color/azul_claro_nav_bar"
-                android:onClick="cargarRepuesto_stock"
                 android:scrollbars="vertical"
                 android:text="REPUESTOS" />
 
@@ -38,18 +37,27 @@
                 style="@style/letra_tabs"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:background="#802196F5"
+                android:background="@color/azul_claro_nav_bar"
                 android:onClick="cargarTerminal_stock"
                 android:scrollbars="vertical"
                 android:text="TERMINALES" />
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
+           <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recycler_stock"
             android:layout_marginBottom="3dp"/>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+
+            />
+
 
     </LinearLayout>
 

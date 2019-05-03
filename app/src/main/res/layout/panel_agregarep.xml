@@ -56,7 +56,7 @@
             android:background="#00000000"
             android:src="@mipmap/papelera"
 
-            android:tint="#1E88E5" />
+            android:tint="@color/azul_botones" />
 
 
 

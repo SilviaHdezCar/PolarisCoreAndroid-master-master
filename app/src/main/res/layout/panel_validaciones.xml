@@ -27,6 +27,7 @@
                 android:id="@+id/radios_validaciones"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/azul_botones"
                 android:orientation="horizontal">
 
                 <RadioButton

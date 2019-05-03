@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -575,15 +576,11 @@ public class Registro_diagnostico extends Fragment {
         Intent i = new Intent(v.getContext(), MainActivity.class); // inicio una nueva activiy
         getFragmentManager().beginTransaction().remove(this).commit(); /// remuevo el fragment usado
          startActivity(i);
+       }
+
+   
 
 
 
 
-
-
-        }
-
-
-    }
-
-
+}
