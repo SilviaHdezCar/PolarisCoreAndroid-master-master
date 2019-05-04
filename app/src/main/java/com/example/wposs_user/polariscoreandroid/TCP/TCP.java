@@ -179,8 +179,8 @@ public class TCP {
         return false;
        }
 
-
        Global.httpDataBuffer = data[data.length-1];
+
 
         //Log.d("VALIDA INPUT", "VALIDANDO HEADER--"+data[0]);
         //Log.d("VALIDA INPUT", "VALIDANDO DATA--"+data[data.length-1]);

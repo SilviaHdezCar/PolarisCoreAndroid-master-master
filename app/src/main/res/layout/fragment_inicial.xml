@@ -15,35 +15,48 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/azul_claro_nav_bar">
+            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btn_terminales_asociadas"
-                style="@style/letra_tabs"
-                android:layout_width="200dp"
+            <LinearLayout
+                android:id="@+id/tab_asociada"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/azul_claro_nav_bar"
-                android:onClick="verTerminalesAsociadas"
-                android:scrollbars="vertical"
-                android:text="Terminales Asociadas" />
+                android:background="@drawable/borde_inferior_blanco"
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_terminales_autorizadas"
-                style="@style/letra_tabs"
+                <Button
+                    android:id="@+id/btn_terminales_asociadas"
+                    style="@style/letra_tabs"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/verde_pestanas"
+                    android:scrollbars="vertical"
+                    android:text="Terminales Asociadas" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tab_autorizada"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#802196F5"
-                android:onClick="verTerminalesAutorizadas"
-                android:scrollbars="vertical"
-                android:text="Terminales Autorizadas" />
+                android:background="@drawable/borde_inferior_verde"
+                android:orientation="vertical">
 
+                <Button
+                    android:id="@+id/btn_terminales_autorizadas"
+                    style="@style/letra_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/verde_pestanas"
+                    android:scrollbars="vertical"
+                    android:text="Terminales Autorizadas" />
+            </LinearLayout>
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_consultaTerminales_inicial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/recycler_view_consultaTerminales_inicial"
-            android:layout_marginBottom="3dp"/>
+            android:layout_marginBottom="3dp" />
 
     </LinearLayout>
 

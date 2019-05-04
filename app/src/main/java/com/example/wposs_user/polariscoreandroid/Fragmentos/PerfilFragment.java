@@ -1,7 +1,12 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +21,7 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 
 public class PerfilFragment extends Fragment {
     //PERFIL USUARIO
-    private ImageView imgPerfil;
+    private ImageView imageView;
     private TextView nomUsuario;
     private TextView usuario;
     private TextView cargo;
@@ -36,6 +41,22 @@ public class PerfilFragment extends Fragment {
         telefono = (TextView) v.findViewById(R.id.perfil_telefono);
         correo = (TextView) v.findViewById(R.id.perfil_correo);
         ubicacion = (TextView) v.findViewById(R.id.perfil_ubicacion);
+        imageView = (ImageView) v.findViewById(R.id.perfil_imagen_usuario);
+
+          //extraemos el drawable en un bitmap
+        Drawable originalDrawable = getResources().getDrawable(R.drawable.foto_perfil);
+        Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
+
+        //creamos el drawable redondeado
+        RoundedBitmapDrawable roundedDrawable =
+                RoundedBitmapDrawableFactory.create(getResources(), originalBitmap);
+
+        //asignamos el CornerRadius
+        roundedDrawable.setCornerRadius(originalBitmap.getHeight());
+
+
+
+        imageView.setImageDrawable(roundedDrawable.getCurrent());
 
         nomUsuario.setText(Global.NOMBRE);
         usuario.setText(Global.CODE);
@@ -49,6 +70,4 @@ public class PerfilFragment extends Fragment {
         return v;
 
     }
-
-
 }

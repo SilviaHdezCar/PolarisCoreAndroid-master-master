@@ -66,6 +66,8 @@ public class Global {
 
 
 
+    public static final byte PIPE ='|';
+    public static  String [] tokens =null;
     public static  int tamañoTrama;
 
     public static  String    WEB_SERVICE          = "";
@@ -95,6 +97,8 @@ public class Global {
 
 
 
+
+    public static String    httpDataBufferAux       = "";
     public static String    httpDataBuffer       = "";
     public static String    httpHeaderBuffer     = "";
 
@@ -121,7 +125,6 @@ public class Global {
     public static List<Terminal> TERMINALES_ASOCIADAS ;
     public static List<Observacion> OBSERVACIONES;
     public static List<Validacion> VALIDACIONES;
-
     public static List<Tipificacion> TIPIFICACIONES;
     public static ArrayList<Repuesto> REPUESTOS = new ArrayList<>();
     public static ArrayList<Repuesto> REPUESTOS_DIAGONOSTICO= new ArrayList<>();
@@ -132,11 +135,9 @@ public class Global {
     public static String reparable="";
     public static String fallaDetectada="";
 
+    public static List<Terminal> TERMINALES_AUTORIZADAS ;
 
 
     public static int lenS1;
     public static String claveNueva;
-
-
-
 }

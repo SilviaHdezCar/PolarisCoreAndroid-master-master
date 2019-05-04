@@ -112,9 +112,7 @@ public class Utils {
         return tokens;
     }
 
-    /**
-     * Este metodo separa un array de bytes en tokens dependiendo del tama�o (LV)
-     *
+    /** Este metodo separa un array de bytes en tokens dependiendo del tama�o (LV)  
      * @Retorna un array de cadenas con los tokens separados
      */
     public static String[] tokenizer(byte[] array, int offset, int numTokens) {

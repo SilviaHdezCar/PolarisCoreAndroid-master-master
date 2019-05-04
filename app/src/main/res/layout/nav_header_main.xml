@@ -5,18 +5,24 @@
     android:layout_height="wrap_content"
     android:background="@color/verde_osc_nav_bar"
     android:orientation="vertical"
-
+android:layout_marginTop="40dp"
 
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView_perfil"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        layout_alignParentTop="true"
+        layout_centerHorizontal="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:contentDescription="@string/nav_header_desc"
-        android:background="@drawable/img"
+        app:civ_border_color="@color/azul_circulo_foto"
+        android:src="@drawable/foto_perfil"
+        app:civ_border_width="2dp"
         android:layout_gravity="left"
-        android:layout_margin="10dp"/>
+        android:layout_margin="10dp"
+        />
 
     <TextView
         android:id="@+id/usuario_drawer"

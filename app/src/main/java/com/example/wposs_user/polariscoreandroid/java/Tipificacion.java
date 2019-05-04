@@ -25,6 +25,4 @@ public class Tipificacion {
     public void setTetv_description(String tetv_description) {
         this.tetv_description = tetv_description;
     }
-
-
 }

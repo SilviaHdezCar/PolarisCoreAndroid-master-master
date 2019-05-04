@@ -500,7 +500,7 @@ public class Registro_diagnostico extends Fragment {
                         e.printStackTrace();
                     }
                 }
-                TCP.disconnect();
+            //    TCP.disconnect();
 
             } else {
                 switch (Utils.validateErrorsConexion(false, trans, v.getContext())) {
