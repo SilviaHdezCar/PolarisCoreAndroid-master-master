@@ -52,7 +52,6 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     private TextView fechal_ans_ter_validaciones;
     private RecyclerView rv;
     private LinearLayout layout_encabezado_vali;
-    private TextView lbl_msj_validaciones;
     private RequestQueue queue;
     private   static Validacion v;
 
@@ -61,7 +60,6 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_validaciones_terminales_asociadas, container, false);
 
-        lbl_msj_validaciones = (TextView) v.findViewById(R.id.lbl_msj_validaciones);
         marca_ter_validaciones = (TextView) v.findViewById(R.id.marca_ter_validaciones);
         modelo_ter_validaciones = (TextView) v.findViewById(R.id.modelo_ter_validaciones);
         serial_ter_validaciones = (TextView) v.findViewById(R.id.serial_ter_validaciones);
@@ -140,10 +138,9 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
 
                             if (jsonArray.length() == 0) {
                                 layout_encabezado_vali.setVisibility(View.INVISIBLE);
-                                lbl_msj_validaciones.setText("No hay validaciones registradas");
+                                Toast.makeText(objeto, "No hay validaciones registradas", Toast.LENGTH_SHORT).show();
                                 return;
                             }
-                            lbl_msj_validaciones.setVisibility(View.INVISIBLE);
                             layout_encabezado_vali.setVisibility(View.VISIBLE);
 
                             String ter = null;
