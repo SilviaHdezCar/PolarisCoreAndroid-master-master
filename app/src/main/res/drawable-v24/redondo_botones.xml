@@ -10,5 +10,5 @@
 
     <solid android:color="@color/fondo_verde_botones"   />
 
-    <corners android:radius="10dp" />
+    <corners android:radius="8dp" />
 </shape>

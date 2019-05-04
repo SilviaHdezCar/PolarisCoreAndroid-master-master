@@ -111,17 +111,8 @@ public class Repuesto {
 
     @Override
     public String toString() {
-        return "Repuesto{" +
-                "spar_id='" + spar_id + '\'' +
-                ", spar_code='" + spar_code + '\'' +
-                ", spar_date_register='" + spar_date_register + '\'' +
-                ", spar_name='" + spar_name + '\'' +
-                ", spar_quantity='" + spar_quantity + '\'' +
-                ", spar_register_by='" + spar_register_by + '\'' +
-                ", spar_status='" + spar_status + '\'' +
-                ", spar_status_temporal='" + spar_status_temporal + '\'' +
-                ", spar_terminal_model='" + spar_terminal_model + '\'' +
-                ", spar_warehouse='" + spar_warehouse + '\'' +
-                '}';
+
+        return "{"+(char)34+ "codigo"+(char)34 +":"+(char)34+ spar_code +(char)34+","+(char)34+ "nombre"+(char)34 +":"+(char)34+ spar_name +(char)34+","+(char)34+ "cantidad"+(char)34+":"+ (char)34+spar_quantity+(char)34+"}";
+
     }
 }

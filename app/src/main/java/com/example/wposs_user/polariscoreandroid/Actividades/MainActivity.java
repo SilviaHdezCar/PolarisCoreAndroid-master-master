@@ -35,6 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity
         ImageView imageView = (ImageView) findViewById(R.id.imageView_perfil);
 
         imageView.setImageDrawable(roundedDrawable.getCurrent());*/
-        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
+     fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
 
     }
 
@@ -361,10 +362,11 @@ public class MainActivity extends AppCompatActivity
                 } else {
 //        "validaciones": [{"tevs_terminal_serial":"212","tevs_terminal_validation":"sadasdasd","tevs_status":"ok"},}
 //        {"tevs_terminal_serial":"212","tevs_terminal_validation":"sadasdasd","tevs_status":"falla"}],
-                    cadena = "{\"tevs_terminal_serial\": \"<SERIAL>\",\"tevs_terminal_validation\": \"<DESCRIPCION>\",\"tevs_status\": \"<ESTADO>\"}";
-                    cadena = cadena.replace("<SERIAL>", val.getTeva_id());
-                    cadena = cadena.replace("<DESCRIPCION>", val.getTeva_description());
-                    cadena = cadena.replace("<ESTADO>", val.getEstado());
+                   // cadena = "{\"tevs_terminal_serial\":\"<SERIAL>\",\"tevs_terminal_validation\":\"<DESCRIPCION>\",\"tevs_status\":\"<ESTADO>\"}";
+                    //cadena = cadena.replace("<SERIAL>", val.getTeva_id());
+                    //cadena = cadena.replace("<DESCRIPCION>", val.getTeva_description());
+                    //cadena = cadena.replace("<ESTADO>", val.getEstado());
+                    cadena= "{"+(char)34+ "tevs_terminal_serial"+(char)34 +":"+(char)34+ val.getTeva_id() +(char)34+","+(char)34+ "tevs_terminal_validation"+(char)34 +":"+(char)34+ val.getTeva_id() +(char)34+","+(char)34+ "tevs_status"+(char)34+":"+ (char)34+val.getEstado()+(char)34+"}";
                     Global.VALIDACIONES_DIAGNOSTICO.add(cadena);
                     retorno = true;
                 }
@@ -449,7 +451,7 @@ public class MainActivity extends AppCompatActivity
     public void verTerminalesAsociadas(View v) {
         btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
         btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
-        layout_terminal_etapas = (LinearLayout) findViewById(R.id.layout_terminal_etapas);
+        layout_terminal_etapas=(LinearLayout)findViewById(R.id.layout_terminal_etapas);
 
         btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.azul_nav_bar_transparencia));//azul_nav_bar_transparencia
 
@@ -513,7 +515,7 @@ public class MainActivity extends AppCompatActivity
                 if (Messages.unPackMsgListarAsociadas(MainActivity.this)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
-                    if (Global.TERMINALES_ASOCIADAS == null || Global.TERMINALES_ASOCIADAS.size() == 0) {
+                    if (Global.TERMINALES_ASOCIADAS == null ||Global.TERMINALES_ASOCIADAS.size()==0) {
                         Toast.makeText(objeto, Global.CODE + " No tiene terminales asociadas", Toast.LENGTH_SHORT).show();
                         return;
                     } else {
@@ -661,10 +663,7 @@ public class MainActivity extends AppCompatActivity
 
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
-            //  cierra el socket despues de la transaccion
-            //  TCP.disconnect();
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR OBSERVA");
-        }
+           }
 
 
     }
@@ -965,32 +964,6 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
-
-    //*************AUTORIZADAS
-    public void verTerminalesAutorizadas(View v) {
-        btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
-        btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
-
-        btn_asociadas.setBackgroundColor(0x802196F5);
-
-        btn_autorizadas.setBackgroundColor(0x45A5F3);
-
-     /*   Vector<Terminal> terminales_aut = new Vector<>();
-        for (Terminal ter : this.terminales) {
-            if ((ter.getTerm_status()).equalsIgnoreCase("Autorizada")) {
-                terminales_aut.add(ter);
-            }
-
-        }
-
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_consultaTerminales_inicial);
-        recyclerView.setAdapter(new AdapterTerminal(this, terminales_aut));//le pasa los datos-> lista de usuarios
-
-        layoutManager = new LinearLayoutManager(this);// en forma de lista
-        recyclerView.setLayoutManager(layoutManager);*/
-    }
-
 
     public void cargarTerminal_stock(View view) {
 

@@ -80,13 +80,9 @@ public class Utils {
     public static void replaceChar(byte[] outputData, byte antiguo, byte nuevo, int len) {
         int i;
 
-        outputData[len]= antiguo;
-        for (i = 0; i < len; i++) {
+        for (i = 0; i < len; i++)
             if (outputData[i] == antiguo)
                 outputData[i] = nuevo;
-        }
-
-
     }
 
     /**
@@ -116,9 +112,7 @@ public class Utils {
         return tokens;
     }
 
-    /**
-     * Este metodo separa un array de bytes en tokens dependiendo del tama�o (LV)
-     *
+    /** Este metodo separa un array de bytes en tokens dependiendo del tama�o (LV)  
      * @Retorna un array de cadenas con los tokens separados
      */
     public static String[] tokenizer(byte[] array, int offset, int numTokens) {
@@ -1318,6 +1312,4 @@ public class Utils {
         return total_length;
 
     }
-
-
 }

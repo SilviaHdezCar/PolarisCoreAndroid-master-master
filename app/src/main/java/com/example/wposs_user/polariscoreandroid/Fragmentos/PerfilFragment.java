@@ -70,8 +70,4 @@ public class PerfilFragment extends Fragment {
         return v;
 
     }
-
-
-
-
 }

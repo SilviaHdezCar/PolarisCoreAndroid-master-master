@@ -15,12 +15,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/verde_pestanas">
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/tab_asociada"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/borde_inferior_blanco"
                 android:orientation="vertical">
 
                 <Button
@@ -29,15 +30,15 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:background="@color/verde_pestanas"
-                    android:onClick="verTerminalesAsociadas"
                     android:scrollbars="vertical"
                     android:text="Terminales Asociadas" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/tab_autorizada"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/borde_inferior_verde"
                 android:orientation="vertical">
 
                 <Button
@@ -46,7 +47,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/verde_pestanas"
-                    android:onClick="verTerminalesAutorizadas"
                     android:scrollbars="vertical"
                     android:text="Terminales Autorizadas" />
             </LinearLayout>

@@ -29,6 +29,7 @@ import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
+import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ public class Registro_diagnostico extends Fragment {
     private RecyclerView rv;
     private Button agregar;
     private EditText observ;
+    private Button registroDiag;
 
 
 
@@ -52,12 +54,23 @@ public class Registro_diagnostico extends Fragment {
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_registro_diagnostico, container, false);
+
         aut_repuesto = (AutoCompleteTextView) v.findViewById(R.id.auto_repuesto);
         cantidad_req = v.findViewById(R.id.txt_cantReq);
         rv = (RecyclerView) v.findViewById(R.id.rv_repuestos_diag);
         agregar= (Button) v.findViewById(R.id.bton_agregarRepuesto);
         observ = (EditText) v.findViewById(R.id.txt_observaciones);
-        this.listarRepuestos();
+        registroDiag=(Button)v.findViewById(R.id.btn_registroDioagnostico);
+         this.listarRepuestos();
+         Global.serial_ter="111111";
+
+         registroDiag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registrarDiagnostico();
+
+            }
+        });
 
        agregar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +148,12 @@ public class Registro_diagnostico extends Fragment {
                     Global.enSesion = true;
                     Global.StatusExit = true;
                     llenarAutocomplete();
+                    if(Global.REPUESTOS.size()==0){
+
+                       observ.setText("No hay repuestos disponibles para el modelo de terminal seleccionado");
+                       agregar.setEnabled(false);
+                        registroDiag.setEnabled(false);
+                    }
                           } else {
 
                     try {
@@ -314,7 +333,7 @@ public class Registro_diagnostico extends Fragment {
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(), R.layout.spinner_sytle, rep);
 
         aut_repuesto.setAdapter(adapter);
-        aut_repuesto.setThreshold(0);
+        aut_repuesto.setThreshold(1);
         aut_repuesto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
        @Override
        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -347,9 +366,18 @@ public class Registro_diagnostico extends Fragment {
    }
 
 
-   public void agregarRepuesto() {
+     public void agregarRepuesto() {
 
         String cant= cantidad_req.getText().toString();
+
+
+        if(Global.REPUESTOS.size()==0){
+
+            observ.setText("No hay repuestos para el modelo de terminal seleccionado, seleccione otre intentelo de nuevo");
+            agregar.setEnabled(false);
+            registroDiag.setEnabled(false);
+            return;
+        }
 
         if ( Global.codigo_rep.isEmpty()||cant.isEmpty()) {
             Toast.makeText(objeto, "Faltan datos para agregar el repuesto", Toast.LENGTH_SHORT).show();
@@ -364,7 +392,7 @@ public class Registro_diagnostico extends Fragment {
 
         }
 
-            for (int i =0;i< Global.REPUESTOS.size();i++) {
+                for (int i =0;i< Global.REPUESTOS.size();i++) {
 
                 if(Global.REPUESTOS.get(i).getSpar_code().equals(Global.codigo_rep)){
                         if(Global.REPUESTOS.get(i).getSpar_quantity()<cant_solicitada){
@@ -374,15 +402,7 @@ public class Registro_diagnostico extends Fragment {
 
                     Repuesto r = new Repuesto(Global.REPUESTOS.get(i).getSpar_code(),Global.REPUESTOS.get(i).getSpar_name(),cant_solicitada);
                     Global.REPUESTOS_DIAGONOSTICO.add(r);
-                    Observacion o;
-                    o = new Observacion("0A4545", "se encontraba la pantalla dañada","24/04/2019", "abcd", "","9220");
-                    Global.OBSERVACIONES= new ArrayList<>();
-                    Global.OBSERVACIONES.add(o);
-                    observ.setText(Global.OBSERVACIONES.toString());
-
-
-
-                    Toast.makeText(objeto, "El repuesto fue agregado exitosamente", Toast.LENGTH_SHORT).show();
+                     Toast.makeText(objeto, "El repuesto fue agregado exitosamente", Toast.LENGTH_SHORT).show();
                     this.llenarRv();
                     cantidad_req.setText("");
                     aut_repuesto.setText("");
@@ -422,7 +442,6 @@ public class Registro_diagnostico extends Fragment {
      *
      ***************************************************** **/
 
-//******************consumir servicio listar Repuestos
     class TaskRegistrarDiagnosticos extends AsyncTask<String, Void, Boolean> {
         ProgressDialog progressDialog;
         int trans = 0;
@@ -468,13 +487,10 @@ public class Registro_diagnostico extends Fragment {
         protected void onPostExecute(Boolean value) {
 
             progressDialog.dismiss();
-
             if (value) {
-                System.out.println("*********************************************************************SI SE PUDIERON LISTAR LOS REPUESTOS****************************");
-                if (Messages.unPackMsgListaRepuestos(v.getContext())) {
-                    Global.enSesion = true;
-                    Global.StatusExit = true;
-                    llenarAutocomplete();
+                System.out.println("*********************************************************************SI SE PUDO REGISTRAR EL DIAGNOSTICO****************************");
+                if (Messages.unPackMsgDiagnostico(v.getContext())) {
+                    Toast.makeText(v.getContext(), "El diagnostico se registro correctamente", Toast.LENGTH_LONG).show();
                 } else {
 
                     try {
@@ -484,7 +500,7 @@ public class Registro_diagnostico extends Fragment {
                         e.printStackTrace();
                     }
                 }
-                TCP.disconnect();
+            //    TCP.disconnect();
 
             } else {
                 switch (Utils.validateErrorsConexion(false, trans, v.getContext())) {
@@ -511,6 +527,41 @@ public class Registro_diagnostico extends Fragment {
 
 
     }
+
+
+
+
+    public void registrarDiagnostico(){
+
+
+        Global.WEB_SERVICE = "/PolarisCore/Terminals/saveDiagnosis";
+
+
+
+    String descripicionObserv= observ.getText().toString();
+    Observacion obs= new Observacion("as12542", descripicionObserv,"","","",Global.serial_ter);
+
+    if(descripicionObserv.isEmpty()){
+        Toast.makeText(objeto, "Debe agregar al menos una observacion del estado de la terminal", Toast.LENGTH_SHORT).show();
+        return;
+
+    }
+    if(rv.getAdapter()==null){
+
+        Toast.makeText(objeto, "Debe agregar al menos un repuesto", Toast.LENGTH_SHORT).show();
+      //  rv.removeAllViewsInLayout(); Para limpiar el reciler view
+        return;
+
+    }
+
+      Global.observacion= obs.toString();
+
+    new TaskRegistrarDiagnosticos().execute();
+
+    }
+
+
+
 
 
 
