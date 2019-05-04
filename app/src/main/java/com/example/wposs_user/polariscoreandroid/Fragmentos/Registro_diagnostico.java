@@ -72,9 +72,7 @@ public class Registro_diagnostico extends Fragment {
         observ = (EditText) v.findViewById(R.id.txt_observaciones);
         registroDiag=(Button)v.findViewById(R.id.btn_registroDioagnostico);
          this.listarRepuestos();
-         Global.serial_ter="111111";
-
-         registroDiag.setOnClickListener(new View.OnClickListener() {
+          registroDiag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 registrarDiagnostico();
@@ -547,7 +545,7 @@ public class Registro_diagnostico extends Fragment {
     public void registrarDiagnostico(){
 
 
-        Global.WEB_SERVICE = "/PolarisCore/Terminals/saveDiagnosis";
+    Global.WEB_SERVICE = "/PolarisCore/Terminals/saveDiagnosis";
 
 
 

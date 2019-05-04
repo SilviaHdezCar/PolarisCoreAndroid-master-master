@@ -476,6 +476,7 @@ public class Messages {
      * **************************************************************************************/
 
     public static void packMsgRegistrarDiagnosticos() {
+
         packHttpDataRegistrarDiagnostico();
         packHttpHeaderLogueado();
 

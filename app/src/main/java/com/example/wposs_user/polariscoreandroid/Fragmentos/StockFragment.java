@@ -1,20 +1,49 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.ProgressDialog;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
+import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
+import com.example.wposs_user.polariscoreandroid.java.Terminal;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 
 public class StockFragment extends Fragment {
@@ -22,6 +51,7 @@ public class StockFragment extends Fragment {
 
 private View v;
 private ImageView foto_perfil;
+    private RequestQueue queue;
 
     public StockFragment() {
     }
@@ -29,119 +59,78 @@ private ImageView foto_perfil;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        queue = Volley.newRequestQueue(objeto);
          v = inflater.inflate(R.layout.fragment_stock, container, false);
          foto_perfil=(ImageView)v.findViewById(R.id.img_photo_perfil);
-          foto_perfil=Global.foto_perfil;
-          return v;
+         return v;
 
     }
 
     public void buscarFoto() {
         Global.WEB_SERVICE = "/PolarisCore/upload/view/:1093.jpg ";
-        new TaskFoto().execute();
+
 
 
     }
 
 
-    /*************************************************************************************
-     * CLASE QUE CONSUME EL SERVICIO PARA Obtener la Foto   *********************/
-
-    class TaskFoto extends AsyncTask<String, Void, Boolean> {
-        ProgressDialog progressDialog;
-        int trans = 0;
+    /**********************************Servicio para obtener la foto*///////////////////////////
+/*    public void consumirServicioFoto() {
 
 
-        /*******************************************************************************
-         Método       : onPreExecute
-         Description  : Se ejecuta antes de realizar el proceso, muestra una ventana con un msj de espera
-         *******************************************************************************/
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(v.getContext(), R.style.MyAlertDialogStyle);
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Cargando Foto...");
-            progressDialog.show();
-        }
+        final Gson gson = new GsonBuilder().create();
+        String url = "http://100.25.214.91:3000/PolarisCore/upload/view/:1093.jpg";
+         JSONObject jsonObject = new JSONObject();
+
+           JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                jsonObject,
+                new Response.Listener<Image>() {
+                    @Override
+                    public void onResponse(Image response) {
+
+                        System.out.println("status:  " + Global.STATUS_SERVICE);
+
+                        System.out.println("status:  " + Global.STATUS_SERVICE);
+
+                        response = new JSONObject();
 
 
 
+                        System.out.println("status:  " + response.length());
 
-        /*******************************************************************************
-         Método       : doInBackground
-         Description  : Se ejecuta para realizar la transacción y verificar coenxión
-         *******************************************************************************/
-        @Override
-        protected Boolean doInBackground(String... strings) {
 
-            Global.inputData= new byte[Global.MAX_LEN_INPUTDATA];
-            Global.httpDataBuffer="";
-            Messages.packMsgPhoto();
-            trans = TCP.transaction(Global.outputLen);
 
-            // Verifica la transacción
-            if (trans == Global.TRANSACTION_OK)
-                return true;
-            else
-                return false;
-        }
+                        System.out.println("status:  " + response.toString());
 
-        /*******************************************************************************
-         Método       : onPostExecute
-         Description  : Se ejecuta después de realizar el doInBackground
-         *******************************************************************************/
-        @Override
-        protected void onPostExecute(Boolean value) {
 
-            progressDialog.dismiss();
-            Messages.unPackMsgPhoto(v.getContext());
-            if (value) {
-                         System.out.println("*********************************************************************SI SE PUDO CARGAR LA FOTO****************************");
+                    }
 
-                  try {
 
-                        Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
-                //    TCP.disconnect();
 
-             else {
-                switch (Utils.validateErrorsConexion(false, trans, v.getContext())) {
-
-                    case 0:                                                                         // En caso de que continue = true y error data
-                        break;
-
-                    case 1:                                                                         // En caso de que continue = false y error data
-                        break;
-
-                    default:                                                                        // Errores de conexion
-                        Global.MsgError = Global.MSG_ERR_CONEXION;
-                        Global.mensaje = Global.MsgError;
-                        Global.StatusExit = false;
-                        // Muestra la ventana de error
-                        Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
-                        break;
-                }
-
-                Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                                return params;
             }
-            System.out.println("******************SE CARGO LA FOTO");
-        }
+        };
+
+        queue.add(jsArrayRequest);
+
+    }*/
 
 
     }
 
 
-
-
-
-
-
-
-
-
-}
