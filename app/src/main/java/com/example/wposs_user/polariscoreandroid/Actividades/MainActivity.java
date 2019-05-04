@@ -4,12 +4,17 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -18,18 +23,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuesto;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
@@ -39,6 +45,7 @@ import com.example.wposs_user.polariscoreandroid.Dialogs.DialogOpcionesConsulta;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ActualizarClave_perfil;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.EtapasTerminal;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.InicialFragment;
+import com.example.wposs_user.polariscoreandroid.Fragmentos.ObservacionesFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.PerfilFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ProductividadFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.Registro_diagnostico;
@@ -46,15 +53,18 @@ import com.example.wposs_user.polariscoreandroid.Fragmentos.StockFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.TipificacionesFragment;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
-import com.example.wposs_user.polariscoreandroid.Tools;
+import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ValidacionesTerminalesAsociadas;
 import com.example.wposs_user.polariscoreandroid.java.Etapas;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity
@@ -87,6 +97,7 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout layout_terminal_etapas;
     private TextView serial_ter_seleccionada;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,31 +113,49 @@ public class MainActivity extends AppCompatActivity
         btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
+      /*  //extraemos el drawable en un bitmap
+        Drawable originalDrawable = getResources().getDrawable(R.drawable.foto_perfil);
+        Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
 
-        }
+        //creamos el drawable redondeado
+        RoundedBitmapDrawable roundedDrawable =
+                RoundedBitmapDrawableFactory.create(getResources(), originalBitmap);
+
+        //asignamos el CornerRadius
+        roundedDrawable.setCornerRadius(originalBitmap.getHeight());
+
+        ImageView imageView = (ImageView) findViewById(R.id.imageView_perfil);
+
+        imageView.setImageDrawable(roundedDrawable.getCurrent());*/
+     fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
+
+    }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
+
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
             super.onBackPressed();
+            //additional code
+        } else {
+            getSupportFragmentManager().popBackStack();
         }
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.main, menu);
-    return true;
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override
@@ -134,9 +163,9 @@ public class MainActivity extends AppCompatActivity
         Intent i;
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-     switch (item.getItemId()) {
+        switch (item.getItemId()) {
 
-         case R.id.btn_home:
+            case R.id.btn_home:
                 fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
                 return true;
 
@@ -148,7 +177,9 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.btn_disminuir:
-                dismuir();
+
+                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ObservacionesFragment()).commit();
+                // dismuir();
                 return true;
         }
 
@@ -170,9 +201,12 @@ public class MainActivity extends AppCompatActivity
         // AL SELECCIONAR ALGUUNA OPCION DEL MENU
         // FragmentManager fragmentManager = getSupportFragmentManager();
         int id = item.getItemId();
-
+       /* if (id == R.id.imageView_perfil) {
+            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
+            // cargarDatosPerfil();
+        }else */
         if (id == R.id.nav_perfil) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
             // cargarDatosPerfil();
         } else if (id == R.id.nav_stock) {
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new StockFragment()).commit();
@@ -183,7 +217,7 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ProductividadFragment()).commit();
 
         } else if (id == R.id.nav_cerrar_sesion) {
-            Global.WEB_SERVICE = "PolarisCore/Users/close";
+            Global.WEB_SERVICE = "/PolarisCore/Users/close";
 
             new TaskCerrarSesion().execute();
 
@@ -210,9 +244,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
-
     /**
      * BUSQUEDA DE TERMINALES
      **/
@@ -223,7 +254,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-       //*******************************BUSQUEDA POR SERIAL
+    //*******************************BUSQUEDA POR SERIAL
 
     public void buscarTerminalesPorSerial(View v) {
         this.buscar_serial_terminal = (Button) findViewById(R.id.btn_buscar_terminales_serial);
@@ -310,13 +341,13 @@ public class MainActivity extends AppCompatActivity
 
     //Armo el arraylist     que voy a enviar al consumir el servicio de registrar diagnostico
     public boolean llenarValidacionesDiagnostico() {
-        boolean retorno=false;
+        boolean retorno = false;
         Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<String>();
         String cadena = "";
         for (Validacion val : Global.VALIDACIONES) {
             if (val != null) {
 
-                if (val.getEstado()==null) {
+                if (val.getEstado() == null) {
                     AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                     alertDialog.setTitle("¡ATENCIÓN!");
                     alertDialog.setMessage("Debe marcar todas las validaciones");
@@ -337,7 +368,7 @@ public class MainActivity extends AppCompatActivity
                     //cadena = cadena.replace("<ESTADO>", val.getEstado());
                     cadena= "{"+(char)34+ "tevs_terminal_serial"+(char)34 +":"+(char)34+ Global.serial_ter +(char)34+","+(char)34+ "tevs_terminal_validation"+(char)34 +":"+(char)34+ val.getTeva_description() +(char)34+","+(char)34+ "tevs_status"+(char)34+":"+ (char)34+val.getEstado()+(char)34+"}";
                     Global.VALIDACIONES_DIAGNOSTICO.add(cadena);
-                    retorno=true;
+                    retorno = true;
                 }
 
             }
@@ -411,7 +442,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     /********************************************************
      * FIN----->METODOS DEL FRAGMENT TIPIFICACIONES     *
      *****************************************************************/
@@ -421,7 +451,7 @@ public class MainActivity extends AppCompatActivity
     public void verTerminalesAsociadas(View v) {
         btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
         btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
-        layout_terminal_etapas = (LinearLayout) findViewById(R.id.layout_terminal_etapas);
+        layout_terminal_etapas=(LinearLayout)findViewById(R.id.layout_terminal_etapas);
 
         btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.azul_nav_bar_transparencia));//azul_nav_bar_transparencia
 
@@ -482,17 +512,15 @@ public class MainActivity extends AppCompatActivity
             progressDialog.dismiss();
 
             if (value) {
-                System.out.println("*********************************************************************SI SE PUDO CONECTAR LISTAR TERM****************************");
                 if (Messages.unPackMsgListarAsociadas(MainActivity.this)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
-
-                    if (Global.TERMINALES_ASOCIADAS == null) {
+                    if (Global.TERMINALES_ASOCIADAS == null ||Global.TERMINALES_ASOCIADAS.size()==0) {
                         Toast.makeText(objeto, Global.CODE + " No tiene terminales asociadas", Toast.LENGTH_SHORT).show();
                         return;
+                    } else {
+                        llenarRVAsociadas(Global.TERMINALES_ASOCIADAS);
                     }
-                    llenarRVAsociadas(Global.TERMINALES_ASOCIADAS);
-
 
                 } else {
                     // Si el login no es OK, manda mensaje de error
@@ -525,8 +553,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
             //  cierra el socket despues de la transaccion
-          //  TCP.disconnect();
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR cierra el socket");
+            //  TCP.disconnect();
         }
 
 
@@ -636,10 +663,7 @@ public class MainActivity extends AppCompatActivity
 
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
-            //  cierra el socket despues de la transaccion
-          //  TCP.disconnect();
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR OBSERVA");
-        }
+           }
 
 
     }
@@ -680,10 +704,8 @@ public class MainActivity extends AppCompatActivity
             Messages.packMsgCerrarSesion();
 
             trans = TCP.transaction(Global.outputLen);
-            System.out.println("-----------RESULTADO TRANS = " + trans);
             // Verifica la transacción
             if (trans == Global.TRANSACTION_OK) {
-                System.out.println("-------------trans == Global.TRANSACTION_OK*******************************************************");
                 return true;
             } else
                 return false;
@@ -699,16 +721,12 @@ public class MainActivity extends AppCompatActivity
             progressDialog.dismiss();
 
             if (value) {
-
                 if (Messages.unPackMsgCerrarSesion(objeto)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
-
-                    Toast.makeText(objeto, " cerrar aisoj", Toast.LENGTH_SHORT).show();
-
-                   /* Intent i = new Intent(objeto, Activity_login.class);
+                    Intent i = new Intent(objeto, Activity_login.class);
                     startActivity(i);
-                    finish();*/
+                    finish();
                 } else {
                     // Si el login no es OK, manda mensaje de error
                     try {
@@ -732,21 +750,17 @@ public class MainActivity extends AppCompatActivity
                         Global.MsgError = Global.MSG_ERR_CONEXION;
                         Global.mensaje = Global.MsgError;
                         Global.StatusExit = false;
-                        // Muestra la ventana de error
                         Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
                         break;
                 }
 
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
-            //  cierra el socket despues de la transaccion
             // TCP.disconnect();
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR VALIDACIONES");
         }
 
 
     }
-
 
 
     /*************************************************************************************
@@ -847,7 +861,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
             }
             //  cierra el socket despues de la transaccion
-           // TCP.disconnect();
+            // TCP.disconnect();
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR VALIDACIONES");
         }
 
@@ -944,38 +958,12 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_LONG).show();
             }
             //  cierra el socket despues de la transaccion
-          //  TCP.disconnect();
+            //  TCP.disconnect();
             System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR TIPIFICAICONES");
         }
 
 
     }
-
-
-    //*************AUTORIZADAS
-    public void verTerminalesAutorizadas(View v) {
-        btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
-        btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
-
-        btn_asociadas.setBackgroundColor(0x802196F5);
-
-        btn_autorizadas.setBackgroundColor(0x45A5F3);
-
-        Vector<Terminal> terminales_aut = new Vector<>();
-        for (Terminal ter : this.terminales) {
-            if ((ter.getTerm_status()).equalsIgnoreCase("Autorizada")) {
-                terminales_aut.add(ter);
-            }
-
-        }
-
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_consultaTerminales_inicial);
-        recyclerView.setAdapter(new AdapterTerminal(this, terminales_aut));//le pasa los datos-> lista de usuarios
-
-        layoutManager = new LinearLayoutManager(this);// en forma de lista
-        recyclerView.setLayoutManager(layoutManager);
-    }
-
 
     public void cargarTerminal_stock(View view) {
 
@@ -1019,8 +1007,6 @@ public class MainActivity extends AppCompatActivity
     public void setF_fin(EditText f_fin) {
         this.f_fin = f_fin;
     }
-
-
 
 
 }

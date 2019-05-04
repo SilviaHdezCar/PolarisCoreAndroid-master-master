@@ -24,7 +24,7 @@ import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTipificacion
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogEsRepable;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.Tools;
+import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 
 import java.util.ArrayList;
@@ -266,7 +266,6 @@ public class TipificacionesFragment extends Fragment {
                     cadena= "{"+(char)34+ "tets_terminal_serial"+(char)34 +":"+(char)34+ Global.serial_ter +(char)34+","+(char)34+ "tets_terminal_type_validation"+(char)34 +":"+(char)34+ tipi.getTetv_description() +(char)34+","+(char)34+ "tets_status"+(char)34+":"+ (char)34+"ok"+(char)34+"}";
 
                     Global.TIPIFICACIONES_DIAGNOSTICO.add(cadena);
-                    System.out.println("Pos: "+cont+"  Cadena: "+cadena);
                 }
                 cont++;
             }

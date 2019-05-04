@@ -21,22 +21,24 @@ public class Terminal {
     private String term_num_terminal;//periodoGarantía;//
     private String term_register_by;//periodoGarantía;//
     private String term_status_temporal;//periodoGarantía;//
+    private String term_user_reparation;
 
     private String term_localication;//ubicacion;/
 
     public Terminal(String term_serial, String term_brand, String term_buy_date, String term_date_finish, String term_date_register, String term_imei,
                     String term_localication, String term_mk, String term_model, String term_num_terminal, String term_register_by, String term_security_seal,
-                    String term_start_date_warranty, String term_status, String term_status_temporal, String term_technology, String term_warranty_time) {
+                    String term_start_date_warranty, String term_status, String term_status_temporal, String term_technology, String term_user_reparation, String term_warranty_time) {
         this.term_serial = term_serial;
         this.term_brand = term_brand;
         this.term_num_terminal = term_num_terminal;
-
+        this.term_register_by = term_register_by;
         this.term_imei = term_imei;
         this.term_status_temporal = term_status_temporal;
         this.term_model = term_model;
         this.term_technology = term_technology;
         this.term_status = term_status;
         this.term_security_seal = term_security_seal;
+        this.term_user_reparation=term_user_reparation;
         this.term_mk = term_mk;
         this.term_buy_date = term_buy_date;
         this.term_start_date_warranty = term_start_date_warranty;
@@ -82,6 +84,22 @@ public class Terminal {
     public String getTerm_technology() {
 
         return term_technology;
+    }
+
+    public String getTerm_brand() {
+        return term_brand;
+    }
+
+    public void setTerm_brand(String term_brand) {
+        this.term_brand = term_brand;
+    }
+
+    public String getTerm_user_reparation() {
+        return term_user_reparation;
+    }
+
+    public void setTerm_user_reparation(String term_user_reparation) {
+        this.term_user_reparation = term_user_reparation;
     }
 
     public void setTerm_technology(String term_technology) {
@@ -203,6 +221,7 @@ public class Terminal {
                 ", term_num_terminal='" + term_num_terminal + '\'' +
                 ", term_register_by='" + term_register_by + '\'' +
                 ", term_status_temporal='" + term_status_temporal + '\'' +
+                ", term_user_reparation='" + term_user_reparation + '\'' +
                 ", term_localication='" + term_localication + '\'' +
                 '}';
     }

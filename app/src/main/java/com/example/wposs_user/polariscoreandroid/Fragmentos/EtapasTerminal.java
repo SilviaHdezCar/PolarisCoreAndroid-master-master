@@ -7,20 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterEtapas;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.Tools;
-import com.example.wposs_user.polariscoreandroid.java.Etapas;
-import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
-import com.example.wposs_user.polariscoreandroid.java.Terminal;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
