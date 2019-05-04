@@ -207,16 +207,6 @@ public class Registro_diagnostico extends Fragment {
 
 
 
-    public void registrarDiagnostico(View v) {
-        Global.WEB_SERVICE = "/PolarisCore/Terminals/saveDiagnosis ";
-        new TaskListarRepuestos().execute();
-
-
-    }
-
-
-
-
     /*************************************************************************************
      * CLASE QUE CONSUME EL SERVICIO PARA LISTAR LAS OBSERVACIONES
      *
@@ -578,7 +568,7 @@ public class Registro_diagnostico extends Fragment {
          startActivity(i);
        }
 
-   
+
 
 
 

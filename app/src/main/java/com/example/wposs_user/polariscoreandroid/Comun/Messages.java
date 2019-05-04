@@ -1,8 +1,13 @@
 package com.example.wposs_user.polariscoreandroid.Comun;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.util.Log;
+import android.widget.ImageView;
 
+import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
@@ -377,6 +382,27 @@ public class Messages {
 
     }
 
+    /*****************************************************************************************
+     * EMPAQUETADdo de la foto, LO QUE SE ENVIA
+     *
+     * **************************************************************************************/
+
+    public static void packMsgPhoto() {
+
+        packHttpHeaderLogeado3();
+
+        Global.outputData = (Global.httpHeaderBuffer).getBytes();
+
+        Global.outputLen = Global.outputData.length;
+        //Utils.dumpMemory(Global.outputData, Global.outputLen);
+
+    }
+
+
+
+
+
+
 
     /*****************************************************************************************
      * EMPAQUETADO DE LISTAR DIAGNOSTICO, LO QUE SE ENVIA
@@ -607,6 +633,23 @@ public class Messages {
     }
 
 
+    /************************************desempaquetado de la Foto***************************************/
+
+
+    public static void unPackMsgPhoto(Context c) {
+         Global.inputData = Global.httpDataBuffer.getBytes();
+        Log.i("TAMAÑO DE LA RESPUESTA", "" +Global.inputData.length+ "  ");
+
+        Bitmap bmp = BitmapFactory.decodeByteArray(Global.inputData, 0, Global.inputData.length);
+          Global.foto_perfil= new ImageView(c);
+        Global.foto_perfil.setImageBitmap(bmp);
+       System.out.print("PRUEBA"+uninterpret_ASCII(Global.inputData,0, Global.inputData.length));
+
+    }
+
+
+
+
     /************************************************************************************************
      * DESEMPAQUETADO DE LA RESPUESTA DEL SERVIDOR --> LISTAR LAS OBSERVACIONES
      *****************************************************************************************************/
@@ -750,6 +793,28 @@ public class Messages {
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER3;
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.httpDataBuffer.length();
+
+    }
+
+    public static void packHttpHeaderLogeado3() {
+//cabecera
+
+        Global.httpHeaderBuffer = "GET " + Global.WEB_SERVICE + " HTTP/1.1";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER2;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.INITIAL_IP;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + ":";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.INITIAL_PORT;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "accept-encoding: gzip, deflate";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "Connection: keep-alive";
+
+
+
+
+
+
 
     }
 

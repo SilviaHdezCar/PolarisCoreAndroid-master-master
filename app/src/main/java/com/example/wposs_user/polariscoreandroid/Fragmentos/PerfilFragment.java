@@ -21,6 +21,7 @@ public class PerfilFragment extends Fragment {
     private TextView telefono;
     private TextView correo;
     private TextView ubicacion;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,13 +33,13 @@ public class PerfilFragment extends Fragment {
         telefono=(TextView)v.findViewById(R.id.perfil_telefono);
         correo=(TextView)v.findViewById(R.id.perfil_correo);
         ubicacion=(TextView)v.findViewById(R.id.perfil_ubicacion);
-
         nomUsuario.setText(Global.NOMBRE);
         usuario.setText(Global.CODE);
         cargo.setText(Global.POSITION);
         telefono.setText(Global.PHONE);
         correo.setText(Global.EMAIL);
         ubicacion.setText(Global.LOCATION);
+
 
 
 

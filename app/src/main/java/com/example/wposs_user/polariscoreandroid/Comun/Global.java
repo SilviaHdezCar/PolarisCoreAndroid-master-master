@@ -1,5 +1,7 @@
 package com.example.wposs_user.polariscoreandroid.Comun;
 
+import android.widget.ImageView;
+
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
@@ -52,6 +54,7 @@ public class Global {
     public static String LOCATION = "";
     public static String PHONE = "";
     public static String PHOTO = "";
+    public static ImageView foto_perfil;
 
 
 
