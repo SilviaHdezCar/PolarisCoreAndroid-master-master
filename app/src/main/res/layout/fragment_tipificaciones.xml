@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gris_fondo"
+    android:background="@color/blanco"
     tools:context=".Actividades.MainActivity">
 
     <LinearLayout
@@ -12,91 +12,52 @@
         android:layout_marginTop="50dp"
         android:orientation="vertical">
 
-        <TextView
-            style="@style/letra_titulos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:text="Tipificaciones dela termianal" />
-
-        <TextView
-            android:id="@+id/lbl_msj_tipificaciones"
-            style="@style/letra_contenido"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="5dp"
-            android:layout_marginTop="10dp"
-            android:text="msj" />
-
         <LinearLayout
             android:id="@+id/layout_tipificaciones"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="55dp"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:background="@color/verde_pestanas">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
 
                 <AutoCompleteTextView
                     android:id="@+id/autocomplete_tipificaciones"
                     style="@style/letra_contenido"
-                    android:layout_width="220dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/redondo_fondo_gris"
-                    android:hint="Tipíficaciones"
-                    android:inputType="text"
-                    android:paddingLeft="5dp" />
-
-                <Button
-                    android:id="@+id/btn_agregarTipificaciones"
-                    style="@style/letra_botones"
-                    android:layout_width="wrap_content"
+                    android:layout_width="300dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/redondo_azul"
-                    android:text="Agregar"
-                    android:textAllCaps="false" />
+                    android:background="@drawable/redondo_botones_fondo_blanco"
+                    android:hint="Agregar Tipificación"
+                    android:inputType="text"
+                    android:paddingLeft="5dp"
+                    />
 
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="280dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/cuadrado_gris"
             android:orientation="horizontal"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="20dp"
+            android:layout_margin="10dp"
             >
 
-
-
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 style="@style/letra_titulos"
                 android:text="Tipificación"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dp"
-                android:background="@drawable/borde_izq_sup_inf_gris"/>
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                style="@style/letra_titulos"
-                android:text="Eliminar"
-                android:gravity="center"
-                android:background="@drawable/borde_todos_gris"/>
-
-
+                android:background="@drawable/borde_inferior_gris"/>
 
         </LinearLayout>
 
@@ -106,7 +67,7 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -114,7 +75,8 @@
                     android:id="@+id/recycler_view_tipificaciones"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

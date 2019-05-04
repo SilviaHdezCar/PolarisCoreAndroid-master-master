@@ -120,7 +120,7 @@ public class InicialFragment extends Fragment {
 
     }
 
-    static Terminal t;
+   private static Terminal t;
 
     /**
      * Metodo utilizados para consumir el servicio  de listar terminales asociadas mediante una petición REST
@@ -241,7 +241,8 @@ public class InicialFragment extends Fragment {
                     serialObtenido = terminal.get(position).getTerm_serial();
                     Global.modelo = terminal.get(position).getTerm_model();
 
-                    objeto.listarObservacionesTerminal(serialObtenido);
+                  //  objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
+                   objeto.listarObservacionesTerminal(serialObtenido);
                 }
             }, R.layout.panel_terminal_asociada);
 

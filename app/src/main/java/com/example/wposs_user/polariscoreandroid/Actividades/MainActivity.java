@@ -169,29 +169,10 @@ public class MainActivity extends AppCompatActivity
                 fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
                 return true;
 
-            case R.id.btn_aumentar:
 
-                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).commit();
-
-
-                return true;
-
-            case R.id.btn_disminuir:
-
-                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ObservacionesFragment()).commit();
-                // dismuir();
-                return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-
-    private void dismuir() {
-
-    }
-
-    private void aumentar() {
     }
 
 
@@ -312,8 +293,7 @@ public class MainActivity extends AppCompatActivity
 
     public void siguienteEtapas(View v) {
 
-        Global.WEB_SERVICE = "/PolarisCore/Terminals/validatorTerminal";
-        new TaskListarValidaciones().execute();
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
 
     }
     /*******************************************
@@ -332,8 +312,7 @@ public class MainActivity extends AppCompatActivity
     public void siguienteValidaciones(View view) {
 
         if (llenarValidacionesDiagnostico()) {
-            Global.WEB_SERVICE = "/PolarisCore/Terminals/tipesValidatorTerminal";
-            new TaskListarTipificaciones().execute();
+            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new TipificacionesFragment()).commit();
         }
 
 
@@ -449,7 +428,7 @@ public class MainActivity extends AppCompatActivity
 
     //Mostrar las terminales  asociadas al dar clic en el boton
     public void verTerminalesAsociadas(View v) {
-        btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
+     /*   btn_asociadas = (Button) findViewById(R.id.btn_terminales_asociadas);
         btn_autorizadas = (Button) findViewById(R.id.btn_terminales_autorizadas);
         layout_terminal_etapas=(LinearLayout)findViewById(R.id.layout_terminal_etapas);
 
@@ -458,7 +437,7 @@ public class MainActivity extends AppCompatActivity
         btn_asociadas.setBackgroundColor(getResources().getColor(R.color.azul_claro_nav_bar));
 
 
-        verTerminalesAsociadas();
+        verTerminalesAsociadas();*/
     }
 
 
@@ -630,6 +609,10 @@ public class MainActivity extends AppCompatActivity
                 if (Messages.unPackMsgListarObservaciones(MainActivity.this)) {
                     Global.enSesion = true;
                     Global.StatusExit = true;
+                    if(Global.OBSERVACIONES==null||Global.OBSERVACIONES.size()==0){
+                        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
+                        return;
+                    }
                     fragmentManager.beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
 
 
