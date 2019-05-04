@@ -356,10 +356,11 @@ public class MainActivity extends AppCompatActivity
                 } else {
 //        "validaciones": [{"tevs_terminal_serial":"212","tevs_terminal_validation":"sadasdasd","tevs_status":"ok"},}
 //        {"tevs_terminal_serial":"212","tevs_terminal_validation":"sadasdasd","tevs_status":"falla"}],
-                    cadena = "{\"tevs_terminal_serial\": \"<SERIAL>\",\"tevs_terminal_validation\": \"<DESCRIPCION>\",\"tevs_status\": \"<ESTADO>\"}";
-                    cadena = cadena.replace("<SERIAL>", val.getTeva_id());
-                    cadena = cadena.replace("<DESCRIPCION>", val.getTeva_description());
-                    cadena = cadena.replace("<ESTADO>", val.getEstado());
+                   // cadena = "{\"tevs_terminal_serial\":\"<SERIAL>\",\"tevs_terminal_validation\":\"<DESCRIPCION>\",\"tevs_status\":\"<ESTADO>\"}";
+                    //cadena = cadena.replace("<SERIAL>", val.getTeva_id());
+                    //cadena = cadena.replace("<DESCRIPCION>", val.getTeva_description());
+                    //cadena = cadena.replace("<ESTADO>", val.getEstado());
+                    cadena= "{"+(char)34+ "tevs_terminal_serial"+(char)34 +":"+(char)34+ val.getTeva_id() +(char)34+","+(char)34+ "tevs_terminal_validation"+(char)34 +":"+(char)34+ val.getTeva_id() +(char)34+","+(char)34+ "tevs_status"+(char)34+":"+ (char)34+val.getEstado()+(char)34+"}";
                     Global.VALIDACIONES_DIAGNOSTICO.add(cadena);
                     retorno = true;
                 }

@@ -113,6 +113,7 @@ public class Messages {
     }
 
 
+
     /*****************************************************************************************
      * EMPAQUETADO DE Validar CLAVE, LO QUE SE ENVIA
      *
@@ -451,7 +452,7 @@ public class Messages {
 
     public static void packMsgRegistrarDiagnosticos() {
         packHttpDataRegistrarDiagnostico();
-        packHttpHeaderLogueado();
+        packHttpHeader2();
 
         Global.outputData = (Global.httpHeaderBuffer + "\r\n\r\n" + Global.httpDataBuffer).getBytes();
 
@@ -469,8 +470,9 @@ public class Messages {
         //comienza a armar la trama
         Global.httpDataBuffer = "{\"user\": \"<usuario>\", \"model\": \"<SERIAL>\"}";//se arma la trama
 
-        Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", "9220");
+        Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", Global.modelo);
         Global.httpDataBuffer = Global.httpDataBuffer.replace("<usuario>", Global.CODE);
+
 
 
         //fn
@@ -484,10 +486,10 @@ public class Messages {
      * ***********************************************************/
     public static void packHttpDataRegistrarDiagnostico() {
         //comienza a armar la trama
-        Global.httpDataBuffer = "{\"user\": \"<usuario>\", \"model\": \"<SERIAL>\"}";//se arma la trama
 
-        Global.httpDataBuffer = Global.httpDataBuffer.replace("<SERIAL>", "9220");
-        Global.httpDataBuffer = Global.httpDataBuffer.replace("<usuario>", Global.CODE);
+              Global.httpDataBuffer = "{"+ (char) 34 + "validaciones" + (char) 34 + ":" + Global.VALIDACIONES_DIAGNOSTICO.toString() + ","+(char) 34 + "tipificaciones" + (char) 34+":"+Global.TIPIFICACIONES_DIAGNOSTICO.toString()
+                +","+(char) 34+ "reparable" + (char) 34 + ":" + (char) 34 + "SI" + (char) 34 + "," + Global.observacion + "," + (char) 34 + "falla" + (char) 34 + ":" + (char) 34 + "FABRICA" + (char) 34 +","+(char) 34+ "repuestos" + (char) 34 +
+                ":" + "{" + (char) 34 + "tesw_serial"+(char) 34 +":"+ (char) 34 +Global.serial_ter + (char) 34+"," +  (char) 34 + "tesw_repuestos" + (char) 34 + ":" + Global.REPUESTOS_DIAGONOSTICO.toString() +"}}";
 
 
         //fn
@@ -511,6 +513,50 @@ public class Messages {
         Log.i("outputData*******", "" + uninterpret_ASCII(Global.inputData, 0, Global.inputData.length));
 
     }
+
+
+    //***************************DESEMPAQUETADO DIAGNOSTICO******LO QUE RECIBO
+    public static boolean unPackMsgDiagnostico(Context c) {
+
+        String tramaCompleta="";
+
+
+        int indice = 0;
+
+        Global.inputData = Global.httpDataBuffer.getBytes();
+
+
+        tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
+        System.out.println("TAMAÑO DE LA TRAMA " + Global.httpDataBuffer.length() + " inputData " + Global.inputData.length);
+
+
+        Gson gson = new GsonBuilder().create();
+        JSONObject jsonObject = null;
+        try {
+
+            jsonObject = new JSONObject(tramaCompleta);
+
+            Global.STATUS_SERVICE = jsonObject.get("status").toString();
+
+
+            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                Global.mensaje = jsonObject.get("message").toString();
+                return false;
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+
+
+
+        }
+
+
+
+
 
 
     /*****************************************************************************************
@@ -733,6 +779,26 @@ public class Messages {
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + "Authenticator: " + Global.TOKEN;
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER1;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER2;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.INITIAL_IP;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + ":";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.INITIAL_PORT;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER3;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.httpDataBuffer.length();
+
+    }
+
+    public static void packHttpHeader2() {
+//cabecera
+        int tam;
+        Global.httpHeaderBuffer = "";
+        Global.httpHeaderBuffer = "POST " + Global.WEB_SERVICE + " HTTP/1.1";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER1;
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
+        Global.httpHeaderBuffer = Global.httpHeaderBuffer + "Authenticator: " + Global.TOKEN;
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + "\r\n";
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.HTTP_HEADER2;
         Global.httpHeaderBuffer = Global.httpHeaderBuffer + Global.INITIAL_IP;
