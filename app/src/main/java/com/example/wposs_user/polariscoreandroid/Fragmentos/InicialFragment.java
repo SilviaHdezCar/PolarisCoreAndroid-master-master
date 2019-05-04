@@ -85,6 +85,7 @@ public class InicialFragment extends Fragment {
         btn_autorizadas = (Button) v.findViewById(R.id.btn_terminales_autorizadas);
         tab_asociada = (LinearLayout) v.findViewById(R.id.tab_asociada);
         tab_autorizada = (LinearLayout) v.findViewById(R.id.tab_autorizada);
+        objeto.setTitle("TERMINALES");
 
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_consultaTerminales_inicial);
         serialObtenido = "";

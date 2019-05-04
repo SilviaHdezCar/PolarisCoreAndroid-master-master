@@ -42,7 +42,7 @@ public class EtapasTerminal extends Fragment {
         view = inflater.inflate(R.layout.fragment_etapas_terminal, container, false);
         serial_ter_seleccionada = (TextView) view.findViewById(R.id.serial_ter_seleccionada);
         observacionesEtapas = (TextView) view.findViewById(R.id.observaciones_etapas);
-
+        objeto.setTitle("ETAPAS");
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_etapas);
 
         if (Global.OBSERVACIONES == null) {

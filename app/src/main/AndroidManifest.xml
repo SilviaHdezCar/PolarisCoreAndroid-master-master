@@ -13,7 +13,8 @@
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Actividades.Activity_UpdatePassword" />
+        <activity android:name=".Actividades.Activity_UpdatePassword"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Actividades.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -25,7 +25,6 @@ public class Activity_login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         txtCorreo = (EditText) findViewById(R.id.txtCorreo);
         txtPass = (EditText) findViewById(R.id.txtPass);
         StringBuilder str=new StringBuilder();

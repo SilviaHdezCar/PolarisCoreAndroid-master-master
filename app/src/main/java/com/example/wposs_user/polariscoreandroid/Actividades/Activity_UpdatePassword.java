@@ -43,7 +43,6 @@ public class Activity_UpdatePassword extends AppCompatActivity {
        /* resp1= (EditText)findViewById(R.id.txt_resp1);
         resp2=(EditText) findViewById(R.id.txt_resp2);
         resp3=(EditText) findViewById(R.id.txt_resp3);*/
-
         cambioClave = (Button) findViewById(R.id.cambio_clave);
         Global.claveNueva = pas1;
 
