@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
+import com.example.wposs_user.polariscoreandroid.java.Terminal;
 
+import java.util.List;
 import java.util.Vector;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
@@ -38,10 +40,9 @@ public class AdapterEtapas extends RecyclerView.Adapter<AdapterEtapas.ViewHolder
 
         Observacion ob = this.listEtapa.elementAt(i);
 
-        int con =i+1;
-        holder.contador_etapas.setText(""+con);
         holder.usuario_etapas.setText(ob.getTeob_id_user());
         holder.fecha_etapas.setText(ob.getTeob_fecha());
+        holder.etapas_serial_terminal.setText("Serial: "+ob.getTeob_serial_terminal());
         holder.observaciones_etapas.setText(ob.getTeob_description());
     }
 
@@ -51,19 +52,23 @@ public class AdapterEtapas extends RecyclerView.Adapter<AdapterEtapas.ViewHolder
 
     }
 
+    public interface interfaceClick {
+        void onClick(List<Observacion> etapa, int position);
+    }
+
     public class ViewHolderEtapas extends RecyclerView.ViewHolder {
 
         TextView usuario_etapas;
         TextView fecha_etapas;
         TextView observaciones_etapas;
-        TextView contador_etapas;
+        TextView etapas_serial_terminal;
 
         public ViewHolderEtapas(View v) {
             super(v);
             usuario_etapas = (TextView) v.findViewById(R.id.usuario_etapas);
+            etapas_serial_terminal = (TextView) v.findViewById(R.id.etapas_serial_terminal);
             fecha_etapas = (TextView) v.findViewById(R.id.fecha_etapas);
             observaciones_etapas = (TextView) v.findViewById(R.id.observaciones_etapas);
-            contador_etapas = (TextView) v.findViewById(R.id.contador_et);
         }
 
     }

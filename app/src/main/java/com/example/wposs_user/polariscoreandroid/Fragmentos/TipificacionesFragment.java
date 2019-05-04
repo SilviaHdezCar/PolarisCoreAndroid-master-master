@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,15 +21,31 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTipificaciones;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogEsRepable;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
+import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
@@ -36,16 +53,16 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 
 public class TipificacionesFragment extends Fragment {
 
-    private TextView lbl_msj_tipificaciones;
     private LinearLayout layout_tipificaciones;
     private AutoCompleteTextView autocomplete_tipificaciones;
-    private Button btn_agregarTipificaciones;
     private RecyclerView rv;
     private ArrayList<Tipificacion> listTipificaciones;
     public String descripcionTipificaion;
     private static ArrayList tipificaciones;
     private Button btn_volver_Tipificaciones;
     private Button btn_siguiente_Tipificaciones;
+    private static Tipificacion t;
+    private RequestQueue queue;
 
 
     @Override
@@ -53,36 +70,19 @@ public class TipificacionesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tipificaciones, container, false);
         descripcionTipificaion = "";
-        lbl_msj_tipificaciones = (TextView) v.findViewById(R.id.lbl_msj_tipificaciones);
         layout_tipificaciones = (LinearLayout) v.findViewById(R.id.layout_tipificaciones);
         autocomplete_tipificaciones = (AutoCompleteTextView) v.findViewById(R.id.autocomplete_tipificaciones);
-        btn_agregarTipificaciones = (Button) v.findViewById(R.id.btn_agregarTipificaciones);
         btn_volver_Tipificaciones = (Button) v.findViewById(R.id.btn_volver_Tipificaciones);
         btn_siguiente_Tipificaciones = (Button) v.findViewById(R.id.btn_siguiente_Tipificaciones);
 
+        queue = Volley.newRequestQueue(objeto);
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_tipificaciones);
 
         this.listTipificaciones = new ArrayList<Tipificacion>();
-
         Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<String>();
 
-        //validar si el arreglo de tipificaiones está vacio
-        if (Global.TIPIFICACIONES.size() == 0) {
-            lbl_msj_tipificaciones.setText("No hay tipificaciones registradas");
-            layout_tipificaciones.setVisibility(View.INVISIBLE);
-        } else { //si no está vacio, llena el autocomplte
-            layout_tipificaciones.setVisibility(View.VISIBLE);
-            lbl_msj_tipificaciones.setVisibility(View.INVISIBLE);
 
-            llenarAutocomplete();
-            //agregar al RV la tipificación seleccionada
-            btn_agregarTipificaciones.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    agregarTipificacion();
-                }
-            });
-        }
+
 
         btn_siguiente_Tipificaciones.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +92,88 @@ public class TipificacionesFragment extends Fragment {
         });
 
 
+        consumirServicioTipificaciones();
         return v;
+
+    }
+
+    public void consumirServicioTipificaciones(){
+        t = null;
+        Global.TIPIFICACIONES = null;
+        Global.TIPIFICACIONES= new ArrayList<Tipificacion>();
+        final Gson gson = new GsonBuilder().create();
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/tipesValidatorTerminal";
+        JSONObject jsonObject = new JSONObject();
+
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                null,//cuerpo de la peticion
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            System.out.println("status:  " + Global.STATUS_SERVICE);
+
+                            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                return;
+                            }
+
+
+                            response = new JSONObject(response.get("data").toString());
+
+
+                            JSONArray jsonArray = response.getJSONArray("tipificaciones");
+
+
+                            if (jsonArray.length() == 0) {
+                                layout_tipificaciones.setVisibility(View.INVISIBLE);
+                                Global.mensaje = "No tiene tipificaciones";
+                                Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            layout_tipificaciones.setVisibility(View.VISIBLE);
+                            String ter = null;
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                ter = jsonArray.getString(i);
+
+                                t = gson.fromJson(ter, Tipificacion.class);
+                                if (t != null) {
+                                }
+                                Global.TIPIFICACIONES.add(t);
+                            }
+                            llenarAutocomplete();
+                            //llenarRVAsociadas(Global.TERMINALES_ASOCIADAS);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
 
     }
 
@@ -119,6 +200,7 @@ public class TipificacionesFragment extends Fragment {
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(objeto, android.R.layout.simple_list_item_1, getTipificaciones);
 
         autocomplete_tipificaciones.setAdapter(adapter);
+        autocomplete_tipificaciones.setThreshold(0);
         autocomplete_tipificaciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -127,9 +209,11 @@ public class TipificacionesFragment extends Fragment {
 
                 InputMethodManager in = (InputMethodManager) objeto.getSystemService(INPUT_METHOD_SERVICE);
                 in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+
+                agregarTipificacion();
             }
         });
-        autocomplete_tipificaciones.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        /*autocomplete_tipificaciones.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
 
@@ -138,11 +222,12 @@ public class TipificacionesFragment extends Fragment {
                     descripcionTipificaion = adapter.getItem(i);
                     InputMethodManager in = (InputMethodManager) objeto.getSystemService(INPUT_METHOD_SERVICE);
                     in.hideSoftInputFromWindow(textView.getApplicationWindowToken(), 0);
+                    agregarTipificacion();
                     return true;
                 }
                 return false;
             }
-        });
+        });*/
 
 
     }

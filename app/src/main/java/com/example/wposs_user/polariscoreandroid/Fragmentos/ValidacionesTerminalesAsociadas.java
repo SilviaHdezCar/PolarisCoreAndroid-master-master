@@ -4,21 +4,40 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidaciones;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 
 public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE DEBE LLENAR EL RCV
@@ -32,9 +51,10 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     private TextView fecha_recepcion_ter_validaciones;
     private TextView fechal_ans_ter_validaciones;
     private RecyclerView rv;
-    private LinearLayout layout_encabezado_tipificaciones;
+    private LinearLayout layout_encabezado_vali;
     private TextView lbl_msj_validaciones;
-
+    private RequestQueue queue;
+    private   static Validacion v;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,7 +71,8 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         fecha_recepcion_ter_validaciones = (TextView) v.findViewById(R.id.fecha_recepcion_ter_validaciones);
         fechal_ans_ter_validaciones = (TextView) v.findViewById(R.id.fechal_ans_ter_validaciones);
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_validaciones);
-        layout_encabezado_tipificaciones = (LinearLayout) v.findViewById(R.id.layout_encabezado_tipificaciones);
+        layout_encabezado_vali = (LinearLayout) v.findViewById(R.id.layout_encabezado_vali);
+        queue = Volley.newRequestQueue(objeto);
 
         //voy a recorrer el arreglo de terminales para que me liste la informacion de la terminal selecciona
 
@@ -74,14 +95,11 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
 
             }
         }
-        if (Global.VALIDACIONES.size() == 0) {
-            layout_encabezado_tipificaciones.setVisibility(View.INVISIBLE);
-            lbl_msj_validaciones.setText("No hay validaciones registradas");
-        } else {
-            lbl_msj_validaciones.setVisibility(View.INVISIBLE);
-            layout_encabezado_tipificaciones.setVisibility(View.VISIBLE);
-            llenarRVValidaciones(Global.VALIDACIONES);
-        }
+
+
+            consumirServicio();
+           // llenarRVValidaciones(Global.VALIDACIONES);
+
 
 
         return v;
@@ -89,11 +107,89 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     }
 
 
+    private void consumirServicio() {
+        v = null;
+        Global.VALIDACIONES = null;
+        Global.VALIDACIONES = new ArrayList<Validacion>();
+        final Gson gson = new GsonBuilder().create();
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/validatorTerminal";
+
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            System.out.println("status:  " + Global.STATUS_SERVICE);
+
+                            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                return;
+                            }
+
+
+                            response = new JSONObject(response.get("data").toString());
+
+
+                            JSONArray jsonArray = response.getJSONArray("validaciones");
+
+
+                            if (jsonArray.length() == 0) {
+                                layout_encabezado_vali.setVisibility(View.INVISIBLE);
+                                lbl_msj_validaciones.setText("No hay validaciones registradas");
+                                return;
+                            }
+                            lbl_msj_validaciones.setVisibility(View.INVISIBLE);
+                            layout_encabezado_vali.setVisibility(View.VISIBLE);
+
+                            String ter = null;
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                ter = jsonArray.getString(i);
+
+                                v = gson.fromJson(ter, Validacion.class);
+                                if (v != null) {
+                                }
+                                Global.VALIDACIONES.add(v);
+                            }
+                            llenarRVValidaciones(Global.VALIDACIONES);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+    }
+
+
     //este metodo llena el recycler view con las terminales obtenidas al consumir el servicio
 
     public void llenarRVValidaciones(List<Validacion> validacionesRecibidas) {
         //************************SE MUESTRA LA LISTA DE TERMINALES ASOCIADAS
-
         rv.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
