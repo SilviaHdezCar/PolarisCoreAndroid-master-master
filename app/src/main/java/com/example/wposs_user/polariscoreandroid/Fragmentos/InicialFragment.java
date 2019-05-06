@@ -88,7 +88,8 @@ public class InicialFragment extends Fragment {
         liAsociadas = (LinearLayout)v.findViewById(R.id.selectAsociadas);
         liAutorizadas = (LinearLayout)v.findViewById(R.id.selectAutorizadas);
         objeto.setTitle("TERMINALES");
-
+        liAsociadas.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
+        liAutorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
 
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_consultaTerminales_inicial);
         Global.TERMINALES_ASOCIADAS = null;
@@ -108,7 +109,7 @@ public class InicialFragment extends Fragment {
                 /*btn_asociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas_transparencia));//
                 btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));*/
 
-                liAsociadas.setBackgroundColor(getResources().getColor(R.color.blanco));
+                liAsociadas.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
                 liAutorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
                 //    Global.TERMINALES_ASOCIADAS = null;
                 //  Global.TERMINALES_ASOCIADAS = new ArrayList<Terminal>();
@@ -123,7 +124,7 @@ public class InicialFragment extends Fragment {
                 Toast.makeText(objeto, "btn autorizadas", Toast.LENGTH_SHORT).show();
                /* btn_asociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));//
                 btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas_transparencia));*/
-                liAutorizadas.setBackgroundColor(getResources().getColor(R.color.blanco));
+                liAutorizadas.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
                 liAsociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
                 consumirServicioAutorizadas();
             }
