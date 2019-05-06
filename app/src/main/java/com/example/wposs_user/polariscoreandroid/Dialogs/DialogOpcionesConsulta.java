@@ -39,11 +39,11 @@ public class DialogOpcionesConsulta extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
                             Global.opcion_consulta="Diagnóstico";
-                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesFechas()).commit();
+                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesFechas()).addToBackStack(null).commit();
 
                         } else if (which == 1) {
                             Global.opcion_consulta="Reparable";
-                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesFechas()).commit();
+                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesFechas()).addToBackStack(null).commit();
                         }
                     }
                 });

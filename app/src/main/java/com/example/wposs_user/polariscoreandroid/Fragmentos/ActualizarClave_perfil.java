@@ -338,7 +338,7 @@ public class ActualizarClave_perfil extends Fragment {
                     Global.StatusExit = true;
 
                     Toast.makeText(objeto, "Contraseña actualizada", Toast.LENGTH_SHORT).show();
-                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).commit();
+                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
 
                 } else {
                     // Si el login no es OK, manda mensaje de error

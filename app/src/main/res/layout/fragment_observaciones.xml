@@ -39,8 +39,8 @@
 
             <ImageView
                 android:id="@+id/imagen_observación"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/img_no_disponible" />
 
@@ -55,8 +55,8 @@
 
             <ImageView
                 android:id="@+id/imagen_observación2"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/img_no_disponible" />
 

@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="6dp"
@@ -26,11 +27,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/borde_inferior_gris"
             android:orientation="vertical"
-            android:padding="5dp"
-            android:background="@drawable/borde_inferior_gris">
+            android:padding="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -44,8 +45,8 @@
                     style="@style/letra_negrita_terminal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAllCaps="true"
-                    android:text="Marca"/>
+                    android:text="Marca"
+                    android:textAllCaps="true" />
 
                 <TextView
                     style="@style/letra_negrita_terminal"
@@ -61,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="Modelo"
-                    android:textAllCaps="true"/>
+                    android:textAllCaps="true" />
 
             </LinearLayout>
 
@@ -78,8 +79,8 @@
                     style="@style/letra_negrita_terminal_gris_grande"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAllCaps="true"
-                    android:text="serial"/>
+                    android:text="serial"
+                    android:textAllCaps="true" />
 
                 <TextView
                     style="@style/letra_negrita_terminal_gris_grande"
@@ -93,8 +94,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:textAllCaps="true"
-                    android:text="Tecnología"/>
+                    android:text="Tecnología"
+                    android:textAllCaps="true" />
 
             </LinearLayout>
 
@@ -111,8 +112,8 @@
                     style="@style/letra_negrita_terminal_gris_grande"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAllCaps="true"
-                    android:text="Estado"/>
+                    android:text="Estado"
+                    android:textAllCaps="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -127,7 +128,7 @@
                     style="@style/letra_negrita_terminal_gris_peq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Con garantía"/>
+                    android:text="Con garantía" />
             </LinearLayout>
 
             <LinearLayout
@@ -135,8 +136,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="5dp"
-                android:orientation="horizontal"
-                android:gravity="right">
+                android:gravity="right"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/fechal_ans_ter_validaciones"
@@ -144,15 +145,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="FechaAns"/>
+                    android:text="FechaAns" />
 
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:src="@drawable/ic_calendar"
-                    android:layout_marginLeft="2dp"
                     android:layout_gravity="center_vertical"
-                    android:tint="@color/gris_menu_letra"/>
+                    android:layout_marginLeft="2dp"
+                    android:src="@drawable/ic_calendar"
+                    android:tint="@color/gris_menu_letra" />
 
             </LinearLayout>
 
@@ -160,55 +161,58 @@
 
 
         <LinearLayout
-            android:id="@+id/layout_encabezado_vali"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/borde_inferior_gris"
-            android:orientation="horizontal">
+            android:background="@drawable/borde_inferior_gris">
 
-            <TextView
-                style="@style/letra_titulos"
-                android:layout_width="250dp"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
+            <LinearLayout
+                android:id="@+id/layout_encabezado_vali"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+
                 android:background="@color/gris_fondo"
-                android:text="Validación" />
+                android:orientation="horizontal">
 
-            <TextView
-                style="@style/letra_titulos"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@color/gris_fondo"
-                android:text="Ok" />
+                <TextView
+                    style="@style/letra_titulos"
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:text="Validación" />
 
-            <TextView
-                style="@style/letra_titulos"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@color/gris_fondo"
-                android:text="Falla" />
+                <TextView
+                    style="@style/letra_titulos"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Ok" />
 
-            <TextView
-                style="@style/letra_titulos"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="@color/gris_fondo"
-                android:text="Na" />
+                <TextView
+                    style="@style/letra_titulos"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Falla" />
 
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:background="@color/gris_fondo" />
+                <TextView
+                    style="@style/letra_titulos"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Na" />
+
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/gris_fondo" />
 
 
+            </LinearLayout>
         </LinearLayout>
 
         <ScrollView
@@ -225,8 +229,7 @@
                     android:id="@+id/recycler_view_validaciones"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                     />
+                    android:layout_marginLeft="10dp" />
 
 
                 <Button
@@ -234,11 +237,11 @@
                     style="@style/letra_contenido_blanco"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/redondo_botones"
                     android:text="Siguiente"
-                    android:textAllCaps="false"
-                    android:layout_gravity="center_horizontal"/>
+                    android:textAllCaps="false" />
 
             </LinearLayout>
 

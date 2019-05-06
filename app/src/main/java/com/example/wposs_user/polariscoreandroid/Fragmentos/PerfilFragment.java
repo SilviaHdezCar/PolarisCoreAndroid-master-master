@@ -90,12 +90,12 @@ public class PerfilFragment extends Fragment {
         correo.setText(Global.EMAIL);
         ubicacion.setText(Global.LOCATION);
 
-        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/:"+Global.ID+".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView);
+        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/"+Global.ID+".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView);
 
         btn_cambiar_clave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ActualizarClave_perfil()).commit();
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ActualizarClave_perfil()).addToBackStack(null).commit();
             }
         });
 

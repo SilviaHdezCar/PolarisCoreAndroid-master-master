@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -94,6 +95,8 @@ public class MainActivity extends AppCompatActivity
     private TextView correo_drawer;
     private ImageView imageView_perfil;
 
+    private int contadorFragmentos;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity
         correo_drawer=(TextView)hView.findViewById(R.id.correo_drawer);
         imageView_perfil=(ImageView)hView.findViewById(R.id.imageView_perfil);
 
-        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/:"+Global.ID+".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView_perfil);
+        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/"+Global.ID+".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView_perfil);
 
 
         usuario_drawer.setText(Global.NOMBRE);
@@ -131,26 +134,26 @@ public class MainActivity extends AppCompatActivity
         imageView_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).commit();
+                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
 
             }
         });
 
-     fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
+     fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
 
     }
 
     @Override
     public void onBackPressed() {
+        contadorFragmentos = getSupportFragmentManager().getBackStackEntryCount();
 
-        int count = getSupportFragmentManager().getBackStackEntryCount();
-
-        if (count == 0) {
+        if (contadorFragmentos == 0) {
             super.onBackPressed();
             //additional code
         } else {
             getSupportFragmentManager().popBackStack();
         }
+
 
     }
 
@@ -166,7 +169,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (item.getItemId()) {
             case R.id.btn_home:
-                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();//Buscar
+                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();//Buscar
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -188,12 +191,12 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
             // cargarDatosPerfil();
         } else if (id == R.id.nav_stock) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new StockFragment()).commit();
+           fragmentManager.beginTransaction().replace(R.id.contenedor_main, new StockFragment()).addToBackStack(null).commit();
         } else if (id == R.id.nav_consultar_terminales_reparadas) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesSerial()).commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesSerial()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_productividad) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ProductividadFragment()).commit();
+          fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ProductividadFragment()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_cerrar_sesion) {
             Global.WEB_SERVICE = "/PolarisCore/Users/close";
@@ -209,7 +212,14 @@ public class MainActivity extends AppCompatActivity
 
 
 
+    public void inflarEtapas(){
+        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
+    }
 
+    public void inflarValidaciones(){
+        System.out.println("inflar val");
+        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
+    }
 
 
     /*************************************************************************************

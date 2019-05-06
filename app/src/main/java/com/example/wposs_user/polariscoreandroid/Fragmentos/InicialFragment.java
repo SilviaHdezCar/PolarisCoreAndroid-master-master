@@ -88,6 +88,7 @@ public class InicialFragment extends Fragment {
 
 
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_consultaTerminales_inicial);
+        Global.TERMINALES_ASOCIADAS = null;
         Global.TERMINALES_ASOCIADAS = new ArrayList<Terminal>();
         queue = Volley.newRequestQueue(objeto);
 
@@ -242,11 +243,12 @@ public class InicialFragment extends Fragment {
                 @Override
                 public void onClick(List<Terminal> terminal, int position) {
 
-
                     Global.serial_ter = terminal.get(position).getTerm_serial();
                     Global.modelo = terminal.get(position).getTerm_model();
 
-                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
+                    consumirServicioAsociadas();
+
+                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
                    // objeto.listarObservacionesTerminal(serialObtenido);
                 }
             }, R.layout.panel_terminal_asociada);

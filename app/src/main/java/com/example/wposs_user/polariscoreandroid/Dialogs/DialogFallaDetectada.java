@@ -39,11 +39,11 @@ public class DialogFallaDetectada extends DialogFragment {
                         if (which == 0) {
                             Global.fallaDetectada="Uso";
                             //consumir servioco repuestos
-                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).commit();
+                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).addToBackStack(null).commit();
 
                         } else if (which == 1) {
                             Global.fallaDetectada="Fábrica";
-                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).commit();
+                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).addToBackStack(null).commit();
                         }
                     }
                 });

@@ -112,7 +112,9 @@ public class ObservacionesFragment extends Fragment {
 
     }
 
-
+/**
+ * Este método se utiliza para cargar subir las fotos
+ * **/
     public void enviarFoto() {
         String url = "";
         JsonObjectRequest jsArrayRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
@@ -163,7 +165,7 @@ public class ObservacionesFragment extends Fragment {
 
 
     /**
-     *
+     *este método se utiliza pára convertir la imagen a String, para ser enviada al servisor
      **/
     public String convertirImagenString(Bitmap bitmap) {
         String img = "";
@@ -185,7 +187,7 @@ public class ObservacionesFragment extends Fragment {
             imagen_observación.setImageBitmap(bitmap_foto1);
         } else if (foto == 2) {
             bitmap_foto2 = (Bitmap) data.getExtras().get("data");
-            imagen_observación.setImageBitmap(bitmap_foto2);
+            imagen_observación2.setImageBitmap(bitmap_foto2);
         }
 
 
@@ -214,7 +216,7 @@ public class ObservacionesFragment extends Fragment {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
+                            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                         }
                     });
             alertDialog.show();

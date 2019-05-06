@@ -68,6 +68,7 @@ public class TipificacionesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tipificaciones, container, false);
+        objeto.setTitle("TIPIFICACIONES");
         descripcionTipificaion = "";
         layout_tipificaciones = (LinearLayout) v.findViewById(R.id.layout_tipificaciones);
         autocomplete_tipificaciones = (AutoCompleteTextView) v.findViewById(R.id.autocomplete_tipificaciones);

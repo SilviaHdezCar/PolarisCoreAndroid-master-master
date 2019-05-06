@@ -65,7 +65,11 @@ public class Global {
 
 
 
-
+    public static String TAG_FRAGMENT_INICIAL="INICIAL";
+    public static String TAG_FRAGMENT_ETAPAS="ETAPAS";
+    public static String TAG_FRAGMENT_VALIDACIONES="VALIDACIONES";
+    public static String TAG_FRAGMENT_PERFIL="PERFIL";
+    public static String TAG_FRAGMENT_TIPIFICACIONES="TIPIFICACIONES";
     public static String STATUS_SERVICE;
 
 

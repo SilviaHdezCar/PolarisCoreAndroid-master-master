@@ -53,6 +53,8 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     private TextView garantia_ter_validaciones;
     private TextView fechal_ans_ter_validaciones;
 
+    private Fragment fragment;
+
     private Button siguiente;
     private RecyclerView rv;
     private LinearLayout layout_encabezado_vali;
@@ -64,6 +66,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_validaciones_terminales_asociadas, container, false);
+        System.out.println("infló panel");
         objeto.setTitle("VALIDACIONES");
 
         marca_ter_validaciones = (TextView) v.findViewById(R.id.marca_ter_validaciones);
@@ -75,7 +78,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         fechal_ans_ter_validaciones = (TextView) v.findViewById(R.id.fechal_ans_ter_validaciones);
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_validaciones);
         layout_encabezado_vali = (LinearLayout) v.findViewById(R.id.layout_encabezado_vali);
-        siguiente=(Button)v.findViewById(R.id.btn_siguiente_validaciones);
+        siguiente = (Button) v.findViewById(R.id.btn_siguiente_validaciones);
         queue = Volley.newRequestQueue(objeto);
         objeto.setTitle("Validaciones");
 
@@ -99,30 +102,27 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
 
             }
         }
-
-
-        consumirServicio();
-
-
         siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (llenarValidacionesDiagnostico()) {//valida que estén todas las validaciones marcadas
-                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new TipificacionesFragment()).commit();
+                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new TipificacionesFragment()).addToBackStack(null).commit();
+                    return;
                 }
             }
         });
+
+        consumirServicio();
 
 
         return v;
 
     }
 
-/**
- * Metodo utilizado para consumir el servicio que lista las validaciones
- * en el encabezado se envía el token
- *
- * **/
+    /**
+     * Metodo utilizado para consumir el servicio que lista las validaciones
+     * en el encabezado se envía el token
+     **/
     private void consumirServicio() {
         v = null;
         Global.VALIDACIONES = null;
@@ -235,7 +235,6 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     }
 
 
-
     //Armo el arraylist     que voy a enviar al consumir el servicio de registrar diagnostico
     public boolean llenarValidacionesDiagnostico() {
         boolean retorno = false;
@@ -257,7 +256,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                     alertDialog.show();
                     return false;
                 } else {
-                    Validacion v = new Validacion(Global.serial_ter,val.getTeva_description(),val.getEstado());
+                    Validacion v = new Validacion(Global.serial_ter, val.getTeva_description(), val.getEstado());
                     Global.VALIDACIONES_DIAGNOSTICO.add(v);
                     retorno = true;
                 }

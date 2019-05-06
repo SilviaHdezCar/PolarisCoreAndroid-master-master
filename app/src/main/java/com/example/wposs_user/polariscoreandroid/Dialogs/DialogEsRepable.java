@@ -41,7 +41,7 @@ public class DialogEsRepable extends DialogFragment {
                             fallaDetectada();
                         } else if (which == 1) {
                             Global.reparable="NO";
-                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ObservacionesFragment()).commit();
+                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ObservacionesFragment()).addToBackStack(null).commit();
                         }
                     }
                 });
