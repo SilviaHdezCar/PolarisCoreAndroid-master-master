@@ -1,23 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="@color/azul_claro_nav_bar"
-    android:gravity="center"
+    android:layout_width="310dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="40dp"
+    android:background="@color/verde_osc_nav_bar"
     android:orientation="vertical"
-
 
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/imageView"
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView_perfil"
+        layout_alignParentTop="true"
+        layout_centerHorizontal="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="left"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/nav_header_desc"
+        android:src="@mipmap/user_grey"
+        app:civ_border_color="@color/azul_circulo_foto"
+        app:civ_border_width="2dp" />
+
+    <TextView
+        android:id="@+id/usuario_drawer"
+        style="@style/letra_menu_drawer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/nav_header_desc"
-        app:srcCompat="@drawable/wposs"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Nombre del usuario" />
 
+    <TextView
+        android:id="@+id/correo_drawer"
+        style="@style/letra_simple_drawer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Correo" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/lineas_nav_bar"
+        android:padding="2dp"></LinearLayout>
 
 
 </LinearLayout>

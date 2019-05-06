@@ -5,7 +5,7 @@
     android:id="@+id/contenedor_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gris_fondo">
+    android:background="@color/blanco">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -15,7 +15,10 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/azul_claro_nav_bar"
+
+            >
 
         </android.support.v7.widget.Toolbar>
 

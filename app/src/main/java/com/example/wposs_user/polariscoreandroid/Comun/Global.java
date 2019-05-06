@@ -1,5 +1,7 @@
 package com.example.wposs_user.polariscoreandroid.Comun;
 
+import android.widget.ImageView;
+
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
@@ -13,11 +15,14 @@ import java.util.List;
 public class Global {
 
 
-    public static String NOMBRE = "";
+
     public static String correo;
     public static String password;
     public static String serial= "";
     public static String modelo= "";
+    public static String codigo_rep = "";
+    public static String validar_actual= "";//es la que se envia al serviso al validar la clave
+    public static String observacion;
 
 
 
@@ -25,8 +30,13 @@ public class Global {
     public static String serial_ter= "";
 
 
+    public static String opcion_consulta= "";
 
 
+
+
+    public static String foto1_etapa_ter= "";
+    public static String foto2_etapa_ter= "";
 
     public static String primaryIP;
     public static int primaryPort;
@@ -44,6 +54,14 @@ public class Global {
     public static String STATUS;
     public static String POSITION;
     public static String CODE;
+    public static String NOMBRE = "";
+    public static String EMAIL = "";
+    public static String LOCATION = "";
+    public static String PHONE = "";
+    public static String PHOTO = "";
+    public static ImageView foto_perfil;
+
+
 
 
 
@@ -56,6 +74,8 @@ public class Global {
 
 
 
+    public static final byte PIPE ='|';
+    public static  String [] tokens =null;
     public static  int tamañoTrama;
 
     public static  String    WEB_SERVICE          = "";
@@ -78,9 +98,15 @@ public class Global {
     public static final int       ERR_DATA_RECEIVED       = -5;
 
 
-    public static final int       MAX_LEN_OUTPUTDATA	  = 2048;
-    public static final int       MAX_LEN_INPUTDATA		  = 4096;
+    public static final int       MAX_LEN_OUTPUTDATA	  = 10 * 1024;
+//  public static final int       MAX_LEN_OUTPUTDATA	  = 2048;
+    public static final int       MAX_LEN_INPUTDATA		  = 128 * 1024;
+//  public static final int       MAX_LEN_INPUTDATA		  = 2 * 4096;
 
+
+
+
+    public static String    httpDataBufferAux       = "";
     public static String    httpDataBuffer       = "";
     public static String    httpHeaderBuffer     = "";
 
@@ -90,6 +116,8 @@ public class Global {
 
     public static byte[]         outputData               = new byte[MAX_LEN_OUTPUTDATA];
     public static byte[]         inputData                = new byte[MAX_LEN_INPUTDATA];
+    public static byte[]         inputDataTemp            = new byte[MAX_LEN_INPUTDATA];
+    //public static byte[]         inputData                = null;
 
 
     public static boolean enSesion=false;
@@ -107,6 +135,15 @@ public class Global {
     public static List<Validacion> VALIDACIONES;
     public static List<Tipificacion> TIPIFICACIONES;
     public static ArrayList<Repuesto> REPUESTOS = new ArrayList<>();
+    public static ArrayList<Repuesto> REPUESTOS_DIAGONOSTICO= new ArrayList<>();
+
+
+    public static List<String> VALIDACIONES_DIAGNOSTICO;
+    public static List<String> TIPIFICACIONES_DIAGNOSTICO;
+    public static String reparable="";
+    public static String fallaDetectada="";
+
+    public static List<Terminal> TERMINALES_AUTORIZADAS ;
 
 
     public static int lenS1;

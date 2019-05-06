@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fragmentos.Registro_diagnostico"
+    >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@drawable/button_border"
+        android:orientation="vertical"
+        tools:context=".Fragmentos.Registro_diagnostico"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+
+        tools:ignore="ExtraText">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Digite el codigo o nombre del repuesto "
+        android:textSize="14dp"
+        style="@style/letra_titulos"
+        />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        style="@style/letra_contenido"
+
+        >
+
+        <AutoCompleteTextView
+            android:id="@+id/auto_repuesto"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:hint="Codigo o nombre"
+            android:textSize="14dp"
+            android:layout_marginLeft="5dp"
+            />
+
+         </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+
+        >
+
+        <EditText
+            android:id="@+id/txt_cantReq"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:hint="Cantidad"
+            android:inputType="number"
+            android:textSize="14dp"
+            />
+
+        <Button
+            android:id="@+id/bton_agregarRepuesto"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="40dp"
+            android:background="@color/azul_botones"
+            android:text="Agregar"
+            android:textAllCaps="false"
+            android:textColor="@color/blanco"
+            style="@style/letra_botones"
+             android:textSize="14dp"
+            />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+
+        android:background="@drawable/button_border"
+         >
+
+
+        <TextView
+
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="Código"
+            android:layout_marginLeft="10dp"
+            style="@style/letra_titulos"
+            android:textSize="14dp"
+
+            />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Nombre"
+            style="@style/letra_titulos"
+            android:textSize="14dp"
+
+            />
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Cantidad"
+            style="@style/letra_titulos"
+            android:textSize="14dp"
+
+
+            />
+
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Eliminar"
+            android:layout_marginRight="10dp"
+            style="@style/letra_titulos"
+            android:textSize="14dp"
+            />
+
+
+
+    </LinearLayout>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_repuestos_diag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/button_border"
+         />
+
+
+        <EditText
+            android:id="@+id/txt_observaciones"
+            style="@style/letra_contenido"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/blanco"
+            android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ. "
+            android:hint="Observaciones"
+
+
+            android:textSize="14dp" />
+
+        <Button
+            android:id="@+id/btn_registroDioagnostico"
+            style="@style/letra_botones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="20dp"
+            android:background="@color/azul_botones"
+            android:text="Finalizar"
+            android:textAllCaps="false"
+            android:textColor="@color/blanco" />
+
+
+</LinearLayout>
+
+</ScrollView>

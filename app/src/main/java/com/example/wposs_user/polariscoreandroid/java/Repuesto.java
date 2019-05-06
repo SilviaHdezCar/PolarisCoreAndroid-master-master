@@ -4,12 +4,19 @@ public class Repuesto {
 
 
 
-    String spar_id,spar_code,spar_date_register,spar_name,spar_quantity, spar_register_by,spar_status,spar_status_temporal,spar_terminal_model,spar_warehouse;
+    String spar_id,spar_code,spar_date_register,spar_name,spar_register_by,spar_status,spar_status_temporal,spar_terminal_model,spar_warehouse;
+    int spar_quantity;
 
     public Repuesto() {
     }
 
-    public Repuesto(String spar_id, String spar_code, String spar_date_register, String spar_name, String spar_quantity, String spar_register_by, String spar_status, String spar_status_temporal, String spar_terminal_model, String spar_warehouse) {
+    public Repuesto(String spar_code, String spar_name, int spar_quantity) {
+        this.spar_code = spar_code;
+        this.spar_name = spar_name;
+        this.spar_quantity = spar_quantity;
+    }
+
+    public Repuesto(String spar_id, String spar_code, String spar_date_register, String spar_name, int spar_quantity, String spar_register_by, String spar_status, String spar_status_temporal, String spar_terminal_model, String spar_warehouse) {
         this.spar_id = spar_id;
         this.spar_code = spar_code;
         this.spar_date_register = spar_date_register;
@@ -54,11 +61,11 @@ public class Repuesto {
         this.spar_name = spar_name;
     }
 
-    public String getSpar_quantity() {
+    public int getSpar_quantity() {
         return spar_quantity;
     }
 
-    public void setSpar_quantity(String spar_quantity) {
+    public void setSpar_quantity(int spar_quantity) {
         this.spar_quantity = spar_quantity;
     }
 
@@ -104,7 +111,8 @@ public class Repuesto {
 
     @Override
     public String toString() {
-        return
-                "Codigo=" + spar_code +  ", Nombre=" + spar_name + ", Cantidad= " + spar_quantity ;
+
+        return "{"+(char)34+ "codigo"+(char)34 +":"+(char)34+ spar_code +(char)34+","+(char)34+ "nombre"+(char)34 +":"+(char)34+ spar_name +(char)34+","+(char)34+ "cantidad"+(char)34+":"+ (char)34+spar_quantity+(char)34+"}";
+
     }
 }

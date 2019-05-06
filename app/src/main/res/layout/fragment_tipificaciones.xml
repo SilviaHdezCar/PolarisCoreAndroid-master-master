@@ -3,29 +3,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gris_fondo"
+    android:background="@color/blanco"
     tools:context=".Actividades.MainActivity">
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:layout_marginTop="50dp"
-       android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
 
-       <AutoCompleteTextView
-           android:layout_width="200dp"
-           android:layout_height="50dp"
-           android:id="@+id/autocomplete_tipificaciones"
-           android:background="@drawable/redondo_fondo_gris"
-           android:layout_gravity="center_horizontal"
-           android:layout_marginTop="20dp"
-           android:hint="Tipíficaciones"
-           android:inputType="text"
-           android:paddingLeft="5dp"
-           style="@style/letra_contenido"
+        <LinearLayout
+            android:id="@+id/layout_tipificaciones"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:background="@color/verde_pestanas">
 
-           />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
 
-   </LinearLayout>
+                <AutoCompleteTextView
+                    android:id="@+id/autocomplete_tipificaciones"
+                    style="@style/letra_contenido"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/redondo_botones_fondo_blanco"
+                    android:hint="Agregar Tipificación"
+                    android:inputType="text"
+                    android:paddingLeft="5dp"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/cuadrado_gris"
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/letra_titulos"
+                android:text="Tipificación"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:background="@drawable/borde_inferior_gris"/>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_tipificaciones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+
+
+                <Button
+                    android:id="@+id/btn_siguiente_Tipificaciones"
+                    style="@style/letra_contenido_blanco"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/redondo_botones"
+                    android:text="Siguiente"
+                    android:textAllCaps="false"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
 </FrameLayout>

@@ -2,20 +2,27 @@ package com.example.wposs_user.polariscoreandroid.java;
 
 public class Tipificacion {
 
-    String nombre;
+    String tetv_id;
+    String tetv_description;
 
-    @Override
-    public String toString() {
-        return "Tipificacion{" +
-                "nombre='" + nombre + '\'' +
-                '}';
+    public Tipificacion(String tetv_id, String tetv_description) {
+        this.tetv_id = tetv_id;
+        this.tetv_description = tetv_description;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getTetv_id() {
+        return tetv_id;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setTetv_id(String tetv_id) {
+        this.tetv_id = tetv_id;
+    }
+
+    public String getTetv_description() {
+        return tetv_description;
+    }
+
+    public void setTetv_description(String tetv_description) {
+        this.tetv_description = tetv_description;
     }
 }

@@ -4,21 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
     <item
-        android:id="@+id/btn_disminuir"
-        android:icon="@mipmap/ic_less_zoom"
-        android:title="Disminuir"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/btn_aumentar"
-        android:icon="@mipmap/ic_more_white"
-        android:title="Aumentar"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/btn_home"
-        android:icon="@mipmap/ic_home_white"
-        android:title="Home"
+        android:id="@+id/btn_search"
+        android:icon="@drawable/ic_search"
+        android:title="Buscar"
         app:showAsAction="always" />
 </menu>

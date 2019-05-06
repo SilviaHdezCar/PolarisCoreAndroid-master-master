@@ -1,96 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Actividades.Activity_login"
-    android:padding="15dp"
-    android:background="@color/gris_fondo">
+    tools:context=".Actividades.Activity_login">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-
-    <TextView
-        android:id="@+id/txtTexto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="180dp"
-        android:text="@string/texto"
+        android:layout_height="match_parent"
+        android:background="@drawable/base_login"
         android:gravity="center_horizontal"
-        android:textSize="16dp"
+        android:orientation="vertical">
 
 
- />
+        <TextView
+            android:id="@+id/txtTexto"
+            style="@style/letra_contenido_blanco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="250dp"
+            android:gravity="center_horizontal"
+            android:text="@string/texto"
+            android:textSize="16dp"
 
+            />
 
-    <EditText
-        android:id="@+id/txtCorreo"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="250dp"
-        android:hint="@string/correo"
-        android:background="@drawable/redondo_fondo_blanco"
-        android:layout_centerHorizontal="true"
-        android:inputType="textEmailAddress"
-        android:textSize="14dp"
-        android:paddingLeft="10dp"
-        />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/redondo_fondo_verde_borde_verde"
+            android:orientation="horizontal"
+            android:padding="5dp">
 
-    <EditText
-        android:id="@+id/txtPass"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:background="@drawable/redondo_fondo_blanco"
-        android:layout_marginTop="320dp"
-        android:layout_centerHorizontal="true"
-        android:hint="@string/clave"
-        android:inputType="textPassword"
-        android:textSize="14dp"
-        android:paddingLeft="10dp"
-        />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/user_grey"
+                android:layout_gravity="left"
+                android:tint="@color/gris_iconos"
+                />
+
+            <EditText
+                android:id="@+id/txtCorreo"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:hint="@string/correo"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/redondo_fondo_blanco"
+                android:paddingLeft="10dp"
+                android:gravity="center"
+                style="@style/letra_contenido"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/redondo_fondo_verde_borde_verde"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/key"
+                android:layout_gravity="left"
+                />
+
+            <EditText
+                android:id="@+id/txtPass"
+                android:hint="@string/clave"
+                android:inputType="textPassword"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/redondo_fondo_blanco"
+                android:paddingLeft="10dp"
+                android:gravity="center"
+                style="@style/letra_contenido" />
+        </LinearLayout>
 
 
         <Button
             android:id="@+id/btn_login"
+            style="@style/letra_contenido_blanco"
             android:layout_width="180dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="390dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/redondo_azul"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/redondo_botones"
             android:onClick="iniciarSesion"
             android:text="@string/iniciarSes"
-            android:layout_centerHorizontal="true"
-            android:textAllCaps="false"
-            android:textColor="@color/blanco"
-            android:textSize="14dp" />
+            android:textAllCaps="false" />
 
 
         <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="200dp"
-        android:layout_height="700dp"
-        android:layout_marginTop="-280dp"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/logo"
+            android:id="@+id/imageView33"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="285dp"
+            android:layout_marginTop="259dp"
+            app:srcCompat="@drawable/user"
 
-        />
-
-        <ImageView
-        android:id="@+id/imageView33"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginLeft="285dp"
-           android:layout_marginTop="259dp"
-         app:srcCompat="@drawable/user"
-
-        />
+            />
 
         <ImageView
             android:id="@+id/imageView34"
@@ -103,6 +120,6 @@
             />
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

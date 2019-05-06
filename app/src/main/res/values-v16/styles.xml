@@ -14,6 +14,12 @@
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
+    <style name="letra_contenido_blanco">
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
     <style name="letra_botones">
         <item name="android:textColor">@color/blanco</item>
         <item name="android:textSize">14dp</item>
@@ -27,12 +33,41 @@
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
+    <style name="letra_menu_drawer">
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="letra_simple_drawer">
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
     <style name="letra_negrita">
         <item name="android:textColor">@color/negro</item>
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="letra_negrita_terminal">
+        <item name="android:textColor">@color/negro</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="letra_negrita_terminal_gris_grande">
+        <item name="android:textColor">@color/gris_letra</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="letra_negrita_terminal_gris_peq">
+        <item name="android:textColor">@color/gris_letra</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
 
     <style name="letra_titulos">
         <item name="android:textColor">@color/negro</item>
@@ -46,5 +81,12 @@
         <item name="android:textSize">18dp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.AppCompat.Widget.ActionBar.Title" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textAlignment">center</item>
     </style>
 </resources>

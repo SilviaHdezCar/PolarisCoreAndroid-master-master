@@ -10,7 +10,8 @@
     <string name="correo">Correo de usuario</string>
     <string name="clave">Contraseña</string>
     <string name="action_settings">Settings</string>
-    <string name="preg">Para iniciar se recomienda cambiar su contraseña por una mas segura, recuerde que esta debe contener una mayuscula una minuscula y 3 numeros y tener una longitud de 8 o mas </string>
+    <string name="preg">Para iniciar se recomienda cambiar su contraseña por una mas segura con una longitud máxima de
+        caracteres o superior, recuerde que esta debe contener al menos una mayúscula, minúscula y al menos 4 números</string>
     <string name="LoginHuella">Iniciar sesión mediante huella digital</string>
     <string name="Cambiar_pass">ACTUALIZAR CONTRASEÑA</string>
     <string name="rta">RESPUESTA</string>
@@ -47,7 +48,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-    <!--Formulario perfil -->
+
 
     <!--Formulario cambiar clave -->
     <string name="clave_actual">Clave actual</string>
@@ -56,8 +57,20 @@
 
     <!--LISTAR LAS OPCIONES DE CONSULTA-->
     <string-array name="opciones_consulta">
-        <item>Por serial</item>
-        <item>Por rango de fechas</item>
+        <item>Diagnóstico</item>
+        <item>Reparable</item>
+    </string-array>
+
+    <!--LISTA ES REPARABLE-->
+    <string-array name="esReparable">
+        <item>SI</item>
+        <item>NO</item>
+    </string-array>
+
+    <!--FALLA DETECTADA-->
+    <string-array name="falla_detectada">
+        <item>Uso</item>
+        <item>Fábrica</item>
     </string-array>
 
     <!--TIPOS DE ESTADOS DE LA TERMINAL-->
@@ -66,6 +79,14 @@
         <item>Diagnostico</item>
         <item>Reparadas</item>
     </string-array>
+
+    <!--ENCABEZADO TABLA TIPIFICACIONES-->
+    <string-array name="tabla_tipificaciones">
+        <item>Id fila</item>
+        <item>Nombre</item>
+        <item>Eliminar</item>
+    </string-array>
+
     <string name="title_activity_tipificaciones_diagnostico">TipificacionesDiagnostico</string>
 
 </resources>
