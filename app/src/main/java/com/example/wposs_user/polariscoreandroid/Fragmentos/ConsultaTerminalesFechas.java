@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogOpcionesConsulta;
@@ -34,7 +35,9 @@ public class ConsultaTerminalesFechas extends Fragment {
     private EditText f_fin;
     private TextView text_estado_ter;
     private Button btn_fech_consulta_serial;
+    private Button buscar_terminales_fecha;
     private LinearLayout layout_estado_terminal;
+    View view;
 
     public static String Fecha1, Fecha2;
 
@@ -52,7 +55,8 @@ public class ConsultaTerminalesFechas extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_consulta_terminales_fechas, container, false);
+       view=inflater.inflate(R.layout.fragment_consulta_terminales_fechas, container, false);
+        buscar_terminales_fecha=(Button)view.findViewById(R.id.btn_buscar_terminalesPorFechas);
 
         //carga los txt de las fechas al hacer la consulta establecida por fechas
 
@@ -87,7 +91,7 @@ public class ConsultaTerminalesFechas extends Fragment {
         fecha = fecha.replace("-", "/");
         f_inicio.setText(fecha);
         Fecha1 = f_inicio.getText().toString();
-        f_inicio.setText(Tools.dateYYYYMMDDStr2(f_inicio.getText().toString()));
+        f_inicio.setText(Tools.dateDDMMYYYYStr2(f_inicio.getText().toString()));
 
 
         f_inicio.addTextChangedListener(new TextWatcher() {
@@ -111,7 +115,7 @@ public class ConsultaTerminalesFechas extends Fragment {
                     public void run() {
 
                         Fecha1 = f_inicio.getText().toString();
-                        f_inicio.setText(Tools.dateYYYYMMDDStr2(f_inicio.getText().toString()));
+                        f_inicio.setText(Tools.dateDDMMYYYYStr2(f_inicio.getText().toString()));
                         return;
                     }
                 }, 70);
@@ -139,7 +143,7 @@ public class ConsultaTerminalesFechas extends Fragment {
                     public void run() {
 
                         Fecha2 = f_fin.getText().toString();
-                        f_fin.setText(Tools.dateYYYYMMDDStr2(f_fin.getText().toString()));
+                        f_fin.setText(Tools.dateDDMMYYYYStr2(f_fin.getText().toString()));
                         return;
                     }
                 }, 70);
@@ -162,6 +166,13 @@ public class ConsultaTerminalesFechas extends Fragment {
         });
 
 
+        buscar_terminales_fecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listarTerminalesfecha();
+
+            }
+        });
 
 
 
@@ -201,6 +212,51 @@ public class ConsultaTerminalesFechas extends Fragment {
         //Muestro el widget
         recogerFecha.show();
     }
+
+    public boolean validarFecha(){
+
+        String fecha_inicial= f_inicio.getText().toString();
+        String[] fecha=fecha_inicial.split("/");
+        int dia_inicio=Integer.parseInt(fecha[0]);
+        int mes_inicio=Integer.parseInt(fecha[1]);
+        int año_inicio=Integer.parseInt(fecha[2]);
+
+        System.out.println("Fecha inicial:  "+"dia:"+dia_inicio+"mes:"+mes_inicio+"año:"+año_inicio);
+
+        String fecha_final= f_fin.getText().toString();
+        String[] fechaFin=fecha_final.split("/");
+        int dia_fin=Integer.parseInt(fechaFin[0]);
+        int mes_fin=Integer.parseInt(fechaFin[1]);
+        int año_fin=Integer.parseInt(fechaFin[2]);
+
+        System.out.println("Fecha final:  "+"dia:"+dia_fin+"mes:"+mes_fin+"año:"+año_fin);
+
+
+        if(año_fin<año_inicio){ return false; }
+        if(mes_fin<mes_inicio){ return false; }
+        if(dia_fin<dia_inicio){ return false; }
+
+        return true;
+
+    }
+
+
+    public  void listarTerminalesfecha(){
+
+
+        boolean x= this.validarFecha();
+        if(x==true){
+
+           Toast.makeText(view.getContext(),"CUMPLE EL REQUISITO",Toast.LENGTH_SHORT).show();
+        }
+
+        if(x== false) {
+
+            Toast.makeText(view.getContext(),"FECHA FINAL MENOR QUE LA INICIAL", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
 
 }

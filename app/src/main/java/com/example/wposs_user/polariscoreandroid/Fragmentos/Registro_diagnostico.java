@@ -307,7 +307,7 @@ public class Registro_diagnostico extends Fragment {
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                                 alertDialog.setTitle("Informacion");
                                 alertDialog.setMessage("Error: "+response.get("message").toString()+"\n");
-                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "ACEPTAR",
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Aceptar",
 
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
