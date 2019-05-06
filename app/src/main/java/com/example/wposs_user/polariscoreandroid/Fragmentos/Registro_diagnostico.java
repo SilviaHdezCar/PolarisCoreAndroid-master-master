@@ -193,7 +193,7 @@ public class Registro_diagnostico extends Fragment {
                     return;
                 }
 
-                Repuesto r = new Repuesto(Global.REPUESTOS.get(i).getSpar_code(),Global.REPUESTOS.get(i).getSpar_name(),cant_solicitada);
+                Repuesto r = new Repuesto(Global.REPUESTOS.get(i).getSpar_code(),Global.REPUESTOS.get(i).getSpar_name(),cant_solicitada,Global.REPUESTOS.get(i).getSpar_warehouse());
                 Global.REPUESTOS_DIAGONOSTICO.add(r);
                 Toast.makeText(objeto, "El repuesto fue agregado exitosamente", Toast.LENGTH_SHORT).show();
                 this.llenarRv();
@@ -243,23 +243,17 @@ public class Registro_diagnostico extends Fragment {
         Observacion obser= new Observacion(Global.serial_ter, descripicionObserv,"","","",Global.serial_ter);
         Global.obs= obser;
 
-        if(descripicionObserv.isEmpty()){
-            Toast.makeText(objeto, "Debe agregar al menos una observacion del estado de la terminal", Toast.LENGTH_SHORT).show();
-            return;
-
-        }
         if(rv.getAdapter()==null){
 
             Toast.makeText(objeto, "Debe agregar al menos un repuesto", Toast.LENGTH_SHORT).show();
             //  rv.removeAllViewsInLayout(); Para limpiar el reciler view
             return;
-
         }
 
 
 
 
-        consumirServicioDiagnostico();
+        consumirServicioDiagnostico(v);
 
        /* Intent i = new Intent(v.getContext(), MainActivity.class); // inicio una nueva activiy
         getFragmentManager().beginTransaction().remove(this).commit(); /// remuevo el fragment usado
@@ -271,9 +265,10 @@ public class Registro_diagnostico extends Fragment {
      * En el encabezado va el token-> Authenticator
      * Se envía el codigo del usuario  Global.CODE
      **/
-    public void consumirServicioDiagnostico() {
+    public void consumirServicioDiagnostico(View v) {
 
         final Gson gson = new GsonBuilder().create();
+
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals/savediagnosis";
         System.out.println("enviando...........");
@@ -310,16 +305,32 @@ public class Registro_diagnostico extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             Global.STATUS_SERVICE = response.get("status").toString();
+                            Log.d("RESPUESTA",response.get("message").toString());
 
+                            if(Global.STATUS_SERVICE.equals("fail")){
 
-                            if(!Global.STATUS_SERVICE.equals("ok")){
-                                Toast.makeText(v.getContext(),"Ocurrio un error al enviar la informacion",Toast.LENGTH_SHORT);
-                                return;
+                                AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                alertDialog.setTitle("Informacion");
+                                alertDialog.setMessage("Error: "+response.get("message").toString()+"\n");
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "ACEPTAR",
+
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).commit();
+                                                Global.REPUESTOS_DIAGONOSTICO= new ArrayList<>();
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                alertDialog.show();
+
+                                 return;
+
                             }else{
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                                 alertDialog.setTitle("Informacion");
-                                alertDialog.setMessage("Diagnóstico registrado");
+                                alertDialog.setMessage("Diagnóstico registrado correctamente"+"\n"+ "Será direccionado a inicio");
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "ACEPTAR",
+
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();

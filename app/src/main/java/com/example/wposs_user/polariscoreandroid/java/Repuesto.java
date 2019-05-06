@@ -13,10 +13,11 @@ public class Repuesto {
     public Repuesto() {
     }
 
-    public Repuesto(String spar_code, String spar_name, int spar_quantity) {
+    public Repuesto(String spar_code, String spar_name, int spar_quantity,String spar_warehouse) {
         this.spar_code = spar_code;
         this.spar_name = spar_name;
         this.spar_quantity = spar_quantity;
+        this.spar_warehouse = spar_warehouse;
     }
 
     public Repuesto(String spar_id, String spar_code, String spar_date_register, String spar_name, int spar_quantity, String spar_register_by, String spar_status, String spar_status_temporal, String spar_terminal_model, String spar_warehouse) {
@@ -126,8 +127,9 @@ public class Repuesto {
         JSONObject obj = new JSONObject();
         try {
             obj.put("codigo",spar_code);
-            obj.put("nombre",spar_code);
+            obj.put("nombre",spar_name);
             obj.put("cantidad",String.valueOf(spar_quantity));
+            obj.put("bodega",spar_warehouse);
         } catch (JSONException e) {
             e.printStackTrace();
         }

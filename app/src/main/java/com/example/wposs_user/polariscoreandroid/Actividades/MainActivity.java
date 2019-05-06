@@ -98,6 +98,10 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Global.REPUESTOS=new ArrayList<>();
+        Global.TIPIFICACIONES_DIAGNOSTICO= new ArrayList<>();
+        Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<>();
+        Global.REPUESTOS_DIAGONOSTICO= new ArrayList<>();
 
         fragmentManager = getSupportFragmentManager();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

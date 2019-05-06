@@ -37,12 +37,12 @@ public class DialogFallaDetectada extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            Global.fallaDetectada="Uso";
+                            Global.fallaDetectada="USO";
                             //consumir servioco repuestos
                             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).commit();
 
                         } else if (which == 1) {
-                            Global.fallaDetectada="Fábrica";
+                            Global.fallaDetectada="FABRICA";
                             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).commit();
                         }
                     }
