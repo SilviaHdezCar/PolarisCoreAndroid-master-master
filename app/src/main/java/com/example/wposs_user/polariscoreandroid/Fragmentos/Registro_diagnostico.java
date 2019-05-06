@@ -1,6 +1,9 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -307,19 +310,23 @@ public class Registro_diagnostico extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println( "RESPUESTA DEL SERVICIO*************"+Global.STATUS_SERVICE);
-                            Toast.makeText(v.getContext(), "Estado del Sevicio"+Global.STATUS_SERVICE,Toast.LENGTH_SHORT);
-
-                            if (Global.STATUS_SERVICE.equals("ok")) {
-                                System.out.println( "si funciona, el servicio esta *************"+Global.STATUS_SERVICE);
-
-                                Toast.makeText(v.getContext(), "El diagnostico se registro correctamente",Toast.LENGTH_SHORT);
-
-                            }
 
 
                             if(!Global.STATUS_SERVICE.equals("ok")){
                                 Toast.makeText(v.getContext(),"Ocurrio un error al enviar la informacion",Toast.LENGTH_SHORT);
+                                return;
+                            }else{
+                                AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                alertDialog.setTitle("Informacion");
+                                alertDialog.setMessage("Diagnóstico registrado");
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "ACEPTAR",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                alertDialog.show();
 
                             }
 

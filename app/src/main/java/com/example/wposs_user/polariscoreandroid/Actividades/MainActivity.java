@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (item.getItemId()) {
             case R.id.btn_search:
-                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();//Buscar
+                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesSerial()).commit();//Buscar
                 return true;
         }
         return super.onOptionsItemSelected(item);
