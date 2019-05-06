@@ -22,7 +22,8 @@ public class Global {
     public static String modelo= "";
     public static String codigo_rep = "";
     public static String validar_actual= "";//es la que se envia al serviso al validar la clave
-    public static String observacion;
+
+    public static Observacion obs;
 
 
 
@@ -30,8 +31,13 @@ public class Global {
     public static String serial_ter= "";
 
 
+    public static String opcion_consulta= "";
 
 
+
+
+    public static String foto1_etapa_ter= "";
+    public static String foto2_etapa_ter= "";
 
     public static String primaryIP;
     public static int primaryPort;
@@ -133,8 +139,8 @@ public class Global {
     public static ArrayList<Repuesto> REPUESTOS_DIAGONOSTICO= new ArrayList<>();
 
 
-    public static List<String> VALIDACIONES_DIAGNOSTICO;
-    public static List<String> TIPIFICACIONES_DIAGNOSTICO;
+    public static ArrayList<Validacion> VALIDACIONES_DIAGNOSTICO;
+    public static ArrayList<Tipificacion> TIPIFICACIONES_DIAGNOSTICO;
     public static String reparable="";
     public static String fallaDetectada="";
 

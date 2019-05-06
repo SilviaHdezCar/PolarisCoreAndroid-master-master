@@ -9,12 +9,12 @@
         </shape>
     </item>
     <item
-        android:bottom="8dp">
+        android:bottom="5dp">
         <shape android:shape="rectangle">
             <stroke
-                android:width="2dp"
+                android:width="0dp"
                 android:color="@color/blanco" />
-            <solid android:color="@color/blanco" />
+            <solid android:color="@color/verde_pestanas" />
         </shape>
     </item>
 </layer-list>

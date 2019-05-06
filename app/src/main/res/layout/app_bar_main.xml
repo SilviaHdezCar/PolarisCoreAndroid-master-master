@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/verde_nav_bar"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            style="@style/letra_simple_drawer">
+            app:titleTextAppearance="@style/letra_simple_drawer"
+            android:gravity="center">
 
         </android.support.v7.widget.Toolbar>
 

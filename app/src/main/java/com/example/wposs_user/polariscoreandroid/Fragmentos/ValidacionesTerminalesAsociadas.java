@@ -1,5 +1,7 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,17 +51,20 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     private TextView tecno_ter_validaciones;
     private TextView estado_ter_validaciones;
     private TextView garantia_ter_validaciones;
-    private TextView fecha_recepcion_ter_validaciones;
     private TextView fechal_ans_ter_validaciones;
+
+    private Button siguiente;
     private RecyclerView rv;
     private LinearLayout layout_encabezado_vali;
     private RequestQueue queue;
-    private   static Validacion v;
+    private static Validacion v;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_validaciones_terminales_asociadas, container, false);
+        objeto.setTitle("VALIDACIONES");
 
         marca_ter_validaciones = (TextView) v.findViewById(R.id.marca_ter_validaciones);
         modelo_ter_validaciones = (TextView) v.findViewById(R.id.modelo_ter_validaciones);
@@ -66,11 +72,12 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         tecno_ter_validaciones = (TextView) v.findViewById(R.id.tecno_ter_validaciones);
         estado_ter_validaciones = (TextView) v.findViewById(R.id.estado_ter_validaciones);
         garantia_ter_validaciones = (TextView) v.findViewById(R.id.garantia_ter_validaciones);
-        fecha_recepcion_ter_validaciones = (TextView) v.findViewById(R.id.fecha_recepcion_ter_validaciones);
         fechal_ans_ter_validaciones = (TextView) v.findViewById(R.id.fechal_ans_ter_validaciones);
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_validaciones);
         layout_encabezado_vali = (LinearLayout) v.findViewById(R.id.layout_encabezado_vali);
+        siguiente=(Button)v.findViewById(R.id.btn_siguiente_validaciones);
         queue = Volley.newRequestQueue(objeto);
+        objeto.setTitle("Validaciones");
 
         //voy a recorrer el arreglo de terminales para que me liste la informacion de la terminal selecciona
 
@@ -88,23 +95,34 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                     garantia_ter_validaciones.setText("Si garantía");
                 }
 
-                fecha_recepcion_ter_validaciones.setText(ter.getTerm_date_register());
                 fechal_ans_ter_validaciones.setText(ter.getTerm_date_finish());
 
             }
         }
 
 
-            consumirServicio();
-           // llenarRVValidaciones(Global.VALIDACIONES);
+        consumirServicio();
 
+
+        siguiente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (llenarValidacionesDiagnostico()) {//valida que estén todas las validaciones marcadas
+                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new TipificacionesFragment()).commit();
+                }
+            }
+        });
 
 
         return v;
 
     }
 
-
+/**
+ * Metodo utilizado para consumir el servicio que lista las validaciones
+ * en el encabezado se envía el token
+ *
+ * **/
     private void consumirServicio() {
         v = null;
         Global.VALIDACIONES = null;
@@ -212,6 +230,41 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
 
             rv.setAdapter(adapter);
 
-        }System.out.println("Tamaño del arreglo " + validaciones.size());
+        }
+        System.out.println("Tamaño del arreglo " + validaciones.size());
     }
+
+
+
+    //Armo el arraylist     que voy a enviar al consumir el servicio de registrar diagnostico
+    public boolean llenarValidacionesDiagnostico() {
+        boolean retorno = false;
+        Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<Validacion>();
+        String cadena = "";
+        for (Validacion val : Global.VALIDACIONES) {
+            if (val != null) {
+
+                if (val.getEstado() == null) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                    alertDialog.setTitle("¡ATENCIÓN!");
+                    alertDialog.setMessage("Debe marcar todas las validaciones");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "ACEPTAR",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                    return false;
+                } else {
+                    Validacion v = new Validacion(Global.serial_ter,val.getTeva_description(),val.getEstado());
+                    Global.VALIDACIONES_DIAGNOSTICO.add(v);
+                    retorno = true;
+                }
+
+            }
+        }
+        return retorno;
+    }
+
 }

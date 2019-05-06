@@ -1,5 +1,8 @@
 package com.example.wposs_user.polariscoreandroid.java;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Repuesto {
 
 
@@ -114,5 +117,21 @@ public class Repuesto {
 
         return "{"+(char)34+ "codigo"+(char)34 +":"+(char)34+ spar_code +(char)34+","+(char)34+ "nombre"+(char)34 +":"+(char)34+ spar_name +(char)34+","+(char)34+ "cantidad"+(char)34+":"+ (char)34+spar_quantity+(char)34+"}";
 
+    }
+
+
+    public JSONObject getObj() {
+
+
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("codigo",spar_code);
+            obj.put("nombre",spar_code);
+            obj.put("cantidad",String.valueOf(spar_quantity));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
     }
 }

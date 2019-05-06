@@ -18,13 +18,6 @@
             android:orientation="vertical"
             android:gravity="center_horizontal"
             android:padding="5dp">
-        <TextView
-            style="@style/letra_titulos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="60dp"
-            android:text="Actualización de contraseña" />
 
         <TextView
             style="@style/letra_contenido"
@@ -32,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="60dp"
             android:text="Recuerda que la clave debe contener mayúsculas, minúsculas y mínimo 4 números." />
 
 
@@ -48,10 +41,8 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_llave"
                     android:layout_gravity="left"
-                    android:tint="@color/gris_iconos"
-                    />
+                    android:src="@mipmap/key" />
 
                 <EditText
                     android:id="@+id/perfil_clave_actual"
@@ -120,9 +111,8 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_llave"
+                    android:src="@mipmap/key"
                     android:layout_gravity="left"
-                    android:tint="@color/gris_iconos"
                     />
 
                 <EditText
@@ -152,9 +142,8 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_llave"
+                    android:src="@mipmap/key"
                     android:layout_gravity="left"
-                    android:tint="@color/gris_iconos"
                     />
 
                 <EditText
@@ -173,41 +162,19 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp">
 
-                <Button
-                    android:id="@+id/btn_cancelar_cambio_clave"
-                    style="@style/letra_negrita"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/redondo_fondo_gris"
-                    android:onClick="cancelarCambioclave"
-                    android:text="Atrás"
-                    android:textAllCaps="false" />
-
-
-                <Button
-                    android:id="@+id/btn_aceptar_cambio_clave"
-                    style="@style/letra_contenido_blanco"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="90dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/redondo_botones"
-                    android:text="Aceptar"
-                    android:textAllCaps="false" />
-            </LinearLayout>
+            <Button
+                android:id="@+id/btn_aceptar_cambio_clave"
+                style="@style/letra_contenido_blanco"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/redondo_botones"
+                android:text="Aceptar"
+                android:textAllCaps="false" />
 
         </LinearLayout>
-
     </LinearLayout>
 
 </FrameLayout>

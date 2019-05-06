@@ -9,8 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
-import com.example.wposs_user.polariscoreandroid.Fragmentos.ConsultaTerminalesReparadasFragm;
-import com.example.wposs_user.polariscoreandroid.Fragmentos.ConsultaTerminalesSerial;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.Registro_diagnostico;
 import com.example.wposs_user.polariscoreandroid.R;
 

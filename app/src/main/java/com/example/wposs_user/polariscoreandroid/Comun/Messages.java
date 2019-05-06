@@ -511,12 +511,12 @@ public class Messages {
      * ***********************************************************/
     public static void packHttpDataRegistrarDiagnostico() {
         //comienza a armar la trama
-        Global.httpDataBuffer =   Global.httpDataBuffer = "{"+ (char) 34 + "validaciones" + (char) 34 + ":" + Global.VALIDACIONES_DIAGNOSTICO.toString() + ","+(char) 34 + "tipificaciones" + (char) 34+":"+Global.TIPIFICACIONES_DIAGNOSTICO.toString()
+       /* Global.httpDataBuffer =   Global.httpDataBuffer = "{"+ (char) 34 + "validaciones" + (char) 34 + ":" + Global.VALIDACIONES_DIAGNOSTICO.toString() + ","+(char) 34 + "tipificaciones" + (char) 34+":"+Global.TIPIFICACIONES_DIAGNOSTICO.toString()
                 +","+(char) 34+ "reparable" + (char) 34 + ":" + (char) 34 + "SI" + (char) 34 + "," + Global.observacion + "," + (char) 34 + "falla" + (char) 34 + ":" + (char) 34 + "FABRICA" + (char) 34 +","+(char) 34+ "repuestos" + (char) 34 +
                 ":" + "{" + (char) 34 + "tesw_serial"+(char) 34 +":"+ (char) 34 +Global.serial_ter + (char) 34+"," +  (char) 34 + "tesw_repuestos" + (char) 34 + ":" + Global.REPUESTOS_DIAGONOSTICO.toString() +"}}";
 
 
-        //fn
+        //fn*/
 
 
     }

@@ -11,20 +11,30 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.example.wposs_user.polariscoreandroid.Comun.Global;
+import com.example.wposs_user.polariscoreandroid.Dialogs.DialogOpcionesConsulta;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 
 import java.util.Date;
 import java.util.Locale;
 
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
-public class ConsultaTerminalesReparadasFragm extends Fragment {
+
+public class ConsultaTerminalesFechas extends Fragment {
 
     private EditText f_inicio;
     private EditText f_fin;
+    private TextView text_estado_ter;
+    private Button btn_fech_consulta_serial;
+    private LinearLayout layout_estado_terminal;
 
     public static String Fecha1, Fecha2;
 
@@ -42,12 +52,30 @@ public class ConsultaTerminalesReparadasFragm extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_terminales_reparada, container, false);
+        View view=inflater.inflate(R.layout.fragment_consulta_terminales_fechas, container, false);
 
         //carga los txt de las fechas al hacer la consulta establecida por fechas
 
         f_inicio = (EditText) view.findViewById(R.id.txt_fecha_inicio);
         f_fin = (EditText) view.findViewById(R.id.txt_fecha_fin);
+        text_estado_ter = (TextView) view.findViewById(R.id.text_estado_ter);
+        btn_fech_consulta_serial = (Button) view.findViewById(R.id.btn_fech_consulta_serial);
+        layout_estado_terminal = (LinearLayout) view.findViewById(R.id.layout_estado_terminal);
+
+        btn_fech_consulta_serial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesSerial()).commit();
+            }
+        });
+
+        layout_estado_terminal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                opcionesBusqueda();
+                text_estado_ter.setText(Global.opcion_consulta);
+            }
+        });
 
         f_inicio.setInputType(InputType.TYPE_NULL);
         f_fin.setInputType(InputType.TYPE_NULL);
@@ -141,7 +169,14 @@ public class ConsultaTerminalesReparadasFragm extends Fragment {
 
     }
 
+    /**
+     * BUSQUEDA DE TERMINALES
+     **/
 
+    public void opcionesBusqueda() {
+        DialogOpcionesConsulta dialog = new DialogOpcionesConsulta();
+        dialog.show(objeto.getSupportFragmentManager(), "Dialog");
+    }
 
     private void showDatePickerDialog(final EditText etFecha) {
         DatePickerDialog recogerFecha = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {

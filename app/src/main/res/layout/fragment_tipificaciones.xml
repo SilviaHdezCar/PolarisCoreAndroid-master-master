@@ -78,36 +78,17 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="50dp">
 
-                    <Button
-                        android:id="@+id/btn_volver_Tipificaciones"
-                        style="@style/letra_negrita"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/redondo_fondo_gris"
-                        android:onClick="volverTipificaciones"
-                        android:text="Atrás"
-                        android:textAllCaps="false" />
-
-                    <Button
-                        android:id="@+id/btn_siguiente_Tipificaciones"
-                        style="@style/letra_botones"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginLeft="100dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/redondo_azul"
-                        android:text="Siguiente"
-                        android:textAllCaps="false" />
-                </LinearLayout>
+                <Button
+                    android:id="@+id/btn_siguiente_Tipificaciones"
+                    style="@style/letra_contenido_blanco"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/redondo_botones"
+                    android:text="Siguiente"
+                    android:textAllCaps="false"
+                    android:layout_gravity="center_horizontal"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

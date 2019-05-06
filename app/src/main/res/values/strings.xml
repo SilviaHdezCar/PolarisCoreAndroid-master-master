@@ -48,7 +48,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-    <!--Formulario perfil -->
+
 
     <!--Formulario cambiar clave -->
     <string name="clave_actual">Clave actual</string>
@@ -57,8 +57,20 @@
 
     <!--LISTAR LAS OPCIONES DE CONSULTA-->
     <string-array name="opciones_consulta">
-        <item>Por serial</item>
-        <item>Por rango de fechas</item>
+        <item>Diagnóstico</item>
+        <item>Reparable</item>
+    </string-array>
+
+    <!--LISTA ES REPARABLE-->
+    <string-array name="esReparable">
+        <item>SI</item>
+        <item>NO</item>
+    </string-array>
+
+    <!--FALLA DETECTADA-->
+    <string-array name="falla_detectada">
+        <item>Uso</item>
+        <item>Fábrica</item>
     </string-array>
 
     <!--LISTA ES REPARABLE-->

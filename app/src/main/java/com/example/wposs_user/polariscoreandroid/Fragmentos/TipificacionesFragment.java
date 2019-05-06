@@ -59,7 +59,6 @@ public class TipificacionesFragment extends Fragment {
     private ArrayList<Tipificacion> listTipificaciones;
     public String descripcionTipificaion;
     private static ArrayList tipificaciones;
-    private Button btn_volver_Tipificaciones;
     private Button btn_siguiente_Tipificaciones;
     private static Tipificacion t;
     private RequestQueue queue;
@@ -72,14 +71,13 @@ public class TipificacionesFragment extends Fragment {
         descripcionTipificaion = "";
         layout_tipificaciones = (LinearLayout) v.findViewById(R.id.layout_tipificaciones);
         autocomplete_tipificaciones = (AutoCompleteTextView) v.findViewById(R.id.autocomplete_tipificaciones);
-        btn_volver_Tipificaciones = (Button) v.findViewById(R.id.btn_volver_Tipificaciones);
         btn_siguiente_Tipificaciones = (Button) v.findViewById(R.id.btn_siguiente_Tipificaciones);
 
         queue = Volley.newRequestQueue(objeto);
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_tipificaciones);
 
         this.listTipificaciones = new ArrayList<Tipificacion>();
-        Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<String>();
+        Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<Tipificacion>();
 
 
 
@@ -90,6 +88,7 @@ public class TipificacionesFragment extends Fragment {
                 siguienteTipificaciones();
             }
         });
+
 
 
         consumirServicioTipificaciones();
@@ -344,13 +343,9 @@ public class TipificacionesFragment extends Fragment {
            int  cont=0;
             for (Tipificacion tipi:listTipificaciones){
                 if(tipi!=null){
-    //        "Tipificaciones":[{"tets_terminal_serial":"212","tets_terminal_type_validation":"sadasdasd","tets_status":"ok"}]
-                    //cadena = "{\"tets_terminal_serial\":\"<SERIAL>\",\"tets_terminal_type_validation\":\"<TIPO>\",\"tets_status\":\"ok\"}";
-                    //cadena = cadena.replace("<SERIAL>", tipi.getTetv_id());
-                    //cadena = cadena.replace("<TIPO>", tipi.getTetv_description());
-                    cadena= "{"+(char)34+ "tets_terminal_serial"+(char)34 +":"+(char)34+ Global.serial_ter +(char)34+","+(char)34+ "tets_terminal_type_validation"+(char)34 +":"+(char)34+ tipi.getTetv_description() +(char)34+","+(char)34+ "tets_status"+(char)34+":"+ (char)34+"ok"+(char)34+"}";
 
-                    Global.TIPIFICACIONES_DIAGNOSTICO.add(cadena);
+                    Tipificacion tip= new Tipificacion(Global.serial_ter,tipi.getTetv_description(),"ok");
+                    Global.TIPIFICACIONES_DIAGNOSTICO.add(tip);
                 }
                 cont++;
             }

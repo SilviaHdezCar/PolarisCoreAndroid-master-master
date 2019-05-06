@@ -8,8 +8,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 
-import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
-import com.example.wposs_user.polariscoreandroid.Fragmentos.ConsultaTerminalesReparadasFragm;
+import com.example.wposs_user.polariscoreandroid.Comun.Global;
+import com.example.wposs_user.polariscoreandroid.Fragmentos.ConsultaTerminalesFechas;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ConsultaTerminalesSerial;
 import com.example.wposs_user.polariscoreandroid.R;
 
@@ -33,15 +33,17 @@ public class DialogOpcionesConsulta extends DialogFragment {
 
 
         builder
-                .setTitle("Seleccione el tipo de consulta")
+                .setTitle("Estado de la terminal")
                 .setItems(R.array.opciones_consulta, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesSerial()).commit();
+                            Global.opcion_consulta="Diagnóstico";
+                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesFechas()).commit();
 
                         } else if (which == 1) {
-                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesReparadasFragm()).commit();
+                            Global.opcion_consulta="Reparable";
+                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesFechas()).commit();
                         }
                     }
                 });

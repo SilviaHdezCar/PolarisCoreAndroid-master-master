@@ -1,5 +1,6 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -70,47 +71,51 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 
 public class InicialFragment extends Fragment {
     private RecyclerView rv;
-    private String serialObtenido;
-    private RequestQueue queue;
     private Button btn_asociadas;
     private Button btn_autorizadas;
-    private LinearLayout tab_asociada;
-    private LinearLayout tab_autorizada;
+    private View v;
+    private static Terminal t;
+    private RequestQueue queue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_inicial, container, false);
+        v = inflater.inflate(R.layout.fragment_inicial, container, false);
+
         btn_asociadas = (Button) v.findViewById(R.id.btn_terminales_asociadas);
         btn_autorizadas = (Button) v.findViewById(R.id.btn_terminales_autorizadas);
-        tab_asociada = (LinearLayout) v.findViewById(R.id.tab_asociada);
-        tab_autorizada = (LinearLayout) v.findViewById(R.id.tab_autorizada);
         objeto.setTitle("TERMINALES");
 
+
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_consultaTerminales_inicial);
-        serialObtenido = "";
         Global.TERMINALES_ASOCIADAS = new ArrayList<Terminal>();
         queue = Volley.newRequestQueue(objeto);
 
         consumirServicioAsociadas();
 
         btn_asociadas.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
                 //colocar que a lo que seleccione cierto botn, cambie el color de la linea de abajo
-                tab_asociada.setBackgroundColor(R.drawable.borde_inferior_blanco);
-                tab_autorizada.setBackgroundColor(R.drawable.borde_inferior_verde);
-                Global.TERMINALES_ASOCIADAS = null;
-                Global.TERMINALES_ASOCIADAS = new ArrayList<Terminal>();
+                //tab_asociada.setBackgroundColor(R.color.naranja);
+                //btn_asociadas.setBackgroundColor(0x80025156);
+                //btn_autorizadas.setBackgroundColor(R.color.verde_pestanas);
+                btn_asociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas_transparencia));//
+                btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+                //    Global.TERMINALES_ASOCIADAS = null;
+                //  Global.TERMINALES_ASOCIADAS = new ArrayList<Terminal>();
                 consumirServicioAsociadas();
             }
         });
 
         btn_autorizadas.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
-                tab_asociada.setBackgroundColor(R.drawable.borde_inferior_verde);
-                tab_autorizada.setBackgroundColor(R.drawable.borde_inferior_blanco);
+                Toast.makeText(objeto, "btn autorizadas", Toast.LENGTH_SHORT).show();
+                btn_asociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));//
+                btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas_transparencia));
 
                 consumirServicioAutorizadas();
             }
@@ -121,7 +126,6 @@ public class InicialFragment extends Fragment {
 
     }
 
-   private static Terminal t;
 
     /**
      * Metodo utilizados para consumir el servicio  de listar terminales asociadas mediante una petición REST
@@ -239,11 +243,11 @@ public class InicialFragment extends Fragment {
                 public void onClick(List<Terminal> terminal, int position) {
 
 
-                    serialObtenido = terminal.get(position).getTerm_serial();
+                    Global.serial_ter = terminal.get(position).getTerm_serial();
                     Global.modelo = terminal.get(position).getTerm_model();
 
-                  //  objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
-                   objeto.listarObservacionesTerminal(serialObtenido);
+                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).commit();
+                   // objeto.listarObservacionesTerminal(serialObtenido);
                 }
             }, R.layout.panel_terminal_asociada);
 
@@ -261,22 +265,34 @@ public class InicialFragment extends Fragment {
     }
 
     public void llenarRVAutorizada(List<Terminal> terminalesRecibidas) {
+        Vector<Terminal> terminals = new Vector<Terminal>();
         if (terminalesRecibidas == null || terminalesRecibidas.size() == 0) {
             Toast.makeText(objeto, Global.CODE + " No tiene terminales autorizadas", Toast.LENGTH_SHORT).show();
+            rv.setAdapter(new AdapterTerminal(objeto, terminals));//le pasa los datos-> lista de usuarios
+            objeto.layoutManager = new LinearLayoutManager(objeto);// en forma de lista
+            rv.setLayoutManager(objeto.layoutManager);
             return;
-        } //else {
-            Vector<Terminal> terminales_aut = new Vector<>();
+        } else {
+            Vector<Terminal> terminales_aut = null;
+            terminales_aut = new Vector<>();
+            terminales_aut.removeAllElements();
             for (Terminal ter : terminalesRecibidas) {
-                if ((ter.getTerm_status()).equalsIgnoreCase("Autorizada")) {
-                    terminales_aut.add(ter);
-                }
+                terminales_aut.add(ter);
 
             }
             rv.setAdapter(new AdapterTerminal(objeto, terminales_aut));//le pasa los datos-> lista de usuarios
 
             objeto.layoutManager = new LinearLayoutManager(objeto);// en forma de lista
-           rv.setLayoutManager(objeto.layoutManager);
-           /* rv.setHasFixedSize(true);
+            rv.setLayoutManager(objeto.layoutManager);
+           /*
+
+             recyclerView = (RecyclerView) findViewById(R.id.recycler_view_consultaTerminales_por_serial);
+            recyclerView.setAdapter(new AdapterTerminal(this, terminal));//le pasa los datos-> lista de usuarios
+            layoutManager = new LinearLayoutManager(this);// en forma de lista
+            recyclerView.setLayoutManager(layoutManager);
+
+
+           rv.setHasFixedSize(true);
 
             LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
             rv.setLayoutManager(llm);
@@ -303,7 +319,7 @@ public class InicialFragment extends Fragment {
             }, R.layout.panel_terminal_asociada);//se debe crear un panel para las autorizadas, por el borde es de otro color
 
             rv.setAdapter(adapter);*/
-        //}
+        }
     }
 
 

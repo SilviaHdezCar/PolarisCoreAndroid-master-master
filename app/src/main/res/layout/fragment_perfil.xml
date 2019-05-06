@@ -265,7 +265,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/redondo_botones"
-                android:onClick="actualizarClave"
                 android:text="Actualizar contraseña"
                 android:textAllCaps="false" />
 

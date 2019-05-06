@@ -43,6 +43,7 @@ public class ActualizarClave_perfil extends Fragment {
 
         v = inflater.inflate(R.layout.fragment_actualizar_clave_perfil, container, false);
 
+        objeto.setTitle("ACTUALIZAR CONTRASEÑA");
         btn_validar = (TextView) v.findViewById(R.id.lbl_validarClave);
         btn_cancelar = (TextView) v.findViewById(R.id.lbl_salir_validarClave);
         perfil_clave_actual = (EditText) v.findViewById(R.id.perfil_clave_actual);

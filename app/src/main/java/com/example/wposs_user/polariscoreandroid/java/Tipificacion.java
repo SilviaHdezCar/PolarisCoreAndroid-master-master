@@ -1,15 +1,25 @@
 package com.example.wposs_user.polariscoreandroid.java;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Tipificacion {
 
-    String tetv_id;
-    String tetv_description;
+   private String tetv_id;
+    private String tetv_description;
+    private String estado;
+
 
     public Tipificacion(String tetv_id, String tetv_description) {
         this.tetv_id = tetv_id;
         this.tetv_description = tetv_description;
     }
 
+    public Tipificacion(String tetv_id, String tetv_description, String estado) {
+        this.tetv_id = tetv_id;
+        this.tetv_description = tetv_description;
+        this.estado = estado;
+    }
     public String getTetv_id() {
         return tetv_id;
     }
@@ -25,4 +35,23 @@ public class Tipificacion {
     public void setTetv_description(String tetv_description) {
         this.tetv_description = tetv_description;
     }
+
+
+    public JSONObject getObj() {
+
+
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("tets_terminal_serial",tetv_id);
+            obj.put("tets_terminal_type_validation",tetv_description);
+            obj.put("tets_status",estado);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
+    }
+
+
+
 }

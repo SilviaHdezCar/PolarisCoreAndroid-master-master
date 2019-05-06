@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/blanco"
+    tools:context=".Actividades.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/btn_fech_consulta_serial"
+                style="@style/letra_tabs"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:background="@color/verde_pestanas"
+                android:scrollbars="vertical"
+                android:text="Serial" />
+
+
+            <Button
+                android:id="@+id/btn_fech_rango_fechas"
+                style="@style/letra_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/verde_pestanas_transparencia"
+                android:scrollbars="vertical"
+                android:text="Rango de fechas" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/borde_inferior_gris"></LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_estado_terminal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/borde_inferior_gris"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/letra_negrita_terminal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estado de la terminal" />
+
+            <TextView
+                android:id="@+id/text_estado_ter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Diagnóstico" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:background="@drawable/redondo_gris">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/txt_fecha_inicio"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/redondo_gris"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:hint="Fecha inicial"
+                    android:maxLines="1"
+                    android:paddingLeft="5dp" />
+
+                <EditText
+                    android:id="@+id/txt_fecha_fin"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/redondo_gris"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:hint="Fecha fin"
+                    android:inputType="date"
+                    android:maxLines="1"
+                    android:paddingLeft="5dp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_buscar_terminalesPorFechas"
+            style="@style/letra_botones"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/redondo_azul"
+            android:onClick="buscarTerminalesFechas"
+            android:text="Buscar"
+            android:textAllCaps="false" />
+
+        <TextView
+            android:id="@+id/lbl_busq_por_fechas"
+            style="@style/letra_contenido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:padding="10dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_consultaTerminales"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp" />
+    </LinearLayout>
+</FrameLayout>

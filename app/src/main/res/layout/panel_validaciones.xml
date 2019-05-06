@@ -6,50 +6,43 @@
 
         <LinearLayout
             android:id="@+id/layout_validaciones"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/cuadrado_gris"
+            android:background="@drawable/borde_inferior_gris"
             android:orientation="horizontal">
 
 
             <TextView
                 android:id="@+id/txt_validaciones"
-                android:layout_width="170dp"
+                android:layout_width="270dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:background="@drawable/borde_izq_sup_inf_gris"/>
+                android:paddingLeft="5dp"/>
 
             <RadioGroup
                 android:id="@+id/radios_validaciones"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/azul_botones"
                 android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/bton_ok"
-                    android:layout_width="50dp"
+                    android:layout_width="40dp"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@drawable/borde_izq_sup_inf_gris" />
+                    android:gravity="center" />
 
                 <RadioButton
                     android:id="@+id/bton_falla"
-                    android:layout_width="50dp"
+                    android:layout_width="40dp"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@drawable/borde_izq_sup_inf_gris" />
+                    android:gravity="center"/>
 
                 <RadioButton
                     android:id="@+id/bton_NA"
-                    android:layout_width="70dp"
+                    android:layout_width="40dp"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@drawable/borde_todos_gris"  />
+                    android:gravity="center"/>
             </RadioGroup>
 
         </LinearLayout>
