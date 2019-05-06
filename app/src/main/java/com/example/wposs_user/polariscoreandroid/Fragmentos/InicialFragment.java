@@ -73,6 +73,7 @@ public class InicialFragment extends Fragment {
     private RecyclerView rv;
     private Button btn_asociadas;
     private Button btn_autorizadas;
+    private LinearLayout liAsociadas, liAutorizadas;
     private View v;
     private static Terminal t;
     private RequestQueue queue;
@@ -84,6 +85,8 @@ public class InicialFragment extends Fragment {
 
         btn_asociadas = (Button) v.findViewById(R.id.btn_terminales_asociadas);
         btn_autorizadas = (Button) v.findViewById(R.id.btn_terminales_autorizadas);
+        liAsociadas = (LinearLayout)v.findViewById(R.id.selectAsociadas);
+        liAutorizadas = (LinearLayout)v.findViewById(R.id.selectAutorizadas);
         objeto.setTitle("TERMINALES");
 
 
@@ -101,8 +104,11 @@ public class InicialFragment extends Fragment {
                 //tab_asociada.setBackgroundColor(R.color.naranja);
                 //btn_asociadas.setBackgroundColor(0x80025156);
                 //btn_autorizadas.setBackgroundColor(R.color.verde_pestanas);
-                btn_asociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas_transparencia));//
-                btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+                /*btn_asociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas_transparencia));//
+                btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));*/
+
+                liAsociadas.setBackgroundColor(getResources().getColor(R.color.blanco));
+                liAutorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
                 //    Global.TERMINALES_ASOCIADAS = null;
                 //  Global.TERMINALES_ASOCIADAS = new ArrayList<Terminal>();
                 consumirServicioAsociadas();
@@ -114,9 +120,10 @@ public class InicialFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(objeto, "btn autorizadas", Toast.LENGTH_SHORT).show();
-                btn_asociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));//
-                btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas_transparencia));
-
+               /* btn_asociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));//
+                btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas_transparencia));*/
+                liAutorizadas.setBackgroundColor(getResources().getColor(R.color.blanco));
+                liAsociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
                 consumirServicioAutorizadas();
             }
         });
