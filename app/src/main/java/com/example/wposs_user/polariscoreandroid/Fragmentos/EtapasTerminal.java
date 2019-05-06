@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +49,11 @@ public class EtapasTerminal extends Fragment {
     private View v;
     private static Observacion o;
     private RequestQueue queue;
+    private Button btn_siguiente_etapas;
 
+    public EtapasTerminal() {
+        queue = Volley.newRequestQueue(objeto);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,12 +61,21 @@ public class EtapasTerminal extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_etapas_terminal, container, false);
         observacionesEtapas = (TextView) view.findViewById(R.id.observaciones_etapas);
+        btn_siguiente_etapas = (Button) view.findViewById(R.id.btn_siguiente_etapas);
+
         objeto.setTitle("ETAPAS");
 
-        queue = Volley.newRequestQueue(objeto);
-        Global.OBSERVACIONES = new ArrayList<Observacion>();
+
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_etapas);
 
+
+
+        btn_siguiente_etapas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+            }
+        });
         consumirServicioEtapas();
 
         return view;
@@ -69,12 +84,9 @@ public class EtapasTerminal extends Fragment {
 
     //boton atras de la calse etapas
     public void volverEtapas(View v) {
-        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
+        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
     }
 
-    public void siguienteEtapas(View v) {
-        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
-    }
 
     /**
      * Metodo utilizados para consumir el servicio  para listar las observaciones de acuerdo a una terminal mediante una petición REST
@@ -117,9 +129,11 @@ public class EtapasTerminal extends Fragment {
 
                             if (jsonArray.length() == 0) {
                                 Global.mensaje = "No tiene obervaciones";
-                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
+                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
                                 return;
                             }
+
+                            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
                             String obser = null;
 
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -190,9 +204,9 @@ public class EtapasTerminal extends Fragment {
                 if(!foto1.isEmpty()||!foto2.isEmpty()){
                     Global.foto1_etapa_ter=foto1;
                     Global.foto2_etapa_ter=foto2;
-                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new FotoObservacionFragment()).commit();
+                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new FotoObservacionFragment()).addToBackStack(null).commit();
                 }else{
-                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
+                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
                 }
             }
         }, R.layout.panel_etapas);

@@ -70,18 +70,17 @@ public class Registro_diagnostico extends Fragment {
     private RequestQueue queue;
 
 
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_registro_diagnostico, container, false);
-
+        objeto.setTitle("REGISTRAR DIAGNÓSTICO");
         aut_repuesto = (AutoCompleteTextView) v.findViewById(R.id.auto_repuesto);
         cantidad_req = v.findViewById(R.id.txt_cantReq);
         rv = (RecyclerView) v.findViewById(R.id.rv_repuestos_diag);
-        agregar= (Button) v.findViewById(R.id.bton_agregarRepuesto);
+        agregar = (Button) v.findViewById(R.id.bton_agregarRepuesto);
         observ = (EditText) v.findViewById(R.id.txt_observaciones);
-        registroDiag=(Button)v.findViewById(R.id.btn_registroDioagnostico);
+        registroDiag = (Button) v.findViewById(R.id.btn_registroDioagnostico);
         queue = Volley.newRequestQueue(objeto);
         this.consumirServicioRepuestos();
         registroDiag.setOnClickListener(new View.OnClickListener() {
@@ -104,14 +103,14 @@ public class Registro_diagnostico extends Fragment {
     }
 
 
-    public String[] convertirRepuestos(){
+    public String[] convertirRepuestos() {
 
-        String[] rep  = new String[Global.REPUESTOS.size()];
+        String[] rep = new String[Global.REPUESTOS.size()];
 
 
-        for(int i =0;i<Global.REPUESTOS.size();i++){
+        for (int i = 0; i < Global.REPUESTOS.size(); i++) {
 
-            rep[i]= Global.REPUESTOS.get(i).getSpar_code()+"   "+Global.REPUESTOS.get(i).getSpar_name();
+            rep[i] = Global.REPUESTOS.get(i).getSpar_code() + "   " + Global.REPUESTOS.get(i).getSpar_name();
 
         }
         return rep;
@@ -119,10 +118,10 @@ public class Registro_diagnostico extends Fragment {
     }
 
 
-    public void llenarAutocomplete(){
+    public void llenarAutocomplete() {
 
-        final String [] rep = this.convertirRepuestos();
-        aut_repuesto = (AutoCompleteTextView)v.findViewById(R.id.auto_repuesto);
+        final String[] rep = this.convertirRepuestos();
+        aut_repuesto = (AutoCompleteTextView) v.findViewById(R.id.auto_repuesto);
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(), R.layout.spinner_sytle, rep);
 
         aut_repuesto.setAdapter(adapter);
@@ -130,11 +129,11 @@ public class Registro_diagnostico extends Fragment {
         aut_repuesto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String code=adapter.getItem(i);
-                String[] repuest= code.split(" ");
-                Global.codigo_rep=repuest[0];
+                String code = adapter.getItem(i);
+                String[] repuest = code.split(" ");
+                Global.codigo_rep = repuest[0];
 
-                System.out.println(" Codigo del repuesto seleccionado;"+Global.codigo_rep);
+                System.out.println(" Codigo del repuesto seleccionado;" + Global.codigo_rep);
                 InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
                 in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
             }
@@ -143,11 +142,11 @@ public class Registro_diagnostico extends Fragment {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
 
-                if(i == EditorInfo.IME_ACTION_DONE){
+                if (i == EditorInfo.IME_ACTION_DONE) {
 
-                    String code=adapter.getItem(i);
-                    String[] repuest= code.split(" ");
-                    Global.codigo_rep=repuest[0];
+                    String code = adapter.getItem(i);
+                    String[] repuest = code.split(" ");
+                    Global.codigo_rep = repuest[0];
                     InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
                     in.hideSoftInputFromWindow(textView.getApplicationWindowToken(), 0);
                     return true;
@@ -161,10 +160,10 @@ public class Registro_diagnostico extends Fragment {
 
     public void agregarRepuesto() {
 
-        String cant= cantidad_req.getText().toString();
+        String cant = cantidad_req.getText().toString();
 
 
-        if(Global.REPUESTOS.size()==0){
+        if (Global.REPUESTOS.size() == 0) {
 
             observ.setText("No hay repuestos para el modelo de terminal seleccionado, seleccione otre intentelo de nuevo");
             agregar.setEnabled(false);
@@ -172,23 +171,23 @@ public class Registro_diagnostico extends Fragment {
             return;
         }
 
-        if ( Global.codigo_rep.isEmpty()||cant.isEmpty()) {
+        if (Global.codigo_rep.isEmpty() || cant.isEmpty()) {
             Toast.makeText(objeto, "Faltan datos para agregar el repuesto", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        int cant_solicitada= Integer.parseInt(cant);
+        int cant_solicitada = Integer.parseInt(cant);
 
-        if(cant_solicitada<=0){
+        if (cant_solicitada <= 0) {
 
             Toast.makeText(objeto, "Debe solicitar como minimo 1 repuesto", Toast.LENGTH_SHORT).show();
 
         }
 
-        for (int i =0;i< Global.REPUESTOS.size();i++) {
+        for (int i = 0; i < Global.REPUESTOS.size(); i++) {
 
-            if(Global.REPUESTOS.get(i).getSpar_code().equals(Global.codigo_rep)){
-                if(Global.REPUESTOS.get(i).getSpar_quantity()<cant_solicitada){
+            if (Global.REPUESTOS.get(i).getSpar_code().equals(Global.codigo_rep)) {
+                if (Global.REPUESTOS.get(i).getSpar_quantity() < cant_solicitada) {
                     Toast.makeText(objeto, "El repuesto seleccionado no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -231,12 +230,11 @@ public class Registro_diagnostico extends Fragment {
     /***********************Metodo utilizado para Registrar el Diagnostico de una terminal*********************/
 
 
+    public void registrarDiagnostico() {
 
-    public void registrarDiagnostico(){
-
-        String descripicionObserv= observ.getText().toString();
-        Observacion obser= new Observacion(Global.serial_ter, descripicionObserv,"","","",Global.serial_ter);
-        Global.obs= obser;
+        String descripicionObserv = observ.getText().toString();
+        Observacion obser = new Observacion(Global.serial_ter, descripicionObserv, "", "", "", Global.serial_ter);
+        Global.obs = obser;
 
         if(rv.getAdapter()==null){
 
@@ -287,7 +285,6 @@ public class Registro_diagnostico extends Fragment {
             Log.d("RESPUESTA", jsonObject.toString());
 
 
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -328,7 +325,7 @@ public class Registro_diagnostico extends Fragment {
 
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
-                                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
+                                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                                                 dialog.dismiss();
                                             }
                                         });
@@ -376,6 +373,7 @@ public class Registro_diagnostico extends Fragment {
      **/
 
     private static Repuesto r;
+
     public void consumirServicioRepuestos() {
         r = null;
         Global.REPUESTOS = null;
@@ -386,7 +384,7 @@ public class Registro_diagnostico extends Fragment {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("user", Global.CODE);
-            jsonObject.put("model",Global.modelo);
+            jsonObject.put("model", Global.modelo);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -417,7 +415,7 @@ public class Registro_diagnostico extends Fragment {
                                 Global.mensaje = "No existen repuestos disponibles para el modelo de serial seleccionado";
                                 return;
                             }
-                            String rep= null;
+                            String rep = null;
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 rep = jsonArray.getString(i);
@@ -458,10 +456,9 @@ public class Registro_diagnostico extends Fragment {
     }
 
 
-
     public JSONArray getRepuestos() throws JSONException {
 
-        JSONArray listas= new JSONArray();
+        JSONArray listas = new JSONArray();
 
         for(int i= 0;i<Global.REPUESTOS_DIAGONOSTICO.size();i++) {
             JSONObject ob = Global.REPUESTOS_DIAGONOSTICO.get(i).getObj();

@@ -48,7 +48,7 @@ public class ConsultaTerminalesSerial extends Fragment {
         btn_ser_rango_fechas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesFechas()).commit();
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesFechas()).addToBackStack(null).commit();
             }
         });
         btn_buscar_terminales_serial.setOnClickListener(new View.OnClickListener() {
