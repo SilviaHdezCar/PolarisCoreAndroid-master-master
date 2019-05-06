@@ -1,20 +1,18 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -23,8 +21,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.wposs_user.polariscoreandroid.Actividades.Activity_login;
-import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuesto;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
@@ -34,13 +37,17 @@ import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
-import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.Map;
 
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
@@ -57,6 +64,7 @@ public class Registro_diagnostico extends Fragment {
     private EditText observ;
     private Button registroDiag;
     android.support.v4.app.FragmentManager fragmentManager;
+    private RequestQueue queue;
 
 
 
@@ -71,8 +79,9 @@ public class Registro_diagnostico extends Fragment {
         agregar= (Button) v.findViewById(R.id.bton_agregarRepuesto);
         observ = (EditText) v.findViewById(R.id.txt_observaciones);
         registroDiag=(Button)v.findViewById(R.id.btn_registroDioagnostico);
-         this.listarRepuestos();
-          registroDiag.setOnClickListener(new View.OnClickListener() {
+        queue = Volley.newRequestQueue(objeto);
+        this.consumirServicioRepuestos();
+        registroDiag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 registrarDiagnostico();
@@ -80,7 +89,7 @@ public class Registro_diagnostico extends Fragment {
             }
         });
 
-       agregar.setOnClickListener(new View.OnClickListener() {
+        agregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 agregarRepuesto();
@@ -91,229 +100,6 @@ public class Registro_diagnostico extends Fragment {
         return v;
     }
 
-
-    public void listarRepuestos() {
-        Global.WEB_SERVICE = "/PolarisCore/Terminals/spares ";
-        new TaskListarRepuestos().execute();
-    }
-
-
-    /*************************************************************************************
-     * CLASE QUE CONSUME EL SERVICIO PARA LISTAR LOS REPUESTOS ASOCIADOS A UNA TERMINAL
-     *
-     ***************************************************** **/
-
-//******************consumir servicio listar Repuestos
-    class TaskListarRepuestos extends AsyncTask<String, Void, Boolean> {
-        ProgressDialog progressDialog;
-        int trans = 0;
-
-
-        /*******************************************************************************
-         Método       : onPreExecute
-         Description  : Se ejecuta antes de realizar el proceso, muestra una ventana con uin msj de espera
-         *******************************************************************************/
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(v.getContext(), R.style.MyAlertDialogStyle);
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Buscando repuestos asociados a la terminal...");
-            progressDialog.show();
-        }
-
-
-        /*******************************************************************************
-         Método       : doInBackground
-         Description  : Se ejecuta para realizar la transacción y verificar coenxión
-         *******************************************************************************/
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            Messages.packMsgListarRepuestos();
-
-            trans = TCP.transaction(Global.outputLen);
-
-            // Verifica la transacción
-            if (trans == Global.TRANSACTION_OK)
-                return true;
-            else
-                return false;
-        }
-
-        /*******************************************************************************
-         Método       : onPostExecute
-         Description  : Se ejecuta después de realizar el doInBackground
-         *******************************************************************************/
-        @Override
-        protected void onPostExecute(Boolean value) {
-
-            progressDialog.dismiss();
-
-            if (value) {
-                System.out.println("*********************************************************************SI SE PUDIERON LISTAR LOS REPUESTOS****************************");
-                if (Messages.unPackMsgListaRepuestos(v.getContext())) {
-                    Global.enSesion = true;
-                    Global.StatusExit = true;
-                    llenarAutocomplete();
-                    if(Global.REPUESTOS.size()==0){
-
-                       observ.setText("No hay repuestos disponibles para el modelo de terminal seleccionado");
-                       agregar.setEnabled(false);
-                        registroDiag.setEnabled(false);
-                    }
-                          } else {
-
-                    try {
-
-                        Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                  //    TCP.disconnect();
-
-            } else {
-                switch (Utils.validateErrorsConexion(false, trans, v.getContext())) {
-
-                    case 0:                                                                         // En caso de que continue = true y error data
-                        break;
-
-                    case 1:                                                                         // En caso de que continue = false y error data
-                        break;
-
-                    default:                                                                        // Errores de conexion
-                        Global.MsgError = Global.MSG_ERR_CONEXION;
-                        Global.mensaje = Global.MsgError;
-                        Global.StatusExit = false;
-                        // Muestra la ventana de error
-                        Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
-                        break;
-                }
-
-                Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
-            }
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR REPUESTOS");
-        }
-
-
-    }
-
-
-
-
-
-    public void registrarDiagnostico(View v) {
-        Global.WEB_SERVICE = "/PolarisCore/Terminals/saveDiagnosis ";
-        new TaskListarRepuestos().execute();
-
-
-    }
-
-
-
-
-    /*************************************************************************************
-     * CLASE QUE CONSUME EL SERVICIO PARA LISTAR LAS OBSERVACIONES
-     *
-     ***************************************************** **/
-
-//******************consumir servicio listar observaciones
-    class TaskRegistrarDiagnostico extends AsyncTask<String, Void, Boolean> {
-        ProgressDialog progressDialog;
-        int trans = 0;
-
-
-        /*******************************************************************************
-         Método       : onPreExecute
-         Description  : Se ejecuta antes de realizar el proceso, muestra una ventana con uin msj de espera
-         *******************************************************************************/
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(v.getContext(), R.style.MyAlertDialogStyle);
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Enviando registro...");
-            progressDialog.show();
-        }
-
-
-        /*******************************************************************************
-         Método       : doInBackground
-         Description  : Se ejecuta para realizar la transacción y verificar coenxión
-         *******************************************************************************/
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            Messages.packMsgRegistrarDiag();
-
-            trans = TCP.transaction(Global.outputLen);
-
-            // Verifica la transacción
-            if (trans == Global.TRANSACTION_OK)
-                return true;
-            else
-                return false;
-        }
-
-        /*******************************************************************************
-         Método       : onPostExecute
-         Description  : Se ejecuta después de realizar el doInBackground
-         *******************************************************************************/
-        @Override
-        protected void onPostExecute(Boolean value) {
-
-            progressDialog.dismiss();
-
-            if (value) {
-                System.out.println("*********************************************************************SI SE PUDO CONECTAR LISTAR OBSER****************************");
-                if (Messages.unPackMsgListarObservaciones(v.getContext())) {
-                    Global.enSesion = true;
-                    Global.StatusExit = true;
-
-
-                    //muestra el panel con la lista de observaciones, es decir que llena el recycler view de observaciones
-
-//OJOOOOOO LLENAR EL RECYCLER VIEW DE  OBSERVACIONES?
-                } else {
-                    // Si el login no es OK, manda mensaje de error
-                    try {
-                        // Utils.GoToNextActivity(Activity_login.this, DialogError.class, Global.StatusExit);
-                        Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                // Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
-                // Si es falso, cierra el socket y vuelve a crearlo, si es verdadero el socket continua abierto
-                //TCP.disconnect();
-
-            } else {
-                switch (Utils.validateErrorsConexion(false, trans, v.getContext())) {
-
-                    case 0:                                                                         // En caso de que continue = true y error data
-                        break;
-
-                    case 1:                                                                         // En caso de que continue = false y error data
-                        break;
-
-                    default:                                                                        // Errores de conexion
-                        Global.MsgError = Global.MSG_ERR_CONEXION;
-                        Global.mensaje = Global.MsgError;
-                        Global.StatusExit = false;
-                        // Muestra la ventana de error
-                        Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
-                        break;
-                }
-
-                Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
-            }
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR OBSERVA");
-            //TCP.disconnect();
-        }
-
-
-    }
 
     public String[] convertirRepuestos(){
 
@@ -331,11 +117,7 @@ public class Registro_diagnostico extends Fragment {
 
 
     public void llenarAutocomplete(){
-     /*   aut = (AutoCompleteTextView)v.findViewById(R.id.auto_repuesto);
-        String [] rep = this.convertirRepuestos();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(),R.layout.spinner_sytle,rep);
-        aut.setAdapter(adapter);
-*/
+
         final String [] rep = this.convertirRepuestos();
         aut_repuesto = (AutoCompleteTextView)v.findViewById(R.id.auto_repuesto);
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(), R.layout.spinner_sytle, rep);
@@ -343,11 +125,11 @@ public class Registro_diagnostico extends Fragment {
         aut_repuesto.setAdapter(adapter);
         aut_repuesto.setThreshold(1);
         aut_repuesto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-       @Override
-       public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-         String code=adapter.getItem(i);
-         String[] repuest= code.split(" ");
-           Global.codigo_rep=repuest[0];
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String code=adapter.getItem(i);
+                String[] repuest= code.split(" ");
+                Global.codigo_rep=repuest[0];
 
                 System.out.println(" Codigo del repuesto seleccionado;"+Global.codigo_rep);
                 InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
@@ -363,7 +145,7 @@ public class Registro_diagnostico extends Fragment {
                     String code=adapter.getItem(i);
                     String[] repuest= code.split(" ");
                     Global.codigo_rep=repuest[0];
-                      InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
+                    InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
                     in.hideSoftInputFromWindow(textView.getApplicationWindowToken(), 0);
                     return true;
                 }
@@ -371,10 +153,10 @@ public class Registro_diagnostico extends Fragment {
             }
         });
 
-   }
+    }
 
 
-     public void agregarRepuesto() {
+    public void agregarRepuesto() {
 
         String cant= cantidad_req.getText().toString();
 
@@ -392,7 +174,7 @@ public class Registro_diagnostico extends Fragment {
             return;
         }
 
-            int cant_solicitada= Integer.parseInt(cant);
+        int cant_solicitada= Integer.parseInt(cant);
 
         if(cant_solicitada<=0){
 
@@ -400,25 +182,25 @@ public class Registro_diagnostico extends Fragment {
 
         }
 
-                for (int i =0;i< Global.REPUESTOS.size();i++) {
+        for (int i =0;i< Global.REPUESTOS.size();i++) {
 
-                if(Global.REPUESTOS.get(i).getSpar_code().equals(Global.codigo_rep)){
-                        if(Global.REPUESTOS.get(i).getSpar_quantity()<cant_solicitada){
-                        Toast.makeText(objeto, "El repuesto seleccionado no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    Repuesto r = new Repuesto(Global.REPUESTOS.get(i).getSpar_code(),Global.REPUESTOS.get(i).getSpar_name(),cant_solicitada);
-                    Global.REPUESTOS_DIAGONOSTICO.add(r);
-                     Toast.makeText(objeto, "El repuesto fue agregado exitosamente", Toast.LENGTH_SHORT).show();
-                    this.llenarRv();
-                    cantidad_req.setText("");
-                    aut_repuesto.setText("");
+            if(Global.REPUESTOS.get(i).getSpar_code().equals(Global.codigo_rep)){
+                if(Global.REPUESTOS.get(i).getSpar_quantity()<cant_solicitada){
+                    Toast.makeText(objeto, "El repuesto seleccionado no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT).show();
                     return;
-
                 }
 
+                Repuesto r = new Repuesto(Global.REPUESTOS.get(i).getSpar_code(),Global.REPUESTOS.get(i).getSpar_name(),cant_solicitada);
+                Global.REPUESTOS_DIAGONOSTICO.add(r);
+                Toast.makeText(objeto, "El repuesto fue agregado exitosamente", Toast.LENGTH_SHORT).show();
+                this.llenarRv();
+                cantidad_req.setText("");
+                aut_repuesto.setText("");
+                return;
+
             }
+
+        }
 
     }
 
@@ -443,139 +225,262 @@ public class Registro_diagnostico extends Fragment {
     }
 
 
-
-
-    /*************************************************************************************
-     * CLASE QUE CONSUME EL SERVICIO PARA REGISTRAR EL DIAGNOSTICO SI LA TERMINAL ES REPARABLE
-     *
-     ***************************************************** **/
-
-    class TaskRegistrarDiagnosticos extends AsyncTask<String, Void, Boolean> {
-        ProgressDialog progressDialog;
-        int trans = 0;
-
-
-        /*******************************************************************************
-         Método       : onPreExecute
-         Description  : Se ejecuta antes de realizar el proceso, muestra una ventana con uin msj de espera
-         *******************************************************************************/
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(v.getContext(), R.style.MyAlertDialogStyle);
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Enviando los datos del diagnostico");
-            progressDialog.show();
-        }
-
-
-        /*******************************************************************************
-         Método       : doInBackground
-         Description  : Se ejecuta para realizar la transacción y verificar coenxión
-         *******************************************************************************/
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            Messages.packMsgRegistrarDiagnosticos();
-
-            trans = TCP.transaction(Global.outputLen);
-
-            // Verifica la transacción
-            if (trans == Global.TRANSACTION_OK)
-                return true;
-            else
-                return false;
-        }
-
-        /*******************************************************************************
-         Método       : onPostExecute
-         Description  : Se ejecuta después de realizar el doInBackground
-         *******************************************************************************/
-        @Override
-        protected void onPostExecute(Boolean value) {
-
-            progressDialog.dismiss();
-            if (value) {
-                System.out.println("*********************************************************************SI SE PUDO REGISTRAR EL DIAGNOSTICO****************************");
-                if (Messages.unPackMsgDiagnostico(v.getContext())) {
-                    Toast.makeText(v.getContext(), "El diagnostico se registro correctamente", Toast.LENGTH_LONG).show();
-                } else {
-
-                    try {
-
-                        Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                TCP.disconnect();
-
-            } else {
-                switch (Utils.validateErrorsConexion(false, trans, v.getContext())) {
-
-                    case 0:                                                                         // En caso de que continue = true y error data
-                        break;
-
-                    case 1:                                                                         // En caso de que continue = false y error data
-                        break;
-
-                    default:                                                                        // Errores de conexion
-                        Global.MsgError = Global.MSG_ERR_CONEXION;
-                        Global.mensaje = Global.MsgError;
-                        Global.StatusExit = false;
-                        // Muestra la ventana de error
-                        Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
-                        break;
-                }
-
-                Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_LONG).show();
-            }
-            System.out.println("******************TERMINÓ DE CONSUMIR EL SERVICIO DE LISTAR REPUESTOS");
-        }
-
-
-    }
-
-
-
-/***********************Metodo utilizado para Registrar el Diagnostico de una terminal*********************/
+    /***********************Metodo utilizado para Registrar el Diagnostico de una terminal*********************/
 
 
 
     public void registrarDiagnostico(){
 
 
-    Global.WEB_SERVICE = "/PolarisCore/Terminals/saveDiagnosis";
+        Global.WEB_SERVICE = "/PolarisCore/Terminals/saveDiagnosis";
 
 
 
-    String descripicionObserv= observ.getText().toString();
-    Observacion obs= new Observacion("as12542", descripicionObserv,"","","",Global.serial_ter);
+        String descripicionObserv= observ.getText().toString();
+        Observacion obser= new Observacion(Global.serial_ter, descripicionObserv,"","","",Global.serial_ter);
+        Global.obs= obser;
 
-    if(descripicionObserv.isEmpty()){
-        Toast.makeText(objeto, "Debe agregar al menos una observacion del estado de la terminal", Toast.LENGTH_SHORT).show();
-        return;
+        if(descripicionObserv.isEmpty()){
+            Toast.makeText(objeto, "Debe agregar al menos una observacion del estado de la terminal", Toast.LENGTH_SHORT).show();
+            return;
 
-    }
-    if(rv.getAdapter()==null){
+        }
+        if(rv.getAdapter()==null){
 
-        Toast.makeText(objeto, "Debe agregar al menos un repuesto", Toast.LENGTH_SHORT).show();
-      //  rv.removeAllViewsInLayout(); Para limpiar el reciler view
-        return;
+            Toast.makeText(objeto, "Debe agregar al menos un repuesto", Toast.LENGTH_SHORT).show();
+            //  rv.removeAllViewsInLayout(); Para limpiar el reciler view
+            return;
 
-    }
+        }
 
-      Global.observacion= obs.toString();
 
-    new TaskRegistrarDiagnosticos().execute();
 
-        Intent i = new Intent(v.getContext(), MainActivity.class); // inicio una nueva activiy
+
+        consumirServicioDiagnostico();
+
+       /* Intent i = new Intent(v.getContext(), MainActivity.class); // inicio una nueva activiy
         getFragmentManager().beginTransaction().remove(this).commit(); /// remuevo el fragment usado
-         startActivity(i);
-       }
+         startActivity(i);*/
+    }
+
+    /**
+     * Metodo utilizados para consumir el servicio  de listar terminales asociadas mediante una petición REST
+     * En el encabezado va el token-> Authenticator
+     * Se envía el codigo del usuario  Global.CODE
+     **/
+    public void consumirServicioDiagnostico() {
+
+        final Gson gson = new GsonBuilder().create();
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/savediagnosis";
+        System.out.println("enviando...........");
+        JSONObject jsonObject = new JSONObject();
+        JSONObject obj2= new JSONObject();
+        try {
+
+            JSONArray val=this.getValidaciones();
+            jsonObject.put("validaciones",val);
+            JSONArray tip=this.getTipificaciones();
+            jsonObject.put("tipificaciones", tip);
+            jsonObject.put("reparable",Global.reparable );
+            jsonObject.put("observacion",Global.obs.getObj());
+            jsonObject.put("falla",Global.fallaDetectada);
+            obj2.put("tesw_serial",Global.serial_ter);
+            JSONArray o=this.getRepuestos();
+            obj2.put("tesw_repuestos",o);
+            jsonObject.put("repuestos", obj2);
+
+
+            Log.d("RESPUESTA", jsonObject.toString());
 
 
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            System.out.println( "RESPUESTA DEL SERVICIO*************"+Global.STATUS_SERVICE);
+                            Toast.makeText(v.getContext(), "Estado del Sevicio"+Global.STATUS_SERVICE,Toast.LENGTH_SHORT);
+
+                            if (Global.STATUS_SERVICE.equals("ok")) {
+                                System.out.println( "si funciona, el servicio esta *************"+Global.STATUS_SERVICE);
+
+                                Toast.makeText(v.getContext(), "El diagnostico se registro correctamente",Toast.LENGTH_SHORT);
+
+                            }
+
+
+                            if(!Global.STATUS_SERVICE.equals("ok")){
+                                Toast.makeText(v.getContext(),"Ocurrio un error al enviar la informacion",Toast.LENGTH_SHORT);
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        )
+
+
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+
+    }
+
+
+    /**
+     * Metodo utilizados para consumir el servicio  de listar los respuestos asociados aun modelo de terminal
+     * En el encabezado va el token-> Authenticator
+     * Se envía el codigo del usuario  Global.CODE
+     **/
+
+    private static Repuesto r;
+    public void consumirServicioRepuestos() {
+        r = null;
+        Global.REPUESTOS = null;
+        Global.REPUESTOS = new ArrayList<Repuesto>();
+        final Gson gson = new GsonBuilder().create();
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/spares ";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user", Global.CODE);
+            jsonObject.put("model",Global.modelo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            System.out.println("status:  " + Global.STATUS_SERVICE);
+
+                            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                return;
+                            }
+
+
+                            response = new JSONObject(response.get("data").toString());
+
+
+                            JSONArray jsonArray = response.getJSONArray("repuestos");
+
+
+                            if (jsonArray.length() == 0) {
+                                Global.mensaje = "No existen repuestos disponibles para el modelo de serial seleccionado";
+                                return;
+                            }
+                            String rep= null;
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                rep = jsonArray.getString(i);
+
+                                r = gson.fromJson(rep, Repuesto.class);
+                                if (r != null) {
+                                }
+                                Global.REPUESTOS.add(r);
+                            }
+                            llenarAutocomplete();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+
+    }
+
+
+
+    public JSONArray getRepuestos() throws JSONException {
+
+        JSONArray listas= new JSONArray();
+
+        for(int i= 0;i<Global.REPUESTOS_DIAGONOSTICO.size();i++) {
+            JSONObject ob = Global.REPUESTOS_DIAGONOSTICO.get(i).getObj();
+            listas.put(ob);
+        }
+
+        return listas;
+    }
+
+    public JSONArray getValidaciones() throws JSONException {
+
+        JSONArray listas= new JSONArray();
+
+        for(int i= 0;i<Global.VALIDACIONES_DIAGNOSTICO.size();i++) {
+            JSONObject ob = Global.VALIDACIONES_DIAGNOSTICO.get(i).getObj();
+            listas.put(ob);
+        }
+
+        return listas;
+    }
+
+    public JSONArray getTipificaciones() throws JSONException {
+
+        JSONArray listas= new JSONArray();
+
+        for(int i= 0;i<Global.TIPIFICACIONES_DIAGNOSTICO.size();i++) {
+            JSONObject ob = Global.TIPIFICACIONES_DIAGNOSTICO.get(i).getObj();
+            listas.put(ob);
+        }
+
+        return listas;
+    }
 
 
 

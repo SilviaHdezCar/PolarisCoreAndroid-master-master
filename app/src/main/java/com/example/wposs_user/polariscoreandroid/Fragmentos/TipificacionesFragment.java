@@ -77,7 +77,7 @@ public class TipificacionesFragment extends Fragment {
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_tipificaciones);
 
         this.listTipificaciones = new ArrayList<Tipificacion>();
-        Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<String>();
+        Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<Tipificacion>();
 
 
 
@@ -343,13 +343,9 @@ public class TipificacionesFragment extends Fragment {
            int  cont=0;
             for (Tipificacion tipi:listTipificaciones){
                 if(tipi!=null){
-    //        "Tipificaciones":[{"tets_terminal_serial":"212","tets_terminal_type_validation":"sadasdasd","tets_status":"ok"}]
-                    //cadena = "{\"tets_terminal_serial\":\"<SERIAL>\",\"tets_terminal_type_validation\":\"<TIPO>\",\"tets_status\":\"ok\"}";
-                    //cadena = cadena.replace("<SERIAL>", tipi.getTetv_id());
-                    //cadena = cadena.replace("<TIPO>", tipi.getTetv_description());
-                    cadena= "{"+(char)34+ "tets_terminal_serial"+(char)34 +":"+(char)34+ Global.serial_ter +(char)34+","+(char)34+ "tets_terminal_type_validation"+(char)34 +":"+(char)34+ tipi.getTetv_description() +(char)34+","+(char)34+ "tets_status"+(char)34+":"+ (char)34+"ok"+(char)34+"}";
 
-                    Global.TIPIFICACIONES_DIAGNOSTICO.add(cadena);
+                    Tipificacion tip= new Tipificacion(Global.serial_ter,tipi.getTetv_description(),"ok");
+                    Global.TIPIFICACIONES_DIAGNOSTICO.add(tip);
                 }
                 cont++;
             }

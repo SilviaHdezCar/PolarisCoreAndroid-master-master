@@ -1,5 +1,8 @@
 package com.example.wposs_user.polariscoreandroid.java;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Validacion {
     private String teva_id;
     private String teva_description;
@@ -65,6 +68,28 @@ public class Validacion {
 
     public void setNo_aplica(boolean no_aplica) {
         this.no_aplica = no_aplica;
+    }
+
+    public Validacion(String teva_id, String teva_description, String estado) {
+        this.teva_id = teva_id;
+        this.teva_description = teva_description;
+        this.estado = estado;
+    }
+
+
+    public JSONObject getObj() {
+
+
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("tevs_terminal_serial", teva_id);
+            obj.put("tevs_terminal_validation",teva_description);
+            obj.put("tevs_status",getEstado());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
     }
 
     @Override

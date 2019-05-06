@@ -2,6 +2,9 @@ package com.example.wposs_user.polariscoreandroid.java;
 
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Observacion {
 
     //colocarle los mismos atributos que estan en la BD
@@ -75,5 +78,21 @@ public class Observacion {
     public String toString() {
         return (char)34+"observacion"+(char)34+":"+'{'+(char)34+"teob_description"+(char)34 + ":"+ (char)34+ teob_description + (char)34+"," + (char)34+"teob_serial_terminal" +(char)34+":"+(char)34+ Global.serial_ter+(char)34+","+ (char)34+"teob_photo"+(char)34+":" +(char)34 +" "+ (char)34+ '}';
 
+    }
+
+    public JSONObject getObj() {
+
+
+        JSONObject obj = new JSONObject();
+        try {
+
+            obj.put(" teob_description",teob_description);
+            obj.put("teob_serial_terminal",teob_id);
+            obj.put("teob_photo","");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
     }
 }

@@ -239,7 +239,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     //Armo el arraylist     que voy a enviar al consumir el servicio de registrar diagnostico
     public boolean llenarValidacionesDiagnostico() {
         boolean retorno = false;
-        Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<String>();
+        Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<Validacion>();
         String cadena = "";
         for (Validacion val : Global.VALIDACIONES) {
             if (val != null) {
@@ -257,14 +257,8 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                     alertDialog.show();
                     return false;
                 } else {
-//        "validaciones": [{"tevs_terminal_serial":"212","tevs_terminal_validation":"sadasdasd","tevs_status":"ok"},}
-//        {"tevs_terminal_serial":"212","tevs_terminal_validation":"sadasdasd","tevs_status":"falla"}],
-                    // cadena = "{\"tevs_terminal_serial\":\"<SERIAL>\",\"tevs_terminal_validation\":\"<DESCRIPCION>\",\"tevs_status\":\"<ESTADO>\"}";
-                    //cadena = cadena.replace("<SERIAL>", val.getTeva_id());
-                    //cadena = cadena.replace("<DESCRIPCION>", val.getTeva_description());
-                    //cadena = cadena.replace("<ESTADO>", val.getEstado());
-                    cadena= "{"+(char)34+ "tevs_terminal_serial"+(char)34 +":"+(char)34+ Global.serial_ter +(char)34+","+(char)34+ "tevs_terminal_validation"+(char)34 +":"+(char)34+ val.getTeva_description() +(char)34+","+(char)34+ "tevs_status"+(char)34+":"+ (char)34+val.getEstado()+(char)34+"}";
-                    Global.VALIDACIONES_DIAGNOSTICO.add(cadena);
+                    Validacion v = new Validacion(Global.serial_ter,val.getTeva_description(),val.getEstado());
+                    Global.VALIDACIONES_DIAGNOSTICO.add(v);
                     retorno = true;
                 }
 

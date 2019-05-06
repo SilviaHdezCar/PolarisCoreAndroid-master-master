@@ -79,7 +79,7 @@
             android:layout_marginRight="20dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:background="">
+            android:background="@drawable/redondo_gris">
 
             <LinearLayout
                 android:layout_width="match_parent"
