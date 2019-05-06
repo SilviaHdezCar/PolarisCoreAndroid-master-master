@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity
     private Vector<Etapas> etapas;
 
 
-
     private TextView serial;
 
     private Spinner spinner_estado_terminal;
@@ -102,10 +101,10 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Global.REPUESTOS=new ArrayList<>();
-        Global.TIPIFICACIONES_DIAGNOSTICO= new ArrayList<>();
+        Global.REPUESTOS = new ArrayList<>();
+        Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<>();
         Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<>();
-        Global.REPUESTOS_DIAGONOSTICO= new ArrayList<>();
+        Global.REPUESTOS_DIAGONOSTICO = new ArrayList<>();
 
         fragmentManager = getSupportFragmentManager();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -125,11 +124,11 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View hView = navigationView.getHeaderView(0);
-        usuario_drawer=(TextView)hView.findViewById(R.id.usuario_drawer);
-        correo_drawer=(TextView)hView.findViewById(R.id.correo_drawer);
-        imageView_perfil=(ImageView)hView.findViewById(R.id.imageView_perfil);
+        usuario_drawer = (TextView) hView.findViewById(R.id.usuario_drawer);
+        correo_drawer = (TextView) hView.findViewById(R.id.correo_drawer);
+        imageView_perfil = (ImageView) hView.findViewById(R.id.imageView_perfil);
 
-        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/"+Global.ID+".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView_perfil);
+        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/" + Global.ID + ".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView_perfil);
 
 
         usuario_drawer.setText(Global.NOMBRE);
@@ -143,7 +142,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-     fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
 
     }
 
@@ -172,7 +171,7 @@ public class MainActivity extends AppCompatActivity
         Intent i;
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (item.getItemId()) {
-            case R.id.btn_home:
+            case R.id.btn_alert:
                 fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();//Buscar
                 return true;
         }
@@ -187,20 +186,18 @@ public class MainActivity extends AppCompatActivity
         // AL SELECCIONAR ALGUUNA OPCION DEL MENU
         // FragmentManager fragmentManager = getSupportFragmentManager();
         int id = item.getItemId();
-       /* if (id == R.id.imageView_perfil) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
-            // cargarDatosPerfil();
-        }else */
-        if (id == R.id.nav_perfil) {
+        if (id == R.id.nav_home) {
+            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
+        } else if (id == R.id.nav_perfil) {
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
             // cargarDatosPerfil();
         } else if (id == R.id.nav_stock) {
-           fragmentManager.beginTransaction().replace(R.id.contenedor_main, new StockFragment()).addToBackStack(null).commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new StockFragment()).addToBackStack(null).commit();
         } else if (id == R.id.nav_consultar_terminales_reparadas) {
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesSerial()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_productividad) {
-          fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ProductividadFragment()).addToBackStack(null).commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ProductividadFragment()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_cerrar_sesion) {
             Global.WEB_SERVICE = "/PolarisCore/Users/close";
@@ -215,12 +212,11 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-    public void inflarEtapas(){
+    public void inflarEtapas() {
         objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
     }
 
-    public void inflarValidaciones(){
+    public void inflarValidaciones() {
         System.out.println("inflar val");
         objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
     }

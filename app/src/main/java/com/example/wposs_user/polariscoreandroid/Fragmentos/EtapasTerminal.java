@@ -49,7 +49,6 @@ public class EtapasTerminal extends Fragment {
     private View v;
     private static Observacion o;
     private RequestQueue queue;
-    private Button btn_siguiente_etapas;
 
     public EtapasTerminal() {
         queue = Volley.newRequestQueue(objeto);
@@ -61,23 +60,14 @@ public class EtapasTerminal extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_etapas_terminal, container, false);
         observacionesEtapas = (TextView) view.findViewById(R.id.observaciones_etapas);
-        btn_siguiente_etapas = (Button) view.findViewById(R.id.btn_siguiente_etapas);
-
         objeto.setTitle("ETAPAS");
 
 
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_etapas);
 
 
-
-        btn_siguiente_etapas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
-            }
-        });
-        consumirServicioEtapas();
-
+        //consumirServicioEtapas();
+        llenarRVEtapas(Global.OBSERVACIONES);
         return view;
 
     }
@@ -88,11 +78,11 @@ public class EtapasTerminal extends Fragment {
     }
 
 
-    /**
+    /* *//**
      * Metodo utilizados para consumir el servicio  para listar las observaciones de acuerdo a una terminal mediante una petición REST
      * En el encabezado va el token-> Authenticator
      * Se envía el serial de la terminal  Global.serial_ter
-     **/
+     **//*
     public void consumirServicioEtapas() {
         o = null;
         Global.OBSERVACIONES = null;
@@ -130,10 +120,14 @@ public class EtapasTerminal extends Fragment {
                             if (jsonArray.length() == 0) {
                                 Global.mensaje = "No tiene obervaciones";
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+
+                               *//* objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas());
+                                objeto.getSupportFragmentManager().beginTransaction().isAddToBackStackAllowed();
+                                objeto.getSupportFragmentManager().beginTransaction().commit();*//*
                                 return;
                             }
 
-                            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
+                            //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
                             String obser = null;
 
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -173,7 +167,7 @@ public class EtapasTerminal extends Fragment {
         queue.add(jsArrayRequest);
 
     }
-
+*/
 
     /**
      * Metodo utilizado para llenar el recycler view de las observaciones del terminal seleccionado
@@ -199,13 +193,13 @@ public class EtapasTerminal extends Fragment {
             @Override
             public void onClick(List<Observacion> observaciones, int position) {
                 //Validar fotos: SI--> Pasa al fragment que contiene las fotos. NO-->infla el fragment de validaciones
-                String foto1=observaciones.get(position).getTeob_photo();
-                String foto2=observaciones.get(position).getTeob_photo();//validar con la foto dos
-                if(!foto1.isEmpty()||!foto2.isEmpty()){
-                    Global.foto1_etapa_ter=foto1;
-                    Global.foto2_etapa_ter=foto2;
+                String foto1 = observaciones.get(position).getTeob_photo();
+                String foto2 = observaciones.get(position).getTeob_photo();//validar con la foto dos
+                if (!foto1.isEmpty() || !foto2.isEmpty()) {
+                    Global.foto1_etapa_ter = foto1;
+                    Global.foto2_etapa_ter = foto2;
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new FotoObservacionFragment()).addToBackStack(null).commit();
-                }else{
+                } else {
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
                 }
             }

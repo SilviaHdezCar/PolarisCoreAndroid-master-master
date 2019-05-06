@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
     <item
-        android:id="@+id/btn_home"
-        android:icon="@drawable/ic_home"
-        android:title="Buscar"
+        android:id="@+id/btn_alert"
+        android:icon="@mipmap/ic_alert"
+        android:title="Notificación"
         app:showAsAction="always" />
 </menu>
