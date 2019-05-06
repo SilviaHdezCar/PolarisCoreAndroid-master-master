@@ -60,6 +60,7 @@ import com.example.wposs_user.polariscoreandroid.java.Etapas;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 
@@ -101,15 +102,14 @@ public class MainActivity extends AppCompatActivity
 
         fragmentManager = getSupportFragmentManager();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        usuario_drawer=(TextView)findViewById(R.id.usuario_drawer);
-        correo_drawer=(TextView)findViewById(R.id.correo_drawer);
-        imageView_perfil=(ImageView) findViewById(R.id.imageView_perfil);
+
+
         setTitle(null);
         setSupportActionBar(toolbar);
 
         objeto = this;
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -117,34 +117,25 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View hView = navigationView.getHeaderView(0);
+        usuario_drawer=(TextView)hView.findViewById(R.id.usuario_drawer);
+        correo_drawer=(TextView)hView.findViewById(R.id.correo_drawer);
+        imageView_perfil=(ImageView)hView.findViewById(R.id.imageView_perfil);
 
-        /*usuario_drawer.setText(Global.NOMBRE);
+        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/:"+Global.ID+".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView_perfil);
+
+
+        usuario_drawer.setText(Global.NOMBRE);
         correo_drawer.setText(Global.EMAIL);
 
         imageView_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).commit();
+
             }
-        });*/
+        });
 
-        //CARGAR LA FOTO DE PERFIL DEL DRAWER
-
-
-      /*  //extraemos el drawable en un bitmap
-        Drawable originalDrawable = getResources().getDrawable(R.drawable.foto_perfil);
-        Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
-
-        //creamos el drawable redondeado
-        RoundedBitmapDrawable roundedDrawable =
-                RoundedBitmapDrawableFactory.create(getResources(), originalBitmap);
-
-        //asignamos el CornerRadius
-        roundedDrawable.setCornerRadius(originalBitmap.getHeight());
-
-        ImageView imageView = (ImageView) findViewById(R.id.imageView_perfil);
-
-        imageView.setImageDrawable(roundedDrawable.getCurrent());*/
      fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();
 
     }
@@ -174,8 +165,8 @@ public class MainActivity extends AppCompatActivity
         Intent i;
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (item.getItemId()) {
-            case R.id.btn_search:
-                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesSerial()).commit();//Buscar
+            case R.id.btn_home:
+                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).commit();//Buscar
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -185,6 +176,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         // AL SELECCIONAR ALGUUNA OPCION DEL MENU
         // FragmentManager fragmentManager = getSupportFragmentManager();
         int id = item.getItemId();

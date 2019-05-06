@@ -234,11 +234,6 @@ public class Registro_diagnostico extends Fragment {
 
     public void registrarDiagnostico(){
 
-
-        Global.WEB_SERVICE = "/PolarisCore/Terminals/saveDiagnosis";
-
-
-
         String descripicionObserv= observ.getText().toString();
         Observacion obser= new Observacion(Global.serial_ter, descripicionObserv,"","","",Global.serial_ter);
         Global.obs= obser;

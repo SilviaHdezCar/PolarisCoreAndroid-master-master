@@ -6,7 +6,6 @@
     android:layout_marginTop="40dp"
     android:background="@color/verde_osc_nav_bar"
     android:orientation="vertical"
-
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
 
