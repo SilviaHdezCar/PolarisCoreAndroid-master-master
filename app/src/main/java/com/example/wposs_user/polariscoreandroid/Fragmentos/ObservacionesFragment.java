@@ -116,7 +116,7 @@ public class ObservacionesFragment extends Fragment {
  * Este método se utiliza para cargar subir las fotos
  * **/
     public void enviarFoto() {
-        String url = "";
+        String url = "http://100.25.214.91:3000/PolarisCore/upload/uploadImgObservations/";
         JsonObjectRequest jsArrayRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -147,16 +147,18 @@ public class ObservacionesFragment extends Fragment {
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                String nom_foto1 = Global.serial_ter + "_" + Global.ID + "_1.jpg";
-                String nom_foto2 = Global.serial_ter + "_" + Global.ID + "_2.jpg";
+               // String nom_foto1 = Global.serial_ter + "_" + Global.ID + "_1.jpg";
+                //String nom_foto2 = Global.serial_ter + "_" + Global.ID + "_2.jpg";
 
                 String img1 = convertirImagenString(bitmap_foto1);
                 String img2 = convertirImagenString(bitmap_foto2);
                 Map<String, String> parametros = new HashMap<>();
-                parametros.put("nom_foto1", nom_foto1);
-                parametros.put("img1", img1);
-                parametros.put("nom_foto2", nom_foto2);
-                parametros.put("img2", img2);
+              //  parametros.put("nom_foto1", nom_foto1);
+                parametros.put("identificacion", Global.ID);
+                parametros.put("serial", Global.serial_ter);
+                parametros.put("firstPhoto", img1);
+              //  parametros.put("nom_foto2", nom_foto2);
+                parametros.put("secondPhoto", img2);
                 return parametros;
             }
         };

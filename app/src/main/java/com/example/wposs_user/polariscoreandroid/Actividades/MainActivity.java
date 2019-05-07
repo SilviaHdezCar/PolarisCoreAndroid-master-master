@@ -37,6 +37,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
@@ -64,8 +71,11 @@ import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -96,11 +106,12 @@ public class MainActivity extends AppCompatActivity
 
     private int contadorFragmentos;
 
-
+    private RequestQueue queue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        objeto = this;
         Global.REPUESTOS = new ArrayList<>();
         Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<>();
         Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<>();
@@ -113,8 +124,7 @@ public class MainActivity extends AppCompatActivity
         setTitle(null);
         setSupportActionBar(toolbar);
 
-        objeto = this;
-
+        queue = Volley.newRequestQueue(objeto);
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -200,10 +210,7 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ProductividadFragment()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_cerrar_sesion) {
-            Global.WEB_SERVICE = "/PolarisCore/Users/close";
-
-            new TaskCerrarSesion().execute();
-
+            consumirSercivioCerrarSesion();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -223,98 +230,67 @@ public class MainActivity extends AppCompatActivity
 
 
     /*************************************************************************************
-     * CLASE QUE CONSUME EL SERVICIO PARA LISTAR LAS VALIDACIONES
+     *METODO QUE CONSUME EL SERVICIO PARA CERRAR SESIÓN
      *
      ***************************************************** **/
 
-//******************consumir servicio cerrar sesion
-    class TaskCerrarSesion extends AsyncTask<String, Void, Boolean> {
-
-        ProgressDialog progressDialog;
-        int trans = 0;
-
-
-        /*******************************************************************************
-         Método       : onPreExecute
-         Description  : Se ejecuta antes de realizar el proceso, muestra una ventana con uin msj de espera
-         *******************************************************************************/
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(MainActivity.this, R.style.MyAlertDialogStyle);
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Finalizando sesión...");
-            progressDialog.show();
+    public void consumirSercivioCerrarSesion(){
+        String url = "http://100.25.214.91:3000/PolarisCore/Users/close";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user", Global.ID);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
 
+                            if (response.get("status").toString().equalsIgnoreCase("fail")) {
+                                try {
+                                    Global.mensaje = response.get("message").toString();
+                                    Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            Intent i = new Intent(objeto, Activity_login.class);
+                            startActivity(i);
+                            finish();
+                            return;
 
-        /*******************************************************************************
-         Método       : doInBackground
-         Description  : Se ejecuta para realizar la transacción y verificar coenxión
-         *******************************************************************************/
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            Messages.packMsgCerrarSesion();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
 
-            trans = TCP.transaction(Global.outputLen);
-            // Verifica la transacción
-            if (trans == Global.TRANSACTION_OK) {
-                return true;
-            } else
-                return false;
-        }
-
-        /*******************************************************************************
-         Método       : onPostExecute
-         Description  : Se ejecuta después de realizar el doInBackground
-         *******************************************************************************/
-        @Override
-        protected void onPostExecute(Boolean value) {
-
-            progressDialog.dismiss();
-
-            if (value) {
-                if (Messages.unPackMsgCerrarSesion(objeto)) {
-                    Global.enSesion = true;
-                    Global.StatusExit = true;
-                    Intent i = new Intent(objeto, Activity_login.class);
-                    startActivity(i);
-                    finish();
-                } else {
-                    // Si el login no es OK, manda mensaje de error
-                    try {
-                        // Utils.GoToNextActivity(Activity_login.this, DialogError.class, Global.StatusExit);
-                        Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
-            } else {
-                switch (Utils.validateErrorsConexion(false, trans, MainActivity.this)) {
-
-                    case 0:                                                                         // En caso de que continue = true y error data
-                        break;
-
-                    case 1:                                                                         // En caso de que continue = false y error data
-                        break;
-
-                    default:                                                                        // Errores de conexion
-                        Global.MsgError = Global.MSG_ERR_CONEXION;
-                        Global.mensaje = Global.MsgError;
-                        Global.StatusExit = false;
-                        Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
-                        break;
-                }
-
-                Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_LONG).show();
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+                return params;
             }
-            // TCP.disconnect();
-        }
+        };
 
-
+        queue.add(jsArrayRequest);
     }
+
 
     public RecyclerView getRecyclerView() {
         return recyclerView;
@@ -348,5 +324,11 @@ public class MainActivity extends AppCompatActivity
         this.f_fin = f_fin;
     }
 
+    public int getContadorFragmentos() {
+        return contadorFragmentos;
+    }
 
+    public void setContadorFragmentos(int contadorFragmentos) {
+        this.contadorFragmentos = contadorFragmentos;
+    }
 }

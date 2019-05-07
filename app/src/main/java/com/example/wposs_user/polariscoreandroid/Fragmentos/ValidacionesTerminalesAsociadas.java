@@ -60,6 +60,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     private LinearLayout layout_encabezado_vali;
     private RequestQueue queue;
     private static Validacion v;
+    private ArrayList validaciones;//utilizado para llenar el rv de validacones
 
 
     @Override
@@ -69,6 +70,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         System.out.println("infló panel");
         objeto.setTitle("VALIDACIONES");
 
+        validaciones = new ArrayList<>();
         marca_ter_validaciones = (TextView) v.findViewById(R.id.marca_ter_validaciones);
         modelo_ter_validaciones = (TextView) v.findViewById(R.id.modelo_ter_validaciones);
         serial_ter_validaciones = (TextView) v.findViewById(R.id.serial_ter_validaciones);
@@ -80,13 +82,15 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         layout_encabezado_vali = (LinearLayout) v.findViewById(R.id.layout_encabezado_vali);
         siguiente = (Button) v.findViewById(R.id.btn_siguiente_validaciones);
         queue = Volley.newRequestQueue(objeto);
-        objeto.setTitle("Validaciones");
+        objeto.setTitle("VALIDACIONES");
 
         //voy a recorrer el arreglo de terminales para que me liste la informacion de la terminal selecciona
+        Global.VALIDACIONES = null;
+        Global.VALIDACIONES = new ArrayList<Validacion>();
 
         for (Terminal ter : Global.TERMINALES_ASOCIADAS) {
             if (ter.getTerm_serial().equalsIgnoreCase(Global.serial_ter)) {
-                marca_ter_validaciones.setText(ter.getBrand());
+                marca_ter_validaciones.setText(ter.getTerm_brand());
                 modelo_ter_validaciones.setText(ter.getTerm_model());
                 serial_ter_validaciones.setText(ter.getTerm_serial());
                 tecno_ter_validaciones.setText(ter.getTerm_technology());
@@ -98,7 +102,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                     garantia_ter_validaciones.setText("Si garantía");
                 }
 
-                fechal_ans_ter_validaciones.setText(ter.getTerm_date_finish());
+                fechal_ans_ter_validaciones.setText(ter.getTerm_date_reception()+" - "+ter.getTerm_date_ans());
 
             }
         }
@@ -113,7 +117,6 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         });
 
         consumirServicio();
-
 
         return v;
 
@@ -201,6 +204,10 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     }
 
 
+    public void llenarListView(){
+
+    }
+
     //este metodo llena el recycler view con las terminales obtenidas al consumir el servicio
 
     public void llenarRVValidaciones(List<Validacion> validacionesRecibidas) {
@@ -209,19 +216,21 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
 
         LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
         rv.setLayoutManager(llm);
-
-        final ArrayList validaciones = new ArrayList<>();
+        validaciones.clear();
+        //final ArrayList validaciones = new ArrayList<>();
 
         for (Validacion val : validacionesRecibidas) {
             if (val != null) {
                 validaciones.add(val);
             }
 
-
+          //  System.out.println("LLENANDO RV.....");
             final AdapterValidaciones adapter = new AdapterValidaciones(validaciones, new AdapterValidaciones.interfaceClick() {
                 @Override
                 public void onClick(List<Validacion> listValidaciones, int position, int pos_radio) {
-                    System.out.println("al dar clic---- position " + position + "pos_radio " + pos_radio);
+              //      System.out.println("al dar clic---- position " + position + "pos_radio " + pos_radio);
+                //    System.out.println("Fragment validaciones"+listValidaciones.get(position).getTeva_description()+"-"+listValidaciones.get(position).getEstado());
+
 
                 }
 
@@ -231,7 +240,8 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
             rv.setAdapter(adapter);
 
         }
-        System.out.println("Tamaño del arreglo " + validaciones.size());
+
+       // System.out.println("Tamaño del arreglo " + validaciones.size());
     }
 
 

@@ -65,18 +65,16 @@ public class EtapasTerminal extends Fragment {
 
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_etapas);
 
-
-        //consumirServicioEtapas();
         llenarRVEtapas(Global.OBSERVACIONES);
         return view;
 
     }
 
-    //boton atras de la calse etapas
-    public void volverEtapas(View v) {
-        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
-    }
 
+    public void inflarFragmentValidaciones() {
+        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+
+    }
 
     /* *//**
      * Metodo utilizados para consumir el servicio  para listar las observaciones de acuerdo a una terminal mediante una petición REST
@@ -175,6 +173,7 @@ public class EtapasTerminal extends Fragment {
      * @Params Recibe la lista  observaciones o etapas que van a ser mostradas
      **/
     public void llenarRVEtapas(List<Observacion> observaciones) {
+
         rv.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
@@ -207,5 +206,11 @@ public class EtapasTerminal extends Fragment {
 
         rv.setAdapter(adapter);
 
+        if (Global.OBSERVACIONES==null||Global.OBSERVACIONES.size()==0){
+            inflarFragmentValidaciones();
+
+        }
+
     }
+
 }
