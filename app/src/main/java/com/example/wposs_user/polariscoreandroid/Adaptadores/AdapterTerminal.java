@@ -35,7 +35,7 @@ public class AdapterTerminal extends RecyclerView.Adapter<AdapterTerminal.ViewHo
     public void onBindViewHolder(ViewHolderTerminal holder, int i) {
         Terminal ter = this.listTerminal.elementAt(i);
         holder.serial.setText( ter.getTerm_serial());
-        holder.marca.setText( ter.getBrand());
+        holder.marca.setText( ter.getTerm_brand());
         holder.modelo.setText( ter.getTerm_model());
         holder.tecnologia.setText( ter.getTerm_technology());
         holder.estado.setText(ter.getTerm_status());

@@ -179,21 +179,24 @@ public class InicialFragment extends Fragment {
                             if (jsonArray.length() == 0) {
                                 Global.mensaje = "No tiene obervaciones";
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+                                return;
 
-                            }
+                            }else{
+                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
+                                String obser = null;
 
-                            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
-                            String obser = null;
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    obser = jsonArray.getString(i);
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                obser = jsonArray.getString(i);
-
-                                o = gson.fromJson(obser, Observacion.class);
-                                if (o != null) {
+                                    o = gson.fromJson(obser, Observacion.class);
+                                    if (o != null) {
+                                    }
+                                    Global.OBSERVACIONES.add(o);
                                 }
-                                Global.OBSERVACIONES.add(o);
+                                // llenarRVEtapas(Global.OBSERVACIONES);
                             }
-                           // llenarRVEtapas(Global.OBSERVACIONES);
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

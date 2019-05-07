@@ -8,27 +8,130 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/fondo_actualizar_blanco"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:background="@drawable/fondo_actualizar_blanco">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:gravity="center_horizontal"
+            android:orientation="vertical"
             android:padding="5dp">
 
-        <TextView
-            style="@style/letra_contenido"
-            android:layout_width="280dp"
+            <TextView
+                style="@style/letra_contenido"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="60dp"
+                android:gravity="center"
+                android:text="Recuerda que la clave debe contener mayúsculas, minúsculas y mínimo 4 números." />
+
+            <LinearLayout
+                android:id="@+id/layout_clave_actual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/redondo_fondo_verde_borde_verde"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:src="@mipmap/key" />
+
+                    <EditText
+                        android:id="@+id/perfil_clave_actual"
+                        style="@style/letra_contenido"
+                        android:layout_width="250dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/redondo_fondo_blanco"
+                        android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ.-"
+                        android:gravity="center"
+                        android:hint="@string/clave_actual"
+                        android:inputType="textPassword"
+                        android:padding="10dp"
+                        android:paddingLeft="10dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/lbl_salir_validarClave"
+                        style="@style/letra_enlace"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:onClick="cancelarCambioclave"
+                        android:text="Cancelar" />
+
+                    <TextView
+                        android:id="@+id/lbl_validarClave"
+                        style="@style/letra_enlace"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:text="Validar clave"
+
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_datos_cambiar_clave"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:layout_marginTop="60dp"
-            android:text="Recuerda que la clave debe contener mayúsculas, minúsculas y mínimo 4 números." />
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="@drawable/redondo_fondo_verde_borde_verde"
+                android:orientation="horizontal"
+                android:padding="5dp">
 
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:src="@mipmap/key" />
+
+                <EditText
+                    android:id="@+id/perfil_clave_nueva"
+                    style="@style/letra_contenido"
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/redondo_fondo_blanco"
+                    android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ.-"
+                    android:gravity="center"
+                    android:hint="@string/clave_nueva"
+                    android:inputType="textPassword"
+                    android:padding="10dp"
+                    android:paddingLeft="10dp" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -45,120 +148,18 @@
                     android:src="@mipmap/key" />
 
                 <EditText
-                    android:id="@+id/perfil_clave_actual"
-                    android:layout_width="250dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:hint="@string/clave_actual"
-                    android:background="@drawable/redondo_fondo_blanco"
-                    android:paddingLeft="10dp"
-                    android:gravity="center"
-                    android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ.-"
-                    android:inputType="textPassword"
-                    android:padding="10dp"
-                    style="@style/letra_contenido"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:id="@+id/lbl_salir_validarClave"
-                    style="@style/letra_enlace"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="Cancelar"
-                    android:onClick="cancelarCambioclave"
-                    android:gravity="center"
-                    />
-
-                <TextView
-                    android:id="@+id/lbl_validarClave"
-                    style="@style/letra_enlace"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="40dp"
-                    android:text="Validar clave"
-                    android:gravity="center"
-
-                    />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_datos_cambiar_clave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/redondo_fondo_verde_borde_verde"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/key"
-                    android:layout_gravity="left"
-                    />
-
-                <EditText
-                    android:id="@+id/perfil_clave_nueva"
-                    android:layout_width="250dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:hint="@string/clave_nueva"
-                    android:background="@drawable/redondo_fondo_blanco"
-                    android:paddingLeft="10dp"
-                    android:gravity="center"
-                    android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ.-"
-                    android:inputType="textPassword"
-                    android:padding="10dp"
-                    style="@style/letra_contenido"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/redondo_fondo_verde_borde_verde"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/key"
-                    android:layout_gravity="left"
-                    />
-
-                <EditText
                     android:id="@+id/perfil_clave_confirmar"
+                    style="@style/letra_contenido"
                     android:layout_width="250dp"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
-                    android:hint="@string/clave_confirmar"
                     android:background="@drawable/redondo_fondo_blanco"
-                    android:paddingLeft="10dp"
-                    android:gravity="center"
                     android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ.-"
+                    android:gravity="center"
+                    android:hint="@string/clave_confirmar"
                     android:inputType="textPassword"
                     android:padding="10dp"
-                    style="@style/letra_contenido"/>
+                    android:paddingLeft="10dp" />
 
             </LinearLayout>
 
@@ -168,8 +169,8 @@
                 style="@style/letra_contenido_blanco"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/redondo_botones"
                 android:text="Aceptar"
                 android:textAllCaps="false" />
