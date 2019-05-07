@@ -3,23 +3,25 @@
     <item>
         <shape android:shape="rectangle">
             <stroke
-                android:width="1dp"
-                android:color="@color/negro" />
+                android:width="5dp"
+                android:color="@color/borde_verde" />
             <solid android:color="@color/blanco" />
+            <corners android:radius="10dp" />
         </shape>
     </item>
     <item
-        android:right="1dp"
-        android:top="1dp"
-        android:bottom="1dp"
-        android:left="1dp"
+        android:right="2dp"
+        android:top="4dp"
+        android:bottom="2dp"
+        android:left="4dp"
         >
         <shape android:shape="rectangle">
             <stroke
-                android:width="1dp"
+                android:width="0dp"
                 android:color="@color/blanco" />
             <solid android:color="@color/blanco" />
         </shape>
     </item>
+
 
 </layer-list>

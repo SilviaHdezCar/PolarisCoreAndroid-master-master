@@ -3,7 +3,7 @@
     <color name="colorPrimary">#038793</color>
     <color name="botones">#2495F3</color>
     <color name="colorPrimaryDark">#06565C</color>
-    <color name="colorAccent">#6AC1C5</color>
+    <color name="colorAccent">#42B351</color>
     <color name="blanco">#FFFFFF</color>
 
     <color name="rojo_borde">#C44C49</color>
@@ -46,6 +46,17 @@
     <color name="borde_verde_edit_text">#287C83</color>
     <color name="fondo_verde_botones">#02373B</color>
     <color name="borde_verde_botones">#04807B</color>
+    <color name="borde_amarillo">#FFD500</color>
+    <color name="borde_rosado">#F700FF</color>
+    <color name="borde_marron">#75483B</color>
+    <color name="borde_verde">#43A047</color>
+    <color name="borde_gris">#ADB1AD</color>
+    <color name="borde_naranja">#FB8C00</color>
+     <color name="borde_azul_oscuro">#0036FB</color>
+    <color name="borde_morado">#5E35B1</color>
+
+
+
 
 </resources>
 
