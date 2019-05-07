@@ -103,16 +103,10 @@ public class InicialFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //colocar que a lo que seleccione cierto botn, cambie el color de la linea de abajo
-                //tab_asociada.setBackgroundColor(R.color.naranja);
-                //btn_asociadas.setBackgroundColor(0x80025156);
-                //btn_autorizadas.setBackgroundColor(R.color.verde_pestanas);
-                /*btn_asociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas_transparencia));//
-                btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));*/
-
                 liAsociadas.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
                 liAutorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
-                //    Global.TERMINALES_ASOCIADAS = null;
-                //  Global.TERMINALES_ASOCIADAS = new ArrayList<Terminal>();
+                Global.TERMINALES_ASOCIADAS = null;
+                Global.TERMINALES_ASOCIADAS = new ArrayList<Terminal>();
                 consumirServicioAsociadas();
             }
         });
@@ -122,10 +116,10 @@ public class InicialFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(objeto, "btn autorizadas", Toast.LENGTH_SHORT).show();
-               /* btn_asociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));//
-                btn_autorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas_transparencia));*/
                 liAutorizadas.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
                 liAsociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+                Global.TERMINALES_AUTORIZADAS = null;
+                Global.TERMINALES_AUTORIZADAS = new ArrayList<Terminal>();
                 consumirServicioAutorizadas();
             }
         });
@@ -254,8 +248,6 @@ public class InicialFragment extends Fragment {
                     Global.serial_ter = terminal.get(position).getTerm_serial();
                     Global.modelo = terminal.get(position).getTerm_model();
 
-                    consumirServicioAsociadas();
-
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
                    // objeto.listarObservacionesTerminal(serialObtenido);
                 }
@@ -270,39 +262,104 @@ public class InicialFragment extends Fragment {
      * Servicio para listar terminales autorizadas
      **/
     public void consumirServicioAutorizadas() {
-        llenarRVAutorizada(Global.TERMINALES_AUTORIZADAS);
+        t = null;
+        Global.TERMINALES_AUTORIZADAS = null;
+        Global.TERMINALES_AUTORIZADAS = new ArrayList<Terminal>();
+        final Gson gson = new GsonBuilder().create();
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals//associatedsWithRepair";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("code", Global.CODE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            System.out.println("REPONSE AUTORIZADAS" + response.toString());
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            System.out.println("status:  " + Global.STATUS_SERVICE);
+
+                            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                return;
+                            }
+
+
+                            response = new JSONObject(response.get("data").toString());
+
+
+                            JSONArray jsonArray = response.getJSONArray("terminales");
+
+
+                            if (jsonArray.length() == 0) {
+                                Global.mensaje = "No tiene terminales asociadas";
+                                return;
+                            }
+                            String ter = null;
+
+
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                ter = jsonArray.getString(i);
+
+                                //obtengo las validaciones y tipificaciones
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                Global.validacionesAutorizadas = jsonObject.get("validaciones").toString();
+                                Global.tipificacionesAutorizadas = jsonObject.get("tipificaciones").toString();
+
+                                System.out.println("TIPIFICACIONES Y VAL "+Global.tipificacionesAutorizadas+"-"+Global.validacionesAutorizadas);
+
+
+                                t = gson.fromJson(ter, Terminal.class);
+                                if (t != null) {
+                                }
+                                Global.TERMINALES_AUTORIZADAS.add(t);
+                            }
+                            llenarRVAutorizada(Global.TERMINALES_AUTORIZADAS);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
 
     }
 
     public void llenarRVAutorizada(List<Terminal> terminalesRecibidas) {
-        Vector<Terminal> terminals = new Vector<Terminal>();
+
         if (terminalesRecibidas == null || terminalesRecibidas.size() == 0) {
             Toast.makeText(objeto, Global.CODE + " No tiene terminales autorizadas", Toast.LENGTH_SHORT).show();
-            rv.setAdapter(new AdapterTerminal(objeto, terminals));//le pasa los datos-> lista de usuarios
-            objeto.layoutManager = new LinearLayoutManager(objeto);// en forma de lista
-            rv.setLayoutManager(objeto.layoutManager);
             return;
         } else {
-            Vector<Terminal> terminales_aut = null;
-            terminales_aut = new Vector<>();
-            terminales_aut.removeAllElements();
-            for (Terminal ter : terminalesRecibidas) {
-                terminales_aut.add(ter);
 
-            }
-            rv.setAdapter(new AdapterTerminal(objeto, terminales_aut));//le pasa los datos-> lista de usuarios
-
-            objeto.layoutManager = new LinearLayoutManager(objeto);// en forma de lista
-            rv.setLayoutManager(objeto.layoutManager);
-           /*
-
-             recyclerView = (RecyclerView) findViewById(R.id.recycler_view_consultaTerminales_por_serial);
-            recyclerView.setAdapter(new AdapterTerminal(this, terminal));//le pasa los datos-> lista de usuarios
-            layoutManager = new LinearLayoutManager(this);// en forma de lista
-            recyclerView.setLayoutManager(layoutManager);
-
-
-           rv.setHasFixedSize(true);
+            rv.setHasFixedSize(true);
 
             LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
             rv.setLayoutManager(llm);
@@ -311,26 +368,27 @@ public class InicialFragment extends Fragment {
 
             for (Terminal ter : terminalesRecibidas) {
                 if (ter != null) {
-                    terminals.add(ter);
+                    terminals.add(ter);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
                 }
             }
 
-        //cambiar adaptador de autorizadas
-            final AdapterTerminal_asociada adapter = new AdapterTerminal_asociada(terminals, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
+
+            final AdapterTerminal adapter = new AdapterTerminal(terminals, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
                 @Override
                 public void onClick(List<Terminal> terminal, int position) {
 
-
-                    *//*serialObtenido = terminal.get(position).getTerm_serial();
+                    Global.serial_ter = terminal.get(position).getTerm_serial();
                     Global.modelo = terminal.get(position).getTerm_model();
 
-                    objeto.listarObservacionesTerminal(serialObtenido);*//*
-                }
-            }, R.layout.panel_terminal_asociada);//se debe crear un panel para las autorizadas, por el borde es de otro color
+                    Global.terminalVisualizar = terminal.get(position);
 
-            rv.setAdapter(adapter);*/
+                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminalAutorizada()).addToBackStack(null).commit();
+                    // objeto.listarObservacionesTerminal(serialObtenido);
+                }
+            }, R.layout.panel_terminal_asociada);
+
+            rv.setAdapter(adapter);
         }
     }
-
 
 }

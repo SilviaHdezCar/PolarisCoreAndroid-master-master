@@ -4,11 +4,26 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterEtapa;
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidaciones;
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidacionesAutorizadas;
+import com.example.wposs_user.polariscoreandroid.Comun.Global;
+import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.R;
+import com.example.wposs_user.polariscoreandroid.java.Observacion;
+import com.example.wposs_user.polariscoreandroid.java.Validacion;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +45,10 @@ public class ValidacionTerminalesFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private Button etapaView,validacionView;
+    private View view;
+
+    private RecyclerView rv;
     public ValidacionTerminalesFragment() {
         // Required empty public constructor
     }
@@ -65,8 +84,67 @@ public class ValidacionTerminalesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_validacion_terminales, container, false);
+        view = inflater.inflate(R.layout.fragment_validacion_terminales, container, false);
+        etapaView = (Button) view.findViewById(R.id.btn_etapas);
+        validacionView = (Button) view.findViewById(R.id.btn_validacion_terminales);
+        etapaView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminalAutorizada()).addToBackStack(null).commit();
+            }
+        });
+
+        System.out.println("VALIDACIONES Y TIPIFICACIONES SOUT");
+
+        System.out.println(Global.validacionesAutorizadas);
+        System.out.println(Global.tipificacionesAutorizadas);
+
+        String validaciones [] = Global.validacionesAutorizadas.split(",");
+        ArrayList<Validacion> validacions = new ArrayList<>();
+        for (int i=0; i<validaciones.length;i++){
+            boolean ok=false,falla=false,no_aplica=false;
+            if(validaciones[i].split("-")[1].equals("OK")){
+                ok=true;
+            }else if(validaciones[i].split("-")[1].equals("Falla")){
+                falla=true;
+            }else if(validaciones[i].split("-")[1].equals("No aplica")){
+                no_aplica=true;
+            }
+
+            Validacion v = new Validacion(validaciones[i].split("-")[0],ok,falla,no_aplica);
+            validacions.add(v);
+        }
+        rv = (RecyclerView) view.findViewById(R.id.recycler_view_etapas);
+        llenarRVValidaciones(validacions);
+
+
+        return view;
     }
+    //este metodo llena el recycler view con las terminales obtenidas al consumir el servicio
+
+    public void llenarRVValidaciones(List<Validacion> validacionesRecibidas) {
+        //************************SE MUESTRA LA LISTA DE TERMINALES ASOCIADAS
+        rv.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
+        rv.setLayoutManager(llm);
+
+        final ArrayList validaciones = new ArrayList<>();
+
+        for (Validacion val : validacionesRecibidas) {
+            if (val != null) {
+                validaciones.add(val);
+            }
+
+
+            final AdapterValidacionesAutorizadas adapter = new AdapterValidacionesAutorizadas(validaciones, null, R.layout.panel_validaciones_terminales);
+
+            rv.setAdapter(adapter);
+
+        }
+        System.out.println("Tamaño del arreglo " + validaciones.size());
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -75,16 +153,6 @@ public class ValidacionTerminalesFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
     @Override
     public void onDetach() {
