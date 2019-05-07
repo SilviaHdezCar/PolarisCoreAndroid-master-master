@@ -401,6 +401,7 @@ public class Registro_diagnostico extends Fragment {
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
+                                Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();;
                                 return;
                             }
 
@@ -413,6 +414,7 @@ public class Registro_diagnostico extends Fragment {
 
                             if (jsonArray.length() == 0) {
                                 Global.mensaje = "No existen repuestos disponibles para el modelo de serial seleccionado";
+                                Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();;
                                 return;
                             }
                             String rep = null;
