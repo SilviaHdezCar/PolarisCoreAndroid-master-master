@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragmentos.ValidacionTerminalesFragment">
+
+    <TableLayout
+        android:id="@+id/tabla"
+        android:layout_width="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        android:shrinkColumns="*">
+
+
+        <TableRow>
+
+            <LinearLayout
+                android:id="@+id/tab_asociada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btn_etapas"
+                    style="@style/letra_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/verde_pestanas"
+                    android:scrollbars="vertical"
+                    android:text="ETAPAS"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/selectAsociadas"
+                    android:layout_height="4dp"
+                    android:orientation="horizontal"
+                    android:background="@color/verde_pestanas"
+                    >
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tab_autorizada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btn_validacion_terminales"
+                    style="@style/letra_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@color/verde_pestanas"
+                    android:scrollbars="vertical"
+                    android:text="VALIDACIÓN" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/selectAutorizadas"
+                    android:layout_height="4dp"
+                    android:orientation="horizontal"
+                    android:background="@color/blanca_linea"
+                    >
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+
+
+        </TableRow>
+
+    </TableLayout>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:id="@+id/layoutSerial"
+       android:padding="10dp"
+       android:gravity="center"
+       android:layout_below="@id/tabla">
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:id="@+id/tituloSerial"
+           android:text="SERIAL: "
+           />
+   </LinearLayout>
+
+    <TableLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/tablaTerminales"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layoutSerial"
+            android:stretchColumns="*"
+            android:shrinkColumns="*">
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/txtNombre"
+                    android:layout_width="0dp"
+                    android:layout_span="0"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="NOMBRE"
+                    android:layout_weight="3"
+                    android:textSize="12dp"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtOk"
+                    android:layout_width="0dp"
+                    android:layout_span="0"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="OK"
+                    android:textSize="12dp"
+                    android:layout_weight="1"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txtFalla"
+                    android:layout_width="0dp"
+                    android:layout_span="0"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="FALLA"
+                    android:textSize="12dp"
+                    android:layout_weight="1"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txtNoAplica"
+                    android:layout_width="0dp"
+                    android:layout_span="0"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="NA"
+                    android:textSize="12dp"
+                    android:layout_weight="1"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+            </TableRow>
+
+        </TableLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_etapas"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/tablaTerminales"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp" />
+
+
+
+
+
+
+</RelativeLayout>

@@ -153,4 +153,9 @@ public class Global {
 
     public static int lenS1;
     public static String claveNueva;
+
+    ///Variables Terminales Autorizadas
+    public static String validacionesAutorizadas = "";
+    public static String tipificacionesAutorizadas = "";
+    public static Terminal terminalVisualizar;
 }
