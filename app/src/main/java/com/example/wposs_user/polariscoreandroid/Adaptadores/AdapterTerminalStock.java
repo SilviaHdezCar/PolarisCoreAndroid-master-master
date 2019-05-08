@@ -91,7 +91,7 @@ public class AdapterTerminalStock extends RecyclerView.Adapter<AdapterTerminalSt
         TextView tecnologia;
         TextView estado;
         TextView color;
-        RelativeLayout rl;
+       LinearLayout rl;
 
 
 
@@ -105,7 +105,7 @@ public class AdapterTerminalStock extends RecyclerView.Adapter<AdapterTerminalSt
             serial = (TextView) v.findViewById(R.id.txt_serial_terrminal_stock);
             tecnologia = (TextView) v.findViewById(R.id.tecnologia_terminal_stock);
             estado = (TextView) v.findViewById(R.id.estado_ter_stock);
-            rl=(RelativeLayout)v.findViewById(R.id.panel_cargar_terminales);
+            rl=(LinearLayout)v.findViewById(R.id.cargar_terminales);
 
 
 
