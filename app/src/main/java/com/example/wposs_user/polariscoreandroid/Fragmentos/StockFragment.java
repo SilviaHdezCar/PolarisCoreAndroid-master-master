@@ -68,6 +68,7 @@ public class StockFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        objeto.setTitle("STOCK");
         terminales= new ArrayList<Terminal>();
         repuestos= new ArrayList<Repuesto>();
         // Inflate the layout for this fragment
@@ -76,6 +77,7 @@ public class StockFragment extends Fragment {
         rv= (RecyclerView)v.findViewById(R.id.recycler_stock);
         term=(Button)v.findViewById(R.id.btn_terminales_stock);
         rep= (Button)v.findViewById(R.id.btn_repuesto_stock);
+        term.setBackgroundColor(Color.parseColor("#025156"));
         servicioTerminalStock();
 
         term.setOnClickListener(new View.OnClickListener() {

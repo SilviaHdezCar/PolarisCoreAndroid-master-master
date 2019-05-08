@@ -75,6 +75,7 @@ public class Registro_diagnostico extends Fragment {
 
         v = inflater.inflate(R.layout.fragment_registro_diagnostico, container, false);
         objeto.setTitle("REGISTRAR DIAGNÓSTICO");
+        Global.REPUESTOS_DIAGONOSTICO= new ArrayList<Repuesto>();
         aut_repuesto = (AutoCompleteTextView) v.findViewById(R.id.auto_repuesto);
         cantidad_req = v.findViewById(R.id.txt_cantReq);
         rv = (RecyclerView) v.findViewById(R.id.rv_repuestos_diag);
@@ -165,14 +166,14 @@ public class Registro_diagnostico extends Fragment {
 
         if (Global.REPUESTOS.size() == 0) {
 
-            observ.setText("No hay repuestos para el modelo de terminal seleccionado, seleccione otre intentelo de nuevo");
+            observ.setText("No hay repuestos para el modelo de terminal seleccionado, seleccione otra e intentelo de nuevo");
             agregar.setEnabled(false);
             registroDiag.setEnabled(false);
             return;
         }
 
         if (Global.codigo_rep.isEmpty() || cant.isEmpty()) {
-            Toast.makeText(objeto, "Faltan datos para agregar el repuesto", Toast.LENGTH_SHORT).show();
+            Toast.makeText(objeto, "Debe ingresar una cantidad valida", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -191,8 +192,24 @@ public class Registro_diagnostico extends Fragment {
                     Toast.makeText(objeto, "El repuesto seleccionado no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 Repuesto r = new Repuesto(Global.REPUESTOS.get(i).getSpar_code(),Global.REPUESTOS.get(i).getSpar_name(),cant_solicitada,Global.REPUESTOS.get(i).getSpar_warehouse());
+
+                for(Repuesto rt: Global.REPUESTOS_DIAGONOSTICO ){
+                    if(rt.getSpar_code().equals(r.getSpar_code())){
+                        int cant_anterior=rt.getSpar_quantity();
+                        Global.REPUESTOS_DIAGONOSTICO.remove(rt);
+                        r.setSpar_quantity(cant_anterior+cant_solicitada);
+                         Global.REPUESTOS_DIAGONOSTICO.add(r);
+                        Toast.makeText(objeto, "La cantidad del repuesto solicitado fue actualizada", Toast.LENGTH_SHORT).show();
+                        this.llenarRv();
+                        cantidad_req.setText("");
+                        aut_repuesto.setText("");
+                        return;
+
+                    }
+
+
+                }
                 Global.REPUESTOS_DIAGONOSTICO.add(r);
                 Toast.makeText(objeto, "El repuesto fue agregado exitosamente", Toast.LENGTH_SHORT).show();
                 this.llenarRv();
@@ -320,8 +337,8 @@ public class Registro_diagnostico extends Fragment {
                             }else{
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                                 alertDialog.setTitle("Informacion");
-                                alertDialog.setMessage("Diagnóstico registrado correctamente"+"\n"+ "Será direccionado a inicio");
-                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "ACEPTAR",
+                                alertDialog.setMessage("Diagnóstico registrado exitosamente");
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Aceptar",
 
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
@@ -375,6 +392,7 @@ public class Registro_diagnostico extends Fragment {
     private static Repuesto r;
 
     public void consumirServicioRepuestos() {
+        Global.REPUESTOS_DIAGONOSTICO= new ArrayList<Repuesto>();
         r = null;
         Global.REPUESTOS = null;
         Global.REPUESTOS = new ArrayList<Repuesto>();

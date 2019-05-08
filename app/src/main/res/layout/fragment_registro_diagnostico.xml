@@ -23,13 +23,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="50dp"
         >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Digite el codigo o nombre del repuesto "
+        android:text="Digite el código o nombre del repuesto "
         android:textSize="14dp"
         style="@style/letra_titulos"
         />
@@ -51,7 +51,7 @@
             android:id="@+id/auto_repuesto"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:hint="Codigo o nombre"
+            android:hint="Código o nombre"
             android:textSize="14dp"
             android:layout_marginLeft="5dp"
             />
@@ -167,7 +167,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginTop="10dp"
-            android:background="@color/blanco"
+            android:background="@drawable/cuadrado_gris"
             android:hint="Observaciones"
             android:maxLength="300"
             android:textSize="14dp" />
@@ -182,7 +182,9 @@
             android:background="@color/colorPrimaryDark"
             android:text="Finalizar"
             android:textAllCaps="false"
-            android:textColor="@color/blanco" />
+            android:textColor="@color/blanco"
+
+            />
 
 
 </LinearLayout>
