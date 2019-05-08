@@ -3,6 +3,7 @@ package com.example.wposs_user.polariscoreandroid.Fragmentos;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuestoStock;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminalStock;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
@@ -54,27 +56,45 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 public class StockFragment extends Fragment {
 
 
-private View v;
-private ImageView foto_perfil;
- private RequestQueue queue;
- private ArrayList<Terminal>terminales;
-private ArrayList<Repuesto>repuestos;
-Button rep;
-RecyclerView rv;
+    private View v;
+    private ImageView foto_perfil;
+    private RequestQueue queue;
+    private ArrayList<Terminal>terminales;
+    private ArrayList<Repuesto>repuestos;
+    Button term;
+    Button rep;
+    RecyclerView rv;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        terminales= new ArrayList<Terminal>();
+        repuestos= new ArrayList<Repuesto>();
         // Inflate the layout for this fragment
-          v = inflater.inflate(R.layout.fragment_stock, container, false);
+        v = inflater.inflate(R.layout.fragment_stock, container, false);
         queue = Volley.newRequestQueue(v.getContext());
         rv= (RecyclerView)v.findViewById(R.id.recycler_stock);
-        rep=(Button)v.findViewById(R.id.btn_rep_stock);
+        term=(Button)v.findViewById(R.id.btn_terminales_stock);
+        rep= (Button)v.findViewById(R.id.btn_repuesto_stock);
+        servicioTerminalStock();
 
-        rep.setOnClickListener(new View.OnClickListener() {
-               @Override
+        term.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-                  servicioTerminalStock();
+
+                servicioTerminalStock();
+                term.setBackgroundColor(Color.parseColor("#057277"));
+                rep.setBackgroundColor(Color.parseColor("#025156"));
+
+            }
+        });
+        rep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                servicioRpuestoStock();
+                rep.setBackgroundColor(Color.parseColor("#057277"));
+                term.setBackgroundColor(Color.parseColor("#025156"));
 
             }
         });
@@ -84,115 +104,196 @@ RecyclerView rv;
 
     }
 
-    /********************************metodo usaddo para mostrar en stock las terminales y repuestos asignados a un tecnico****************/////////////
+    /********************************metodo usaddo para mostrar en stock las terminales asignadas a un tecnico****************/
 
     public void servicioTerminalStock(){
-    final  ArrayList<Terminal>terminales= new ArrayList<>();
-    final ArrayList<Repuesto>rep=new ArrayList<>();
-    final Gson gson = new GsonBuilder().create();
+        final  ArrayList<Terminal>terminales= new ArrayList<>();
+        final ArrayList<Repuesto>rep=new ArrayList<>();
+        final Gson gson = new GsonBuilder().create();
 
-    String url = "http://100.25.214.91:3000/PolarisCore/Terminals/stock";
-    JSONObject jsonObject = new JSONObject();
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/stock";
+        JSONObject jsonObject = new JSONObject();
         try {
-        jsonObject.put("user", Global.CODE);
-    } catch (JSONException e) {
-        e.printStackTrace();
-    }
-    JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
-            Request.Method.POST,
-            url,
-            jsonObject,
-            new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        Global.STATUS_SERVICE = response.get("status").toString();
-                        System.out.println("status:  " + Global.STATUS_SERVICE);
-
-                        if (Global.STATUS_SERVICE.equals("fail")) {
-                            Global.mensaje = response.get("message").toString();
-                            Toast.makeText(v.getContext(),"Error:  "+Global.mensaje,Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-
-                        response = new JSONObject(response.get("data").toString());
-
-
-                        JSONArray jsonArray1 = response.getJSONArray("terminales");
-
-
-                        if (jsonArray1.length() == 0) {
-                            Global.mensaje = "No tiene terminales asociadas";
-                            Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        String ter = null;
-
-                        for (int i = 0; i < jsonArray1.length(); i++) {
-                            ter = jsonArray1.getString(i);
-
-                            Terminal t = gson.fromJson(ter, Terminal.class);
-                            if (t != null) {
-                            }
-                           terminales.add(t);
-                        }
-
-                        rv.setHasFixedSize(true);
-                        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-                        rv.setLayoutManager(llm);
-                        AdapterTerminalStock adapter= new AdapterTerminalStock(v.getContext(),terminales);
-                        rv.setAdapter(adapter);
-
-
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    Log.d("RESPUESTA", response.toString());
-                }
-
-            },
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                    Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-    ) {
-        @Override
-        public Map<String, String> getHeaders() throws AuthFailureError {
-            Map<String, String> params = new HashMap<String, String>();
-            params.put("Authenticator", Global.TOKEN);
-
-            return params;
+            jsonObject.put("user", Global.CODE);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-    };
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            System.out.println("status:  " + Global.STATUS_SERVICE);
+
+                            if (Global.STATUS_SERVICE.equals("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                Toast.makeText(v.getContext(),"Error:  "+Global.mensaje,Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+
+                            response = new JSONObject(response.get("data").toString());
+
+
+                            JSONArray jsonArray1 = response.getJSONArray("terminales");
+
+
+                            if (jsonArray1.length() == 0) {
+                                Global.mensaje = "No tiene terminales asociadas";
+                                Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            String ter = null;
+
+                            for (int i = 0; i < jsonArray1.length(); i++) {
+                                ter = jsonArray1.getString(i);
+
+                                Terminal t = gson.fromJson(ter, Terminal.class);
+                                if (t != null) {
+                                }
+                                terminales.add(t);
+                            }
+
+                            rv.setHasFixedSize(true);
+                            LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
+                            rv.setLayoutManager(llm);
+                            AdapterTerminalStock adapter= new AdapterTerminalStock(v.getContext(),terminales);
+                            rv.setAdapter(adapter);
+
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+
+                return params;
+            }
+        };
 
         queue.add(jsArrayRequest);
 
-}
+    }
 
 
-    public void llenarRVTerminalStock() {
+    /********************************metodo usaddo para mostrar en stock los repuestos asignados a un tecnico****************/
 
+    public void servicioRpuestoStock(){
+        final  ArrayList<Repuesto>repuestos= new ArrayList<>();
+        final ArrayList<Repuesto>rep=new ArrayList<>();
+        final Gson gson = new GsonBuilder().create();
 
-      {
-            rv.setHasFixedSize(true);
-            LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-            rv.setLayoutManager(llm);
-            ArrayList terminals = new ArrayList<>();
-          AdapterTerminalStock adapter= new AdapterTerminalStock(v.getContext(),terminales);
-          rv.setAdapter(adapter);
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/stock";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user", Global.CODE);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            System.out.println("status:  " + Global.STATUS_SERVICE);
+
+                            if (Global.STATUS_SERVICE.equals("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                Toast.makeText(v.getContext(),"Error:  "+Global.mensaje,Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+
+                            response = new JSONObject(response.get("data").toString());
+
+
+                            JSONArray jsonArray1 = response.getJSONArray("repuestos");
+
+
+                            if (jsonArray1.length() == 0) {
+                                Global.mensaje = "No tiene repuestos asociadas";
+                                Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            String ter = null;
+
+                            for (int i = 0; i < jsonArray1.length(); i++) {
+                                ter = jsonArray1.getString(i);
+
+                                Repuesto r = gson.fromJson(ter, Repuesto.class);
+                                if (r != null) {
+                                }
+                                repuestos.add(r);
+                            }
+
+                            rv.setHasFixedSize(true);
+                            LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
+                            rv.setLayoutManager(llm);
+                            AdapterRepuestoStock adapter= new AdapterRepuestoStock(v.getContext(),repuestos);
+                            rv.setAdapter(adapter);
+
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+
     }
 
 
 
-    }
+
+}
 
 
