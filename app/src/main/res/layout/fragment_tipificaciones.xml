@@ -41,24 +41,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/cuadrado_gris"
-            android:orientation="horizontal"
-            android:layout_margin="10dp"
-            >
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/letra_titulos"
-                android:text="Tipificación"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:background="@drawable/borde_inferior_gris"/>
-
-        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -68,7 +51,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view_tipificaciones"

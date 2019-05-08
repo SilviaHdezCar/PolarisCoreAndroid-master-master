@@ -49,9 +49,9 @@
 
 
     <!--Formulario cambiar clave -->
-    <string name="clave_actual">Clave actual</string>
-    <string name="clave_nueva">Clave nueva</string>
-    <string name="clave_confirmar">Confirmar clave</string>
+    <string name="clave_actual">Contraseña actual</string>
+    <string name="clave_nueva">Contraseña nueva</string>
+    <string name="clave_confirmar">Confirmar contraseña</string>
 
     <!--LISTAR LAS OPCIONES DE CONSULTA-->
     <string-array name="opciones_consulta">

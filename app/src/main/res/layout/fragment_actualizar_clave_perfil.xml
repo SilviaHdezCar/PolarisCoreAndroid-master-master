@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".Actividades.MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/fondo_actualizar_blanco"
@@ -19,25 +19,34 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
+            <com.codesgood.views.JustifiedTextView
+                android:id="@+id/lbl_condiciones"
                 style="@style/letra_contenido"
-                android:layout_width="280dp"
+                android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="60dp"
-                android:gravity="center"
-                android:text="Recuerda que la clave debe contener mayúsculas, minúsculas y mínimo 4 números." />
+                android:layout_marginTop="10dp"
+                android:text="Recuerde que la contraseña debe contener una longitud mínima de 8 caracteres, al menos una mayúscula, minúsculas y números" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="5dp">
 
             <LinearLayout
                 android:id="@+id/layout_clave_actual"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="100dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/redondo_fondo_verde_borde_verde"
                     android:orientation="horizontal"
                     android:padding="5dp">
@@ -47,6 +56,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="left"
                         android:src="@mipmap/key" />
+
 
                     <EditText
                         android:id="@+id/perfil_clave_actual"
@@ -65,22 +75,11 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="280dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/lbl_salir_validarClave"
-                        style="@style/letra_enlace"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="20dp"
-                        android:gravity="center"
-                        android:onClick="cancelarCambioclave"
-                        android:text="Cancelar" />
 
                     <TextView
                         android:id="@+id/lbl_validarClave"
@@ -89,18 +88,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
                         android:layout_marginTop="20dp"
-                        android:gravity="center"
                         android:text="Validar clave"
 
                         />
                 </LinearLayout>
             </LinearLayout>
+
+
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout_datos_cambiar_clave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -176,6 +178,6 @@
                 android:textAllCaps="false" />
 
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>

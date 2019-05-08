@@ -31,9 +31,8 @@ public class DialogEsRepable extends DialogFragment {
         final FragmentManager fragmentManager = objeto.getSupportFragmentManager();
 
 
-        builder
-                .setTitle("¿La terminal es repable?")
-                .setItems(R.array.esReparable, new DialogInterface.OnClickListener() {
+        builder.setTitle("¿La terminal es reparable?");
+        builder.setItems(R.array.esReparable, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {

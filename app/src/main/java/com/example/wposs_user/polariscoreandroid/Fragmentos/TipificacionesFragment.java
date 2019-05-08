@@ -68,7 +68,7 @@ public class TipificacionesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tipificaciones, container, false);
-        objeto.setTitle("TIPIFICACIONES TERMINAL");
+        objeto.setTitle("       TIPIFICACIONES TERMINAL");
         descripcionTipificaion = "";
         layout_tipificaciones = (LinearLayout) v.findViewById(R.id.layout_tipificaciones);
         autocomplete_tipificaciones = (AutoCompleteTextView) v.findViewById(R.id.autocomplete_tipificaciones);
@@ -97,6 +97,11 @@ public class TipificacionesFragment extends Fragment {
 
     }
 
+
+    /**
+     * ESTE METODO SE UTILIZA PARA CONSUMIR EL SERVICIO QUE LISTA LAS TIPIFICACIONES +
+     * INCOCA EL METODO QUE LLENA EL AUTOCOMPLETE
+     * **/
     public void consumirServicioTipificaciones(){
         t = null;
         Global.TIPIFICACIONES = null;
