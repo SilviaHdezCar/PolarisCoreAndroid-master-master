@@ -1,9 +1,11 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +15,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.wposs_user.polariscoreandroid.Actividades.Activity_UpdatePassword;
+import com.example.wposs_user.polariscoreandroid.Actividades.Activity_login;
 import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
@@ -32,11 +49,12 @@ public class ActualizarClave_perfil extends Fragment {
     private EditText perfil_clave_nueva;
     private EditText perfil_clave_confirmar;
     private LinearLayout layout_datos_cambiar_clave;
+    private LinearLayout layout_clave_actual;
     private Button btn_aceptar_cambio_clave;
     private String actual;
     private String nueva;
     private String confirmacion;
-
+    private RequestQueue queue;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,12 +62,14 @@ public class ActualizarClave_perfil extends Fragment {
         v = inflater.inflate(R.layout.fragment_actualizar_clave_perfil, container, false);
 
         objeto.setTitle("ACTUALIZAR CONTRASEÑA");
+        queue = Volley.newRequestQueue(objeto);
         btn_validar = (TextView) v.findViewById(R.id.lbl_validarClave);
         btn_cancelar = (TextView) v.findViewById(R.id.lbl_salir_validarClave);
         perfil_clave_actual = (EditText) v.findViewById(R.id.perfil_clave_actual);
         perfil_clave_nueva = (EditText) v.findViewById(R.id.perfil_clave_nueva);
         perfil_clave_confirmar = (EditText) v.findViewById(R.id.perfil_clave_confirmar);
         layout_datos_cambiar_clave = (LinearLayout) v.findViewById(R.id.layout_datos_cambiar_clave);
+        layout_clave_actual = (LinearLayout) v.findViewById(R.id.layout_clave_actual);
         btn_aceptar_cambio_clave = (Button) v.findViewById(R.id.btn_aceptar_cambio_clave);
 
         layout_datos_cambiar_clave.setVisibility(View.INVISIBLE);
@@ -67,9 +87,7 @@ public class ActualizarClave_perfil extends Fragment {
                     Toast.makeText(objeto, "Por favor ingrese la clave actual", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    Global.WEB_SERVICE = "/PolarisCore/Users/verification";
-                    Global.validar_actual = actual;
-                    new TaskVerificarClave().execute();
+                   consumirServicoVerificarClave();
                 }
                 //validar que el campo de la clave no esté vacio
                 //consumir servicio cambiar clave
@@ -97,11 +115,10 @@ public class ActualizarClave_perfil extends Fragment {
 
         if (!msj.equalsIgnoreCase("ok")) {
             Toast.makeText(objeto, msj, Toast.LENGTH_LONG).show();
+            limpiar();
             return;
         } else {
-            Global.WEB_SERVICE = "/PolarisCore/Users/updatePassword";
-            Global.claveNueva = nueva;
-            new TaskCambiarClave().execute();
+            consumirServicioCambiarClave();
         }
 
     }
@@ -158,113 +175,75 @@ public class ActualizarClave_perfil extends Fragment {
     }
 
 
-    /*******************************************************************************
-     Clase       : TaskLogin
-     Description : Realiza la transacción de los parámetros del Login
-     *******************************************************************************/
-
-
-    class TaskVerificarClave extends AsyncTask<String, Void, Boolean> {
-        ProgressDialog progressDialog;
-        int trans = 0;
-
-
-        /*******************************************************************************
-         Método       : onPreExecute
-         Description  : Se ejecuta antes de realizar el proceso, muestra una ventana con uin msj de espera
-         *******************************************************************************/
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(objeto, R.style.MyAlertDialogStyle);
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Verficando clave...");
-            progressDialog.show();
+    public void consumirServicoVerificarClave(){
+        String url = "http://100.25.214.91:3000/PolarisCore/Users/verification";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user_email", Global.EMAIL);
+            jsonObject.put("user_password", this.actual);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if (response.get("status").toString().equalsIgnoreCase("fail")) {
+                                try {
+                                    Global.mensaje = response.get("message").toString();
+                                    if (response.get("message").toString().equalsIgnoreCase("incomplete petition")) {
+                                        Global.mensaje = "Faltaron datos";
+                                    }
+                                    if (response.get("message").toString().equalsIgnoreCase("invalid email")) {
+                                        Global.mensaje = "El correo no es válido";
+                                    }
+                                    if (response.get("message").toString().equalsIgnoreCase("invalid  password")) {
+                                        Global.mensaje = "Contraseña inválida";
+                                    }
+                                    limpiar();
+                                    Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                return;
+
+                            } else {
+                                habilitar_inhabilitar();
+                            }
 
 
-        /*******************************************************************************
-         Método       : doInBackground
-         Description  : Se ejecuta para realizar la transacción y verificar coenxión
-         *******************************************************************************/
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            Messages.packMsgValidarClave();
-
-            trans = TCP.transaction(Global.outputLen);
-
-            // Verifica la transacción
-            if (trans == Global.TRANSACTION_OK)
-                return true;
-            else
-                return false;
-        }
-
-        /*******************************************************************************
-         Método       : onPostExecute
-         Description  : Se ejecuta después de realizar el doInBackground
-         *******************************************************************************/
-        @Override
-        protected void onPostExecute(Boolean value) {
-
-            progressDialog.dismiss();
-
-            if (value) {
-                System.out.println("*********************************************************************SI SE PUDO CONECTAR****************************");
-                if (Messages.unPackMsgValidarClave(objeto)) {
-                    Global.enSesion = true;
-                    Global.StatusExit = true;
-                    habilitar_inhabilitar();
-                } else {
-                    // Si no es OK, manda mensaje de error
-                    try {
-                        // Utils.GoToNextActivity(Activity_login.this, DialogError.class, Global.StatusExit);
-                        if (Global.mensaje.equalsIgnoreCase("incomplete petition")) {
-                            Global.mensaje = "Faltaron datos";
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        if (Global.mensaje.equalsIgnoreCase("invalid email")) {
-                            Global.mensaje = "El correo no es válido";
-                        }
-                        if (Global.mensaje.equalsIgnoreCase("invalid  password")) {
-                            Global.mensaje = "Contraseña inválida";
-                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
 
-                        Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
-                limpiar();
-            } else {
-                switch (Utils.validateErrorsConexion(false, trans, objeto)) {
-
-                    case 0:                                                                         // En caso de que continue = true y error data
-                        break;
-
-                    case 1:                                                                         // En caso de que continue = false y error data
-                        break;
-
-                    default:                                                                        // Errores de conexion
-                        Global.MsgError = Global.MSG_ERR_CONEXION;
-                        Global.mensaje = Global.MsgError;
-                        Global.StatusExit = false;
-                        // Muestra la ventana de error
-                        Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_LONG).show();
-                        break;
-
-                }
-                Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_LONG).show();
-                limpiar();
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+                return params;
             }
+        };
 
-        }
-
-
+        queue.add(jsArrayRequest);
     }
+
+
 
     //este metodo se utiliza para desacrtivar Edit-text y botones
     private void habilitar_inhabilitar() {
@@ -272,6 +251,7 @@ public class ActualizarClave_perfil extends Fragment {
         btn_cancelar.setOnClickListener(null);
         btn_validar.setOnClickListener(null);
         layout_datos_cambiar_clave.setVisibility(View.VISIBLE);
+       layout_clave_actual.setVisibility(View.INVISIBLE);
     }
 
     private void limpiar() {
@@ -280,6 +260,63 @@ public class ActualizarClave_perfil extends Fragment {
         this.perfil_clave_nueva.setText("");
     }
 
+
+
+    public void consumirServicioCambiarClave(){
+        String url = "http://100.25.214.91:3000/PolarisCore/Users/updatePassword";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user_identification", Global.ID);
+            jsonObject.put("user_password", this.nueva);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.PUT,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if (!response.get("message").toString().equalsIgnoreCase("success")) {
+                                try {
+                                    Global.mensaje = response.get("message").toString();
+                                    Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            } else{
+                                Toast.makeText(objeto, "Contraseña actualizada", Toast.LENGTH_SHORT).show();
+                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+    }
     /*******************************************************************************
      Clase       : TaskCambiarClave
      Description : Realiza la transacción de los parámetros para actualizar clave

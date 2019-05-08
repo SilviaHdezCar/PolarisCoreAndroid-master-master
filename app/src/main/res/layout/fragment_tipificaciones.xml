@@ -34,7 +34,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:background="@drawable/redondo_botones_fondo_blanco"
-                    android:hint="Agregar Tipificación"
+                    android:hint="Seleccione"
                     android:inputType="text"
                     android:paddingLeft="5dp"
                     />

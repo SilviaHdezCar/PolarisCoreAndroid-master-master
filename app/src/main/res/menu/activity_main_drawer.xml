@@ -4,18 +4,24 @@
     tools:showIn="navigation_view">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/img_datafono"
+            android:title="Terminales"
+
+            />
+        <item
             android:id="@+id/nav_perfil"
-            android:icon="@drawable/user"
+            android:icon="@mipmap/user_grey"
             android:title="Perfil"
 
             />
         <item
             android:id="@+id/nav_stock"
-            android:icon="@drawable/ic_stock"
+            android:icon="@mipmap/stock"
             android:title="Stock" />
         <item
             android:id="@+id/nav_consultar_terminales_reparadas"
-            android:icon="@drawable/ic_buscar"
+            android:icon="@mipmap/search"
             android:title="Consultar terminales reparadas" />
         <item
             android:id="@+id/nav_productividad"

@@ -10,16 +10,39 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
+import com.example.wposs_user.polariscoreandroid.java.Terminal;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 public class Activity_login extends AppCompatActivity {
 
     private EditText txtCorreo;
     private EditText txtPass;
+    private RequestQueue queue;
+    private String correo;
+    private String pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,21 +50,15 @@ public class Activity_login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         txtCorreo = (EditText) findViewById(R.id.txtCorreo);
         txtPass = (EditText) findViewById(R.id.txtPass);
-        StringBuilder str=new StringBuilder();
+        StringBuilder str = new StringBuilder();
+        queue = Volley.newRequestQueue(Activity_login.this);
 
-   /*     for(int i=0; i<Global.inputData.length;i++){
-          //  str.append("{\"message\":\"success\",\"status\":\"ok\",\"data\":{\"terminales\":[{\"term_serial\":\"123456831\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000042\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL,LAN,GPRS\",\"term_warranty_time\":\"6\"}]}}");
-            str.append("{\"message\":\"success\",\"status\":\"ok\",\"data\":{\"terminales\":[{\"term_serial\":\"123456833\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000\",\"term_num_terminal\":\"000044\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" WIFI\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456825\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000036\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL,LAN,GPRS\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456823\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T700\",\"term_num_terminal\":\"000034\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" LAN\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456834\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000045\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456822\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000033\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456827\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000\",\"term_num_terminal\":\"000038\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" WIFI\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456838\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T700\",\"term_num_terminal\":\"000049\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" LAN,GPRS,WIFI\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456828\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000039\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456837\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000048\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL,LAN,GPRS\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456829\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T700\",\"term_num_terminal\":\"000040\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" LAN\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456832\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T700\",\"term_num_terminal\":\"000043\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" LAN,GPRS,WIFI\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456835\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T700\",\"term_num_terminal\":\"000046\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" LAN\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456830\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000\",\"term_num_terminal\":\"000041\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" GPRS\",\"term_warranty_time\":\"6\"},{\"term_serial\":\"123456831\",\"term_brand\":\"SPECTRA\",\"term_buy_date\":\"01/25/2019 08:00\",\"term_date_finish\":\"2019-07-26T13:00:00.000Z\",\"term_date_register\":\"May 2, 2019 12:08 PM\",\"term_imei\":\" \",\"term_localication\":\"SHERNANDEZ4\",\"term_mk\":\" \",\"term_model\":\"T1000A5\",\"term_num_terminal\":\"000042\",\"term_register_by\":\"EPRUEBAS23\",\"term_security_seal\":\" \",\"term_start_date_warranty\":\"2019-01-26T13:00:00.000Z\",\"term_status\":\"PREDIAGNÓSTICO\",\"term_status_temporal\":\"0\",\"term_technology\":\" DIAL,LAN,GPRS\",\"term_warranty_time\":\"6\"}]}}");
-        }
-
-        System.out.println("-------------CADENA ÑLARGA");
-        System.out.println(str.length());*/
 
     }
 
     public void iniciarSesion(View view) {
-        String correo = this.txtCorreo.getText().toString();
-        String pass = this.txtPass.getText().toString();
+        correo = this.txtCorreo.getText().toString();
+        pass = this.txtPass.getText().toString();
 
         if (correo.isEmpty() && pass.isEmpty()) {
             Toast.makeText(this, "Ingrese correo y contraseña", Toast.LENGTH_SHORT).show();
@@ -55,14 +72,8 @@ public class Activity_login extends AppCompatActivity {
             Toast.makeText(this, "Ingrese la contraseña", Toast.LENGTH_SHORT).show();
             return;
         } else {
-            Global.WEB_SERVICE = "/PolarisCore/Users/login";
-            Global.primaryIP = Global.INITIAL_IP;
-            Global.primaryPort = Global.INITIAL_PORT;
 
-            Global.correo = correo;
-            Global.password = pass;
-
-            new TaskLogin().execute();//hacer la peticion
+            consumirServicoLogin();
 
 
         }
@@ -70,129 +81,183 @@ public class Activity_login extends AppCompatActivity {
     }
 
 
-    /*******************************************************************************
-     Clase       : TaskLogin
-     Description : Realiza la transacción de los parámetros del Login
-     *******************************************************************************/
+    public void consumirServicoLogin() {
 
-
-    class TaskLogin extends AsyncTask<String, Void, Boolean> {
-        ProgressDialog progressDialog;
-        int trans = 0;
-
-
-
-        /*******************************************************************************
-         Método       : onPreExecute
-         Description  : Se ejecuta antes de realizar el proceso, muestra una ventana con uin msj de espera
-         *******************************************************************************/
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(Activity_login.this, R.style.MyAlertDialogStyle);
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Validando credenciales...");
-            progressDialog.show();
+        String url = "http://100.25.214.91:3000/PolarisCore/Users/login";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user_email", this.correo);
+            jsonObject.put("user_password", this.pass);
+            jsonObject.put("gethash", "true");
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
 
 
-        /*******************************************************************************
-         Método       : doInBackground
-         Description  : Se ejecuta para realizar la transacción y verificar coenxión
-         *******************************************************************************/
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            Messages.packMsgLogin();
+                            if (response.get("message").toString().equalsIgnoreCase("error")) {
+                                try {
+                                    Global.mensaje = response.get("description").toString();
+                                    Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                    System.out.println("description "+response.get("description").toString());
+                                    if(Global.mensaje.equalsIgnoreCase("Contraseña inválida")){
+                                        txtPass.setText("");
+                                    }else{
+                                        limpiarLogin();
+                                    }
 
-            trans = TCP.transaction(Global.outputLen);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                return;
 
-            // Verifica la transacción
-            if (trans == Global.TRANSACTION_OK)
-                return true;
-            else
-                return false;
-        }
+                            } else {
+                                try {
+                                    Global.TOKEN = response.get("token").toString();
+                                    // Global.MESSAGE = lineastrama[1].substring(11, lineastrama[1].length() - 1);
+                                    Global.ROL = response.get("roles").toString();
+                                    Global.LOGIN = response.get("login").toString();
+                                    Global.ID = response.get("id").toString();//CEDULA
+                                    Global.STATUS = response.get("status").toString();
+                                    Global.POSITION = response.get("position").toString();
+                                    Global.CODE = response.get("code").toString();
+                                    Global.NOMBRE = response.get("name").toString();
+                                    Global.EMAIL = response.get("email").toString();
+                                    Global.LOCATION = response.get("location").toString();
+                                    Global.PHONE = response.get("phone").toString();
+                                    // Global.PHOTO = jsonObject.get("photo").toString();;
 
-        /*******************************************************************************
-         Método       : onPostExecute
-         Description  : Se ejecuta después de realizar el doInBackground
-         *******************************************************************************/
-        @Override
-        protected void onPostExecute(Boolean value) {
 
-            progressDialog.dismiss();
+                                    Log.i("------------STATUS: ", "" + Global.STATUS);
+                                    Log.i("------------POSITION: ", "" + Global.POSITION);
+                                    Log.i("------------TOKEN: ", "" + Global.TOKEN);
+                                    Log.i("--------CODE: ", "" + Global.CODE);
+                                    Log.i("-------NAME: ", "" + Global.NOMBRE);
 
-            if (value) {
-                System.out.println("*********************************************************************SI SE PUDO CONECTAR****************************");
-                if (Messages.unPackMsgLogin(Activity_login.this)) {
-                    Global.enSesion = true;
-                    Global.StatusExit = true;
+                                    if (!Global.POSITION.equalsIgnoreCase("TÉCNICO")) {
+                                        Global.mensaje = "El usuario no tiene permisos";
+                                        Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                        limpiarLogin();
+                                        cerrarSesion();
+                                        return;
+                                    } else if (Global.STATUS.equalsIgnoreCase("INACTIVO")) {
+                                        Global.mensaje = "El usuario está inactivo";
+                                        limpiarLogin();
+                                        Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
 
-                    if (Integer.parseInt(Global.LOGIN) == 0) {
-                        Utils.GoToNextActivity(Activity_login.this, Activity_UpdatePassword.class, Global.StatusExit);
-                    } else {
-                        Utils.GoToNextActivity(Activity_login.this, MainActivity.class, Global.StatusExit);
-                    }
 
-                } else {
-                    // Si el login no es OK, manda mensaje de error
-                    try {
-                        // Utils.GoToNextActivity(Activity_login.this, DialogError.class, Global.StatusExit);
-                        if (Global.mensaje.equalsIgnoreCase("Contrasena Invalida")) {
-                            Global.mensaje ="Contraseña inválida";
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                if (Integer.parseInt(Global.LOGIN) == 0) {
+                                    Intent i = new Intent(Activity_login.this, Activity_UpdatePassword.class);
+                                    startActivity(i);
+                                    finish();
+                                } else {
+                                    Intent i = new Intent(Activity_login.this, MainActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                }
+                                return;
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        Log.d("RESPUESTA", response.toString());
                     }
-                    // Limpia el login
 
-                }limpiarLogin();
-            } else {
-                switch (Utils.validateErrorsConexion(false, trans, Activity_login.this)) {
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-                    case 0:                                                                         // En caso de que continue = true y error data
-                        break;
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
 
-                    case 1:                                                                         // En caso de que continue = false y error data
-                        break;
-
-                    default:                                                                        // Errores de conexion
-                        Global.MsgError = Global.MSG_ERR_CONEXION;
-                        Global.mensaje = Global.MsgError;
-                        Global.StatusExit = false;
-                        // Muestra la ventana de error
-                        Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_LONG).show();
-                        break;
-                } limpiarLogin();
-
+                return params;
             }
+        };
 
+        queue.add(jsArrayRequest);
+    }
+
+
+
+    public void cerrarSesion(){
+        String url = "http://100.25.214.91:3000/PolarisCore/Users/close";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user", Global.ID);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            if (response.get("status").toString().equalsIgnoreCase("fail")) {
+                                try {
+                                    Global.mensaje = response.get("message").toString();
+                                    Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                return;
+                            }
 
 
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
     }
 
     private void limpiarLogin() {
         this.txtCorreo.setText("");
         this.txtPass.setText("");
-    }
-
-    public void menu(View v) {
-
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-        finish();
-    }
-
-    public void probar_(View v) {
-
-        Intent i = new Intent(this, Activity_UpdatePassword.class);
-        startActivity(i);
-        finish();
     }
 
 
