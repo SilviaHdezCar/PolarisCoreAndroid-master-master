@@ -43,6 +43,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
+import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -76,6 +77,7 @@ public class InicialFragment extends Fragment {
     private Button btn_autorizadas;
     private LinearLayout liAsociadas, liAutorizadas;
     private View v;
+    private Validacion val;
     private static Terminal t;
     private static Observacion o;
     private RequestQueue queue;
@@ -87,9 +89,9 @@ public class InicialFragment extends Fragment {
 
         btn_asociadas = (Button) v.findViewById(R.id.btn_terminales_asociadas);
         btn_autorizadas = (Button) v.findViewById(R.id.btn_terminales_autorizadas);
-        liAsociadas = (LinearLayout)v.findViewById(R.id.selectAsociadas);
-        liAutorizadas = (LinearLayout)v.findViewById(R.id.selectAutorizadas);
-        objeto.setTitle("TERMINALES");
+        liAsociadas = (LinearLayout) v.findViewById(R.id.selectAsociadas);
+        liAutorizadas = (LinearLayout) v.findViewById(R.id.selectAutorizadas);
+        objeto.setTitle("               TERMINALES");
         liAsociadas.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
         liAutorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
 
@@ -174,7 +176,7 @@ public class InicialFragment extends Fragment {
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
                                 return;
 
-                            }else{
+                            } else {
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
                                 String obser = null;
 
@@ -220,7 +222,6 @@ public class InicialFragment extends Fragment {
     }
 
 
-
     /**
      * Metodo utilizados para consumir el servicio  de listar terminales asociadas mediante una petición REST
      * En el encabezado va el token-> Authenticator
@@ -264,7 +265,6 @@ public class InicialFragment extends Fragment {
 
                             if (jsonArray.length() == 0) {
                                 Global.mensaje = "No tiene terminales asociadas";
-                                return;
                             }
                             String ter = null;
 
@@ -307,6 +307,92 @@ public class InicialFragment extends Fragment {
     }
 
     /**
+     * Metodo utilizado para consumir el servicio que lista las validaciones
+     * en el encabezado se envía el token
+     **/
+    public void consumirServicioValidaciones() {
+        val = null;
+        Global.VALIDACIONES = null;
+        Global.VALIDACIONES = new ArrayList<Validacion>();
+        final Gson gson = new GsonBuilder().create();
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/validatorTerminal";
+
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            System.out.println("status:  " + Global.STATUS_SERVICE);
+
+                            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                return;
+                            }
+
+
+                            response = new JSONObject(response.get("data").toString());
+
+
+                            JSONArray jsonArray = response.getJSONArray("validaciones");
+
+
+                            if (jsonArray.length() == 0) {
+                                //  layout_encabezado_vali.setVisibility(View.INVISIBLE);
+                                Toast.makeText(objeto, "No hay validaciones registradas", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            // layout_encabezado_vali.setVisibility(View.VISIBLE);
+
+                            String ter = null;
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                ter = jsonArray.getString(i);
+
+                                val = gson.fromJson(ter, Validacion.class);
+                                if (v != null) {
+                                }
+                                Global.VALIDACIONES.add(val);
+                            }
+                            //llenarRVValidaciones(Global.VALIDACIONES);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+    }
+
+
+    public void llenarListView() {
+
+    }
+
+    /**
      * Metodo utilizado para llenar el recycler view de las terminales asociadas
      * es invocado en el método que consume el servicio
      *
@@ -315,40 +401,38 @@ public class InicialFragment extends Fragment {
     public void llenarRVAsociadas(List<Terminal> terminalesRecibidas) {
         if (terminalesRecibidas == null || terminalesRecibidas.size() == 0) {
             Toast.makeText(objeto, Global.CODE + " No tiene terminales asociadas", Toast.LENGTH_SHORT).show();
-            return;
-        } else {
-
-            rv.setHasFixedSize(true);
-
-            LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-            rv.setLayoutManager(llm);
-
-            ArrayList terminals = new ArrayList<>();
-
-            for (Terminal ter : terminalesRecibidas) {
-                if (ter != null) {
-                    terminals.add(ter);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
-                }
-            }
-
-
-            final AdapterTerminal_asociada adapter = new AdapterTerminal_asociada(terminals, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
-                @Override
-                public void onClick(List<Terminal> terminal, int position) {
-
-                    Global.serial_ter = terminal.get(position).getTerm_serial();
-                    Global.modelo = terminal.get(position).getTerm_model();
-
-                    //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
-                    consumirServicioEtapas();
-
-                    //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
-                   // objeto.listarObservacionesTerminal(serialObtenido);
-                }
-            }, R.layout.panel_terminal_asociada);
-
-            rv.setAdapter(adapter);
         }
+
+        rv.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
+        rv.setLayoutManager(llm);
+
+        ArrayList terminals = new ArrayList<>();
+
+        for (Terminal ter : terminalesRecibidas) {
+            if (ter != null) {
+                terminals.add(ter);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
+            }
+        }
+
+
+        final AdapterTerminal_asociada adapter = new AdapterTerminal_asociada(terminals, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
+            @Override
+            public void onClick(List<Terminal> terminal, int position) {
+
+                Global.serial_ter = terminal.get(position).getTerm_serial();
+                Global.modelo = terminal.get(position).getTerm_model();
+
+                //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
+                consumirServicioEtapas();
+
+                //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
+                // objeto.listarObservacionesTerminal(serialObtenido);
+            }
+        }, R.layout.panel_terminal_asociada);
+
+        rv.setAdapter(adapter);
     }
 
 
@@ -399,7 +483,6 @@ public class InicialFragment extends Fragment {
                             String ter = null;
 
 
-
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 ter = jsonArray.getString(i);
 
@@ -408,7 +491,7 @@ public class InicialFragment extends Fragment {
                                 Global.validacionesAutorizadas = jsonObject.get("validaciones").toString();
                                 Global.tipificacionesAutorizadas = jsonObject.get("tipificaciones").toString();
 
-                                System.out.println("TIPIFICACIONES Y VAL "+Global.tipificacionesAutorizadas+"-"+Global.validacionesAutorizadas);
+                                System.out.println("TIPIFICACIONES Y VAL " + Global.tipificacionesAutorizadas + "-" + Global.validacionesAutorizadas);
 
 
                                 t = gson.fromJson(ter, Terminal.class);

@@ -67,8 +67,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_validaciones_terminales_asociadas, container, false);
-        System.out.println("infló panel");
-        objeto.setTitle("VALIDACIONES");
+        objeto.setTitle("      VALIDACIONES TERMINAL");
 
         validaciones = new ArrayList<>();
         marca_ter_validaciones = (TextView) v.findViewById(R.id.marca_ter_validaciones);
@@ -82,7 +81,6 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         layout_encabezado_vali = (LinearLayout) v.findViewById(R.id.layout_encabezado_vali);
         siguiente = (Button) v.findViewById(R.id.btn_siguiente_validaciones);
         queue = Volley.newRequestQueue(objeto);
-        objeto.setTitle("VALIDACIONES");
 
         //voy a recorrer el arreglo de terminales para que me liste la informacion de la terminal selecciona
         Global.VALIDACIONES = null;
@@ -116,7 +114,8 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
             }
         });
 
-        consumirServicio();
+        consumirServicioValidaciones();
+        llenarRVValidaciones(Global.VALIDACIONES);
 
         return v;
 
@@ -126,7 +125,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
      * Metodo utilizado para consumir el servicio que lista las validaciones
      * en el encabezado se envía el token
      **/
-    private void consumirServicio() {
+    public void consumirServicioValidaciones() {
         v = null;
         Global.VALIDACIONES = null;
         Global.VALIDACIONES = new ArrayList<Validacion>();
@@ -254,15 +253,12 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
             if (val != null) {
 
                 if (val.getEstado() == null) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                    alertDialog.setTitle("¡ATENCIÓN!");
-                    alertDialog.setMessage("Debe marcar todas las validaciones");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "ACEPTAR",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
+
+
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(objeto);
+                    alertDialog.setTitle("INFORMACIÓN");
+                    alertDialog.setMessage("Verifique la validación: "+val.getTeva_description());
+                    alertDialog.setCancelable(true) ;
                     alertDialog.show();
                     return false;
                 } else {

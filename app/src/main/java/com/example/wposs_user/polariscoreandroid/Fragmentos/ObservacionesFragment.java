@@ -65,7 +65,7 @@ public class ObservacionesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_observaciones, container, false);
-        objeto.setTitle("OBSERVACIÓN");
+        objeto.setTitle("               OBSERVACIÓN");
 
         imagen_observación = (ImageView) v.findViewById(R.id.imagen_observación);
         imagen_observación2 = (ImageView) v.findViewById(R.id.imagen_observación2);

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -37,6 +38,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 
@@ -44,7 +46,6 @@ public class ActualizarClave_perfil extends Fragment {
 
     private View v;
     private TextView btn_validar;
-    private TextView btn_cancelar;
     private EditText perfil_clave_actual;
     private EditText perfil_clave_nueva;
     private EditText perfil_clave_confirmar;
@@ -64,7 +65,6 @@ public class ActualizarClave_perfil extends Fragment {
         objeto.setTitle("ACTUALIZAR CONTRASEÑA");
         queue = Volley.newRequestQueue(objeto);
         btn_validar = (TextView) v.findViewById(R.id.lbl_validarClave);
-        btn_cancelar = (TextView) v.findViewById(R.id.lbl_salir_validarClave);
         perfil_clave_actual = (EditText) v.findViewById(R.id.perfil_clave_actual);
         perfil_clave_nueva = (EditText) v.findViewById(R.id.perfil_clave_nueva);
         perfil_clave_confirmar = (EditText) v.findViewById(R.id.perfil_clave_confirmar);
@@ -79,10 +79,12 @@ public class ActualizarClave_perfil extends Fragment {
         nueva = "";
         confirmacion = "";
 
+
         btn_validar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 actual = perfil_clave_actual.getText().toString();
+
                 if (actual.isEmpty()) {
                     Toast.makeText(objeto, "Por favor ingrese la clave actual", Toast.LENGTH_SHORT).show();
                     return;
@@ -108,6 +110,7 @@ public class ActualizarClave_perfil extends Fragment {
 
 
     public void cambiarClave() {
+
         nueva = perfil_clave_nueva.getText().toString();
         confirmacion = perfil_clave_confirmar.getText().toString();
 
@@ -120,6 +123,8 @@ public class ActualizarClave_perfil extends Fragment {
         } else {
             consumirServicioCambiarClave();
         }
+        InputMethodManager in = (InputMethodManager) objeto.getSystemService(INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
 
     }
 
@@ -133,13 +138,13 @@ public class ActualizarClave_perfil extends Fragment {
         } else if (confirmacion.isEmpty()) {
             return "Por favor ingrese  confirmarción de contraseña";
         } else if(nueva.equals(actual)){
-            return "La clave nueva no puede ser igual a la antigua";
+            return "La contraseña nueva no puede ser igual a la antigua";
         } else if (!(nueva.length() >= 8)) {
-            return "La contraseña debe contener como minimo 8 caracteres";
+            return "La contraseña no cumple con las condiciones";
         } else if (!revisarMayMinNum(nueva)) {
-            return "La contraseña debe contener números, letras en mayúscula y minúscula";
+            return "La contraseña no cumple con las condiciones";
         } else if (!nueva.equals(confirmacion)) {
-            return "La confirmación no coincide con la clave ingresada";
+            return "Las contraseñas no coinciden";
         }
         return msj;
     }
@@ -248,7 +253,6 @@ public class ActualizarClave_perfil extends Fragment {
     //este metodo se utiliza para desacrtivar Edit-text y botones
     private void habilitar_inhabilitar() {
         perfil_clave_actual.setEnabled(false);
-        btn_cancelar.setOnClickListener(null);
         btn_validar.setOnClickListener(null);
         layout_datos_cambiar_clave.setVisibility(View.VISIBLE);
        layout_clave_actual.setVisibility(View.INVISIBLE);
