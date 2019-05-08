@@ -189,16 +189,24 @@ public class Registro_diagnostico extends Fragment {
 
             if (Global.REPUESTOS.get(i).getSpar_code().equals(Global.codigo_rep)) {
                 if (Global.REPUESTOS.get(i).getSpar_quantity() < cant_solicitada) {
-                    Toast.makeText(objeto, "El repuesto seleccionado no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT).show();
+                     Toast.makeText(objeto, "El repuesto seleccionado no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                int cantidad_disponible_repuesto= Global.REPUESTOS.get(i).getSpar_quantity();
                 Repuesto r = new Repuesto(Global.REPUESTOS.get(i).getSpar_code(),Global.REPUESTOS.get(i).getSpar_name(),cant_solicitada,Global.REPUESTOS.get(i).getSpar_warehouse());
 
                 for(Repuesto rt: Global.REPUESTOS_DIAGONOSTICO ){
                     if(rt.getSpar_code().equals(r.getSpar_code())){
-                        int cant_anterior=rt.getSpar_quantity();
+
+                        if(cantidad_disponible_repuesto<rt.getSpar_quantity()+cant_solicitada){
+                            cantidad_req.setText("");
+                            Toast.makeText(objeto, "El repuesto no cuenta con la cantidad disponible solicitada", Toast.LENGTH_SHORT).show();
+                            return;
+
+                        }
+
                         Global.REPUESTOS_DIAGONOSTICO.remove(rt);
-                        r.setSpar_quantity(cant_anterior+cant_solicitada);
+                        r.setSpar_quantity(rt.getSpar_quantity()+cant_solicitada);
                          Global.REPUESTOS_DIAGONOSTICO.add(r);
                         Toast.makeText(objeto, "La cantidad del repuesto solicitado fue actualizada", Toast.LENGTH_SHORT).show();
                         this.llenarRv();
@@ -319,17 +327,10 @@ public class Registro_diagnostico extends Fragment {
                             if(Global.STATUS_SERVICE.equals("fail")){
 
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Informacion");
+                                alertDialog.setTitle("INFORMACIÓN");
                                 alertDialog.setMessage("Error: "+response.get("message").toString()+"\n");
-                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Aceptar",
+                                alertDialog.setCancelable(true);
 
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).commit();
-                                                Global.REPUESTOS_DIAGONOSTICO= new ArrayList<>();
-                                                dialog.dismiss();
-                                            }
-                                        });
                                 alertDialog.show();
 
                                  return;
@@ -511,6 +512,13 @@ public class Registro_diagnostico extends Fragment {
 
         return listas;
     }
+
+
+
+
+
+
+
 
 
 
