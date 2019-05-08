@@ -13,7 +13,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
             android:orientation="vertical">
 
             <EditText
@@ -25,50 +24,72 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/redondo_fondo_blanco"
                 android:inputType="textCapSentences"
-                android:maxLength="280" />
+                android:maxLength="300" />
 
-
-            <TextView
-                android:id="@+id/lbl_cargarFoto"
-                style="@style/letra_enlace"
-                android:layout_width="100dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="Tomar foto 1" />
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp"
+                android:gravity="center">
 
-            <ImageView
-                android:id="@+id/imagen_observación"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/img_no_disponible" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/lbl_cargarFoto2"
-                style="@style/letra_enlace"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="Tomar foto 2" />
+                    <TextView
+                        android:id="@+id/lbl_cargarFoto"
+                        style="@style/letra_enlace"
+                        android:layout_width="100dp"
+                        android:padding="5dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:text="Tomar foto 1" />
 
-            <ImageView
-                android:id="@+id/imagen_observación2"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/img_no_disponible" />
+                    <ImageView
+                        android:id="@+id/imagen_observación"
+                        android:layout_width="190dp"
+                        android:layout_height="190dp"
+                        android:src="@drawable/img_no_disponible" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="20dp">
+
+                    <TextView
+                        android:id="@+id/lbl_cargarFoto2"
+                        style="@style/letra_enlace"
+                        android:layout_width="100dp"
+                        android:padding="5dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="Tomar foto 2" />
+
+                    <ImageView
+                        android:id="@+id/imagen_observación2"
+                        android:layout_width="190dp"
+                        android:layout_height="190dp"
+                        android:src="@drawable/img_no_disponible" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
 
             <Button
                 android:id="@+id/btn_finalizar_observacion"
-                style="@style/letra_botones"
-                android:layout_width="wrap_content"
+                style="@style/letra_contenido_blanco"
+                android:layout_width="120dp"
                 android:layout_height="40dp"
-                android:layout_gravity="right"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="35dp"
-                android:background="@drawable/redondo_azul"
+                android:layout_below="@+id/recycler_view_validaciones"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/redondo_botones"
                 android:text="Siguiente"
                 android:textAllCaps="false" />
 

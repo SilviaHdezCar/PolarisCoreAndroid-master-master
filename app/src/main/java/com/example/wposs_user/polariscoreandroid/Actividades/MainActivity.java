@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity
 
         if (contadorFragmentos == 0) {
             super.onBackPressed();
-            //additional code
+            consumirSercivioCerrarSesion();
         } else {
             getSupportFragmentManager().popBackStack();
         }

@@ -7,7 +7,6 @@
 
     <TableLayout
         android:id="@+id/tabla"
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:stretchColumns="*"
@@ -85,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tabla"
         android:layout_margin="10dp"
-        android:background="@drawable/borde_todos_rojo"
+        android:background="@drawable/borde_rojo"
         android:orientation="horizontal"
         android:padding="2dp">
 

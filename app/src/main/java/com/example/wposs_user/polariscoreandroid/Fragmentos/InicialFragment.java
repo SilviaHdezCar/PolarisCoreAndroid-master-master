@@ -117,7 +117,6 @@ public class InicialFragment extends Fragment {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
-                Toast.makeText(objeto, "btn autorizadas", Toast.LENGTH_SHORT).show();
                 liAutorizadas.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
                 liAsociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
                 Global.TERMINALES_AUTORIZADAS = null;
