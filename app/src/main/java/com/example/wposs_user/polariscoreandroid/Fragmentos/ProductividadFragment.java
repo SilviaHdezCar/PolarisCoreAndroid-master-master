@@ -193,7 +193,8 @@ public class ProductividadFragment extends Fragment {
 
          grafica=(BarChart)v.findViewById(R.id.grafica_productividad);
 
-       
+
+
         produc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,6 +246,7 @@ public class ProductividadFragment extends Fragment {
     /********************Metodo usado para obtener la productividad en un rango de fecha dada*************************************/////////
 
     public void consumirServicioProductividad() {
+        productividad=new ArrayList<>();
 
         String data_inicio= f_inicio.getText().toString();
         String data_fin= f_fin.getText().toString();
@@ -341,31 +343,36 @@ public class ProductividadFragment extends Fragment {
 
                         List<BarEntry> entradas= new ArrayList<>();
 
-                        for(int i=1;i<productividad.size();i++){
+                        for(int i=0;i<productividad.size();i++){
 
                             entradas.add(new BarEntry(i+1,productividad.get(i).getUste_completed_terminals()));
 
                         }
+
                         //Enviamos los datos para crear la grafica
 
                         BarDataSet datos = new BarDataSet(entradas,"");
-                        datos.setValueFormatter( new MyValueFormatter());
+                       datos.setValueFormatter( new MyValueFormatter());
                         Description des = grafica.getDescription();
                         des.setEnabled(false);
+
                         BarData data= new BarData(datos);
 
                         //Colocamos color a cada Barra
+
                         datos.setColors(ColorTemplate.COLORFUL_COLORS);
 
                         //Separacion entre barras
-                        data.setBarWidth(0.9f);
+                        data.setBarWidth(0.8f);
+
                         grafica.setData(data);
+
                         //pone las barras centradas
                         grafica.setFitBars(true);
+
                         grafica.invalidate();//hacer refresh
+
                         grafica.setVisibility(View.VISIBLE);
-                        titulo_x.setVisibility(View.VISIBLE);
-                        titulo_y.setVisibility(View.VISIBLE);
 
 
                     }
