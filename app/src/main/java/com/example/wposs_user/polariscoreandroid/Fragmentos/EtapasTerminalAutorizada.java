@@ -69,6 +69,8 @@ public class EtapasTerminalAutorizada extends Fragment {
     private TextView estado;
     private TextView fechaANS;
 
+    private Button btn_agregar_etapa_autorizada;
+
     private static Observacion o;
 
 
@@ -125,6 +127,7 @@ public class EtapasTerminalAutorizada extends Fragment {
         estado = (TextView) view.findViewById(R.id.estado_ter_asociada);
         fechaANS = (TextView) view.findViewById(R.id.fechal_ter_asociada);
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_observaciones_validacion);
+        btn_agregar_etapa_autorizada = (Button) view.findViewById(R.id.btn_agregar_etapa_autorizada);
 
         serial.setText(Global.terminalVisualizar.getTerm_serial());
         marca.setText(Global.terminalVisualizar.getTerm_brand());
@@ -143,6 +146,12 @@ public class EtapasTerminalAutorizada extends Fragment {
         });
 
         consumirServicioEtapas();
+        btn_agregar_etapa_autorizada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                consumirServicioAgregarEtapa();
+            }
+        });
 
         return view;
     }
@@ -271,6 +280,96 @@ public class EtapasTerminalAutorizada extends Fragment {
         rv.setAdapter(adapter);
 
     }
+
+
+    /**
+     * Metodo utilizados para consumir el servicio  para listar las observaciones de acuerdo a una terminal mediante una petición REST
+     * En el encabezado va el token-> Authenticator
+     * Se envía el serial de la terminal  Global.serial_ter
+     **/
+    public void consumirServicioAgregarEtapa() {
+        o = null;
+        Global.OBSERVACIONES = null;
+        Global.OBSERVACIONES = new ArrayList<Observacion>();
+        final Gson gson = new GsonBuilder().create();
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/observations";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("serial", Global.serial_ter);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            System.out.println("status:  " + Global.STATUS_SERVICE);
+
+                            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                Toast.makeText(objeto, "Error al consultar las observaciones", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            response = new JSONObject(response.get("data").toString());
+
+                            JSONArray jsonArray = response.getJSONArray("observaciones");
+
+
+                            if (jsonArray.length() == 0) {
+                                Global.mensaje = "No tiene obervaciones";
+                                return;
+                            }
+
+                            String obser = null;
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                obser = jsonArray.getString(i);
+
+                                o = gson.fromJson(obser, Observacion.class);
+                                if (o != null) {
+                                }
+                                Global.OBSERVACIONES.add(o);
+                            }
+                            llenarRVEtapas(Global.OBSERVACIONES);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+
+    }
+
+
+
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

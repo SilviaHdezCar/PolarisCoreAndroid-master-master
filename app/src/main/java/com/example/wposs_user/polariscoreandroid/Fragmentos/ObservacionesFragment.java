@@ -104,6 +104,7 @@ public class ObservacionesFragment extends Fragment {
         finalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 finalizarDiagnostico();
             }
         });
