@@ -24,6 +24,11 @@ public class Observacion {
         this.teob_photo = teob_photo;
         this.teob_serial_terminal = teob_serial_terminal;
     }
+    public Observacion(String teob_description,String teob_serial_terminal,String teob_photo) {
+         this.teob_description = teob_description;
+       this.teob_photo = teob_photo;
+        this.teob_serial_terminal = teob_serial_terminal;
+    }
 
 
     public String getTeob_id() {
@@ -74,11 +79,6 @@ public class Observacion {
         this.teob_serial_terminal = teob_serial_terminal;
     }
 
-    @Override
-    public String toString() {
-        return (char)34+"observacion"+(char)34+":"+'{'+(char)34+"teob_description"+(char)34 + ":"+ (char)34+ teob_description + (char)34+"," + (char)34+"teob_serial_terminal" +(char)34+":"+(char)34+ Global.serial_ter+(char)34+","+ (char)34+"teob_photo"+(char)34+":" +(char)34 +" "+ (char)34+ '}';
-
-    }
 
     public JSONObject getObj() {
 
@@ -95,4 +95,5 @@ public class Observacion {
 
         return obj;
     }
+
 }
