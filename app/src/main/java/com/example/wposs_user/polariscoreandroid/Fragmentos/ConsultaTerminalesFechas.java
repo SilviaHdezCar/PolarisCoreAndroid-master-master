@@ -83,6 +83,7 @@ public class ConsultaTerminalesFechas extends Fragment {
 
         f_inicio.setInputType(InputType.TYPE_NULL);
         f_fin.setInputType(InputType.TYPE_NULL);
+        f_inicio.setInputType(InputType.TYPE_NULL);
 
 
         java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
