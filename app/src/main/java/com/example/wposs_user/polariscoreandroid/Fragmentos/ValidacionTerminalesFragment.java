@@ -114,12 +114,13 @@ public class ValidacionTerminalesFragment extends Fragment {
             Validacion v = new Validacion(validaciones[i].split("-")[0],ok,falla,no_aplica);
             validacions.add(v);
         }
-        rv = (RecyclerView) view.findViewById(R.id.recycler_view_etapas);
+        rv = (RecyclerView) view.findViewById(R.id.recycler_view_validaciones_autorizadas);
         llenarRVValidaciones(validacions);
 
 
         return view;
     }
+
     //este metodo llena el recycler view con las terminales obtenidas al consumir el servicio
 
     public void llenarRVValidaciones(List<Validacion> validacionesRecibidas) {

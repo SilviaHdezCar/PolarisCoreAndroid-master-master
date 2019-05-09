@@ -24,11 +24,7 @@ public class Observacion {
         this.teob_photo = teob_photo;
         this.teob_serial_terminal = teob_serial_terminal;
     }
-    public Observacion(String teob_description,String teob_serial_terminal,String teob_photo) {
-         this.teob_description = teob_description;
-       this.teob_photo = teob_photo;
-        this.teob_serial_terminal = teob_serial_terminal;
-    }
+
 
 
     public String getTeob_id() {
@@ -79,6 +75,17 @@ public class Observacion {
         this.teob_serial_terminal = teob_serial_terminal;
     }
 
+    @Override
+    public String toString() {
+        return "Observacion{" +
+                "teob_id='" + teob_id + '\'' +
+                ", teob_description='" + teob_description + '\'' +
+                ", teob_fecha='" + teob_fecha + '\'' +
+                ", teob_id_user='" + teob_id_user + '\'' +
+                ", teob_photo='" + teob_photo + '\'' +
+                ", teob_serial_terminal='" + teob_serial_terminal + '\'' +
+                '}';
+    }
 
     public JSONObject getObj() {
 

@@ -224,14 +224,13 @@ public class Activity_login extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                return;
                             }
 
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.d("RESPUESTA", response.toString());
+                        Log.d("RESPUESTA CERRAR SESIÓN", response.toString());
                     }
 
                 },

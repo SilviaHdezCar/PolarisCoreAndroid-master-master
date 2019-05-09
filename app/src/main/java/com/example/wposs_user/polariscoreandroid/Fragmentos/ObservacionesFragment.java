@@ -60,7 +60,7 @@ public class ObservacionesFragment extends Fragment {
     private TextView btn_tomar_foto;
     private TextView btn_tomar_foto2;
     private TextView txt_observacion;
-    private TextView lbl_cargarFotos;
+    private Button btn_cargarFotos;
     private ImageView imagen_observación;
     private ImageView imagen_observación2;
     private Button finalizar;
@@ -91,7 +91,7 @@ public class ObservacionesFragment extends Fragment {
         txt_observacion = (TextView) v.findViewById(R.id.txt_observacion_fin);
         btn_tomar_foto = (TextView) v.findViewById(R.id.lbl_cargarFoto);
         btn_tomar_foto2 = (TextView) v.findViewById(R.id.lbl_cargarFoto2);
-        lbl_cargarFotos = (TextView) v.findViewById(R.id.lbl_cargarFotos);
+        btn_cargarFotos = (Button) v.findViewById(R.id.btn_cargarFotos);
 
         btn_tomar_foto.setPaintFlags(btn_tomar_foto.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         // nomFoto = Global.ID + ".jpg";
@@ -118,7 +118,7 @@ public class ObservacionesFragment extends Fragment {
             }
         });
 
-        lbl_cargarFotos.setOnClickListener(new View.OnClickListener() {
+        btn_cargarFotos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -198,6 +198,7 @@ public class ObservacionesFragment extends Fragment {
 
                                 Toast.makeText(objeto, "Fotos cargadas correctamente", Toast.LENGTH_SHORT).show();
                                 finalizar.setVisibility(View.VISIBLE);
+                                btn_cargarFotos.setVisibility(View.INVISIBLE);
                                 System.out.println("Fotos cargadas correctamente");
                             }
 
@@ -267,7 +268,7 @@ public class ObservacionesFragment extends Fragment {
         } else {
             //consumir servicio finalizar diagnostico
 
-            obser = new Observacion(observacion, Global.serial_ter, nomFotos);
+            obser = new Observacion("", observacion, "", "", "", Global.serial_ter);
             consumirServicioDiagnostico();
 
         }
@@ -281,7 +282,8 @@ public class ObservacionesFragment extends Fragment {
 
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals/savediagnosis";
-        System.out.println("enviando...........");
+        System.out.println("TIPIFICACIONES ENVIADAS FINALIZAR DIAGNOSTICO: ");
+
         JSONObject jsonObject = new JSONObject();
         JSONObject obj2 = new JSONObject();
         try {
@@ -322,6 +324,7 @@ public class ObservacionesFragment extends Fragment {
                                 alertDialog.show();
 
                             } else {
+                                System.out.println(obser.toString());
                                 System.out.println("creó bien el diagnostico");
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                                 alertDialog.setTitle("Informacion");
@@ -330,8 +333,6 @@ public class ObservacionesFragment extends Fragment {
                                 alertDialog.show();
                                 eliminarPila();
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
-
-
                             }
 
                         } catch (JSONException e) {
@@ -389,7 +390,6 @@ public class ObservacionesFragment extends Fragment {
     public JSONArray getTipificaciones() throws JSONException {
 
         JSONArray listas = new JSONArray();
-
         for (int i = 0; i < Global.TIPIFICACIONES_DIAGNOSTICO.size(); i++) {
             JSONObject ob = Global.TIPIFICACIONES_DIAGNOSTICO.get(i).getObj();
             listas.put(ob);

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +69,10 @@ public class EtapasTerminalAutorizada extends Fragment {
     private TextView tecnologia;
     private TextView estado;
     private TextView fechaANS;
+    private EditText textArea_observacion;
+
+    private Button btn_agregar_etapa_autorizada;
+    private Button btn_siguiente_etapas_autorizada;
 
     private static Observacion o;
 
@@ -76,6 +81,8 @@ public class EtapasTerminalAutorizada extends Fragment {
 
 
     private RequestQueue queue;
+
+    private String observacion;
 
     public EtapasTerminalAutorizada() {
         // Required empty public constructor
@@ -125,6 +132,10 @@ public class EtapasTerminalAutorizada extends Fragment {
         estado = (TextView) view.findViewById(R.id.estado_ter_asociada);
         fechaANS = (TextView) view.findViewById(R.id.fechal_ter_asociada);
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_observaciones_validacion);
+        btn_agregar_etapa_autorizada = (Button) view.findViewById(R.id.btn_agregar_etapa_autorizada);
+        btn_siguiente_etapas_autorizada = (Button) view.findViewById(R.id.btn_siguiente_etapas_autorizadas);
+        textArea_observacion = (EditText) view.findViewById(R.id.textArea_information);
+
 
         serial.setText(Global.terminalVisualizar.getTerm_serial());
         marca.setText(Global.terminalVisualizar.getTerm_brand());
@@ -143,6 +154,24 @@ public class EtapasTerminalAutorizada extends Fragment {
         });
 
         consumirServicioEtapas();
+        btn_agregar_etapa_autorizada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                observacion= textArea_observacion.getText().toString();
+                if(observacion.isEmpty()){
+                    Toast.makeText(objeto, "Por favor ingrese la observación", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                consumirServicioAgregarEtapa();
+            }
+        });
+
+        btn_siguiente_etapas_autorizada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new TipificacionesAutorizadas()).addToBackStack(null).commit();
+            }
+        });
 
         return view;
     }
@@ -271,6 +300,78 @@ public class EtapasTerminalAutorizada extends Fragment {
         rv.setAdapter(adapter);
 
     }
+
+
+    /**
+     * Metodo utilizados para consumir el servicio  para listar las observaciones de acuerdo a una terminal mediante una petición REST
+     * En el encabezado va el token-> Authenticator
+     * Se envía el serial de la terminal  Global.serial_ter
+     **/
+    public void consumirServicioAgregarEtapa() {
+        o = null;
+        final Gson gson = new GsonBuilder().create();
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/saveObservations";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("teob_description", observacion);
+            jsonObject.put("teob_serial_terminal", Global.serial_ter);
+            jsonObject.put("teob_photo", " ");
+            jsonObject.put("teob_id_user", Global.CODE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if (response.get("status").toString().equalsIgnoreCase("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                Toast.makeText(objeto, "Error al agregar la observación", Toast.LENGTH_SHORT).show();
+                            }else{
+                                textArea_observacion.setText("");
+                                consumirServicioEtapas();
+                            }
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+
+    }
+
+
+
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
