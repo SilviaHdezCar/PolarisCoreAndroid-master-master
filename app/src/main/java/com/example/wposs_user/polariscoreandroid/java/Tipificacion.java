@@ -20,6 +20,9 @@ public class Tipificacion {
         this.tetv_description = tetv_description;
         this.estado = estado;
     }
+
+
+
     public String getTetv_id() {
         return tetv_id;
     }

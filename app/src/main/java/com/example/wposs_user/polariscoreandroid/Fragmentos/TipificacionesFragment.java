@@ -78,6 +78,7 @@ public class TipificacionesFragment extends Fragment {
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_tipificaciones);
 
         this.listTipificaciones = new ArrayList<Tipificacion>();
+        Global.TIPIFICACIONES_DIAGNOSTICO = null;
         Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<Tipificacion>();
 
 
@@ -323,6 +324,7 @@ public class TipificacionesFragment extends Fragment {
     public void siguienteTipificaciones() {
 
         if(llenarTipificacionesDiagnostico()){
+
             esReparable();
         }
 
@@ -351,7 +353,9 @@ public class TipificacionesFragment extends Fragment {
                 if(tipi!=null){
 
                     Tipificacion tip= new Tipificacion(Global.serial_ter,tipi.getTetv_description(),"ok");
+                    System.out.println("Tipificación "+cont+" : "+tipi.getTetv_description());
                     Global.TIPIFICACIONES_DIAGNOSTICO.add(tip);
+                    System.out.println("Tamaño tipificaciones: "+Global.TIPIFICACIONES_DIAGNOSTICO.size());
                 }
                 cont++;
             }

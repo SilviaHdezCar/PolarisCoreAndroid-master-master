@@ -26,6 +26,7 @@ public class Observacion {
     }
 
 
+
     public String getTeob_id() {
         return teob_id;
     }
@@ -76,8 +77,14 @@ public class Observacion {
 
     @Override
     public String toString() {
-        return (char)34+"observacion"+(char)34+":"+'{'+(char)34+"teob_description"+(char)34 + ":"+ (char)34+ teob_description + (char)34+"," + (char)34+"teob_serial_terminal" +(char)34+":"+(char)34+ Global.serial_ter+(char)34+","+ (char)34+"teob_photo"+(char)34+":" +(char)34 +" "+ (char)34+ '}';
-
+        return "Observacion{" +
+                "teob_id='" + teob_id + '\'' +
+                ", teob_description='" + teob_description + '\'' +
+                ", teob_fecha='" + teob_fecha + '\'' +
+                ", teob_id_user='" + teob_id_user + '\'' +
+                ", teob_photo='" + teob_photo + '\'' +
+                ", teob_serial_terminal='" + teob_serial_terminal + '\'' +
+                '}';
     }
 
     public JSONObject getObj() {
@@ -95,4 +102,5 @@ public class Observacion {
 
         return obj;
     }
+
 }

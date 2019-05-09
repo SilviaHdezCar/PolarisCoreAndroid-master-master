@@ -534,38 +534,39 @@ public class InicialFragment extends Fragment {
         if (terminalesRecibidas == null || terminalesRecibidas.size() == 0) {
             Toast.makeText(objeto, Global.CODE + " No tiene terminales autorizadas", Toast.LENGTH_SHORT).show();
             return;
-        } else {
-
-            rv.setHasFixedSize(true);
-
-            LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-            rv.setLayoutManager(llm);
-
-            ArrayList terminals = new ArrayList<>();
-
-            for (Terminal ter : terminalesRecibidas) {
-                if (ter != null) {
-                    terminals.add(ter);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
-                }
-            }
-
-
-            final AdapterTerminal adapter = new AdapterTerminal(terminals, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
-                @Override
-                public void onClick(List<Terminal> terminal, int position) {
-
-                    Global.serial_ter = terminal.get(position).getTerm_serial();
-                    Global.modelo = terminal.get(position).getTerm_model();
-
-                    Global.terminalVisualizar = terminal.get(position);
-
-                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminalAutorizada()).addToBackStack(null).commit();
-                    // objeto.listarObservacionesTerminal(serialObtenido);
-                }
-            }, R.layout.panel_terminal_asociada);
-
-            rv.setAdapter(adapter);
         }
+
+        rv.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
+        rv.setLayoutManager(llm);
+
+        ArrayList terminals = new ArrayList<>();
+
+        for (Terminal ter : terminalesRecibidas) {
+            if (ter != null) {
+                terminals.add(ter);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
+            }
+        }
+
+
+        final AdapterTerminal adapter = new AdapterTerminal(terminals, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
+            @Override
+            public void onClick(List<Terminal> terminal, int position) {
+
+                Global.serial_ter = terminal.get(position).getTerm_serial();
+                Global.modelo = terminal.get(position).getTerm_model();
+
+                Global.terminalVisualizar = terminal.get(position);
+                //System.out.println("");
+
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminalAutorizada()).addToBackStack(null).commit();
+                // objeto.listarObservacionesTerminal(serialObtenido);
+            }
+        }, R.layout.panel_terminal_asociada);
+
+        rv.setAdapter(adapter);
+
     }
 
 }

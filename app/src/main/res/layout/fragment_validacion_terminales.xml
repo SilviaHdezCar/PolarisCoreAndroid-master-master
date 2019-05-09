@@ -163,7 +163,7 @@
         </TableLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_etapas"
+        android:id="@+id/recycler_view_validaciones_autorizadas"
         android:layout_width="match_parent"
         android:layout_below="@+id/tablaTerminales"
         android:layout_height="wrap_content"

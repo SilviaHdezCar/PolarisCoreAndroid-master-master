@@ -15,24 +15,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/txt_observacion_fin"
-                style="@style/letra_contenido"
-                android:layout_width="350dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/redondo_fondo_blanco"
-                android:hint="Observaciones"
-                android:maxLength="300"
-                android:inputType="textMultiLine|textCapSentences"/>
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="30dp"
-                android:gravity="center">
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -43,10 +31,11 @@
                         android:id="@+id/lbl_cargarFoto"
                         style="@style/letra_enlace"
                         android:layout_width="100dp"
-                        android:padding="5dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="20dp"
+                        android:padding="5dp"
+                        android:layout_gravity="center"
                         android:text="Tomar foto 1" />
 
                     <ImageView
@@ -59,16 +48,17 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="20dp">
+                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/lbl_cargarFoto2"
                         style="@style/letra_enlace"
                         android:layout_width="100dp"
-                        android:padding="5dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
+                        android:padding="5dp"
+                        android:layout_gravity="center"
                         android:text="Tomar foto 2" />
 
                     <ImageView
@@ -82,17 +72,56 @@
             </LinearLayout>
 
 
-            <Button
-                android:id="@+id/btn_finalizar_observacion"
-                style="@style/letra_contenido_blanco"
-                android:layout_width="120dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/recycler_view_validaciones"
+            <EditText
+                android:id="@+id/txt_observacion_fin"
+                style="@style/letra_contenido"
+                android:layout_width="350dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/redondo_botones"
-                android:text="Siguiente"
-                android:textAllCaps="false" />
+                android:gravity="top|left"
+                android:background="@drawable/redondo_fondo_blanco"
+                android:hint="Observación"
+                android:padding="5dp"
+                android:inputType="textMultiLine|textCapSentences"
+                android:maxLength="300" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/btn_cargarFotos"
+                        style="@style/letra_contenido_blanco"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/recycler_view_validaciones"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/redondo_botones"
+                        android:text="Cargar fotos"
+                        android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/btn_finalizar_observacion"
+                        style="@style/letra_contenido_blanco"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/recycler_view_validaciones"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/redondo_botones"
+                        android:text="Finalizar"
+                        android:textAllCaps="false" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
 
 
         </LinearLayout>

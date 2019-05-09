@@ -160,8 +160,8 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed() {
         contadorFragmentos = getSupportFragmentManager().getBackStackEntryCount();
 
-        if (contadorFragmentos == 0) {
-            super.onBackPressed();
+        if (contadorFragmentos == 1) {
+           // super.onBackPressed();
             consumirSercivioCerrarSesion();
         } else {
             getSupportFragmentManager().popBackStack();
