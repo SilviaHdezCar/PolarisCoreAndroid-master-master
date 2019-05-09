@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterEtapa;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidaciones;
@@ -45,10 +46,14 @@ public class ValidacionTerminalesFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private Button etapaView,validacionView;
+    private Button etapaView;
+    private Button validacionView;
+    private Button btn_siguiente;
+    private TextView tituloSerial;
     private View view;
 
     private RecyclerView rv;
+
     public ValidacionTerminalesFragment() {
         // Required empty public constructor
     }
@@ -86,11 +91,29 @@ public class ValidacionTerminalesFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_validacion_terminales, container, false);
         etapaView = (Button) view.findViewById(R.id.btn_etapas);
-        validacionView = (Button) view.findViewById(R.id.btn_validacion_terminales);
+        validacionView = (Button) view.findViewById(R.id.btn_validacion_terminales_autorizada);
+        btn_siguiente = (Button) view.findViewById(R.id.btn_siguiente_validaciones_autorizadas);
+        tituloSerial = (TextView) view.findViewById(R.id.tituloSerial);
+
+
+        tituloSerial.setText(Global.terminalVisualizar.getTerm_serial());
+
         etapaView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminalAutorizada()).addToBackStack(null).commit();
+            }
+        });
+        btn_siguiente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new TipificacionesAutorizadas()).addToBackStack(null).commit();
+            }
+        });
+        validacionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionTerminalesFragment()).addToBackStack(null).commit();
             }
         });
 
@@ -99,23 +122,24 @@ public class ValidacionTerminalesFragment extends Fragment {
         System.out.println(Global.validacionesAutorizadas);
         System.out.println(Global.tipificacionesAutorizadas);
 
-        String validaciones [] = Global.validacionesAutorizadas.split(",");
+        String validaciones[] = Global.validacionesAutorizadas.split(",");
         ArrayList<Validacion> validacions = new ArrayList<>();
-        for (int i=0; i<validaciones.length;i++){
-            boolean ok=false,falla=false,no_aplica=false;
-            if(validaciones[i].split("-")[1].equals("OK")){
-                ok=true;
-            }else if(validaciones[i].split("-")[1].equals("Falla")){
-                falla=true;
-            }else if(validaciones[i].split("-")[1].equals("No aplica")){
-                no_aplica=true;
+        for (int i = 0; i < validaciones.length; i++) {
+            boolean ok = false, falla = false, no_aplica = false;
+            if (validaciones[i].split("-")[1].equals("OK")) {
+                ok = true;
+            } else if (validaciones[i].split("-")[1].equals("Falla")) {
+                falla = true;
+            } else if (validaciones[i].split("-")[1].equals("No aplica")) {
+                no_aplica = true;
             }
 
-            Validacion v = new Validacion(validaciones[i].split("-")[0],ok,falla,no_aplica);
+            Validacion v = new Validacion(validaciones[i].split("-")[0], ok, falla, no_aplica);
             validacions.add(v);
         }
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_validaciones_autorizadas);
         llenarRVValidaciones(validacions);
+
 
 
         return view;

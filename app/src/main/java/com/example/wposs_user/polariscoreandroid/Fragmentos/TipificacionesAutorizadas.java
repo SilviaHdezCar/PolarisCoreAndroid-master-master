@@ -154,6 +154,26 @@ public class TipificacionesAutorizadas extends Fragment {
     }
 
 
+    /**
+     *Este metodo se utiliza para revisar cuales observaciones tienen fotos
+     * @param
+     * **/
+    public  boolean revisarFotos(){
+        if (Global.OBSERVACIONES.size()==0||Global.OBSERVACIONES==null){
+            return false;
+        }
+
+        for (int i =0; i<Global.OBSERVACIONES.size();i++){
+
+        }
+
+
+
+
+        return false;
+    }
+
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

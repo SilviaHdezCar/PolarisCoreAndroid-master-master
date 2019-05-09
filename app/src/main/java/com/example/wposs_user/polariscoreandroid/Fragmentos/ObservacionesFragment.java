@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,6 +74,9 @@ public class ObservacionesFragment extends Fragment {
     private StringRequest stringRequest;
     private int foto;
 
+    private LinearLayout layout_fotos;
+    private LinearLayout layout_finalizar_diagnostico;
+
     private Observacion obser;
 
     @Override
@@ -86,7 +90,10 @@ public class ObservacionesFragment extends Fragment {
         imagen_observación2 = (ImageView) v.findViewById(R.id.imagen_observación2);
         queue = Volley.newRequestQueue(objeto);
         finalizar = (Button) v.findViewById(R.id.btn_finalizar_observacion);
-        finalizar.setVisibility(View.INVISIBLE);
+        layout_fotos = (LinearLayout) v.findViewById(R.id.layout_fotos);
+        layout_finalizar_diagnostico = (LinearLayout) v.findViewById(R.id.layout_finalizar_diagnostico);
+
+        layout_finalizar_diagnostico.setVisibility(View.INVISIBLE);
 
         txt_observacion = (TextView) v.findViewById(R.id.txt_observacion_fin);
         btn_tomar_foto = (TextView) v.findViewById(R.id.lbl_cargarFoto);
@@ -197,8 +204,8 @@ public class ObservacionesFragment extends Fragment {
                                 nombre_foto2 = response.get("image2").toString();
 
                                 Toast.makeText(objeto, "Fotos cargadas correctamente", Toast.LENGTH_SHORT).show();
-                                finalizar.setVisibility(View.VISIBLE);
-                                btn_cargarFotos.setVisibility(View.INVISIBLE);
+                                layout_fotos.setVisibility(View.INVISIBLE);
+                                layout_finalizar_diagnostico.setVisibility(View.VISIBLE);
                                 System.out.println("Fotos cargadas correctamente");
                             }
 

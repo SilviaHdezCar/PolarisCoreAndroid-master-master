@@ -533,7 +533,7 @@ public class InicialFragment extends Fragment {
 
         if (terminalesRecibidas == null || terminalesRecibidas.size() == 0) {
             Toast.makeText(objeto, Global.CODE + " No tiene terminales autorizadas", Toast.LENGTH_SHORT).show();
-            return;
+          
         }
 
         rv.setHasFixedSize(true);

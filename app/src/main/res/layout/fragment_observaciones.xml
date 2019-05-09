@@ -1,129 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gris_fondo"
     tools:context=".Actividades.MainActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:id="@+id/layout_fotos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/lbl_cargarFoto"
-                        style="@style/letra_enlace"
-                        android:layout_width="100dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lbl_cargarFoto"
+                            style="@style/letra_enlace"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="20dp"
+                            android:padding="5dp"
+                            android:text="Tomar foto 1" />
+
+                        <ImageView
+                            android:id="@+id/imagen_observación"
+                            android:layout_width="190dp"
+                            android:layout_height="190dp"
+                            android:src="@drawable/img_no_disponible" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginTop="20dp"
-                        android:padding="5dp"
-                        android:layout_gravity="center"
-                        android:text="Tomar foto 1" />
+                        android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/imagen_observación"
-                        android:layout_width="190dp"
-                        android:layout_height="190dp"
-                        android:src="@drawable/img_no_disponible" />
+                        <TextView
+                            android:id="@+id/lbl_cargarFoto2"
+                            style="@style/letra_enlace"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:padding="5dp"
+                            android:text="Tomar foto 2" />
+
+                        <ImageView
+                            android:id="@+id/imagen_observación2"
+                            android:layout_width="190dp"
+                            android:layout_height="190dp"
+                            android:src="@drawable/img_no_disponible" />
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/lbl_cargarFoto2"
-                        style="@style/letra_enlace"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:padding="5dp"
-                        android:layout_gravity="center"
-                        android:text="Tomar foto 2" />
-
-                    <ImageView
-                        android:id="@+id/imagen_observación2"
-                        android:layout_width="190dp"
-                        android:layout_height="190dp"
-                        android:src="@drawable/img_no_disponible" />
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-
-            <EditText
-                android:id="@+id/txt_observacion_fin"
-                style="@style/letra_contenido"
-                android:layout_width="350dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:gravity="top|left"
-                android:background="@drawable/redondo_fondo_blanco"
-                android:hint="Observación"
-                android:padding="5dp"
-                android:inputType="textMultiLine|textCapSentences"
-                android:maxLength="300" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
 
                     <Button
                         android:id="@+id/btn_cargarFotos"
                         style="@style/letra_contenido_blanco"
                         android:layout_width="120dp"
                         android:layout_height="40dp"
-                        android:layout_below="@+id/recycler_view_validaciones"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/redondo_botones"
                         android:text="Cargar fotos"
                         android:textAllCaps="false" />
+                </LinearLayout>
+            </LinearLayout>
 
-                    <Button
-                        android:id="@+id/btn_finalizar_observacion"
-                        style="@style/letra_contenido_blanco"
-                        android:layout_width="120dp"
-                        android:layout_height="40dp"
-                        android:layout_below="@+id/recycler_view_validaciones"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redondo_botones"
-                        android:text="Finalizar"
-                        android:textAllCaps="false" />
-                </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/layout_finalizar_diagnostico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="70dp"
+                >
 
+                <EditText
+                    android:id="@+id/txt_observacion_fin"
+                    style="@style/letra_contenido"
+                    android:layout_width="350dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/redondo_fondo_blanco"
+                    android:gravity="top|left"
+                    android:hint="Observación"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:maxLength="300"
+                    android:padding="5dp" />
 
+                <Button
+                    android:id="@+id/btn_finalizar_observacion"
+                    style="@style/letra_contenido_blanco"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/redondo_botones"
+                    android:text="Finalizar"
+                    android:textAllCaps="false" />
             </LinearLayout>
 
 
-        </LinearLayout>
-    </ScrollView>
-</FrameLayout>
+        </RelativeLayout>
+</RelativeLayout>

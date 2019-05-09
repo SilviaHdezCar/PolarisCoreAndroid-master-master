@@ -100,6 +100,7 @@ public class ActualizarClave_perfil extends Fragment {
         btn_aceptar_cambio_clave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 cambiarClave();
             }
         });
@@ -173,7 +174,7 @@ public class ActualizarClave_perfil extends Fragment {
                 contNumero++;
             }
         }
-        if (contLetraMay > 0 && contNumero > 2 && contLetraMin > 0) {
+        if (contLetraMay > 0 && contNumero > 3 && contLetraMin > 0) {
             return true;
         }
         return false;

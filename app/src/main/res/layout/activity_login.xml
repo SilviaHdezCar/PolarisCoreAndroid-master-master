@@ -14,19 +14,33 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-
-        <TextView
-            android:id="@+id/txtTexto"
-            style="@style/letra_contenido_blanco"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="left"
+            android:layout_marginLeft="50dp"
             android:layout_marginTop="250dp"
-            android:gravity="center_horizontal"
-            android:text="@string/texto"
-            android:textSize="16dp"
+            android:orientation="vertical">
 
-            />
+            <TextView
+                style="@style/letra_contenido_blanco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+
+                android:gravity="left"
+                android:text="Bienvenido"
+                android:textSize="16dp" />
+
+            <TextView
+                style="@style/letra_contenido_blanco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:text="Ingrese usuario y contraseña."
+                android:textSize="16dp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -39,22 +53,21 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="40dp"
-                android:src="@mipmap/user_grey"
                 android:layout_gravity="left"
-                android:tint="@color/gris_iconos"
-                />
+                android:src="@mipmap/user_grey"
+                android:tint="@color/gris_iconos" />
 
             <EditText
                 android:id="@+id/txtCorreo"
+                style="@style/letra_contenido"
                 android:layout_width="250dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
+                android:background="@drawable/redondo_fondo_blanco"
+                android:gravity="center"
                 android:hint="@string/correo"
                 android:inputType="textEmailAddress"
-                android:background="@drawable/redondo_fondo_blanco"
-                android:paddingLeft="10dp"
-                android:gravity="center"
-                style="@style/letra_contenido"/>
+                android:paddingLeft="10dp" />
 
         </LinearLayout>
 
@@ -69,21 +82,20 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="40dp"
-                android:src="@mipmap/key"
                 android:layout_gravity="left"
-                />
+                android:src="@mipmap/key" />
 
             <EditText
                 android:id="@+id/txtPass"
-                android:hint="@string/clave"
-                android:inputType="textPassword"
+                style="@style/letra_contenido"
                 android:layout_width="250dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/redondo_fondo_blanco"
-                android:paddingLeft="10dp"
                 android:gravity="center"
-                style="@style/letra_contenido" />
+                android:hint="@string/clave"
+                android:inputType="textPassword"
+                android:paddingLeft="10dp" />
         </LinearLayout>
 
 
