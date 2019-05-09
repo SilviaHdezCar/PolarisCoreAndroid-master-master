@@ -1,4 +1,4 @@
-package com.example.wposs_user.polariscoreandroid.Fragmentos;
+package com.example.wposs_user.polariscoreandroid.java;
 
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
