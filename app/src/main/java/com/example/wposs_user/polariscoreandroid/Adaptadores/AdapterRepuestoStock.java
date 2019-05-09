@@ -65,7 +65,7 @@ public class AdapterRepuestoStock extends RecyclerView.Adapter<AdapterRepuestoSt
 
         if(estados.equals("INSTALADO")) {  holder.rl.setBackgroundResource(R.drawable.borde_amarillo);   }
 
-        if(estados.equals("DAÑADO")){ holder.rl.setBackgroundResource(R.drawable.borde_rojo);}
+        if(estados.equals("DAÑADO")){ holder.rl.setBackgroundResource(R.drawable.borde_naranja);}
 
         if(estados.equals("EN TRANSITO")){ holder.rl.setBackgroundResource(R.drawable.borde_marron);}
 
@@ -97,7 +97,7 @@ public class AdapterRepuestoStock extends RecyclerView.Adapter<AdapterRepuestoSt
         private TextView cod_rep;
         private TextView cant_rep;
         private TextView status;
-        private RelativeLayout rl;
+        private LinearLayout rl;
 
 
         ViewHolderRepuestoStock(View itemView) {
@@ -106,7 +106,7 @@ public class AdapterRepuestoStock extends RecyclerView.Adapter<AdapterRepuestoSt
             nombre_rep = (TextView) itemView.findViewById(R.id.txt_nombre_repuesto_stock);
             cant_rep = (TextView) itemView.findViewById(R.id.txt_cantidad_repuesto_stock);
             status=(TextView) itemView.findViewById(R.id.txt_estado_repuesto_stock);
-            rl=(RelativeLayout)itemView.findViewById(R.id.cargar_repuestos);
+            rl=(LinearLayout)itemView.findViewById(R.id.cargar_repuestos);
 
 
         }
