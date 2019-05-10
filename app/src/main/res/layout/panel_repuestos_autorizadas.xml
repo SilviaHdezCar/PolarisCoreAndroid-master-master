@@ -14,11 +14,14 @@
 
 
         <TextView
-            android:id="@+id/txt_tipificaciones"
+            android:id="@+id/txt_repuesto_autorizada"
             android:layout_width="280dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:paddingLeft="5dp" />
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,13 +29,11 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-            <ImageButton
-                android:id="@+id/btn_eliminar_tipificacion"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:padding="1dp"
-                android:background="@mipmap/papelera" />
+            <RadioButton
+                android:id="@+id/btn_ok_repuestos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
         </LinearLayout>
 
 

@@ -7,8 +7,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.R;
+import com.example.wposs_user.polariscoreandroid.java.Validacion;
+
+import java.security.acl.Group;
+import java.util.ArrayList;
+
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +42,14 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
+    private View v;
+    private TableLayout tabla;
+    private Button btn_siguiente;
+    private int id_fila;
+    private int num_celda = 1;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,9 +87,105 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_validaciones_seleccionar_autorizadas, container, false);
+        v = inflater.inflate(R.layout.fragment_validaciones_seleccionar_autorizadas, container, false);
+        tabla = (TableLayout) v.findViewById(R.id.tabla_validaciones_autorizadas);
+        btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_seleccionar_validaciones_autorizadas);
+
+        llenarTabla();
+
+        btn_siguiente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recorrerTabla(tabla);
+            }
+        });
+
+
+        return v;
     }
+
+
+    public void recorrerTabla(TableLayout tabla) {
+        for (int i = 1; i < Global.VALIDACIONES.size(); i++) {
+
+        }
+
+        for (int i = 0; i < tabla.getChildCount(); i++) {
+            View child = tabla.getChildAt(i);
+            if (child instanceof TableRow) {
+                TableRow row = (TableRow) child;
+                for (int x = 0; x < row.getChildCount(); x++) {
+
+                    View view = row.getChildAt(x);
+                    view.setEnabled(false);
+                }
+            }
+        }
+
+    }
+
+    /**
+     * Metodo utilizado para llenar la tabla de validaciones
+     **/
+    public void llenarTabla() {
+        llenarListValidaciones();
+        if (Global.VALIDACIONES.size() == 0) {
+            Toast.makeText(objeto, "No tiene validaciones", Toast.LENGTH_SHORT).show();
+        }
+        for (int i = 0; i < Global.VALIDACIONES.size(); i++) {
+            TableRow fila = new TableRow(objeto);
+            fila.setId(i);
+            //celdas
+
+            TextView nombre = new TextView(objeto);
+            nombre.setId(200 + i);
+            nombre.setText(Global.VALIDACIONES.get(i).getTeva_description());
+            nombre.setWidth(2);
+
+            RadioGroup rg = new RadioGroup(objeto);
+
+
+            RadioButton ok = new RadioButton(objeto);
+            ok.setId(300 + i);
+            ok.setChecked(false);
+            ok.setText("   ");
+
+            RadioButton falla = new RadioButton(objeto);
+            falla.setId(400 + i);
+            falla.setChecked(false);
+            falla.setText("   ");
+
+            RadioButton na = new RadioButton(objeto);
+            na.setId(500 + i);
+            na.setChecked(false);
+            na.setText("  ");
+
+            rg.addView(ok);
+            rg.addView(falla);
+            rg.addView(na);
+            rg.setOrientation(LinearLayout.HORIZONTAL);
+            fila.addView(nombre);
+            fila.addView(rg);
+            tabla.addView(fila);
+
+
+        }
+    }
+
+    /**
+     * Este metodo llena el arreglo de validaciones  que va a ser mostrado en la tabla
+     */
+    public void llenarListValidaciones() {
+        Global.VALIDACIONES = null;
+        Global.VALIDACIONES = new ArrayList<>();
+        String validaciones[] = Global.validacionesAutorizadas.split(",");
+
+        for (int i = 0; i < validaciones.length; i++) {
+            Validacion v = new Validacion(validaciones[i].split("-")[0], false, false, false);
+            Global.VALIDACIONES.add(v);
+        }
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -75,16 +194,6 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
     @Override
     public void onDetach() {

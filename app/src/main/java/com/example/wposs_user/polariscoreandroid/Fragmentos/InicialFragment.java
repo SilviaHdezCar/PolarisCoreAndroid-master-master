@@ -42,6 +42,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
+import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.google.gson.Gson;
@@ -98,6 +99,8 @@ public class InicialFragment extends Fragment {
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_consultaTerminales_inicial);
         Global.TERMINALES_ASOCIADAS = null;
         Global.TERMINALES_ASOCIADAS = new ArrayList<Terminal>();
+        Global.REPUESTOS = null;
+        Global.REPUESTOS = new ArrayList<Repuesto>();
         queue = Volley.newRequestQueue(objeto);
 
         consumirServicioAsociadas();
@@ -441,8 +444,11 @@ public class InicialFragment extends Fragment {
      **/
     public void consumirServicioAutorizadas() {
         t = null;
+        Repuesto r=null;
         Global.TERMINALES_AUTORIZADAS = null;
         Global.TERMINALES_AUTORIZADAS = new ArrayList<Terminal>();
+        Global.REPUESTOS = null;
+        Global.REPUESTOS = new ArrayList<Repuesto>();
         final Gson gson = new GsonBuilder().create();
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals//associatedsWithRepair";
@@ -477,29 +483,34 @@ public class InicialFragment extends Fragment {
 
 
                             if (jsonArray.length() == 0) {
-                                Global.mensaje = "No tiene terminales asociadas";
-                                return;
-                            }
-                            String ter = null;
+                                Global.mensaje = "No tiene terminales autorizadas";
+                            //    return;
+                            }else {
+                                String ter = null;
 
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                ter = jsonArray.getString(i);
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    ter = jsonArray.getString(i);
 
-                                //obtengo las validaciones y tipificaciones
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                Global.validacionesAutorizadas = jsonObject.get("validaciones").toString();
-                                Global.tipificacionesAutorizadas = jsonObject.get("tipificaciones").toString();
+                                    //obtengo las validaciones y tipificaciones
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    Global.validacionesAutorizadas = jsonObject.get("validaciones").toString();
+                                    Global.tipificacionesAutorizadas = jsonObject.get("tipificaciones").toString();
+                                    Global.repuestosAutorizadas = jsonObject.get("repuestos").toString();
 
-                                System.out.println("TIPIFICACIONES Y VAL " + Global.tipificacionesAutorizadas + "-" + Global.validacionesAutorizadas);
+                                    System.out.println("TIPIFICACIONES, VALI, REPUE: " + Global.tipificacionesAutorizadas + "-" + Global.validacionesAutorizadas+"-" + Global.repuestosAutorizadas);
 
 
-                                t = gson.fromJson(ter, Terminal.class);
-                                if (t != null) {
+                                    t = gson.fromJson(ter, Terminal.class);
+                                    if (t != null) {
+                                    }
+                                    Global.TERMINALES_AUTORIZADAS.add(t);
                                 }
-                                Global.TERMINALES_AUTORIZADAS.add(t);
+                                llenarRVAutorizada(Global.TERMINALES_AUTORIZADAS);
+
+
+
                             }
-                            llenarRVAutorizada(Global.TERMINALES_AUTORIZADAS);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

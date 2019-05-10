@@ -143,6 +143,9 @@ public class Global {
     public static ArrayList<Repuesto> REPUESTOS_DIAGONOSTICO= new ArrayList<>();
 
 
+    public static ArrayList<Repuesto>REPUESTOS_LISTADOS_AUTORIZADAS;
+
+
     public static ArrayList<Validacion> VALIDACIONES_DIAGNOSTICO;
     public static ArrayList<Tipificacion> TIPIFICACIONES_DIAGNOSTICO;
     public static String reparable="";
@@ -155,6 +158,7 @@ public class Global {
     public static String claveNueva;
 
     ///Variables Terminales Autorizadas
+    public static String repuestosAutorizadas = "";
     public static String validacionesAutorizadas = "";
     public static String tipificacionesAutorizadas = "";
     public static Terminal terminalVisualizar;

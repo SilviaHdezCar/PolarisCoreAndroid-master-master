@@ -248,7 +248,6 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     public boolean llenarValidacionesDiagnostico() {
         boolean retorno = false;
         Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<Validacion>();
-        String cadena = "";
         for (Validacion val : Global.VALIDACIONES) {
             if (val != null) {
 

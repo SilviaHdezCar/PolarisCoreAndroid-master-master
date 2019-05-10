@@ -28,6 +28,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
+import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -231,6 +232,8 @@ public class EtapasTerminalAutorizada extends Fragment {
                                 Global.OBSERVACIONES.add(o);
                             }
                             llenarRVEtapas(Global.OBSERVACIONES);
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

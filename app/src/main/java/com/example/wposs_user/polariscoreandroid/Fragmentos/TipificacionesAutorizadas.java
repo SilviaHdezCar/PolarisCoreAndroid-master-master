@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTipificacionesAutorizadas;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
@@ -101,7 +102,6 @@ public class TipificacionesAutorizadas extends Fragment {
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_tipificaciones_autorizadas);
 
 
-
         System.out.println("TERMINAL: " + Global.terminalVisualizar.getTerm_serial());
         serial.setText(Global.terminalVisualizar.getTerm_serial());
         marca.setText(Global.terminalVisualizar.getTerm_brand());
@@ -125,18 +125,23 @@ public class TipificacionesAutorizadas extends Fragment {
 
     public void recorrerTipificaciones() {
 
-        String tipificaciones[] = Global.tipificacionesAutorizadas.split(",");
 
-        ArrayList<String> tipificacions = new ArrayList<>();
+        if (!Global.tipificacionesAutorizadas.equals("[]")) {
 
-        if (!(tipificaciones.length == 0) || !(tipificaciones == null)) {
-            for (int i = 0; i < tipificaciones.length; i++) {
-                tipificacions.add(tipificaciones[i]);
+            String tipificaciones[] = Global.tipificacionesAutorizadas.split(",");
+
+            ArrayList<String> tipificacions = new ArrayList<>();
+
+            if ((tipificaciones.length == 0) || tipificaciones == null) {
+                Toast.makeText(objeto, "No tiene tipificaciones", Toast.LENGTH_SHORT).show();
+            } else {
+                for (int i = 0; i < tipificaciones.length; i++) {
+                    tipificacions.add(tipificaciones[i]);
+                }
+                llenarRVTipificaciones(tipificacions);
             }
-            llenarRVTipificaciones(tipificacions);
+
         }
-
-
     }
 
     /**
@@ -154,6 +159,7 @@ public class TipificacionesAutorizadas extends Fragment {
 
         for (String val : tipificacionesRecibidas) {
             if (val != null) {
+                System.out.println("arreg tip: " + val);
                 tipificaciones.add(val);
             }
 
