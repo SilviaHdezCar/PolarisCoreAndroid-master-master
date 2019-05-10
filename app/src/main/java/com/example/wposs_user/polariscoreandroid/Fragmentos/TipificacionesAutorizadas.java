@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTipificacionesAutorizadas;
@@ -19,6 +20,8 @@ import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +49,7 @@ public class TipificacionesAutorizadas extends Fragment {
     private TextView estado;
     private TextView fechaANS;
 
+    private Button btn_siguiente;
 
     private RecyclerView rv;
 
@@ -93,7 +97,10 @@ public class TipificacionesAutorizadas extends Fragment {
         tecnologia = (TextView) v.findViewById(R.id.tecno_ter_autorizada);
         estado = (TextView) v.findViewById(R.id.estado_ter_autorizada);
         fechaANS = (TextView) v.findViewById(R.id.fechaANS_ter_autorizada);
+        btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_tipificaciones_autorizadas);
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_tipificaciones_autorizadas);
+
+
 
         System.out.println("TERMINAL: " + Global.terminalVisualizar.getTerm_serial());
         serial.setText(Global.terminalVisualizar.getTerm_serial());
@@ -104,7 +111,12 @@ public class TipificacionesAutorizadas extends Fragment {
         fechaANS.setText(Global.terminalVisualizar.getTerm_date_register());
 
 
-
+        btn_siguiente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new RepuestosAutorizadasFragment()).addToBackStack(null).commit();
+            }
+        });
         recorrerTipificaciones();
 
         return v;
@@ -121,7 +133,7 @@ public class TipificacionesAutorizadas extends Fragment {
             for (int i = 0; i < tipificaciones.length; i++) {
                 tipificacions.add(tipificaciones[i]);
             }
-            llenarRVValidaciones(tipificacions);
+            llenarRVTipificaciones(tipificacions);
         }
 
 
@@ -131,7 +143,7 @@ public class TipificacionesAutorizadas extends Fragment {
      * este metodo llena el recycler view con las tipificaciones obtenidas al consumir el
      * servicio que muestra el detalle de la terminal autorizada seleccionada
      **/
-    public void llenarRVValidaciones(List<String> tipificacionesRecibidas) {
+    public void llenarRVTipificaciones(List<String> tipificacionesRecibidas) {
         //************************SE MUESTRA LA LISTA DE TERMINALES ASOCIADAS
         rv.setHasFixedSize(true);
 
@@ -155,19 +167,18 @@ public class TipificacionesAutorizadas extends Fragment {
 
 
     /**
-     *Este metodo se utiliza para revisar cuales observaciones tienen fotos
+     * Este metodo se utiliza para revisar cuales observaciones tienen fotos
+     *
      * @param
-     * **/
-    public  boolean revisarFotos(){
-        if (Global.OBSERVACIONES.size()==0||Global.OBSERVACIONES==null){
+     **/
+    public boolean revisarFotos() {
+        if (Global.OBSERVACIONES.size() == 0 || Global.OBSERVACIONES == null) {
             return false;
         }
 
-        for (int i =0; i<Global.OBSERVACIONES.size();i++){
+        for (int i = 0; i < Global.OBSERVACIONES.size(); i++) {
 
         }
-
-
 
 
         return false;
