@@ -145,7 +145,7 @@ public class StockFragment extends Fragment {
 
 
                             if (jsonArray1.length() == 0) {
-                                Global.mensaje = "No tiene terminales asociadas";
+                                Global.mensaje = "No tiene terminales ";
                                 Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();
                                 return;
                             }
@@ -239,7 +239,7 @@ public class StockFragment extends Fragment {
 
 
                             if (jsonArray1.length() == 0) {
-                                Global.mensaje = "No tiene repuestos asociadas";
+                                Global.mensaje = "No tiene repuestos ";
                                 Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();
                                 return;
                             }
