@@ -1,7 +1,6 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,10 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuestosAutorizadas;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.R;
@@ -51,10 +54,10 @@ public class RepuestosAutorizadasFragment extends Fragment {
     private TextView estado;
     private TextView fechaANS;
 
+    private TableLayout tabla;
 
     private Button btn_siguiente;
 
-    private RecyclerView rv;
 
     private List<Repuesto> repuestos;
 
@@ -113,16 +116,15 @@ public class RepuestosAutorizadasFragment extends Fragment {
         estado.setText(Global.terminalVisualizar.getTerm_status());
         fechaANS.setText(Global.terminalVisualizar.getTerm_date_register());
 
-
         btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_repuestos_autorizadas);
-        rv = (RecyclerView) v.findViewById(R.id.recycler_view_repuestos_autorizadas);
-        //
-        recorrerRepuestos();
+        tabla= (TableLayout)v.findViewById(R.id.tabla_seleccionar_repuestos);
+
+        llenarTabla();
 
         btn_siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validarSeleccionRepuestos()){
+                if(validarEstadosRepuestos()){
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesSeleccionarAutorizadas()).addToBackStack(null).commit();
                     return;
 
@@ -134,93 +136,123 @@ public class RepuestosAutorizadasFragment extends Fragment {
 
 
     /**
-     * Este metodo se utiliza para recorrer el arreglo de repuestos enviado por el servicio al seleccionar una autorizada
-     * Split de los repuestos recibidos y los agrega al recycler view
-     **/
-    public void recorrerRepuestos() {
-
-        if (!Global.repuestosAutorizadas.equals("[]")) {
-
-            String tipificaciones[] = Global.repuestosAutorizadas.split(",");
-
-            ArrayList<Repuesto> repuestos = new ArrayList<>();
-            Repuesto repuesto = null;
-            if ((tipificaciones.length == 0) || tipificaciones == null) {
-                Toast.makeText(objeto, "No tiene tipificaciones", Toast.LENGTH_SHORT).show();
-            } else {
-                for (int i = 0; i < tipificaciones.length; i++) {
-                    String[] rep = tipificaciones[i].split("-");
-                    System.out.println("Repuesto" + rep[1]);
-                    //String spar_code,String spar_name, String quantity, String spar_warehouse
-                    repuesto = new Repuesto(rep[0], rep[1], rep[2], rep[3]);
-                    repuestos.add(repuesto);
-                }
-                llenarRVRepuestos(repuestos);
-            }
-
-        }
-    }
-
-
-    //este metodo llena el recycler view con los repuestos recibidos
-    public void llenarRVRepuestos(List<Repuesto> repuestos) {
-        final ArrayList tipificaciones = new ArrayList<>();
-
-
-        if (repuestos.size() == 0 || repuestos == null) {
-            Toast.makeText(objeto, "No tiene repuestos", Toast.LENGTH_SHORT).show();
-        }
-        rv.setHasFixedSize(true);
-
-        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-        rv.setLayoutManager(llm);
-        this.repuestos.clear();
-        //final ArrayList validaciones = new ArrayList<>();
-
-        for (Repuesto val : repuestos) {
-            if (val != null) {
-                this.repuestos.add(val);
-            }
-
-            //  System.out.println("LLENANDO RV.....");
-            final AdapterRepuestosAutorizadas adapter = new AdapterRepuestosAutorizadas(this.repuestos, new AdapterRepuestosAutorizadas.interfaceClick() {
-                @Override
-                public void onClick(List<Repuesto> listRepuestos, int position, int pos_radio) {
-                    //      System.out.println("al dar clic---- position " + position + "pos_radio " + pos_radio);
-                    //    System.out.println("Fragment validaciones"+listValidaciones.get(position).getTeva_description()+"-"+listValidaciones.get(position).getEstado());
-                    System.out.println("Adapter validaciones inicio: " + position + ":-" + listRepuestos.get(position).getSpar_name() + "-" + listRepuestos.get(position).isOk());
-                }
-
-
-            }, R.layout.panel_repuestos_autorizadas);
-
-            rv.setAdapter(adapter);
-
-        }
-
-
-    }
-
-
-    //Armo el arraylist     que voy a enviar al consumir el servicio de registrar diagnostico
-    public boolean validarSeleccionRepuestos() {
+     * Este metodo se utiliza para verificar que todos los repuestos estén OK
+     * @return true-->si todos están oOK
+     */
+    public boolean validarEstadosRepuestos() {
         boolean retorno = false;
-        for (Repuesto rep : this.repuestos) {
+        recorrerTabla(tabla);
+        Repuesto rep = new Repuesto();
+        for (int i = 0; i <this.repuestos.size(); i++) {
+            rep = this.repuestos.get(i);
             if (rep != null) {
                 if (!rep.isOk()) {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(objeto);
-                    alertDialog.setTitle("INFORMACIÓN");
-                    alertDialog.setMessage("Seleccione el repuesto: " + rep.getSpar_name());
+                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                    alertDialog.setTitle("Información");
+                    alertDialog.setMessage("Faltó seleccionar el repuesto: " + rep.getSpar_name());
                     alertDialog.setCancelable(true);
                     alertDialog.show();
                     return false;
-                }else{
+                } else {
                     retorno=true;
                 }
             }
         }
         return retorno;
     }
+
+
+    /**
+     * Este metodo se utiliza para recorrer la tabla mostrada de repuestos y cambia el estado
+     * del repuesto al presionar el radio button     *
+     * @param tabla
+     */
+    public void recorrerTabla(TableLayout tabla) {
+
+        int pos_fila;
+        int pos_radio;
+
+        for (int i = 1; i < tabla.getChildCount(); i++) {//filas
+            View child = tabla.getChildAt(i);
+            TableRow row = (TableRow) child;
+            pos_fila = row.getId();
+            View view = row.getChildAt(0);//celdas
+           /* if (view instanceof TextView) {
+
+                System.out.println("id: " + ((TextView) view).getText().toString());
+                view.setEnabled(false);
+            }*/
+            view = row.getChildAt(1);//Celda en la posición 1
+            if (view instanceof RadioButton) {
+                if(((RadioButton) view).isChecked()){
+                    this.repuestos.get(i-1).setOk(true);
+                }
+            }
+            System.out.println("Pos: " + i + "-->" +this.repuestos.get(i - 1).getSpar_name() + "-" +  this.repuestos.get(i-1).isOk());
+        }
+    }
+
+    /**
+     * Metodo utilizado para llenar la tabla de respuestos con la columna OK
+     **/
+    public void llenarTabla() {
+        llenarListaRepuestos();
+
+        for (int i = 0; i < this.repuestos.size(); i++) {
+            TableRow fila = new TableRow(objeto);
+            fila.setId(i);
+            fila.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            //celdas
+
+            TextView nombre = new TextView(objeto);
+            nombre.setId(100 + i);
+            nombre.setText(this.repuestos.get(i).getSpar_name());
+
+            RadioButton ok = new RadioButton(objeto);
+            ok.setId(200 + i);
+            ok.setChecked(false);
+
+            fila.addView(nombre);
+            fila.addView(ok);
+            tabla.addView(fila);
+
+
+        }
+    }
+
+
+
+    /**
+     * Este metodo se utiliza para recorrer el arreglo de repuestos enviado por el servicio al seleccionar una autorizada
+     * Split de los repuestos recibidos y los agrega al recycler view
+     **/
+    public void llenarListaRepuestos() {
+        Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS=null;
+        Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS=new ArrayList<Repuesto>();
+        if (!Global.repuestosAutorizadas.equals("[]")) {
+
+            String tipificaciones[] = Global.repuestosAutorizadas.split(",");
+
+            repuestos = new ArrayList<>();
+            Repuesto repuesto = null;
+            if ((tipificaciones.length == 0) || tipificaciones == null) {
+                Toast.makeText(objeto, "No tiene repuestos", Toast.LENGTH_SHORT).show();
+            } else {
+                for (int i = 0; i < tipificaciones.length; i++) {
+                    String[] rep = tipificaciones[i].split("-");
+                    System.out.println("Repuesto" + rep[1]);
+                    //String spar_code,String spar_name, String quantity, String spar_warehouse
+                    repuesto = new Repuesto(rep[0], rep[1], rep[2], rep[3]);
+                    this.repuestos.add(repuesto);
+                    Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.add(repuesto);
+                }
+            }
+
+        }
+    }
+
+
+
 
 
     // TODO: Rename method, update argument and hook method into UI event

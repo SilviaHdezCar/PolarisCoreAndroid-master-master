@@ -12,6 +12,13 @@ public class Validacion {
     private String estado;
 
 
+    public Validacion() {
+        this.ok=false;
+        this.falla=false;
+        this.no_aplica=false;
+        this.estado="";
+    }
+
     public Validacion(String teva_id, String teva_description) {
         this.teva_id = teva_id;
         this.teva_description = teva_description;

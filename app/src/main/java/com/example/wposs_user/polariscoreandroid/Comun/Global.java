@@ -143,7 +143,8 @@ public class Global {
     public static ArrayList<Repuesto> REPUESTOS_DIAGONOSTICO= new ArrayList<>();
 
 
-    public static ArrayList<Repuesto>REPUESTOS_LISTADOS_AUTORIZADAS;
+    public static ArrayList<Repuesto>REPUESTOS_DEFECTUOSOS_AUTORIZADAS;
+    public static ArrayList<Repuesto>REPUESTOS_DEFECTUOSOS_SOLICITAR;
 
 
     public static ArrayList<Validacion> VALIDACIONES_DIAGNOSTICO;

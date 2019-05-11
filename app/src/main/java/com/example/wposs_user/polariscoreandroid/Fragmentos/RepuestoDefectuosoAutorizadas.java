@@ -11,9 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -27,17 +25,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
-import com.example.wposs_user.polariscoreandroid.Dialogs.DialogFallaDetectada_autorizadas;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.java.Validacion;
+import com.example.wposs_user.polariscoreandroid.java.Observacion;
+import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
@@ -45,12 +43,12 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ValidacionesSeleccionarAutorizadas.OnFragmentInteractionListener} interface
+ * {@link RepuestoDefectuosoAutorizadas.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ValidacionesSeleccionarAutorizadas#newInstance} factory method to
+ * Use the {@link RepuestoDefectuosoAutorizadas#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ValidacionesSeleccionarAutorizadas extends Fragment {
+public class RepuestoDefectuosoAutorizadas extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -60,18 +58,28 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
     private String mParam1;
     private String mParam2;
 
-
-    private View v;
-    private TableLayout tabla;
-    private Button btn_siguiente;
-
-
-    private RequestQueue queue;
-
-
     private OnFragmentInteractionListener mListener;
 
-    public ValidacionesSeleccionarAutorizadas() {
+
+    private View v;
+    private TextView serial;
+    private TextView marca;
+    private TextView modelo;
+    private TextView tecnologia;
+    private TextView estado;
+    private TextView fechaANS;
+
+    private TableLayout tabla;
+
+    private TextView txt_observacion;
+    private String observacion;
+
+    private Button btn_siguiente;
+
+    private RequestQueue queue;
+    private Observacion obser;
+
+    public RepuestoDefectuosoAutorizadas() {
         // Required empty public constructor
     }
 
@@ -81,11 +89,11 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ValidacionesSeleccionarAutorizadas.
+     * @return A new instance of fragment RepuestoDefectuosoAutorizadas.
      */
     // TODO: Rename and change types and number of parameters
-    public static ValidacionesSeleccionarAutorizadas newInstance(String param1, String param2) {
-        ValidacionesSeleccionarAutorizadas fragment = new ValidacionesSeleccionarAutorizadas();
+    public static RepuestoDefectuosoAutorizadas newInstance(String param1, String param2) {
+        RepuestoDefectuosoAutorizadas fragment = new RepuestoDefectuosoAutorizadas();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -105,83 +113,91 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_validaciones_seleccionar_autorizadas, container, false);
-        objeto.setTitle("               VALIDACIONES");
+        v = inflater.inflate(R.layout.fragment_repuesto_defectuoso_autorizadas, container, false);
+        Global.REPUESTOS_DEFECTUOSOS_SOLICITAR = null;
+        Global.REPUESTOS_DEFECTUOSOS_SOLICITAR = new ArrayList<Repuesto>();
+
+        objeto.setTitle("          REPUESTOS DEFECTUOSOS");
         queue = Volley.newRequestQueue(objeto);
-        tabla = (TableLayout) v.findViewById(R.id.tabla_validaciones_autorizadas);
-        btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_seleccionar_validaciones_autorizadas);
+
+        serial = (TextView) v.findViewById(R.id.serial_terminales);
+        marca = (TextView) v.findViewById(R.id.marca_terminales);
+        modelo = (TextView) v.findViewById(R.id.modelo_terminales);
+        tecnologia = (TextView) v.findViewById(R.id.tecno_terminales);
+        estado = (TextView) v.findViewById(R.id.estado_terminales);
+        fechaANS = (TextView) v.findViewById(R.id.fechaANS_terminales);
+
+        serial.setText(Global.terminalVisualizar.getTerm_serial());
+        marca.setText(Global.terminalVisualizar.getTerm_brand());
+        modelo.setText(Global.terminalVisualizar.getTerm_model());
+        tecnologia.setText(Global.terminalVisualizar.getTerm_technology());
+        estado.setText(Global.terminalVisualizar.getTerm_status());
+        fechaANS.setText(Global.terminalVisualizar.getTerm_date_register());
+
+        btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_repuestos_defectuoso_autorizadas);
+        txt_observacion = (TextView) v.findViewById(R.id.txt_observacion_repuesto);
+        tabla = (TableLayout) v.findViewById(R.id.tabla_seleccionar_repuestos_defectuosos);
+
 
         llenarTabla();
-
         btn_siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String verificacionEstados = validarEstadosValidaciones();
-                if (verificacionEstados.equalsIgnoreCase("faltan")) {
-                    return;
-                } else {
-                    System.out.println("verificación--> " + verificacionEstados);
-                    if (verificacionEstados.equalsIgnoreCase("ok")) {
-                        consumirServicioReparacionExitosa();
-                    } else if (verificacionEstados.equalsIgnoreCase("falla")) {
-                        fallaDetectada();
-
-                    }
-                }
-
+                solicitar();
             }
         });
-
 
         return v;
     }
 
-    /**
-     * Este metodo Recorre el arreglo de validaciones y verifica que todos los estados esten ok o NA.     *
-     *
-     * @return true--> si el estado de la validacion es ok o Na(No aplica). false--> si el estado es Falla
-     */
-    public String validarEstadosValidaciones() {
-        String retorno = "";
-        recorrerTabla(tabla);
-        int contFalla = 0;
-        Validacion val = new Validacion();
-        for (int i = 0; i < Global.VALIDACIONES.size(); i++) {
-            val = Global.VALIDACIONES.get(i);
-            if (val != null) {
-                if (val.getEstado().isEmpty() || val.getEstado() == null) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                    alertDialog.setTitle("Información");
-                    alertDialog.setMessage("Verifique el estado de la validación: " + val.getTeva_description());
-                    alertDialog.setCancelable(true);
-                    alertDialog.show();
-                    return "faltan";
-                } else {
-                    System.out.println(Global.VALIDACIONES.get(i).getTeva_description() + "-" + Global.VALIDACIONES.get(i).getEstado());
-                    if (val.getEstado().equalsIgnoreCase("falla")) {
-                        contFalla++;
-                    }
-                }
-            }
+
+    public void solicitar() {
+        validarEstadosRepuestos();
+        observacion = txt_observacion.getText().toString().trim();
+        if (observacion.isEmpty() || observacion == null) {
+            Toast.makeText(objeto, "Por favor ingrese la observación", Toast.LENGTH_SHORT).show();
+            return;
         }
-        if (contFalla == 0) {
-            retorno = "ok";
+        if (Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.size() == 0 || Global.REPUESTOS_DEFECTUOSOS_SOLICITAR == null) {
+            Toast.makeText(objeto, "Debe seleccionar al menos un repuesto", Toast.LENGTH_SHORT).show();
+            return;
         } else {
-            retorno = "falla";
+            obser = new Observacion("", observacion, "", "", "", Global.serial_ter);
+            consumirServicioReparacionExitosa();
         }
-        System.out.println("Con falla: " + contFalla);
-        return retorno;
+
     }
 
 
     /**
-     * Este metodo se utiliza para recorrer la tabla mostrada de validaciones y cambia el estado
-     * de la validacion al presionar un radio button
+     * Este metodo se utiliza para verificar que todos los repuestos estén OK
+     *
+     * @return true-->si todos están oOK
+     */
+    public void validarEstadosRepuestos() {
+        recorrerTabla(tabla);
+        Repuesto rep = new Repuesto();
+        for (int i = 0; i < Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size(); i++) {
+            rep = Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i);
+            if (rep != null) {
+                if (rep.isOk())
+                    Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.add(rep);
+            }
+        }
+    }
+
+
+    /**
+     * Este metodo se utiliza para recorrer la tabla mostrada de repuestos y cambia el estado
+     * del repuesto al presionar el radio button     *
      *
      * @param tabla
      */
     public void recorrerTabla(TableLayout tabla) {
 
+        for (int i = 0; i < Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size(); i++) {
+            Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i).setOk(false);
+        }
         int pos_fila;
         int pos_radio;
 
@@ -189,106 +205,50 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
             View child = tabla.getChildAt(i);
             TableRow row = (TableRow) child;
             pos_fila = row.getId();
-            System.out.println("fila: " + pos_fila);
             View view = row.getChildAt(0);//celdas
            /* if (view instanceof TextView) {
 
                 System.out.println("id: " + ((TextView) view).getText().toString());
                 view.setEnabled(false);
             }*/
-            view = row.getChildAt(1);//celda en la pos 1
-            if (view instanceof RadioGroup) {
-                pos_radio = ((RadioGroup) view).getCheckedRadioButtonId();
-                System.out.println("Pos_radio: " + pos_radio);
+            view = row.getChildAt(1);//Celda en la posición 1
 
-                if (pos_radio == (300 + pos_fila)) {
-                    Global.VALIDACIONES.get(i - 1).setEstado("ok");
-                    Global.VALIDACIONES.get(i - 1).setOk(true);
-                    Global.VALIDACIONES.get(i - 1).setFalla(false);
-                    Global.VALIDACIONES.get(i - 1).setNo_aplica(false);
-                    System.out.println("isOK");
-                }
-                if (pos_radio == (400 + pos_fila)) {
-                    Global.VALIDACIONES.get(i - 1).setEstado("falla");
-                    Global.VALIDACIONES.get(i - 1).setOk(false);
-                    Global.VALIDACIONES.get(i - 1).setFalla(true);
-                    Global.VALIDACIONES.get(i - 1).setNo_aplica(false);
-                    System.out.println("isFalla");
-                }
-                if (pos_radio == (500 + pos_fila)) {
-                    Global.VALIDACIONES.get(i - 1).setEstado("na");
-                    Global.VALIDACIONES.get(i - 1).setOk(false);
-                    Global.VALIDACIONES.get(i - 1).setFalla(false);
-                    Global.VALIDACIONES.get(i - 1).setNo_aplica(true);
-                    System.out.println("isNa");
+            if (view instanceof RadioButton) {
+                if (((RadioButton) view).isChecked()) {
+                    Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i - 1).setOk(true);
                 }
             }
-            System.out.println("Pos: " + i + "-->" + Global.VALIDACIONES.get(i - 1).getTeva_description() + "-" + Global.VALIDACIONES.get(i - 1).getEstado());
+            System.out.println("Pos: " + i + "-->" + Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i - 1).getSpar_name() + "-" + Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i - 1).isOk());
         }
     }
 
     /**
-     * Metodo utilizado para llenar la tabla de validaciones
+     * Metodo utilizado para llenar la tabla de respuestos con la columna OK
      **/
     public void llenarTabla() {
-        llenarListValidaciones();
-        if (Global.VALIDACIONES.size() == 0) {
-            Toast.makeText(objeto, "No tiene validaciones", Toast.LENGTH_SHORT).show();
-        }
-        for (int i = 0; i < Global.VALIDACIONES.size(); i++) {
+        System.out.println("Tamaño lista: " + Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size());
+
+        for (int i = 0; i < Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size(); i++) {
             TableRow fila = new TableRow(objeto);
             fila.setId(i);
+            fila.setGravity(View.TEXT_ALIGNMENT_CENTER);
             //celdas
 
             TextView nombre = new TextView(objeto);
-            nombre.setId(200 + i);
-            nombre.setText(Global.VALIDACIONES.get(i).getTeva_description());
-            nombre.setWidth(2);
-
-            RadioGroup rg = new RadioGroup(objeto);
-
+            nombre.setId(100 + i);
+            nombre.setText(Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i).getSpar_name());
 
             RadioButton ok = new RadioButton(objeto);
-            ok.setId(300 + i);
+            ok.setId(200 + i);
             ok.setChecked(false);
-            ok.setText("   ");
 
-            RadioButton falla = new RadioButton(objeto);
-            falla.setId(400 + i);
-            falla.setChecked(false);
-            falla.setText("   ");
-
-            RadioButton na = new RadioButton(objeto);
-            na.setId(500 + i);
-            na.setChecked(false);
-            na.setText("  ");
-
-            rg.addView(ok);
-            rg.addView(falla);
-            rg.addView(na);
-            rg.setOrientation(LinearLayout.HORIZONTAL);
             fila.addView(nombre);
-            fila.addView(rg);
+            fila.addView(ok);
             tabla.addView(fila);
 
 
         }
     }
-
-    /**
-     * Este metodo llena el arreglo de validaciones  que va a ser mostrado en la tabla
-     */
-    public void llenarListValidaciones() {
-        Global.VALIDACIONES = null;
-        Global.VALIDACIONES = new ArrayList<>();
-        String validaciones[] = Global.validacionesAutorizadas.split(",");
-
-        for (int i = 0; i < validaciones.length; i++) {
-            Validacion v = new Validacion(validaciones[i].split("-")[0], false, false, false);
-            Global.VALIDACIONES.add(v);
-        }
-    }
-
 
     /**
      * Metodo utilizados para consumir el servicio  que permite registrar un diagnostico con observaciones mediante una petición REST
@@ -298,15 +258,20 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
     public void consumirServicioReparacionExitosa() {
 
 
-        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/saveDiagnosisQa";
-        System.out.println("REPARACION EXITOSA ");
-
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/saveDiagnosisSpare";
         JSONObject jsonObject = new JSONObject();
         JSONObject obj2 = new JSONObject();
         try {
 
-            JSONArray val = this.getValidaciones();
-            jsonObject.put("validaciones", val);
+            JSONArray val=this.getValidaciones();
+            jsonObject.put("validaciones",val);
+
+            jsonObject.put("observacion",obser.getObj());
+
+            JSONArray rep=this.getRepuestos();
+            obj2.put("tesw_repuestos",rep);
+            jsonObject.put("repuestos", obj2);
+
 
             Log.d("RESPUESTA", jsonObject.toString());
 
@@ -369,27 +334,6 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
     }
 
     /**
-     * Este metodo elimina todos los fragmentos de la pila
-     * ()
-     */
-    public void eliminarPila() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-            fm.popBackStack();
-        }
-
-    }
-
-    /**
-     * Este metodo infla el cuadro de dialogo donde permite seleccionar la razón de la falla detectada
-     */
-    public void fallaDetectada() {
-        DialogFallaDetectada_autorizadas dialog = new DialogFallaDetectada_autorizadas();
-        dialog.show(objeto.getSupportFragmentManager(), "");
-    }
-
-
-    /**
      * METODO QUE RECORRE LA LISTA DE VALIDACIONES Y LAS AGREGA AL ARREGLO
      **/
     public JSONArray getValidaciones() throws JSONException {
@@ -402,13 +346,41 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
     }
 
 
+    /**
+     * METODO QUE RECORRE LOS REPUESTOS Y LS AGREGA AL ARREGLO
+     **/
+    public JSONArray getRepuestos() throws JSONException {
+
+        JSONArray listas = new JSONArray();
+
+        for (int i = 0; i < Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.size(); i++) {
+            JSONObject ob = Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getObj();
+            listas.put(ob);
+        }
+
+        return listas;
+    }
+
+
+    /**
+     * Este metodo elimina todos los fragmentos de la pila
+     * ()
+     */
+    public void eliminarPila() {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
+
+    }
+
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
-
 
     @Override
     public void onDetach() {
