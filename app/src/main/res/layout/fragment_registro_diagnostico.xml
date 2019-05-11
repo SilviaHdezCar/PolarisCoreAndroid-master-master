@@ -160,6 +160,13 @@
         android:background="@drawable/button_border"
          />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Observaciones"
+            android:layout_marginTop="20dp"
+
+            />
 
         <EditText
             android:id="@+id/txt_observaciones"
@@ -168,7 +175,7 @@
             android:layout_height="100dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/cuadrado_gris"
-            android:hint="Observaciones"
+           android:textAlignment="gravity"
             android:maxLength="300"
             android:textSize="14dp" />
 

@@ -4,61 +4,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Actividades.MainActivity">
+    android:padding="10dp"
+    tools:context=".Actividades.MainActivity"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
 
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    style="@style/letra_contenido"
+    android:text="@string/bienvenido_seleccione_el_criterio_de_busqueda_en_que_desea_ver_su_productividad"
+    />
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Spinner
+        android:layout_width="150dp"
+        android:id="@+id/tipo_consulta"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+       android:entries="@array/tipo_busqueda"
 
-        >
+        > </Spinner>
 
-        <TextView
-            android:layout_width="10dp"
+
+    <Button
+            android:id="@+id/btn_busqueda"
+            style="@style/letra_contenido_blanco"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="T e r m i n a l e s  x  d i a"
-            android:textSize="14dp"
-            android:textStyle="bold"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/redondo_botones"
+            android:text="Buscar"
+            android:textAllCaps="false"
+
+
             />
-
-
-
-
-    <com.github.mikephil.charting.charts.BarChart
-
-
-
-        android:layout_width="350dp"
-        android:layout_height="350dp"
-        android:layout_marginTop="50dp"
-        android:id="@+id/grafica_productividad"
-        android:layout_gravity="center"
-
-
-
-        />
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dias"
-        android:layout_gravity="center_horizontal"
-        android:textSize="14dp"
-        android:textStyle="bold"
-
-        />
-
-
 
 
 </LinearLayout>

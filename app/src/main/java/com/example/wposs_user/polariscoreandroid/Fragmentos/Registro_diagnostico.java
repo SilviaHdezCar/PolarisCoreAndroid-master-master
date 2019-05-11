@@ -84,6 +84,9 @@ public class Registro_diagnostico extends Fragment {
         registroDiag = (Button) v.findViewById(R.id.btn_registroDioagnostico);
         queue = Volley.newRequestQueue(objeto);
         this.consumirServicioRepuestos();
+
+         cantidad_req.setEnabled(false);
+
         registroDiag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +136,7 @@ public class Registro_diagnostico extends Fragment {
                 String code = adapter.getItem(i);
                 String[] repuest = code.split(" ");
                 Global.codigo_rep = repuest[0];
+                cantidad_req.setEnabled(true);
 
                 System.out.println(" Codigo del repuesto seleccionado;" + Global.codigo_rep);
                 InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
@@ -150,6 +154,7 @@ public class Registro_diagnostico extends Fragment {
                     Global.codigo_rep = repuest[0];
                     InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
                     in.hideSoftInputFromWindow(textView.getApplicationWindowToken(), 0);
+                    cantidad_req.setEnabled(true);
                     return true;
                 }
                 return false;
@@ -172,18 +177,22 @@ public class Registro_diagnostico extends Fragment {
             return;
         }
 
-        if (Global.codigo_rep.isEmpty() || cant.isEmpty()) {
+        if (cant.isEmpty()) {
             Toast.makeText(objeto, "Debe ingresar una cantidad valida", Toast.LENGTH_SHORT).show();
+            Global.codigo_rep="";
             return;
         }
 
         int cant_solicitada = Integer.parseInt(cant);
 
-        if (cant_solicitada <= 0) {
+        if (cant_solicitada == 0) {
 
             Toast.makeText(objeto, "Debe solicitar como minimo 1 repuesto", Toast.LENGTH_SHORT).show();
+            Global.codigo_rep="";
+            return;
 
         }
+
 
         for (int i = 0; i < Global.REPUESTOS.size(); i++) {
 
@@ -258,32 +267,51 @@ public class Registro_diagnostico extends Fragment {
     public void registrarDiagnostico() {
 
         String descripicionObserv = observ.getText().toString();
-        Observacion obser = new Observacion(Global.serial_ter, descripicionObserv, "", "", "", Global.serial_ter);
-        Global.obs = obser;
 
-        if(rv.getAdapter()==null){
 
-            Toast.makeText(objeto, "Debe agregar al menos un repuesto", Toast.LENGTH_SHORT).show();
-            //  rv.removeAllViewsInLayout(); Para limpiar el reciler view
+        if(Global.REPUESTOS_DIAGONOSTICO.size()==0 && descripicionObserv.isEmpty()){
+
+            Toast.makeText(objeto, "Debe agregar como minimo un repuesto o una observación", Toast.LENGTH_SHORT).show();
             return;
+
+        }
+
+
+        if(Global.REPUESTOS_DIAGONOSTICO.size()==0){
+
+            if(descripicionObserv.isEmpty()){
+                Toast.makeText(objeto, "Debe agregar un repuesto al menos", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
+
+            Observacion obser = new Observacion("", descripicionObserv, "", "", "", Global.serial_ter);
+            Global.obs = obser;
+
+            this.consumirServicioDiagnostico();
+            return;
+
+        }
+        this.consumirServicioDiagnostico();
+
         }
 
 
 
-
-        consumirServicioDiagnostico(v);
-
        /* Intent i = new Intent(v.getContext(), MainActivity.class); // inicio una nueva activiy
         getFragmentManager().beginTransaction().remove(this).commit(); /// remuevo el fragment usado
          startActivity(i);*/
-    }
+
 
     /**
      * Metodo utilizados para consumir el servicio  de listar terminales asociadas mediante una petición REST
      * En el encabezado va el token-> Authenticator
      * Se envía el codigo del usuario  Global.CODE
      **/
-    public void consumirServicioDiagnostico(View v) {
+     public void consumirServicioDiagnostico() {
+
+
 
         final Gson gson = new GsonBuilder().create();
 

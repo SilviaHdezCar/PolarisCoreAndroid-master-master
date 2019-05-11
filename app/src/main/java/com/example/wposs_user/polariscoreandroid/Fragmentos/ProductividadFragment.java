@@ -5,83 +5,69 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.java.MyValueFormatter;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 
 public class ProductividadFragment extends Fragment {
+View v;
+Spinner s;
+Button buscar;
 
-    private BarChart grafica;
-    private View v;
-    private Object MyValueFormatter;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         v= inflater.inflate(R.layout.fragment_productividad, container, false);
-        grafica=(BarChart)v.findViewById(R.id.grafica_productividad);
-
-       //Creamos los valores de entrada
-
-        List<BarEntry> entradas= new ArrayList<>();
-        entradas.add(new BarEntry(1,4));
-        entradas.add(new BarEntry(2,6));
-        entradas.add(new BarEntry(3,8));
-        entradas.add(new BarEntry(4,7));
-        entradas.add(new BarEntry(5,5));
-        entradas.add(new BarEntry(6,3));
-        entradas.add(new BarEntry(7,5));
-
-
-
-        //Enviamos los datos para crear la grafica
-
-        BarDataSet datos = new BarDataSet(entradas,"");
-
-      
-
-
-       datos.setValueFormatter( new MyValueFormatter());
-
-
-
-        Description des = grafica.getDescription();
-        des.setEnabled(false);
-
-         BarData data= new BarData(datos);
-
-        //Colocamos color a cada Barra
-
-        datos.setColors(ColorTemplate.COLORFUL_COLORS);
-
-        //Separacion entre barras
-        data.setBarWidth(0.9f);
-
-
-        grafica.setData(data);
-
-
-        //pone las barras centradas
-        grafica.setFitBars(true);
-
-        grafica.invalidate();//hacer refresh
-
-
+        s= (Spinner)v.findViewById(R.id.tipo_consulta);
+        buscar= (Button)v.findViewById(R.id.btn_busqueda);
+        buscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buscar_productividad();
+            }
+        });
 
 
 
 
         return v;
     }
+
+
+
+    public void buscar_productividad() {
+
+        if(s.getSelectedItem().toString().equals("Seleccione")){
+
+            Toast.makeText(v.getContext(),"Debe seleccionar un criterio válido",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(s.getSelectedItem().toString().equals("Dia")){
+            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Productividad_dia()).addToBackStack(null).commit();
+        }
+
+        if(s.getSelectedItem().toString().equals("Mes")){
+            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Productividad_mes()).addToBackStack(null).commit();
+        }
+
+        if(s.getSelectedItem().toString().equals("Año")){
+            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Productividad_anio()).addToBackStack(null).commit();
+        }
+
+
+
+    }
+
+
+
+
 }
