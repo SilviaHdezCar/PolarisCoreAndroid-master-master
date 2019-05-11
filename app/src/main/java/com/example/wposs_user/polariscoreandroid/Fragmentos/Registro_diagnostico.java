@@ -84,6 +84,9 @@ public class Registro_diagnostico extends Fragment {
         registroDiag = (Button) v.findViewById(R.id.btn_registroDioagnostico);
         queue = Volley.newRequestQueue(objeto);
         this.consumirServicioRepuestos();
+
+         cantidad_req.setEnabled(false);
+
         registroDiag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +136,7 @@ public class Registro_diagnostico extends Fragment {
                 String code = adapter.getItem(i);
                 String[] repuest = code.split(" ");
                 Global.codigo_rep = repuest[0];
+                cantidad_req.setEnabled(true);
 
                 System.out.println(" Codigo del repuesto seleccionado;" + Global.codigo_rep);
                 InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
@@ -150,6 +154,7 @@ public class Registro_diagnostico extends Fragment {
                     Global.codigo_rep = repuest[0];
                     InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
                     in.hideSoftInputFromWindow(textView.getApplicationWindowToken(), 0);
+                    cantidad_req.setEnabled(true);
                     return true;
                 }
                 return false;
@@ -275,10 +280,11 @@ public class Registro_diagnostico extends Fragment {
         if(Global.REPUESTOS_DIAGONOSTICO.size()==0){
 
             if(descripicionObserv.isEmpty()){
-                Toast.makeText(objeto, "Debe agregar una observación", Toast.LENGTH_SHORT).show();
+                Toast.makeText(objeto, "Debe agregar un repuesto al menos", Toast.LENGTH_SHORT).show();
                 return;
-
             }
+
+
 
             Observacion obser = new Observacion("", descripicionObserv, "", "", "", Global.serial_ter);
             Global.obs = obser;

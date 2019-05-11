@@ -23,9 +23,10 @@
         android:layout_marginTop="10dp"
        android:entries="@array/tipo_busqueda"
 
-        >
+        > </Spinner>
 
-        <Button
+
+    <Button
             android:id="@+id/btn_busqueda"
             style="@style/letra_contenido_blanco"
             android:layout_width="wrap_content"
@@ -33,19 +34,11 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:background="@drawable/redondo_botones"
-            android:text="Buscarr"
+            android:text="Buscar"
             android:textAllCaps="false"
 
 
             />
-
-
-
-
-
-    </Spinner>
-
-
 
 
 </LinearLayout>

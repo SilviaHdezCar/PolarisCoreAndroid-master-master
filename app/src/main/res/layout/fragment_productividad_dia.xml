@@ -1,130 +1,131 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="20dp"
     tools:context=".Actividades.MainActivity">
 
     <!-- TODO: Update blank fragment layout -->
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_margin="20dp"
-        style="@style/letra_contenido"
-        android:text="Bienvenido, por favor seleccione el rango de fechas para realizar su consulta"
 
-        />
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
 
         >
-
-        <EditText
-            android:id="@+id/txt_fecha_inicio_prod"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:clickable="true"
-            android:focusable="false"
-            android:hint="Fecha inicial"
-            android:maxLines="1"
-            android:paddingLeft="5dp"
-            android:layout_gravity="center_horizontal"
-
-            />
-
-        <EditText
-            android:id="@+id/txt_fecha_fin_prod"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-
-            android:clickable="true"
-            android:focusable="false"
-            android:hint="Fecha final"
-            android:inputType="date"
-            android:maxLines="1"
-            android:paddingLeft="5dp" />
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_productividad"
-        style="@style/letra_contenido_blanco"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/redondo_botones"
-        android:text="Consultar"
-        android:textAllCaps="false"
-
-
-        />
-
-
-    <LinearLayout
-        android:layout_width="380dp"
-        android:layout_height="350dp"
-        android:orientation="horizontal"
-        android:layout_marginRight="10dp"
-
-        >
-
         <TextView
-            android:id="@+id/titulo_y"
-            android:layout_width="8dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="T e r m i n a l e s"
-            android:textSize="14dp"
-            android:textStyle="bold"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:visibility="invisible"
+            style="@style/letra_contenido"
+            android:text="Bienvenido, por favor seleccione el rango de fechas para realizar su consulta"
+
             />
 
 
-        <com.github.mikephil.charting.charts.BarChart
-
-
-            android:id="@+id/grafica_productividad"
-            android:layout_width="300dp"
-            android:layout_height="350dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
+
+            >
+
+            <EditText
+                android:id="@+id/txt_fecha_inicio_produc"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="Selecione el dia"
+                android:maxLines="1"
+                android:layout_gravity="center_horizontal"
+
+                />
+
+        </LinearLayout>
+
+             <Button
+            android:id="@+id/btn_productividad_dia"
+            style="@style/letra_contenido_blanco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/redondo_botones"
+            android:text="Consultar"
+            android:textAllCaps="false"
+            />
+
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/grafica_dia"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+             android:layout_gravity="center_horizontal"
+            android:visibility="invisible"
+
+            />
+
+        <LinearLayout
+            android:id="@+id/linea_titulo_dia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
             android:visibility="invisible"
 
 
-            />
+            >
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_gravity="center_horizontal"
+                android:background="@color/rojo_borde"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Diagnosticadas"
+
+
+                />
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/borde_verde"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Reparadas"
+
+
+                />
+
+
+
+        </LinearLayout>
+
+
+
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/titulo_x"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dias"
-        android:layout_gravity="center_horizontal"
-        android:textSize="14dp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-
-        />
 
 
 
 
-</LinearLayout>
+
+</FrameLayout>

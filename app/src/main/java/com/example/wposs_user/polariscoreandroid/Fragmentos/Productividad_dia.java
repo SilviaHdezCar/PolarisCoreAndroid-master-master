@@ -1,7 +1,7 @@
-package com.example.wposs_user.polariscoreandroid;
+package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,16 +30,15 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
-import com.example.wposs_user.polariscoreandroid.java.MyValueFormatter;
+import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Productividad;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,10 +47,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 
@@ -69,15 +70,16 @@ public class Productividad_dia extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
 
-    private BarChart grafica;
+
     private View v;
     private RequestQueue queue;
     ArrayList<Productividad> productividad;
     private EditText f_inicio;
-    private EditText f_fin;
-    TextView titulo_x;
-    TextView titulo_y;
     Button produc;
+    TextView titulo;
+    GraphView grafica;
+    LinearLayout linea;
+
 
 
     public static String Fecha1, Fecha2;
@@ -139,13 +141,16 @@ public class Productividad_dia extends Fragment {
         // Inflate the layout for this fragment
         v =inflater.inflate(R.layout.fragment_productividad_dia, container, false);
 
-        titulo_y=(TextView)v.findViewById(R.id.titulo_y);
-        queue = Volley.newRequestQueue(objeto);
-        titulo_x=(TextView)v.findViewById(R.id.titulo_x);
-        produc=(Button)v.findViewById(R.id.btn_productividad);
 
-        f_inicio = (EditText) v.findViewById(R.id.txt_fecha_inicio_prod);
-        f_fin = (EditText) v.findViewById(R.id.txt_fecha_fin_prod);
+
+
+        queue = Volley.newRequestQueue(objeto);
+         produc=(Button)v.findViewById(R.id.btn_productividad_dia);
+
+        f_inicio = (EditText) v.findViewById(R.id.txt_fecha_inicio_produc);
+        grafica=(GraphView)v.findViewById(R.id.grafica_dia);
+        linea= (LinearLayout)v.findViewById(R.id.linea_titulo_dia);
+
 
 
 
@@ -153,8 +158,7 @@ public class Productividad_dia extends Fragment {
         //carga los txt de las fechas al hacer la consulta establecida por fechas
 
         f_inicio.setInputType(InputType.TYPE_NULL);
-        f_fin.setInputType(InputType.TYPE_NULL);
-        f_inicio.setInputType(InputType.TYPE_NULL);
+         f_inicio.setInputType(InputType.TYPE_NULL);
 
 
         java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
@@ -194,34 +198,7 @@ public class Productividad_dia extends Fragment {
                 isChanged = true;
             }
         });
-        f_fin.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (isChanged) {
-                    return;
-                }
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        Fecha2 = f_fin.getText().toString();
-                        f_fin.setText(Tools.dateDDMMYYYYStr2(f_fin.getText().toString()));
-                        return;
-                    }
-                }, 70);
-                isChanged = true;
-            }
-        });
         f_inicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -229,27 +206,12 @@ public class Productividad_dia extends Fragment {
                 showDatePickerDialog(f_inicio);
             }
         });
-        f_fin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isChanged = false;
-                showDatePickerDialog(f_fin);
-            }
-        });
-
-
-
-
-
-
-        grafica=(BarChart)v.findViewById(R.id.grafica_productividad);
-
 
 
         produc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                consumirServicioProductividad();
+                consumirServicioProductividadDia();
             }
         });
 
@@ -324,44 +286,37 @@ public class Productividad_dia extends Fragment {
 
 
 
-    /********************Metodo usado para obtener la productividad en un rango de fecha dada*************************************/////////
+    /********************Metodo usado para obtener la productividad en un dia dado*************************************/////////
 
-    public void consumirServicioProductividad() {
+    public void consumirServicioProductividadDia() {
+
+
+        grafica=(GraphView)v.findViewById(R.id.grafica_dia);
+
+        grafica.removeAllSeries();
+
+
         productividad=new ArrayList<>();
 
         String data_inicio= f_inicio.getText().toString();
-        String data_fin= f_fin.getText().toString();
 
-        if(data_inicio.isEmpty()||data_fin.isEmpty()){
-            Toast.makeText(v.getContext(),"Debe seleccionar la fecha de inicio y fin",Toast.LENGTH_SHORT).show();
+
+        if(data_inicio.isEmpty()){
+            Toast.makeText(v.getContext(),"Debe seleccionar el dia",Toast.LENGTH_SHORT).show();
             return;
 
         }
 
-        boolean validar= this.validarFecha();
 
-        if(validar==false){
-            Toast.makeText(v.getContext(),"La fecha de fin debe ser posterior a la fecha de inicio",Toast.LENGTH_SHORT).show();
-
-            grafica.setVisibility(View.INVISIBLE);
-            titulo_y.setVisibility(View.INVISIBLE);
-            titulo_x.setVisibility(View.INVISIBLE);
-            return;
-        }
 
         String fecha_inicial= f_inicio.getText().toString();
         String[] fecha=fecha_inicial.split("/");
         int dia_inicio=Integer.parseInt(fecha[0]);
+
         int mes_inicio=Integer.parseInt(fecha[1]);
         int año_inicio=Integer.parseInt(fecha[2]);
-        String fecha_inicio=dia_inicio+"/"+ mes_inicio+"/"+año_inicio;
+        String fecha_inicio=mes_inicio+"/"+dia_inicio+"/"+ año_inicio;
 
-        String fecha_final= f_fin.getText().toString();
-        String[] fechaFin=fecha_final.split("/");
-        int dia_fin=Integer.parseInt(fechaFin[0]);
-        int mes_fin=Integer.parseInt(fechaFin[1]);
-        int año_fin=Integer.parseInt(fechaFin[2]);
-        String fecha_fin= dia_fin+"/"+mes_fin+"/"+año_fin;
 
         final Gson gson = new GsonBuilder().create();
 
@@ -370,7 +325,7 @@ public class Productividad_dia extends Fragment {
         try {
             jsonObject.put("user", Global.CODE);
             jsonObject.put("fechaInicial", fecha_inicio);
-            jsonObject.put("fechaFinal",fecha_fin);
+            jsonObject.put("fechaFinal",fecha_inicio);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -400,8 +355,10 @@ public class Productividad_dia extends Fragment {
 
 
                             if (jsonArray.length() == 0) {
-                                Global.mensaje = "No se encontraron registros para el rango de fechas seleccionado";
+                                Global.mensaje = "No se encontraron registros para el dia seleccionado";
                                 Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();
+                                 grafica.setVisibility(INVISIBLE);
+                                linea.setVisibility(INVISIBLE);
                                 return;
                             }
                             Productividad pro;
@@ -428,46 +385,63 @@ public class Productividad_dia extends Fragment {
 
                     private void pintarGrafica() {
 
-                        List<BarEntry> entradas= new ArrayList<>();
+                        BarGraphSeries<DataPoint>diagnostico = null;
+                        BarGraphSeries<DataPoint>  reparadas= null;
+
+
 
                         for(int i=0;i<productividad.size();i++){
 
-                            entradas.add(new BarEntry(i+1,productividad.get(i).getUste_completed_terminals(),productividad.get(i).getUste_associated_terminals()));
+
+                            diagnostico = new BarGraphSeries<>(new DataPoint[]{
 
 
+
+                                    new DataPoint((int)i, productividad.get(i).getUste_associated_terminals())
+
+
+                            });
+
+
+                            reparadas = new BarGraphSeries<>(new DataPoint[]{
+
+
+
+                                    new DataPoint((int)i, productividad.get(i).getUste_completed_terminals())
+
+
+
+                            });
                         }
 
-                        System.out.println("VARIABLES DE LA grafica ************************"+entradas.size());
+                        diagnostico.setColor(Color.parseColor("#C44C49"));
+                        reparadas.setColor(Color.parseColor("#43A047"));
+                        grafica.addSeries(diagnostico);
+                        grafica.addSeries(reparadas);
+                        reparadas.setValuesOnTopColor(Color.BLACK);
+                        reparadas.setDrawValuesOnTop(false);
+                        diagnostico.setValuesOnTopColor(Color.BLACK);
+                        diagnostico.setDrawValuesOnTop(false);
 
-                        //Enviamos los datos para crear la grafica
+                        reparadas.setSpacing(20);
+                        diagnostico.setSpacing(20);
+                        grafica.animate();
+                        grafica.getGridLabelRenderer().setNumHorizontalLabels(2);
+                        grafica.getGridLabelRenderer().setHorizontalAxisTitle("dias");
+                        grafica.getGridLabelRenderer().setVerticalAxisTitle("Terminales");
 
-                        BarDataSet datos = new BarDataSet(entradas,"");
-                        datos.setValueFormatter( new MyValueFormatter());
-                        Description des = grafica.getDescription();
-                        des.setEnabled(false);
 
-                        BarData data= new BarData(datos);
 
-                        //Colocamos color a cada Barra
 
-                        datos.setColors(ColorTemplate.COLORFUL_COLORS);
 
-                        //Separacion entre barras
-                        data.setBarWidth(0.9f);
+                        titulo.setVisibility(VISIBLE);
+                        grafica.setVisibility(VISIBLE);
+                        linea.setVisibility(VISIBLE);
 
-                        grafica.setData(data);
-
-                        //pone las barras centradas
-                        grafica.setFitBars(true);
-
-                        grafica.invalidate();//hacer refresh
-
-                        grafica.setVisibility(View.VISIBLE);
-                        titulo_y.setVisibility(View.VISIBLE);
-                        titulo_x.setVisibility(View.VISIBLE);
 
 
                     }
+
 
                 },
                 new Response.ErrorListener() {
@@ -493,32 +467,10 @@ public class Productividad_dia extends Fragment {
     }
 
 
-    public boolean validarFecha(){
-
-        String fecha_inicial= f_inicio.getText().toString();
-        String[] fecha=fecha_inicial.split("/");
-        int dia_inicio=Integer.parseInt(fecha[0]);
-        int mes_inicio=Integer.parseInt(fecha[1]);
-        int año_inicio=Integer.parseInt(fecha[2]);
-
-        System.out.println("Fecha inicial:  "+"dia:"+dia_inicio+"mes:"+mes_inicio+"año:"+año_inicio);
-
-        String fecha_final= f_fin.getText().toString();
-        String[] fechaFin=fecha_final.split("/");
-        int dia_fin=Integer.parseInt(fechaFin[0]);
-        int mes_fin=Integer.parseInt(fechaFin[1]);
-        int año_fin=Integer.parseInt(fechaFin[2]);
-
-        System.out.println("Fecha final:  "+"dia:"+dia_fin+"mes:"+mes_fin+"año:"+año_fin);
 
 
-        if(año_fin<año_inicio){ return false; }
-        if(mes_fin<mes_inicio){ return false; }
-        if(dia_fin<dia_inicio){ return false; }
 
-        return true;
 
-    }
 
 
 

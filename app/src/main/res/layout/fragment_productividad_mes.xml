@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+     tools:context=".Fragmentos.Productividad_mes"
+    android:padding="20dp"
+
+    >
+
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+
+       >
+
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          style="@style/letra_contenido"
+          android:text="Seleeccione el mes y año a consultar"
+
+
+          />
+
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:gravity="center"
+      android:layout_marginTop="20dp"
+
+      >
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Mes"
+          />
+
+
+    <Spinner
+        android:id="@+id/spin_mesxmes"
+        android:layout_width="150dp"
+        android:layout_marginLeft="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:entries="@array/meses"
+
+        >
+        </Spinner>
+
+  </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:gravity="center"
+           android:layout_marginTop="20dp"
+
+           >
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Año"
+               />
+
+
+           <Spinner
+               android:id="@+id/spiner_añoxmes"
+               android:layout_width="150dp"
+               android:layout_marginLeft="20dp"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="10dp"
+               android:entries="@array/años"
+
+               >
+           </Spinner>
+
+       </LinearLayout>
+
+       <Button
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="20dp"
+           android:layout_gravity="center_horizontal"
+           android:textAllCaps="false"
+           android:text="Buscar"
+           style="@style/letra_contenido_blanco"
+           android:background="@drawable/redondo_botones"
+
+
+
+           />
+
+
+       <com.jjoe64.graphview.GraphView
+           android:id="@+id/grafica_mes"
+           android:layout_width="300dp"
+           android:layout_height="300dp"
+           android:layout_gravity="center_horizontal"
+           android:visibility="invisible"
+           android:layout_marginTop="20dp"
+
+           />
+
+       <LinearLayout
+           android:id="@+id/linea_titulo_mes"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_gravity="center_horizontal"
+           android:layout_marginTop="20dp"
+           android:visibility="invisible"
+
+
+           >
+           <TextView
+               android:layout_width="20dp"
+               android:layout_height="wrap_content"
+               android:text=""
+               android:layout_gravity="center_horizontal"
+               android:background="@color/rojo_borde"
+               />
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="10dp"
+               android:text="Diagnosticadas"
+
+
+               />
+
+           <TextView
+               android:layout_width="20dp"
+               android:layout_height="wrap_content"
+               android:text=""
+               android:layout_marginLeft="20dp"
+               android:layout_gravity="center_horizontal"
+               android:background="@color/borde_verde"
+               />
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="10dp"
+               android:text="Reparadas"
+
+
+               />
+
+
+
+       </LinearLayout>
+
+
+
+
+
+
+   </LinearLayout>
+
+
+
+
+
+
+
+</FrameLayout>
