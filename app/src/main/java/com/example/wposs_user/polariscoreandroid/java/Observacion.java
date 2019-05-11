@@ -25,7 +25,12 @@ public class Observacion {
         this.teob_serial_terminal = teob_serial_terminal;
     }
 
-
+    public Observacion(String teob_description, String teob_serial_terminal,String teob_photo) {
+        this.teob_description = teob_description;
+        this.teob_photo = teob_photo;
+        System.out.println("observacion serial: "+teob_serial_terminal);
+        this.teob_serial_terminal = teob_serial_terminal;
+    }
 
     public String getTeob_id() {
         return teob_id;
@@ -103,4 +108,19 @@ public class Observacion {
         return obj;
     }
 
+    public JSONObject getObjRep() {
+
+
+        JSONObject obj = new JSONObject();
+        try {
+
+            obj.put("teob_description",teob_description);
+            obj.put("teob_serial_terminal",teob_serial_terminal);
+            obj.put("teob_photo",teob_photo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
+    }
 }

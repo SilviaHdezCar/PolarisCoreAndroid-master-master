@@ -153,6 +153,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
 
     public void solicitar() {
         validarEstadosRepuestos();
+        System.out.println("serial "+Global.terminalVisualizar.getTerm_serial());
         observacion = txt_observacion.getText().toString().trim();
         if (observacion.isEmpty() || observacion == null) {
             Toast.makeText(objeto, "Por favor ingrese la observación", Toast.LENGTH_SHORT).show();
@@ -162,7 +163,8 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
             Toast.makeText(objeto, "Debe seleccionar al menos un repuesto", Toast.LENGTH_SHORT).show();
             return;
         } else {
-            obser = new Observacion("", observacion, "", "", "", Global.serial_ter);
+            obser = new Observacion(observacion, Global.terminalVisualizar.getTerm_serial(), "");
+            System.out.println("serial des else"+Global.terminalVisualizar.getTerm_serial());
             consumirServicioReparacionExitosa();
         }
 
@@ -266,9 +268,10 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
             JSONArray val=this.getValidaciones();
             jsonObject.put("validaciones",val);
 
-            jsonObject.put("observacion",obser.getObj());
+            jsonObject.put("observacion",obser.getObjRep());
 
             JSONArray rep=this.getRepuestos();
+            obj2.put("tesw_serial",Global.terminalVisualizar.getTerm_serial());
             obj2.put("tesw_repuestos",rep);
             jsonObject.put("repuestos", obj2);
 
@@ -339,7 +342,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
     public JSONArray getValidaciones() throws JSONException {
         JSONArray listas = new JSONArray();
         for (int i = 0; i < Global.VALIDACIONES.size(); i++) {
-            JSONObject ob = Global.VALIDACIONES.get(i).getObj();
+            JSONObject ob = Global.VALIDACIONES.get(i).getObjRep();
             listas.put(ob);
         }
         return listas;

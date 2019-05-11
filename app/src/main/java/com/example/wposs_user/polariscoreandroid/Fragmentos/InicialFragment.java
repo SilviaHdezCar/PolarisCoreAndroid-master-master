@@ -444,7 +444,7 @@ public class InicialFragment extends Fragment {
      **/
     public void consumirServicioAutorizadas() {
         t = null;
-        Repuesto r=null;
+        Repuesto r = null;
         Global.TERMINALES_AUTORIZADAS = null;
         Global.TERMINALES_AUTORIZADAS = new ArrayList<Terminal>();
         Global.REPUESTOS = null;
@@ -466,6 +466,7 @@ public class InicialFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+
                             System.out.println("REPONSE AUTORIZADAS" + response.toString());
                             Global.STATUS_SERVICE = response.get("status").toString();
                             System.out.println("status:  " + Global.STATUS_SERVICE);
@@ -484,8 +485,8 @@ public class InicialFragment extends Fragment {
 
                             if (jsonArray.length() == 0) {
                                 Global.mensaje = "No tiene terminales autorizadas";
-                            //    return;
-                            }else {
+                                //    return;
+                            } else {
                                 String ter = null;
 
 
@@ -498,7 +499,7 @@ public class InicialFragment extends Fragment {
                                     Global.tipificacionesAutorizadas = jsonObject.get("tipificaciones").toString();
                                     Global.repuestosAutorizadas = jsonObject.get("repuestos").toString();
 
-                                    System.out.println("TIPIFICACIONES, VALI, REPUE: " + Global.tipificacionesAutorizadas + "-" + Global.validacionesAutorizadas+"-" + Global.repuestosAutorizadas);
+                                    System.out.println("TIPIFICACIONES, VALI, REPUE: " + Global.tipificacionesAutorizadas + "-" + Global.validacionesAutorizadas + "-" + Global.repuestosAutorizadas);
 
 
                                     t = gson.fromJson(ter, Terminal.class);
@@ -506,11 +507,7 @@ public class InicialFragment extends Fragment {
                                     }
                                     Global.TERMINALES_AUTORIZADAS.add(t);
                                 }
-                                llenarRVAutorizada(Global.TERMINALES_AUTORIZADAS);
-
-
-
-                            }
+                            }  llenarRVAutorizada(Global.TERMINALES_AUTORIZADAS);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -542,16 +539,19 @@ public class InicialFragment extends Fragment {
 
     public void llenarRVAutorizada(List<Terminal> terminalesRecibidas) {
 
+
+        System.out.println("Llenar Rv autoriza: " + terminalesRecibidas.size());
         if (terminalesRecibidas == null || terminalesRecibidas.size() == 0) {
+
             Toast.makeText(objeto, Global.CODE + " No tiene terminales autorizadas", Toast.LENGTH_SHORT).show();
-          
+
         }
 
         rv.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
         rv.setLayoutManager(llm);
-
+        
         ArrayList terminals = new ArrayList<>();
 
         for (Terminal ter : terminalesRecibidas) {

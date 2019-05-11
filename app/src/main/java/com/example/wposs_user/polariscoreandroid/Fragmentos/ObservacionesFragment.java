@@ -275,7 +275,7 @@ public class ObservacionesFragment extends Fragment {
         } else {
             //consumir servicio finalizar diagnostico
 
-            obser = new Observacion("", observacion, "", "", "", Global.serial_ter);
+            obser = new Observacion(observacion,  Global.serial_ter,"");
             consumirServicioDiagnostico();
 
         }
