@@ -51,6 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:entries="@array/meses"
+        style="@layout/spinner_sytle"
 
         >
         </Spinner>
@@ -80,6 +81,7 @@
                android:layout_height="wrap_content"
                android:layout_marginTop="10dp"
                android:entries="@array/años"
+               style="@layout/spinner_sytle"
 
                >
            </Spinner>
@@ -87,6 +89,7 @@
        </LinearLayout>
 
        <Button
+           android:id="@+id/produc_mes"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_marginTop="20dp"

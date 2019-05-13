@@ -320,7 +320,7 @@ public class Productividad_dia extends Fragment {
 
         final Gson gson = new GsonBuilder().create();
 
-        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/productivity?Authenticator";
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/productivity";
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("user", Global.CODE);
@@ -434,7 +434,7 @@ public class Productividad_dia extends Fragment {
 
 
 
-                        titulo.setVisibility(VISIBLE);
+
                         grafica.setVisibility(VISIBLE);
                         linea.setVisibility(VISIBLE);
 

@@ -182,7 +182,7 @@ public class Activity_login extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_login.this, "ERROR\n " , Toast.LENGTH_SHORT).show();
                     }
                 }
 

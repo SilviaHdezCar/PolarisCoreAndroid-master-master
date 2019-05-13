@@ -217,10 +217,10 @@ public class Registro_diagnostico extends Fragment {
                         Global.REPUESTOS_DIAGONOSTICO.remove(rt);
                         r.setSpar_quantity(rt.getSpar_quantity()+cant_solicitada);
                          Global.REPUESTOS_DIAGONOSTICO.add(r);
-                        Toast.makeText(objeto, "La cantidad del repuesto solicitado fue actualizada", Toast.LENGTH_SHORT).show();
                         this.llenarRv();
                         cantidad_req.setText("");
                         aut_repuesto.setText("");
+                        this.cantidad_req.setEnabled(false);
                         return;
 
                     }
@@ -228,10 +228,10 @@ public class Registro_diagnostico extends Fragment {
 
                 }
                 Global.REPUESTOS_DIAGONOSTICO.add(r);
-                Toast.makeText(objeto, "El repuesto fue agregado exitosamente", Toast.LENGTH_SHORT).show();
-                this.llenarRv();
+                 this.llenarRv();
                 cantidad_req.setText("");
                 aut_repuesto.setText("");
+                this.cantidad_req.setEnabled(false);
                 return;
 
             }
@@ -269,7 +269,7 @@ public class Registro_diagnostico extends Fragment {
         String descripicionObserv = observ.getText().toString();
 
 
-        if(Global.REPUESTOS_DIAGONOSTICO.size()==0 && descripicionObserv.isEmpty()){
+        if(Global.REPUESTOS_DIAGONOSTICO.size()==0 && descripicionObserv.trim().isEmpty()){
 
             Toast.makeText(objeto, "Debe agregar como minimo un repuesto o una observación", Toast.LENGTH_SHORT).show();
             return;

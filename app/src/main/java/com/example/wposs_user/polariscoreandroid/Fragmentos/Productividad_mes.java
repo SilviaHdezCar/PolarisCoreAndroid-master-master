@@ -1,22 +1,53 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Productividad;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.PointsGraphSeries;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
+import static java.util.Collections.sort;
 
 
 /**
@@ -38,12 +69,14 @@ public class Productividad_mes extends Fragment {
 
     private View v;
     private RequestQueue queue;
-    ArrayList<Productividad> productividad;
-    private EditText f_inicio;
-    Button produc;
-    TextView titulo;
-    GraphView grafica;
-    LinearLayout linea;
+    private ArrayList<Productividad> productividad;
+    private Spinner mes;
+    private Spinner año;
+    private Button produc;
+    private  GraphView grafica;
+    private  LinearLayout linea;
+    PointsGraphSeries<DataPoint> repar;
+    PointsGraphSeries<DataPoint> diagnosticadas;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -86,7 +119,28 @@ public class Productividad_mes extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_productividad_mes, container, false);
+        v= inflater.inflate(R.layout.fragment_productividad_mes, container, false);
+      mes = (Spinner)v.findViewById(R.id.spin_mesxmes);
+      año= (Spinner)v.findViewById(R.id.spiner_añoxmes);
+      produc=(Button)v.findViewById(R.id.produc_mes);
+     grafica=(GraphView)v.findViewById(R.id.grafica_mes);
+        queue = Volley.newRequestQueue(objeto);
+      linea=(LinearLayout)v.findViewById(R.id.linea_titulo_mes);
+       produc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                consumirServicioProductividadMes();
+
+            }
+        });
+
+
+
+
+
+
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -115,9 +169,250 @@ public class Productividad_mes extends Fragment {
     }
 
 
+    /********************Metodo usado para mostrar la productividad en un mes y año dado**********************/
+
+    public void consumirServicioProductividadMes() {
+
+
+        grafica=(GraphView)v.findViewById(R.id.grafica_mes);
+
+        grafica.removeAllSeries();
+
+        String mesDado= mes.getSelectedItem().toString();
+        String añoDado= año.getSelectedItem().toString();
+
+
+        productividad=new ArrayList<>();
 
 
 
+
+        if(mes.getSelectedItem()==null||año.getSelectedItem()==null){
+            Toast.makeText(v.getContext(),"Debe selecccionar el mes y año a consultar",Toast.LENGTH_SHORT).show();
+            grafica.setVisibility(INVISIBLE);
+            linea.setVisibility(INVISIBLE);
+            return;
+
+        }
+
+        if(mes.getSelectedItem().toString().equals("Selecccione")||año.getSelectedItem().equals("Seleccione")){
+            Toast.makeText(v.getContext(),"Seleccione un mes y año valido",Toast.LENGTH_SHORT).show();
+            grafica.setVisibility(INVISIBLE);
+            linea.setVisibility(INVISIBLE);
+            return;
+
+        }
+
+        int mes_selecionado= this.getMes(mesDado);
+        final int can_dias=this.getDiasMes(mes_selecionado);
+
+
+        String fecha_inicio=mes_selecionado+"/"+1+"/"+ añoDado;
+        String fecha_fin=mes_selecionado+"/"+can_dias+"/"+ añoDado;
+
+
+
+        final Gson gson = new GsonBuilder().create();
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/productivity";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user", Global.CODE);
+            jsonObject.put("fechaInicial", fecha_inicio);
+            jsonObject.put("fechaFinal",fecha_fin);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            System.out.println("status:  " + Global.STATUS_SERVICE);
+
+                            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();;
+                                return;
+                            }
+
+
+                            response = new JSONObject(response.get("data").toString());
+                            System.out.println("REPUESTA DEL SERVICIO****************"+response.toString().trim());
+
+
+                            JSONArray jsonArray = response.getJSONArray("productividad");
+
+
+                            if (jsonArray.length() == 0) {
+                                Global.mensaje = "No se encontraron registros para el mes y año seleccionado";
+                                Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();
+                                grafica.setVisibility(INVISIBLE);
+                                linea.setVisibility(INVISIBLE);
+                                grafica.removeAllSeries();
+                                return;
+                            }
+                            Productividad pro;
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                String res = jsonArray.getString(i);
+
+                                pro = gson.fromJson(res, Productividad.class);
+
+                                if (pro != null) {
+                                }
+                                productividad.add(pro);
+                            }
+
+                            System.out.println("TAMAÑO DE LA RESPUESTA ************************"+productividad.size());
+
+                            this.pintarGrafica();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+
+
+                    private void pintarGrafica() {
+
+
+
+
+                        System.out.println(productividad.toString());
+
+                        BarGraphSeries<DataPoint> diagnostico = null;
+                        BarGraphSeries<DataPoint>  reparadas= null;
+                        DataPoint[] datos1= new DataPoint[productividad.size()];
+                        DataPoint[] datos2= new DataPoint[productividad.size()];
+                        diagnostico = new BarGraphSeries<>(new DataPoint[]{});
+                        reparadas = new BarGraphSeries<>(new DataPoint[]{ });
+                        Productividad[] pro= llenarSerie();
+                        Arrays.sort(pro);
+
+
+
+                        for(int i=0;i<pro.length-1;i++) {
+
+                            String fecha_rta = pro[i].getUste_date();
+                            String[] fechas = fecha_rta.split("/");
+                            int diaDado = Integer.parseInt(fechas[0]);
+
+                             diagnostico.appendData(new DataPoint( diaDado, pro[i].getUste_associated_terminals()),true,can_dias);
+
+                            reparadas.appendData(new DataPoint(diaDado,pro[i].getUste_completed_terminals()),true,can_dias);
+
+                           }
+
+                        diagnostico.setColor(Color.parseColor("#C44C49"));
+                        reparadas.setColor(Color.parseColor("#43A047"));
+                        grafica.addSeries(diagnostico);
+                        grafica.addSeries(reparadas);
+                        reparadas.setValuesOnTopColor(Color.BLACK);
+                        reparadas.setDrawValuesOnTop(false);
+                        diagnostico.setValuesOnTopColor(Color.BLACK);
+                        diagnostico.setDrawValuesOnTop(false);
+
+                        reparadas.setSpacing(20);
+                        diagnostico.setSpacing(20);
+                        grafica.animate();
+                        grafica.getGridLabelRenderer().setHorizontalAxisTitle("dias");
+                        grafica.getGridLabelRenderer().setVerticalAxisTitle("Terminales");
+                        grafica.setVisibility(VISIBLE);
+                        linea.setVisibility(VISIBLE);
+
+
+
+                    }
+
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+
+    }
+
+    /*****************metodo para convertir el mes a int*****************/
+
+public int getMes(String meses){
+
+        if(meses.equals("Enero")){ return 1;}
+        if(meses.equals("Febrero")){ return 2;}
+        if(meses.equals("Marzo")){ return 3;}
+        if(meses.equals("Abril")) return 4;
+        if(meses.equals("Mayo")){ return 5;}
+        if(meses.equals("Junio")){ return 6;}
+        if(meses.equals("Julio")){ return 7;}
+        if(meses.equals("Agosto")){ return 8;}
+        if(meses.equals("Septiembre")){ return 9;}
+        if(meses.equals("Octubre")){ return 10;}
+        if(meses.equals("noviembre")){ return 11;}
+        if(meses.equals("Diviembre")){ return 12;}
+
+        return 0;
+
+}
+
+
+    /****************metodo para obtener el numero de dias en cada mes*********************/
+
+      public int getDiasMes(int mesdia){
+
+          if(mesdia==1){return 31;}
+          if(mesdia==2){return 28;}
+          if(mesdia==3){return 31;}
+          if(mesdia==4){return 30;}
+          if(mesdia==5){return 31;}
+          if(mesdia==6){return 30;}
+          if(mesdia==7){return 31;}
+          if(mesdia==8){return 31;}
+          if(mesdia==9){return 30;}
+          if(mesdia==10){return 31;}
+          if(mesdia==11) { return 30;}
+          if (mesdia == 12) { return 31; }
+
+              return 0;
+
+          }
+
+/*************************Metodo para pasar el arrayList a vector para ordenarlo y graficarlo*******************/
+
+ public Productividad[] llenarSerie(){
+
+          Productividad[] p = new Productividad[productividad.size()];
+
+          for(int i=0;i<productividad.size();i++){
+
+              p[i]=productividad.get(i);
+
+           }
+
+          return p;
+
+ }
 
 
 
