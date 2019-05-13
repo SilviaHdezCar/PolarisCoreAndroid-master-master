@@ -82,15 +82,12 @@ public class TipificacionesFragment extends Fragment {
         Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<Tipificacion>();
 
 
-
-
         btn_siguiente_Tipificaciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 siguienteTipificaciones();
             }
         });
-
 
 
         consumirServicioTipificaciones();
@@ -102,11 +99,11 @@ public class TipificacionesFragment extends Fragment {
     /**
      * ESTE METODO SE UTILIZA PARA CONSUMIR EL SERVICIO QUE LISTA LAS TIPIFICACIONES +
      * INCOCA EL METODO QUE LLENA EL AUTOCOMPLETE
-     * **/
-    public void consumirServicioTipificaciones(){
+     **/
+    public void consumirServicioTipificaciones() {
         t = null;
         Global.TIPIFICACIONES = null;
-        Global.TIPIFICACIONES= new ArrayList<Tipificacion>();
+        Global.TIPIFICACIONES = new ArrayList<Tipificacion>();
         final Gson gson = new GsonBuilder().create();
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals/tipesValidatorTerminal";
@@ -240,7 +237,7 @@ public class TipificacionesFragment extends Fragment {
 
     /**
      * Al prsionar agregar tipificacion
-     * **/
+     **/
     private void agregarTipificacion() {
 
         if (descripcionTipificaion.isEmpty()) {
@@ -318,24 +315,28 @@ public class TipificacionesFragment extends Fragment {
 
     /**
      * Muestra el cuadro de dialogo para seleccionar si es reparable
-     *           NO-->Llenar el panel de observaciones
-     *           SI-->  Mostrar cuadro de dialogo que pregunta si es por USO o FABRICA-->Pasar a la selección de repuestos
-     * **/
+     * NO-->Llenar el panel de observaciones
+     * SI-->  Mostrar cuadro de dialogo que pregunta si es por USO o FABRICA-->Pasar a la selección de repuestos
+     **/
     public void siguienteTipificaciones() {
 
-        if(llenarTipificacionesDiagnostico()){
-
-            esReparable();
+        if (llenarTipificacionesDiagnostico()) {
+            System.out.println("TIPO DIAGNOSTICO tipif= "+ Global.diagnosticoTerminal);
+            if (Global.diagnosticoTerminal.equalsIgnoreCase("autorizada")) {
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).addToBackStack(null).commit();
+            } else {
+                esReparable();
+            }
         }
 
     }
 
     //Armo el arraylist     que voy a enviar al consumir el servicio de registrar diagnostico
     public boolean llenarTipificacionesDiagnostico() {
-        boolean retorno=false;
+        boolean retorno = false;
         String cadena = "";
 
-        if(listTipificaciones.size()==0){
+        if (listTipificaciones.size() == 0) {
             AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
             alertDialog.setTitle("¡ATENCIÓN!");
             alertDialog.setMessage("Debe seleccionar al menos una tipificacion");
@@ -347,19 +348,19 @@ public class TipificacionesFragment extends Fragment {
                     });
             alertDialog.show();
             return false;
-        }else {
-           int  cont=0;
-            for (Tipificacion tipi:listTipificaciones){
-                if(tipi!=null){
+        } else {
+            int cont = 0;
+            for (Tipificacion tipi : listTipificaciones) {
+                if (tipi != null) {
 
-                    Tipificacion tip= new Tipificacion(Global.serial_ter,tipi.getTetv_description(),"ok");
-                    System.out.println("Tipificación "+cont+" : "+tipi.getTetv_description());
+                    Tipificacion tip = new Tipificacion(Global.serial_ter, tipi.getTetv_description(), "ok");
+                    System.out.println("Tipificación " + cont + " : " + tipi.getTetv_description());
                     Global.TIPIFICACIONES_DIAGNOSTICO.add(tip);
-                    System.out.println("Tamaño tipificaciones: "+Global.TIPIFICACIONES_DIAGNOSTICO.size());
+                    System.out.println("Tamaño tipificaciones: " + Global.TIPIFICACIONES_DIAGNOSTICO.size());
                 }
                 cont++;
             }
-            retorno=true;
+            retorno = true;
         }
 
 
@@ -370,7 +371,6 @@ public class TipificacionesFragment extends Fragment {
         DialogEsRepable dialog = new DialogEsRepable();
         dialog.show(objeto.getSupportFragmentManager(), "");
     }
-
 
 
 }

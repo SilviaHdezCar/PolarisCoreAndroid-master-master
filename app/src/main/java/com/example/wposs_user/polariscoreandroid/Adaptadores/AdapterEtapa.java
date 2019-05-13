@@ -44,21 +44,20 @@ public class AdapterEtapa extends RecyclerView.Adapter<AdapterEtapa.ViewHolderOb
     @Override
     public void onBindViewHolder(final ViewHolderObservacion holder, final int i) {
 
-
-        holder.usuario_etapas.setText(this.listObservacion.get(i).getTeob_id_user());
-        holder.fecha_etapas.setText(this.listObservacion.get(i).getTeob_fecha());
-        holder.etapas_serial_terminal.setText("Serial: "+this.listObservacion.get(i).getTeob_serial_terminal());
-        holder.observaciones_etapas.setText(this.listObservacion.get(i).getTeob_description());
-
+            holder.usuario_etapas.setText(this.listObservacion.get(i).getTeob_id_user());
+            holder.fecha_etapas.setText(this.listObservacion.get(i).getTeob_fecha());
+            holder.etapas_serial_terminal.setText("Serial: " + this.listObservacion.get(i).getTeob_serial_terminal());
+            holder.observaciones_etapas.setText(this.listObservacion.get(i).getTeob_description());
 
 
-        holder.layout_etapas_ter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ic.onClick(listObservacion, i);
-            }
+            holder.layout_etapas_ter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ic.onClick(listObservacion, i);
+                }
 
-        });
+            });
+
     }
 
 

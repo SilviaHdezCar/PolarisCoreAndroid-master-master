@@ -9,11 +9,20 @@ public class Repuesto {
 
     String spar_id,spar_code,spar_date_register,spar_name,spar_register_by,spar_status,spar_status_temporal,spar_terminal_model,spar_warehouse;
     int spar_quantity;
+    private boolean ok;
 
     public Repuesto() {
     }
 
-    public Repuesto(String spar_code, String spar_name, int spar_quantity,String spar_warehouse) {
+    public Repuesto(String spar_code,String spar_name, String quantity, String spar_warehouse ) {
+        this.spar_code = spar_code;
+        this.spar_name = spar_name;
+        this.spar_quantity = Integer.parseInt(quantity);
+        this.spar_warehouse = spar_warehouse;
+        this.ok = false;
+    }
+
+    public Repuesto(String spar_code, String spar_name, int spar_quantity, String spar_warehouse) {
         this.spar_code = spar_code;
         this.spar_name = spar_name;
         this.spar_quantity = spar_quantity;
@@ -31,6 +40,15 @@ public class Repuesto {
         this.spar_status_temporal = spar_status_temporal;
         this.spar_terminal_model = spar_terminal_model;
         this.spar_warehouse = spar_warehouse;
+    }
+
+
+    public boolean isOk() {
+        return ok;
+    }
+
+    public void setOk(boolean ok) {
+        this.ok = ok;
     }
 
     public String getSpar_id() {

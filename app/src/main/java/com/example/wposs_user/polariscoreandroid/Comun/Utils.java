@@ -35,10 +35,13 @@ import java.util.TimeZone;
  */
 public class Utils {
 
+    public static int primaryPort;
+
     /**
      * Creates a new instance of Utils
      */
     public Utils() {
+        primaryPort=0;
     }
 
     /**
@@ -58,12 +61,12 @@ public class Utils {
      *
      * @retorna la cadena tipo String
      */
-    public static String variable1="";
+    public static String variable1 = "";
+
     public static String uninterpret_ASCII(byte[] rawData, int offset, int length) {
         char[] ret = new char[length];
-        for (int i = 0; i < length; i++)
-        {
-            ret[i] = (char)rawData[offset + i];
+        for (int i = 0; i < length; i++) {
+            ret[i] = (char) rawData[offset + i];
         }
         return new String(ret);
     }
@@ -112,7 +115,9 @@ public class Utils {
         return tokens;
     }
 
-    /** Este metodo separa un array de bytes en tokens dependiendo del tama�o (LV)  
+    /**
+     * Este metodo separa un array de bytes en tokens dependiendo del tama�o (LV)
+     *
      * @Retorna un array de cadenas con los tokens separados
      */
     public static String[] tokenizer(byte[] array, int offset, int numTokens) {
@@ -1311,5 +1316,105 @@ public class Utils {
 
         return total_length;
 
+    }
+
+
+    //darle fotmato a la fecha-->Ejemplo: Mayo 03 2019
+    public static String darFormatoFecha(String fecha) {
+
+        String[] date = fecha.split(" ");
+        String mes = date[0];
+        String dia = date[1].substring(0, date[1].length() - 1);
+        String anio = date[2];
+
+        String mesFec = "";
+        switch (mes) {
+            case "January":
+                mesFec = "Enero";
+                break;
+            case "February":
+                mesFec = "Febrero";
+                break;
+            case "March":
+                mesFec = "Marzo";
+                break;
+            case "April":
+                mesFec = "Abril";
+                break;
+            case "May":
+                mesFec = "Mayo";
+                break;
+            case "June":
+                mesFec = "Junio";
+                break;
+            case "July":
+                mesFec = "Julio";
+                break;
+            case "August":
+                mesFec = "Agosto";
+                break;
+            case "September":
+                mesFec = "Septiembre";
+                break;
+            case "October":
+                mesFec = "Octubre";
+                break;
+            case "November":
+                mesFec = "Noviembre";
+                break;
+            case "December":
+                mesFec = "Diciembre";
+                break;
+
+        }
+        return mesFec + " " + dia + " " + anio;
+    }
+
+
+    //Obtener dia mes-->Ejemplo: Mayo-->05
+    public static int obtenerNumMes(String mes) {
+
+
+        int numMes = 0;
+        switch (mes) {
+            case "Enero":
+                numMes = 1;
+                break;
+            case "Febrero":
+                numMes =2;
+                break;
+            case "Marzo":
+                numMes = 3;
+                break;
+            case "Abril":
+                numMes = 4;
+                break;
+            case "Mayo":
+                numMes = 5;
+                break;
+            case "Junio":
+                numMes = 6;
+                break;
+            case "Julio":
+                numMes = 7;
+                break;
+            case "Agosto":
+                numMes = 8;
+                break;
+            case "Septiembre":
+                numMes = 9;
+                break;
+            case "Octubre":
+                numMes = 10;
+                break;
+            case "Noviembre":
+                numMes = 11;
+                break;
+            case "Diciembre":
+                numMes = 12;
+                break;
+
+        }
+        return numMes ;
     }
 }

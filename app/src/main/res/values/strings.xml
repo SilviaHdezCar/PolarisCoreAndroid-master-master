@@ -69,6 +69,12 @@
         <item>Fábrica</item>
     </string-array>
 
+    <!--FALLA DETECTADA autorizadas-->
+    <string-array name="falla_detectada_autorizadas">
+        <item>Repuesto defectuoso</item>
+        <item>Nuevo Diagnóstico</item>
+    </string-array>
+
     <!--TIPOS DE ESTADOS DE LA TERMINAL-->
     <string-array name="estados">
         <item>Seleccione</item>

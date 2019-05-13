@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragmentos.RepuestosAutorizadasFragment">
+    tools:context=".Fragmentos.RepuestoDefectuosoAutorizadas">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,6 +12,15 @@
 
         <include layout="@layout/panel_encabezado" />
 
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Selecciones el repuesto defectuoso"
+            android:gravity="center"
+            style="@style/letra_contenido"
+            android:layout_margin="10dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,9 +28,9 @@
             android:orientation="vertical">
 
             <TableLayout
-                android:id="@+id/tabla_seleccionar_repuestos"
+                android:id="@+id/tabla_seleccionar_repuestos_defectuosos"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:stretchColumns="2">
 
@@ -50,16 +59,32 @@
 
         </LinearLayout>
 
+        <EditText
+            android:id="@+id/txt_observacion_repuesto"
+            style="@style/letra_contenido"
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/redondo_fondo_blanco"
+            android:gravity="top|left"
+            android:hint="Observación obliogatoria"
+            android:inputType="textMultiLine|textCapSentences"
+            android:maxLength="300"
+            android:padding="5dp" />
+
         <Button
-            android:id="@+id/btn_siguiente_repuestos_autorizadas"
+            android:id="@+id/btn_siguiente_repuestos_defectuoso_autorizadas"
             style="@style/letra_contenido_blanco"
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="@drawable/redondo_botones"
-            android:text="Siguiente"
+            android:text="Solicitar"
+            android:layout_marginTop="20dp"
             android:textAllCaps="false" />
 
-    </LinearLayout>
 
+
+    </LinearLayout>
 </FrameLayout>

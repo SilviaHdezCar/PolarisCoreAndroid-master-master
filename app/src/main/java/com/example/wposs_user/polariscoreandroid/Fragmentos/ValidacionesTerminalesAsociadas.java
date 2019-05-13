@@ -12,6 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +49,12 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 
 public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE DEBE LLENAR EL RCV
 
+
+
+    private Fragment fragment;
+
+    //   private Button siguiente;
+
     private TextView marca_ter_validaciones;
     private TextView modelo_ter_validaciones;
     private TextView serial_ter_validaciones;
@@ -53,14 +63,9 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     private TextView garantia_ter_validaciones;
     private TextView fechal_ans_ter_validaciones;
 
-    private Fragment fragment;
-
-    private Button siguiente;
-    private RecyclerView rv;
-    private LinearLayout layout_encabezado_vali;
-    private RequestQueue queue;
-    private static Validacion v;
-    private ArrayList validaciones;//utilizado para llenar el rv de validacones
+    private TextView title_validaciones;
+    private TableLayout tabla;
+    private Button btn_siguiente;
 
 
     @Override
@@ -69,7 +74,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         View v = inflater.inflate(R.layout.fragment_validaciones_terminales_asociadas, container, false);
         objeto.setTitle("      VALIDACIONES TERMINAL");
 
-        validaciones = new ArrayList<>();
+
         marca_ter_validaciones = (TextView) v.findViewById(R.id.marca_ter_validaciones);
         modelo_ter_validaciones = (TextView) v.findViewById(R.id.modelo_ter_validaciones);
         serial_ter_validaciones = (TextView) v.findViewById(R.id.serial_ter_validaciones);
@@ -77,15 +82,22 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         estado_ter_validaciones = (TextView) v.findViewById(R.id.estado_ter_validaciones);
         garantia_ter_validaciones = (TextView) v.findViewById(R.id.garantia_ter_validaciones);
         fechal_ans_ter_validaciones = (TextView) v.findViewById(R.id.fechal_ans_ter_validaciones);
-        rv = (RecyclerView) v.findViewById(R.id.recycler_view_validaciones);
-        layout_encabezado_vali = (LinearLayout) v.findViewById(R.id.layout_encabezado_vali);
-        siguiente = (Button) v.findViewById(R.id.btn_siguiente_validaciones);
-        queue = Volley.newRequestQueue(objeto);
+
+
+        title_validaciones = (TextView) v.findViewById(R.id.tile_validaciones);
+        title_validaciones.setVisibility(View.GONE);
+
+
+        tabla = (TableLayout) v.findViewById(R.id.tabla_validaciones_autorizadas);
+        btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_seleccionar_validaciones_autorizadas);
+
+
 
         //voy a recorrer el arreglo de terminales para que me liste la informacion de la terminal selecciona
-        Global.VALIDACIONES = null;
-        Global.VALIDACIONES = new ArrayList<Validacion>();
-
+       /* Global.VALIDACIONES = null;
+        Global.VALIDACIONES = new ArrayList<Validacion>();*/
+        String fechaRecepción = "";
+        String fechaANS = "";
         for (Terminal ter : Global.TERMINALES_ASOCIADAS) {
             if (ter.getTerm_serial().equalsIgnoreCase(Global.serial_ter)) {
                 marca_ter_validaciones.setText(ter.getTerm_brand());
@@ -100,165 +112,56 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                     garantia_ter_validaciones.setText("Si garantía");
                 }
 
-                fechal_ans_ter_validaciones.setText(ter.getTerm_date_reception()+" - "+ter.getTerm_date_ans());
+
+
+                if (ter.getTerm_date_reception() != null) {
+                    fechaRecepción = ter.getTerm_date_reception();
+                    fechal_ans_ter_validaciones.setText(fechaRecepción );
+                }if (ter.getTerm_date_ans()!=null){
+                    fechaANS= ter.getTerm_date_reception();
+                    fechal_ans_ter_validaciones.setText(fechal_ans_ter_validaciones.getText().toString()+ " - " + fechaANS);
+                }
+                fechal_ans_ter_validaciones.setText("");
 
             }
         }
-        siguiente.setOnClickListener(new View.OnClickListener() {
+
+        btn_siguiente.setText("Siguiente");
+        btn_siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (llenarValidacionesDiagnostico()) {//valida que estén todas las validaciones marcadas
+                boolean verificacionEstados = validarEstadosValidaciones();
+                if (verificacionEstados) {
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new TipificacionesFragment()).addToBackStack(null).commit();
                     return;
                 }
             }
         });
-
-        consumirServicioValidaciones();
-        llenarRVValidaciones(Global.VALIDACIONES);
+        llenarTabla();
 
         return v;
 
     }
 
+
     /**
-     * Metodo utilizado para consumir el servicio que lista las validaciones
-     * en el encabezado se envía el token
-     **/
-    public void consumirServicioValidaciones() {
-        v = null;
-        Global.VALIDACIONES = null;
-        Global.VALIDACIONES = new ArrayList<Validacion>();
-        final Gson gson = new GsonBuilder().create();
-
-        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/validatorTerminal";
-
-        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
-                Request.Method.POST,
-                url,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println("status:  " + Global.STATUS_SERVICE);
-
-                            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
-                                Global.mensaje = response.get("message").toString();
-                                return;
-                            }
-
-
-                            response = new JSONObject(response.get("data").toString());
-
-
-                            JSONArray jsonArray = response.getJSONArray("validaciones");
-
-
-                            if (jsonArray.length() == 0) {
-                                layout_encabezado_vali.setVisibility(View.INVISIBLE);
-                                Toast.makeText(objeto, "No hay validaciones registradas", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            layout_encabezado_vali.setVisibility(View.VISIBLE);
-
-                            String ter = null;
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                ter = jsonArray.getString(i);
-
-                                v = gson.fromJson(ter, Validacion.class);
-                                if (v != null) {
-                                }
-                                Global.VALIDACIONES.add(v);
-                            }
-                            llenarRVValidaciones(Global.VALIDACIONES);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("RESPUESTA", response.toString());
-                    }
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authenticator", Global.TOKEN);
-
-                return params;
-            }
-        };
-
-        queue.add(jsArrayRequest);
-    }
-
-
-    public void llenarListView(){
-
-    }
-
-    //este metodo llena el recycler view con las terminales obtenidas al consumir el servicio
-
-    public void llenarRVValidaciones(List<Validacion> validacionesRecibidas) {
-        //************************SE MUESTRA LA LISTA DE TERMINALES ASOCIADAS
-        rv.setHasFixedSize(true);
-
-        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-        rv.setLayoutManager(llm);
-        validaciones.clear();
-        //final ArrayList validaciones = new ArrayList<>();
-
-        for (Validacion val : validacionesRecibidas) {
+     * Este metodo Recorre el arreglo de validaciones y verifica que todos los estados esten ok o NA.     *
+     *
+     * @return true--> si el estado de la validacion es ok o Na(No aplica). false--> si el estado es Falla
+     */
+    public boolean validarEstadosValidaciones() {
+        boolean retorno = true;
+        recorrerTabla(tabla);
+        int contFalla = 0;
+        Validacion val = new Validacion();
+        for (int i = 0; i < Global.VALIDACIONES.size(); i++) {
+            val = Global.VALIDACIONES.get(i);
             if (val != null) {
-                validaciones.add(val);
-            }
-
-          //  System.out.println("LLENANDO RV.....");
-            final AdapterValidaciones adapter = new AdapterValidaciones(validaciones, new AdapterValidaciones.interfaceClick() {
-                @Override
-                public void onClick(List<Validacion> listValidaciones, int position, int pos_radio) {
-              //      System.out.println("al dar clic---- position " + position + "pos_radio " + pos_radio);
-                //    System.out.println("Fragment validaciones"+listValidaciones.get(position).getTeva_description()+"-"+listValidaciones.get(position).getEstado());
-
-
-                }
-
-
-            }, R.layout.panel_validaciones);
-
-            rv.setAdapter(adapter);
-
-        }
-
-       // System.out.println("Tamaño del arreglo " + validaciones.size());
-    }
-
-
-    //Armo el arraylist     que voy a enviar al consumir el servicio de registrar diagnostico
-    public boolean llenarValidacionesDiagnostico() {
-        boolean retorno = false;
-        Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<Validacion>();
-        String cadena = "";
-        for (Validacion val : Global.VALIDACIONES) {
-            if (val != null) {
-
-                if (val.getEstado() == null) {
-
-
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(objeto);
-                    alertDialog.setTitle("INFORMACIÓN");
-                    alertDialog.setMessage("Verifique la validación: "+val.getTeva_description());
-                    alertDialog.setCancelable(true) ;
+                if (val.getEstado().isEmpty() || val.getEstado() == null) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                    alertDialog.setTitle("Información");
+                    alertDialog.setMessage("Verifique el estado de la validación: " + val.getTeva_description());
+                    alertDialog.setCancelable(true);
                     alertDialog.show();
                     return false;
                 } else {
@@ -266,10 +169,106 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                     Global.VALIDACIONES_DIAGNOSTICO.add(v);
                     retorno = true;
                 }
-
             }
         }
         return retorno;
     }
 
+
+    /**
+     * Este metodo se utiliza para recorrer la tabla mostrada de validaciones y cambia el estado
+     * de la validacion al presionar un radio button
+     *
+     * @param tabla
+     */
+    public void recorrerTabla(TableLayout tabla) {
+
+        int pos_fila;
+        int pos_radio;
+
+        for (int i = 1; i < tabla.getChildCount(); i++) {//filas
+            View child = tabla.getChildAt(i);
+            TableRow row = (TableRow) child;
+            pos_fila = row.getId();
+            System.out.println("fila: " + pos_fila);
+            View view = row.getChildAt(0);//celdas
+
+            view = row.getChildAt(1);//celda en la pos 1
+            if (view instanceof RadioGroup) {
+                pos_radio = ((RadioGroup) view).getCheckedRadioButtonId();
+                System.out.println("Pos_radio: " + pos_radio);
+
+                if (pos_radio == (300 + pos_fila)) {
+                    Global.VALIDACIONES.get(i - 1).setEstado("ok");
+                    Global.VALIDACIONES.get(i - 1).setOk(true);
+                    Global.VALIDACIONES.get(i - 1).setFalla(false);
+                    Global.VALIDACIONES.get(i - 1).setNo_aplica(false);
+                    System.out.println("isOK");
+                }
+                if (pos_radio == (400 + pos_fila)) {
+                    Global.VALIDACIONES.get(i - 1).setEstado("falla");
+                    Global.VALIDACIONES.get(i - 1).setOk(false);
+                    Global.VALIDACIONES.get(i - 1).setFalla(true);
+                    Global.VALIDACIONES.get(i - 1).setNo_aplica(false);
+                    System.out.println("isFalla");
+                }
+                if (pos_radio == (500 + pos_fila)) {
+                    Global.VALIDACIONES.get(i - 1).setEstado("na");
+                    Global.VALIDACIONES.get(i - 1).setOk(false);
+                    Global.VALIDACIONES.get(i - 1).setFalla(false);
+                    Global.VALIDACIONES.get(i - 1).setNo_aplica(true);
+                    System.out.println("isNa");
+                }
+            }
+            System.out.println("Pos: " + i + "-->" + Global.VALIDACIONES.get(i - 1).getTeva_description() + "-" + Global.VALIDACIONES.get(i - 1).getEstado());
+        }
+    }
+
+
+    /**
+     * Metodo utilizado para llenar la tabla de validaciones
+     **/
+    public void llenarTabla() {
+        if (Global.VALIDACIONES.size() == 0) {
+            Toast.makeText(objeto, "No tiene validaciones", Toast.LENGTH_SHORT).show();
+        }
+        for (int i = 0; i < Global.VALIDACIONES.size(); i++) {
+            TableRow fila = new TableRow(objeto);
+            fila.setId(i);
+            //celdas
+
+            TextView nombre = new TextView(objeto);
+            nombre.setId(200 + i);
+            nombre.setText(Global.VALIDACIONES.get(i).getTeva_description());
+            nombre.setWidth(2);
+
+            RadioGroup rg = new RadioGroup(objeto);
+
+
+            RadioButton ok = new RadioButton(objeto);
+            ok.setId(300 + i);
+            ok.setChecked(false);
+            ok.setText("   ");
+
+            RadioButton falla = new RadioButton(objeto);
+            falla.setId(400 + i);
+            falla.setChecked(false);
+            falla.setText("   ");
+
+            RadioButton na = new RadioButton(objeto);
+            na.setId(500 + i);
+            na.setChecked(false);
+            na.setText("  ");
+
+            rg.addView(ok);
+            rg.addView(falla);
+            rg.addView(na);
+            rg.setOrientation(LinearLayout.HORIZONTAL);
+            fila.addView(nombre);
+            fila.addView(rg);
+            tabla.addView(fila);
+
+
+        }
+    }
 }

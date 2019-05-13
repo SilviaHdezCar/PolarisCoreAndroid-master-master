@@ -17,16 +17,15 @@ public class AdapterTerminal_asociada extends RecyclerView.Adapter<AdapterTermin
 
     private List<Terminal> listTerminal;
     private LayoutInflater inflador;
-
     interfaceClick ic;
     private int layoutButton;
 
-    public AdapterTerminal_asociada(Context c,List<Terminal> list) {
+    public AdapterTerminal_asociada(Context c, List<Terminal> list) {
         this.listTerminal = list;
         this.inflador = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public AdapterTerminal_asociada(List<Terminal> terminales, interfaceClick ic,int layoutButton) {
+    public AdapterTerminal_asociada(List<Terminal> terminales, interfaceClick ic, int layoutButton) {
         this.listTerminal = terminales;
         this.ic = ic;
         this.layoutButton = layoutButton;
@@ -42,21 +41,31 @@ public class AdapterTerminal_asociada extends RecyclerView.Adapter<AdapterTermin
 
     @Override
     public void onBindViewHolder(final ViewHolderTerminal holder, final int i) {
-
+        String fechaRecepción = "";
+        String fechaANS = "";
         holder.serial.setText(this.listTerminal.get(i).getTerm_serial());
         holder.marca.setText(this.listTerminal.get(i).getTerm_brand());
         holder.modelo.setText(this.listTerminal.get(i).getTerm_model());
         holder.tecnologia.setText(this.listTerminal.get(i).getTerm_technology());
         holder.estado.setText(this.listTerminal.get(i).getTerm_status());
-        holder.fechaANS.setText(this.listTerminal.get(i).getTerm_date_reception()+ " - "+this.listTerminal.get(i).getTerm_date_ans());
+        holder.fechaANS.setText("");
+        if (this.listTerminal.get(i).getTerm_date_reception() != null) {
+            fechaRecepción = this.listTerminal.get(i).getTerm_date_reception();
+            holder.fechaANS.setText(fechaRecepción);
+        }
+        if (this.listTerminal.get(i).getTerm_date_ans() != null) {
+            fechaANS = this.listTerminal.get(i).getTerm_date_reception();
+            holder.fechaANS.setText(holder.fechaANS.getText().toString() + " - " + fechaANS);
+        }
 
+        //  holder.fechaANS.setText(this.listTerminal.get(i).getTerm_date_reception() + " - " + this.listTerminal.get(i).getTerm_date_ans());
 
 
         holder.layout_terminal_asociada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Tools.toast("click: "+ buttonCards.get(position).text1);
-                ic.onClick(listTerminal,i);
+                ic.onClick(listTerminal, i);
             }
 
         });
@@ -87,7 +96,8 @@ public class AdapterTerminal_asociada extends RecyclerView.Adapter<AdapterTermin
         TextView estado;
         TextView fechaANS;
 
-       LinearLayout layout_terminal_asociada;
+        LinearLayout layout_terminal_asociada;
+
         public ViewHolderTerminal(View v) {
             super(v);
             serial = (TextView) v.findViewById(R.id.serial_ter_asociada);

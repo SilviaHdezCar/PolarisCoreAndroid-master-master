@@ -90,6 +90,7 @@ public class ValidacionTerminalesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_validacion_terminales, container, false);
+
         etapaView = (Button) view.findViewById(R.id.btn_etapas);
         validacionView = (Button) view.findViewById(R.id.btn_validacion_terminales_autorizada);
         btn_siguiente = (Button) view.findViewById(R.id.btn_siguiente_validaciones_autorizadas);
@@ -123,18 +124,36 @@ public class ValidacionTerminalesFragment extends Fragment {
         System.out.println(Global.tipificacionesAutorizadas);
 
         String validaciones[] = Global.validacionesAutorizadas.split(",");
+        System.out.println("validatio: tam "+validaciones.length );
         ArrayList<Validacion> validacions = new ArrayList<>();
+        String vali_estado[];
         for (int i = 0; i < validaciones.length; i++) {
             boolean ok = false, falla = false, no_aplica = false;
-            if (validaciones[i].split("-")[1].equals("OK")) {
+            String estado="";
+            System.out.println("Val pos: "+i+"-"+validaciones[i]);
+            vali_estado=validaciones[i].split("-");
+
+            if (vali_estado[1].equalsIgnoreCase("OK")) {
+                ok = true;
+                estado="ok";
+            } else if (vali_estado[1].equalsIgnoreCase("Falla")) {
+                falla = true;
+                estado="falla";
+            } else if (vali_estado[1].equalsIgnoreCase("na")) {
+                no_aplica = true;
+                estado="no aplica";
+            }
+           /* if (validaciones[i].split("-")[1].equals("OK")) {
                 ok = true;
             } else if (validaciones[i].split("-")[1].equals("Falla")) {
                 falla = true;
             } else if (validaciones[i].split("-")[1].equals("No aplica")) {
                 no_aplica = true;
             }
-
-            Validacion v = new Validacion(validaciones[i].split("-")[0], ok, falla, no_aplica);
+*/
+          //  Validacion v = new Validacion(validaciones[i].split("-")[0], ok, falla, no_aplica );
+            Validacion v = new Validacion(validaciones[i].split("-")[0], ok, falla, no_aplica , estado);
+            System.out.println("Validac------->"+v.getTeva_description()+"-"+v.getEstado()+":::"+v.isOk()+":::"+ v.isFalla()+":::"+ v.isNo_aplica());
             validacions.add(v);
         }
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_validaciones_autorizadas);

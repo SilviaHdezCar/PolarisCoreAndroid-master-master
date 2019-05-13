@@ -1,5 +1,7 @@
 package com.example.wposs_user.polariscoreandroid.java;
 
+import com.example.wposs_user.polariscoreandroid.Comun.Global;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +13,13 @@ public class Validacion {
     private boolean no_aplica;
     private String estado;
 
+
+    public Validacion() {
+        this.ok=false;
+        this.falla=false;
+        this.no_aplica=false;
+        this.estado="";
+    }
 
     public Validacion(String teva_id, String teva_description) {
         this.teva_id = teva_id;
@@ -27,6 +36,13 @@ public class Validacion {
         this.falla=falla;
         this.no_aplica=no_aplica;
         this.estado="";
+    }
+    public Validacion(String teva_description, boolean ok, boolean falla, boolean no_aplica, String estado){
+        this.teva_description = teva_description;
+        this.ok=ok;
+        this.falla=falla;
+        this.no_aplica=no_aplica;
+        this.estado=estado;
     }
 
     public String getTeva_id() {
@@ -91,6 +107,21 @@ public class Validacion {
         JSONObject obj = new JSONObject();
         try {
             obj.put("tevs_terminal_serial", teva_id);
+            obj.put("tevs_terminal_validation",teva_description);
+            obj.put("tevs_status",getEstado());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
+    }
+
+    public JSONObject getObjRep() {
+
+
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("tevs_terminal_serial", Global.terminalVisualizar.getTerm_serial());
             obj.put("tevs_terminal_validation",teva_description);
             obj.put("tevs_status",getEstado());
         } catch (JSONException e) {

@@ -40,7 +40,7 @@ import java.util.Map;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 
-public class EtapasTerminal extends Fragment {
+public class EtapasTerminal extends Fragment  {
 
 
     private TextView observacionesEtapas;
@@ -64,7 +64,7 @@ public class EtapasTerminal extends Fragment {
 
 
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_etapas);
-
+//ordenar observaciones por fechas
         llenarRVEtapas(Global.OBSERVACIONES);
         return view;
 
@@ -76,96 +76,6 @@ public class EtapasTerminal extends Fragment {
 
     }
 
-    /* *//**
-     * Metodo utilizados para consumir el servicio  para listar las observaciones de acuerdo a una terminal mediante una petición REST
-     * En el encabezado va el token-> Authenticator
-     * Se envía el serial de la terminal  Global.serial_ter
-     **//*
-    public void consumirServicioEtapas() {
-        o = null;
-        Global.OBSERVACIONES = null;
-        Global.OBSERVACIONES = new ArrayList<Observacion>();
-        final Gson gson = new GsonBuilder().create();
-
-        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/observations";
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("serial", Global.serial_ter);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
-                Request.Method.POST,
-                url,
-                jsonObject,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println("status:  " + Global.STATUS_SERVICE);
-
-                            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
-                                Global.mensaje = response.get("message").toString();
-                                Toast.makeText(objeto, "Error al consultar las observaciones", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            response = new JSONObject(response.get("data").toString());
-
-                           JSONArray jsonArray = response.getJSONArray("observaciones");
-
-
-                            if (jsonArray.length() == 0) {
-                                Global.mensaje = "No tiene obervaciones";
-                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
-
-                               *//* objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas());
-                                objeto.getSupportFragmentManager().beginTransaction().isAddToBackStackAllowed();
-                                objeto.getSupportFragmentManager().beginTransaction().commit();*//*
-                                return;
-                            }
-
-                            //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
-                            String obser = null;
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                obser = jsonArray.getString(i);
-
-                                o = gson.fromJson(obser, Observacion.class);
-                                if (o != null) {
-                                }
-                                Global.OBSERVACIONES.add(o);
-                            }
-                            llenarRVEtapas(Global.OBSERVACIONES);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("RESPUESTA", response.toString());
-                    }
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authenticator", Global.TOKEN);
-
-                return params;
-            }
-        };
-
-        queue.add(jsArrayRequest);
-
-    }
-*/
 
     /**
      * Metodo utilizado para llenar el recycler view de las observaciones del terminal seleccionado
@@ -183,6 +93,7 @@ public class EtapasTerminal extends Fragment {
 
         for (Observacion observ : observaciones) {
             if (observ != null) {
+                //ordenar por fechas
                 observations.add(observ);
             }
         }
@@ -206,11 +117,14 @@ public class EtapasTerminal extends Fragment {
 
         rv.setAdapter(adapter);
 
-        if (Global.OBSERVACIONES==null||Global.OBSERVACIONES.size()==0){
+        if (Global.OBSERVACIONES == null || Global.OBSERVACIONES.size() == 0) {
             inflarFragmentValidaciones();
 
         }
 
     }
+
+
+
 
 }

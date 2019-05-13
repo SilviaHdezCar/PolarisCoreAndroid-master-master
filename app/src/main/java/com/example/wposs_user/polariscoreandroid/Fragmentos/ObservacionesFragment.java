@@ -275,14 +275,14 @@ public class ObservacionesFragment extends Fragment {
         } else {
             //consumir servicio finalizar diagnostico
 
-            obser = new Observacion("", observacion, "", "", "", Global.serial_ter);
+            obser = new Observacion(observacion,  Global.serial_ter,"");
             consumirServicioDiagnostico();
 
         }
     }
 
     /**
-     * Metodo utilizados para consumir el servicio  de listar terminales asociadas mediante una petición REST
+     * Metodo utilizados para consumir el servicio  que permite registrar un diagnostico con observaciones mediante una petición REST
      * En el encabezado va el token-> Authenticator
      **/
     public void consumirServicioDiagnostico() {
@@ -331,8 +331,6 @@ public class ObservacionesFragment extends Fragment {
                                 alertDialog.show();
 
                             } else {
-                                System.out.println(obser.toString());
-                                System.out.println("creó bien el diagnostico");
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                                 alertDialog.setTitle("Informacion");
                                 alertDialog.setMessage("Diagnóstico registrado exitosamente");
@@ -345,7 +343,7 @@ public class ObservacionesFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.d("RESPUESTA", response.toString());
+                        Log.d("RESPUESTA REG OBs", response.toString());
                     }
 
                 },

@@ -30,7 +30,6 @@ import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminalStock;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
-import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;

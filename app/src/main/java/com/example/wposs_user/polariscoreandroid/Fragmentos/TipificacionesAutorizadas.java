@@ -11,14 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterEvidenciasAutorizadas;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTipificacionesAutorizadas;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.R;
+import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
@@ -53,6 +58,10 @@ public class TipificacionesAutorizadas extends Fragment {
 
     private RecyclerView rv;
 
+
+    public static ArrayList<Observacion> list_con_fotos;
+
+
     private List<Tipificacion> tipificacionesRecibidas;
 
     public TipificacionesAutorizadas() {
@@ -86,11 +95,13 @@ public class TipificacionesAutorizadas extends Fragment {
         }
     }
 
-
+// Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/"+Global.ID+".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView);
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tipificaciones_autorizadas, container, false);
+
+        list_con_fotos = new ArrayList<Observacion>();
         serial = (TextView) v.findViewById(R.id.serial_ter_autorizada);
         marca = (TextView) v.findViewById(R.id.marca_ter_autorizada);
         modelo = (TextView) v.findViewById(R.id.modelo_ter_autorizada);
@@ -99,7 +110,6 @@ public class TipificacionesAutorizadas extends Fragment {
         fechaANS = (TextView) v.findViewById(R.id.fechaANS_ter_autorizada);
         btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_tipificaciones_autorizadas);
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_tipificaciones_autorizadas);
-
 
 
         System.out.println("TERMINAL: " + Global.terminalVisualizar.getTerm_serial());
@@ -119,25 +129,87 @@ public class TipificacionesAutorizadas extends Fragment {
         });
         recorrerTipificaciones();
 
+        llenarRVFotos(Global.observaciones_con_fotos);
+
         return v;
+    }
+
+
+    //mostrar fotos
+    public void llenarRVFotos(List<Observacion> obsRecibidas) {
+        if (obsRecibidas == null || obsRecibidas.size() == 0) {
+            Toast.makeText(objeto, " No tiene evidencias", Toast.LENGTH_SHORT).show();
+        }
+
+        rv.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
+        rv.setLayoutManager(llm);
+
+        ArrayList obs = new ArrayList<>();
+
+        for (Observacion observa : obsRecibidas) {
+            if (observa != null) {
+                obs.add(observa);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
+            }
+        }
+
+
+        final AdapterEvidenciasAutorizadas adapter = new AdapterEvidenciasAutorizadas(obs, new AdapterEvidenciasAutorizadas.interfaceClick() {//seria termi asoc
+            @Override
+            public void onClick(List<Observacion> lisObs, int position) {
+
+
+                //   consumirServicioEtapas();
+
+                //muestra la foto en un fragmen
+
+
+                //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
+
+            }
+        }, R.layout.panel_evidencias_autorizadas);
+
+        rv.setAdapter(adapter);
     }
 
 
     public void recorrerTipificaciones() {
 
-        String tipificaciones[] = Global.tipificacionesAutorizadas.split(",");
 
-        ArrayList<String> tipificacions = new ArrayList<>();
+        if (!Global.tipificacionesAutorizadas.equals("[]")) {
 
-        if (!(tipificaciones.length == 0) || !(tipificaciones == null)) {
-            for (int i = 0; i < tipificaciones.length; i++) {
-                tipificacions.add(tipificaciones[i]);
+            String tipificaciones[] = Global.tipificacionesAutorizadas.split(",");
+
+            ArrayList<String> tipificacions = new ArrayList<>();
+
+            if ((tipificaciones.length == 0) || tipificaciones == null) {
+                Toast.makeText(objeto, "No tiene tipificaciones", Toast.LENGTH_SHORT).show();
+            } else {
+                for (int i = 0; i < tipificaciones.length; i++) {
+                    tipificacions.add(tipificaciones[i]);
+                }
+                llenarRVTipificaciones(tipificacions);
             }
-            llenarRVTipificaciones(tipificacions);
+
         }
-
-
     }
+
+/*    public void ordenarObsFotos(){
+        if(Global.observaciones_con_fotos!=null|| !(Global.observaciones_con_fotos.size()==0)){
+            Observacion obs[]=arrayObservaciones();
+            Arrays.sort(obs);
+        }
+    }
+
+   public  Observacion[] arrayObservaciones(){
+        Observacion observaciones[]=new Observacion[Global.observaciones_con_fotos.size()];
+       for(int i=0; i<Global.observaciones_con_fotos.size();i++){
+           observaciones[i]=Global.observaciones_con_fotos.get(i);
+       }
+       return observaciones;
+   }*/
+
 
     /**
      * este metodo llena el recycler view con las tipificaciones obtenidas al consumir el
@@ -154,6 +226,7 @@ public class TipificacionesAutorizadas extends Fragment {
 
         for (String val : tipificacionesRecibidas) {
             if (val != null) {
+                System.out.println("arreg tip: " + val);
                 tipificaciones.add(val);
             }
 

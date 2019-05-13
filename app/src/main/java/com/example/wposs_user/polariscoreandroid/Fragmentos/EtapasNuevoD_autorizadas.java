@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +29,6 @@ import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
-import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -47,12 +46,12 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link EtapasTerminalAutorizada.OnFragmentInteractionListener} interface
+ * {@link EtapasNuevoD_autorizadas.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link EtapasTerminalAutorizada#newInstance} factory method to
+ * Use the {@link EtapasNuevoD_autorizadas#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EtapasTerminalAutorizada extends Fragment {
+public class EtapasNuevoD_autorizadas extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -63,9 +62,12 @@ public class EtapasTerminalAutorizada extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
     private View view;
 
-    private Button etapaView, validacionView;
+
+    private TableLayout encabezado;
+
 
     private TextView serial;
     private TextView marca;
@@ -75,8 +77,8 @@ public class EtapasTerminalAutorizada extends Fragment {
     private TextView fechaANS;
     private EditText textArea_observacion;
 
-    private Button btn_agregar_etapa_autorizada;
-    private Button btn_siguiente_etapas_autorizada;
+    private Button btn_agregar_etapa;
+    private Button btn_siguiente;
 
     private static Observacion o;
 
@@ -88,7 +90,7 @@ public class EtapasTerminalAutorizada extends Fragment {
 
     private String observacion;
 
-    public EtapasTerminalAutorizada() {
+    public EtapasNuevoD_autorizadas() {
         // Required empty public constructor
     }
 
@@ -98,11 +100,11 @@ public class EtapasTerminalAutorizada extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment EtapasTerminalAutorizada.
+     * @return A new instance of fragment EtapasNuevoD_autorizadas.
      */
     // TODO: Rename and change types and number of parameters
-    public static EtapasTerminalAutorizada newInstance(String param1, String param2) {
-        EtapasTerminalAutorizada fragment = new EtapasTerminalAutorizada();
+    public static EtapasNuevoD_autorizadas newInstance(String param1, String param2) {
+        EtapasNuevoD_autorizadas fragment = new EtapasNuevoD_autorizadas();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -113,7 +115,6 @@ public class EtapasTerminalAutorizada extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        queue = Volley.newRequestQueue(objeto);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -123,12 +124,12 @@ public class EtapasTerminalAutorizada extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         view = inflater.inflate(R.layout.fragment_etapas_terminal_autorizada, container, false);
 
         // muestro la terminal seleccionada con los valores que guarde en el obj terminal
 
+        queue = Volley.newRequestQueue(objeto);
+        encabezado = (TableLayout) view.findViewById(R.id.tabla_encabezado);
         serial = (TextView) view.findViewById(R.id.serial_ter_asociada);
         marca = (TextView) view.findViewById(R.id.marca_ter_asociada);
         modelo = (TextView) view.findViewById(R.id.modelo_ter_asociada);
@@ -136,8 +137,8 @@ public class EtapasTerminalAutorizada extends Fragment {
         estado = (TextView) view.findViewById(R.id.estado_ter_asociada);
         fechaANS = (TextView) view.findViewById(R.id.fechal_ter_asociada);
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_observaciones_validacion);
-        btn_agregar_etapa_autorizada = (Button) view.findViewById(R.id.btn_agregar_etapa_autorizada);
-        btn_siguiente_etapas_autorizada = (Button) view.findViewById(R.id.btn_siguiente_etapas_autorizadas);
+        btn_agregar_etapa= (Button) view.findViewById(R.id.btn_agregar_etapa_autorizada);
+        btn_siguiente = (Button) view.findViewById(R.id.btn_siguiente_etapas_autorizadas);
         textArea_observacion = (EditText) view.findViewById(R.id.textArea_information);
 
 
@@ -151,17 +152,11 @@ public class EtapasTerminalAutorizada extends Fragment {
             fechaANS.setText(Global.terminalVisualizar.getTerm_date_ans());
         }
 
-        etapaView = (Button) view.findViewById(R.id.btn_etapas);
-        validacionView = (Button) view.findViewById(R.id.btn_validacion_terminales);
-        validacionView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionTerminalesFragment()).addToBackStack(null).commit();
-            }
-        });
+        encabezado.setVisibility(View.GONE);
+
 
         consumirServicioEtapas();
-        btn_agregar_etapa_autorizada.setOnClickListener(new View.OnClickListener() {
+        btn_agregar_etapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 observacion = textArea_observacion.getText().toString();
@@ -173,15 +168,17 @@ public class EtapasTerminalAutorizada extends Fragment {
             }
         });
 
-        btn_siguiente_etapas_autorizada.setOnClickListener(new View.OnClickListener() {
+        btn_siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new TipificacionesAutorizadas()).addToBackStack(null).commit();
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
             }
         });
 
+
         return view;
     }
+
 
     /**
      * Metodo utilizados para consumir el servicio  para listar las observaciones de acuerdo a una terminal mediante una petición REST
@@ -192,8 +189,8 @@ public class EtapasTerminalAutorizada extends Fragment {
         o = null;
         Global.OBSERVACIONES = null;
         Global.OBSERVACIONES = new ArrayList<Observacion>();
-        Global.observaciones_con_fotos = null;
-        Global.observaciones_con_fotos = new ArrayList<Observacion>();
+
+
         final Gson gson = new GsonBuilder().create();
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals/observations";
@@ -237,15 +234,14 @@ public class EtapasTerminalAutorizada extends Fragment {
                                 o = gson.fromJson(obser, Observacion.class);
                                 if (o.getTeob_fecha() != null) {
                                     o.setTeob_fecha(Utils.darFormatoFecha(o.getTeob_fecha()));
-                                }
-                                if (o.getTeob_photo()!=null||!o.getTeob_photo().trim().isEmpty()) {
+                                }/*if (o.getTeob_photo()!=null||!o.getTeob_photo().trim().isEmpty()) {
                                     Global.observaciones_con_fotos.add(o);
-                                }
+                                }*/
                                 Global.OBSERVACIONES.add(o);
                             }
                             llenarRVEtapas(Global.OBSERVACIONES);
 
-                            System.out.println("Global.observaciones_con_fotos.add(o)------>"+Global.observaciones_con_fotos.add(o));
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -291,10 +287,7 @@ public class EtapasTerminalAutorizada extends Fragment {
 
         for (Observacion observ : observaciones) {
             if (observ != null) {
-                if (observ.getTeob_description() != null) {
-                    observations.add(observ);
-                }
-
+                observations.add(observ);
             }
         }
 
@@ -399,7 +392,6 @@ public class EtapasTerminalAutorizada extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
 
     /**
      * This interface must be implemented by activities that contain this
