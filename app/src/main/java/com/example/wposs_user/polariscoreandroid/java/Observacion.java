@@ -1,11 +1,12 @@
 package com.example.wposs_user.polariscoreandroid.java;
 
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
+import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Observacion {
+public class Observacion/* implements Comparable<Observacion>*/{
 
     //colocarle los mismos atributos que estan en la BD
     String teob_id;
@@ -123,4 +124,34 @@ public class Observacion {
 
         return obj;
     }
+
+   /* @Override
+    public int compareTo(Observacion o) {
+        String []fecha_ob=getTeob_fecha().split(" ");
+        int mesfec=Utils.obtenerNumMes(fecha_ob[0]);
+        int diafec=Integer.parseInt(fecha_ob[1]);
+        int aniofec=Integer.parseInt(fecha_ob[2]);
+
+        int total=mesfec+diafec+aniofec;
+
+        String []fecha_ob2=o.getTeob_fecha().split(" ");
+        int mesfec2=Utils.obtenerNumMes(fecha_ob2[0]);
+        int diafec2=Integer.parseInt(fecha_ob2[1]);
+        int aniofec2=Integer.parseInt(fecha_ob2[2]);
+
+        int total2=mesfec+diafec+aniofec;
+
+
+        if(total<total2){
+            return -1;
+
+        }
+
+        if(total2<total){
+
+            return 1;
+        }
+
+        return 0;
+    }*/
 }

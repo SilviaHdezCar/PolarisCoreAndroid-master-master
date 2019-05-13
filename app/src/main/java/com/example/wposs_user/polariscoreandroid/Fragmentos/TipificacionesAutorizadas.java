@@ -13,13 +13,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterEvidenciasAutorizadas;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTipificacionesAutorizadas;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.R;
+import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
@@ -54,6 +58,10 @@ public class TipificacionesAutorizadas extends Fragment {
 
     private RecyclerView rv;
 
+
+    public static ArrayList<Observacion> list_con_fotos;
+
+
     private List<Tipificacion> tipificacionesRecibidas;
 
     public TipificacionesAutorizadas() {
@@ -87,11 +95,13 @@ public class TipificacionesAutorizadas extends Fragment {
         }
     }
 
-
+// Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/"+Global.ID+".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView);
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tipificaciones_autorizadas, container, false);
+
+        list_con_fotos = new ArrayList<Observacion>();
         serial = (TextView) v.findViewById(R.id.serial_ter_autorizada);
         marca = (TextView) v.findViewById(R.id.marca_ter_autorizada);
         modelo = (TextView) v.findViewById(R.id.modelo_ter_autorizada);
@@ -119,7 +129,48 @@ public class TipificacionesAutorizadas extends Fragment {
         });
         recorrerTipificaciones();
 
+        llenarRVFotos(Global.observaciones_con_fotos);
+
         return v;
+    }
+
+
+    //mostrar fotos
+    public void llenarRVFotos(List<Observacion> obsRecibidas) {
+        if (obsRecibidas == null || obsRecibidas.size() == 0) {
+            Toast.makeText(objeto, " No tiene evidencias", Toast.LENGTH_SHORT).show();
+        }
+
+        rv.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
+        rv.setLayoutManager(llm);
+
+        ArrayList obs = new ArrayList<>();
+
+        for (Observacion observa : obsRecibidas) {
+            if (observa != null) {
+                obs.add(observa);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
+            }
+        }
+
+
+        final AdapterEvidenciasAutorizadas adapter = new AdapterEvidenciasAutorizadas(obs, new AdapterEvidenciasAutorizadas.interfaceClick() {//seria termi asoc
+            @Override
+            public void onClick(List<Observacion> lisObs, int position) {
+
+
+                //   consumirServicioEtapas();
+
+                //muestra la foto en un fragmen
+
+
+                //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
+
+            }
+        }, R.layout.panel_evidencias_autorizadas);
+
+        rv.setAdapter(adapter);
     }
 
 
@@ -143,6 +194,22 @@ public class TipificacionesAutorizadas extends Fragment {
 
         }
     }
+
+/*    public void ordenarObsFotos(){
+        if(Global.observaciones_con_fotos!=null|| !(Global.observaciones_con_fotos.size()==0)){
+            Observacion obs[]=arrayObservaciones();
+            Arrays.sort(obs);
+        }
+    }
+
+   public  Observacion[] arrayObservaciones(){
+        Observacion observaciones[]=new Observacion[Global.observaciones_con_fotos.size()];
+       for(int i=0; i<Global.observaciones_con_fotos.size();i++){
+           observaciones[i]=Global.observaciones_con_fotos.get(i);
+       }
+       return observaciones;
+   }*/
+
 
     /**
      * este metodo llena el recycler view con las tipificaciones obtenidas al consumir el

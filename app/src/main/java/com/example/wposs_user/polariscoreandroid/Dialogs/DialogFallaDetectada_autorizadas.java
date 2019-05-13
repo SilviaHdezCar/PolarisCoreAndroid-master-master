@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
+import com.example.wposs_user.polariscoreandroid.Fragmentos.EtapasNuevoD_autorizadas;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.NuevoDiagnosticoAutorizadas;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.Registro_diagnostico;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.RepuestoDefectuosoAutorizadas;
@@ -45,7 +46,7 @@ public class DialogFallaDetectada_autorizadas extends DialogFragment {
 
                         } else if (which == 1) {
                             //inflar panel de nuevo díagnostico
-                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new NuevoDiagnosticoAutorizadas()).addToBackStack(null).commit();
+                            fragmentManager.beginTransaction().replace(R.id.contenedor_main, new EtapasNuevoD_autorizadas()).addToBackStack(null).commit();
                         }
                     }
                 });

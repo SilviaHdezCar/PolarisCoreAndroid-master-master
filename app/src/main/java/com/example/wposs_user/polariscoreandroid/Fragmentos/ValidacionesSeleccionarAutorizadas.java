@@ -307,6 +307,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
 
             JSONArray val = this.getValidaciones();
             jsonObject.put("validaciones", val);
+            jsonObject.put("term_serial", Global.serial_ter);
 
             Log.d("RESPUESTA", jsonObject.toString());
 

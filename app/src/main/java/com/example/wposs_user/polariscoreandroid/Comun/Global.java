@@ -31,6 +31,10 @@ public class Global {
     public static String serial_ter= "";
 
 
+
+    public static String diagnosticoTerminal= "";//es asignado al dar clic en el btn asociadas o autorizadas, es utilizado en tipificaciones, para consumir el servicio de diag asociada o reparacion
+
+
     public static String opcion_consulta= "";
 
 
@@ -65,11 +69,7 @@ public class Global {
 
 
 
-    public static String TAG_FRAGMENT_INICIAL="INICIAL";
-    public static String TAG_FRAGMENT_ETAPAS="ETAPAS";
-    public static String TAG_FRAGMENT_VALIDACIONES="VALIDACIONES";
-    public static String TAG_FRAGMENT_PERFIL="PERFIL";
-    public static String TAG_FRAGMENT_TIPIFICACIONES="TIPIFICACIONES";
+
     public static String STATUS_SERVICE;
 
 
@@ -141,6 +141,9 @@ public class Global {
     public static List<Tipificacion> TIPIFICACIONES;
     public static ArrayList<Repuesto> REPUESTOS = new ArrayList<>();
     public static ArrayList<Repuesto> REPUESTOS_DIAGONOSTICO= new ArrayList<>();
+
+
+    public static ArrayList<Observacion>observaciones_con_fotos;
 
 
     public static ArrayList<Repuesto>REPUESTOS_DEFECTUOSOS_AUTORIZADAS;

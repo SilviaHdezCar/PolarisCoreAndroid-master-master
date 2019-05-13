@@ -24,6 +24,11 @@ import android.view.ViewGroup;
 import android.view.textclassifier.TextLinks;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -40,6 +45,7 @@ import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
+import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
@@ -82,6 +88,8 @@ public class InicialFragment extends Fragment {
     private static Terminal t;
     private static Observacion o;
     private RequestQueue queue;
+    private static Validacion valid;
+    private TableLayout tabla;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,6 +100,10 @@ public class InicialFragment extends Fragment {
         btn_autorizadas = (Button) v.findViewById(R.id.btn_terminales_autorizadas);
         liAsociadas = (LinearLayout) v.findViewById(R.id.selectAsociadas);
         liAutorizadas = (LinearLayout) v.findViewById(R.id.selectAutorizadas);
+
+        tabla = (TableLayout) v.findViewById(R.id.tabla_validaciones_autorizadas);//Tabla de validaciones
+
+
         objeto.setTitle("               TERMINALES");
         liAsociadas.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
         liAutorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
@@ -104,7 +116,9 @@ public class InicialFragment extends Fragment {
         queue = Volley.newRequestQueue(objeto);
 
         consumirServicioAsociadas();
+        Global.diagnosticoTerminal = "asociada";
 
+        System.out.println("TIPO DIAGNOSTICO al iniciar= " + Global.diagnosticoTerminal);
         btn_asociadas.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -114,6 +128,7 @@ public class InicialFragment extends Fragment {
                 liAutorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
                 Global.TERMINALES_ASOCIADAS = null;
                 Global.TERMINALES_ASOCIADAS = new ArrayList<Terminal>();
+                Global.diagnosticoTerminal = "asociada";
                 consumirServicioAsociadas();
             }
         });
@@ -126,10 +141,10 @@ public class InicialFragment extends Fragment {
                 liAsociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
                 Global.TERMINALES_AUTORIZADAS = null;
                 Global.TERMINALES_AUTORIZADAS = new ArrayList<Terminal>();
+                Global.diagnosticoTerminal = "autorizada";
                 consumirServicioAutorizadas();
             }
         });
-
 
         return v;
 
@@ -176,22 +191,27 @@ public class InicialFragment extends Fragment {
 
                             if (jsonArray.length() == 0) {
                                 Global.mensaje = "No tiene obervaciones";
-                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+                                //consumirServicioValidaciones();
                                 return;
 
                             } else {
-                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
+
                                 String obser = null;
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     obser = jsonArray.getString(i);
 
                                     o = gson.fromJson(obser, Observacion.class);
-                                    if (o != null) {
-                                    }
+                                    if (o.getTeob_fecha() != null) {
+                                        o.setTeob_fecha(Utils.darFormatoFecha(o.getTeob_fecha()));
+                                    }/*if (o.getTeob_photo()!=null||!o.getTeob_photo().trim().isEmpty()) {
+                                        Global.observaciones_con_fotos.add(o);
+                                    }*/
                                     Global.OBSERVACIONES.add(o);
                                 }
+                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
                                 // llenarRVEtapas(Global.OBSERVACIONES);
+                                return;
                             }
 
 
@@ -313,8 +333,12 @@ public class InicialFragment extends Fragment {
      * Metodo utilizado para consumir el servicio que lista las validaciones
      * en el encabezado se envía el token
      **/
+    /**
+     * Metodo utilizado para consumir el servicio que lista las validaciones
+     * en el encabezado se envía el token
+     **/
     public void consumirServicioValidaciones() {
-        val = null;
+        valid = null;
         Global.VALIDACIONES = null;
         Global.VALIDACIONES = new ArrayList<Validacion>();
         final Gson gson = new GsonBuilder().create();
@@ -345,23 +369,23 @@ public class InicialFragment extends Fragment {
 
 
                             if (jsonArray.length() == 0) {
-                                //  layout_encabezado_vali.setVisibility(View.INVISIBLE);
+                                // layout_encabezado_vali.setVisibility(View.INVISIBLE);
                                 Toast.makeText(objeto, "No hay validaciones registradas", Toast.LENGTH_SHORT).show();
                                 return;
                             }
-                            // layout_encabezado_vali.setVisibility(View.VISIBLE);
+                            //    layout_encabezado_vali.setVisibility(View.VISIBLE);
 
                             String ter = null;
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 ter = jsonArray.getString(i);
 
-                                val = gson.fromJson(ter, Validacion.class);
-                                if (v != null) {
+                                valid = gson.fromJson(ter, Validacion.class);
+                                if (valid != null) {
                                 }
-                                Global.VALIDACIONES.add(val);
+                                Global.VALIDACIONES.add(valid);
                             }
-                            //llenarRVValidaciones(Global.VALIDACIONES);
+                            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -391,10 +415,6 @@ public class InicialFragment extends Fragment {
     }
 
 
-    public void llenarListView() {
-
-    }
-
     /**
      * Metodo utilizado para llenar el recycler view de las terminales asociadas
      * es invocado en el método que consume el servicio
@@ -403,7 +423,7 @@ public class InicialFragment extends Fragment {
      **/
     public void llenarRVAsociadas(List<Terminal> terminalesRecibidas) {
         if (terminalesRecibidas == null || terminalesRecibidas.size() == 0) {
-            Toast.makeText(objeto, Global.CODE + " No tiene terminales asociadas", Toast.LENGTH_SHORT).show();
+            Toast.makeText(objeto, " No tiene terminales asociadas", Toast.LENGTH_SHORT).show();
         }
 
         rv.setHasFixedSize(true);
@@ -429,6 +449,10 @@ public class InicialFragment extends Fragment {
 
                 //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
                 consumirServicioEtapas();
+
+                if (Global.OBSERVACIONES == null || Global.OBSERVACIONES.size() == 0) {
+                    consumirServicioValidaciones();
+                }
 
                 //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
                 // objeto.listarObservacionesTerminal(serialObtenido);
@@ -507,7 +531,8 @@ public class InicialFragment extends Fragment {
                                     }
                                     Global.TERMINALES_AUTORIZADAS.add(t);
                                 }
-                            }  llenarRVAutorizada(Global.TERMINALES_AUTORIZADAS);
+                            }
+                            llenarRVAutorizada(Global.TERMINALES_AUTORIZADAS);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -543,7 +568,7 @@ public class InicialFragment extends Fragment {
         System.out.println("Llenar Rv autoriza: " + terminalesRecibidas.size());
         if (terminalesRecibidas == null || terminalesRecibidas.size() == 0) {
 
-            Toast.makeText(objeto, Global.CODE + " No tiene terminales autorizadas", Toast.LENGTH_SHORT).show();
+            Toast.makeText(objeto, " No tiene terminales autorizadas", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -551,7 +576,7 @@ public class InicialFragment extends Fragment {
 
         LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
         rv.setLayoutManager(llm);
-        
+
         ArrayList terminals = new ArrayList<>();
 
         for (Terminal ter : terminalesRecibidas) {

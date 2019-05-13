@@ -37,6 +37,13 @@ public class Validacion {
         this.no_aplica=no_aplica;
         this.estado="";
     }
+    public Validacion(String teva_description, boolean ok, boolean falla, boolean no_aplica, String estado){
+        this.teva_description = teva_description;
+        this.ok=ok;
+        this.falla=falla;
+        this.no_aplica=no_aplica;
+        this.estado=estado;
+    }
 
     public String getTeva_id() {
         return teva_id;

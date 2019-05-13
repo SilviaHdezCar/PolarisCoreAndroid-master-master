@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity
    @Override
     protected void onStop() {
         super.onStop();
-        consumirSercivioCerrarSesion();
+        //consumirSercivioCerrarSesion();
     }
 
     @Override

@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterEtapa;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
+import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
@@ -60,9 +61,11 @@ public class EtapasTerminalAutorizada extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private View view;
+
     private OnFragmentInteractionListener mListener;
-    private Button etapaView,validacionView;
+    private View view;
+
+    private Button etapaView, validacionView;
 
     private TextView serial;
     private TextView marca;
@@ -143,7 +146,10 @@ public class EtapasTerminalAutorizada extends Fragment {
         modelo.setText(Global.terminalVisualizar.getTerm_model());
         tecnologia.setText(Global.terminalVisualizar.getTerm_technology());
         estado.setText(Global.terminalVisualizar.getTerm_status());
-        fechaANS.setText(Global.terminalVisualizar.getTerm_date_register());
+        fechaANS.setText("");
+        if (Global.terminalVisualizar.getTerm_date_ans() == null) {
+            fechaANS.setText(Global.terminalVisualizar.getTerm_date_ans());
+        }
 
         etapaView = (Button) view.findViewById(R.id.btn_etapas);
         validacionView = (Button) view.findViewById(R.id.btn_validacion_terminales);
@@ -158,8 +164,8 @@ public class EtapasTerminalAutorizada extends Fragment {
         btn_agregar_etapa_autorizada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                observacion= textArea_observacion.getText().toString();
-                if(observacion.isEmpty()){
+                observacion = textArea_observacion.getText().toString();
+                if (observacion.isEmpty()) {
                     Toast.makeText(objeto, "Por favor ingrese la observación", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -186,6 +192,8 @@ public class EtapasTerminalAutorizada extends Fragment {
         o = null;
         Global.OBSERVACIONES = null;
         Global.OBSERVACIONES = new ArrayList<Observacion>();
+        Global.observaciones_con_fotos = null;
+        Global.observaciones_con_fotos = new ArrayList<Observacion>();
         final Gson gson = new GsonBuilder().create();
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals/observations";
@@ -227,13 +235,17 @@ public class EtapasTerminalAutorizada extends Fragment {
                                 obser = jsonArray.getString(i);
 
                                 o = gson.fromJson(obser, Observacion.class);
-                                if (o != null) {
+                                if (o.getTeob_fecha() != null) {
+                                    o.setTeob_fecha(Utils.darFormatoFecha(o.getTeob_fecha()));
+                                }
+                                if (o.getTeob_photo()!=null||!o.getTeob_photo().trim().isEmpty()) {
+                                    Global.observaciones_con_fotos.add(o);
                                 }
                                 Global.OBSERVACIONES.add(o);
                             }
                             llenarRVEtapas(Global.OBSERVACIONES);
 
-
+                            System.out.println("Global.observaciones_con_fotos.add(o)------>"+Global.observaciones_con_fotos.add(o));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -279,7 +291,10 @@ public class EtapasTerminalAutorizada extends Fragment {
 
         for (Observacion observ : observaciones) {
             if (observ != null) {
-                observations.add(observ);
+                if (observ.getTeob_description() != null) {
+                    observations.add(observ);
+                }
+
             }
         }
 
@@ -288,13 +303,13 @@ public class EtapasTerminalAutorizada extends Fragment {
             @Override
             public void onClick(List<Observacion> observaciones, int position) {
                 //Validar fotos: SI--> Pasa al fragment que contiene las fotos. NO-->infla el fragment de validaciones
-                String foto1=observaciones.get(position).getTeob_photo();
-                String foto2=observaciones.get(position).getTeob_photo();//validar con la foto dos
-                if(!foto1.isEmpty()||!foto2.isEmpty()){
-                    Global.foto1_etapa_ter=foto1;
-                    Global.foto2_etapa_ter=foto2;
+                String foto1 = observaciones.get(position).getTeob_photo();
+                String foto2 = observaciones.get(position).getTeob_photo();//validar con la foto dos
+                if (!foto1.isEmpty() || !foto2.isEmpty()) {
+                    Global.foto1_etapa_ter = foto1;
+                    Global.foto2_etapa_ter = foto2;
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new FotoObservacionFragment()).addToBackStack(null).commit();
-                }else{
+                } else {
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
                 }
             }
@@ -335,11 +350,10 @@ public class EtapasTerminalAutorizada extends Fragment {
                             if (response.get("status").toString().equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
                                 Toast.makeText(objeto, "Error al agregar la observación", Toast.LENGTH_SHORT).show();
-                            }else{
+                            } else {
                                 textArea_observacion.setText("");
                                 consumirServicioEtapas();
                             }
-
 
 
                         } catch (JSONException e) {
@@ -372,10 +386,6 @@ public class EtapasTerminalAutorizada extends Fragment {
     }
 
 
-
-
-
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -384,12 +394,12 @@ public class EtapasTerminalAutorizada extends Fragment {
     }
 
 
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

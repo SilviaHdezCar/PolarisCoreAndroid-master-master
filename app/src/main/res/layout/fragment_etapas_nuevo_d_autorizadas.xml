@@ -5,10 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".Fragmentos.EtapasNuevoD_autorizadas">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+        <include layout="@layout/fragment_etapas_terminal_autorizada" />
+
+
+    </LinearLayout>
 
 </FrameLayout>

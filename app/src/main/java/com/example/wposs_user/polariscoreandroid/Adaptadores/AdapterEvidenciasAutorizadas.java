@@ -1,11 +1,13 @@
 package com.example.wposs_user.polariscoreandroid.Adaptadores;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
@@ -16,15 +18,18 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
+
 public class AdapterEvidenciasAutorizadas extends RecyclerView.Adapter<AdapterEvidenciasAutorizadas.ViewHolderEvidencias> {
 
     private interfaceClick ic;
     private int layoutButton;
     private List<Observacion> listObservaciones;
+    private LayoutInflater inflador;
 
-    public AdapterEvidenciasAutorizadas(List<Observacion> buttonCards) {
-
-        this.listObservaciones = buttonCards;
+    public AdapterEvidenciasAutorizadas(Context c, List<Observacion> list) {
+        this.listObservaciones = list;
+        this.inflador = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public AdapterEvidenciasAutorizadas(List<Observacion> list, interfaceClick ic, int layoutButton) {
@@ -48,6 +53,8 @@ public class AdapterEvidenciasAutorizadas extends RecyclerView.Adapter<AdapterEv
         String nomfotos=listObservaciones.get(position).getTeob_photo().trim();
         String foto1="";
         String foto2="";
+
+    //    Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/nombreImagen.extension"+Global.ID+".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView);
         if(!nomfotos.isEmpty()|| nomfotos!=null){
             String fotos []=listObservaciones.get(position).getTeob_photo().split("/");
             for (int i=0; i<fotos.length;i++){
@@ -59,6 +66,14 @@ public class AdapterEvidenciasAutorizadas extends RecyclerView.Adapter<AdapterEv
             holder.txt_fechaFoto.setText(listObservaciones.get(position).getTeob_fecha());
         }
 
+        holder.panel_evidencias_autorizadas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Tools.toast("click: "+ buttonCards.get(position).text1);
+                ic.onClick(listObservaciones, position);
+            }
+
+        });
 
 
 
@@ -77,7 +92,7 @@ public class AdapterEvidenciasAutorizadas extends RecyclerView.Adapter<AdapterEv
 
 
     public interface interfaceClick {
-        void onClick(List<Tipificacion> button, int position, int pos_radio);
+        void onClick(List<Observacion> listObservaciones, int position);
     }
 
     public class ViewHolderEvidencias extends RecyclerView.ViewHolder {
@@ -85,12 +100,14 @@ public class AdapterEvidenciasAutorizadas extends RecyclerView.Adapter<AdapterEv
         private ImageView img_evidencia;
         private TextView txt_nomFoto;
         private TextView txt_fechaFoto;
+        private LinearLayout panel_evidencias_autorizadas;
 
         ViewHolderEvidencias(View itemView) {
             super(itemView);
             img_evidencia = (ImageView) itemView.findViewById(R.id.img_evidencia);
             txt_nomFoto = (TextView) itemView.findViewById(R.id.txt_nomFoto);
             txt_fechaFoto = (TextView) itemView.findViewById(R.id.txt_fechaFoto);
+            panel_evidencias_autorizadas = (LinearLayout) itemView.findViewById(R.id.panel_evidencias_autorizadas);
 
 
         }
