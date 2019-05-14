@@ -44,14 +44,18 @@ public class AdapterTerminal extends RecyclerView.Adapter<AdapterTerminal.ViewHo
 
 
     public void onBindViewHolder(final AdapterTerminal.ViewHolderTerminal holder, final int i) {
-
+String fechaANS="";
         holder.serial.setText(this.listTerminal.get(i).getTerm_serial());
         holder.marca.setText(this.listTerminal.get(i).getTerm_brand());
         holder.modelo.setText(this.listTerminal.get(i).getTerm_model());
         holder.tecnologia.setText(this.listTerminal.get(i).getTerm_technology());
         holder.estado.setText(this.listTerminal.get(i).getTerm_status());
-        holder.fechaANS.setText(this.listTerminal.get(i).getTerm_date_finish() + "");
 
+        if (this.listTerminal.get(i).getTerm_date_ans() != null) {
+            fechaANS = this.listTerminal.get(i).getTerm_date_ans();
+            holder.fechaANS.setText(fechaANS);
+        }
+        holder.fechaANS.setText("No");
 
         holder.layout_terminal_asociada.setOnClickListener(new View.OnClickListener() {
             @Override

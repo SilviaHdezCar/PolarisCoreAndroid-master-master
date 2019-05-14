@@ -294,6 +294,9 @@ public class Registro_diagnostico extends Fragment {
 
         }
 
+        Observacion ob= new Observacion("","","","","",Global.serial_ter);
+        Global.obs=ob;
+
 
         if (Global.diagnosticoTerminal.equalsIgnoreCase("autorizada")) {//consume el servicio: FINALIZAR REGISTRO DE REPARACIÓN POR NUEVO DIAGNÓSTICO:
             consumirServicioDiagnosticoAutorizada();

@@ -357,6 +357,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
         JSONArray listas = new JSONArray();
 
         for (int i = 0; i < Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.size(); i++) {
+            //CONSUMO LOS DOS SERVICIOD
             JSONObject ob = Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getObj();
             listas.put(ob);
         }

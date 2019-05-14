@@ -2,6 +2,7 @@ package com.example.wposs_user.polariscoreandroid.Actividades;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,6 +36,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
+import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
+import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.saveValueStrPreference;
 
 public class Activity_login extends AppCompatActivity {
 
@@ -43,6 +46,7 @@ public class Activity_login extends AppCompatActivity {
     private RequestQueue queue;
     private String correo;
     private String pass;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,12 @@ public class Activity_login extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Realiza las validaciones correpondientes para iniciar sesión
+     *
+     * @param view
+     */
     public void iniciarSesion(View view) {
         correo = this.txtCorreo.getText().toString();
         pass = this.txtPass.getText().toString();
@@ -80,7 +90,9 @@ public class Activity_login extends AppCompatActivity {
 
     }
 
-
+    /**
+     * mETODO UTILIZADO PARA CONSUMIR EL SEVICIO QUE PERMITE INICIAR SESIÓN
+     */
     public void consumirServicoLogin() {
 
         String url = "http://100.25.214.91:3000/PolarisCore/Users/login";
@@ -106,10 +118,10 @@ public class Activity_login extends AppCompatActivity {
                                 try {
                                     Global.mensaje = response.get("description").toString();
                                     Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_SHORT).show();
-                                    System.out.println("description "+response.get("description").toString());
-                                    if(Global.mensaje.equalsIgnoreCase("Contraseña inválida")){
+                                    System.out.println("description " + response.get("description").toString());
+                                    if (Global.mensaje.equalsIgnoreCase("Contraseña inválida")) {
                                         txtPass.setText("");
-                                    }else{
+                                    } else {
                                         limpiarLogin();
                                     }
 
@@ -153,6 +165,8 @@ public class Activity_login extends AppCompatActivity {
                                         Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_SHORT).show();
                                         return;
                                     }
+
+                                    guardarSesion();
 
 
                                 } catch (JSONException e) {
@@ -199,10 +213,26 @@ public class Activity_login extends AppCompatActivity {
     }
 
 
+    public void guardarSesion() {
 
-    public void cerrarSesion(){
+        saveValueStrPreference(Activity_login.this, "token", Global.TOKEN);
+        saveValueStrPreference(Activity_login.this, "rol", Global.ROL);
+        saveValueStrPreference(Activity_login.this, "login", Global.LOGIN);
+        saveValueStrPreference(Activity_login.this, "id", Global.ID);
+        saveValueStrPreference(Activity_login.this, "status", Global.STATUS);
+        saveValueStrPreference(Activity_login.this, "position", Global.POSITION);
+        saveValueStrPreference(Activity_login.this, "code", Global.CODE);
+        saveValueStrPreference(Activity_login.this, "nombre", Global.NOMBRE);
+        saveValueStrPreference(Activity_login.this, "email", Global.EMAIL);
+        saveValueStrPreference(Activity_login.this, "location", Global.LOCATION);
+        saveValueStrPreference(Activity_login.this, "phone", Global.PHONE);
+    }
+
+
+    public void cerrarSesion() {
         String url = "http://100.25.214.91:3000/PolarisCore/Users/close";
         JSONObject jsonObject = new JSONObject();
+
         try {
             jsonObject.put("user", Global.ID);
         } catch (JSONException e) {
@@ -225,7 +255,7 @@ public class Activity_login extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }
-
+                            eliminarValues(Activity_login.this);
 
                         } catch (JSONException e) {
                             e.printStackTrace();

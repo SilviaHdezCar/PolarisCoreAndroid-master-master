@@ -45,4 +45,5 @@ dependencies {
     implementation 'com.jjoe64:graphview:4.2.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.1'
 
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.4'
 }

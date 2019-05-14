@@ -1,6 +1,7 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -84,7 +85,6 @@ public class InicialFragment extends Fragment {
     private Button btn_autorizadas;
     private LinearLayout liAsociadas, liAutorizadas;
     private View v;
-    private Validacion val;
     private static Terminal t;
     private static Observacion o;
     private RequestQueue queue;
@@ -181,6 +181,10 @@ public class InicialFragment extends Fragment {
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    cerrarSesionTokenIvalido();
+                                    return;
+                                }
                                 Toast.makeText(objeto, "Error al consultar las observaciones", Toast.LENGTH_SHORT).show();
                                 return;
                             }
@@ -276,6 +280,11 @@ public class InicialFragment extends Fragment {
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    cerrarSesionTokenIvalido();
+                                    return;
+                                }
+                                Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
@@ -326,6 +335,16 @@ public class InicialFragment extends Fragment {
         };
 
         queue.add(jsArrayRequest);
+
+    }
+
+    public void cerrarSesionTokenIvalido() {
+
+        AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+        alertDialog.setTitle("Información");
+        alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+        alertDialog.setCancelable(true);
+        alertDialog.show();
 
     }
 
