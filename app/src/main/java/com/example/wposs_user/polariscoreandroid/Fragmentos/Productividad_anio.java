@@ -23,7 +23,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.R;
+import com.example.wposs_user.polariscoreandroid.java.MyValueFormatter;
 import com.example.wposs_user.polariscoreandroid.java.Productividad;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jjoe64.graphview.GraphView;
@@ -64,26 +71,13 @@ public class Productividad_anio extends Fragment {
 
      private Spinner año;
      private View v;
-     GraphView grafica;
-     LinearLayout linea;
-    private RequestQueue queue;
+     private BarChart grafica;
+     private RequestQueue queue;
     private ArrayList<Productividad> productividad;
     private Button consulta_produc;
-    int [] diagnosticoMes;
-    int [] reparadasMes;
 
-    int total_enero=0;
-    int total_febrero=0;
-    int total_marzo=0;
-    int total_abril=0;
-    int total_mayo=0;
-    int total_junio=0;
-    int total_julio=0;
-    int total_agosto=0;
-    int total_septiembre=0;
-    int total_octubre=0;
-    int total_noviembre=0;
-    int total_diciembre=0;
+
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -125,9 +119,8 @@ public class Productividad_anio extends Fragment {
         v = inflater.inflate(R.layout.fragment_productividad_anio, container, false);
         año=(Spinner)v.findViewById(R.id.spiner_añoxaño);
         queue = Volley.newRequestQueue(objeto);
-        grafica=(GraphView)v.findViewById(R.id.grafica_año);
+        grafica=(BarChart)v.findViewById(R.id.grafica_año);
         consulta_produc= (Button)v.findViewById(R.id.consultar_año);
-        linea= (LinearLayout)v.findViewById(R.id.linea_titulo_año);
         int [] diagnosticoMes=new int[12];
         int [] reparadasMes=new int[12];
 
@@ -172,7 +165,7 @@ public class Productividad_anio extends Fragment {
 
 
 
-        grafica.removeAllSeries();
+        grafica.clear();
 
         String añoDado= año.getSelectedItem().toString();
 
@@ -185,7 +178,6 @@ public class Productividad_anio extends Fragment {
         if(año.getSelectedItem()==null){
             Toast.makeText(v.getContext(),"Debe selecccionar el año a consultar",Toast.LENGTH_SHORT).show();
             grafica.setVisibility(INVISIBLE);
-            linea.setVisibility(INVISIBLE);
             return;
 
         }
@@ -193,7 +185,6 @@ public class Productividad_anio extends Fragment {
         if(año.getSelectedItem().toString().equals("Seleccione")){
             Toast.makeText(v.getContext(),"Seleccione un año valido",Toast.LENGTH_SHORT).show();
             grafica.setVisibility(INVISIBLE);
-            linea.setVisibility(INVISIBLE);
             return;
 
         }
@@ -247,8 +238,8 @@ public class Productividad_anio extends Fragment {
                                 Global.mensaje = "No se encontraron registros para el mes y año seleccionado";
                                 Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();
                                 grafica.setVisibility(INVISIBLE);
-                                linea.setVisibility(INVISIBLE);
-                                grafica.removeAllSeries();
+
+                                grafica.clear();
                                 return;
                             }
                             Productividad pro;
@@ -283,91 +274,74 @@ public class Productividad_anio extends Fragment {
 
                         System.out.println(productividad.toString());
 
+                        int [] diagnosticoMes= getValoresDiagnosticoMes();
+                        int [] reparadasMes=getValoresReparadasMes();
 
-                       diagnosticoMes=getValoresDiagnosticoMes();
-                       reparadasMes=getValoresReparadasMes();
+
+
+
+
 
                         System.out.println("mes de mayo**********"+"    "+diagnosticoMes[6]);
 
-                        BarGraphSeries<DataPoint> diagnostico_enero= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(1, diagnosticoMes[0]) });
-                        BarGraphSeries<DataPoint> diagnostico_febrero= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(2, diagnosticoMes[1]) });
-                        BarGraphSeries<DataPoint> diagnostico_marzo=new BarGraphSeries<>(new DataPoint[]{  new DataPoint(3, diagnosticoMes[2]) });
-                        BarGraphSeries<DataPoint> diagnostico_abril= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(4, diagnosticoMes[3]) });
-                        BarGraphSeries<DataPoint> diagnostico_mayo= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(5, diagnosticoMes[4]) });
-                        BarGraphSeries<DataPoint> diagnostico_junio= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(6, diagnosticoMes[5]) });
-                        BarGraphSeries<DataPoint> diagnostico_julio= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(7, diagnosticoMes[6]) });
-                        BarGraphSeries<DataPoint> diagnostico_agosto= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(8, diagnosticoMes[7]) });
-                        BarGraphSeries<DataPoint> diagnostico_septiembre= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(9, diagnosticoMes[8]) });
-                        BarGraphSeries<DataPoint> diagnostico_octubre= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(10, diagnosticoMes[9]) });
-                        BarGraphSeries<DataPoint> diagnostico_noviembre= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(11, diagnosticoMes[10]) });
-                        BarGraphSeries<DataPoint> diagnostico_diciembre= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(12, diagnosticoMes[11]) });
-
-                        BarGraphSeries<DataPoint> reparadas_enero= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(1, reparadasMes[0]) });
-                        BarGraphSeries<DataPoint> reparadas_febrero= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(2,reparadasMes[1]) });
-                        BarGraphSeries<DataPoint> reparadas_marzo=new BarGraphSeries<>(new DataPoint[]{  new DataPoint(3, reparadasMes[2]) });
-                        BarGraphSeries<DataPoint> reparadas_abril= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(4, reparadasMes[3]) });
-                        BarGraphSeries<DataPoint> reparadas_mayo= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(5, reparadasMes[4]) });
-                        BarGraphSeries<DataPoint> reparadas_junio= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(6, reparadasMes[5]) });
-                        BarGraphSeries<DataPoint> reparadas_julio= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(7, reparadasMes[6]) });
-                        BarGraphSeries<DataPoint> reparadas_agosto= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(8, reparadasMes[7]) });
-                        BarGraphSeries<DataPoint> reparadas_septiembre= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(9, reparadasMes[8]) });
-                        BarGraphSeries<DataPoint> reparadas_octubre= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(10, reparadasMes[9]) });
-                        BarGraphSeries<DataPoint> reparadas_noviembre= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(11, reparadasMes[10]) });
-                        BarGraphSeries<DataPoint> reparadas_diciembre= new BarGraphSeries<>(new DataPoint[]{  new DataPoint(12, reparadasMes[11]) });
 
 
-                        grafica.addSeries(diagnostico_enero);
-                        reparadas_mayo.setDrawValuesOnTop(true);
-                        reparadas_mayo.setValuesOnTopColor(Color.BLACK);
-                         reparadas_mayo.setValuesOnTopSize(20);
+                        ArrayList<BarEntry>datosDiagnostico=new ArrayList<>();
+                        ArrayList<BarEntry>datosReparadas= new ArrayList<>();
 
 
-                        reparadas_mayo.setColor(Color.GREEN);
-                        diagnostico_mayo.setDrawValuesOnTop(true);
-                        diagnostico_mayo.setValuesOnTopSize(20);
-                        diagnostico_mayo.setValuesOnTopColor(Color.BLACK);
-                        diagnostico_mayo.setColor(Color.BLUE);
+                        for(int i=0;i<12;i++){
 
-
-                        grafica.addSeries(reparadas_enero);
-                        grafica.addSeries(diagnostico_febrero);
-                        grafica.addSeries(reparadas_febrero);
-                        grafica.addSeries(diagnostico_marzo);
-                        grafica.addSeries(reparadas_marzo);
-                        grafica.addSeries(diagnostico_abril);
-                        grafica.addSeries(reparadas_abril);
-                        grafica.addSeries(diagnostico_mayo);
-                        grafica.addSeries(reparadas_mayo);
-                        grafica.addSeries(diagnostico_junio);
-                        grafica.addSeries(reparadas_junio);
-                        grafica.addSeries(diagnostico_julio);
-                        grafica.addSeries(reparadas_julio);
-                        grafica.addSeries(diagnostico_agosto);
-                        grafica.addSeries(reparadas_agosto);
-                        grafica.addSeries(diagnostico_septiembre);
-                        grafica.addSeries(reparadas_septiembre);
-                        grafica.addSeries(diagnostico_octubre);
-                        grafica.addSeries(reparadas_octubre);
-                        grafica.addSeries(diagnostico_noviembre);
-                        grafica.addSeries(reparadas_noviembre);
-                        grafica.addSeries(diagnostico_diciembre);
-                        grafica.addSeries(reparadas_diciembre);
+                            datosDiagnostico.add(new BarEntry(i,diagnosticoMes[i]));
+                            datosReparadas.add(new BarEntry(i,reparadasMes[i]));
 
 
 
+                        }
 
-                        grafica.setMinimumHeight(10000);
-                        grafica.setMinimumWidth(10000);
-                        grafica.animate();
-                        grafica.getGridLabelRenderer().setHorizontalAxisTitle("meses");
-                        grafica.getGridLabelRenderer().setVerticalAxisTitle("Terminales");
+
+                        System.out.println("ARRAYLIST DE DATOS**************"+ datosReparadas.toString());
+
+
+
+                        BarDataSet datos=new BarDataSet(datosDiagnostico,"Diagnosticadas");
+                        BarDataSet valores=new BarDataSet(datosReparadas,"Reparadas");
+                        datos.setColor(Color.BLUE);
+                        valores.setColor(Color.GREEN);
+                        datos.setDrawValues(true);
+
+
+                        valores.setDrawValues(true);
+                        datos.setValueFormatter(new MyValueFormatter());
+                        valores.setValueFormatter(new MyValueFormatter());
+
+
+                        BarData datosGrafica = new BarData(datos,valores);
+                        grafica.setData(datosGrafica);
+                        String []meses= new String[]{"enero", "febrero", "marzo", "abril", "mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"};
+                        XAxis x=grafica.getXAxis();
+                        x.setValueFormatter(new IndexAxisValueFormatter(meses));
+                        x.setCenterAxisLabels(true);
+                        x.setLabelCount(0);
+                        grafica.getAxisLeft().setDrawGridLines(false);
+                        grafica.getAxisLeft().setGranularity(1);
+                        grafica.getAxisLeft().setAxisMinimum(0);
+                        x.setPosition(XAxis.XAxisPosition.BOTTOM);
+                        x.setGranularity(1);
+                        x.setDrawGridLines(false);
+                       // x.setDrawLabels(false);
+                        x.setGranularityEnabled(true);
+                        grafica.setDragEnabled(true);
+                        grafica.setVisibleXRangeMaximum(3);
+                        float barSpace=0;
+                        float groupSpace= 0.2f;
+                        datosGrafica.setBarWidth(0.3f);
+                        grafica.getXAxis().setAxisMinimum(0);
+                        grafica.getXAxis().setAxisMaximum(13);
+                        grafica.groupBars(0, groupSpace,barSpace);
+                        grafica.invalidate();
+                        grafica.getDescription().setEnabled(false);
                         grafica.setVisibility(VISIBLE);
-                        linea.setVisibility(VISIBLE);
-
-
-
-
-
                     }
 
 
@@ -397,6 +371,18 @@ public class Productividad_anio extends Fragment {
 /********************Metodo para calcular la productividad de terminales asociadas en cada mes***************************/
 
 public int[] getValoresDiagnosticoMes(){
+    int total_enero=0;
+    int total_febrero=0;
+    int total_marzo=0;
+    int total_abril=0;
+    int total_mayo=0;
+    int total_junio=0;
+    int total_julio=0;
+    int total_agosto=0;
+    int total_septiembre=0;
+    int total_octubre=0;
+    int total_noviembre=0;
+    int total_diciembre=0;
 
 
        int []total= new int[12];
@@ -492,6 +478,19 @@ public int[] getValoresDiagnosticoMes(){
     /********************Metodo para calcular la productividad de terminales Reparadas en cada mes******************/
 
     public int[] getValoresReparadasMes(){
+
+        int total_enero=0;
+        int total_febrero=0;
+        int total_marzo=0;
+        int total_abril=0;
+        int total_mayo=0;
+        int total_junio=0;
+        int total_julio=0;
+        int total_agosto=0;
+        int total_septiembre=0;
+        int total_octubre=0;
+        int total_noviembre=0;
+        int total_diciembre=0;
 
         int []total= new int[12];
         total [0]=0;
