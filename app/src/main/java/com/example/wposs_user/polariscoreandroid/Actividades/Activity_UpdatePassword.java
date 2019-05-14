@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
+import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
 
 public class Activity_UpdatePassword extends AppCompatActivity {
 
@@ -241,6 +242,8 @@ public class Activity_UpdatePassword extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }
+
+                            eliminarValues(Activity_UpdatePassword.this);
                             Intent i = new Intent(Activity_UpdatePassword.this, Activity_login.class);
                             startActivity(i);
                             finish();

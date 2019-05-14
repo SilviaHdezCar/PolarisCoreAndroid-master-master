@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -81,6 +82,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
+import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.getValueStrPreference;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private AppBarLayout appBar;
@@ -113,6 +117,9 @@ public class MainActivity extends AppCompatActivity
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
         objeto = this;
         Global.REPUESTOS = new ArrayList<>();
         Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<>();
@@ -172,11 +179,12 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-   @Override
+
+  /* @Override
     protected void onStop() {
         super.onStop();
-        //consumirSercivioCerrarSesion();
-    }
+       // consumirSercivioCerrarSesion();
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -227,14 +235,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void inflarEtapas() {
-        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
-    }
-
-    public void inflarValidaciones() {
-        System.out.println("inflar val");
-        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).commit();
-    }
 
 
     /*************************************************************************************
@@ -267,6 +267,8 @@ public class MainActivity extends AppCompatActivity
                                     e.printStackTrace();
                                 }
                             }
+                            eliminarValues(objeto);
+                            System.out.println("Respuesta obtener"+getValueStrPreference(objeto, "token"));
                             Intent i = new Intent(objeto, Activity_login.class);
                             startActivity(i);
                             finish();
