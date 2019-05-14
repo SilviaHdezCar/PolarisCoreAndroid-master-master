@@ -572,7 +572,7 @@ public class InicialFragment extends Fragment {
 
         }
 
-        rv.setHasFixedSize(true);
+               rv.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
         rv.setLayoutManager(llm);

@@ -275,12 +275,32 @@ public class Productividad_anio extends Fragment {
                         System.out.println(productividad.toString());
 
                         int [] diagnosticoMes= getValoresDiagnosticoMes();
+
                         int [] reparadasMes=getValoresReparadasMes();
 
+                       /* diagnosticoMes[0]=12;
+                        diagnosticoMes[1]=8;
+                        diagnosticoMes[2]=7;
+                        diagnosticoMes[3]=5;
+                        diagnosticoMes[5]=15;
+                        diagnosticoMes[6]=7;
+                        diagnosticoMes[7]=3;
+                        diagnosticoMes[8]=2;
+                        diagnosticoMes[9]=18;
+                        diagnosticoMes[10]=14;
+                        diagnosticoMes[11]=17;
 
-
-
-
+                        reparadasMes[0]=4;
+                        reparadasMes[1]=12;
+                        reparadasMes[2]=15;
+                        reparadasMes[3]=7;
+                        reparadasMes[5]=9;
+                        reparadasMes[6]=13;
+                        reparadasMes[7]=10;
+                        reparadasMes[8]=9;
+                        reparadasMes[9]=7;
+                        reparadasMes[10]=6;
+                        reparadasMes[11]=5;*/
 
                         System.out.println("mes de mayo**********"+"    "+diagnosticoMes[6]);
 
@@ -293,16 +313,14 @@ public class Productividad_anio extends Fragment {
                         for(int i=0;i<12;i++){
 
                             datosDiagnostico.add(new BarEntry(i,diagnosticoMes[i]));
-                            datosReparadas.add(new BarEntry(i,reparadasMes[i]));
-
-
+                           datosReparadas.add(new BarEntry(i,reparadasMes[i]));
 
                         }
 
 
+
+
                         System.out.println("ARRAYLIST DE DATOS**************"+ datosReparadas.toString());
-
-
 
                         BarDataSet datos=new BarDataSet(datosDiagnostico,"Diagnosticadas");
                         BarDataSet valores=new BarDataSet(datosReparadas,"Reparadas");
@@ -321,21 +339,24 @@ public class Productividad_anio extends Fragment {
                         String []meses= new String[]{"enero", "febrero", "marzo", "abril", "mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"};
                         XAxis x=grafica.getXAxis();
                         x.setValueFormatter(new IndexAxisValueFormatter(meses));
-                        x.setCenterAxisLabels(true);
+                       //x.setCenterAxisLabels(true)
                         x.setLabelCount(0);
                         grafica.getAxisLeft().setDrawGridLines(false);
                         grafica.getAxisLeft().setGranularity(1);
                         grafica.getAxisLeft().setAxisMinimum(0);
                         x.setPosition(XAxis.XAxisPosition.BOTTOM);
+                        x.setLabelCount(12);
+
                         x.setGranularity(1);
                         x.setDrawGridLines(false);
                        // x.setDrawLabels(false);
                         x.setGranularityEnabled(true);
                         grafica.setDragEnabled(true);
-                        grafica.setVisibleXRangeMaximum(3);
+                        grafica.setVisibleXRangeMaximum(2);
                         float barSpace=0;
-                        float groupSpace= 0.2f;
+                        float groupSpace= 0.32f;
                         datosGrafica.setBarWidth(0.3f);
+
                         grafica.getXAxis().setAxisMinimum(0);
                         grafica.getXAxis().setAxisMaximum(13);
                         grafica.groupBars(0, groupSpace,barSpace);
