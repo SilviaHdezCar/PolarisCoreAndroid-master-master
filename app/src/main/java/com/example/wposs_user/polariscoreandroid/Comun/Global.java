@@ -135,6 +135,9 @@ public class Global {
 
 
 
+    public static List<Terminal> TODAS_TERMINALES;
+
+
     public static List<Terminal> TERMINALES_ASOCIADAS ;
     public static List<Observacion> OBSERVACIONES;
     public static List<Validacion> VALIDACIONES;
