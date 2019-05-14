@@ -14,7 +14,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@color/verde_pestanas">
 
 
             <Button
@@ -24,7 +25,8 @@
                 android:layout_height="match_parent"
                 android:background="@color/verde_pestanas"
                 android:scrollbars="vertical"
-                android:text="Serial" />
+                android:text="Serial"
+                />
 
 
             <Button
@@ -32,10 +34,12 @@
                 style="@style/letra_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/verde_pestanas_transparencia"
+                android:background="@drawable/borde_inferior_blanco"
                 android:scrollbars="vertical"
                 android:text="Rango de fechas" />
         </LinearLayout>
+
+
 
 
         <LinearLayout
@@ -62,6 +66,7 @@
                 android:text="Estado de la terminal" />
 
             <TextView
+                style="@style/letra_contenido"
                 android:id="@+id/text_estado_ter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,17 +76,17 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:background="@drawable/redondo_gris">
+            android:background="@drawable/redondo_gris"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
@@ -89,13 +94,12 @@
                     android:id="@+id/txt_fecha_inicio"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_horizontal"
                     android:clickable="true"
                     android:focusable="false"
                     android:hint="Fecha inicial"
                     android:maxLines="1"
                     android:paddingLeft="5dp"
-                    android:layout_gravity="center_horizontal"
 
                     />
 
@@ -103,33 +107,25 @@
                     android:id="@+id/txt_fecha_fin"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="20dp"
-
                     android:clickable="true"
                     android:focusable="false"
                     android:hint="Fecha fin"
-                    android:inputType="date"
                     android:maxLines="1"
                     android:paddingLeft="5dp" />
+
+                <ImageView
+                    android:id="@+id/btn_buscar_terminalesPorFechas"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/search"
+                    android:background="@color/gris_menu"/>
             </LinearLayout>
 
 
         </LinearLayout>
 
 
-        <Button
-            android:id="@+id/btn_buscar_terminalesPorFechas"
-            style="@style/letra_botones"
-            android:layout_width="120dp"
-            android:layout_height="35dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="12dp"
-            android:background="@color/colorPrimaryDark"
-            android:onClick="validarFecha"
-            android:text="Buscar"
-            android:textAllCaps="false"
-            tools:ignore="OnClick" />
 
         <TextView
             android:id="@+id/lbl_busq_por_fechas"

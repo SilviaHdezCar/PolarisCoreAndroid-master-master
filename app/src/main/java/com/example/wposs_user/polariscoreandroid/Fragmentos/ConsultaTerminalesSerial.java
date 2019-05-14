@@ -50,6 +50,7 @@ public class ConsultaTerminalesSerial extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private ImageView btn_buscar_terminales_serial;
     private Button btn_ser_rango_fechas;
+    private View view;
 
     private RequestQueue queue;
 
@@ -58,10 +59,17 @@ public class ConsultaTerminalesSerial extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.fragment_consultar_terminales_serial, container, false);
+        view = inflater.inflate(R.layout.fragment_consultar_terminales_serial, container, false);
+        objeto.setTitle("       BÚSQUEDA POR SERIAL");
+        queue = Volley.newRequestQueue(objeto);
+        Global.TODAS_TERMINALES = null;
+        Global.TODAS_TERMINALES = new ArrayList<Terminal>();
+        servicioTerminales();
+
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_consultaTerminales_por_serial);
         serial = (EditText) view.findViewById(R.id.serial_buscar);
-        queue = Volley.newRequestQueue(objeto);
+
+
         btn_buscar_terminales_serial = (ImageView) view.findViewById(R.id.btn_buscar_terminales_serial);
         btn_ser_rango_fechas = (Button) view.findViewById(R.id.btn_ser_rango_fechas);
 
@@ -85,8 +93,7 @@ public class ConsultaTerminalesSerial extends Fragment {
 
     }
 
-    //*******************************BUSQUEDA POR SERIAL
-
+    //*******************************BUSCA POR SERIAL Y LLENA EL RV
     public void buscarTerminalesPorSerial() {
 
         Vector<Terminal> terminal = new Vector<>();
@@ -117,14 +124,14 @@ public class ConsultaTerminalesSerial extends Fragment {
     }
 
 
-
     /********************************metodo usaddo para mostrar en stock las terminales asignadas a un tecnico****************/
 
-    public void servicioTerminales(){
-        Global.TODAS_TERMINALES=null;
-        Global.TODAS_TERMINALES=new ArrayList<Terminal>();
-        final  ArrayList<Terminal>terminales= new ArrayList<>();
-        final ArrayList<Repuesto>rep=new ArrayList<>();
+    public void servicioTerminales() {
+
+        Global.TODAS_TERMINALES = null;
+        Global.TODAS_TERMINALES = new ArrayList<Terminal>();
+        final ArrayList<Terminal> terminales = new ArrayList<>();
+        final ArrayList<Repuesto> rep = new ArrayList<>();
         final Gson gson = new GsonBuilder().create();
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals/stock";
@@ -147,7 +154,7 @@ public class ConsultaTerminalesSerial extends Fragment {
 
                             if (Global.STATUS_SERVICE.equals("fail")) {
                                 Global.mensaje = response.get("message").toString();
-                                Toast.makeText(objeto,"Error:  "+Global.mensaje,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(objeto, "Error:  " + Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
@@ -159,33 +166,23 @@ public class ConsultaTerminalesSerial extends Fragment {
 
 
                             if (jsonArray1.length() == 0) {
-                                Global.mensaje = "No hay terminales ";
-                                Toast.makeText(objeto,Global.mensaje,Toast.LENGTH_SHORT).show();
+                                Global.mensaje = "No hay terminales registradas";
+                                Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
-                            }
+                            } else {
 
-                            String ter = null;
+                                String ter = null;
 
-                            for (int i = 0; i < jsonArray1.length(); i++) {
-                                ter = jsonArray1.getString(i);
+                                for (int i = 0; i < jsonArray1.length(); i++) {
+                                    ter = jsonArray1.getString(i);
 
-                                Terminal t = gson.fromJson(ter, Terminal.class);
-                                if (t != null) {
+                                    Terminal t = gson.fromJson(ter, Terminal.class);
+                                /*if (t != null) {
+                                }*/
+                                    //terminales.add(t);
+                                    Global.TODAS_TERMINALES.add(t);
                                 }
-                                //terminales.add(t);
-                                Global.TODAS_TERMINALES.add(t);
                             }
-
-
-                           /* rv.setHasFixedSize(true);
-                            LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-                            rv.setLayoutManager(llm);
-                            AdapterTerminalStock adapter= new AdapterTerminalStock(v.getContext(),terminales);
-                            rv.setAdapter(adapter);
-*/
-
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

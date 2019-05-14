@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/gris_fondo"
+    android:background="@color/blanco"
     tools:context=".Actividades.MainActivity">
 
     <LinearLayout
@@ -14,7 +14,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@color/verde_pestanas">
 
 
                 <Button
@@ -22,7 +23,7 @@
                     style="@style/letra_tabs"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
-                    android:background="@color/verde_pestanas_transparencia"
+                    android:background="@drawable/borde_inferior_blanco"
                     android:scrollbars="vertical"
                     android:text="Serial"
                     />
@@ -51,6 +52,7 @@
                 android:id="@+id/serial_buscar"
                 android:hint="Serial"
                 android:inputType="text"
+                android:maxLength="25"
                 style="@style/letra_contenido"
                 />
             <ImageView

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +36,7 @@ public class ConsultaTerminalesFechas extends Fragment {
     private EditText f_fin;
     private TextView text_estado_ter;
     private Button btn_fech_consulta_serial;
-    private Button buscar_terminales_fecha;
+    private ImageView buscar_terminales_fecha;
     private LinearLayout layout_estado_terminal;
     View view;
 
@@ -55,8 +56,10 @@ public class ConsultaTerminalesFechas extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       view=inflater.inflate(R.layout.fragment_consulta_terminales_fechas, container, false);
-        buscar_terminales_fecha=(Button)view.findViewById(R.id.btn_buscar_terminalesPorFechas);
+        view = inflater.inflate(R.layout.fragment_consulta_terminales_fechas, container, false);
+        objeto.setTitle("      BÚSQUEDA POR FECHAS");
+
+        buscar_terminales_fecha = (ImageView) view.findViewById(R.id.btn_buscar_terminalesPorFechas);
 
         //carga los txt de las fechas al hacer la consulta establecida por fechas
 
@@ -86,6 +89,7 @@ public class ConsultaTerminalesFechas extends Fragment {
         f_inicio.setInputType(InputType.TYPE_NULL);
 
 
+//Mostrar calendario y seleccionar fecha para mostrar en el TExtView
         java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         Date date = new Date();
         String fecha = dateFormat.format(date);
@@ -174,7 +178,7 @@ public class ConsultaTerminalesFechas extends Fragment {
 
             }
         });
-
+//Fin mostrar calendario
 
 
         return view;
@@ -197,9 +201,9 @@ public class ConsultaTerminalesFechas extends Fragment {
                 //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
                 final int mesActual = month + 1;
                 //Formateo el día obtenido: antepone el 0 si son menores de 10
-                String diaFormateado = (dayOfMonth < 10)? CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                String diaFormateado = (dayOfMonth < 10) ? CERO + String.valueOf(dayOfMonth) : String.valueOf(dayOfMonth);
                 //Formateo el mes obtenido: antepone el 0 si son menores de 10
-                String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
+                String mesFormateado = (mesActual < 10) ? CERO + String.valueOf(mesActual) : String.valueOf(mesActual);
                 //Muestro la fecha con el formato deseado
                 etFecha.setText(diaFormateado + BARRA + mesFormateado + BARRA + year);
 
@@ -209,55 +213,55 @@ public class ConsultaTerminalesFechas extends Fragment {
             /**
              *También puede cargar los valores que usted desee
              */
-        },anio, mes, dia);
+        }, anio, mes, dia);
         //Muestro el widget
         recogerFecha.show();
     }
 
-    public boolean validarFecha(){
+    public boolean validarFecha() {
 
-        String fecha_inicial= f_inicio.getText().toString();
-        String[] fecha=fecha_inicial.split("/");
-        int dia_inicio=Integer.parseInt(fecha[0]);
-        int mes_inicio=Integer.parseInt(fecha[1]);
-        int año_inicio=Integer.parseInt(fecha[2]);
+        String fecha_inicial = f_inicio.getText().toString();
+        String[] fecha = fecha_inicial.split("/");
+        int dia_inicio = Integer.parseInt(fecha[0]);
+        int mes_inicio = Integer.parseInt(fecha[1]);
+        int año_inicio = Integer.parseInt(fecha[2]);
 
-        System.out.println("Fecha inicial:  "+"dia:"+dia_inicio+"mes:"+mes_inicio+"año:"+año_inicio);
+        System.out.println("Fecha inicial:  " + "dia:" + dia_inicio + "mes:" + mes_inicio + "año:" + año_inicio);
 
-        String fecha_final= f_fin.getText().toString();
-        String[] fechaFin=fecha_final.split("/");
-        int dia_fin=Integer.parseInt(fechaFin[0]);
-        int mes_fin=Integer.parseInt(fechaFin[1]);
-        int año_fin=Integer.parseInt(fechaFin[2]);
+        String fecha_final = f_fin.getText().toString();
+        String[] fechaFin = fecha_final.split("/");
+        int dia_fin = Integer.parseInt(fechaFin[0]);
+        int mes_fin = Integer.parseInt(fechaFin[1]);
+        int año_fin = Integer.parseInt(fechaFin[2]);
 
-        System.out.println("Fecha final:  "+"dia:"+dia_fin+"mes:"+mes_fin+"año:"+año_fin);
+        System.out.println("Fecha final:  " + "dia:" + dia_fin + "mes:" + mes_fin + "año:" + año_fin);
 
 
-        if(año_fin<año_inicio){ return false; }
-        if(mes_fin<mes_inicio){ return false; }
-        if(dia_fin<dia_inicio){ return false; }
+        if (año_fin < año_inicio) {
+            return false;
+        }
+        if (mes_fin < mes_inicio) {
+            return false;
+        }
+        if (dia_fin < dia_inicio) {
+            return false;
+        }
 
         return true;
 
     }
 
 
-    public  void listarTerminalesfecha(){
+    public void listarTerminalesfecha() {
 
 
-        boolean x= this.validarFecha();
-        if(x==true){
+        boolean x = this.validarFecha();
 
-           Toast.makeText(view.getContext(),"CUMPLE EL REQUISITO",Toast.LENGTH_SHORT).show();
-        }
+        if (!x) {
 
-        if(x== false) {
-
-            Toast.makeText(view.getContext(),"FECHA FINAL MENOR QUE LA INICIAL", Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "La fecha final no puede ser menor a la inicial", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
 
 }
