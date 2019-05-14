@@ -104,64 +104,18 @@
            />
 
 
-       <com.jjoe64.graphview.GraphView
-           android:id="@+id/grafica_mes"
-           android:layout_width="300dp"
-           android:layout_height="300dp"
-           android:layout_gravity="center_horizontal"
-           android:visibility="invisible"
+       <com.github.mikephil.charting.charts.BarChart
+
+           android:layout_height="320dp"
            android:layout_marginTop="20dp"
+           android:id="@+id/grafica_mes"
+           android:layout_width="320dp"
+           android:visibility="invisible"
+           android:layout_gravity="center_horizontal"
 
            />
 
-       <LinearLayout
-           android:id="@+id/linea_titulo_mes"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_gravity="center_horizontal"
-           android:layout_marginTop="20dp"
-           android:visibility="invisible"
 
-
-           >
-           <TextView
-               android:layout_width="20dp"
-               android:layout_height="wrap_content"
-               android:text=""
-               android:layout_gravity="center_horizontal"
-               android:background="@color/rojo_borde"
-               />
-
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="10dp"
-               android:text="Diagnosticadas"
-
-
-               />
-
-           <TextView
-               android:layout_width="20dp"
-               android:layout_height="wrap_content"
-               android:text=""
-               android:layout_marginLeft="20dp"
-               android:layout_gravity="center_horizontal"
-               android:background="@color/borde_verde"
-               />
-
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="10dp"
-               android:text="Reparadas"
-
-
-               />
-
-
-
-       </LinearLayout>
 
 
 

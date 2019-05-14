@@ -31,8 +31,15 @@ import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.R;
+import com.example.wposs_user.polariscoreandroid.java.MyValueFormatter;
 import com.example.wposs_user.polariscoreandroid.java.Productividad;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jjoe64.graphview.GraphView;
@@ -77,7 +84,7 @@ public class Productividad_dia extends Fragment {
     private EditText f_inicio;
     Button produc;
     TextView titulo;
-    GraphView grafica;
+    BarChart grafica;
     LinearLayout linea;
 
 
@@ -140,6 +147,7 @@ public class Productividad_dia extends Fragment {
         productividad= new ArrayList<>();
         // Inflate the layout for this fragment
         v =inflater.inflate(R.layout.fragment_productividad_dia, container, false);
+        objeto.setTitle("       PRODUCTIVIDAD POR DÍA");
 
 
 
@@ -148,8 +156,9 @@ public class Productividad_dia extends Fragment {
          produc=(Button)v.findViewById(R.id.btn_productividad_dia);
 
         f_inicio = (EditText) v.findViewById(R.id.txt_fecha_inicio_produc);
-        grafica=(GraphView)v.findViewById(R.id.grafica_dia);
-        linea= (LinearLayout)v.findViewById(R.id.linea_titulo_dia);
+        grafica=(BarChart) v.findViewById(R.id.grafica_dia);
+
+
 
 
 
@@ -291,9 +300,9 @@ public class Productividad_dia extends Fragment {
     public void consumirServicioProductividadDia() {
 
 
-        grafica=(GraphView)v.findViewById(R.id.grafica_dia);
+        grafica.clear();
 
-        grafica.removeAllSeries();
+
 
 
         productividad=new ArrayList<>();
@@ -303,6 +312,8 @@ public class Productividad_dia extends Fragment {
 
         if(data_inicio.isEmpty()){
             Toast.makeText(v.getContext(),"Debe seleccionar el dia",Toast.LENGTH_SHORT).show();
+            grafica.clear();
+            grafica.setVisibility(INVISIBLE);
             return;
 
         }
@@ -311,7 +322,7 @@ public class Productividad_dia extends Fragment {
 
         String fecha_inicial= f_inicio.getText().toString();
         String[] fecha=fecha_inicial.split("/");
-        int dia_inicio=Integer.parseInt(fecha[0]);
+        final int dia_inicio=Integer.parseInt(fecha[0]);
 
         int mes_inicio=Integer.parseInt(fecha[1]);
         int año_inicio=Integer.parseInt(fecha[2]);
@@ -358,7 +369,7 @@ public class Productividad_dia extends Fragment {
                                 Global.mensaje = "No se encontraron registros para el dia seleccionado";
                                 Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();
                                  grafica.setVisibility(INVISIBLE);
-                                linea.setVisibility(INVISIBLE);
+
                                 return;
                             }
                             Productividad pro;
@@ -385,58 +396,53 @@ public class Productividad_dia extends Fragment {
 
                     private void pintarGrafica() {
 
-                        BarGraphSeries<DataPoint>diagnostico = null;
-                        BarGraphSeries<DataPoint>  reparadas= null;
+
+
+                        Productividad pr= productividad.get(0);
+
+                        ArrayList<BarEntry> diagnosticadas=new ArrayList<>();
+                        diagnosticadas.add(new BarEntry(dia_inicio,pr.getUste_associated_terminals()));
+
+                        ArrayList<BarEntry> reparadas=new ArrayList<>();
+                        reparadas.add(new BarEntry(dia_inicio,pr.getUste_completed_terminals()));
 
 
 
-                        for(int i=0;i<productividad.size();i++){
+                        BarDataSet datos=new BarDataSet(diagnosticadas,"Diagnosticadas");
+                        BarDataSet valores=new BarDataSet(reparadas,"Reparadas");
+                        datos.setColor(Color.RED);
+                        valores.setColor(Color.GREEN);
+                        datos.setDrawValues(true);
+
+                        valores.setDrawValues(true);
+
+                        datos.setValueFormatter(new MyValueFormatter());
+                        valores.setValueFormatter(new MyValueFormatter());
 
 
-                            diagnostico = new BarGraphSeries<>(new DataPoint[]{
-
-
-
-                                    new DataPoint((int)i, productividad.get(i).getUste_associated_terminals())
-
-
-                            });
-
-
-                            reparadas = new BarGraphSeries<>(new DataPoint[]{
-
-
-
-                                    new DataPoint((int)i, productividad.get(i).getUste_completed_terminals())
-
-
-
-                            });
-                        }
-
-                        diagnostico.setColor(Color.parseColor("#C44C49"));
-                        reparadas.setColor(Color.parseColor("#43A047"));
-                        grafica.addSeries(diagnostico);
-                        grafica.addSeries(reparadas);
-                        reparadas.setValuesOnTopColor(Color.BLACK);
-                        reparadas.setDrawValuesOnTop(false);
-                        diagnostico.setValuesOnTopColor(Color.BLACK);
-                        diagnostico.setDrawValuesOnTop(false);
-
-                        reparadas.setSpacing(20);
-                        diagnostico.setSpacing(20);
-                        grafica.animate();
-                        grafica.getGridLabelRenderer().setNumHorizontalLabels(2);
-                        grafica.getGridLabelRenderer().setHorizontalAxisTitle("dias");
-                        grafica.getGridLabelRenderer().setVerticalAxisTitle("Terminales");
-
-
-
-
-
-
+                        BarData datosGrafica = new BarData(datos,valores);
+                        grafica.setData(datosGrafica);
+                       // String []meses= new String[]{"enero", "febrero", "marzo", "abril", "mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"};
+                        XAxis x=grafica.getXAxis();
+                      //  x.setValueFormatter(new IndexAxisValueFormatter(meses));
+                        x.setCenterAxisLabels(true);
+                        x.setLabelCount(0);
+                        x.setDrawLabels(false);
+                        x.setPosition(XAxis.XAxisPosition.BOTTOM);
+                        x.setGranularity(1);
+                        x.setGranularityEnabled(true);
+                        grafica.setDragEnabled(true);
+                        grafica.setVisibleXRangeMaximum(5);
+                        float barSpace=0.02f;
+                        float groupSpace= 0.8f;
+                        datosGrafica.setBarWidth(0.2f);
+                        grafica.getXAxis().setAxisMinimum(0);
+                        grafica.getXAxis().setAxisMaximum(2);
+                        grafica.groupBars(0, groupSpace,barSpace);
+                        grafica.invalidate();
+                        grafica.getDescription().setEnabled(false);
                         grafica.setVisibility(VISIBLE);
-                        linea.setVisibility(VISIBLE);
+
 
 
 
