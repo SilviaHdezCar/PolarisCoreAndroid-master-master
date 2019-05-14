@@ -299,27 +299,73 @@ public class Productividad_mes extends Fragment {
               Productividad[] pro= llenarSerie();
               Arrays.sort(pro);
 
+              BarEntry[]diagnostico=new BarEntry[can_dias+1];
+              BarEntry[]reparado=new BarEntry[can_dias+1];
 
 
-              for(int i=0;i<pro.length-1;i++) {
+
+
+              for(int i=0;i<pro.length;i++) {
 
                   String fecha_rta = pro[i].getUste_date();
                   String[] fechas = fecha_rta.split("/");
                   int diaDado = Integer.parseInt(fechas[0]);
-                  diagnosticadas.add(new BarEntry(diaDado,productividad.get(i).getUste_associated_terminals()));
-                  reparadas.add(new BarEntry(diaDado,productividad.get(i).getUste_completed_terminals()));
 
-                           }
+                  String fecha_rta2= pro[i].getUste_date();
+                  String[] fechas2 = fecha_rta.split("/");
+                  int diaDado2 = Integer.parseInt(fechas[0]);
+
+                     int p= obtenerProductividad(diaDado);
+                     int q = obtenerProductividadReparada(diaDado);
+
+                      diagnostico[diaDado] = new BarEntry(diaDado, p);
+
+                      reparado[diaDado] = new BarEntry(diaDado,q);
+
+                      diagnostico[1]= new BarEntry(1,5);
+                     reparado[1] = new BarEntry(1,10);
+
+                      System.out.println("Posicion****" + diaDado + "*****" + reparado[diaDado].toString() + "\n");
 
 
-              BarDataSet datos=new BarDataSet(diagnosticadas,"Diagnosticadas");
-              BarDataSet valores=new BarDataSet(reparadas,"Reparadas");
+                   /*diagnosticadas.add(new BarEntry(diaDado,productividad.get(i).getUste_associated_terminals()));
+                  reparadas.add(new BarEntry(diaDado,productividad.get(i).getUste_completed_terminals()));*/
+
+              }
+
+
+              for(int i=1;i<diagnostico.length;i++){
+
+                  if(diagnostico[i] == null){
+                      diagnostico[i]=new BarEntry(i,0);
+                      reparado[i]=new BarEntry(i,0);
+
+
+                  }
+
+              }
+
+
+
+
+
+
+
+
+              ArrayList<BarEntry>datosDiagnostico= getValoresArray(diagnostico);
+              ArrayList<BarEntry>datosReparadas= getValoresArray(reparado);
+              System.out.println("ARRAYLIST DE DATOS**************"+ datosReparadas.toString());
+
+
+
+              BarDataSet datos=new BarDataSet(datosDiagnostico,"Diagnosticadas");
+              BarDataSet valores=new BarDataSet(datosReparadas,"Reparadas");
               datos.setColor(Color.RED);
               valores.setColor(Color.GREEN);
               datos.setDrawValues(true);
 
-              valores.setDrawValues(true);
 
+              valores.setDrawValues(true);
               datos.setValueFormatter(new MyValueFormatter());
               valores.setValueFormatter(new MyValueFormatter());
 
@@ -331,16 +377,21 @@ public class Productividad_mes extends Fragment {
               //  x.setValueFormatter(new IndexAxisValueFormatter(meses));
               x.setCenterAxisLabels(true);
               x.setLabelCount(0);
+              grafica.getAxisLeft().setDrawGridLines(false);
+              grafica.getAxisLeft().setGranularity(1);
+              grafica.getAxisLeft().setAxisMinimum(0);
               x.setPosition(XAxis.XAxisPosition.BOTTOM);
               x.setGranularity(1);
+              x.setDrawGridLines(false);
+              x.setDrawLabels(false);
               x.setGranularityEnabled(true);
               grafica.setDragEnabled(true);
-              grafica.setVisibleXRangeMaximum(5);
-              float barSpace=0.02f;
-              float groupSpace= 0.8f;
-              datosGrafica.setBarWidth(0.1f);
-              grafica.getXAxis().setAxisMinimum(1);
-              grafica.getXAxis().setAxisMaximum(can_dias);
+              grafica.setVisibleXRangeMaximum(3);
+              float barSpace=0;
+              float groupSpace= 0.2f;
+              datosGrafica.setBarWidth(0.3f);
+              grafica.getXAxis().setAxisMinimum(0);
+              grafica.getXAxis().setAxisMaximum(can_dias+1);
               grafica.groupBars(0, groupSpace,barSpace);
               grafica.invalidate();
               grafica.getDescription().setEnabled(false);
@@ -433,7 +484,57 @@ public int getMes(String meses){
 
  }
 
+ public ArrayList<BarEntry> getValoresArray( BarEntry[]diagnostico){
+     ArrayList<BarEntry> valores= new ArrayList<BarEntry>();
 
+     for(int i=1;i<diagnostico.length;i++){
+         valores.add(diagnostico[i]);
+
+     }
+
+     return valores;
+
+
+ }
+
+
+ public int obtenerProductividad(int dia){
+     int product=0;
+
+     for(Productividad p :productividad)
+      {
+          String fecha_rta = p.getUste_date();
+          String[] fechas = fecha_rta.split("/");
+          int diaDado = Integer.parseInt(fechas[0]);
+
+          if(diaDado==dia){
+              product=p.getUste_associated_terminals();
+          }
+         }
+
+     return product;
+
+
+    }
+
+    public int obtenerProductividadReparada(int dia){
+        int product=0;
+
+        for(Productividad p :productividad)
+        {
+            String fecha_rta = p.getUste_date();
+            String[] fechas = fecha_rta.split("/");
+            int diaDado = Integer.parseInt(fechas[0]);
+
+            if(diaDado==dia){
+                product=p.getUste_completed_terminals();
+            }
+        }
+
+        return product;
+
+
+    }
 
 
 
