@@ -1,5 +1,6 @@
 package com.example.wposs_user.polariscoreandroid.Actividades;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -170,8 +171,18 @@ public class Activity_UpdatePassword extends AppCompatActivity {
                             if (!response.get("message").toString().equalsIgnoreCase("success")) {
                                 try {
                                     Global.mensaje = response.get("message").toString();
-                                    Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
-                                    System.out.println("CAMBIAR CONTRASEÑA: " + Global.mensaje);
+                                    Global.mensaje = response.get("message").toString();
+                                    if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                        AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                        alertDialog.setTitle("Información");
+                                        alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                        alertDialog.setCancelable(true);
+                                        alertDialog.show();
+                                        objeto.consumirSercivioCerrarSesion();
+                                        return;
+                                    }
+                                    Toast.makeText(objeto, "ERROR: "+Global.mensaje, Toast.LENGTH_SHORT).show();
+                                    return;
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -237,7 +248,10 @@ public class Activity_UpdatePassword extends AppCompatActivity {
                             if (response.get("status").toString().equalsIgnoreCase("fail")) {
                                 try {
                                     Global.mensaje = response.get("message").toString();
-                                    Toast.makeText(Activity_UpdatePassword.this, Global.mensaje, Toast.LENGTH_SHORT).show();
+
+                                    Toast.makeText(Activity_UpdatePassword.this,"ERROR: "+ Global.mensaje, Toast.LENGTH_SHORT).show();
+                                    return;
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -268,7 +282,7 @@ public class Activity_UpdatePassword extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authenticator", Global.TOKEN);
+                params.put("Authenticator", Global.TOKEN);//QUITAR
                 return params;
             }
         };

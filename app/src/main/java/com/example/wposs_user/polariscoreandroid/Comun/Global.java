@@ -10,7 +10,9 @@ import com.example.wposs_user.polariscoreandroid.java.Validacion;
 
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Global {
 
@@ -169,4 +171,9 @@ public class Global {
     public static String validacionesAutorizadas = "";
     public static String tipificacionesAutorizadas = "";
     public static Terminal terminalVisualizar;
+    public static Object validaciones_terminal_autorizadas;
+
+   public static Map<String, String>validaciones_listar_autorizadas;
+   public static Map<String, String>tipificaciones_listar_autorizadas ;
+   public static Map<String, String>repuestos_listar_autorizadas ;
 }

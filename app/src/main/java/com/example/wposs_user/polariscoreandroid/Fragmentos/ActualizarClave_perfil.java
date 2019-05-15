@@ -1,5 +1,6 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -209,9 +210,19 @@ public class ActualizarClave_perfil extends Fragment {
                                     }
                                     if (response.get("message").toString().equalsIgnoreCase("invalid  password")) {
                                         Global.mensaje = "Contraseña inválida";
+                                    } if (response.get("message").toString().equalsIgnoreCase("token no valido")) {
+                                        AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                        alertDialog.setTitle("Información");
+                                        alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                        alertDialog.setCancelable(true);
+                                        alertDialog.show();
+                                        objeto.consumirSercivioCerrarSesion();
+                                        return;
                                     }
                                     limpiar();
-                                    Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(objeto, "ERROR: "+Global.mensaje, Toast.LENGTH_SHORT).show();
+                                    return;
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

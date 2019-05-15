@@ -57,10 +57,9 @@ public class AdapterEvidenciasAutorizadas extends RecyclerView.Adapter<AdapterEv
     //    Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/nombreImagen.extension"+Global.ID+".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView);
         if(!nomfotos.isEmpty()|| nomfotos!=null){
             String fotos []=listObservaciones.get(position).getTeob_photo().split("/");
-            for (int i=0; i<fotos.length;i++){
-                foto1=fotos[0];
-                foto2=fotos[0];
-            }
+            foto1=fotos[0];
+            foto2=fotos[1];
+
           //  holder.img_evidencia.setImageDrawable(R.id.);
             holder.txt_nomFoto.setText(listObservaciones.get(position).getTeob_photo());
             holder.txt_fechaFoto.setText(listObservaciones.get(position).getTeob_fecha());

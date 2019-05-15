@@ -61,7 +61,6 @@ public class ObservacionesFragment extends Fragment {
     private TextView btn_tomar_foto;
     private TextView btn_tomar_foto2;
     private TextView txt_observacion;
-    private Button btn_cargarFotos;
     private ImageView imagen_observación;
     private ImageView imagen_observación2;
     private Button finalizar;
@@ -74,11 +73,12 @@ public class ObservacionesFragment extends Fragment {
     private StringRequest stringRequest;
     private int foto;
 
-    private LinearLayout layout_fotos;
-    private LinearLayout layout_finalizar_diagnostico;
 
     private Observacion obser;
 
+
+    private String observacion_text;
+    private String nomFotos;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -90,15 +90,12 @@ public class ObservacionesFragment extends Fragment {
         imagen_observación2 = (ImageView) v.findViewById(R.id.imagen_observación2);
         queue = Volley.newRequestQueue(objeto);
         finalizar = (Button) v.findViewById(R.id.btn_finalizar_observacion);
-        layout_fotos = (LinearLayout) v.findViewById(R.id.layout_fotos);
-        layout_finalizar_diagnostico = (LinearLayout) v.findViewById(R.id.layout_finalizar_diagnostico);
 
-        layout_finalizar_diagnostico.setVisibility(View.INVISIBLE);
+        //layout_finalizar_diagnostico.setVisibility(View.INVISIBLE);
 
         txt_observacion = (TextView) v.findViewById(R.id.txt_observacion_fin);
         btn_tomar_foto = (TextView) v.findViewById(R.id.lbl_cargarFoto);
         btn_tomar_foto2 = (TextView) v.findViewById(R.id.lbl_cargarFoto2);
-        btn_cargarFotos = (Button) v.findViewById(R.id.btn_cargarFotos);
 
         btn_tomar_foto.setPaintFlags(btn_tomar_foto.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         // nomFoto = Global.ID + ".jpg";
@@ -125,22 +122,6 @@ public class ObservacionesFragment extends Fragment {
             }
         });
 
-        btn_cargarFotos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (bitmap_foto1 == null) {
-                    Toast.makeText(objeto, "Por favor tome la primera foto", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (bitmap_foto2 == null) {
-                    Toast.makeText(objeto, "Por favor tome la segunda foto", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                consumirServicioEnviarFotos();
-
-            }
-        });
 
         finalizar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,20 +174,31 @@ public class ObservacionesFragment extends Fragment {
                             System.out.println("RESPUESTA SERVIDOR-->" + response.get("message").toString());
                             if (!response.get("status").toString().equalsIgnoreCase("ok")) {
                                 Global.mensaje = response.get("message").toString();
-                                Toast.makeText(objeto, "Error al cargar las fotos", Toast.LENGTH_SHORT).show();
-                                System.out.println("Error al cargar las fotos");
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             } else {
 
                                 response = new JSONObject(response.get("data").toString());
 
                                 nombre_foto1 = response.get("image1").toString();
+                                System.out.println("nombre_foto1 "+nombre_foto1 );
                                 nombre_foto2 = response.get("image2").toString();
 
-                                Toast.makeText(objeto, "Fotos cargadas correctamente", Toast.LENGTH_SHORT).show();
-                                layout_fotos.setVisibility(View.INVISIBLE);
-                                layout_finalizar_diagnostico.setVisibility(View.VISIBLE);
-                                System.out.println("Fotos cargadas correctamente");
+                                System.out.println("nombre_foto2 "+nombre_foto2 );
+                                nomFotos = nombre_foto1 + "/" + nombre_foto2;
+                                System.out.println("nombre de las fotos"+nomFotos);
+                                obser = new Observacion(observacion_text, Global.serial_ter, nomFotos);
+                                consumirServicioDiagnostico();
+
                             }
 
                         } catch (JSONException e) {
@@ -216,12 +208,12 @@ public class ObservacionesFragment extends Fragment {
 
                     }
                 }, new Response.ErrorListener() {
-                      @Override
-                      public void onErrorResponse(VolleyError error) {
-                         System.out.println("ERROR!!!!" + error.getMessage());
-                       Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                  }
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("ERROR!!!!" + error.getMessage());
+                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
         ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -267,18 +259,21 @@ public class ObservacionesFragment extends Fragment {
 
     //Metodo utilizado para finalizar el diagnostico (Consume el servicio de finalizar diagnostico)
     public void finalizarDiagnostico() {
-        String observacion = txt_observacion.getText().toString();
-        String nomFotos = nombre_foto1 + "/" + nombre_foto2;
-        if (observacion.isEmpty()) {
+        observacion_text = txt_observacion.getText().toString();
+
+        if (bitmap_foto1 == null) {
+            Toast.makeText(objeto, "Por favor tome la primera foto", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (bitmap_foto2 == null) {
+            Toast.makeText(objeto, "Por favor tome la segunda foto", Toast.LENGTH_SHORT).show();
+            return;
+        }if (observacion_text.isEmpty()) {
             Toast.makeText(objeto, "Por favor ingrese la observación", Toast.LENGTH_SHORT).show();
             return;
-        } else {
-            //consumir servicio finalizar diagnostico
-
-            obser = new Observacion(observacion,  Global.serial_ter,"");
-            consumirServicioDiagnostico();
-
         }
+        consumirServicioEnviarFotos();
+
     }
 
     /**
@@ -300,7 +295,7 @@ public class ObservacionesFragment extends Fragment {
             JSONArray tip = this.getTipificaciones();
             jsonObject.put("tipificaciones", tip);
             jsonObject.put("reparable", Global.reparable);
-            jsonObject.put("observacion", obser.getObj());
+            jsonObject.put("observacion", obser.getObjRep());
             jsonObject.put("falla", "");
             obj2.put("tesw_serial", Global.serial_ter);
             JSONArray o = this.getRepuestos();
@@ -324,15 +319,25 @@ public class ObservacionesFragment extends Fragment {
                         try {
                             System.out.println("STATUS-->" + response.get("status").toString());
                             if (response.get("status").toString().equals("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Informacion");
+                                alertDialog.setTitle("Información");
                                 alertDialog.setMessage("Error: " + response.get("message").toString());
                                 alertDialog.setCancelable(true);
                                 alertDialog.show();
 
                             } else {
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Informacion");
+                                alertDialog.setTitle("Información");
                                 alertDialog.setMessage("Diagnóstico registrado exitosamente");
                                 alertDialog.setCancelable(true);
                                 alertDialog.show();
