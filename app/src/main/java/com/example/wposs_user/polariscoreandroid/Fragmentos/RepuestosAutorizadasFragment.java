@@ -116,7 +116,7 @@ public class RepuestosAutorizadasFragment extends Fragment {
         estado.setText(Global.terminalVisualizar.getTerm_status());
         fechaANS.setText(Global.terminalVisualizar.getTerm_date_register());
 
-        btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_repuestos_autorizadas);
+       // btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_repuestos_autorizadas);
         tabla= (TableLayout)v.findViewById(R.id.tabla_seleccionar_repuestos);
 
         llenarTabla();
@@ -229,9 +229,9 @@ public class RepuestosAutorizadasFragment extends Fragment {
     public void llenarListaRepuestos() {
         Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS=null;
         Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS=new ArrayList<Repuesto>();
-        if (!Global.repuestosAutorizadas.equals("[]")) {
 
-            String tipificaciones[] = Global.repuestosAutorizadas.split(",");
+        String tipificaciones[] = Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
+        if (!tipificaciones[0].equals("[]")) {
 
             repuestos = new ArrayList<>();
             Repuesto repuesto = null;

@@ -52,12 +52,6 @@
                     android:inputType="textCapSentences" />
 
             </LinearLayout>
-
-
-
-
         </LinearLayout>
-
-
     </LinearLayout>
 </RelativeLayout>

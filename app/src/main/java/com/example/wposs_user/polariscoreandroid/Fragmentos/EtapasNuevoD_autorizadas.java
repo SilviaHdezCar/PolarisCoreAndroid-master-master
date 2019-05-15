@@ -1,5 +1,6 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -137,7 +138,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
         estado = (TextView) view.findViewById(R.id.estado_ter_asociada);
         fechaANS = (TextView) view.findViewById(R.id.fechal_ter_asociada);
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_observaciones_validacion);
-        btn_agregar_etapa= (Button) view.findViewById(R.id.btn_agregar_etapa_autorizada);
+        btn_agregar_etapa = (Button) view.findViewById(R.id.btn_agregar_etapa_autorizada);
         btn_siguiente = (Button) view.findViewById(R.id.btn_siguiente_etapas_autorizadas);
         textArea_observacion = (EditText) view.findViewById(R.id.textArea_information);
 
@@ -213,7 +214,16 @@ public class EtapasNuevoD_autorizadas extends Fragment {
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
-                                Toast.makeText(objeto, "Error al consultar las observaciones", Toast.LENGTH_SHORT).show();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "Error: " + Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             }
                             response = new JSONObject(response.get("data").toString());
@@ -232,9 +242,9 @@ public class EtapasNuevoD_autorizadas extends Fragment {
                                 obser = jsonArray.getString(i);
 
                                 o = gson.fromJson(obser, Observacion.class);
-                                if (o.getTeob_fecha() != null) {
-                                    o.setTeob_fecha(Utils.darFormatoFecha(o.getTeob_fecha()));
-                                }/*if (o.getTeob_photo()!=null||!o.getTeob_photo().trim().isEmpty()) {
+                               /* if (o.getTeob_fecha() != null) {
+                                    o.setTeob_fecha(Utils.darFormatoFechaObservaciones(o.getTeob_fecha()));
+                                }*//*if (o.getTeob_photo()!=null||!o.getTeob_photo().trim().isEmpty()) {
                                     Global.observaciones_con_fotos.add(o);
                                 }*/
                                 Global.OBSERVACIONES.add(o);
@@ -287,7 +297,11 @@ public class EtapasNuevoD_autorizadas extends Fragment {
 
         for (Observacion observ : observaciones) {
             if (observ != null) {
-                observations.add(observ);
+                if (observ.getTeob_description() != null) {
+                    if (!observ.getTeob_description().trim().isEmpty()) {
+                        observations.add(observ);
+                    }
+                }
             }
         }
 
@@ -342,7 +356,17 @@ public class EtapasNuevoD_autorizadas extends Fragment {
                         try {
                             if (response.get("status").toString().equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
                                 Toast.makeText(objeto, "Error al agregar la observación", Toast.LENGTH_SHORT).show();
+                                return;
                             } else {
                                 textArea_observacion.setText("");
                                 consumirServicioEtapas();

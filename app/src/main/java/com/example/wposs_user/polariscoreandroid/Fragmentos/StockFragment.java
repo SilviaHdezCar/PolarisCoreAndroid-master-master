@@ -1,6 +1,7 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -132,7 +133,16 @@ public class StockFragment extends Fragment {
 
                             if (Global.STATUS_SERVICE.equals("fail")) {
                                 Global.mensaje = response.get("message").toString();
-                                Toast.makeText(v.getContext(),"Error:  "+Global.mensaje,Toast.LENGTH_SHORT).show();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "ERROR: "+Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
@@ -228,7 +238,17 @@ public class StockFragment extends Fragment {
 
                             if (Global.STATUS_SERVICE.equals("fail")) {
                                 Global.mensaje = response.get("message").toString();
-                                Toast.makeText(v.getContext(),"Error:  "+Global.mensaje,Toast.LENGTH_SHORT).show();
+
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "ERROR: "+Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             }
 

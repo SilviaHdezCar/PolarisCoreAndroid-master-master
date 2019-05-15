@@ -1,5 +1,6 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -154,7 +155,17 @@ public class ConsultaTerminalesSerial extends Fragment {
 
                             if (Global.STATUS_SERVICE.equals("fail")) {
                                 Global.mensaje = response.get("message").toString();
-                                Toast.makeText(objeto, "Error:  " + Global.mensaje, Toast.LENGTH_SHORT).show();
+
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "ERROR: "+Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             }
 

@@ -115,6 +115,7 @@ public class InicialFragment extends Fragment {
         Global.REPUESTOS = new ArrayList<Repuesto>();
         queue = Volley.newRequestQueue(objeto);
 
+
         consumirServicioAsociadas();
         Global.diagnosticoTerminal = "asociada";
 
@@ -177,27 +178,29 @@ public class InicialFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println("status:  " + Global.STATUS_SERVICE);
-
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                    cerrarSesionTokenIvalido();
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }
-                                Toast.makeText(objeto, "Error al consultar las observaciones", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             }
                             response = new JSONObject(response.get("data").toString());
 
                             JSONArray jsonArray = response.getJSONArray("observaciones");
 
-
                             if (jsonArray.length() == 0) {
                                 Global.mensaje = "No tiene obervaciones";
-                                //consumirServicioValidaciones();
+                             //   consumirServicioValidaciones();
+                              //  objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
                                 return;
-
                             } else {
 
                                 String obser = null;
@@ -206,18 +209,12 @@ public class InicialFragment extends Fragment {
                                     obser = jsonArray.getString(i);
 
                                     o = gson.fromJson(obser, Observacion.class);
-                                    if (o.getTeob_fecha() != null) {
-                                        o.setTeob_fecha(Utils.darFormatoFecha(o.getTeob_fecha()));
-                                    }/*if (o.getTeob_photo()!=null||!o.getTeob_photo().trim().isEmpty()) {
-                                        Global.observaciones_con_fotos.add(o);
-                                    }*/
+
                                     Global.OBSERVACIONES.add(o);
                                 }
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
-                                // llenarRVEtapas(Global.OBSERVACIONES);
-                                return;
+                                //consumirServicioValidaciones();
                             }
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -281,7 +278,12 @@ public class InicialFragment extends Fragment {
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                    cerrarSesionTokenIvalido();
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }
                                 Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
@@ -338,15 +340,6 @@ public class InicialFragment extends Fragment {
 
     }
 
-    public void cerrarSesionTokenIvalido() {
-
-        AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-        alertDialog.setTitle("Información");
-        alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
-        alertDialog.setCancelable(true);
-        alertDialog.show();
-
-    }
 
     /**
      * Metodo utilizado para consumir el servicio que lista las validaciones
@@ -377,6 +370,16 @@ public class InicialFragment extends Fragment {
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
@@ -404,7 +407,8 @@ public class InicialFragment extends Fragment {
                                 }
                                 Global.VALIDACIONES.add(valid);
                             }
-                            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+                        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+                            return;
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -469,9 +473,13 @@ public class InicialFragment extends Fragment {
                 //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
                 consumirServicioEtapas();
 
-                if (Global.OBSERVACIONES == null || Global.OBSERVACIONES.size() == 0) {
+
                     consumirServicioValidaciones();
-                }
+
+                    //consumirServicioValidaciones();
+
+                //   objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+
 
                 //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
                 // objeto.listarObservacionesTerminal(serialObtenido);
@@ -488,10 +496,20 @@ public class InicialFragment extends Fragment {
     public void consumirServicioAutorizadas() {
         t = null;
         Repuesto r = null;
+        Validacion val = null;
         Global.TERMINALES_AUTORIZADAS = null;
         Global.TERMINALES_AUTORIZADAS = new ArrayList<Terminal>();
         Global.REPUESTOS = null;
         Global.REPUESTOS = new ArrayList<Repuesto>();
+
+        Global.validaciones_listar_autorizadas = null;
+        Global.tipificaciones_listar_autorizadas = null;
+        Global.repuestos_listar_autorizadas = null;
+        Global.validaciones_listar_autorizadas = new HashMap<String, String>();
+        Global.tipificaciones_listar_autorizadas = new HashMap<String, String>();
+        Global.repuestos_listar_autorizadas = new HashMap<String, String>();
+
+
         final Gson gson = new GsonBuilder().create();
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals//associatedsWithRepair";
@@ -516,6 +534,16 @@ public class InicialFragment extends Fragment {
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
@@ -536,17 +564,19 @@ public class InicialFragment extends Fragment {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     ter = jsonArray.getString(i);
 
-                                    //obtengo las validaciones y tipificaciones
-                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                    Global.validacionesAutorizadas = jsonObject.get("validaciones").toString();
-                                    Global.tipificacionesAutorizadas = jsonObject.get("tipificaciones").toString();
-                                    Global.repuestosAutorizadas = jsonObject.get("repuestos").toString();
-
-                                    System.out.println("TIPIFICACIONES, VALI, REPUE: " + Global.tipificacionesAutorizadas + "-" + Global.validacionesAutorizadas + "-" + Global.repuestosAutorizadas);
-
 
                                     t = gson.fromJson(ter, Terminal.class);
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
                                     if (t != null) {
+
+                                        Global.validacionesAutorizadas = jsonObject.get("validaciones").toString();
+                                        Global.validaciones_listar_autorizadas.put(t.getTerm_serial(), Global.validacionesAutorizadas);
+
+                                        Global.tipificacionesAutorizadas = jsonObject.get("tipificaciones").toString();
+                                        Global.tipificaciones_listar_autorizadas.put(t.getTerm_serial(), Global.tipificacionesAutorizadas);
+
+                                        Global.repuestosAutorizadas = jsonObject.get("repuestos").toString();
+                                        Global.repuestos_listar_autorizadas.put(t.getTerm_serial(), Global.repuestosAutorizadas);
                                     }
                                     Global.TERMINALES_AUTORIZADAS.add(t);
                                 }

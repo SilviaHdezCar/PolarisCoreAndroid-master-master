@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterEtapa;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidaciones;
@@ -119,31 +120,34 @@ public class ValidacionTerminalesFragment extends Fragment {
             }
         });
 
-        System.out.println("VALIDACIONES Y TIPIFICACIONES SOUT");
+        System.out.println("VALIDACIONES ");
+        System.out.println(Global.validaciones_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()));
+
 
         System.out.println(Global.validacionesAutorizadas);
         System.out.println(Global.tipificacionesAutorizadas);
 
-        String validaciones[] = Global.validacionesAutorizadas.split(",");
+        String validaciones[] = Global.validaciones_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
         System.out.println("validatio: tam "+validaciones.length );
         ArrayList<Validacion> validacions = new ArrayList<>();
         String vali_estado[];
         for (int i = 0; i < validaciones.length; i++) {
-            boolean ok = false, falla = false, no_aplica = false;
-            String estado="";
-            System.out.println("Val pos: "+i+"-"+validaciones[i]);
-            vali_estado=validaciones[i].split("-");
+            if(!validaciones[i].equalsIgnoreCase("[]")){
+                boolean ok = false, falla = false, no_aplica = false;
+                String estado="";
+                System.out.println("Val pos: "+i+"-"+validaciones[i]);
+                vali_estado=validaciones[i].split("-");
 
-            if (vali_estado[1].equalsIgnoreCase("OK")) {
-                ok = true;
-                estado="ok";
-            } else if (vali_estado[1].equalsIgnoreCase("Falla")) {
-                falla = true;
-                estado="falla";
-            } else if (vali_estado[1].equalsIgnoreCase("na")) {
-                no_aplica = true;
-                estado="no aplica";
-            }
+                if (vali_estado[1].equalsIgnoreCase("OK")) {
+                    ok = true;
+                    estado="ok";
+                } else if (vali_estado[1].equalsIgnoreCase("Falla")) {
+                    falla = true;
+                    estado="falla";
+                } else if (vali_estado[1].equalsIgnoreCase("na")) {
+                    no_aplica = true;
+                    estado="no aplica";
+                }
            /* if (validaciones[i].split("-")[1].equals("OK")) {
                 ok = true;
             } else if (validaciones[i].split("-")[1].equals("Falla")) {
@@ -152,10 +156,12 @@ public class ValidacionTerminalesFragment extends Fragment {
                 no_aplica = true;
             }
 */
-          //  Validacion v = new Validacion(validaciones[i].split("-")[0], ok, falla, no_aplica );
-            Validacion v = new Validacion(validaciones[i].split("-")[0], ok, falla, no_aplica , estado);
-            System.out.println("Validac------->"+v.getTeva_description()+"-"+v.getEstado()+":::"+v.isOk()+":::"+ v.isFalla()+":::"+ v.isNo_aplica());
-            validacions.add(v);
+                //  Validacion v = new Validacion(validaciones[i].split("-")[0], ok, falla, no_aplica );
+                Validacion v = new Validacion(validaciones[i].split("-")[0], ok, falla, no_aplica , estado);
+                System.out.println("Validac------->"+v.getTeva_description()+"-"+v.getEstado()+":::"+v.isOk()+":::"+ v.isFalla()+":::"+ v.isNo_aplica());
+                validacions.add(v);
+            }
+
         }
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_validaciones_autorizadas);
         llenarRVValidaciones(validacions);
@@ -169,6 +175,9 @@ public class ValidacionTerminalesFragment extends Fragment {
 
     public void llenarRVValidaciones(List<Validacion> validacionesRecibidas) {
         //************************SE MUESTRA LA LISTA DE TERMINALES ASOCIADAS
+        if(validacionesRecibidas==null||validacionesRecibidas.size()==0){
+            Toast.makeText(objeto, "No tiene validaciones", Toast.LENGTH_SHORT).show();
+        }
         rv.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());

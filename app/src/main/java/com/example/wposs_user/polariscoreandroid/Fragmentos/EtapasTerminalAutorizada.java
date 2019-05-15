@@ -1,5 +1,6 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -216,7 +217,16 @@ public class EtapasTerminalAutorizada extends Fragment {
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
-                                Toast.makeText(objeto, "Error al consultar las observaciones", Toast.LENGTH_SHORT).show();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             }
                             response = new JSONObject(response.get("data").toString());
@@ -235,17 +245,17 @@ public class EtapasTerminalAutorizada extends Fragment {
                                 obser = jsonArray.getString(i);
 
                                 o = gson.fromJson(obser, Observacion.class);
-                                if (o.getTeob_fecha() != null) {
-                                    o.setTeob_fecha(Utils.darFormatoFecha(o.getTeob_fecha()));
-                                }
-                                if (o.getTeob_photo()!=null||!o.getTeob_photo().trim().isEmpty()) {
+
+                                if (o.getTeob_photo() != null || !o.getTeob_photo().trim().isEmpty()) {
+                                    System.out.println(o.toString());
                                     Global.observaciones_con_fotos.add(o);
                                 }
                                 Global.OBSERVACIONES.add(o);
                             }
+
                             llenarRVEtapas(Global.OBSERVACIONES);
 
-                            System.out.println("Global.observaciones_con_fotos.add(o)------>"+Global.observaciones_con_fotos.add(o));
+                            System.out.println("Global.observaciones_con_fotos.size------>" + Global.observaciones_con_fotos.size());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -275,6 +285,14 @@ public class EtapasTerminalAutorizada extends Fragment {
 
     }
 
+    public Observacion[] getObservacionesArray() {
+        Observacion obs[] = new Observacion[Global.OBSERVACIONES.size()];
+        for (int i = 0; i < Global.OBSERVACIONES.size(); i++) {
+            obs[i] = Global.OBSERVACIONES.get(i);
+        }
+
+        return obs;
+    }
 
     /**
      * Metodo utilizado para llenar el recycler view de las observaciones del terminal seleccionado
@@ -292,7 +310,9 @@ public class EtapasTerminalAutorizada extends Fragment {
         for (Observacion observ : observaciones) {
             if (observ != null) {
                 if (observ.getTeob_description() != null) {
-                    observations.add(observ);
+                    if (!observ.getTeob_description().isEmpty()) {
+                        observations.add(observ);
+                    }
                 }
 
             }
@@ -302,7 +322,7 @@ public class EtapasTerminalAutorizada extends Fragment {
         final AdapterEtapa adapter = new AdapterEtapa(observations, new AdapterEtapa.interfaceClick() {
             @Override
             public void onClick(List<Observacion> observaciones, int position) {
-                //Validar fotos: SI--> Pasa al fragment que contiene las fotos. NO-->infla el fragment de validaciones
+             /*   //Validar fotos: SI--> Pasa al fragment que contiene las fotos. NO-->infla el fragment de validaciones
                 String foto1 = observaciones.get(position).getTeob_photo();
                 String foto2 = observaciones.get(position).getTeob_photo();//validar con la foto dos
                 if (!foto1.isEmpty() || !foto2.isEmpty()) {
@@ -311,7 +331,7 @@ public class EtapasTerminalAutorizada extends Fragment {
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new FotoObservacionFragment()).addToBackStack(null).commit();
                 } else {
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
-                }
+                }*/
             }
         }, R.layout.panel_etapas);
 
@@ -349,7 +369,18 @@ public class EtapasTerminalAutorizada extends Fragment {
                         try {
                             if (response.get("status").toString().equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
+                                Global.mensaje = response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
                                 Toast.makeText(objeto, "Error al agregar la observación", Toast.LENGTH_SHORT).show();
+                                return;
                             } else {
                                 textArea_observacion.setText("");
                                 consumirServicioEtapas();

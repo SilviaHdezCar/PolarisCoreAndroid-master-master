@@ -312,7 +312,7 @@ public class Registro_diagnostico extends Fragment {
 
         }
 
-        Observacion ob= new Observacion("","","","","",Global.serial_ter);
+        Observacion ob= new Observacion("",descripicionObserv," "," "," ",Global.serial_ter);
         Global.obs=ob;
 
 
@@ -373,6 +373,17 @@ public class Registro_diagnostico extends Fragment {
                             Log.d("RESPUESTA", response.get("message").toString());
 
                             if (Global.STATUS_SERVICE.equals("fail")) {
+                                Global.mensaje=response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+
 
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                                 alertDialog.setTitle("INFORMACIÓN");
@@ -477,7 +488,16 @@ public class Registro_diagnostico extends Fragment {
                             Log.d("RESPUESTA", response.get("message").toString());
 
                             if (Global.STATUS_SERVICE.equals("fail")) {
-
+                                Global.mensaje=response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                                 alertDialog.setTitle("INFORMACIÓN");
                                 alertDialog.setMessage("Error: " + response.get("message").toString() + "\n");
@@ -569,8 +589,16 @@ public class Registro_diagnostico extends Fragment {
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
-                                Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
-                                ;
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                    alertDialog.setTitle("Información");
+                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                    alertDialog.setCancelable(true);
+                                    alertDialog.show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "ERROR: "+Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
@@ -632,8 +660,10 @@ public class Registro_diagnostico extends Fragment {
 
         JSONArray listas = new JSONArray();
 
-        for (int i = 0; i < Global.REPUESTOS_DIAGONOSTICO.size(); i++) {
+        for(int i= 0;i<Global.REPUESTOS_DIAGONOSTICO.size();i++) {
             JSONObject ob = Global.REPUESTOS_DIAGONOSTICO.get(i).getObj();
+            //consumo servio body 1
+            //consumo servio body 2
             listas.put(ob);
         }
 
@@ -642,9 +672,9 @@ public class Registro_diagnostico extends Fragment {
 
     public JSONArray getValidaciones() throws JSONException {
 
-        JSONArray listas = new JSONArray();
+        JSONArray listas= new JSONArray();
 
-        for (int i = 0; i < Global.VALIDACIONES_DIAGNOSTICO.size(); i++) {
+        for(int i= 0;i<Global.VALIDACIONES_DIAGNOSTICO.size();i++) {
             JSONObject ob = Global.VALIDACIONES_DIAGNOSTICO.get(i).getObj();
             listas.put(ob);
         }
@@ -654,10 +684,11 @@ public class Registro_diagnostico extends Fragment {
 
     public JSONArray getTipificaciones() throws JSONException {
 
-        JSONArray listas = new JSONArray();
+        JSONArray listas= new JSONArray();
 
-        for (int i = 0; i < Global.TIPIFICACIONES_DIAGNOSTICO.size(); i++) {
+        for(int i= 0;i<Global.TIPIFICACIONES_DIAGNOSTICO.size();i++) {
             JSONObject ob = Global.TIPIFICACIONES_DIAGNOSTICO.get(i).getObj();
+
             listas.put(ob);
         }
 

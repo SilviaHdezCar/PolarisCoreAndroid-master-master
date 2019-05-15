@@ -293,7 +293,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authenticator", Global.TOKEN);
+                params.put("Authenticator", Global.TOKEN);//QUITAR
                 return params;
             }
         };
