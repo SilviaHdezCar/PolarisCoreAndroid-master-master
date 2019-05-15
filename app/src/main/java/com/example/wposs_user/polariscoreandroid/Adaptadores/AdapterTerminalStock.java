@@ -75,6 +75,14 @@ public class AdapterTerminalStock extends RecyclerView.Adapter<AdapterTerminalSt
 
         if(estados.equals("DADO DE BAJA")){ holder.rl.setBackgroundResource(R.drawable.borde_negro);}
 
+        if(estados.equals("DIAGNOSTICO")){ holder.rl.setBackgroundResource(R.drawable.borde_rojo_oscuro);}
+
+        if(estados.equals("GARANTÌA")){ holder.rl.setBackgroundResource(R.drawable.borde_verde_azul);}
+
+
+
+
+
 
     }
 

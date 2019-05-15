@@ -89,7 +89,8 @@ public class ValidacionTerminalesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_validacion_terminales, container, false);
+
+           view = inflater.inflate(R.layout.fragment_validacion_terminales, container, false);
 
         etapaView = (Button) view.findViewById(R.id.btn_etapas);
         validacionView = (Button) view.findViewById(R.id.btn_validacion_terminales_autorizada);

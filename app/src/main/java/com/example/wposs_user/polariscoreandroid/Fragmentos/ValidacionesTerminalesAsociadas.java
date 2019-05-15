@@ -31,6 +31,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
+import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -82,6 +83,8 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         estado_ter_validaciones = (TextView) v.findViewById(R.id.estado_ter_validaciones);
         garantia_ter_validaciones = (TextView) v.findViewById(R.id.garantia_ter_validaciones);
         fechal_ans_ter_validaciones = (TextView) v.findViewById(R.id.fechal_ans_ter_validaciones);
+        Global.VALIDACIONES_DIAGNOSTICO= new ArrayList<>();
+
 
 
         title_validaciones = (TextView) v.findViewById(R.id.tile_validaciones);

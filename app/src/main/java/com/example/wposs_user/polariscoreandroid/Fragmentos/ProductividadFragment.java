@@ -59,10 +59,6 @@ Button buscar;
             objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Productividad_mes()).addToBackStack(null).commit();
         }
 
-        if(s.getSelectedItem().toString().equals("Año")){
-            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Productividad_anio()).addToBackStack(null).commit();
-        }
-
 
 
     }
