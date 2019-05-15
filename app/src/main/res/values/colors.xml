@@ -6,7 +6,7 @@
     <color name="colorAccent">#018793</color>
     <color name="blanco">#FFFFFF</color>
 
-    <color name="rojo_borde">#C44C49</color>
+    <color name="rojo_borde">#FF5754</color>
     <color name="gris_linea">#EEEEEE</color>
 
     <color name="gris_letra">#8B8B8B</color>
@@ -54,7 +54,7 @@
     <color name="borde_naranja">#FB8C00</color>
      <color name="borde_azul_oscuro">#0036FB</color>
     <color name="borde_morado">#5E35B1</color>
-    <color name="rojo_oscuro">#693030</color>
+    <color name="rojo_oscuro">#CA0101</color>
     <color name="verde_azul">#9700C1A4</color>
 
 

@@ -192,6 +192,7 @@ public class Registro_diagnostico extends Fragment {
             observ.setText("No hay repuestos para el modelo de terminal seleccionado, seleccione otra e intentelo de nuevo");
             agregar.setEnabled(false);
             registroDiag.setEnabled(false);
+            linea.setVisibility(View.GONE);
             return;
         }
 
@@ -312,7 +313,7 @@ public class Registro_diagnostico extends Fragment {
 
         }
 
-        Observacion ob= new Observacion("","","","","",Global.serial_ter);
+        Observacion ob= new Observacion("",descripicionObserv,"","","",Global.serial_ter);
         Global.obs=ob;
 
 

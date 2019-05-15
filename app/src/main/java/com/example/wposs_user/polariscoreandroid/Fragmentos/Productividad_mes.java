@@ -133,6 +133,7 @@ public class Productividad_mes extends Fragment {
       año= (Spinner)v.findViewById(R.id.spiner_añoxmes);
       produc=(Button)v.findViewById(R.id.produc_mes);
      grafica=(LineChart) v.findViewById(R.id.grafica_mes);
+     objeto.setTitle("PRODUCTIVIDAD POR MES");
         queue = Volley.newRequestQueue(objeto);
          produc.setOnClickListener(new View.OnClickListener() {
             @Override

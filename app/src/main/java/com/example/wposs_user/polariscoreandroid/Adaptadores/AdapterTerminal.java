@@ -61,7 +61,7 @@ String fechaANS="";
             @Override
             public void onClick(View v) {
                 // Tools.toast("click: "+ buttonCards.get(position).text1);
-                ic.onClick(listTerminal, i);
+                ic.onClick(listTerminal, i);//
             }
 
         });
