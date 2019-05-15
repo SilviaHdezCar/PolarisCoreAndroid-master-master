@@ -94,8 +94,7 @@
         <item>Seleccione</item>
         <item>Dia</item>
         <item>Mes</item>
-        <item>Año</item>
-    </string-array>
+       </string-array>
 
     <string-array name="meses">
         <item>Seleccione</item>

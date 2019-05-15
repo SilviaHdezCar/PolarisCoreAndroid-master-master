@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.icu.text.RelativeDateTimeFormatter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +43,7 @@ import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
+import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -68,6 +72,9 @@ public class Registro_diagnostico extends Fragment {
     private Button registroDiag;
     android.support.v4.app.FragmentManager fragmentManager;
     private RequestQueue queue;
+    private LinearLayout linea;
+    private int fallas=0;
+
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,17 +82,28 @@ public class Registro_diagnostico extends Fragment {
 
         v = inflater.inflate(R.layout.fragment_registro_diagnostico, container, false);
         objeto.setTitle("REGISTRAR DIAGNÓSTICO");
+
         Global.REPUESTOS_DIAGONOSTICO = new ArrayList<Repuesto>();
+        Global.obs = new Observacion("", "", "", "", "", Global.serial_ter);
         aut_repuesto = (AutoCompleteTextView) v.findViewById(R.id.auto_repuesto);
         cantidad_req = v.findViewById(R.id.txt_cantReq);
         rv = (RecyclerView) v.findViewById(R.id.rv_repuestos_diag);
         agregar = (Button) v.findViewById(R.id.bton_agregarRepuesto);
         observ = (EditText) v.findViewById(R.id.txt_observaciones);
         registroDiag = (Button) v.findViewById(R.id.btn_registroDioagnostico);
+        linea = (LinearLayout) v.findViewById(R.id.panel_repuestos);
         queue = Volley.newRequestQueue(objeto);
+        boolean b = this.validarDanio();
+        if(b){linea.setVisibility(View.GONE);}
+        else{linea.setVisibility(View.VISIBLE);}
+
+
+        System.out.println("TAMAÑO DE LAS TIPIFICACIONES    "+Global.TIPIFICACIONES_DIAGNOSTICO.size());
+
+
         this.consumirServicioRepuestos();
 
-         cantidad_req.setEnabled(false);
+        cantidad_req.setEnabled(false);
 
         registroDiag.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,7 +197,7 @@ public class Registro_diagnostico extends Fragment {
 
         if (cant.isEmpty()) {
             Toast.makeText(objeto, "Debe ingresar una cantidad valida", Toast.LENGTH_SHORT).show();
-            Global.codigo_rep="";
+            Global.codigo_rep = "";
             return;
         }
 
@@ -188,7 +206,7 @@ public class Registro_diagnostico extends Fragment {
         if (cant_solicitada == 0) {
 
             Toast.makeText(objeto, "Debe solicitar como minimo 1 repuesto", Toast.LENGTH_SHORT).show();
-            Global.codigo_rep="";
+            Global.codigo_rep = "";
             return;
 
         }
@@ -215,8 +233,8 @@ public class Registro_diagnostico extends Fragment {
                         }
 
                         Global.REPUESTOS_DIAGONOSTICO.remove(rt);
-                        r.setSpar_quantity(rt.getSpar_quantity()+cant_solicitada);
-                         Global.REPUESTOS_DIAGONOSTICO.add(r);
+                        r.setSpar_quantity(rt.getSpar_quantity() + cant_solicitada);
+                        Global.REPUESTOS_DIAGONOSTICO.add(r);
                         this.llenarRv();
                         cantidad_req.setText("");
                         aut_repuesto.setText("");
@@ -228,7 +246,7 @@ public class Registro_diagnostico extends Fragment {
 
                 }
                 Global.REPUESTOS_DIAGONOSTICO.add(r);
-                 this.llenarRv();
+                this.llenarRv();
                 cantidad_req.setText("");
                 aut_repuesto.setText("");
                 this.cantidad_req.setEnabled(false);
@@ -269,7 +287,7 @@ public class Registro_diagnostico extends Fragment {
         String descripicionObserv = observ.getText().toString();
 
 
-        if(Global.REPUESTOS_DIAGONOSTICO.size()==0 && descripicionObserv.trim().isEmpty()){
+        if (Global.REPUESTOS_DIAGONOSTICO.size() == 0 && descripicionObserv.trim().isEmpty()) {
 
             Toast.makeText(objeto, "Debe agregar como minimo un repuesto o una observación", Toast.LENGTH_SHORT).show();
             return;
@@ -277,9 +295,9 @@ public class Registro_diagnostico extends Fragment {
         }
 
 
-        if(Global.REPUESTOS_DIAGONOSTICO.size()==0){
+        if (Global.REPUESTOS_DIAGONOSTICO.size() == 0) {
 
-            if(descripicionObserv.isEmpty()){
+            if (descripicionObserv.isEmpty()) {
                 Toast.makeText(objeto, "Debe agregar un repuesto al menos", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -416,8 +434,7 @@ public class Registro_diagnostico extends Fragment {
      * En el encabezado va el token-> Authenticator
      * lista de validaciones, tipificaciones, esReparable?, observacion, tipo de falla y una lista de repuestos
      **/
-     public void consumirServicioDiagnostico() {
-
+    public void consumirServicioDiagnostico() {
 
 
         final Gson gson = new GsonBuilder().create();
@@ -552,7 +569,8 @@ public class Registro_diagnostico extends Fragment {
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
-                                Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();;
+                                Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
+                                ;
                                 return;
                             }
 
@@ -565,7 +583,8 @@ public class Registro_diagnostico extends Fragment {
 
                             if (jsonArray.length() == 0) {
                                 Global.mensaje = "No existen repuestos disponibles para el modelo de serial seleccionado";
-                                Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();;
+                                Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
+                                ;
                                 return;
                             }
                             String rep = null;
@@ -613,7 +632,7 @@ public class Registro_diagnostico extends Fragment {
 
         JSONArray listas = new JSONArray();
 
-        for(int i= 0;i<Global.REPUESTOS_DIAGONOSTICO.size();i++) {
+        for (int i = 0; i < Global.REPUESTOS_DIAGONOSTICO.size(); i++) {
             JSONObject ob = Global.REPUESTOS_DIAGONOSTICO.get(i).getObj();
             listas.put(ob);
         }
@@ -623,9 +642,9 @@ public class Registro_diagnostico extends Fragment {
 
     public JSONArray getValidaciones() throws JSONException {
 
-        JSONArray listas= new JSONArray();
+        JSONArray listas = new JSONArray();
 
-        for(int i= 0;i<Global.VALIDACIONES_DIAGNOSTICO.size();i++) {
+        for (int i = 0; i < Global.VALIDACIONES_DIAGNOSTICO.size(); i++) {
             JSONObject ob = Global.VALIDACIONES_DIAGNOSTICO.get(i).getObj();
             listas.put(ob);
         }
@@ -635,14 +654,56 @@ public class Registro_diagnostico extends Fragment {
 
     public JSONArray getTipificaciones() throws JSONException {
 
-        JSONArray listas= new JSONArray();
+        JSONArray listas = new JSONArray();
 
-        for(int i= 0;i<Global.TIPIFICACIONES_DIAGNOSTICO.size();i++) {
+        for (int i = 0; i < Global.TIPIFICACIONES_DIAGNOSTICO.size(); i++) {
             JSONObject ob = Global.TIPIFICACIONES_DIAGNOSTICO.get(i).getObj();
             listas.put(ob);
         }
 
         return listas;
+    }
+
+    public void eliminarPila() {
+
+
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
+
+    }
+
+    public boolean validarDanio() {
+
+
+        for (Validacion va : Global.VALIDACIONES_DIAGNOSTICO) {
+            System.out.println(va.getTeva_description() + "-" + va.getEstado());
+            if (va.getEstado().equals("falla")) {
+                fallas++;
+            }
+
+        }
+
+        System.out.println("TOTAL FALLAS             "+fallas);
+
+        if (fallas == 1) {
+
+            for (Validacion va : Global.VALIDACIONES_DIAGNOSTICO) {
+                System.out.println(va.getTeva_description() + "-" + va.getEstado());
+                if (va.getEstado().equals("falla") && va.getTeva_description().equals("SOFTWARE")) {
+                  return true;
+                } else if (!va.getEstado().equals("falla") && va.getTeva_description().equals("SOFTWARE")) {
+                           return false;
+
+                }
+            }
+
+
+        }
+
+
+        return false;
     }
 
 

@@ -146,20 +146,22 @@ public class StockFragment extends Fragment {
                             if (jsonArray1.length() == 0) {
                                 Global.mensaje = "No tiene terminales ";
                                 Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();
-                                return;
+
                             }
 
-                            String ter = null;
+                            else {
 
-                            for (int i = 0; i < jsonArray1.length(); i++) {
-                                ter = jsonArray1.getString(i);
+                                String ter = null;
 
-                                Terminal t = gson.fromJson(ter, Terminal.class);
-                                if (t != null) {
+                                for (int i = 0; i < jsonArray1.length(); i++) {
+                                    ter = jsonArray1.getString(i);
+
+                                    Terminal t = gson.fromJson(ter, Terminal.class);
+                                    if (t != null) {
+                                    }
+                                    terminales.add(t);
                                 }
-                                terminales.add(t);
                             }
-
                             rv.setHasFixedSize(true);
                             LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
                             rv.setLayoutManager(llm);
@@ -240,19 +242,23 @@ public class StockFragment extends Fragment {
                             if (jsonArray1.length() == 0) {
                                 Global.mensaje = "No tiene repuestos ";
                                 Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();
-                                return;
+
                             }
 
-                            String ter = null;
+                            else {
 
-                            for (int i = 0; i < jsonArray1.length(); i++) {
-                                ter = jsonArray1.getString(i);
+                                String ter = null;
 
-                                Repuesto r = gson.fromJson(ter, Repuesto.class);
-                                if (r != null) {
+                                for (int i = 0; i < jsonArray1.length(); i++) {
+                                    ter = jsonArray1.getString(i);
+
+                                    Repuesto r = gson.fromJson(ter, Repuesto.class);
+                                    if (r != null) {
+                                    }
+                                    repuestos.add(r);
                                 }
-                                repuestos.add(r);
                             }
+                            
 
                             rv.setHasFixedSize(true);
                             LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());

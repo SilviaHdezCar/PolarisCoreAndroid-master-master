@@ -27,10 +27,15 @@ import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.MyValueFormatter;
 import com.example.wposs_user.polariscoreandroid.java.Productividad;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jjoe64.graphview.GraphView;
@@ -79,7 +84,7 @@ public class Productividad_mes extends Fragment {
     private Spinner mes;
     private Spinner año;
     private Button produc;
-    private BarChart grafica;
+    private LineChart grafica;
 
 
     // TODO: Rename and change types of parameters
@@ -127,7 +132,7 @@ public class Productividad_mes extends Fragment {
       mes = (Spinner)v.findViewById(R.id.spin_mesxmes);
       año= (Spinner)v.findViewById(R.id.spiner_añoxmes);
       produc=(Button)v.findViewById(R.id.produc_mes);
-     grafica=(BarChart) v.findViewById(R.id.grafica_mes);
+     grafica=(LineChart) v.findViewById(R.id.grafica_mes);
         queue = Volley.newRequestQueue(objeto);
          produc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,8 +286,9 @@ public class Productividad_mes extends Fragment {
 
 
           private void pintarGrafica() {
-          ArrayList<BarEntry>diagnosticadas= new ArrayList<>();
-          ArrayList<BarEntry>reparadas= new ArrayList<>();
+
+          ArrayList<Entry>diagnosticadas= new ArrayList<>();
+          ArrayList<Entry>reparadas= new ArrayList<>();
 
 
 
@@ -299,8 +305,8 @@ public class Productividad_mes extends Fragment {
               Productividad[] pro= llenarSerie();
               Arrays.sort(pro);
 
-              BarEntry[]diagnostico=new BarEntry[can_dias+1];
-              BarEntry[]reparado=new BarEntry[can_dias+1];
+              Entry[]diagnostico=new Entry[can_dias+1];
+              Entry[]reparado=new Entry[can_dias+1];
 
 
 
@@ -318,12 +324,11 @@ public class Productividad_mes extends Fragment {
                      int p= obtenerProductividad(diaDado);
                      int q = obtenerProductividadReparada(diaDado);
 
-                      diagnostico[diaDado] = new BarEntry(diaDado, p);
+                      diagnostico[diaDado] = new Entry(diaDado, p);
 
-                      reparado[diaDado] = new BarEntry(diaDado,q);
+                      reparado[diaDado] = new Entry(diaDado,q);
 
-                      diagnostico[1]= new BarEntry(1,5);
-                     reparado[1] = new BarEntry(1,10);
+
 
                       System.out.println("Posicion****" + diaDado + "*****" + reparado[diaDado].toString() + "\n");
 
@@ -337,8 +342,8 @@ public class Productividad_mes extends Fragment {
               for(int i=1;i<diagnostico.length;i++){
 
                   if(diagnostico[i] == null){
-                      diagnostico[i]=new BarEntry(i,0);
-                      reparado[i]=new BarEntry(i,0);
+                      diagnostico[i]=new Entry(i,0);
+                      reparado[i]=new Entry(i,0);
 
 
                   }
@@ -346,58 +351,40 @@ public class Productividad_mes extends Fragment {
               }
 
 
-
-
-
-
-
-
-              ArrayList<BarEntry>datosDiagnostico= getValoresArray(diagnostico);
-              ArrayList<BarEntry>datosReparadas= getValoresArray(reparado);
+              ArrayList<Entry>datosDiagnostico= getValoresArray(diagnostico);
+              ArrayList<Entry>datosReparadas= getValoresArray(reparado);
               System.out.println("ARRAYLIST DE DATOS**************"+ datosReparadas.toString());
 
+              ArrayList<ILineDataSet>datos5= new ArrayList<>();
+              LineDataSet misdatos = new LineDataSet(datosDiagnostico,"Diagnosticadas");
+              LineDataSet misdatos2 = new LineDataSet(datosReparadas,"Reparadas");
+
+              misdatos.setValueFormatter(new MyValueFormatter());
+              misdatos2.setValueFormatter(new MyValueFormatter());
+
+              misdatos.setDrawCircles(false);
+              misdatos.setColor(Color.BLUE);
+
+              misdatos2.setDrawCircles(false);
+              misdatos2.setColor(Color.RED);
 
 
-              BarDataSet datos=new BarDataSet(datosDiagnostico,"Diagnosticadas");
-              BarDataSet valores=new BarDataSet(datosReparadas,"Reparadas");
-              datos.setColor(Color.RED);
-              valores.setColor(Color.GREEN);
-              datos.setDrawValues(true);
-
-
-              valores.setDrawValues(true);
-              datos.setValueFormatter(new MyValueFormatter());
-              valores.setValueFormatter(new MyValueFormatter());
-
-
-              BarData datosGrafica = new BarData(datos,valores);
-              grafica.setData(datosGrafica);
-              // String []meses= new String[]{"enero", "febrero", "marzo", "abril", "mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"};
-              XAxis x=grafica.getXAxis();
-              //  x.setValueFormatter(new IndexAxisValueFormatter(meses));
-              x.setCenterAxisLabels(true);
-              x.setLabelCount(0);
-              grafica.getAxisLeft().setDrawGridLines(false);
-              grafica.getAxisLeft().setGranularity(1);
-              grafica.getAxisLeft().setAxisMinimum(0);
-              x.setPosition(XAxis.XAxisPosition.BOTTOM);
-              x.setGranularity(1);
-              x.setDrawGridLines(false);
-              x.setDrawLabels(false);
-              x.setGranularityEnabled(true);
-              grafica.setDragEnabled(true);
-              grafica.setVisibleXRangeMaximum(3);
-              float barSpace=0;
-              float groupSpace= 0.2f;
-              datosGrafica.setBarWidth(0.3f);
-              grafica.getXAxis().setAxisMinimum(0);
-              grafica.getXAxis().setAxisMaximum(can_dias+1);
-              grafica.groupBars(0, groupSpace,barSpace);
+              datos5.add(misdatos);
+              datos5.add(misdatos2);
+              LineData li= new LineData(datos5);
+              grafica.setData(li);
               grafica.invalidate();
+              XAxis x = grafica.getXAxis();
+              x.setGranularity(1);
+              x.setAxisMinimum(0);
+              x.setAxisMaximum(can_dias);
+
+              grafica.getAxisRight().setGranularity(1);
+              x.setValueFormatter(new MyValueFormatter());
               grafica.getDescription().setEnabled(false);
               grafica.setVisibility(VISIBLE);
 
-
+              grafica.animateXY(2000,2000);
 
                     }
 
@@ -484,8 +471,8 @@ public int getMes(String meses){
 
  }
 
- public ArrayList<BarEntry> getValoresArray( BarEntry[]diagnostico){
-     ArrayList<BarEntry> valores= new ArrayList<BarEntry>();
+ public ArrayList<Entry> getValoresArray( Entry[]diagnostico){
+     ArrayList<Entry> valores= new ArrayList<Entry>();
 
      for(int i=1;i<diagnostico.length;i++){
          valores.add(diagnostico[i]);

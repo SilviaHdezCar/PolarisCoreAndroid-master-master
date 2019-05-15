@@ -3,6 +3,7 @@ package com.example.wposs_user.polariscoreandroid.Actividades;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,9 +48,9 @@ public class Activity_login extends AppCompatActivity {
     private String correo;
     private String pass;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         txtCorreo = (EditText) findViewById(R.id.txtCorreo);
