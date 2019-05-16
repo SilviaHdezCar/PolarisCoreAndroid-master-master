@@ -119,6 +119,7 @@
         </LinearLayout>
 
 
+
         <Button
             android:id="@+id/btn_login"
             style="@style/letra_contenido_blanco"
@@ -129,6 +130,17 @@
             android:onClick="iniciarSesion"
             android:text="@string/iniciarSes"
             android:textAllCaps="false" />
+
+        <TextView
+            android:id="@+id/txt_reestablecerClave"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿Ha olvidado la contraseña?"
+            android:textColor="@color/blanco"
+
+            />
+
 
 
         <ImageView

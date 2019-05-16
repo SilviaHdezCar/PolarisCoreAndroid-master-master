@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class EvidenciaAutorizada extends Fragment {
     ImageView imagen;
     private View v;
     PhotoViewAttacher  photoView;
+    FragmentManager fragmentManager;
 
     private OnFragmentInteractionListener mListener;
 
@@ -72,12 +74,11 @@ public class EvidenciaAutorizada extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+
+        v= inflater.inflate(R.layout.fragment_evidencia_autorizada, container, false);
         imagen=(ImageView)v.findViewById(R.id.imagen_zoom);
 
         photoView= new PhotoViewAttacher(imagen);
-
-        v= inflater.inflate(R.layout.fragment_evidencia_autorizada, container, false);
-
         return v;
     }
 

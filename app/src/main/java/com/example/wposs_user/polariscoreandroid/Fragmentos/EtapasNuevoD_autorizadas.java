@@ -315,7 +315,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
                 if (!foto1.isEmpty() || !foto2.isEmpty()) {
                     Global.foto1_etapa_ter = foto1;
                     Global.foto2_etapa_ter = foto2;
-                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new FotoObservacionFragment()).addToBackStack(null).commit();
+                  //  objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new FotoObservacionFragment()).addToBackStack(null).commit();
                 } else {
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
                 }

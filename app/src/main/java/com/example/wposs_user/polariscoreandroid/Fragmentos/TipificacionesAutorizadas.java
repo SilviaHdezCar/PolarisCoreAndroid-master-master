@@ -1,6 +1,7 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -79,6 +80,7 @@ public class TipificacionesAutorizadas extends Fragment {
     private TextView txt_nomFoto2;
     private TextView txt_fechaFoto1;
     private TextView txt_fechaFoto2;
+    FragmentManager fragmentManager;
 
 
     public static ArrayList<Observacion> list_con_fotos;
@@ -147,6 +149,8 @@ public class TipificacionesAutorizadas extends Fragment {
         txt_fechaFoto1 = (TextView) v.findViewById(R.id.txt_fechaFoto1);
         txt_fechaFoto2 = (TextView) v.findViewById(R.id.txt_fechaFoto2);
 
+
+
         layout_repuestos.setVisibility(View.VISIBLE);
         layout_evidencias.setVisibility(View.VISIBLE);
 
@@ -202,6 +206,10 @@ public class TipificacionesAutorizadas extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //inflar fragment evidencias y carga la foto
+
+
+               objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EvidenciaAutorizada()).addToBackStack(null).commit();
+
                 }
             });
             } else {
