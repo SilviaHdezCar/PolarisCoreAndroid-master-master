@@ -92,9 +92,9 @@ public class Observacion implements Comparable<Observacion> {
         JSONObject obj = new JSONObject();
         try {
 
-            obj.put(" teob_description", teob_description);
+            obj.put("teob_description", teob_description);
             obj.put("teob_serial_terminal", teob_serial_terminal);
-            obj.put("teob_photo", "");
+            obj.put("teob_photo", teob_photo);
         } catch (JSONException e) {
             e.printStackTrace();
         }

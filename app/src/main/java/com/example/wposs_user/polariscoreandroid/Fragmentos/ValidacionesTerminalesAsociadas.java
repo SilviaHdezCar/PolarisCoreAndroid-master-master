@@ -51,7 +51,6 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE DEBE LLENAR EL RCV
 
 
-
     private Fragment fragment;
 
     //   private Button siguiente;
@@ -83,8 +82,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         estado_ter_validaciones = (TextView) v.findViewById(R.id.estado_ter_validaciones);
         garantia_ter_validaciones = (TextView) v.findViewById(R.id.garantia_ter_validaciones);
         fechal_ans_ter_validaciones = (TextView) v.findViewById(R.id.fechal_ans_ter_validaciones);
-        Global.VALIDACIONES_DIAGNOSTICO= new ArrayList<>();
-
+        Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<>();
 
 
         title_validaciones = (TextView) v.findViewById(R.id.tile_validaciones);
@@ -93,7 +91,6 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
 
         tabla = (TableLayout) v.findViewById(R.id.tabla_validaciones_autorizadas);
         btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_seleccionar_validaciones_autorizadas);
-
 
 
         //voy a recorrer el arreglo de terminales para que me liste la informacion de la terminal selecciona
@@ -108,21 +105,26 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                 serial_ter_validaciones.setText(ter.getTerm_serial());
                 tecno_ter_validaciones.setText(ter.getTerm_technology());
                 estado_ter_validaciones.setText(ter.getTerm_status());
-
-                if (Integer.parseInt(ter.getTerm_warranty_time()) >= 0) {
-                    garantia_ter_validaciones.setText("Con garantía");
-                } else {
-                    garantia_ter_validaciones.setText("Si garantía");
+                if (ter.getTerm_warranty_time() != null) {
+                    if (!ter.getTerm_warranty_time().trim().isEmpty()) {
+                        System.out.println("fin garantía..."+ter.getTerm_warranty_time());
+                        if (Integer.parseInt(ter.getTerm_warranty_time()) >= 0) {
+                            garantia_ter_validaciones.setText("Con garantía");
+                        } else {
+                            garantia_ter_validaciones.setText("Sin garantía");
+                        }
+                    }else{
+                        garantia_ter_validaciones.setText("No establecida");
+                    }
                 }
-
-
 
                 if (ter.getTerm_date_reception() != null) {
                     fechaRecepción = ter.getTerm_date_reception();
-                    fechal_ans_ter_validaciones.setText(fechaRecepción );
-                }if (ter.getTerm_date_ans()!=null){
-                    fechaANS= ter.getTerm_date_reception();
-                    fechal_ans_ter_validaciones.setText(fechal_ans_ter_validaciones.getText().toString()+ " - " + fechaANS);
+                    fechal_ans_ter_validaciones.setText(fechaRecepción);
+                }
+                if (ter.getTerm_date_ans() != null) {
+                    fechaANS = ter.getTerm_date_reception();
+                    fechal_ans_ter_validaciones.setText(fechal_ans_ter_validaciones.getText().toString() + " - " + fechaANS);
                 }
                 fechal_ans_ter_validaciones.setText("");
 

@@ -23,6 +23,7 @@ import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterEvidenciasAu
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTipificacionesAutorizadas;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
+import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
@@ -83,6 +84,7 @@ public class TipificacionesAutorizadas extends Fragment {
 
     private List<Repuesto> repuestos;
     private List<Tipificacion> tipificacionesRecibidas;
+    private boolean tieneRepuestos;
 
     public TipificacionesAutorizadas() {
         // Required empty public constructor
@@ -121,6 +123,8 @@ public class TipificacionesAutorizadas extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tipificaciones_autorizadas, container, false);
         objeto.setTitle("          TIPIFICACIONES");
+
+        this.tieneRepuestos = false;
         list_con_fotos = new ArrayList<Observacion>();
         this.repuestos = new ArrayList<Repuesto>();
         serial = (TextView) v.findViewById(R.id.serial_ter_autorizada);
@@ -159,41 +163,49 @@ public class TipificacionesAutorizadas extends Fragment {
         System.out.println("Tamaño lista rep=" + Global.repuestos_listar_autorizadas.size());
         System.out.println("Tamaño  rep DEFECTUOSOS=" + Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size());
         System.out.println("Tamaño lista evidencias=" + Global.observaciones_con_fotos.size());
+        tieneRepuestos = tieneRepuestos();
+        if (!tieneRepuestos) {//NO Tiene repuestos
 
-       if (this.repuestos != null || !(this.repuestos.size() == 0)) {//Tiene repuestos
-            layout_evidencias.setVisibility(View.GONE);
-            llenarTabla();
-            //llenarTabla
-        }else if (Global.observaciones_con_fotos != null || Global.observaciones_con_fotos.size() > 0) {
-            layout_repuestos.setVisibility(View.GONE);
-
-            Observacion obFoto1=Global.observaciones_con_fotos.get(Global.observaciones_con_fotos.size()-1);
-            Observacion obFoto2=Global.observaciones_con_fotos.get(Global.observaciones_con_fotos.size()-2);
+            if (Global.observaciones_con_fotos != null || Global.observaciones_con_fotos.size() > 0) {
+                layout_repuestos.setVisibility(View.GONE);
+                System.out.println("Tiene observaciones--Tamaño===" + Global.observaciones_con_fotos.size());
 
 
-           String foto1=obFoto1.getTeob_photo();
-           String foto2=obFoto2.getTeob_photo();
+                /********************************************************************************************************
+                 * ORDENAR OBSERVACIONES CON FOTO
+                 ***************************************************************************************************************************/
 
-            txt_fechaFoto1.setText(foto1);
-            txt_fechaFoto2.setText(foto2);
-           Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/"+foto1+".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
 
-           Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/"+foto1+".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
+                //OBTENER LAS ULTIMAS OBSERVACIONES QUE TIENEN FOTOS
+                Observacion obFoto1 = Global.observaciones_con_fotos.get(Global.observaciones_con_fotos.size() - 1);//ultima pos
+                Observacion obFoto2 = Global.observaciones_con_fotos.get(Global.observaciones_con_fotos.size() - 2);//penultima
 
-//            llenarRVFotos(Global.observaciones_con_fotos);
 
+                String foto1 = obFoto1.getTeob_photo();
+                System.out.println("nombre de la foto1:::" + foto1);
+                String foto2 = obFoto2.getTeob_photo();
+                System.out.println("nombre de la foto2:::" + foto2);
+                txt_fechaFoto1.setText(foto1);
+                txt_fechaFoto2.setText(foto2);
+
+                Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1 + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
+                Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1 + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
+            } else {
+                Toast.makeText(objeto, "La terminal no tiene repuestos ni evidencias", Toast.LENGTH_SHORT).show();
+                layout_evidencias.setVisibility(View.GONE);
+                layout_repuestos.setVisibility(View.GONE);
+            }
         }
 
         btn_siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (Global.repuestos_listar_autorizadas != null || !(Global.repuestos_listar_autorizadas.size() == 0)) {
+                if (tieneRepuestos) {
                     if (validarEstadosRepuestos()) {
                         //System.out.println();
                         objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesSeleccionarAutorizadas()).addToBackStack(null).commit();
                         return;
-
                     }
                 } else {
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesSeleccionarAutorizadas()).addToBackStack(null).commit();
@@ -204,6 +216,19 @@ public class TipificacionesAutorizadas extends Fragment {
 
 
         return v;
+    }
+
+    public boolean tieneRepuestos() {
+        if (this.repuestos != null) {
+            if (this.repuestos.size() > 0) {
+
+                System.out.println("tiene repuestos");
+                llenarTabla();
+                layout_evidencias.setVisibility(View.GONE);
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -270,7 +295,6 @@ public class TipificacionesAutorizadas extends Fragment {
      **/
     public void llenarTabla() {
 
-
         for (int i = 0; i < this.repuestos.size(); i++) {
             TableRow fila = new TableRow(objeto);
             fila.setId(i);
@@ -305,16 +329,15 @@ public class TipificacionesAutorizadas extends Fragment {
 
         String reps[] = Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
         System.out.println("repuestos :::" + reps[0]);
+        repuestos = new ArrayList<>();
         if (!reps[0].equals("[]")) {
-
-            repuestos = new ArrayList<>();
             Repuesto repuesto = null;
             if ((reps.length == 0) || reps == null) {
                 Toast.makeText(objeto, "No tiene repuestos", Toast.LENGTH_SHORT).show();
             } else {
                 for (int i = 0; i < reps.length; i++) {
                     String[] rep = reps[i].split("-");
-                    System.out.println("Repuesto" + rep[1]);
+                    System.out.println("Repuesto String ==" + rep[i]);
                     //String spar_code,String spar_name, String quantity, String spar_warehouse
                     repuesto = new Repuesto(rep[0], rep[1], rep[2], rep[3]);
                     this.repuestos.add(repuesto);

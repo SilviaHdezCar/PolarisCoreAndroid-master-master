@@ -93,8 +93,11 @@ public class EtapasTerminal extends Fragment  {
 
         for (Observacion observ : observaciones) {
             if (observ != null) {
-                if(observ.getTeob_description()!=null||!observ.getTeob_description().isEmpty()){
-                    observations.add(observ);
+                if(observ.getTeob_description()!=null){
+                    if(!observ.getTeob_description().isEmpty()){
+                        observations.add(observ);
+                    }
+
                 }
             }
         }
