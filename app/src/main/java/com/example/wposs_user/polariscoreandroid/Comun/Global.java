@@ -157,6 +157,8 @@ public class Global {
 
     public static ArrayList<Validacion> VALIDACIONES_DIAGNOSTICO;
     public static ArrayList<Tipificacion> TIPIFICACIONES_DIAGNOSTICO;
+    public static ArrayList<Tipificacion> lista_tipificaciones_tabla=new ArrayList<Tipificacion>();//utilizado para llenar la tabla de tipificaciones asociadas
+    public static ArrayList<Tipificacion> listTipificaciones ;//utilizado
     public static String reparable="";
     public static String fallaDetectada="";
 

@@ -305,7 +305,7 @@ public class Registro_diagnostico extends Fragment {
             }
 
 
-            Observacion obser = new Observacion("", descripicionObserv, "", "", "  ", Global.serial_ter);
+            Observacion obser = new Observacion("", descripicionObserv, "", "", " ", Global.serial_ter);
             Global.obs = obser;
 
             this.consumirServicioDiagnostico();
@@ -313,11 +313,12 @@ public class Registro_diagnostico extends Fragment {
 
         }
 
-        Observacion ob = new Observacion("", descripicionObserv, " ", " ", "  ", Global.serial_ter);
+        Observacion ob = new Observacion("", descripicionObserv, " ", " ", " ", Global.serial_ter);
         Global.obs = ob;
 
 
         if (Global.diagnosticoTerminal.equalsIgnoreCase("autorizada")) {//consume el servicio: FINALIZAR REGISTRO DE REPARACIÓN POR NUEVO DIAGNÓSTICO:
+
             consumirServicioDiagnosticoAutorizada();
 
 
@@ -441,114 +442,6 @@ public class Registro_diagnostico extends Fragment {
     }
 
 
-    /**
-     * CAMBIAR REPUESTOS A ESTADO DEFECTUOSO EN LA BODEGA
-     * En el encabezado va el token-> Authenticator
-     * lista de validaciones, tipificaciones, esReparable?, observacion, tipo de falla y una lista de repuestos
-     **/
-    public void consumirServicioCambiarEstadoDefectuoso() {
-
-
-        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/saveNewDiagnosis";
-        JSONObject jsonObject = new JSONObject();
-        JSONObject obj2 = new JSONObject();
-        try {
-
-            JSONArray val = this.getValidaciones();
-            jsonObject.put("validaciones", val);
-            JSONArray tip = this.getTipificaciones();
-            jsonObject.put("tipificaciones", tip);
-            jsonObject.put("observacion", Global.obs.getObjRep());
-            obj2.put("tesw_serial", Global.serial_ter);
-            JSONArray o = this.getRepuestos();
-            obj2.put("tesw_repuestos", o);
-            jsonObject.put("repuestos", obj2);
-
-
-            Log.d("RESPUESTA", jsonObject.toString());
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
-                Request.Method.POST,
-                url,
-                jsonObject,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            Global.STATUS_SERVICE = response.get("status").toString();
-                            Log.d("RESPUESTA", response.get("message").toString());
-
-                            if (Global.STATUS_SERVICE.equals("fail")) {
-                                Global.mensaje = response.get("message").toString();
-                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                    alertDialog.setTitle("Información");
-                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
-                                    alertDialog.setCancelable(true);
-                                    alertDialog.show();
-                                    objeto.consumirSercivioCerrarSesion();
-                                    return;
-                                }
-
-
-                                AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("INFORMACIÓN");
-                                alertDialog.setMessage("Error: " + response.get("message").toString() + "\n");
-                                alertDialog.setCancelable(true);
-
-                                alertDialog.show();
-
-                                return;
-
-                            } else {
-                                AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Informacion");
-                                alertDialog.setMessage("Diagnóstico registrado exitosamente");
-                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Aceptar",
-
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                alertDialog.show();
-
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("RESPUESTA", response.toString());
-                    }
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authenticator", Global.TOKEN);
-
-                return params;
-            }
-        };
-
-        queue.add(jsArrayRequest);
-
-    }
-
 
     /**
      * Metodo utilizados para consumir el servicio  de registrar un diagnostico de una terminal asociada
@@ -625,6 +518,7 @@ public class Registro_diagnostico extends Fragment {
 
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
+                                                eliminarPila();
                                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                                                 dialog.dismiss();
                                             }
@@ -772,27 +666,13 @@ public class Registro_diagnostico extends Fragment {
 
         for (int i = 0; i < Global.REPUESTOS_DIAGONOSTICO.size(); i++) {
             JSONObject ob = Global.REPUESTOS_DIAGONOSTICO.get(i).getObj();
-            //consumo servio body 1
-            //consumo servio body 2
             listas.put(ob);
         }
 
         return listas;
     }
 
-    public JSONArray getRepuestosDefectuosos() throws JSONException {
 
-        JSONArray listas = new JSONArray();
-
-        for (int i = 0; i < Global.REPUESTOS_DIAGONOSTICO.size(); i++) {
-            JSONObject ob = Global.REPUESTOS_DIAGONOSTICO.get(i).getObj();
-            //consumo servio body 1
-            //consumo servio body 2
-            listas.put(ob);
-        }
-
-        return listas;
-    }
 
     public JSONArray getValidaciones() throws JSONException {
 

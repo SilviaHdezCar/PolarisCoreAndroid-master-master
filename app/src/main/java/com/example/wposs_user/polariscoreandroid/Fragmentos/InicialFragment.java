@@ -51,6 +51,7 @@ import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
+import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -472,10 +473,13 @@ public class InicialFragment extends Fragment {
                 Global.modelo = terminal.get(position).getTerm_model();
 
                 //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
+                Global.lista_tipificaciones_tabla=new ArrayList<Tipificacion>();
+                Global.listTipificaciones=new ArrayList<Tipificacion>();
                 consumirServicioEtapas();
 
 
                     consumirServicioValidaciones();
+
 
                     //consumirServicioValidaciones();
 

@@ -176,7 +176,7 @@ public class TipificacionesAutorizadas extends Fragment {
                  ***************************************************************************************************************************/
 
 
-                //OBTENER LAS ULTIMAS OBSERVACIONES QUE TIENEN FOTOS
+             /*   //OBTENER LAS ULTIMAS OBSERVACIONES QUE TIENEN FOTOS
                 Observacion obFoto1 = Global.observaciones_con_fotos.get(Global.observaciones_con_fotos.size() - 1);//ultima pos
                 Observacion obFoto2 = Global.observaciones_con_fotos.get(Global.observaciones_con_fotos.size() - 2);//penultima
 
@@ -189,7 +189,7 @@ public class TipificacionesAutorizadas extends Fragment {
                 txt_fechaFoto2.setText(foto2);
 
                 Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1 + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
-                Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1 + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
+                Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1 + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);*/
             } else {
                 Toast.makeText(objeto, "La terminal no tiene repuestos ni evidencias", Toast.LENGTH_SHORT).show();
                 layout_evidencias.setVisibility(View.GONE);
@@ -349,46 +349,6 @@ public class TipificacionesAutorizadas extends Fragment {
     }
 
 
-  /*  //mostrar fotos
-    public void llenarRVFotos(List<Observacion> obsRecibidas) {
-        if (obsRecibidas == null || obsRecibidas.size() == 0) {
-            Toast.makeText(objeto, " No tiene evidencias", Toast.LENGTH_SHORT).show();
-            layout_evidencias.setVisibility(View.GONE);
-            return;
-        }
-
-        rvFotos.setHasFixedSize(true);
-
-        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-        rvFotos.setLayoutManager(llm);
-
-        ArrayList obs = new ArrayList<>();
-
-        for (Observacion observa : obsRecibidas) {
-            if (observa != null) {
-                obs.add(observa);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
-            }
-        }
-
-
-        final AdapterEvidenciasAutorizadas adapter = new AdapterEvidenciasAutorizadas(obs, new AdapterEvidenciasAutorizadas.interfaceClick() {//seria termi asoc
-            @Override
-            public void onClick(List<Observacion> lisObs, int position) {
-
-
-                //   consumirServicioEtapas();
-
-                //muestra la foto en un fragmen
-
-
-                //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
-
-            }
-        }, R.layout.panel_evidencias_autorizadas);
-
-        rvFotos.setAdapter(adapter);
-    }
-*/
 
     public void recorrerTipificaciones() {
 
@@ -410,20 +370,6 @@ public class TipificacionesAutorizadas extends Fragment {
         }
     }
 
-/*    public void ordenarObsFotos(){
-        if(Global.observaciones_con_fotos!=null|| !(Global.observaciones_con_fotos.size()==0)){
-            Observacion obs[]=arrayObservaciones();
-            Arrays.sort(obs);
-        }
-    }
-
-   public  Observacion[] arrayObservaciones(){
-        Observacion observaciones[]=new Observacion[Global.observaciones_con_fotos.size()];
-       for(int i=0; i<Global.observaciones_con_fotos.size();i++){
-           observaciones[i]=Global.observaciones_con_fotos.get(i);
-       }
-       return observaciones;
-   }*/
 
 
     /**
@@ -475,14 +421,6 @@ public class TipificacionesAutorizadas extends Fragment {
         return false;
     }
 
-    public void ordenarFechas() {
-
-        if (Global.observaciones_con_fotos != null || Global.observaciones_con_fotos.size() > 0) {
-            for (Observacion ob : Global.observaciones_con_fotos) {
-
-            }
-        }
-    }
 
 
     // TODO: Rename method, update argument and hook method into UI event

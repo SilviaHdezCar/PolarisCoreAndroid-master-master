@@ -137,6 +137,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
             public void onClick(View v) {
                 boolean verificacionEstados = validarEstadosValidaciones();
                 if (verificacionEstados) {
+                   // Global. lista_tipificaciones_tabla =new ArrayList<Tipificacion>();
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new TipificacionesFragment()).addToBackStack(null).commit();
                     return;
                 }

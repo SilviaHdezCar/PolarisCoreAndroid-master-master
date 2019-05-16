@@ -68,7 +68,8 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
 
     private RequestQueue queue;
 
-
+    private RequestQueue queue2;
+    private RequestQueue queue3;
     private OnFragmentInteractionListener mListener;
 
     public ValidacionesSeleccionarAutorizadas() {
@@ -108,6 +109,8 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
         v = inflater.inflate(R.layout.fragment_validaciones_seleccionar_autorizadas, container, false);
         objeto.setTitle("               VALIDACIONES");
         queue = Volley.newRequestQueue(objeto);
+        queue2 = Volley.newRequestQueue(objeto);
+        queue3 = Volley.newRequestQueue(objeto);
         tabla = (TableLayout) v.findViewById(R.id.tabla_validaciones_autorizadas);
         btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_seleccionar_validaciones_autorizadas);
 
@@ -122,6 +125,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                 } else {
                     System.out.println("verificación--> " + verificacionEstados);
                     if (verificacionEstados.equalsIgnoreCase("ok")) {
+                        consumirServiciosCambiarEstadosRep();
                         consumirServicioReparacionExitosa();
                     } else if (verificacionEstados.equalsIgnoreCase("falla")) {
                         fallaDetectada();
@@ -302,12 +306,11 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
         System.out.println("REPARACION EXITOSA ");
 
         JSONObject jsonObject = new JSONObject();
-        JSONObject obj2 = new JSONObject();
         try {
 
             JSONArray val = this.getValidaciones();
             jsonObject.put("validaciones", val);
-            jsonObject.put("term_serial", Global.serial_ter);
+           // jsonObject.put("term_serial", Global.serial_ter);
 
             Log.d("RESPUESTA", jsonObject.toString());
 
@@ -343,7 +346,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
 
                             } else {
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Informacion");
+                                alertDialog.setTitle("Información");
                                 alertDialog.setMessage("Reparación finalizada");
                                 alertDialog.setCancelable(true);
                                 alertDialog.show();
@@ -380,6 +383,155 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
     }
 
     /**
+     * METODO QUE RECORRE LOS REPUESTOS Y LS AGREGA AL ARREGLO
+     **/
+    public void consumirServiciosCambiarEstadosRep(){
+
+//cambia estado a nuevo
+        for (int i = 0; i < Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size(); i++) {
+            //CONSUMO LOS DOS SERVICIOD
+            //consumo servio body 1
+            String urlBody1 = "http://100.25.214.91:3000/PolarisCore/Spares/actualizarSpare";
+            JSONObject jsonObject1 = new JSONObject();
+            try {
+
+                // Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getObj()
+                jsonObject1.put("spar_code", Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i).getSpar_code());
+                jsonObject1.put("spar_status", "NUEVO");
+                jsonObject1.put("spar_warehouse", Global.CODE);//REvisar nombre llave
+                jsonObject1.put("spar_quantity", Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i).getSpar_quantity());
+
+                Log.d("RESPUESTA", jsonObject1.toString());
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            JsonObjectRequest jsArrayRequest1 = new JsonObjectRequest(
+                    Request.Method.POST,
+                    urlBody1,
+                    jsonObject1,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if (!response.get("message").toString().equals("success")) {
+                                    Global.mensaje = response.get("message").toString();
+                                    if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                        AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                        alertDialog.setTitle("Información");
+                                        alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                        alertDialog.setCancelable(true);
+                                        alertDialog.show();
+                                        objeto.consumirSercivioCerrarSesion();
+                                        return;
+                                    }
+                                    System.out.println("!success servicio body 1");
+                                    return;
+
+                                }
+                                System.out.println("cambiar estado dañado bien");
+                                return;
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Log.d("RESPUESTA REG OBs", response.toString());
+                        }
+
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                            Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authenticator", Global.TOKEN);
+                    return params;
+                }
+            };
+
+            queue2.add(jsArrayRequest1);
+
+   //cambia estado a Dañado
+            //consumo servio body 2
+            String urlBody2 = "http://100.25.214.91:3000/PolarisCore/Spares/actualizarSpare";
+            JSONObject jsonObjectBody2 = new JSONObject();
+            try {
+
+                // Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getObj()
+                jsonObjectBody2.put("spar_code", Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i).getSpar_code());
+                jsonObjectBody2.put("spar_status", "DAÑADO");
+                jsonObjectBody2.put("spar_warehouse", Global.CODE);//REvisar nombre llave
+                jsonObjectBody2.put("spar_quantity", Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i).getSpar_quantity());
+                jsonObjectBody2.put("spar_warehouse_new", Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i).getSpar_warehouse());
+
+                Log.d("RESPUESTA", jsonObjectBody2.toString());
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            JsonObjectRequest jsArrayRequest2 = new JsonObjectRequest(
+                    Request.Method.POST,
+                    urlBody2,
+                    jsonObjectBody2,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if (!response.get("message").toString().equals("success")) {
+                                    Global.mensaje = response.get("message").toString();
+                                    if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                        AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                        alertDialog.setTitle("Información");
+                                        alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
+                                        alertDialog.setCancelable(true);
+                                        alertDialog.show();
+                                        objeto.consumirSercivioCerrarSesion();
+                                        return;
+                                    }
+                                    System.out.println("!success servicio body 1");
+                                    return;
+
+                                }
+                                return;
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Log.d("RESPUESTA REG OBs", response.toString());
+                        }
+
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                            Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authenticator", Global.TOKEN);
+                    return params;
+                }
+            };
+
+            queue3.add(jsArrayRequest2);
+
+        }
+
+    }
+
+    /**
      * Este metodo elimina todos los fragmentos de la pila
      * ()
      */
@@ -406,7 +558,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
     public JSONArray getValidaciones() throws JSONException {
         JSONArray listas = new JSONArray();
         for (int i = 0; i < Global.VALIDACIONES.size(); i++) {
-            JSONObject ob = Global.VALIDACIONES.get(i).getObj();
+            JSONObject ob = Global.VALIDACIONES.get(i).getObjRep();
             listas.put(ob);
         }
         return listas;
