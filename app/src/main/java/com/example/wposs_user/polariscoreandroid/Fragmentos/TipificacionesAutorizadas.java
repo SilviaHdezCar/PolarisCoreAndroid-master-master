@@ -195,13 +195,17 @@ public class TipificacionesAutorizadas extends Fragment {
                 System.out.println("nombre de la foto1:::" + foto1);
                 String foto2 = obFoto2.getTeob_photo();
                 System.out.println("nombre de la foto2:::" + foto2);
-                txt_fechaFoto1.setText(foto1);
-                txt_fechaFoto2.setText(foto2);
+
+                txt_nomFoto1.setText(foto1);
+                txt_nomFoto2.setText(foto2);
+
+                txt_fechaFoto1.setText(Utils.darFormatoFechaObservaciones(obFoto1.getTeob_fecha()));
+                txt_fechaFoto2.setText(Utils.darFormatoFechaObservaciones(obFoto2.getTeob_fecha()));
 
 
 
-                Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1 + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
-                Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto2 + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
+                Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
+                Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto2 ).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
             img_evidencia1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
