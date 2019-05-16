@@ -33,6 +33,7 @@ import com.squareup.picasso.Picasso;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
@@ -176,6 +177,11 @@ public class TipificacionesAutorizadas extends Fragment {
                  ***************************************************************************************************************************/
 
 
+                Collections.sort(Global.observaciones_con_fotos);
+
+                System.out.println("OBSERVACIONES CON FOTO*********"  + Global.observaciones_con_fotos.toString());
+
+
                 //OBTENER LAS ULTIMAS OBSERVACIONES QUE TIENEN FOTOS
                 Observacion obFoto1 = Global.observaciones_con_fotos.get(Global.observaciones_con_fotos.size() - 1);//ultima pos
                 Observacion obFoto2 = Global.observaciones_con_fotos.get(Global.observaciones_con_fotos.size() - 2);//penultima
@@ -188,8 +194,16 @@ public class TipificacionesAutorizadas extends Fragment {
                 txt_fechaFoto1.setText(foto1);
                 txt_fechaFoto2.setText(foto2);
 
+
+
                 Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1 + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
-                Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1 + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
+                Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto2 + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
+            img_evidencia1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //inflar fragment evidencias y carga la foto
+                }
+            });
             } else {
                 Toast.makeText(objeto, "La terminal no tiene repuestos ni evidencias", Toast.LENGTH_SHORT).show();
                 layout_evidencias.setVisibility(View.GONE);

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -47,6 +48,7 @@ public class Activity_login extends AppCompatActivity {
     private RequestQueue queue;
     private String correo;
     private String pass;
+    private ImageButton verClave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class Activity_login extends AppCompatActivity {
         txtPass = (EditText) findViewById(R.id.txtPass);
         StringBuilder str = new StringBuilder();
         queue = Volley.newRequestQueue(Activity_login.this);
+        verClave=(ImageButton)findViewById(R.id.btn_mostrarClave);
+
 
 
     }
@@ -288,6 +292,25 @@ public class Activity_login extends AppCompatActivity {
     private void limpiarLogin() {
         this.txtCorreo.setText("");
         this.txtPass.setText("");
+    }
+
+    public void mostrarClave(View v){
+
+     if(txtPass.getInputType()==129){
+
+         txtPass.setInputType(1);
+
+         return;
+     }
+
+        if(txtPass.getInputType()==1){
+
+            txtPass.setInputType(129);
+
+            return;
+        }
+
+
     }
 
 
