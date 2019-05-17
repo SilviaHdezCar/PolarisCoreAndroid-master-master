@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
+import static java.util.Collections.*;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -150,7 +151,6 @@ public class TipificacionesAutorizadas extends Fragment {
         txt_fechaFoto2 = (TextView) v.findViewById(R.id.txt_fechaFoto2);
 
 
-
         layout_repuestos.setVisibility(View.VISIBLE);
         layout_evidencias.setVisibility(View.VISIBLE);
 
@@ -169,53 +169,85 @@ public class TipificacionesAutorizadas extends Fragment {
         System.out.println("Tamaño  rep DEFECTUOSOS=" + Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size());
         System.out.println("Tamaño lista evidencias=" + Global.observaciones_con_fotos.size());
         tieneRepuestos = tieneRepuestos();
+
         if (!tieneRepuestos) {//NO Tiene repuestos
 
-            if (Global.observaciones_con_fotos != null || Global.observaciones_con_fotos.size() > 0) {
-                layout_repuestos.setVisibility(View.GONE);
-                System.out.println("Tiene observaciones--Tamaño===" + Global.observaciones_con_fotos.size());
+            if (Global.observaciones_con_fotos != null) {
+                if (Global.observaciones_con_fotos.size() > 0) {
 
 
-                /********************************************************************************************************
-                 * ORDENAR OBSERVACIONES CON FOTO
-                 ***************************************************************************************************************************/
+                    layout_repuestos.setVisibility(View.GONE);
+                    System.out.println("Tiene observaciones--Tamaño===" + Global.observaciones_con_fotos.size());
 
 
-                Collections.sort(Global.observaciones_con_fotos);
-
-                System.out.println("OBSERVACIONES CON FOTO*********"  + Global.observaciones_con_fotos.toString());
-
-
-                //OBTENER LAS ULTIMAS OBSERVACIONES QUE TIENEN FOTOS
-                Observacion obFoto1 = Global.observaciones_con_fotos.get(Global.observaciones_con_fotos.size() - 1);//ultima pos
-                Observacion obFoto2 = Global.observaciones_con_fotos.get(Global.observaciones_con_fotos.size() - 2);//penultima
+                    /********************************************************************************************************
+                     * ORDENAR OBSERVACIONES CON FOTO
+                     ***************************************************************************************************************************/
 
 
-                String foto1 = obFoto1.getTeob_photo();
-                System.out.println("nombre de la foto1:::" + foto1);
-                String foto2 = obFoto2.getTeob_photo();
-                System.out.println("nombre de la foto2:::" + foto2);
+                    sort(Global.observaciones_con_fotos);
 
-                txt_nomFoto1.setText(foto1);
-                txt_nomFoto2.setText(foto2);
-
-                txt_fechaFoto1.setText(Utils.darFormatoFechaObservaciones(obFoto1.getTeob_fecha()));
-                txt_fechaFoto2.setText(Utils.darFormatoFechaObservaciones(obFoto2.getTeob_fecha()));
+                    System.out.print(Global.observaciones_con_fotos.toString());
 
 
+                    ArrayList<Observacion> fotos = new ArrayList<>();
 
-                Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
-                Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto2 ).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
-            img_evidencia1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //inflar fragment evidencias y carga la foto
+                    for (int i = Global.observaciones_con_fotos.size() - 3; i < Global.observaciones_con_fotos.size() ; i++) {
+
+                        if (Global.observaciones_con_fotos.get(i).getTeob_photo() != null ) {
+                            if (!Global.observaciones_con_fotos.get(i).getTeob_photo().trim().isEmpty()){
+                                fotos.add(Global.observaciones_con_fotos.get(i));
+                            }
 
 
-               objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EvidenciaAutorizada()).addToBackStack(null).commit();
+                        }
+                    }
 
+
+                    System.out.println("OBSERVACIONES ORDENADAS********" + Global.observaciones_con_fotos.toString() + "TAMAÑO****" + Global.observaciones_con_fotos.size());
+
+
+                  //Obtengo las posiciones donde guarde las observaciones con foto
+
+
+
+                    Observacion obFoto1 = fotos.get(0);
+                    Observacion obFoto2 = fotos.get(1);
+
+
+                    final String foto1 = obFoto1.getTeob_photo();
+                    System.out.println("nombre de la foto1:::" + foto1);
+                    final String foto2 = obFoto2.getTeob_photo();
+                    System.out.println("nombre de la foto2:::" + foto2);
+
+                    txt_nomFoto1.setText(foto1);
+                    txt_nomFoto2.setText(foto2);
+
+                    txt_fechaFoto1.setText(Utils.darFormatoFechaObservaciones(obFoto1.getTeob_fecha()));
+                    txt_fechaFoto2.setText(Utils.darFormatoFechaObservaciones(obFoto2.getTeob_fecha()));
+
+
+                    Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
+                    Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto2).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
+                    img_evidencia1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //inflar fragment evidencias y carga la foto
+                            Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1;
+                            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EvidenciaAutorizada()).addToBackStack(null).commit();
+
+                        }
+                    });
+                    img_evidencia2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //inflar fragment evidencias y carga la foto
+                            Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto2;
+                            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EvidenciaAutorizada()).addToBackStack(null).commit();
+
+                        }
+                    });
                 }
-            });
             } else {
                 Toast.makeText(objeto, "La terminal no tiene repuestos ni evidencias", Toast.LENGTH_SHORT).show();
                 layout_evidencias.setVisibility(View.GONE);

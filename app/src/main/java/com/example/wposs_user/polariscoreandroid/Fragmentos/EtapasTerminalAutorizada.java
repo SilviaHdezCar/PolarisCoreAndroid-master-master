@@ -162,6 +162,7 @@ public class EtapasTerminalAutorizada extends Fragment {
         });
 
         consumirServicioEtapas();
+
         btn_agregar_etapa_autorizada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,6 +191,7 @@ public class EtapasTerminalAutorizada extends Fragment {
      * Se envía el serial de la terminal  Global.serial_ter
      **/
     public void consumirServicioEtapas() {
+        System.out.println("va a consunir etapas ---------------------------------------------------------------------------------");
         o = null;
         Global.OBSERVACIONES = null;
         Global.OBSERVACIONES = new ArrayList<Observacion>();
@@ -212,6 +214,8 @@ public class EtapasTerminalAutorizada extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+
+
                             Global.STATUS_SERVICE = response.get("status").toString();
                             System.out.println("status:  " + Global.STATUS_SERVICE);
 
@@ -229,6 +233,7 @@ public class EtapasTerminalAutorizada extends Fragment {
                                 Toast.makeText(objeto, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             }
+                            System.out.println("repuesta data:    "+response.get("data").toString());
                             response = new JSONObject(response.get("data").toString());
 
                             JSONArray jsonArray = response.getJSONArray("observaciones");
@@ -247,10 +252,11 @@ public class EtapasTerminalAutorizada extends Fragment {
                                 o = gson.fromJson(obser, Observacion.class);
 
                                 if (o.getTeob_photo() != null || !o.getTeob_photo().trim().isEmpty()) {
-                                    System.out.println(o.toString());
+                                    System.out.println("agrego en  con fotos: "+o.toString());
                                     Global.observaciones_con_fotos.add(o);
                                 }
                                 Global.OBSERVACIONES.add(o);
+                                System.out.println("agrego en observaciones: "+o.toString());
                             }
 
                             llenarRVEtapas(Global.OBSERVACIONES);
