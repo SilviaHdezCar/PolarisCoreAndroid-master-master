@@ -192,7 +192,6 @@ public class EtapasNuevoD_autorizadas extends Fragment {
         Global.OBSERVACIONES = new ArrayList<Observacion>();
 
 
-
         final Gson gson = new GsonBuilder().create();
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals/observations";

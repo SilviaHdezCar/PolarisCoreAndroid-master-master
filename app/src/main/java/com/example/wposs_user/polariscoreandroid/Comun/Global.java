@@ -166,9 +166,6 @@ public class Global {
     public static int lenS1;
     public static String claveNueva;
 
-
-    public static String rutaFotoObservacion;
-
     ///Variables Terminales Autorizadas
     public static String repuestosAutorizadas = "";
     public static String validacionesAutorizadas = "";
