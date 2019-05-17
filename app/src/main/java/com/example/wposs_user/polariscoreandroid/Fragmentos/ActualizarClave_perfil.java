@@ -211,11 +211,7 @@ public class ActualizarClave_perfil extends Fragment {
                                     if (response.get("message").toString().equalsIgnoreCase("invalid  password")) {
                                         Global.mensaje = "Contraseña inválida";
                                     } if (response.get("message").toString().equalsIgnoreCase("token no valido")) {
-                                        AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                        alertDialog.setTitle("Información");
-                                        alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
-                                        alertDialog.setCancelable(true);
-                                        alertDialog.show();
+                                        Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
                                         objeto.consumirSercivioCerrarSesion();
                                         return;
                                     }
@@ -298,6 +294,11 @@ public class ActualizarClave_perfil extends Fragment {
                             if (!response.get("message").toString().equalsIgnoreCase("success")) {
                                 try {
                                     Global.mensaje = response.get("message").toString();
+                                    if (response.get("message").toString().equalsIgnoreCase("token no valido")) {
+                                        Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                        objeto.consumirSercivioCerrarSesion();
+                                        return;
+                                    }
                                     Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -333,102 +334,5 @@ public class ActualizarClave_perfil extends Fragment {
 
         queue.add(jsArrayRequest);
     }
-    /*******************************************************************************
-     Clase       : TaskCambiarClave
-     Description : Realiza la transacción de los parámetros para actualizar clave
-     *******************************************************************************/
 
-
-    class TaskCambiarClave extends AsyncTask<String, Void, Boolean> {
-        ProgressDialog progressDialog;
-        int trans = 0;
-
-        /*******************************************************************************
-         Método       : onPreExecute
-         Description  : Se ejecuta antes de realizar el proceso, muestra una ventana con uin msj de espera
-         *******************************************************************************/
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(objeto, R.style.MyAlertDialogStyle);
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Actualizando contraseña...");
-            progressDialog.show();
-        }
-
-
-        /*******************************************************************************
-         Método       : doInBackground
-         Description  : Se ejecuta para realizar la transacción y verificar coenxión
-         *******************************************************************************/
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            Messages.packMsgUpdatePass();
-
-            trans = TCP.transaction(Global.outputLen);
-
-            // Verifica la transacción
-            if (trans == Global.TRANSACTION_OK)
-                return true;
-            else
-                return false;
-        }
-
-        /*******************************************************************************
-         Método       : onPostExecute
-         Description  : Se ejecuta después de realizar el doInBackground
-         *******************************************************************************/
-        @Override
-        protected void onPostExecute(Boolean value) {
-
-            progressDialog.dismiss();
-
-            if (value) {
-
-                if (Messages.unPackMsgCambiarClave(objeto)) {
-                    Global.enSesion = true;
-                    Global.StatusExit = true;
-
-                    Toast.makeText(objeto, "Contraseña actualizada", Toast.LENGTH_SHORT).show();
-                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
-
-                } else {
-                    // Si el login no es OK, manda mensaje de error
-                    try {
-                        Toast.makeText(objeto, "Falló actualización de contraseña", Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    // Limpia el login
-
-                }
-
-                limpiar();
-
-            } else {//falla la conexión
-                switch (Utils.validateErrorsConexion(false, trans, objeto)) {
-
-                    case 0:                                                                         // En caso de que continue = true y error data
-                        break;
-
-                    case 1:                                                                         // En caso de que continue = false y error data
-                        break;
-
-                    default:                                                                        // Errores de conexion
-                        Global.MsgError = Global.MSG_ERR_CONEXION;
-                        Global.mensaje = Global.MsgError;
-                        Global.StatusExit = false;
-                        // Muestra la ventana de error
-                        Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_LONG).show();
-                        break;
-                }
-                limpiar();
-
-            }
-
-        }
-
-
-    }
 }

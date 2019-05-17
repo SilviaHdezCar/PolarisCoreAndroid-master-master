@@ -1,23 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Actividades.MainActivity"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    tools:context=".Actividades.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:background="@color/verde_nav_bar"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        >
+            <LinearLayout
+                android:id="@+id/tab_asociada"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_terminales_stock"
+                    style="@style/letra_tabs"
+                    android:layout_width="200dp"
+                    android:layout_height="48dp"
+                    android:background="@color/verde_pestanas"
+                    android:scrollbars="vertical"
+                    android:text="TERMINALES"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/selectTerminales"
+                    android:layout_height="4dp"
+                    android:orientation="horizontal"
+                    android:background="@color/verde_pestanas"
+                    >
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tab_autorizada"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_repuesto_stock"
+                    style="@style/letra_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@color/verde_pestanas"
+                    android:scrollbars="vertical"
+                    android:text="REPUESTOS" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/selectRepuestos"
+                    android:layout_height="4dp"
+                    android:orientation="horizontal"
+                    android:background="@color/verde_pestanas"
+                    >
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
 
-    <Button
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_stock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            />
+
+        <!--
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/verde_nav_bar"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+
+            >
+
+
+            <Button
                 android:id="@+id/btn_terminales_stock"
                 style="@style/letra_tabs"
                 android:layout_width="180dp"
@@ -35,17 +106,10 @@
                 android:scrollbars="vertical"
                 android:text="REPUESTOS" />
 
+        </LinearLayout>
+
+
+       -->
     </LinearLayout>
 
-
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_stock"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-           />
-
-
-
-
-</LinearLayout>
+</RelativeLayout>
