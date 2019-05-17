@@ -1,7 +1,6 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -80,7 +79,6 @@ public class TipificacionesAutorizadas extends Fragment {
     private TextView txt_nomFoto2;
     private TextView txt_fechaFoto1;
     private TextView txt_fechaFoto2;
-    FragmentManager fragmentManager;
 
 
     public static ArrayList<Observacion> list_con_fotos;
@@ -149,8 +147,6 @@ public class TipificacionesAutorizadas extends Fragment {
         txt_fechaFoto1 = (TextView) v.findViewById(R.id.txt_fechaFoto1);
         txt_fechaFoto2 = (TextView) v.findViewById(R.id.txt_fechaFoto2);
 
-
-
         layout_repuestos.setVisibility(View.VISIBLE);
         layout_evidencias.setVisibility(View.VISIBLE);
 
@@ -182,8 +178,6 @@ public class TipificacionesAutorizadas extends Fragment {
 
 
                 Collections.sort(Global.observaciones_con_fotos);
-
-                System.out.println("OBSERVACIONES CON FOTO*********"  + Global.observaciones_con_fotos.toString());
 
 
                 //OBTENER LAS ULTIMAS OBSERVACIONES QUE TIENEN FOTOS
@@ -375,46 +369,6 @@ public class TipificacionesAutorizadas extends Fragment {
     }
 
 
-  /*  //mostrar fotos
-    public void llenarRVFotos(List<Observacion> obsRecibidas) {
-        if (obsRecibidas == null || obsRecibidas.size() == 0) {
-            Toast.makeText(objeto, " No tiene evidencias", Toast.LENGTH_SHORT).show();
-            layout_evidencias.setVisibility(View.GONE);
-            return;
-        }
-
-        rvFotos.setHasFixedSize(true);
-
-        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-        rvFotos.setLayoutManager(llm);
-
-        ArrayList obs = new ArrayList<>();
-
-        for (Observacion observa : obsRecibidas) {
-            if (observa != null) {
-                obs.add(observa);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
-            }
-        }
-
-
-        final AdapterEvidenciasAutorizadas adapter = new AdapterEvidenciasAutorizadas(obs, new AdapterEvidenciasAutorizadas.interfaceClick() {//seria termi asoc
-            @Override
-            public void onClick(List<Observacion> lisObs, int position) {
-
-
-                //   consumirServicioEtapas();
-
-                //muestra la foto en un fragmen
-
-
-                //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
-
-            }
-        }, R.layout.panel_evidencias_autorizadas);
-
-        rvFotos.setAdapter(adapter);
-    }
-*/
 
     public void recorrerTipificaciones() {
 
@@ -436,20 +390,6 @@ public class TipificacionesAutorizadas extends Fragment {
         }
     }
 
-/*    public void ordenarObsFotos(){
-        if(Global.observaciones_con_fotos!=null|| !(Global.observaciones_con_fotos.size()==0)){
-            Observacion obs[]=arrayObservaciones();
-            Arrays.sort(obs);
-        }
-    }
-
-   public  Observacion[] arrayObservaciones(){
-        Observacion observaciones[]=new Observacion[Global.observaciones_con_fotos.size()];
-       for(int i=0; i<Global.observaciones_con_fotos.size();i++){
-           observaciones[i]=Global.observaciones_con_fotos.get(i);
-       }
-       return observaciones;
-   }*/
 
 
     /**
@@ -501,14 +441,6 @@ public class TipificacionesAutorizadas extends Fragment {
         return false;
     }
 
-    public void ordenarFechas() {
-
-        if (Global.observaciones_con_fotos != null || Global.observaciones_con_fotos.size() > 0) {
-            for (Observacion ob : Global.observaciones_con_fotos) {
-
-            }
-        }
-    }
 
 
     // TODO: Rename method, update argument and hook method into UI event

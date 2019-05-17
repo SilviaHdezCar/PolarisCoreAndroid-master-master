@@ -353,7 +353,11 @@ public class Productividad_dia extends Fragment {
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
-                                Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();;
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
                                 return;
                             }
 

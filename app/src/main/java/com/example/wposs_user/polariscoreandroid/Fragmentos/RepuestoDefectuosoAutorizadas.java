@@ -1,7 +1,6 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,7 +34,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
@@ -77,6 +75,8 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
     private Button btn_siguiente;
 
     private RequestQueue queue;
+    private RequestQueue queue2;
+    private RequestQueue queue3;
     private Observacion obser;
 
     public RepuestoDefectuosoAutorizadas() {
@@ -119,6 +119,8 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
 
         objeto.setTitle("          REPUESTOS DEFECTUOSOS");
         queue = Volley.newRequestQueue(objeto);
+        queue2 = Volley.newRequestQueue(objeto);
+        queue3 = Volley.newRequestQueue(objeto);
 
         serial = (TextView) v.findViewById(R.id.serial_terminales);
         marca = (TextView) v.findViewById(R.id.marca_terminales);
@@ -153,7 +155,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
 
     public void solicitar() {
         validarEstadosRepuestos();
-        System.out.println("serial "+Global.terminalVisualizar.getTerm_serial());
+        System.out.println("serial " + Global.terminalVisualizar.getTerm_serial());
         observacion = txt_observacion.getText().toString().trim();
         if (observacion.isEmpty() || observacion == null) {
             Toast.makeText(objeto, "Por favor ingrese la observación", Toast.LENGTH_SHORT).show();
@@ -164,8 +166,8 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
             return;
         } else {
             obser = new Observacion(observacion, Global.terminalVisualizar.getTerm_serial(), "");
-            System.out.println("serial des else"+Global.terminalVisualizar.getTerm_serial());
-            consumirServicioReparacionExitosa();
+            System.out.println("serial des else" + Global.terminalVisualizar.getTerm_serial());
+            consumirServicioRepuestoDefectuoso();
         }
 
     }
@@ -253,11 +255,11 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
     }
 
     /**
-     * Metodo utilizados para consumir el servicio  que permite registrar un diagnostico con observaciones mediante una petición REST
-     * es utilizado cuando está todo ok en las validaciones
+     * Metodo utilizados para consumir el servicio  que permite registrar un diagnostico cuando tiene repuestos defectusosos
+     * es utilizado cuando está hay un afalla y es por repuesto defectusoso en las validaciones
      * En el encabezado va el token-> Authenticator
      **/
-    public void consumirServicioReparacionExitosa() {
+    public void consumirServicioRepuestoDefectuoso() {
 
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals/saveDiagnosisSpare";
@@ -265,14 +267,14 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
         JSONObject obj2 = new JSONObject();
         try {
 
-            JSONArray val=this.getValidaciones();
-            jsonObject.put("validaciones",val);
+            JSONArray val = this.getValidaciones();
+            jsonObject.put("validaciones", val);
 
-            jsonObject.put("observacion",obser.getObjRep());
+            jsonObject.put("observacion", obser.getObjRep());
 
-            JSONArray rep=this.getRepuestos();
-            obj2.put("tesw_serial",Global.terminalVisualizar.getTerm_serial());
-            obj2.put("tesw_repuestos",rep);
+            JSONArray rep = this.getRepuestos();
+            obj2.put("tesw_serial", Global.terminalVisualizar.getTerm_serial());
+            obj2.put("tesw_repuestos", rep);
             jsonObject.put("repuestos", obj2);
 
 
@@ -292,13 +294,9 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                         try {
                             System.out.println("STATUS-->" + response.get("status").toString());
                             if (response.get("status").toString().equals("fail")) {
-                                Global.mensaje=response.get("message").toString();
+                                Global.mensaje = response.get("message").toString();
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                    alertDialog.setTitle("Información");
-                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
-                                    alertDialog.setCancelable(true);
-                                    alertDialog.show();
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }
@@ -347,6 +345,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
 
     }
 
+
     /**
      * METODO QUE RECORRE LA LISTA DE VALIDACIONES Y LAS AGREGA AL ARREGLO
      **/
@@ -369,8 +368,135 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
 
         for (int i = 0; i < Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.size(); i++) {
             //CONSUMO LOS DOS SERVICIOD
-            JSONObject ob = Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getObj();
-            listas.put(ob);
+            //consumo servio body 1
+            String urlBody1 = "http://100.25.214.91:3000/PolarisCore/Spares/actualizarSpare";
+            JSONObject jsonObject1 = new JSONObject();
+            try {
+
+                // Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getObj()
+                jsonObject1.put("spar_code", Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getSpar_code());
+                jsonObject1.put("spar_status", "NUEVO");
+                jsonObject1.put("spar_warehouse", Global.CODE);//REvisar nombre llave
+                jsonObject1.put("spar_quantity", Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getSpar_quantity());
+
+                Log.d("RESPUESTA", jsonObject1.toString());
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            JsonObjectRequest jsArrayRequest1 = new JsonObjectRequest(
+                    Request.Method.POST,
+                    urlBody1,
+                    jsonObject1,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if (!response.get("message").toString().equals("success")) {
+                                    Global.mensaje = response.get("message").toString();
+                                    if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                        Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                        objeto.consumirSercivioCerrarSesion();
+                                        return;
+                                    }
+                                    System.out.println("!success servicio body 1");
+                                    return;
+
+                                }
+                                return;
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Log.d("RESPUESTA REG OBs", response.toString());
+                        }
+
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                            Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authenticator", Global.TOKEN);
+                    return params;
+                }
+            };
+
+            queue2.add(jsArrayRequest1);
+            //consumo servio body 2
+            String urlBody2 = "http://100.25.214.91:3000/PolarisCore/Spares/actualizarSpare";
+            JSONObject jsonObjectBody2 = new JSONObject();
+            try {
+
+                // Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getObj()
+                jsonObjectBody2.put("spar_code", Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getSpar_code());
+                jsonObjectBody2.put("spar_status", "DEFECTUOSO");
+                jsonObjectBody2.put("spar_warehouse", Global.CODE);//REvisar nombre llave
+                jsonObjectBody2.put("spar_quantity", Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getSpar_quantity());
+                jsonObjectBody2.put("spar_warehouse_new", Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getSpar_warehouse());
+
+                Log.d("RESPUESTA", jsonObjectBody2.toString());
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            JsonObjectRequest jsArrayRequest2 = new JsonObjectRequest(
+                    Request.Method.POST,
+                    urlBody2,
+                    jsonObjectBody2,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if (!response.get("message").toString().equals("success")) {
+                                    Global.mensaje = response.get("message").toString();
+                                    if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                        Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                        objeto.consumirSercivioCerrarSesion();
+                                        return;
+                                    }
+                                    System.out.println("!success servicio body 1");
+                                    return;
+
+                                }
+                                return;
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Log.d("RESPUESTA REG OBs", response.toString());
+                        }
+
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                            Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authenticator", Global.TOKEN);
+                    return params;
+                }
+            };
+
+            queue3.add(jsArrayRequest2);
+
+
+            JSONObject rep = Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getObj();
+            listas.put(rep);
         }
 
         return listas;
