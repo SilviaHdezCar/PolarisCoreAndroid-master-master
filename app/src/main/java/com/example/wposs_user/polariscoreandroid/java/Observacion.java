@@ -120,44 +120,54 @@ public class Observacion implements Comparable<Observacion> {
 
     @Override
     public int compareTo(Observacion o) {
-        String[] fecha_ob = getTeob_fecha().split(" ");
-        int mesfec = Utils.obtenerNumMes(fecha_ob[0]);
-        String dia = fecha_ob[1].substring(0, fecha_ob[1].length() - 1);
 
-        int diafec = Integer.parseInt(dia);
-        int aniofec = Integer.parseInt(fecha_ob[2]);
+        String dato1=Utils.getDateFechaDDMMYYYY(this.getTeob_fecha());
+        String dato2= Utils.getDateFechaDDMMYYYY(o.getTeob_fecha());
 
-        int total = mesfec + diafec + aniofec;
+        String[] fecha= dato1.split("/");
+        String[] fecha2= dato2.split("/");
 
-        String[] fecha_ob2 = o.getTeob_fecha().split(" ");
+        int dia= Integer.parseInt(fecha[0]);
+        int mes= Integer.parseInt(fecha[1]);
+        int año= Integer.parseInt(fecha[2]);
 
-        String dia2 = fecha_ob2[1].substring(0, fecha_ob2[1].length() - 1);
-        int mesfec2 = Utils.obtenerNumMes(fecha_ob2[0]);
-        int diafec2 = Integer.parseInt(dia2);
-        int aniofec2 = Integer.parseInt(fecha_ob2[2]);
+        int dia2= Integer.parseInt(fecha2[0]);
+        int mes2= Integer.parseInt(fecha2[1]);
+        int año2= Integer.parseInt(fecha2[2]);
 
-        if (aniofec > aniofec2) {
+
+        if((año-año2)>0){
             return 1;
-        } else if(aniofec < aniofec2){
-            return -1;
-        } else if (aniofec == aniofec2) {
-            if (mesfec == mesfec2) {
-                if (diafec == diafec2) {
-                    return 0;
-                } else if (diafec > diafec2) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            } else if (mesfec > mesfec2) {
+        }
+
+        else  if((año-año2)==0){
+
+            if((mes-mes2>0)){
                 return 1;
-            } else if (mesfec < mesfec2) {
+            }
+
+            if(mes-mes2<0){
                 return -1;
             }
 
+            if(mes-mes2==0){
+                if(dia>dia2){return 1;}
+                if(dia<dia2){return -1;}
+
+            }
+        }
+
+
+        else if((año-año2)<0){
+            return -1;
         }
 
 
         return 0;
+
+
+
+
     }
+
 }

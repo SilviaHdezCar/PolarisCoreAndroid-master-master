@@ -1382,6 +1382,7 @@ public class Utils {
      *
      * @Retorna una cadena con el formato de fecha
      */
+    //String fecha=Utils.getDateDDMMYYYY(getFEcha;
     public static String getDateFechaDDMMYYYY(String fecha) {
         String fechaFormateada = darFormatoFechaObservaciones(fecha);
         String date[] = fechaFormateada.split(" ");
