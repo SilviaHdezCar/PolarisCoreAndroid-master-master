@@ -386,7 +386,7 @@ public class Utils {
 
         System.out.println();
 
-        //System.out.println(ISOUtil.hexString(Buffer, 0, tam));        
+        //System.out.println(ISOUtil.hexString(Buffer, 0, tam));
 
     }
 
@@ -1396,7 +1396,7 @@ public class Utils {
         String year =date[2];
         System.out.println("Año: "+year);
 
-         String mes;
+        String mes;
 
         if (month < 10)
             mes = "0" + month;
@@ -1533,6 +1533,76 @@ public class Utils {
                 numMes = 11;
                 break;
             case "Diciembre":
+                numMes = 12;
+                break;
+            case "January":
+                numMes = 1;
+                break;
+            case "February":
+                numMes = 2;
+                break;
+            case "March":
+                numMes = 3;
+                break;
+            case "April":
+                numMes = 4;
+                break;
+            case "May":
+                numMes=5;
+                break;
+            case "June":
+                numMes = 6;
+                break;
+            case "July":
+                numMes = 7;
+                break;
+            case "August":
+                numMes = 8;
+                break;
+            case "September":
+                numMes = 9;
+                break;
+            case "October":
+                numMes = 10;
+                break;
+            case "November":
+                numMes=11;
+                break;
+            case "December":
+                numMes = 12;
+                break;
+            case "Jan":
+                numMes = 1;
+                break;
+            case "Feb":
+                numMes = 2;
+                break;
+            case "Mar":
+                numMes = 3;
+                break;
+            case "Apr":
+                numMes = 4;
+                break;
+
+            case "Jun":
+                numMes = 6;
+                break;
+            case "Jul":
+                numMes = 7;
+                break;
+            case "Aug":
+                numMes = 8;
+                break;
+            case "Sep":
+                numMes = 9;
+                break;
+            case "Oct":
+                numMes = 10;
+                break;
+            case "Nov":
+                numMes = 11;
+                break;
+            case "Dec":
                 numMes = 12;
                 break;
 

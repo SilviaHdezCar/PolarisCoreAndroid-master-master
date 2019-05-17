@@ -10,9 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.R;
+import com.squareup.picasso.Picasso;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
+
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,8 +81,13 @@ public class EvidenciaAutorizada extends Fragment {
 
         v= inflater.inflate(R.layout.fragment_evidencia_autorizada, container, false);
         imagen=(ImageView)v.findViewById(R.id.imagen_zoom);
+        Picasso.with(objeto).load(Global.rutaFotoObservacion).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
 
         photoView= new PhotoViewAttacher(imagen);
+
+
+
+
         return v;
     }
 

@@ -121,19 +121,37 @@ public class Observacion implements Comparable<Observacion> {
     @Override
     public int compareTo(Observacion o) {
 
-        String dato1=Utils.getDateFechaDDMMYYYY(this.getTeob_fecha());
-        String dato2= Utils.getDateFechaDDMMYYYY(o.getTeob_fecha());
+        String[] dato1=getTeob_fecha().split(" ");
+        String[] dato2=o.getTeob_fecha().split(" ");
+        System.out.println("formato de fecha dado************"+teob_fecha);
 
-        String[] fecha= dato1.split("/");
-        String[] fecha2= dato2.split("/");
+        int mes= Utils.obtenerNumMes(dato1[0]);
+        int mes2= Utils.obtenerNumMes(dato2[0]);
+        int dia= Integer.parseInt(dato1[1].substring(0,dato1[1].length()-1));
+        int dia2= Integer.parseInt(dato2[1].substring(0,dato2[1].length()-1));
+        int año= Integer.parseInt(dato1[2]);
+        int año2= Integer.parseInt(dato2[2]);
 
-        int dia= Integer.parseInt(fecha[0]);
-        int mes= Integer.parseInt(fecha[1]);
-        int año= Integer.parseInt(fecha[2]);
+        String[] hora=dato1[3].split(":");
+        String[] hora2=dato2[3].split(":");
 
-        int dia2= Integer.parseInt(fecha2[0]);
-        int mes2= Integer.parseInt(fecha2[1]);
-        int año2= Integer.parseInt(fecha2[2]);
+        String formato=dato1[4];
+        String formato2=dato2[4];
+
+        int horas = Integer.parseInt(hora[0]);
+        int horas2 = Integer.parseInt(hora2[0]);
+
+        int minutos = Integer.parseInt(hora[1]);
+        int minutos2 = Integer.parseInt(hora2[1]);
+
+        if(formato.equals("PM")){
+            horas= horas+12;
+
+        }
+        if(formato2.equals("PM")){
+            horas2= horas+12;
+
+        }
 
 
         if((año-año2)>0){
@@ -150,9 +168,19 @@ public class Observacion implements Comparable<Observacion> {
                 return -1;
             }
 
-            if(mes-mes2==0){
+            else if(mes-mes2==0){
                 if(dia>dia2){return 1;}
                 if(dia<dia2){return -1;}
+
+                else if(dia==dia2){
+                    if(horas>horas2){ return 1;}
+                    if(horas<horas2){ return -1;}
+                    else if(horas==horas2){
+                        if(minutos>minutos2){ return 1;}
+                        if(minutos<minutos2){ return -1;}
+
+                    }
+                }
 
             }
         }
@@ -164,10 +192,6 @@ public class Observacion implements Comparable<Observacion> {
 
 
         return 0;
-
-
-
-
     }
 
 }
