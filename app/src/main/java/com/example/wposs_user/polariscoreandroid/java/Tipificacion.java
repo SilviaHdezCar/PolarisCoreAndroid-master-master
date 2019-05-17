@@ -9,6 +9,8 @@ public class Tipificacion {
     private String tetv_description;
     private String estado;
 
+    public Tipificacion() {
+    }
 
     public Tipificacion(String tetv_id, String tetv_description) {
         this.tetv_id = tetv_id;
@@ -55,6 +57,11 @@ public class Tipificacion {
         return obj;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Tipificacion{" +
+                "tetv_id='" + tetv_id + '\'' +
+                ", tetv_description='" + tetv_description + '\'' +
+                '}';
+    }
 }

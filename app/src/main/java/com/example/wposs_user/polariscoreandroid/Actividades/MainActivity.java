@@ -171,13 +171,29 @@ public class MainActivity extends AppCompatActivity
 
         if (contadorFragmentos == 1) {
            // super.onBackPressed();
-            consumirSercivioCerrarSesion();
+            AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
+            dialogo1.setTitle("Importante");
+            dialogo1.setMessage("¿Desea cerrar sesión?");
+            dialogo1.setCancelable(false);
+            dialogo1.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialogo1, int id) {
+                    consumirSercivioCerrarSesion();
+                }
+            });
+            dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialogo1, int id) {
+                   dialogo1.dismiss();
+                }
+            });
+            dialogo1.show();
+          //  consumirSercivioCerrarSesion();
         } else {
             getSupportFragmentManager().popBackStack();
         }
 
 
     }
+
 
 
   /* @Override

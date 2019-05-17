@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -64,11 +65,11 @@ public class StockFragment extends Fragment {
     Button term;
     Button rep;
     RecyclerView rv;
-
+    private LinearLayout layoutTerminales, layoutRepuestos;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        objeto.setTitle("STOCK");
+        objeto.setTitle("            STOCK");
         terminales= new ArrayList<Terminal>();
         repuestos= new ArrayList<Repuesto>();
         // Inflate the layout for this fragment
@@ -77,26 +78,32 @@ public class StockFragment extends Fragment {
         rv= (RecyclerView)v.findViewById(R.id.recycler_stock);
         term=(Button)v.findViewById(R.id.btn_terminales_stock);
         rep= (Button)v.findViewById(R.id.btn_repuesto_stock);
-        term.setBackgroundColor(Color.parseColor("#025156"));
-        servicioTerminalStock();
+        layoutTerminales = (LinearLayout) v.findViewById(R.id.selectTerminales);
+        layoutRepuestos = (LinearLayout) v.findViewById(R.id.selectRepuestos);
+       servicioTerminalStock();
 
+        layoutTerminales.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
+        layoutRepuestos.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
         term.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                terminales= new ArrayList<Terminal>();
+                repuestos= new ArrayList<Repuesto>();
+                layoutTerminales.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
+                layoutRepuestos.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
                 servicioTerminalStock();
-                term.setBackgroundColor(Color.parseColor("#057277"));
-                rep.setBackgroundColor(Color.parseColor("#025156"));
+
 
             }
         });
         rep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                terminales= new ArrayList<Terminal>();
+                repuestos= new ArrayList<Repuesto>();
+                layoutRepuestos.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
+                layoutTerminales.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
                 servicioRpuestoStock();
-                rep.setBackgroundColor(Color.parseColor("#057277"));
-                term.setBackgroundColor(Color.parseColor("#025156"));
 
             }
         });
@@ -134,11 +141,7 @@ public class StockFragment extends Fragment {
                             if (Global.STATUS_SERVICE.equals("fail")) {
                                 Global.mensaje = response.get("message").toString();
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                    alertDialog.setTitle("Información");
-                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
-                                    alertDialog.setCancelable(true);
-                                    alertDialog.show();
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }
@@ -240,11 +243,7 @@ public class StockFragment extends Fragment {
                                 Global.mensaje = response.get("message").toString();
 
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                    alertDialog.setTitle("Información");
-                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
-                                    alertDialog.setCancelable(true);
-                                    alertDialog.show();
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }

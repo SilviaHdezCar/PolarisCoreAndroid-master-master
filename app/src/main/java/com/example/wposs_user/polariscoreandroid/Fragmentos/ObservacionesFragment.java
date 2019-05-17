@@ -79,6 +79,7 @@ public class ObservacionesFragment extends Fragment {
 
     private String observacion_text;
     private String nomFotos;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -175,13 +176,10 @@ public class ObservacionesFragment extends Fragment {
                             if (!response.get("status").toString().equalsIgnoreCase("ok")) {
                                 Global.mensaje = response.get("message").toString();
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                    alertDialog.setTitle("Información");
-                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
-                                    alertDialog.setCancelable(true);
-                                    alertDialog.show();
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
+
                                 }
                                 Toast.makeText(objeto, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
@@ -190,12 +188,12 @@ public class ObservacionesFragment extends Fragment {
                                 response = new JSONObject(response.get("data").toString());
 
                                 nombre_foto1 = response.get("image1").toString();
-                                System.out.println("nombre_foto1 "+nombre_foto1 );
+                                System.out.println("nombre_foto1 " + nombre_foto1);
                                 nombre_foto2 = response.get("image2").toString();
 
-                                System.out.println("nombre_foto2 "+nombre_foto2 );
+                                System.out.println("nombre_foto2 " + nombre_foto2);
                                 nomFotos = nombre_foto1 + "/" + nombre_foto2;
-                                System.out.println("nombre de las fotos"+nomFotos);
+                                System.out.println("nombre de las fotos" + nomFotos);
                                 obser = new Observacion(observacion_text, Global.serial_ter, nomFotos);
                                 consumirServicioDiagnostico();
 
@@ -268,7 +266,8 @@ public class ObservacionesFragment extends Fragment {
         if (bitmap_foto2 == null) {
             Toast.makeText(objeto, "Por favor tome la segunda foto", Toast.LENGTH_SHORT).show();
             return;
-        }if (observacion_text.isEmpty()) {
+        }
+        if (observacion_text.isEmpty()) {
             Toast.makeText(objeto, "Por favor ingrese la observación", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -321,14 +320,11 @@ public class ObservacionesFragment extends Fragment {
                             if (response.get("status").toString().equals("fail")) {
                                 Global.mensaje = response.get("message").toString();
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                    alertDialog.setTitle("Información");
-                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
-                                    alertDialog.setCancelable(true);
-                                    alertDialog.show();
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }
+
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                                 alertDialog.setTitle("Información");
                                 alertDialog.setMessage("Error: " + response.get("message").toString());

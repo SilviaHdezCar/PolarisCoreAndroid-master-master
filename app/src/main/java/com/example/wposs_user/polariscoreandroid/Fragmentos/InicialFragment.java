@@ -51,6 +51,7 @@ import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
+import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -181,13 +182,9 @@ public class InicialFragment extends Fragment {
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                    alertDialog.setTitle("Información");
-                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
-                                    alertDialog.setCancelable(true);
-                                    alertDialog.show();
-                                    objeto.consumirSercivioCerrarSesion();
-                                    return;
+                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                        objeto.consumirSercivioCerrarSesion();
+                                        return;
                                 }
                                 Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
@@ -278,11 +275,7 @@ public class InicialFragment extends Fragment {
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                  /*  AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                    alertDialog.setTitle("Información");
-                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
-                                    alertDialog.setCancelable(true);
-                                    alertDialog.show();*/
+
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
@@ -372,11 +365,7 @@ public class InicialFragment extends Fragment {
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                    alertDialog.setTitle("Información");
-                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
-                                    alertDialog.setCancelable(true);
-                                    alertDialog.show();
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }
@@ -472,10 +461,13 @@ public class InicialFragment extends Fragment {
                 Global.modelo = terminal.get(position).getTerm_model();
 
                 //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
+                Global.lista_tipificaciones_tabla=new ArrayList<Tipificacion>();
+                Global.listTipificaciones=new ArrayList<Tipificacion>();
                 consumirServicioEtapas();
 
 
                     consumirServicioValidaciones();
+
 
                     //consumirServicioValidaciones();
 
@@ -536,11 +528,7 @@ public class InicialFragment extends Fragment {
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                    alertDialog.setTitle("Información");
-                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
-                                    alertDialog.setCancelable(true);
-                                    alertDialog.show();
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }

@@ -17,7 +17,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +47,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,13 +60,15 @@ public class TipificacionesFragment extends Fragment {
 
     private LinearLayout layout_tipificaciones;
     private AutoCompleteTextView autocomplete_tipificaciones;
-    private RecyclerView rv;
-    private ArrayList<Tipificacion> listTipificaciones;
+    // private RecyclerView rv;
+
     public String descripcionTipificaion;
     private static ArrayList tipificaciones;
     private Button btn_siguiente_Tipificaciones;
     private static Tipificacion t;
     private RequestQueue queue;
+
+    private TableLayout tabla;
 
 
     @Override
@@ -74,13 +81,16 @@ public class TipificacionesFragment extends Fragment {
         autocomplete_tipificaciones = (AutoCompleteTextView) v.findViewById(R.id.autocomplete_tipificaciones);
         btn_siguiente_Tipificaciones = (Button) v.findViewById(R.id.btn_siguiente_Tipificaciones);
 
-        queue = Volley.newRequestQueue(objeto);
-        rv = (RecyclerView) v.findViewById(R.id.recycler_view_tipificaciones);
+        tabla = (TableLayout) v.findViewById(R.id.tabla_tipificaciones_asociadas);
 
-        this.listTipificaciones = new ArrayList<Tipificacion>();
+        queue = Volley.newRequestQueue(objeto);
+        //rv = (RecyclerView) v.findViewById(R.id.recycler_view_tipificaciones);
+
+        // Global.listTipificaciones = new ArrayList<Tipificacion>();
         Global.TIPIFICACIONES_DIAGNOSTICO = null;
         Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<Tipificacion>();
-
+        tabla.removeAllViews();
+        llenarTabla();
 
         btn_siguiente_Tipificaciones.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,15 +133,11 @@ public class TipificacionesFragment extends Fragment {
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                    alertDialog.setTitle("Información");
-                                    alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
-                                    alertDialog.setCancelable(true);
-                                    alertDialog.show();
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }
-                                Toast.makeText(objeto, "ERROR: "+Global.mensaje, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(objeto, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
@@ -214,6 +220,7 @@ public class TipificacionesFragment extends Fragment {
 
         autocomplete_tipificaciones.setAdapter(adapter);
         autocomplete_tipificaciones.setThreshold(0);
+        //al dar clic agg la tipificacion al arreglo
         autocomplete_tipificaciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -246,7 +253,7 @@ public class TipificacionesFragment extends Fragment {
     }
 
     /**
-     * Al prsionar agregar tipificacion
+     * Al prsionar la tipificación, la agrega a la tabla
      **/
     private void agregarTipificacion() {
 
@@ -254,55 +261,71 @@ public class TipificacionesFragment extends Fragment {
             Toast.makeText(objeto, "Debe seleccionar una tipificación", Toast.LENGTH_SHORT).show();
             return;
         } else {
-            for (Tipificacion tip : Global.TIPIFICACIONES) {
-                if (tip != null) {
-                    if (tip.getTetv_description().equalsIgnoreCase(descripcionTipificaion)) {
-                        if (!buscarArregloRV(tip, listTipificaciones)) {
-                            listTipificaciones.add(tip);
-                            llenarRVTipificaciones();
-                            descripcionTipificaion = "";
-                            autocomplete_tipificaciones.setText("");
-                        } else {
-                            Toast.makeText(objeto, "La tipificación ya fue agregada", Toast.LENGTH_SHORT).show();
-                            descripcionTipificaion = "";
-                            autocomplete_tipificaciones.setText("");
-                            return;
-                        }
+            System.out.println("Descrip: " + descripcionTipificaion);
+            for (Tipificacion tipif : Global.TIPIFICACIONES) {
+                if (tipif.getTetv_description().equalsIgnoreCase(descripcionTipificaion)) {
+                    boolean exite = buscarArreglo(descripcionTipificaion);
+                    if (!exite) {
+                        Global.listTipificaciones.add(tipif);
+                        //llenarArregloTipificaciones();
+                        tabla.removeAllViews();
+                        llenarTabla();
+                        descripcionTipificaion = "";
+                        autocomplete_tipificaciones.setText("");
+                    } else {
+                        Toast.makeText(objeto, "La tipificación ya fue agregada", Toast.LENGTH_SHORT).show();
+                        descripcionTipificaion = "";
+                        autocomplete_tipificaciones.setText("");
+                        return;
                     }
                 }
             }
 
+            /*for (Tipificacion tip : Global.TIPIFICACIONES) {
+                if (tip != null) {
+                    if (tip.getTetv_description().equalsIgnoreCase(descripcionTipificaion)) {
+
+                    }
+                }
+            }*/
+
         }
     }
 
-    public boolean buscarArregloRV(Tipificacion tip, ArrayList<Tipificacion> list) {
-        boolean retorno = false;
-        for (Tipificacion t : list) {
-            if (tip == t) {
-                retorno = true;
+    public boolean buscarArreglo(String tip) {
+        System.out.println("Tamaño list ("+tip+") "+Global.listTipificaciones.size());
+        if (Global.listTipificaciones != null && Global.listTipificaciones.size() > 0) {
+            for (Tipificacion t : Global.listTipificaciones) {
+                System.out.println("buscarArrego. "+t.getTetv_description());
+                if (tip.equals(t.getTetv_description())) {
+                    System.out.println("Tipi iguales....."+tip+"-->"+t.getTetv_description());
+                    return true;
+                }
             }
         }
 
-        return retorno;
+
+        return false;
     }
 
 
-    //Metodo utilizado para llenar el arreglo que se le pasa al recycler view de tipificaciones
-    public void llenarRVTipificaciones() {
+    //Metodo utilizado para llenar el arreglo que se le pasa para llenar de tipificaciones
+    public void llenarArregloTipificaciones() {
 
         tipificaciones = new ArrayList<>();
 
-        for (Tipificacion ter : listTipificaciones) {
+        for (Tipificacion ter : Global.listTipificaciones) {
             if (ter != null) {
                 tipificaciones.add(ter);
             }
         }
-        llenarRv();
+        // llenarRv();
 
     }
 
 
-    private void llenarRv() {
+
+   /* private void llenarRv() {
         rv.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
@@ -320,6 +343,108 @@ public class TipificacionesFragment extends Fragment {
 
         rv.setAdapter(adapter);
 
+    }*/
+
+
+    /**
+     * Este metodo se utiliza para recorrer la tabla mostrada de tipificaciones y elimina la tipificación
+     * al presionar el radio button     *
+     *
+     * @param tabla
+     */
+    int pos_btn;
+
+    public void recorrerTabla(final TableLayout tabla) {
+
+        int pos_fila;
+
+        for (int i = 0; i < tabla.getChildCount(); i++) {//filas
+            View child = tabla.getChildAt(i);
+            TableRow row = (TableRow) child;
+            pos_fila = row.getId();
+            View view = row.getChildAt(0);//celdas
+           /* if (view instanceof TextView) {
+
+                System.out.println("id: " + ((TextView) view).getText().toString());
+                view.setEnabled(false);
+            }*/
+            view = row.getChildAt(1);//Celda en la posición 1
+            pos_btn = i;
+            if (view instanceof ImageButton) {
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Global.listTipificaciones.remove(pos_btn);
+                        tabla.removeAllViews();
+                        llenarTabla();
+                    }
+                });
+
+            }
+        }
+    }
+
+    /**
+     * Metodo utilizado para llenar la tabla tipificaciones con el botton eliminar
+     **/
+    public void llenarTabla() {
+
+        if (Global.listTipificaciones != null && Global.listTipificaciones.size() > 0) {
+            for (int i = 0; i < Global.listTipificaciones.size(); i++) {
+                TableRow fila = new TableRow(objeto);
+                fila.setId(i);
+                fila.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                //celdas
+                System.out.println(Global.listTipificaciones.get(i).toString());
+                TextView nombre = new TextView(objeto);
+                nombre.setId(100 + i);
+
+                nombre.setText(Global.listTipificaciones.get(i).getTetv_description());
+
+
+                ImageButton btn_eliminar = new ImageButton(objeto);
+                btn_eliminar.setId(200 + i);
+                btn_eliminar.setMaxWidth(30);
+                btn_eliminar.setMinimumWidth(30);
+                btn_eliminar.setMaxHeight(30);
+                btn_eliminar.setMinimumHeight(30);
+                btn_eliminar.setPadding(1, 1, 1, 1);
+                btn_eliminar.setImageResource(R.drawable.ic_delete);
+                btn_eliminar.setBackgroundResource(R.color.blanco);
+
+                fila.addView(nombre);
+                fila.addView(btn_eliminar);
+                tabla.addView(fila);
+            }
+        }
+       /* for (int i = 0; i < listTipificaciones.size(); i++) {
+            TableRow fila = new TableRow(objeto);
+            fila.setId(i);
+            fila.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            //celdas
+
+            TextView nombre = new TextView(objeto);
+            nombre.setId(100 + i);
+
+            nombre.setText(listTipificaciones.get(i).getTetv_description());
+
+
+            ImageButton btn_eliminar= new ImageButton(objeto);
+            btn_eliminar.setId(200 + i);
+            btn_eliminar.setMaxWidth(30);
+            btn_eliminar.setMinimumWidth(30);
+            btn_eliminar.setMaxHeight(30);
+            btn_eliminar.setMinimumHeight(30);
+            btn_eliminar.setPadding(1,1,1,1);
+            btn_eliminar.setImageResource(R.drawable.ic_delete);
+
+            fila.addView(nombre);
+            fila.addView(btn_eliminar);
+            tabla.addView(fila);
+
+
+        }*/
+       recorrerTabla(tabla);
     }
 
 
@@ -331,7 +456,7 @@ public class TipificacionesFragment extends Fragment {
     public void siguienteTipificaciones() {
 
         if (llenarTipificacionesDiagnostico()) {
-            System.out.println("TIPO DIAGNOSTICO tipif= "+ Global.diagnosticoTerminal);
+            System.out.println("TIPO DIAGNOSTICO tipif= " + Global.diagnosticoTerminal);
             if (Global.diagnosticoTerminal.equalsIgnoreCase("autorizada")) {
                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).addToBackStack(null).commit();
             } else {
@@ -346,7 +471,7 @@ public class TipificacionesFragment extends Fragment {
         boolean retorno = false;
         String cadena = "";
 
-        if (listTipificaciones.size() == 0) {
+        if (Global.listTipificaciones.size() == 0) {
             AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
             alertDialog.setTitle("¡ATENCIÓN!");
             alertDialog.setMessage("Debe seleccionar al menos una tipificacion");
@@ -360,7 +485,7 @@ public class TipificacionesFragment extends Fragment {
             return false;
         } else {
             int cont = 0;
-            for (Tipificacion tipi : listTipificaciones) {
+            for (Tipificacion tipi : Global.listTipificaciones) {
                 if (tipi != null) {
 
                     Tipificacion tip = new Tipificacion(Global.serial_ter, tipi.getTetv_description(), "ok");
