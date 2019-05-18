@@ -13,6 +13,7 @@ import android.os.CancellationSignal;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wposs_user.polariscoreandroid.R;
 
@@ -58,10 +59,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
     public void update(String e, Boolean success){
 
-        //COLOCAR CODIGO PARA LO QUE HARA DEPENDIENDO DEL TIPO, EJEMPLO ACA CAMBIABA UN TEXTO DE LA VISTA PRINCIAPL DE COLOR Y MOSTRABA EL TEXTO
-
-        //TextView textView = (TextView) ((Activity)context).findViewById(R.id.errorText);
-       // textView.setText(e)
+        Toast.makeText(this.context,e,Toast.LENGTH_SHORT).show();
         if(success){
            //textView.setTextColor(ContextCompat.getColor(context, R.color.successText));
 
