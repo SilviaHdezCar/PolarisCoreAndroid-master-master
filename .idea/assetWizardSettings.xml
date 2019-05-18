@@ -19,8 +19,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="img_fondo" />
-                            <entry key="sourceFile" value="C:\Users\SILVIA\Desktop\fondo.svg" />
+                            <entry key="outputName" value="ic_huella" />
+                            <entry key="sourceFile" value="C:\Users\Wandyl\Desktop\fingerprint.svg" />
                           </map>
                         </option>
                       </PersistentState>

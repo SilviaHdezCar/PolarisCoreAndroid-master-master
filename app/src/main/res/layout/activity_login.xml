@@ -144,28 +144,21 @@
             />
 
 
-
-        <ImageView
-            android:id="@+id/imageView33"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="285dp"
-            android:layout_marginTop="259dp"
-            app:srcCompat="@drawable/user"
-
-            />
-
-        <ImageView
-            android:id="@+id/imageView34"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="285dp"
-            android:layout_marginTop="329dp"
-            app:srcCompat="@drawable/candado"
+        <ImageButton
+            android:id="@+id/btn_huella"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/ic_alert"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/transparente"
+            android:tint="@color/blanco"
 
             />
 
 
     </LinearLayout>
+
+
+
 
 </LinearLayout>
