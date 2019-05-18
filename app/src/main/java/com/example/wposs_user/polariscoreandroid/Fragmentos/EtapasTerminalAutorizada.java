@@ -125,7 +125,7 @@ public class EtapasTerminalAutorizada extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        Global.fotos = new ArrayList<>();
         view = inflater.inflate(R.layout.fragment_etapas_terminal_autorizada, container, false);
 
         // muestro la terminal seleccionada con los valores que guarde en el obj terminal
@@ -242,9 +242,13 @@ public class EtapasTerminalAutorizada extends Fragment {
 
                                 o = gson.fromJson(obser, Observacion.class);
 
-                                if (o.getTeob_photo() != null || !o.getTeob_photo().trim().isEmpty()) {
-                                    System.out.println(o.toString());
-                                    Global.observaciones_con_fotos.add(o);
+                                if (o.getTeob_photo() != null ||!o.getTeob_photo().equalsIgnoreCase("")) {
+
+                                    if(o.getTeob_description().isEmpty()){
+                                        System.out.println(o.toString());
+                                        Global.observaciones_con_fotos.add(o);
+                                    }
+
                                 }
                                 Global.OBSERVACIONES.add(o);
                             }

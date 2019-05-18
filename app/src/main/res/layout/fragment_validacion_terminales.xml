@@ -106,7 +106,7 @@
 
         <TextView
             style="@style/letra_titulos"
-            android:layout_width="240dp"
+            android:layout_width="220dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:paddingLeft="5dp"

@@ -30,6 +30,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
+import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -126,6 +127,10 @@ public class EtapasNuevoD_autorizadas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_etapas_terminal_autorizada, container, false);
+        if(Global.diagnosticoTerminal.equalsIgnoreCase("autorizada")){
+            Global.lista_tipificaciones_tabla=new ArrayList<Tipificacion>();
+            Global.listTipificaciones=new ArrayList<Tipificacion>();
+        }
 
         // muestro la terminal seleccionada con los valores que guarde en el obj terminal
 

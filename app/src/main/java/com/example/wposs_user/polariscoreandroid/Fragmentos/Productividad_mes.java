@@ -128,24 +128,19 @@ public class Productividad_mes extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v= inflater.inflate(R.layout.fragment_productividad_mes, container, false);
-      mes = (Spinner)v.findViewById(R.id.spin_mesxmes);
-      año= (Spinner)v.findViewById(R.id.spiner_añoxmes);
-      produc=(Button)v.findViewById(R.id.produc_mes);
-     grafica=(LineChart) v.findViewById(R.id.grafica_mes);
+        v = inflater.inflate(R.layout.fragment_productividad_mes, container, false);
+        mes = (Spinner) v.findViewById(R.id.spin_mesxmes);
+        año = (Spinner) v.findViewById(R.id.spiner_añoxmes);
+        produc = (Button) v.findViewById(R.id.produc_mes);
+        grafica = (LineChart) v.findViewById(R.id.grafica_mes);
         queue = Volley.newRequestQueue(objeto);
-         produc.setOnClickListener(new View.OnClickListener() {
+        produc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 consumirServicioProductividadMes();
 
             }
         });
-
-
-
-
-
 
 
         return v;
@@ -157,8 +152,6 @@ public class Productividad_mes extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-
-
 
 
     /**
@@ -182,40 +175,35 @@ public class Productividad_mes extends Fragment {
     public void consumirServicioProductividadMes() {
 
 
-
-
         grafica.clear();
 
-        String mesDado= mes.getSelectedItem().toString();
-        String añoDado= año.getSelectedItem().toString();
+        String mesDado = mes.getSelectedItem().toString();
+        String añoDado = año.getSelectedItem().toString();
 
 
-        productividad=new ArrayList<>();
+        productividad = new ArrayList<>();
 
 
-
-
-        if(mes.getSelectedItem()==null||año.getSelectedItem()==null){
-            Toast.makeText(v.getContext(),"Debe selecccionar el mes y año a consultar",Toast.LENGTH_SHORT).show();
+        if (mes.getSelectedItem() == null || año.getSelectedItem() == null) {
+            Toast.makeText(v.getContext(), "Debe selecccionar el mes y año a consultar", Toast.LENGTH_SHORT).show();
             grafica.setVisibility(INVISIBLE);
             return;
 
         }
 
-        if(mes.getSelectedItem().toString().equals("Selecccione")||año.getSelectedItem().equals("Seleccione")){
-            Toast.makeText(v.getContext(),"Seleccione un mes y año valido",Toast.LENGTH_SHORT).show();
+        if (mes.getSelectedItem().toString().equals("Selecccione") || año.getSelectedItem().equals("Seleccione")) {
+            Toast.makeText(v.getContext(), "Seleccione un mes y año valido", Toast.LENGTH_SHORT).show();
             grafica.setVisibility(INVISIBLE);
             return;
 
         }
 
-        int mes_selecionado= this.getMes(mesDado);
-        final int can_dias=this.getDiasMes(mes_selecionado);
+        int mes_selecionado = this.getMes(mesDado);
+        final int can_dias = this.getDiasMes(mes_selecionado);
 
 
-        String fecha_inicio=mes_selecionado+"/"+1+"/"+ añoDado;
-        String fecha_fin=mes_selecionado+"/"+can_dias+"/"+ añoDado;
-
+        String fecha_inicio = mes_selecionado + "/" + 1 + "/" + añoDado;
+        String fecha_fin = mes_selecionado + "/" + can_dias + "/" + añoDado;
 
 
         final Gson gson = new GsonBuilder().create();
@@ -225,7 +213,7 @@ public class Productividad_mes extends Fragment {
         try {
             jsonObject.put("user", Global.CODE);
             jsonObject.put("fechaInicial", fecha_inicio);
-            jsonObject.put("fechaFinal",fecha_fin);
+            jsonObject.put("fechaFinal", fecha_fin);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -247,13 +235,14 @@ public class Productividad_mes extends Fragment {
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }
-                                Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();;
+                                Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
+                                ;
                                 return;
                             }
 
 
                             response = new JSONObject(response.get("data").toString());
-                            System.out.println("REPUESTA DEL SERVICIO****************"+response.toString().trim());
+                            System.out.println("REPUESTA DEL SERVICIO****************" + response.toString().trim());
 
 
                             JSONArray jsonArray = response.getJSONArray("productividad");
@@ -261,7 +250,7 @@ public class Productividad_mes extends Fragment {
 
                             if (jsonArray.length() == 0) {
                                 Global.mensaje = "No se encontraron registros para el mes y año seleccionado";
-                                Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
                                 grafica.setVisibility(INVISIBLE);
                                 grafica.clear();
                                 return;
@@ -278,7 +267,7 @@ public class Productividad_mes extends Fragment {
                                 productividad.add(pro);
                             }
 
-                            System.out.println("TAMAÑO DE LA RESPUESTA ************************"+productividad.size());
+                            System.out.println("TAMAÑO DE LA RESPUESTA ************************" + productividad.size());
 
                             this.pintarGrafica();
 
@@ -289,11 +278,10 @@ public class Productividad_mes extends Fragment {
                     }
 
 
+                    private void pintarGrafica() {
 
-          private void pintarGrafica() {
-
-          ArrayList<Entry>diagnosticadas= new ArrayList<>();
-          ArrayList<Entry>reparadas= new ArrayList<>();
+                        ArrayList<Entry> diagnosticadas = new ArrayList<>();
+                        ArrayList<Entry> reparadas = new ArrayList<>();
 
 
 
@@ -307,89 +295,86 @@ public class Productividad_mes extends Fragment {
               DataPoint[] datos2= new DataPoint[productividad.size()];
               diagnostico = new BarGraphSeries<>(new DataPoint[]{});
               reparadas = new BarGraphSeries<>(new DataPoint[]{ });*/
-              Productividad[] pro= llenarSerie();
-              Arrays.sort(pro);
+                        Productividad[] pro = llenarSerie();
+                        Arrays.sort(pro);
 
-              Entry[]diagnostico=new Entry[can_dias+1];
-              Entry[]reparado=new Entry[can_dias+1];
-
-
+                        Entry[] diagnostico = new Entry[can_dias + 1];
+                        Entry[] reparado = new Entry[can_dias + 1];
 
 
-              for(int i=0;i<pro.length;i++) {
+                        for (int i = 0; i < pro.length; i++) {
 
-                  String fecha_rta = pro[i].getUste_date();
-                  String[] fechas = fecha_rta.split("/");
-                  int diaDado = Integer.parseInt(fechas[0]);
+                            String fecha_rta = pro[i].getUste_date();
+                            String[] fechas = fecha_rta.split("/");
+                            int diaDado = Integer.parseInt(fechas[0]);
 
-                  String fecha_rta2= pro[i].getUste_date();
-                  String[] fechas2 = fecha_rta.split("/");
-                  int diaDado2 = Integer.parseInt(fechas[0]);
+                            String fecha_rta2 = pro[i].getUste_date();
+                            String[] fechas2 = fecha_rta.split("/");
+                            int diaDado2 = Integer.parseInt(fechas[0]);
 
-                     int p= obtenerProductividad(diaDado);
-                     int q = obtenerProductividadReparada(diaDado);
+                            int p = obtenerProductividad(diaDado);
+                            int q = obtenerProductividadReparada(diaDado);
 
-                      diagnostico[diaDado] = new Entry(diaDado, p);
+                            diagnostico[diaDado] = new Entry(diaDado, p);
 
-                      reparado[diaDado] = new Entry(diaDado,q);
+                            reparado[diaDado] = new Entry(diaDado, q);
 
 
-
-                      System.out.println("Posicion****" + diaDado + "*****" + reparado[diaDado].toString() + "\n");
+                            System.out.println("Posicion****" + diaDado + "*****" + reparado[diaDado].toString() + "\n");
 
 
                    /*diagnosticadas.add(new BarEntry(diaDado,productividad.get(i).getUste_associated_terminals()));
                   reparadas.add(new BarEntry(diaDado,productividad.get(i).getUste_completed_terminals()));*/
 
-              }
+                        }
 
 
-              for(int i=1;i<diagnostico.length;i++){
+                        for (int i = 1; i < diagnostico.length; i++) {
 
-                  if(diagnostico[i] == null){
-                      diagnostico[i]=new Entry(i,0);
-                      reparado[i]=new Entry(i,0);
-
-
-                  }
-
-              }
+                            if (diagnostico[i] == null) {
+                                diagnostico[i] = new Entry(i, 0);
+                                reparado[i] = new Entry(i, 0);
 
 
-              ArrayList<Entry>datosDiagnostico= getValoresArray(diagnostico);
-              ArrayList<Entry>datosReparadas= getValoresArray(reparado);
-              System.out.println("ARRAYLIST DE DATOS**************"+ datosReparadas.toString());
+                            }
 
-              ArrayList<ILineDataSet>datos5= new ArrayList<>();
-              LineDataSet misdatos = new LineDataSet(datosDiagnostico,"Diagnosticadas");
-              LineDataSet misdatos2 = new LineDataSet(datosReparadas,"Reparadas");
-
-              misdatos.setValueFormatter(new MyValueFormatter());
-              misdatos2.setValueFormatter(new MyValueFormatter());
-
-              misdatos.setDrawCircles(false);
-              misdatos.setColor(Color.BLUE);
-
-              misdatos2.setDrawCircles(false);
-              misdatos2.setColor(Color.RED);
+                        }
 
 
-              datos5.add(misdatos);
-              datos5.add(misdatos2);
-              LineData li= new LineData(datos5);
-              grafica.setData(li);
-              grafica.invalidate();
-              XAxis x = grafica.getXAxis();
-              x.setGranularity(1);
-              x.setAxisMinimum(0);
-              x.setAxisMaximum(can_dias);
+                        ArrayList<Entry> datosDiagnostico = getValoresArray(diagnostico);
+                        ArrayList<Entry> datosReparadas = getValoresArray(reparado);
+                        System.out.println("ARRAYLIST DE DATOS**************" + datosReparadas.toString());
 
-              grafica.getAxisRight().setGranularity(1);
-              x.setValueFormatter(new MyValueFormatter());
-              grafica.getDescription().setEnabled(false);
-              grafica.setVisibility(VISIBLE);
+                        ArrayList<ILineDataSet> datos5 = new ArrayList<>();
+                        LineDataSet misdatos = new LineDataSet(datosDiagnostico, "Diagnosticadas");
+                        LineDataSet misdatos2 = new LineDataSet(datosReparadas, "Reparadas");
 
-              grafica.animateXY(2000,2000);
+                        misdatos.setValueFormatter(new MyValueFormatter());
+                        misdatos2.setValueFormatter(new MyValueFormatter());
+
+                        misdatos.setDrawCircles(false);
+                        misdatos.setColor(Color.BLUE);
+
+                        misdatos2.setDrawCircles(false);
+                        misdatos2.setColor(Color.RED);
+
+
+                        datos5.add(misdatos);
+                        datos5.add(misdatos2);
+                        LineData li = new LineData(datos5);
+                        grafica.setData(li);
+                        grafica.invalidate();
+                        XAxis x = grafica.getXAxis();
+                        x.setGranularity(1);
+                        x.setAxisMinimum(0);
+                        x.setAxisMaximum(can_dias);
+
+                        grafica.getAxisRight().setGranularity(1);
+                        x.setValueFormatter(new MyValueFormatter());
+                        grafica.getDescription().setEnabled(false);
+                        grafica.setVisibility(VISIBLE);
+
+                        grafica.animateXY(2000, 2000);
 
                     }
 
@@ -419,107 +404,138 @@ public class Productividad_mes extends Fragment {
 
     /*****************metodo para convertir el mes a int*****************/
 
-public int getMes(String meses){
+    public int getMes(String meses) {
 
-        if(meses.equals("Enero")){ return 1;}
-        if(meses.equals("Febrero")){ return 2;}
-        if(meses.equals("Marzo")){ return 3;}
-        if(meses.equals("Abril")) return 4;
-        if(meses.equals("Mayo")){ return 5;}
-        if(meses.equals("Junio")){ return 6;}
-        if(meses.equals("Julio")){ return 7;}
-        if(meses.equals("Agosto")){ return 8;}
-        if(meses.equals("Septiembre")){ return 9;}
-        if(meses.equals("Octubre")){ return 10;}
-        if(meses.equals("noviembre")){ return 11;}
-        if(meses.equals("Diviembre")){ return 12;}
+        if (meses.equals("Enero")) {
+            return 1;
+        }
+        if (meses.equals("Febrero")) {
+            return 2;
+        }
+        if (meses.equals("Marzo")) {
+            return 3;
+        }
+        if (meses.equals("Abril")) return 4;
+        if (meses.equals("Mayo")) {
+            return 5;
+        }
+        if (meses.equals("Junio")) {
+            return 6;
+        }
+        if (meses.equals("Julio")) {
+            return 7;
+        }
+        if (meses.equals("Agosto")) {
+            return 8;
+        }
+        if (meses.equals("Septiembre")) {
+            return 9;
+        }
+        if (meses.equals("Octubre")) {
+            return 10;
+        }
+        if (meses.equals("noviembre")) {
+            return 11;
+        }
+        if (meses.equals("Diviembre")) {
+            return 12;
+        }
 
         return 0;
 
-}
+    }
 
 
     /****************metodo para obtener el numero de dias en cada mes*********************/
 
-      public int getDiasMes(int mesdia){
+    public int getDiasMes(int mesdia) {
 
-          if(mesdia==1){return 31;}
-          if(mesdia==2){return 28;}
-          if(mesdia==3){return 31;}
-          if(mesdia==4){return 30;}
-          if(mesdia==5){return 31;}
-          if(mesdia==6){return 30;}
-          if(mesdia==7){return 31;}
-          if(mesdia==8){return 31;}
-          if(mesdia==9){return 30;}
-          if(mesdia==10){return 31;}
-          if(mesdia==11) { return 30;}
-          if (mesdia == 12) { return 31; }
+        if (mesdia == 1) {
+            return 31;
+        }
+        if (mesdia == 2) {
+            return 28;
+        }
+        if (mesdia == 3) {
+            return 31;
+        }
+        if (mesdia == 4) {
+            return 30;
+        }
+        if (mesdia == 5) {
+            return 31;
+        }
+        if (mesdia == 6) {
+            return 30;
+        }
+        if (mesdia == 7) {
+            return 31;
+        }
+        if (mesdia == 8) {
+            return 31;
+        }
+        if (mesdia == 9) {
+            return 30;
+        }
+        if (mesdia == 10) {
+            return 31;
+        }
+        if (mesdia == 11) {
+            return 30;
+        }
+        if (mesdia == 12) {
+            return 31;
+        }
 
-              return 0;
+        return 0;
 
-          }
+    }
 
-/*************************Metodo para pasar el arrayList a vector para ordenarlo y graficarlo*******************/
+    /*************************Metodo para pasar el arrayList a vector para ordenarlo y graficarlo*******************/
 
- public Productividad[] llenarSerie(){
+    public Productividad[] llenarSerie() {
 
-          Productividad[] p = new Productividad[productividad.size()];
+        Productividad[] p = new Productividad[productividad.size()];
 
-          for(int i=0;i<productividad.size();i++){
+        for (int i = 0; i < productividad.size(); i++) {
 
-              p[i]=productividad.get(i);
+            p[i] = productividad.get(i);
 
-           }
+        }
 
-          return p;
+        return p;
 
- }
+    }
 
- public ArrayList<Entry> getValoresArray( Entry[]diagnostico){
-     ArrayList<Entry> valores= new ArrayList<Entry>();
+    public ArrayList<Entry> getValoresArray(Entry[] diagnostico) {
+        ArrayList<Entry> valores = new ArrayList<Entry>();
 
-     for(int i=1;i<diagnostico.length;i++){
-         valores.add(diagnostico[i]);
+        for (int i = 1; i < diagnostico.length; i++) {
+            valores.add(diagnostico[i]);
 
-     }
+        }
 
-     return valores;
-
-
- }
-
-
- public int obtenerProductividad(int dia){
-     int product=0;
-
-     for(Productividad p :productividad)
-      {
-          String fecha_rta = p.getUste_date();
-          String[] fechas = fecha_rta.split("/");
-          int diaDado = Integer.parseInt(fechas[0]);
-
-          if(diaDado==dia){
-              product=p.getUste_associated_terminals();
-          }
-         }
-
-     return product;
+        return valores;
 
 
     }
 
-    public int obtenerProductividadReparada(int dia){
-        int product=0;
 
-        for(Productividad p :productividad)
-        {
+    public int obtenerProductividad(int dia) {
+        int product = 0;
+
+        for (Productividad p : productividad) {
             String fecha_rta = p.getUste_date();
             String[] fechas = fecha_rta.split("/");
             int diaDado = Integer.parseInt(fechas[0]);
 
-            if(diaDado==dia){
-                product=p.getUste_completed_terminals();
+            if (diaDado == dia) {
+                if (p.getUste_associated_terminals() == null || p.getUste_associated_terminals().equalsIgnoreCase("NaN")) {
+                    return product;
+                } else {
+                    product = Integer.parseInt(p.getUste_associated_terminals());
+                }
+
             }
         }
 
@@ -528,8 +544,28 @@ public int getMes(String meses){
 
     }
 
+    public int obtenerProductividadReparada(int dia) {
+        int product = 0;
+
+        for (Productividad p : productividad) {
+            String fecha_rta = p.getUste_date();
+            String[] fechas = fecha_rta.split("/");
+            int diaDado = Integer.parseInt(fechas[0]);
+
+            if (diaDado == dia) {
+
+                if (p.getUste_completed_terminals() == null || p.getUste_completed_terminals().equalsIgnoreCase("NaN")) {
+                    return product;
+                } else {
+                    product = Integer.parseInt(p.getUste_completed_terminals());
+                }
+            }
+        }
+
+        return product;
 
 
+    }
 
 
 }

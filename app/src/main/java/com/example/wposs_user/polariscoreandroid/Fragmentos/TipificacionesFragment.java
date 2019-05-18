@@ -293,8 +293,9 @@ public class TipificacionesFragment extends Fragment {
     }
 
     public boolean buscarArreglo(String tip) {
-        System.out.println("Tamaño list ("+tip+") "+Global.listTipificaciones.size());
+//
         if (Global.listTipificaciones != null && Global.listTipificaciones.size() > 0) {
+            System.out.println("Tamaño list ("+tip+") "+Global.listTipificaciones.size());
             for (Tipificacion t : Global.listTipificaciones) {
                 System.out.println("buscarArrego. "+t.getTetv_description());
                 if (tip.equals(t.getTetv_description())) {

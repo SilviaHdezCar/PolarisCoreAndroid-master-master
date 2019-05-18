@@ -179,4 +179,5 @@ public class Global {
    public static Map<String, String>validaciones_listar_autorizadas;
    public static Map<String, String>tipificaciones_listar_autorizadas ;
    public static Map<String, String>repuestos_listar_autorizadas ;
+    public static ArrayList<Observacion> fotos;
 }

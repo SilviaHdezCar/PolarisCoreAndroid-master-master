@@ -170,49 +170,44 @@ public class TipificacionesAutorizadas extends Fragment {
         System.out.println("Tamaño lista evidencias=" + Global.observaciones_con_fotos.size());
         tieneRepuestos = tieneRepuestos();
 
-        if (!tieneRepuestos) {//NO Tiene repuestos
-
-            if (Global.observaciones_con_fotos != null) {
-                if (Global.observaciones_con_fotos.size() > 0) {
-
-
-                    layout_repuestos.setVisibility(View.GONE);
-                    System.out.println("Tiene observaciones--Tamaño===" + Global.observaciones_con_fotos.size());
-
-
-                    /********************************************************************************************************
-                     * ORDENAR OBSERVACIONES CON FOTO
-                     ***************************************************************************************************************************/
+        if (!tieneRepuestos && Global.observaciones_con_fotos.size() == 0) {
+            Toast.makeText(objeto, "La terminal no tiene repuestos ni evidencias", Toast.LENGTH_SHORT).show();
+            layout_evidencias.setVisibility(View.GONE);
+            layout_repuestos.setVisibility(View.GONE);
+        } else if (!tieneRepuestos && Global.observaciones_con_fotos != null && Global.observaciones_con_fotos.size() > 0) {//NO Tiene repuestos
+            layout_repuestos.setVisibility(View.GONE);
+            /********************************************************************************************************
+             * ORDENAR OBSERVACIONES CON FOTO
+             ***************************************************************************************************************************/
 
 
-                    sort(Global.observaciones_con_fotos);
+            sort(Global.observaciones_con_fotos);
 
-                    System.out.print(Global.observaciones_con_fotos.toString());
-
-
-                    ArrayList<Observacion> fotos = new ArrayList<>();
-
-                    for (int i = Global.observaciones_con_fotos.size() - 3; i < Global.observaciones_con_fotos.size() ; i++) {
-
-                        if (Global.observaciones_con_fotos.get(i).getTeob_photo() != null ) {
-                            if (!Global.observaciones_con_fotos.get(i).getTeob_photo().trim().isEmpty()){
-                                fotos.add(Global.observaciones_con_fotos.get(i));
-                            }
+            System.out.print(Global.observaciones_con_fotos.toString());
 
 
+            for (int i = Global.observaciones_con_fotos.size() - 3; i < Global.observaciones_con_fotos.size(); i++) {
+
+                if (Global.observaciones_con_fotos.get(i).getTeob_photo() != null) {
+                    if (!Global.observaciones_con_fotos.get(i).getTeob_photo().trim().isEmpty()) {
+                        if (!buscarArreglo(Global.observaciones_con_fotos.get(i).getTeob_photo())) {
+                            System.out.println("\nagrega");
+                            Global.fotos.add(Global.observaciones_con_fotos.get(i));
                         }
+                        System.out.println("\nno agg");
                     }
 
 
-                    System.out.println("OBSERVACIONES ORDENADAS********" + Global.observaciones_con_fotos.toString() + "TAMAÑO****" + Global.observaciones_con_fotos.size());
+                }
+            }
+
+//Obtengo las posiciones donde guarde las observaciones con foto
 
 
-                    //Obtengo las posiciones donde guarde las observaciones con foto
-
-
-
-                    Observacion obFoto1 = fotos.get(0);
-                    Observacion obFoto2 = fotos.get(1);
+            if (Global.fotos != null) {
+                if (Global.fotos.size() > 0) {
+                    Observacion obFoto1 = Global.fotos.get(0);
+                    Observacion obFoto2 = Global.fotos.get(1);
 
 
                     final String foto1 = obFoto1.getTeob_photo();
@@ -248,11 +243,8 @@ public class TipificacionesAutorizadas extends Fragment {
                         }
                     });
                 }
-            } else {
-                Toast.makeText(objeto, "La terminal no tiene repuestos ni evidencias", Toast.LENGTH_SHORT).show();
-                layout_evidencias.setVisibility(View.GONE);
-                layout_repuestos.setVisibility(View.GONE);
             }
+
         }
 
         btn_siguiente.setOnClickListener(new View.OnClickListener() {
@@ -276,6 +268,21 @@ public class TipificacionesAutorizadas extends Fragment {
         return v;
     }
 
+    public boolean buscarArreglo(String nomFoto) {
+        if (Global.fotos != null && Global.fotos.size() > 0) {
+            for (Observacion o : Global.fotos) {
+                if (nomFoto.equals(o.getTeob_photo())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /*
+
+     */
     public boolean tieneRepuestos() {
         if (this.repuestos != null) {
             if (this.repuestos.size() > 0) {
@@ -384,26 +391,35 @@ public class TipificacionesAutorizadas extends Fragment {
         System.out.println("va a llenar lista rep defectuosos");
         Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS = null;
         Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS = new ArrayList<Repuesto>();
+        System.out.println("global: " + Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial().toString()));
 
-        String reps[] = Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
-        System.out.println("repuestos :::" + reps[0]);
-        repuestos = new ArrayList<>();
-        if (!reps[0].equals("[]")) {
-            Repuesto repuesto = null;
-            if ((reps.length == 0) || reps == null) {
+        if (!Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).equalsIgnoreCase("")) {
+            String reps[] = Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
+            System.out.println("repuestos :::" + reps[0]);
+            repuestos = new ArrayList<>();
+            if (reps == null || reps.length == 0 || reps.equals("")) {
                 Toast.makeText(objeto, "No tiene repuestos", Toast.LENGTH_SHORT).show();
             } else {
-                for (int i = 0; i < reps.length; i++) {
-                    String[] rep = reps[i].split("-");
-                    System.out.println("Repuesto String ==" + rep[i]);
-                    //String spar_code,String spar_name, String quantity, String spar_warehouse
-                    repuesto = new Repuesto(rep[0], rep[1], rep[2], rep[3]);
-                    this.repuestos.add(repuesto);
-                    Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.add(repuesto);
+                if (!reps[0].equals("[]") || !reps[0].trim().isEmpty()) {
+                    Repuesto repuesto = null;
+
+                    for (int i = 0; i < reps.length; i++) {
+                        String[] rep = reps[i].split("-");
+                        System.out.println("Repuesto String ==" + rep[i]);
+                        if (rep[i] != null || rep[i].length() > 0) {
+                            //String spar_code,String spar_name, String quantity, String spar_warehouse
+                            repuesto = new Repuesto(rep[0], rep[1], rep[2], rep[3]);
+                            this.repuestos.add(repuesto);
+                            Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.add(repuesto);
+                        }
+                    }
+
                 }
             }
-
+        } else {
+            Toast.makeText(objeto, "SINNNN REPUESTO", Toast.LENGTH_SHORT).show();
         }
+
     }
 
 

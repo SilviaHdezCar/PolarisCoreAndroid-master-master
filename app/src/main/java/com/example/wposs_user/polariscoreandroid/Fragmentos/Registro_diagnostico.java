@@ -393,8 +393,9 @@ public class Registro_diagnostico extends Fragment {
                                 return;
 
                             } else {
+                                eliminarPila();
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Informacion");
+                                alertDialog.setTitle("Información");
                                 alertDialog.setMessage("Diagnóstico registrado exitosamente");
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Aceptar",
 
@@ -502,6 +503,7 @@ public class Registro_diagnostico extends Fragment {
                                 return;
 
                             } else {
+                                eliminarPila();
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                                 alertDialog.setTitle("Informacion");
                                 alertDialog.setMessage("Diagnóstico registrado exitosamente");
@@ -509,8 +511,7 @@ public class Registro_diagnostico extends Fragment {
 
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
-                                                eliminarPila();
-                                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
+                                               objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                                                 dialog.dismiss();
                                             }
                                         });

@@ -308,12 +308,13 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                                 return;
 
                             } else {
+                                eliminarPila();
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                                 alertDialog.setTitle("Informacion");
                                 alertDialog.setMessage("Reparación finalizada");
                                 alertDialog.setCancelable(true);
                                 alertDialog.show();
-                                eliminarPila();
+
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
 

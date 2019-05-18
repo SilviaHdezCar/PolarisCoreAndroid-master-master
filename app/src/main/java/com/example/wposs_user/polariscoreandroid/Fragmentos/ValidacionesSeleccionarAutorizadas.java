@@ -341,12 +341,12 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                                 alertDialog.show();
 
                             } else {
+                                eliminarPila();
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                                 alertDialog.setTitle("Información");
                                 alertDialog.setMessage("Reparación finalizada");
                                 alertDialog.setCancelable(true);
                                 alertDialog.show();
-                                eliminarPila();
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
 

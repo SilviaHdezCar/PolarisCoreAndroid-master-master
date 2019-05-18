@@ -12,7 +12,10 @@ import android.widget.ImageView;
 
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.R;
+import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -37,7 +40,7 @@ public class EvidenciaAutorizada extends Fragment {
     private String mParam2;
     ImageView imagen;
     private View v;
-    PhotoViewAttacher  photoView;
+    PhotoViewAttacher photoView;
     FragmentManager fragmentManager;
 
     private OnFragmentInteractionListener mListener;
@@ -79,14 +82,12 @@ public class EvidenciaAutorizada extends Fragment {
         // Inflate the layout for this fragment
 
 
-        v= inflater.inflate(R.layout.fragment_evidencia_autorizada, container, false);
-        imagen=(ImageView)v.findViewById(R.id.imagen_zoom);
+        v = inflater.inflate(R.layout.fragment_evidencia_autorizada, container, false);
+        objeto.setTitle("               EVIDENCIAS");
+        imagen = (ImageView) v.findViewById(R.id.imagen_zoom);
         Picasso.with(objeto).load(Global.rutaFotoObservacion).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
 
-        photoView= new PhotoViewAttacher(imagen);
-
-
-
+        photoView = new PhotoViewAttacher(imagen);
 
         return v;
     }
@@ -97,7 +98,6 @@ public class EvidenciaAutorizada extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-
 
 
     @Override
