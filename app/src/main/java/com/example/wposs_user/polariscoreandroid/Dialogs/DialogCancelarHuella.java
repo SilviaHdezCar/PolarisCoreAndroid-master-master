@@ -15,6 +15,7 @@ import com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
+import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValuesLogueoHuella;
 
 public class DialogCancelarHuella extends DialogFragment {
 
@@ -23,12 +24,12 @@ public class DialogCancelarHuella extends DialogFragment {
     private Button aceptar;
 
 
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState){
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity());
-        view= getActivity().getLayoutInflater().inflate(R.layout.cancelar_huella,null);
+        view = getActivity().getLayoutInflater().inflate(R.layout.cancelar_huella, null);
 
-        cancelar=(Button)view.findViewById(R.id.btn_cancelarHuella);
-        aceptar=(Button)view.findViewById(R.id.btn_AceptarHuella);
+        cancelar = (Button) view.findViewById(R.id.btn_cancelarHuella);
+        aceptar = (Button) view.findViewById(R.id.btn_AceptarHuella);
 
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,18 +38,16 @@ public class DialogCancelarHuella extends DialogFragment {
             }
         });
 
+        aceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eliminarValuesLogueoHuella(objeto);
+                dismiss();
+            }
+        });
         dialogo.setView(view);
         return dialogo.create();
-
-
-
     }
-
-
-    public void desactivarHuella(){
-      // eliminarValuesLog(objeto);-->eliminar los valores de logueo por fecha
-    }
-
 
 
 }

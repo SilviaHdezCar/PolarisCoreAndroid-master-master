@@ -422,8 +422,6 @@ public class TipificacionesAutorizadas extends Fragment {
 
                 }
             }
-        } else {
-            Toast.makeText(objeto, "SINNNN REPUESTO", Toast.LENGTH_SHORT).show();
         }
 
     }

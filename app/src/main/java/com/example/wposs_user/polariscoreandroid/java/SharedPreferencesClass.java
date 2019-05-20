@@ -28,6 +28,8 @@ public class SharedPreferencesClass {
 
     static android.content.SharedPreferences settings;
     static android.content.SharedPreferences.Editor editor;
+    static android.content.SharedPreferences settings2;
+    static android.content.SharedPreferences.Editor editor2;
 
 
     /**
@@ -42,13 +44,13 @@ public class SharedPreferencesClass {
 
         try {
 
-            settings = context.getSharedPreferences(PREFS_KEY2, MODE_PRIVATE);
+            settings2 = context.getSharedPreferences(PREFS_KEY2, MODE_PRIVATE);
 
-            editor = settings.edit();
-            editor.putString(key, value);
+            editor2 = settings2.edit();
+            editor2.putString(key, value);
+            System.out.println("guardó: key - Valor-->" + key + " - " + value);
 
-
-            editor.commit();
+            editor2.commit();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,8 +62,8 @@ public class SharedPreferencesClass {
     public static boolean eliminarValuesLogueoHuella(Context context) {
         //saveValueStrPreference2();
         try {
-            settings = context.getSharedPreferences(PREFS_KEY2, Context.MODE_PRIVATE);
-            settings.edit().clear().commit();
+            settings2 = context.getSharedPreferences(PREFS_KEY2, Context.MODE_PRIVATE);
+            settings2.edit().clear().commit();
             return true;
         } catch (Exception e) {
             e.printStackTrace();

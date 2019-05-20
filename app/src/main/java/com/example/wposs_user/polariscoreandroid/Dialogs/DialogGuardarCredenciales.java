@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +37,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.wposs_user.polariscoreandroid.Actividades.Activity_login.objeto_login;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.saveValueStrPreference;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.saveValueStrPreferenceLogueoHuella;
@@ -56,7 +59,11 @@ public class DialogGuardarCredenciales extends DialogFragment {
     private LinearLayout layout_informacion;
     private LinearLayout layout_credenciales;
 
+   private Intent actualizar;
+   private Intent main;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -76,6 +83,8 @@ public class DialogGuardarCredenciales extends DialogFragment {
 
         layout_credenciales.setVisibility(View.GONE);
 
+        actualizar = new Intent(objeto_login, Activity_UpdatePassword.class);
+        main = new Intent(objeto_login, MainActivity.class);
 
         queue = Volley.newRequestQueue(getContext());
         btn_activar_huella.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +159,7 @@ public class DialogGuardarCredenciales extends DialogFragment {
                 url,
                 jsonObject,
                 new Response.Listener<JSONObject>() {
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
@@ -158,7 +168,9 @@ public class DialogGuardarCredenciales extends DialogFragment {
                             if (response.get("message").toString().equalsIgnoreCase("error")) {
                                 try {
                                     Global.mensaje = response.get("description").toString();
-                                    Toast.makeText(getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                        Toast.makeText(objeto_login, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                    }
                                     System.out.println("description " + response.get("description").toString());
                                     if (Global.mensaje.equalsIgnoreCase("Contraseña inválida")) {
                                         email.setText("");
@@ -214,14 +226,19 @@ public class DialogGuardarCredenciales extends DialogFragment {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                if (Integer.parseInt(Global.LOGIN) == 0) {
-                                    Intent i = new Intent(getContext(), Activity_UpdatePassword.class);
-                                    startActivity(i);
-                                    getActivity().finish();
+                               if (Integer.parseInt(Global.LOGIN) == 0) {
+
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                                        getActivity().startActivity(actualizar);
+                                        getActivity().finish();
+                                    }
+
                                 } else {
-                                    Intent i = new Intent(getContext(), MainActivity.class);
-                                    startActivity(i);
-                                    getActivity().finish();
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                                        startActivity(main);
+                                        getActivity().finish();
+                                    }
+
                                 }
                                 return;
                             }
@@ -255,25 +272,27 @@ public class DialogGuardarCredenciales extends DialogFragment {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void guardarLogueoHuella() { //guarda la clave y el usuario
-        saveValueStrPreferenceLogueoHuella(getContext(), "email_user", correo);
-        saveValueStrPreferenceLogueoHuella(getContext(), "pass", clave);
+        saveValueStrPreferenceLogueoHuella(objeto_login, "email_user", correo);
+        saveValueStrPreferenceLogueoHuella(objeto_login, "pass", clave);
 
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void guardarSesion() {
-        saveValueStrPreferenceLogueoHuella(getContext(), "token", Global.TOKEN);
-        saveValueStrPreferenceLogueoHuella(getContext(), "rol", Global.ROL);
-        saveValueStrPreferenceLogueoHuella(getContext(), "login", Global.LOGIN);
-        saveValueStrPreferenceLogueoHuella(getContext(), "id", Global.ID);
-        saveValueStrPreferenceLogueoHuella(getContext(), "status", Global.STATUS);
-        saveValueStrPreferenceLogueoHuella(getContext(), "position", Global.POSITION);
-        saveValueStrPreferenceLogueoHuella(getContext(), "code", Global.CODE);
-        saveValueStrPreferenceLogueoHuella(getContext(), "nombre", Global.NOMBRE);
-        saveValueStrPreferenceLogueoHuella(getContext(), "email", Global.EMAIL);
-        saveValueStrPreferenceLogueoHuella(getContext(), "location", Global.LOCATION);
-        saveValueStrPreferenceLogueoHuella(getContext(), "phone", Global.PHONE);
+        saveValueStrPreference(objeto_login, "token", Global.TOKEN);
+        saveValueStrPreference(objeto_login, "rol", Global.ROL);
+        saveValueStrPreference(objeto_login, "login", Global.LOGIN);
+        saveValueStrPreference(objeto_login, "id", Global.ID);
+        saveValueStrPreference(objeto_login, "status", Global.STATUS);
+        saveValueStrPreference(objeto_login, "position", Global.POSITION);
+        saveValueStrPreference(objeto_login, "code", Global.CODE);
+        saveValueStrPreference(objeto_login, "nombre", Global.NOMBRE);
+        saveValueStrPreference(objeto_login, "email", Global.EMAIL);
+        saveValueStrPreference(objeto_login, "location", Global.LOCATION);
+        saveValueStrPreference(objeto_login, "phone", Global.PHONE);
     }
 
 

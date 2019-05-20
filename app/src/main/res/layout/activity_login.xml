@@ -155,12 +155,12 @@
 
         <ImageButton
             android:id="@+id/btn_huella"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/transparente"
             android:src="@mipmap/ic_huella"
-            android:layout_gravity="center_horizontal"
 
             android:tint="@color/blanco"
 

@@ -116,12 +116,12 @@ public class MainActivity extends AppCompatActivity
     private int contadorFragmentos;
 
     private RequestQueue queue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
         objeto = this;
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity
         contadorFragmentos = getSupportFragmentManager().getBackStackEntryCount();
 
         if (contadorFragmentos == 1) {
-           // super.onBackPressed();
+            // super.onBackPressed();
             AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
             dialogo1.setTitle("Importante");
             dialogo1.setMessage("¿Desea cerrar sesión?");
@@ -186,11 +186,10 @@ public class MainActivity extends AppCompatActivity
             });
             dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialogo1, int id) {
-                   dialogo1.dismiss();
+                    dialogo1.dismiss();
                 }
             });
             dialogo1.show();
-          //  consumirSercivioCerrarSesion();
         } else {
             getSupportFragmentManager().popBackStack();
         }
@@ -247,11 +246,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_cerrar_sesion) {
 
-               consumirSercivioCerrarSesion();
-        }
-
-        else if(id==R.id.nav_autenticacion_huella){
-
+            consumirSercivioCerrarSesion();
+        } else if (id == R.id.nav_autenticacion_huella) {
             DialogCancelarHuella dialog = new DialogCancelarHuella();
             dialog.show(MainActivity.this.getSupportFragmentManager(), "");
 
@@ -263,14 +259,12 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
     /*************************************************************************************
      *METODO QUE CONSUME EL SERVICIO PARA CERRAR SESIÓN
      *
      ***************************************************** **/
 
-    public void consumirSercivioCerrarSesion(){
+    public void consumirSercivioCerrarSesion() {
         String url = "http://100.25.214.91:3000/PolarisCore/Users/close";
         JSONObject jsonObject = new JSONObject();
         try {
@@ -296,7 +290,7 @@ public class MainActivity extends AppCompatActivity
                                 }
                             }
                             eliminarValues(objeto);
-                            System.out.println("Respuesta obtener"+getValueStrPreference(objeto, "token"));
+                            System.out.println("Respuesta obtener" + getValueStrPreference(objeto, "token"));
                             Intent i = new Intent(objeto, Activity_login.class);
                             startActivity(i);
                             finish();

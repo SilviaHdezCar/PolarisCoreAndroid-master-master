@@ -105,7 +105,6 @@ import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesCl
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.saveValueStrPreference;
 
 
-
 @TargetApi(Build.VERSION_CODES.M)
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class Activity_login extends AppCompatActivity {
@@ -119,6 +118,8 @@ public class Activity_login extends AppCompatActivity {
     private TextView recuperarClave;
     private ImageButton huella;
 
+    public static Activity_login objeto_login;
+
     //variables de la huella
     private static final String KEY_NAME = "pruebaHuella";
 
@@ -130,6 +131,8 @@ public class Activity_login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
+
+        objeto_login=this;
         setContentView(R.layout.activity_login);
         txtCorreo = (EditText) findViewById(R.id.txtCorreo);
         txtPass = (EditText) findViewById(R.id.txtPass);
@@ -137,7 +140,7 @@ public class Activity_login extends AppCompatActivity {
         queue = Volley.newRequestQueue(Activity_login.this);
         verClave = (ImageButton) findViewById(R.id.btn_mostrarClave);
         recuperarClave = (TextView) findViewById(R.id.txt_reestablecerClave);
-        huella=(ImageButton)findViewById(R.id.btn_huella) ;
+        huella = (ImageButton) findViewById(R.id.btn_huella);
 
         huella.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,8 +174,8 @@ public class Activity_login extends AppCompatActivity {
     public void iniciarSesion(View view) {
         correo = this.txtCorreo.getText().toString();
         pass = this.txtPass.getText().toString();
-    //   cargarPanel();
-     if (correo.isEmpty() && pass.isEmpty()) {
+        //   cargarPanel();
+        if (correo.isEmpty() && pass.isEmpty()) {
             Toast.makeText(this, "Ingrese correo y contraseña", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -184,7 +187,7 @@ public class Activity_login extends AppCompatActivity {
             Toast.makeText(this, "Ingrese la contraseña", Toast.LENGTH_SHORT).show();
             return;
         } else {
-             consumirServicoLogin();
+            consumirServicoLogin();
         }
 
     }
@@ -311,16 +314,24 @@ public class Activity_login extends AppCompatActivity {
         queue.add(jsArrayRequest);
     }
 
+
+    //si encontró huella
+
     public void validarHuella() {
         correo = getValueStrPreferenceLogueoHuella(getApplicationContext(), "email_user");
         pass = getValueStrPreferenceLogueoHuella(getApplicationContext(), "pass");
+        System.out.println("shared preference correo=="+correo);
         if (correo == null || correo.isEmpty()) {
+            System.out.println("va a cargar panel");
             cargarPanel();
         } else {
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            System.out.println("va a consumir servicio login ");
+            consumirServicoLogin();
+           /* Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
-            finish();
+            finish();*/
         }
+
     }
 
     public void cargarPanel() {
@@ -425,7 +436,6 @@ public class Activity_login extends AppCompatActivity {
     }
 
 
-
     /*******************************METODOS USADOS PARA LA HUELLA ***************************************/
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -488,19 +498,15 @@ public class Activity_login extends AppCompatActivity {
     }
 
 
-    public void loginHuella(){
+    public void loginHuella() {
         //Inicializo las variables  para la huella
 
         DialogHuella dialog = new DialogHuella();
         dialog.show(Activity_login.this.getSupportFragmentManager(), "");
 
-
-
-
-
         KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
 
-         FingerprintManager fingerprintManager = null;
+        FingerprintManager fingerprintManager = null;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
@@ -521,23 +527,23 @@ public class Activity_login extends AppCompatActivity {
                  * startActivity(intent);
                  */
 
-                Toast.makeText(this,"su dipositivo no cuenta con un sensor de huellas",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "su dipositivo no cuenta con un sensor de huellas", Toast.LENGTH_SHORT).show();
             } else {
                 // Checks whether fingerprint permission is set on manifest
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
 
-                    Toast.makeText(this,"No tiene habilitados los permisos de autenticación con huellas dactilares",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "No tiene habilitados los permisos de autenticación con huellas dactilares", Toast.LENGTH_SHORT).show();
 
                 } else {
                     // Check whether at least one fingerprint is registered
                     if (!fingerprintManager.hasEnrolledFingerprints()) {
 
-                                      Toast.makeText(this,"Debe registrar almenos una huella dactilar",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Debe registrar al menos una huella dactilar", Toast.LENGTH_SHORT).show();
 
                     } else {
                         // Checks whether lock screen security is enabled or not
                         if (!keyguardManager.isKeyguardSecure()) {
-                            Toast.makeText(this,"No esta Habiliatada la seguridad por sensor de huellas ",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "No esta habiliatada la seguridad por sensor de huellas ", Toast.LENGTH_SHORT).show();
                         } else {
                             generateKey();
 
@@ -554,12 +560,7 @@ public class Activity_login extends AppCompatActivity {
         }
 
 
-
-
-
     }
-
-
 
 
 }

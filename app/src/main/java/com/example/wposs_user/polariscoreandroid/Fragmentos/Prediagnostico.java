@@ -417,8 +417,6 @@ public class Prediagnostico extends Fragment {
 
                 }
             }
-        } else {
-            Toast.makeText(objeto, "SINNNN REPUESTO", Toast.LENGTH_SHORT).show();
         }
 
     }

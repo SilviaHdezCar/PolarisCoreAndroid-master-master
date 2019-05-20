@@ -18,18 +18,25 @@ import android.widget.Toast;
 
 import com.example.wposs_user.polariscoreandroid.R;
 
+import static com.example.wposs_user.polariscoreandroid.Actividades.Activity_login.objeto_login;
+
 @TargetApi(Build.VERSION_CODES.M)
 public class FingerprintHandler extends FingerprintManager.AuthenticationCallback {
 
 
     private Context context;
-
+    private String resultado;
+    private boolean huella;
 
     // Constructor
     public FingerprintHandler(Context mContext) {
         context = mContext;
+        this.resultado = "";
+        this.huella = false;
     }
 
+    public FingerprintHandler() {
+    }
 
     public void startAuth(FingerprintManager manager, FingerprintManager.CryptoObject cryptoObject) {
         CancellationSignal cancellationSignal = new CancellationSignal();
@@ -48,7 +55,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
     @Override
     public void onAuthenticationFailed() {
-        this.update("Fallo al autenticar con la huella dactilar.", false);
+        this.update("No se reconoe la huella digital", false);
     }
 
 
@@ -58,29 +65,36 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     }
 
 
+    public String getResultado() {
+        return resultado;
+    }
 
+    public void setResultado(String resultado) {
+        this.resultado = resultado;
+    }
 
+    public boolean isHuella() {
+        return huella;
+    }
+
+    public void setHuella(boolean huella) {
+        this.huella = huella;
+    }
 
     public void update(String e, Boolean success) {
 
 
-
-
-        if (success) {
-
-
-            //aca agregar el codigo para iniciar sesion si se reconoce la huella
+        this.huella = success;
+        this.resultado = e;
+        if(huella){
+            objeto_login.validarHuella();
+            return;
+        }else{
+            Toast.makeText(this.context, e, Toast.LENGTH_SHORT).show();
         }
 
-        Toast.makeText(this.context, e, Toast.LENGTH_SHORT).show();
-
-
     }
 
 
-
-
-
-
-    }
+}
 

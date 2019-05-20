@@ -20,7 +20,15 @@ public class DialogHuella  extends DialogFragment {
         AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity());
         view= getActivity().getLayoutInflater().inflate(R.layout.login_huella,null);
         cancelar=(Button)view.findViewById(R.id.cancelar_login);
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
         dialogo.setView(view);
+
         return dialogo.create();
 
 
