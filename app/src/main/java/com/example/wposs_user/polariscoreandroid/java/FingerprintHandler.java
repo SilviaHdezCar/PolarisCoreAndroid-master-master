@@ -5,6 +5,7 @@ package com.example.wposs_user.polariscoreandroid.java; /**
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
@@ -57,15 +58,29 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     }
 
 
-    public void update(String e, Boolean success){
-
-        Toast.makeText(this.context,e,Toast.LENGTH_SHORT).show();
-        if(success){
-           //textView.setTextColor(ContextCompat.getColor(context, R.color.successText));
 
 
 
+    public void update(String e, Boolean success) {
 
+
+
+
+        if (success) {
+
+
+            //aca agregar el codigo para iniciar sesion si se reconoce la huella
         }
+
+        Toast.makeText(this.context, e, Toast.LENGTH_SHORT).show();
+
+
     }
-}
+
+
+
+
+
+
+    }
+

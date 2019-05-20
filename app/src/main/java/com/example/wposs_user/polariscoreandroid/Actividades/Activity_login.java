@@ -2,8 +2,10 @@ package com.example.wposs_user.polariscoreandroid.Actividades;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -35,6 +37,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
+import com.example.wposs_user.polariscoreandroid.Dialogs.DialogHuella;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.java.FingerprintHandler;
@@ -472,11 +475,16 @@ public class Activity_login extends AppCompatActivity {
     public void loginHuella(){
         //Inicializo las variables  para la huella
 
+        DialogHuella dialog = new DialogHuella();
+        dialog.show(Activity_login.this.getSupportFragmentManager(), "");
+
+
+
+
 
         KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
 
-
-        FingerprintManager fingerprintManager = null;
+         FingerprintManager fingerprintManager = null;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
