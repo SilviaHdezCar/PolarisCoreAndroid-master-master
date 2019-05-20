@@ -27,10 +27,16 @@
             android:id="@+id/nav_productividad"
             android:icon="@drawable/ic_ver_productividad"
             android:title="Productividad" />
+        <item
+            android:id="@+id/nav_autenticacion_huella"
+            android:icon="@mipmap/ic_huella"
+            android:title="Autenticaciòn con huella"
+            />
     </group>
 
     <item android:title="">
         <menu>
+
             <item
                 android:id="@+id/nav_cerrar_sesion"
                 android:icon="@drawable/ic_cerrar_sesion"

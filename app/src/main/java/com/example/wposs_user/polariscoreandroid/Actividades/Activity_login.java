@@ -1,10 +1,23 @@
 package com.example.wposs_user.polariscoreandroid.Actividades;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.app.KeyguardManager;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.hardware.fingerprint.FingerprintManager;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.security.keystore.KeyGenParameterSpec;
+import android.security.keystore.KeyPermanentlyInvalidatedException;
+import android.security.keystore.KeyProperties;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,8 +37,10 @@ import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
+import com.example.wposs_user.polariscoreandroid.Dialogs.DialogHuella;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
+import com.example.wposs_user.polariscoreandroid.java.FingerprintHandler;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,14 +49,62 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.KeyguardManager;
+import android.content.pm.PackageManager;
+import android.hardware.fingerprint.FingerprintManager;
+import android.os.Build;
+import android.security.keystore.KeyGenParameterSpec;
+import android.security.keystore.KeyPermanentlyInvalidatedException;
+import android.security.keystore.KeyProperties;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.saveValueStrPreference;
 
+
+
+@TargetApi(Build.VERSION_CODES.M)
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class Activity_login extends AppCompatActivity {
 
     private EditText txtCorreo;
@@ -51,6 +114,14 @@ public class Activity_login extends AppCompatActivity {
     private String pass;
     private ImageButton verClave;
     private TextView recuperarClave;
+    ImageButton huella;
+
+    //variables de la huella
+    private static final String KEY_NAME = "pruebaHuella";
+
+    private KeyStore keyStore;
+    private Cipher cipher;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +132,16 @@ public class Activity_login extends AppCompatActivity {
         txtPass = (EditText) findViewById(R.id.txtPass);
         StringBuilder str = new StringBuilder();
         queue = Volley.newRequestQueue(Activity_login.this);
-        verClave=(ImageButton)findViewById(R.id.btn_mostrarClave);
-        recuperarClave=(TextView)findViewById(R.id.txt_reestablecerClave);
+        verClave = (ImageButton) findViewById(R.id.btn_mostrarClave);
+        recuperarClave = (TextView) findViewById(R.id.txt_reestablecerClave);
+        huella=(ImageButton)findViewById(R.id.btn_huella) ;
+
+        huella.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginHuella();
+            }
+        });
 
         recuperarClave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +157,8 @@ public class Activity_login extends AppCompatActivity {
 
 
     }
+
+
 
 
     /**
@@ -326,6 +407,143 @@ public class Activity_login extends AppCompatActivity {
 
 
     }
+
+
+
+    /*******************************METODOS USADOS PARA LA HUELLA ***************************************/
+
+    @TargetApi(Build.VERSION_CODES.M)
+    protected void generateKey() {
+        try {
+            keyStore = KeyStore.getInstance("AndroidKeyStore");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        KeyGenerator keyGenerator;
+        try {
+            keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+            throw new RuntimeException("Error al obtener la instancia de KeyGenerator", e);
+        }
+
+
+        try {
+            keyStore.load(null);
+            keyGenerator.init(new
+                    KeyGenParameterSpec.Builder(KEY_NAME,
+                    KeyProperties.PURPOSE_ENCRYPT |
+                            KeyProperties.PURPOSE_DECRYPT)
+                    .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+                    .setUserAuthenticationRequired(true)
+                    .setEncryptionPaddings(
+                            KeyProperties.ENCRYPTION_PADDING_PKCS7)
+                    .build());
+            keyGenerator.generateKey();
+        } catch (NoSuchAlgorithmException |
+                InvalidAlgorithmParameterException
+                | CertificateException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public boolean cipherInit() {
+        try {
+            cipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/" + KeyProperties.BLOCK_MODE_CBC + "/" + KeyProperties.ENCRYPTION_PADDING_PKCS7);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            throw new RuntimeException("Error al obtener cifrado", e);
+        }
+
+
+        try {
+            keyStore.load(null);
+            SecretKey key = (SecretKey) keyStore.getKey(KEY_NAME,
+                    null);
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            return true;
+        } catch (KeyPermanentlyInvalidatedException e) {
+            return false;
+        } catch (KeyStoreException | CertificateException | UnrecoverableKeyException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
+            throw new RuntimeException("Error al iniciar el cifrado", e);
+        }
+    }
+
+
+    public void loginHuella(){
+        //Inicializo las variables  para la huella
+
+        DialogHuella dialog = new DialogHuella();
+        dialog.show(Activity_login.this.getSupportFragmentManager(), "");
+
+
+
+
+
+        KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+
+         FingerprintManager fingerprintManager = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
+        }
+
+
+        // Check whether the device has a Fingerprint sensor.
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!fingerprintManager.isHardwareDetected()) {
+                /**
+                 * An error message will be displayed if the device does not contain the fingerprint hardware.
+                 * However if you plan to implement a default authentication method,
+                 * you can redirect the user to a default authentication activity from here.
+                 * Example:
+                 * Intent intent = new Intent(this, DefaultAuthenticationActivity.class);
+                 * startActivity(intent);
+                 */
+
+                Toast.makeText(this,"su dipositivo no cuenta con un sensor de huellas",Toast.LENGTH_SHORT).show();
+            } else {
+                // Checks whether fingerprint permission is set on manifest
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(this,"No tiene habilitados los permisos de autenticación con huellas dactilares",Toast.LENGTH_SHORT).show();
+
+                } else {
+                    // Check whether at least one fingerprint is registered
+                    if (!fingerprintManager.hasEnrolledFingerprints()) {
+
+                                      Toast.makeText(this,"Debe registrar almenos una huella dactilar",Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        // Checks whether lock screen security is enabled or not
+                        if (!keyguardManager.isKeyguardSecure()) {
+                            Toast.makeText(this,"No esta Habiliatada la seguridad por sensor de huellas ",Toast.LENGTH_SHORT).show();
+                        } else {
+                            generateKey();
+
+
+                            if (cipherInit()) {
+                                FingerprintManager.CryptoObject cryptoObject = new FingerprintManager.CryptoObject(cipher);
+                                FingerprintHandler helper = new FingerprintHandler(this);
+                                helper.startAuth(fingerprintManager, cryptoObject);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+
+    }
+
+
 
 
 }

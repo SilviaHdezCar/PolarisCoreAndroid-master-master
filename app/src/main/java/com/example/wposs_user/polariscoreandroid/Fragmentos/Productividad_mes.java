@@ -367,6 +367,7 @@ public class Productividad_mes extends Fragment {
                         XAxis x = grafica.getXAxis();
                         x.setGranularity(1);
                         x.setAxisMinimum(0);
+                        grafica.getAxisRight().setGranularity(1);
                         x.setAxisMaximum(can_dias);
 
                         grafica.getAxisRight().setGranularity(1);

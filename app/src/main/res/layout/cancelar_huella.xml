@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+     android:gravity="center_horizontal"
+    android:background="@drawable/button_border"
+
+
+    >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Importante"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/borde_verde_botones"
+
+            />
+
+    <TextView
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="El inicio de sesión mediante huella será desactivado"
+        android:layout_marginTop="15dp"
+        android:textSize="14dp"
+
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_border"
+
+        >
+
+        <Button
+            android:id="@+id/btn_AceptarHuella"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparente"
+            android:text="Aceptar"
+            android:textAllCaps="false"
+            android:textColor="@color/borde_verde_botones"
+            android:textSize="14dp"
+
+
+         />
+
+        <Button
+            android:id="@+id/btn_cancelarHuella"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparente"
+            android:text="Cancelar"
+            android:layout_marginLeft="10dp"
+            android:textAllCaps="false"
+            android:textColor="@color/borde_verde_botones"
+            android:textSize="14dp"
+            />
+
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

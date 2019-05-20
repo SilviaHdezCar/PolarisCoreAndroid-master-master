@@ -427,6 +427,7 @@ public class Productividad_dia extends Fragment {
                         grafica.groupBars(0, groupSpace, barSpace);
                         grafica.invalidate();
                         grafica.getDescription().setEnabled(false);
+                        grafica.getAxisRight().setGranularity(1);
                         grafica.setVisibility(VISIBLE);
 
 
