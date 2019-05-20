@@ -23,7 +23,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SharedPreferencesClass {
 
-    protected final static String PREFS_KEY= "Mis preferencias";
+    protected final static String PREFS_KEY = "Mis preferencias";
+    protected final static String PREFS_KEY2 = "android.polaris.core.access";
 
     static android.content.SharedPreferences settings;
     static android.content.SharedPreferences.Editor editor;
@@ -31,6 +32,58 @@ public class SharedPreferencesClass {
 
     /**
      * Metodo utilizado para guardar la sesión
+     *
+     * @param context
+     * @param key
+     * @param value
+     * @return
+     */
+    public static boolean saveValueStrPreferenceLogueoHuella(Context context, String key, String value) {
+
+        try {
+
+            settings = context.getSharedPreferences(PREFS_KEY2, MODE_PRIVATE);
+
+            editor = settings.edit();
+            editor.putString(key, value);
+
+
+            editor.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public static boolean eliminarValuesLogueoHuella(Context context) {
+        //saveValueStrPreference2();
+        try {
+            settings = context.getSharedPreferences(PREFS_KEY2, Context.MODE_PRIVATE);
+            settings.edit().clear().commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public static String getValueStrPreferenceLogueoHuella(Context context, String key) {
+        try {
+            preferences = context.getSharedPreferences(PREFS_KEY2, MODE_PRIVATE);
+            return preferences.getString(key, "");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+
+    /**
+     * Metodo utilizado para guardar la sesión
+     *
      * @param context
      * @param key
      * @param value
@@ -38,7 +91,7 @@ public class SharedPreferencesClass {
      */
     public static boolean saveValueStrPreference(Context context, String key, String value) {
 
-        try{
+        try {
 
             settings = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
 
@@ -46,26 +99,21 @@ public class SharedPreferencesClass {
             editor.putString(key, value);
 
 
-
-
             editor.commit();
             return true;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
 
-
-    public  static boolean eliminarValues(Context context){
+    public static boolean eliminarValues(Context context) {
         //saveValueStrPreference2();
-        try{
+        try {
             settings = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
             settings.edit().clear().commit();
             return true;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -75,11 +123,10 @@ public class SharedPreferencesClass {
 
 
     public static String getValueStrPreference(Context context, String key) {
-        try{
+        try {
             preferences = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
             return preferences.getString(key, "");
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
@@ -102,7 +149,6 @@ public class SharedPreferencesClass {
 
         return preferences.getBoolean(key, false);
     }
-
 
 
 }

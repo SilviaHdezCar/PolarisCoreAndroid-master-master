@@ -2,7 +2,6 @@ package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.AlertDialog;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,7 +20,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterEvidenciasAutorizadas;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTipificacionesAutorizadas;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
@@ -32,24 +30,21 @@ import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
-import static java.util.Collections.*;
+import static java.util.Collections.sort;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TipificacionesAutorizadas.OnFragmentInteractionListener} interface
+ * {@link Prediagnostico.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TipificacionesAutorizadas#newInstance} factory method to
+ * Use the {@link Prediagnostico#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TipificacionesAutorizadas extends Fragment {
+public class Prediagnostico extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -91,7 +86,7 @@ public class TipificacionesAutorizadas extends Fragment {
     private List<Tipificacion> tipificacionesRecibidas;
     private boolean tieneRepuestos;
 
-    public TipificacionesAutorizadas() {
+    public Prediagnostico() {
         // Required empty public constructor
     }
 
@@ -104,8 +99,8 @@ public class TipificacionesAutorizadas extends Fragment {
      * @return A new instance of fragment TipificacionesAutorizadas.
      */
     // TODO: Rename and change types and number of parameters
-    public static TipificacionesAutorizadas newInstance(String param1, String param2) {
-        TipificacionesAutorizadas fragment = new TipificacionesAutorizadas();
+    public static Prediagnostico newInstance(String param1, String param2) {
+        Prediagnostico fragment = new Prediagnostico();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

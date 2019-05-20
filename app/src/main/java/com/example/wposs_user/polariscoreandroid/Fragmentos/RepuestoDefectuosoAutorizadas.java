@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -235,12 +236,15 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
         for (int i = 0; i < Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size(); i++) {
             TableRow fila = new TableRow(objeto);
             fila.setId(i);
-            fila.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            fila.setBackgroundResource(R.drawable.borde_inferior_gris);
+            fila.setGravity(Gravity.CENTER_VERTICAL);
+
             //celdas
 
             TextView nombre = new TextView(objeto);
             nombre.setId(100 + i);
             nombre.setText(Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i).getSpar_name());
+            nombre.setPadding(20,0,0,0);
 
             RadioButton ok = new RadioButton(objeto);
             ok.setId(200 + i);

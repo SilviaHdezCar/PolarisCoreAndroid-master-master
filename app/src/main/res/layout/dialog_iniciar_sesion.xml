@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/verde_pestanas"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:id="@+id/layout_informacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                style="@style/letra_negrita"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Activa la lectura de huella para autenticarse con mayor seguridad"
+                android:textColor="@color/blanco" />
+
+            <TextView
+                style="@style/letra_contenido"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:text="@string/informacion_huella"
+                android:textColor="@color/blanco" />
+            <TextView
+                style="@style/letra_contenido"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textAlignment="center"
+                android:text="@string/informacion2_huella"
+                android:textColor="@color/blanco" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_activar_huella"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/verde_pestanas"
+                    android:text="Activar"
+                    android:textAllCaps="false"
+                    android:textColor="@color/blanco" />
+
+                <Button
+                    android:id="@+id/btn_cancelar_huella"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="40dp"
+                    android:background="@color/verde_pestanas"
+                    android:text="Cancelar"
+                    android:textAllCaps="false"
+                    android:textColor="@color/blanco" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_credenciales"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/letra_negrita"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Inicio de sesión por huella"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/blanco" />
+
+
+            <EditText
+                android:id="@+id/txtCorreo_guardar_sesion"
+                style="@style/letra_contenido"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:background="@drawable/redondo_gris"
+                android:gravity="center"
+                android:hint="@string/correo"
+                android:inputType="textEmailAddress"
+                android:paddingLeft="10dp" />
+
+            <EditText
+                android:id="@+id/txtPass_guardar_sesion"
+                style="@style/letra_contenido"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/redondo_gris"
+                android:gravity="center"
+                android:hint="@string/clave"
+                android:inputType="textPassword" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_guardarCredenciales"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/verde_pestanas"
+                    android:text="Ingresar"
+                    android:textAllCaps="false"
+                    android:textColor="@color/blanco" />
+
+                <Button
+                    android:id="@+id/btn_cancelar_Credenciales"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="40dp"
+                    android:background="@color/verde_pestanas"
+                    android:text="Cancelar"
+                    android:textAllCaps="false"
+                    android:textColor="@color/blanco" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,17 +1,19 @@
-package com.example.wposs_user.polariscoreandroid.Actividades;
+package com.example.wposs_user.polariscoreandroid.Dialogs;
 
-import android.app.ProgressDialog;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -21,96 +23,116 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.wposs_user.polariscoreandroid.Actividades.Activity_UpdatePassword;
+import com.example.wposs_user.polariscoreandroid.Actividades.Activity_login;
+import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
-import com.example.wposs_user.polariscoreandroid.Comun.Messages;
-import com.example.wposs_user.polariscoreandroid.Comun.Utils;
-import com.example.wposs_user.polariscoreandroid.Dialogs.DialogGuardarCredenciales;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.TCP.TCP;
-import com.example.wposs_user.polariscoreandroid.java.Terminal;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
-import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.getValueStrPreference;
-import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.getValueStrPreferenceLogueoHuella;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.saveValueStrPreference;
+import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.saveValueStrPreferenceLogueoHuella;
 
-public class Activity_login extends AppCompatActivity {
+public class DialogGuardarCredenciales extends DialogFragment {
 
-    private EditText txtCorreo;
-    private EditText txtPass;
-    private RequestQueue queue;
+    private View view;
     private String correo;
-    private String pass;
-    private ImageButton verClave;
-    private TextView recuperarClave;
+    private String clave;
+    private RequestQueue queue;
 
+    private EditText email;
+    private EditText contrasenia;
+    private Button btn_aceptar;
+    private Button btn_cancelar;
+    private Button btn_activar_huella;
+    private Button btn_cancelar_huella;
+
+    private LinearLayout layout_informacion;
+    private LinearLayout layout_credenciales;
+
+
+    @NonNull
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        txtCorreo = (EditText) findViewById(R.id.txtCorreo);
-        txtPass = (EditText) findViewById(R.id.txtPass);
-        StringBuilder str = new StringBuilder();
-        queue = Volley.newRequestQueue(Activity_login.this);
-        verClave = (ImageButton) findViewById(R.id.btn_mostrarClave);
-        recuperarClave = (TextView) findViewById(R.id.txt_reestablecerClave);
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        //para lo de la huella, al dar clic en el boton de huella, validar si la huella está guardada
+        view = getActivity().getLayoutInflater().inflate(R.layout.dialog_iniciar_sesion, null);
+        email = (EditText) view.findViewById(R.id.txtCorreo_guardar_sesion);
+        contrasenia = (EditText) view.findViewById(R.id.txtPass_guardar_sesion);
+        btn_aceptar = (Button) view.findViewById(R.id.btn_guardarCredenciales);
+        btn_cancelar = (Button) view.findViewById(R.id.btn_cancelar_Credenciales);
+        btn_activar_huella = (Button) view.findViewById(R.id.btn_activar_huella);
+        btn_cancelar_huella = (Button) view.findViewById(R.id.btn_cancelar_huella);
 
-        recuperarClave.setOnClickListener(new View.OnClickListener() {
+
+        layout_informacion = (LinearLayout) view.findViewById(R.id.layout_informacion);
+        layout_credenciales = (LinearLayout) view.findViewById(R.id.layout_credenciales);
+
+        layout_credenciales.setVisibility(View.GONE);
+
+
+        queue = Volley.newRequestQueue(getContext());
+        btn_activar_huella.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent i;
-                i = new Intent(Activity_login.this, Reestablecer_password.class);
-                startActivity(i);
-                finish();
+                layout_informacion.setVisibility(View.GONE);
+                layout_credenciales.setVisibility(View.VISIBLE);
+            }
+        });
+        btn_cancelar_huella.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+        btn_aceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aceptar();
+            }
+        });
+        btn_cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
             }
         });
 
+        builder.setView(view);
 
+
+        return builder.create();
     }
 
+    public void aceptar() {
+        correo = email.getText().toString();
+        clave = contrasenia.getText().toString();
 
-    /**
-     * Realiza las validaciones correpondientes para iniciar sesión
-     *
-     * @param view
-     */
-    public void iniciarSesion(View view) {
-        correo = this.txtCorreo.getText().toString();
-        pass = this.txtPass.getText().toString();
-    //   cargarPanel();
-     if (correo.isEmpty() && pass.isEmpty()) {
-            Toast.makeText(this, "Ingrese correo y contraseña", Toast.LENGTH_SHORT).show();
+        if (correo.isEmpty() && clave.isEmpty()) {
+            Toast.makeText(getContext(), "Ingrese correo y contraseña", Toast.LENGTH_SHORT).show();
             return;
         }
         if (correo.isEmpty()) {
-            Toast.makeText(this, "Debe ingresar el correo", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Debe ingresar el correo", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (pass.isEmpty()) {
-            Toast.makeText(this, "Ingrese la contraseña", Toast.LENGTH_SHORT).show();
+        if (clave.isEmpty()) {
+            Toast.makeText(getContext(), "Ingrese la contraseña", Toast.LENGTH_SHORT).show();
             return;
         } else {
-             consumirServicoLogin();
+            consumirServicoLogin();
+            dismiss();
         }
-
     }
 
     /**
-     * METODO UTILIZADO PARA CONSUMIR EL SEVICIO QUE PERMITE INICIAR SESIÓN
+     * mETODO UTILIZADO PARA CONSUMIR EL SEVICIO QUE PERMITE INICIAR SESIÓN
      */
     public void consumirServicoLogin() {
 
@@ -118,7 +140,7 @@ public class Activity_login extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("user_email", this.correo);
-            jsonObject.put("user_password", this.pass);
+            jsonObject.put("user_password", this.clave);
             jsonObject.put("gethash", "true");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -136,10 +158,10 @@ public class Activity_login extends AppCompatActivity {
                             if (response.get("message").toString().equalsIgnoreCase("error")) {
                                 try {
                                     Global.mensaje = response.get("description").toString();
-                                    Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
                                     System.out.println("description " + response.get("description").toString());
                                     if (Global.mensaje.equalsIgnoreCase("Contraseña inválida")) {
-                                        txtPass.setText("");
+                                        email.setText("");
                                     } else {
                                         limpiarLogin();
                                     }
@@ -174,31 +196,32 @@ public class Activity_login extends AppCompatActivity {
 
                                     if (!Global.POSITION.equalsIgnoreCase("TÉCNICO")) {
                                         Global.mensaje = "El usuario no tiene permisos";
-                                        Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
                                         limpiarLogin();
                                         cerrarSesion();
                                         return;
                                     } else if (Global.STATUS.equalsIgnoreCase("INACTIVO")) {
                                         Global.mensaje = "El usuario está inactivo";
                                         limpiarLogin();
-                                        Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
                                         return;
                                     }
 
                                     guardarSesion();
+                                    guardarLogueoHuella();
 
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                                 if (Integer.parseInt(Global.LOGIN) == 0) {
-                                    Intent i = new Intent(Activity_login.this, Activity_UpdatePassword.class);
+                                    Intent i = new Intent(getContext(), Activity_UpdatePassword.class);
                                     startActivity(i);
-                                    finish();
+                                    getActivity().finish();
                                 } else {
-                                    Intent i = new Intent(Activity_login.this, MainActivity.class);
+                                    Intent i = new Intent(getContext(), MainActivity.class);
                                     startActivity(i);
-                                    finish();
+                                    getActivity().finish();
                                 }
                                 return;
                             }
@@ -215,7 +238,7 @@ public class Activity_login extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(Activity_login.this, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -231,37 +254,26 @@ public class Activity_login extends AppCompatActivity {
         queue.add(jsArrayRequest);
     }
 
-    public void validarHuella() {
-        correo = getValueStrPreferenceLogueoHuella(getApplicationContext(), "email_user");
-        pass = getValueStrPreferenceLogueoHuella(getApplicationContext(), "pass");
-        if (correo == null || correo.isEmpty()) {
-            cargarPanel();
-        } else {
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(i);
-            finish();
-        }
-    }
 
-    public void cargarPanel() {
-        DialogGuardarCredenciales dialog = new DialogGuardarCredenciales();
-        dialog.show(Activity_login.this.getSupportFragmentManager(), "");
+    public void guardarLogueoHuella() { //guarda la clave y el usuario
+        saveValueStrPreferenceLogueoHuella(getContext(), "email_user", correo);
+        saveValueStrPreferenceLogueoHuella(getContext(), "pass", clave);
+
     }
 
 
     public void guardarSesion() {
-
-        saveValueStrPreference(Activity_login.this, "token", Global.TOKEN);
-        saveValueStrPreference(Activity_login.this, "rol", Global.ROL);
-        saveValueStrPreference(Activity_login.this, "login", Global.LOGIN);
-        saveValueStrPreference(Activity_login.this, "id", Global.ID);
-        saveValueStrPreference(Activity_login.this, "status", Global.STATUS);
-        saveValueStrPreference(Activity_login.this, "position", Global.POSITION);
-        saveValueStrPreference(Activity_login.this, "code", Global.CODE);
-        saveValueStrPreference(Activity_login.this, "nombre", Global.NOMBRE);
-        saveValueStrPreference(Activity_login.this, "email", Global.EMAIL);
-        saveValueStrPreference(Activity_login.this, "location", Global.LOCATION);
-        saveValueStrPreference(Activity_login.this, "phone", Global.PHONE);
+        saveValueStrPreferenceLogueoHuella(getContext(), "token", Global.TOKEN);
+        saveValueStrPreferenceLogueoHuella(getContext(), "rol", Global.ROL);
+        saveValueStrPreferenceLogueoHuella(getContext(), "login", Global.LOGIN);
+        saveValueStrPreferenceLogueoHuella(getContext(), "id", Global.ID);
+        saveValueStrPreferenceLogueoHuella(getContext(), "status", Global.STATUS);
+        saveValueStrPreferenceLogueoHuella(getContext(), "position", Global.POSITION);
+        saveValueStrPreferenceLogueoHuella(getContext(), "code", Global.CODE);
+        saveValueStrPreferenceLogueoHuella(getContext(), "nombre", Global.NOMBRE);
+        saveValueStrPreferenceLogueoHuella(getContext(), "email", Global.EMAIL);
+        saveValueStrPreferenceLogueoHuella(getContext(), "location", Global.LOCATION);
+        saveValueStrPreferenceLogueoHuella(getContext(), "phone", Global.PHONE);
     }
 
 
@@ -286,12 +298,12 @@ public class Activity_login extends AppCompatActivity {
                             if (response.get("status").toString().equalsIgnoreCase("fail")) {
                                 try {
                                     Global.mensaje = response.get("message").toString();
-                                    Toast.makeText(Activity_login.this, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
-                            eliminarValues(Activity_login.this);
+                            eliminarValues(getContext());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -304,7 +316,7 @@ public class Activity_login extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(getApplicationContext(), "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -321,28 +333,7 @@ public class Activity_login extends AppCompatActivity {
     }
 
     private void limpiarLogin() {
-        this.txtCorreo.setText("");
-        this.txtPass.setText("");
+        this.email.setText("");
+        this.contrasenia.setText("");
     }
-
-    public void mostrarClave(View v) {
-
-        if (txtPass.getInputType() == 129) {
-
-            txtPass.setInputType(1);
-
-            return;
-        }
-
-        if (txtPass.getInputType() == 1) {
-
-            txtPass.setInputType(129);
-
-            return;
-        }
-
-
-    }
-
-
 }

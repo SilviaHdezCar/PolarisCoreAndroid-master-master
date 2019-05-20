@@ -35,6 +35,8 @@ import java.util.Map;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
+import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValuesLogueoHuella;
+import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.saveValueStrPreferenceLogueoHuella;
 
 public class Activity_UpdatePassword extends AppCompatActivity {
 
@@ -62,7 +64,7 @@ public class Activity_UpdatePassword extends AppCompatActivity {
         cambioClave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validarClave()){
+                if (validarClave()) {
                     System.out.println("DIO CLIC EN CAMBIAR CLAVE");
                     consumirServicioCambiarClave();
                     System.out.println("FIN CAMBIAR CLAVE");
@@ -169,7 +171,6 @@ public class Activity_UpdatePassword extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Log.d("RESPUESTA cambiar clave", response.toString());
                             if (!response.get("message").toString().equalsIgnoreCase("success")) {
                                 try {
                                     Global.mensaje = response.get("message").toString();
@@ -183,14 +184,13 @@ public class Activity_UpdatePassword extends AppCompatActivity {
                                         objeto.consumirSercivioCerrarSesion();
                                         return;
                                     }
-                                    Toast.makeText(objeto, "ERROR: "+Global.mensaje, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(objeto, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
                                     return;
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             } else {
-                                System.out.println("CAMBIAR CONTRASEÑA-->Clave: " + txt_confirmacion.getText().toString() + "" + Global.mensaje);
-
+                                actualizarLogueoHuella();
                                 Toast.makeText(Activity_UpdatePassword.this, "Contraseña actualizada con éxito", Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(Activity_UpdatePassword.this, MainActivity.class);
                                 startActivity(i);
@@ -251,7 +251,7 @@ public class Activity_UpdatePassword extends AppCompatActivity {
                                 try {
                                     Global.mensaje = response.get("message").toString();
 
-                                    Toast.makeText(Activity_UpdatePassword.this,"ERROR: "+ Global.mensaje, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Activity_UpdatePassword.this, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
                                     return;
 
                                 } catch (JSONException e) {
@@ -292,7 +292,12 @@ public class Activity_UpdatePassword extends AppCompatActivity {
         queue.add(jsArrayRequest);
     }
 
+    public void actualizarLogueoHuella() { //guarda la clave y el usuario
+        eliminarValuesLogueoHuella(getApplicationContext());
+        saveValueStrPreferenceLogueoHuella(getApplicationContext(), "email_user", Global.EMAIL);
+        saveValueStrPreferenceLogueoHuella(getApplicationContext(), "pass", txt_confirmacion.getText().toString());
 
+    }
 }
 
 

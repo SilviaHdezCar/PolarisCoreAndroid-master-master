@@ -23,6 +23,10 @@
     <string name="titulo_spiner">Seleccione un repuesto</string>
 
 
+    <string name="informacion_huella">Tenga en cuenta que cualquier huella registrada en este dispositivo podrá ser utilizada para acceder a la aplicación.</string>
+    <string name="informacion2_huella">Puede desactivar esta opción en cualquier momento desde la aplicación, en el menú / Autenticación con huella</string>
+
+
     <string-array name="preguntas">
         <item> NO SELECCION</item>
         <item>¿Cuál fue el nombre de tu primera mascota?</item>

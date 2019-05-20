@@ -96,6 +96,7 @@ public class InicialFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_inicial, container, false);
+        Global.soloConsulta = "no";
 
         btn_asociadas = (Button) v.findViewById(R.id.btn_terminales_asociadas);
         btn_autorizadas = (Button) v.findViewById(R.id.btn_terminales_autorizadas);
@@ -182,9 +183,9 @@ public class InicialFragment extends Fragment {
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
-                                        objeto.consumirSercivioCerrarSesion();
-                                        return;
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
                                 }
                                 Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
@@ -195,8 +196,8 @@ public class InicialFragment extends Fragment {
 
                             if (jsonArray.length() == 0) {
                                 Global.mensaje = "No tiene obervaciones";
-                             //   consumirServicioValidaciones();
-                              //  objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+                                //   consumirServicioValidaciones();
+                                //  objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
                                 return;
                             } else {
 
@@ -397,7 +398,7 @@ public class InicialFragment extends Fragment {
                                 }
                                 Global.VALIDACIONES.add(valid);
                             }
-                        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+                            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
                             return;
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -461,15 +462,13 @@ public class InicialFragment extends Fragment {
                 Global.modelo = terminal.get(position).getTerm_model();
 
                 //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
-                Global.lista_tipificaciones_tabla=new ArrayList<Tipificacion>();
-                Global.listTipificaciones=new ArrayList<Tipificacion>();
+                Global.lista_tipificaciones_tabla = new ArrayList<Tipificacion>();
+                Global.listTipificaciones = new ArrayList<Tipificacion>();
+
                 consumirServicioEtapas();
+                consumirServicioValidaciones();
 
 
-                    consumirServicioValidaciones();
-
-
-                    //consumirServicioValidaciones();
 
                 //   objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
 
@@ -602,15 +601,13 @@ public class InicialFragment extends Fragment {
 
     public void llenarRVAutorizada(List<Terminal> terminalesRecibidas) {
 
-
-        System.out.println("Llenar Rv autoriza: " + terminalesRecibidas.size());
         if (terminalesRecibidas == null || terminalesRecibidas.size() == 0) {
 
             Toast.makeText(objeto, " No tiene terminales autorizadas", Toast.LENGTH_SHORT).show();
 
         }
 
-               rv.setHasFixedSize(true);
+        rv.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
         rv.setLayoutManager(llm);
