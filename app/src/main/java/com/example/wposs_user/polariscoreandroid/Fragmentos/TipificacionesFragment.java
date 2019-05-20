@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -394,11 +395,15 @@ public class TipificacionesFragment extends Fragment {
             for (int i = 0; i < Global.listTipificaciones.size(); i++) {
                 TableRow fila = new TableRow(objeto);
                 fila.setId(i);
-                fila.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                fila.setBackgroundResource(R.drawable.borde_inferior_gris);
+                fila.setGravity(Gravity.CENTER_VERTICAL);
+                fila.setPadding(1, 5, 1, 5);
+
                 //celdas
                 System.out.println(Global.listTipificaciones.get(i).toString());
                 TextView nombre = new TextView(objeto);
                 nombre.setId(100 + i);
+                nombre.setPadding(20,0,0,0);
 
                 nombre.setText(Global.listTipificaciones.get(i).getTetv_description());
 
@@ -409,7 +414,7 @@ public class TipificacionesFragment extends Fragment {
                 btn_eliminar.setMinimumWidth(30);
                 btn_eliminar.setMaxHeight(30);
                 btn_eliminar.setMinimumHeight(30);
-                btn_eliminar.setPadding(1, 1, 1, 1);
+               //btn_eliminar.setPadding(1, 5, 1, 5);
                 btn_eliminar.setImageResource(R.drawable.ic_delete);
                 btn_eliminar.setBackgroundResource(R.color.blanco);
 

@@ -38,6 +38,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogHuella;
+import com.example.wposs_user.polariscoreandroid.Dialogs.DialogGuardarCredenciales;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.java.FingerprintHandler;
@@ -99,6 +100,8 @@ import javax.crypto.SecretKey;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
+import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.getValueStrPreference;
+import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.getValueStrPreferenceLogueoHuella;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.saveValueStrPreference;
 
 
@@ -114,7 +117,7 @@ public class Activity_login extends AppCompatActivity {
     private String pass;
     private ImageButton verClave;
     private TextView recuperarClave;
-    ImageButton huella;
+    private ImageButton huella;
 
     //variables de la huella
     private static final String KEY_NAME = "pruebaHuella";
@@ -143,22 +146,21 @@ public class Activity_login extends AppCompatActivity {
             }
         });
 
+        //para lo de la huella, al dar clic en el boton de huella, validar si la huella está guardada
+
         recuperarClave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent i;
-                i = new Intent(Activity_login.this, Reestablecer_password .class);
+                i = new Intent(Activity_login.this, Reestablecer_password.class);
                 startActivity(i);
                 finish();
             }
         });
 
 
-
     }
-
-
 
 
     /**
@@ -169,8 +171,8 @@ public class Activity_login extends AppCompatActivity {
     public void iniciarSesion(View view) {
         correo = this.txtCorreo.getText().toString();
         pass = this.txtPass.getText().toString();
-
-        if (correo.isEmpty() && pass.isEmpty()) {
+    //   cargarPanel();
+     if (correo.isEmpty() && pass.isEmpty()) {
             Toast.makeText(this, "Ingrese correo y contraseña", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -182,16 +184,13 @@ public class Activity_login extends AppCompatActivity {
             Toast.makeText(this, "Ingrese la contraseña", Toast.LENGTH_SHORT).show();
             return;
         } else {
-
-            consumirServicoLogin();
-
-
+             consumirServicoLogin();
         }
 
     }
 
     /**
-     * mETODO UTILIZADO PARA CONSUMIR EL SEVICIO QUE PERMITE INICIAR SESIÓN
+     * METODO UTILIZADO PARA CONSUMIR EL SEVICIO QUE PERMITE INICIAR SESIÓN
      */
     public void consumirServicoLogin() {
 
@@ -312,6 +311,23 @@ public class Activity_login extends AppCompatActivity {
         queue.add(jsArrayRequest);
     }
 
+    public void validarHuella() {
+        correo = getValueStrPreferenceLogueoHuella(getApplicationContext(), "email_user");
+        pass = getValueStrPreferenceLogueoHuella(getApplicationContext(), "pass");
+        if (correo == null || correo.isEmpty()) {
+            cargarPanel();
+        } else {
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
+            finish();
+        }
+    }
+
+    public void cargarPanel() {
+        DialogGuardarCredenciales dialog = new DialogGuardarCredenciales();
+        dialog.show(Activity_login.this.getSupportFragmentManager(), "");
+    }
+
 
     public void guardarSesion() {
 
@@ -368,7 +384,7 @@ public class Activity_login extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -389,16 +405,16 @@ public class Activity_login extends AppCompatActivity {
         this.txtPass.setText("");
     }
 
-    public void mostrarClave(View v){
+    public void mostrarClave(View v) {
 
-     if(txtPass.getInputType()==129){
+        if (txtPass.getInputType() == 129) {
 
-         txtPass.setInputType(1);
+            txtPass.setInputType(1);
 
-         return;
-     }
+            return;
+        }
 
-        if(txtPass.getInputType()==1){
+        if (txtPass.getInputType() == 1) {
 
             txtPass.setInputType(129);
 

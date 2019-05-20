@@ -41,6 +41,8 @@ import java.util.Map;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
+import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValuesLogueoHuella;
+import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.saveValueStrPreferenceLogueoHuella;
 
 
 public class ActualizarClave_perfil extends Fragment {
@@ -57,6 +59,7 @@ public class ActualizarClave_perfil extends Fragment {
     private String nueva;
     private String confirmacion;
     private RequestQueue queue;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -90,7 +93,7 @@ public class ActualizarClave_perfil extends Fragment {
                     Toast.makeText(objeto, "Por favor ingrese la clave actual", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                   consumirServicoVerificarClave();
+                    consumirServicoVerificarClave();
                 }
                 //validar que el campo de la clave no esté vacio
                 //consumir servicio cambiar clave
@@ -139,7 +142,7 @@ public class ActualizarClave_perfil extends Fragment {
             return "Por favor ingrese contraseña nueva";
         } else if (confirmacion.isEmpty()) {
             return "Por favor ingrese  confirmarción de contraseña";
-        } else if(nueva.equals(actual)){
+        } else if (nueva.equals(actual)) {
             return "La contraseña nueva no puede ser igual a la antigua";
         } else if (!(nueva.length() >= 8)) {
             return "La contraseña no cumple con las condiciones";
@@ -182,7 +185,7 @@ public class ActualizarClave_perfil extends Fragment {
     }
 
 
-    public void consumirServicoVerificarClave(){
+    public void consumirServicoVerificarClave() {
         String url = "http://100.25.214.91:3000/PolarisCore/Users/verification";
         JSONObject jsonObject = new JSONObject();
         try {
@@ -210,13 +213,14 @@ public class ActualizarClave_perfil extends Fragment {
                                     }
                                     if (response.get("message").toString().equalsIgnoreCase("invalid  password")) {
                                         Global.mensaje = "Contraseña inválida";
-                                    } if (response.get("message").toString().equalsIgnoreCase("token no valido")) {
+                                    }
+                                    if (response.get("message").toString().equalsIgnoreCase("token no valido")) {
                                         Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
                                         objeto.consumirSercivioCerrarSesion();
                                         return;
                                     }
                                     limpiar();
-                                    Toast.makeText(objeto, "ERROR: "+Global.mensaje, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(objeto, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
                                     return;
 
                                 } catch (JSONException e) {
@@ -257,13 +261,12 @@ public class ActualizarClave_perfil extends Fragment {
     }
 
 
-
     //este metodo se utiliza para desacrtivar Edit-text y botones
     private void habilitar_inhabilitar() {
         perfil_clave_actual.setEnabled(false);
         btn_validar.setOnClickListener(null);
         layout_datos_cambiar_clave.setVisibility(View.VISIBLE);
-       layout_clave_actual.setVisibility(View.INVISIBLE);
+        layout_clave_actual.setVisibility(View.INVISIBLE);
     }
 
     private void limpiar() {
@@ -273,8 +276,7 @@ public class ActualizarClave_perfil extends Fragment {
     }
 
 
-
-    public void consumirServicioCambiarClave(){
+    public void consumirServicioCambiarClave() {
         String url = "http://100.25.214.91:3000/PolarisCore/Users/updatePassword";
         JSONObject jsonObject = new JSONObject();
         try {
@@ -303,7 +305,8 @@ public class ActualizarClave_perfil extends Fragment {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                            } else{
+                            } else {
+                                actualizarLogueoHuella();
                                 Toast.makeText(objeto, "Contraseña actualizada", Toast.LENGTH_SHORT).show();
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
                             }
@@ -335,4 +338,10 @@ public class ActualizarClave_perfil extends Fragment {
         queue.add(jsArrayRequest);
     }
 
+    public void actualizarLogueoHuella() { //guarda la clave y el usuario
+        eliminarValuesLogueoHuella(objeto);
+        saveValueStrPreferenceLogueoHuella(objeto, "email_user", Global.EMAIL);
+        saveValueStrPreferenceLogueoHuella(objeto, "pass", this.nueva);
+
+    }
 }

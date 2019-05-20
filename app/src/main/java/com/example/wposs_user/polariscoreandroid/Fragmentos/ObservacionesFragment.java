@@ -58,8 +58,8 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 
 public class ObservacionesFragment extends Fragment {
     private View v;
-    private TextView btn_tomar_foto;
-    private TextView btn_tomar_foto2;
+    private TextView lbl_nomFoto;
+    private TextView lbl_nomFoto2;
     private TextView txt_observacion;
     private ImageView imagen_observación;
     private ImageView imagen_observación2;
@@ -87,25 +87,23 @@ public class ObservacionesFragment extends Fragment {
         objeto.setTitle("               OBSERVACIÓN");
 
 
-        imagen_observación = (ImageView) v.findViewById(R.id.imagen_observación);
-        imagen_observación2 = (ImageView) v.findViewById(R.id.imagen_observación2);
+        imagen_observación = (ImageView) v.findViewById(R.id.imagen_observacion);
+        imagen_observación2 = (ImageView) v.findViewById(R.id.imagen_observacion2);
         queue = Volley.newRequestQueue(objeto);
         finalizar = (Button) v.findViewById(R.id.btn_finalizar_observacion);
 
         //layout_finalizar_diagnostico.setVisibility(View.INVISIBLE);
 
         txt_observacion = (TextView) v.findViewById(R.id.txt_observacion_fin);
-        btn_tomar_foto = (TextView) v.findViewById(R.id.lbl_cargarFoto);
-        btn_tomar_foto2 = (TextView) v.findViewById(R.id.lbl_cargarFoto2);
+        lbl_nomFoto = (TextView) v.findViewById(R.id.lbl_nomFoto);
+        lbl_nomFoto2 = (TextView) v.findViewById(R.id.lbl_nomFoto2);
 
-        btn_tomar_foto.setPaintFlags(btn_tomar_foto.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        // nomFoto = Global.ID + ".jpg";
         bitmap_foto1 = null;
         bitmap_foto2 = null;
 
         foto = 0;
 
-        btn_tomar_foto.setOnClickListener(new View.OnClickListener() {
+        imagen_observación.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 foto = 1;
@@ -114,7 +112,7 @@ public class ObservacionesFragment extends Fragment {
             }
         });
 
-        btn_tomar_foto2.setOnClickListener(new View.OnClickListener() {
+        imagen_observación2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 foto = 2;
@@ -244,11 +242,24 @@ public class ObservacionesFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (foto == 1) {
-            bitmap_foto1 = (Bitmap) data.getExtras().get("data");
-            imagen_observación.setImageBitmap(bitmap_foto1);
+            if (data != null) {
+                if (data.getExtras() != null) {
+                    if (data.getExtras().get("data") != null) {
+                        bitmap_foto1 = (Bitmap) data.getExtras().get("data");
+                        imagen_observación.setImageBitmap(bitmap_foto1);
+                    }
+                }
+            }
+
         } else if (foto == 2) {
-            bitmap_foto2 = (Bitmap) data.getExtras().get("data");
-            imagen_observación2.setImageBitmap(bitmap_foto2);
+            if (data != null) {
+                if (data.getExtras() != null) {
+                    if (data.getExtras().get("data") != null) {
+                        bitmap_foto2 = (Bitmap) data.getExtras().get("data");
+                        imagen_observación2.setImageBitmap(bitmap_foto2);
+                    }
+                }
+            }
         }
 
 

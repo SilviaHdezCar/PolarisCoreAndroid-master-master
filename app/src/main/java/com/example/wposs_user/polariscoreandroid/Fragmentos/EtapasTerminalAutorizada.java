@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,6 +80,8 @@ public class EtapasTerminalAutorizada extends Fragment {
     private Button btn_agregar_etapa_autorizada;
     private Button btn_siguiente_etapas_autorizada;
 
+    private TableLayout tablaObservacion;
+
     private static Observacion o;
 
 
@@ -128,6 +131,7 @@ public class EtapasTerminalAutorizada extends Fragment {
         Global.fotos = new ArrayList<>();
         view = inflater.inflate(R.layout.fragment_etapas_terminal_autorizada, container, false);
 
+
         // muestro la terminal seleccionada con los valores que guarde en el obj terminal
 
         serial = (TextView) view.findViewById(R.id.serial_ter_asociada);
@@ -140,6 +144,8 @@ public class EtapasTerminalAutorizada extends Fragment {
         btn_agregar_etapa_autorizada = (Button) view.findViewById(R.id.btn_agregar_etapa_autorizada);
         btn_siguiente_etapas_autorizada = (Button) view.findViewById(R.id.btn_siguiente_etapas_autorizadas);
         textArea_observacion = (EditText) view.findViewById(R.id.textArea_information);
+
+        tablaObservacion = (TableLayout) view.findViewById(R.id.tablaObservacion);
 
 
         serial.setText(Global.terminalVisualizar.getTerm_serial());
@@ -161,6 +167,10 @@ public class EtapasTerminalAutorizada extends Fragment {
             }
         });
 
+
+        if(Global.soloConsulta.equalsIgnoreCase("si")){
+            tablaObservacion.setVisibility(View.GONE);
+        }
         consumirServicioEtapas();
         btn_agregar_etapa_autorizada.setOnClickListener(new View.OnClickListener() {
             @Override

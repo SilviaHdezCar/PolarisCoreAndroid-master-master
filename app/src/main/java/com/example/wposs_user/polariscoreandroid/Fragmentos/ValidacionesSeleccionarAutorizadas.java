@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -242,12 +243,16 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
         for (int i = 0; i < Global.VALIDACIONES.size(); i++) {
             TableRow fila = new TableRow(objeto);
             fila.setId(i);
+            fila.setBackgroundResource(R.drawable.borde_inferior_gris);
+            fila.setGravity(Gravity.CENTER_VERTICAL);
+
             //celdas
 
             TextView nombre = new TextView(objeto);
             nombre.setId(200 + i);
             nombre.setText(Global.VALIDACIONES.get(i).getTeva_description());
             nombre.setWidth(2);
+            nombre.setPadding(20,0,0,0);
 
             RadioGroup rg = new RadioGroup(objeto);
 
