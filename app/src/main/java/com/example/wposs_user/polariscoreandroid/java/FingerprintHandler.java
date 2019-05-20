@@ -16,6 +16,10 @@ import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
+import com.example.wposs_user.polariscoreandroid.Dialogs.DialogGuardarCredenciales;
+import com.example.wposs_user.polariscoreandroid.Dialogs.DialogHuella;
+import com.example.wposs_user.polariscoreandroid.Fragmentos.ConsultaTerminalesSerial;
 import com.example.wposs_user.polariscoreandroid.R;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.Activity_login.objeto_login;
@@ -28,11 +32,13 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     private String resultado;
     private boolean huella;
 
+
     // Constructor
     public FingerprintHandler(Context mContext) {
         context = mContext;
         this.resultado = "";
         this.huella = false;
+
     }
 
     public FingerprintHandler() {
@@ -83,14 +89,20 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
     public void update(String e, Boolean success) {
 
+        DialogHuella dialogo = objeto_login.getDialogo();
 
-        this.huella = success;
+       this.huella = success;
         this.resultado = e;
         if(huella){
+
+            dialogo.dismiss();
+
             objeto_login.validarHuella();
+
             return;
         }else{
             Toast.makeText(this.context, e, Toast.LENGTH_SHORT).show();
+            dialogo.dismiss();
         }
 
     }

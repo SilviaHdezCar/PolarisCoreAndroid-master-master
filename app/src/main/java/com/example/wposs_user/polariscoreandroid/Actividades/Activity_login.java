@@ -117,6 +117,7 @@ public class Activity_login extends AppCompatActivity {
     private ImageButton verClave;
     private TextView recuperarClave;
     private ImageButton huella;
+    DialogHuella dialogo;
 
     public static Activity_login objeto_login;
 
@@ -501,8 +502,8 @@ public class Activity_login extends AppCompatActivity {
     public void loginHuella() {
         //Inicializo las variables  para la huella
 
-        DialogHuella dialog = new DialogHuella();
-        dialog.show(Activity_login.this.getSupportFragmentManager(), "");
+        dialogo = new DialogHuella();
+        dialogo.show(Activity_login.this.getSupportFragmentManager(), "");
 
         KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
 
@@ -562,5 +563,7 @@ public class Activity_login extends AppCompatActivity {
 
     }
 
-
+    public DialogHuella getDialogo() {
+        return dialogo;
+    }
 }

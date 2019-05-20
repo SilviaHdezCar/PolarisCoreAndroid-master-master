@@ -2,6 +2,7 @@ package com.example.wposs_user.polariscoreandroid.Dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -55,6 +56,7 @@ public class DialogGuardarCredenciales extends DialogFragment {
     private Button btn_cancelar;
     private Button btn_activar_huella;
     private Button btn_cancelar_huella;
+    public static DialogGuardarCredenciales objeto_credenciales;
 
     private LinearLayout layout_informacion;
     private LinearLayout layout_credenciales;
@@ -83,8 +85,7 @@ public class DialogGuardarCredenciales extends DialogFragment {
 
         layout_credenciales.setVisibility(View.GONE);
 
-        actualizar = new Intent(objeto_login, Activity_UpdatePassword.class);
-        main = new Intent(objeto_login, MainActivity.class);
+
 
         queue = Volley.newRequestQueue(getContext());
         btn_activar_huella.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +137,7 @@ public class DialogGuardarCredenciales extends DialogFragment {
             return;
         } else {
             consumirServicoLogin();
-            dismiss();
+
         }
     }
 
@@ -221,7 +222,7 @@ public class DialogGuardarCredenciales extends DialogFragment {
 
                                     guardarSesion();
                                     guardarLogueoHuella();
-
+                                    dismiss();
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -229,14 +230,17 @@ public class DialogGuardarCredenciales extends DialogFragment {
                                if (Integer.parseInt(Global.LOGIN) == 0) {
 
                                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                                        getActivity().startActivity(actualizar);
-                                        getActivity().finish();
+                                        Intent i = new Intent(view.getContext(), Activity_UpdatePassword.class);
+                                        view.getContext().startActivity(i);
+
                                     }
 
                                 } else {
                                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                                        startActivity(main);
-                                        getActivity().finish();
+
+                                        Intent j = new Intent(view.getContext(), MainActivity.class);
+                                        view.getContext().startActivity(j);
+
                                     }
 
                                 }
@@ -355,4 +359,12 @@ public class DialogGuardarCredenciales extends DialogFragment {
         this.email.setText("");
         this.contrasenia.setText("");
     }
+
+
+
+
+
 }
+
+
+

@@ -14,30 +14,28 @@ public class DialogHuella  extends DialogFragment {
 
     private View view;
     private Button cancelar;
+    AlertDialog.Builder dialogo;
 
 
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState){
-        AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity());
-        view= getActivity().getLayoutInflater().inflate(R.layout.login_huella,null);
-        cancelar=(Button)view.findViewById(R.id.cancelar_login);
+    public DialogHuella() {
+    }
+
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        dialogo = new AlertDialog.Builder(getActivity());
+        view = getActivity().getLayoutInflater().inflate(R.layout.login_huella, null);
+        cancelar = (Button) view.findViewById(R.id.cancelar_login);
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
-
         dialogo.setView(view);
+
 
         return dialogo.create();
 
 
-
     }
-
-
-
-
-
 
 }
