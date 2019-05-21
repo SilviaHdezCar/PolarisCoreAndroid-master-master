@@ -117,6 +117,7 @@ public class Activity_login extends AppCompatActivity {
     private ImageButton verClave;
     private TextView recuperarClave;
     private ImageButton huella;
+    DialogHuella dialogo;
 
     public static Activity_login objeto_login;
 
@@ -500,9 +501,10 @@ public class Activity_login extends AppCompatActivity {
 
     public void loginHuella() {
         //Inicializo las variables  para la huella
+        cipher=null;
 
-        DialogHuella dialog = new DialogHuella();
-        dialog.show(Activity_login.this.getSupportFragmentManager(), "");
+        dialogo = new DialogHuella();
+        dialogo.show(Activity_login.this.getSupportFragmentManager(), "");
 
         KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
 
@@ -527,7 +529,7 @@ public class Activity_login extends AppCompatActivity {
                  * startActivity(intent);
                  */
 
-                Toast.makeText(this, "su dipositivo no cuenta con un sensor de huellas", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Su dipositivo no cuenta con un sensor de huellas", Toast.LENGTH_SHORT).show();
             } else {
                 // Checks whether fingerprint permission is set on manifest
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
@@ -543,7 +545,7 @@ public class Activity_login extends AppCompatActivity {
                     } else {
                         // Checks whether lock screen security is enabled or not
                         if (!keyguardManager.isKeyguardSecure()) {
-                            Toast.makeText(this, "No esta habiliatada la seguridad por sensor de huellas ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "No esta habilitada la seguridad por sensor de huellas en su dispositivo", Toast.LENGTH_SHORT).show();
                         } else {
                             generateKey();
 
@@ -562,5 +564,7 @@ public class Activity_login extends AppCompatActivity {
 
     }
 
-
+    public DialogHuella getDialogo() {
+        return dialogo;
+    }
 }
