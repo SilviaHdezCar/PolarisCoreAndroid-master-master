@@ -40,48 +40,13 @@
         </LinearLayout>
 
 
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/borde_inferior_gris"></LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_estado_terminal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/borde_inferior_gris"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/letra_negrita_terminal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Estado de la terminal" />
-
-            <TextView
-                style="@style/letra_contenido"
-                android:id="@+id/text_estado_ter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Diagnóstico" />
-
-        </LinearLayout>
-
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/redondo_gris"
+
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
@@ -109,17 +74,23 @@
                     android:layout_height="40dp"
                     android:clickable="true"
                     android:focusable="false"
-                    android:hint="Fecha fin"
+                    android:hint="Fecha final"
                     android:maxLines="1"
-                    android:paddingLeft="5dp" />
+                    android:paddingLeft="5dp"
+                    android:layout_marginLeft="20dp"/>
 
                 <ImageView
                     android:id="@+id/btn_buscar_terminalesPorFechas"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
                     android:src="@mipmap/search"
+                    android:tint="@color/verde_pestanas"
+                    android:backgroundTint="@color/blanco"
                     android:background="@color/gris_menu"/>
+
+
             </LinearLayout>
 
 
@@ -137,7 +108,7 @@
             android:padding="10dp" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_consultaTerminales"
+            android:id="@+id/recycler_view_consultaTerminalesFecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp" />
