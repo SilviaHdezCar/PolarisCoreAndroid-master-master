@@ -89,32 +89,59 @@
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/blanco" />
 
+              <LinearLayout
+                android:layout_width="wrap_content"
+               android:layout_height="wrap_content">
+
 
             <EditText
                 android:id="@+id/txtCorreo_guardar_sesion"
                 style="@style/letra_contenido"
                 android:layout_width="250dp"
                 android:layout_height="40dp"
-                android:background="@drawable/redondo_gris"
+                android:background="@drawable/cuadrado_fondo_blanco"
                 android:gravity="center"
                 android:hint="@string/correo"
                 android:inputType="textEmailAddress"
                 android:paddingLeft="10dp" />
 
+
+</LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+
+
             <EditText
                 android:id="@+id/txtPass_guardar_sesion"
                 style="@style/letra_contenido"
-                android:layout_width="250dp"
+                android:layout_width="220dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/redondo_gris"
+                android:background="@color/blanco"
                 android:gravity="center"
                 android:hint="@string/clave"
                 android:inputType="textPassword" />
 
+                <ImageButton
+                    android:id="@+id/btn_ver_clave"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_ver"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/blanco"
+
+                    />
+
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">

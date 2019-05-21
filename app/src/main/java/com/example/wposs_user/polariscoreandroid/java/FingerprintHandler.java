@@ -13,6 +13,8 @@ import android.os.Build;
 import android.os.CancellationSignal;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +63,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
     @Override
     public void onAuthenticationFailed() {
-        this.update("No se reconoe la huella digital", false);
+        this.update("No se reconoce la huella digital", false);
     }
 
 
@@ -91,9 +93,11 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
         DialogHuella dialogo = objeto_login.getDialogo();
 
-       this.huella = success;
+
+
+        this.huella = success;
         this.resultado = e;
-        if(huella){
+         if(huella){
 
             dialogo.dismiss();
 

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -57,6 +58,7 @@ public class DialogGuardarCredenciales extends DialogFragment {
     private Button btn_activar_huella;
     private Button btn_cancelar_huella;
     public static DialogGuardarCredenciales objeto_credenciales;
+    private ImageButton ver_clave;
 
     private LinearLayout layout_informacion;
     private LinearLayout layout_credenciales;
@@ -78,6 +80,32 @@ public class DialogGuardarCredenciales extends DialogFragment {
         btn_cancelar = (Button) view.findViewById(R.id.btn_cancelar_Credenciales);
         btn_activar_huella = (Button) view.findViewById(R.id.btn_activar_huella);
         btn_cancelar_huella = (Button) view.findViewById(R.id.btn_cancelar_huella);
+        ver_clave=(ImageButton)view.findViewById(R.id.btn_ver_clave);
+
+        ver_clave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                    if (contrasenia.getInputType() == 129) {
+
+                        contrasenia.setInputType(1);
+
+                        return;
+                    }
+
+                    if (contrasenia.getInputType() == 1) {
+
+                        contrasenia.setInputType(129);
+
+                        return;
+                    }
+
+
+
+            }
+        });
+
 
 
         layout_informacion = (LinearLayout) view.findViewById(R.id.layout_informacion);
@@ -174,7 +202,7 @@ public class DialogGuardarCredenciales extends DialogFragment {
                                     }
                                     System.out.println("description " + response.get("description").toString());
                                     if (Global.mensaje.equalsIgnoreCase("Contraseña inválida")) {
-                                        email.setText("");
+                                        contrasenia.setText("");
                                     } else {
                                         limpiarLogin();
                                     }
