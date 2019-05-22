@@ -10,11 +10,20 @@ public class Observacion implements Comparable<Observacion> {
 
     //colocarle los mismos atributos que estan en la BD
     private String teob_id;
+    private String teob_date;
+    private String teob_description;
+    private String teob_fecha;
+    private String teob_id_user;
+    private String teob_open;
+    private String teob_photo;
+    private String teob_serial_terminal;
+
+  /*  private String teob_id;
     private String teob_description;
     private String teob_fecha;
     private String teob_id_user;
     private String teob_photo;
-    private String teob_serial_terminal;
+    private String teob_serial_terminal;*/
 
 
     public Observacion(String teob_id, String teob_description, String teob_fecha, String teob_id_user, String teob_photo, String teob_serial_terminal) {
@@ -26,11 +35,38 @@ public class Observacion implements Comparable<Observacion> {
         this.teob_serial_terminal = teob_serial_terminal;
     }
 
+    public Observacion(String teob_id, String teob_date, String teob_description, String teob_fecha, String teob_id_user, String teob_open, String teob_photo, String teob_serial_terminal) {
+        this.teob_id = teob_id;
+        this.teob_date = teob_date;
+        this.teob_description = teob_description;
+        this.teob_fecha = teob_fecha;
+        this.teob_id_user = teob_id_user;
+        this.teob_open = teob_open;
+        this.teob_photo = teob_photo;
+        this.teob_serial_terminal = teob_serial_terminal;
+    }
     public Observacion(String teob_description, String teob_serial_terminal, String teob_photo) {
         this.teob_description = teob_description;
         this.teob_photo = teob_photo;
         System.out.println("observacion serial: " + teob_serial_terminal);
         this.teob_serial_terminal = teob_serial_terminal;
+    }
+
+
+    public String getTeob_date() {
+        return teob_date;
+    }
+
+    public void setTeob_date(String teob_date) {
+        this.teob_date = teob_date;
+    }
+
+    public String getTeob_open() {
+        return teob_open;
+    }
+
+    public void setTeob_open(String teob_open) {
+        this.teob_open = teob_open;
     }
 
     public String getTeob_id() {

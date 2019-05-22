@@ -26,6 +26,8 @@ public class Terminal {
     private String term_user_reparation;
     private String term_warranty_time;//periodoGarantía;//
 
+    public Terminal() {
+    }
 
     public Terminal(String term_serial, String term_brand, String term_buy_date, String term_date_ans,
                     String term_date_finish, String term_date_reception, String term_date_register, String term_imei,

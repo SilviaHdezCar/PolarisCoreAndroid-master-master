@@ -28,11 +28,13 @@ public class Global {
 
 
     public static String serial_ter = "";
+    public static String tecnologia = "";
+    public static String marca= "";
 
 
     public static String diagnosticoTerminal = "";//es asignado al dar clic en el btn asociadas o autorizadas, es utilizado en tipificaciones, para consumir el servicio de diag asociada o reparacion
 
-    public static String soloConsulta ;//utilizado para validar en la consulta por seria: si es SI, los paneles esten en Enabled false
+    public static String soloConsulta;//utilizado para validar en la consulta por seria: si es SI, los paneles esten en Enabled false
 
 
     public static String opcion_consulta = "";
@@ -168,6 +170,9 @@ public class Global {
     public static Map<String, String> repuestos_listar_autorizadas;
     public static ArrayList<Observacion> fotos;
 
-
+    //Variables consulta por terminal
+    public static Map<String, String>  validaciones_consultas; // Global.validaciones_consultas.put(estado, fecha + "%" + validations);
+    public static Map<String, String>  tipificaciones_consultas; // Global.validaciones_consultas.put(estado, fecha + "%" + validations);
+    public static Map<String, String>  repuestos_consultas; // Global.validaciones_consultas.put(estado, fecha + "%" + validations);
 
 }

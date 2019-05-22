@@ -32,15 +32,13 @@ public class AdapterTerminalStock extends RecyclerView.Adapter<AdapterTerminalSt
     }
 
 
-
     @Override
     public AdapterTerminalStock.ViewHolderTerminalStock onCreateViewHolder(ViewGroup viewGroup, int i) {
 
 
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.panel_terminal_stock, null);
 
-        LinearLayout ln=(LinearLayout)v.findViewById(R.id.cargar_terminales);
-
+        LinearLayout ln = (LinearLayout) v.findViewById(R.id.cargar_terminales);
 
 
         return new AdapterTerminalStock.ViewHolderTerminalStock(v);
@@ -51,37 +49,55 @@ public class AdapterTerminalStock extends RecyclerView.Adapter<AdapterTerminalSt
 
 
         Terminal ter = this.listTerminal.get(i);
-        holder.marca_modelo.setText( ter.getTerm_brand()+"    "+ter.getTerm_model());
-        holder.serial.setText( ter.getTerm_serial());
-        holder.tecnologia.setText( ter.getTerm_technology());
+        holder.marca_modelo.setText(ter.getTerm_brand() + "    " + ter.getTerm_model());
+        holder.serial.setText(ter.getTerm_serial());
+        holder.tecnologia.setText(ter.getTerm_technology());
         holder.estado.setText(ter.getTerm_status());
         String estados = holder.estado.getText().toString();
 
-        if(estados.equals("QA")){ holder.rl.setBackgroundResource(R.drawable.borde_verde);      }
+        if (estados.equals("QA")) {
+            holder.rl.setBackgroundResource(R.drawable.borde_verde);
+        }
 
-      if(estados.equals("REPARACIÓN")) {  holder.rl.setBackgroundResource(R.drawable.borde_amarillo);   }
+        if (estados.equals("REPARACIÓN")) {
+            holder.rl.setBackgroundResource(R.drawable.borde_amarillo);
+        }
 
-       if(estados.equals("PREDIAGNÓSTICO")){ holder.rl.setBackgroundResource(R.drawable.borde_rojo);}
+        if (estados.equals("PREDIAGNÓSTICO")) {
+            holder.rl.setBackgroundResource(R.drawable.borde_rojo);
+        }
 
-       if(estados.equals("COTIZACIÓN")){ holder.rl.setBackgroundResource(R.drawable.borde_marron);}
+        if (estados.equals("COTIZACIÓN")) {
+            holder.rl.setBackgroundResource(R.drawable.borde_marron);
+        }
 
-         if(estados.equals("NUEVO")){ holder.rl.setBackgroundResource(R.drawable.borde_azul);}
+        if (estados.equals("NUEVO")) {
+            holder.rl.setBackgroundResource(R.drawable.borde_azul);
+        }
 
-         if(estados.equals("ALISTAMIENTO")){ holder.rl.setBackgroundResource(R.drawable.borde_gris);}
+        if (estados.equals("ALISTAMIENTO")) {
+            holder.rl.setBackgroundResource(R.drawable.borde_gris);
+        }
 
-        if(estados.equals("OPERATIVO")){ holder.rl.setBackgroundResource(R.drawable.borde_naranja);}
+        if (estados.equals("OPERATIVO")) {
+            holder.rl.setBackgroundResource(R.drawable.borde_naranja);
+        }
 
-         if(estados.equals("EN TRANSITO")){ holder.rl.setBackgroundResource(R.drawable.borde_azul_oscuro);}
+        if (estados.equals("EN TRANSITO")) {
+            holder.rl.setBackgroundResource(R.drawable.borde_azul_oscuro);
+        }
 
-        if(estados.equals("DADO DE BAJA")){ holder.rl.setBackgroundResource(R.drawable.borde_negro);}
+        if (estados.equals("DADO DE BAJA")) {
+            holder.rl.setBackgroundResource(R.drawable.borde_negro);
+        }
 
-        if(estados.equals("DIAGNÓSTICO")){ holder.rl.setBackgroundResource(R.drawable.borde_rojo_oscuro);}
+        if (estados.equals("DIAGNÓSTICO")) {
+            holder.rl.setBackgroundResource(R.drawable.borde_rojo_oscuro);
+        }
 
-        if(estados.equals("GARANTÍA")){ holder.rl.setBackgroundResource(R.drawable.borde_verde_azul);}
-
-
-
-
+        if (estados.equals("GARANTÍA")) {
+            holder.rl.setBackgroundResource(R.drawable.borde_verde_azul);
+        }
 
 
     }
@@ -99,32 +115,23 @@ public class AdapterTerminalStock extends RecyclerView.Adapter<AdapterTerminalSt
         TextView tecnologia;
         TextView estado;
         TextView color;
-       LinearLayout rl;
-
-
-
-
+        LinearLayout rl;
 
 
         public ViewHolderTerminalStock(View v) {
             super(v);
 
-            marca_modelo=(TextView)v.findViewById(R.id.marca_ter_stock);
+            marca_modelo = (TextView) v.findViewById(R.id.marca_ter_stock);
             serial = (TextView) v.findViewById(R.id.txt_serial_terrminal_stock);
             tecnologia = (TextView) v.findViewById(R.id.tecnologia_terminal_stock);
             estado = (TextView) v.findViewById(R.id.estado_ter_stock);
-            rl=(LinearLayout)v.findViewById(R.id.cargar_terminales);
-
-
+            rl = (LinearLayout) v.findViewById(R.id.cargar_terminales);
 
 
         }
 
 
     }
-
-
-
 
 
 }

@@ -156,7 +156,6 @@ public class TipificacionesAutorizadas extends Fragment {
         layout_evidencias.setVisibility(View.VISIBLE);
 
 
-        System.out.println("TERMINAL: " + Global.terminalVisualizar.getTerm_serial());
         serial.setText(Global.terminalVisualizar.getTerm_serial());
         marca.setText(Global.terminalVisualizar.getTerm_brand());
         modelo.setText(Global.terminalVisualizar.getTerm_model());
@@ -166,9 +165,7 @@ public class TipificacionesAutorizadas extends Fragment {
 
         recorrerTipificaciones();
         llenarListaRepuestos();
-        System.out.println("Tamaño lista rep=" + Global.repuestos_listar_autorizadas.size());
-        System.out.println("Tamaño  rep DEFECTUOSOS=" + Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size());
-        System.out.println("Tamaño lista evidencias=" + Global.observaciones_con_fotos.size());
+
         tieneRepuestos = tieneRepuestos();
 
         if (!tieneRepuestos && Global.observaciones_con_fotos.size() == 0) {
@@ -202,7 +199,7 @@ public class TipificacionesAutorizadas extends Fragment {
                 }
             }
 
-//Obtengo las posiciones donde guarde las observaciones con foto
+            //Obtengo las posiciones donde guarde las observaciones con foto
 
 
             if (Global.fotos != null) {
@@ -364,7 +361,7 @@ public class TipificacionesAutorizadas extends Fragment {
         for (int i = 0; i < this.repuestos.size(); i++) {
             TableRow fila = new TableRow(objeto);
             fila.setId(i);
-           // fila.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            // fila.setGravity(View.TEXT_ALIGNMENT_CENTER);
             fila.setBackgroundResource(R.drawable.borde_inferior_gris);
             fila.setGravity(Gravity.CENTER_VERTICAL);
 
@@ -373,8 +370,7 @@ public class TipificacionesAutorizadas extends Fragment {
             TextView nombre = new TextView(objeto);
             nombre.setId(100 + i);
             nombre.setText(this.repuestos.get(i).getSpar_name());
-            nombre.setPadding(20,0,0,0);
-            nombre.setBackgroundResource(R.drawable.borde_inferior_gris);
+            nombre.setPadding(20, 0, 0, 0);
 
             RadioButton ok = new RadioButton(objeto);
             ok.setId(200 + i);
@@ -383,15 +379,13 @@ public class TipificacionesAutorizadas extends Fragment {
             fila.addView(nombre);
             fila.addView(ok);
             tablaRepuestos.addView(fila);
-
-
         }
     }
 
 
     /**
      * Este metodo se utiliza para recorrer el arreglo de repuestos enviado por el servicio al seleccionar una autorizada
-     * Split de los repuestos recibidos y los agrega al recycler view
+     * Split de los repuestos recibidos y los agrega a la tabla
      **/
     public void llenarListaRepuestos() {
         System.out.println("va a llenar lista rep defectuosos");
@@ -401,23 +395,25 @@ public class TipificacionesAutorizadas extends Fragment {
 
         if (!Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).equalsIgnoreCase("")) {
             String reps[] = Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
-            System.out.println("repuestos :::" + reps[0]);
+            System.out.println("repuestos pos 0:::" + reps[0]);
+            System.out.println("repuestos pos 1:::" + reps[1]);
             repuestos = new ArrayList<>();
             if (reps == null || reps.length == 0 || reps.equals("")) {
                 Toast.makeText(objeto, "No tiene repuestos", Toast.LENGTH_SHORT).show();
             } else {
                 if (!reps[0].equals("[]") || !reps[0].trim().isEmpty()) {
                     Repuesto repuesto = null;
-
+                    String[] rep = null;
                     for (int i = 0; i < reps.length; i++) {
-                        String[] rep = reps[i].split("-");
-                        System.out.println("Repuesto String ==" + rep[i]);
-                        if (rep[i] != null || rep[i].length() > 0) {
-                            //String spar_code,String spar_name, String quantity, String spar_warehouse
+                        System.out.println(" for repuesto: " + reps[i]);
+                        rep = reps[i].split("-");
+                        if(rep!=null||rep.length>0){
                             repuesto = new Repuesto(rep[0], rep[1], rep[2], rep[3]);
                             this.repuestos.add(repuesto);
                             Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.add(repuesto);
                         }
+
+
                     }
 
                 }
@@ -426,47 +422,6 @@ public class TipificacionesAutorizadas extends Fragment {
 
     }
 
-
-  /*  //mostrar fotos
-    public void llenarRVFotos(List<Observacion> obsRecibidas) {
-        if (obsRecibidas == null || obsRecibidas.size() == 0) {
-            Toast.makeText(objeto, " No tiene evidencias", Toast.LENGTH_SHORT).show();
-            layout_evidencias.setVisibility(View.GONE);
-            return;
-        }
-
-        rvFotos.setHasFixedSize(true);
-
-        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-        rvFotos.setLayoutManager(llm);
-
-        ArrayList obs = new ArrayList<>();
-
-        for (Observacion observa : obsRecibidas) {
-            if (observa != null) {
-                obs.add(observa);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
-            }
-        }
-
-
-        final AdapterEvidenciasAutorizadas adapter = new AdapterEvidenciasAutorizadas(obs, new AdapterEvidenciasAutorizadas.interfaceClick() {//seria termi asoc
-            @Override
-            public void onClick(List<Observacion> lisObs, int position) {
-
-
-                //   consumirServicioEtapas();
-
-                //muestra la foto en un fragmen
-
-
-                //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
-
-            }
-        }, R.layout.panel_evidencias_autorizadas);
-
-        rvFotos.setAdapter(adapter);
-    }
-*/
 
     public void recorrerTipificaciones() {
 
@@ -487,22 +442,6 @@ public class TipificacionesAutorizadas extends Fragment {
 
         }
     }
-
-/*    public void ordenarObsFotos(){
-        if(Global.observaciones_con_fotos!=null|| !(Global.observaciones_con_fotos.size()==0)){
-            Observacion obs[]=arrayObservaciones();
-            Arrays.sort(obs);
-        }
-    }
-
-   public  Observacion[] arrayObservaciones(){
-        Observacion observaciones[]=new Observacion[Global.observaciones_con_fotos.size()];
-       for(int i=0; i<Global.observaciones_con_fotos.size();i++){
-           observaciones[i]=Global.observaciones_con_fotos.get(i);
-       }
-       return observaciones;
-   }*/
-
 
     /**
      * este metodo llena el recycler view con las tipificaciones obtenidas al consumir el
@@ -532,34 +471,6 @@ public class TipificacionesAutorizadas extends Fragment {
 
         }
         System.out.println("Tamaño del arreglo " + tipificaciones.size());
-    }
-
-
-    /**
-     * Este metodo se utiliza para revisar cuales observaciones tienen fotos
-     *
-     * @param
-     **/
-    public boolean revisarFotos() {
-        if (Global.OBSERVACIONES.size() == 0 || Global.OBSERVACIONES == null) {
-            return false;
-        }
-
-        for (int i = 0; i < Global.OBSERVACIONES.size(); i++) {
-
-        }
-
-
-        return false;
-    }
-
-    public void ordenarFechas() {
-
-        if (Global.observaciones_con_fotos != null || Global.observaciones_con_fotos.size() > 0) {
-            for (Observacion ob : Global.observaciones_con_fotos) {
-
-            }
-        }
     }
 
 

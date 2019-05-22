@@ -33,6 +33,13 @@
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
+    <style name="letra_tabs_negrita">
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="letra_menu_drawer">
         <item name="android:textColor">@color/blanco</item>
         <item name="android:textSize">14dp</item>

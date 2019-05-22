@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -107,12 +108,15 @@ public class InicialFragment extends Fragment {
 
 
         objeto.setTitle("               TERMINALES");
+        btn_asociadas.setTypeface(null, Typeface.BOLD);
+        btn_asociadas.setTextSize(15);
+        btn_autorizadas.setTextSize(13);
+        btn_autorizadas.setTypeface(null, Typeface.NORMAL);
         liAsociadas.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
         liAutorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
 
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_consultaTerminales_inicial);
-        Global.TERMINALES_ASOCIADAS = null;
-        Global.TERMINALES_ASOCIADAS = new ArrayList<Terminal>();
+
         Global.REPUESTOS = null;
         Global.REPUESTOS = new ArrayList<Repuesto>();
         queue = Volley.newRequestQueue(objeto);
@@ -121,7 +125,6 @@ public class InicialFragment extends Fragment {
         consumirServicioAsociadas();
         Global.diagnosticoTerminal = "asociada";
 
-        System.out.println("TIPO DIAGNOSTICO al iniciar= " + Global.diagnosticoTerminal);
         btn_asociadas.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -129,8 +132,13 @@ public class InicialFragment extends Fragment {
                 //colocar que a lo que seleccione cierto botn, cambie el color de la linea de abajo
                 liAsociadas.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
                 liAutorizadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
-                Global.TERMINALES_ASOCIADAS = null;
-                Global.TERMINALES_ASOCIADAS = new ArrayList<Terminal>();
+
+                btn_asociadas.setTypeface(null, Typeface.BOLD);
+                btn_asociadas.setTextSize(15);
+                btn_autorizadas.setTextSize(13);
+                btn_autorizadas.setTypeface(null, Typeface.NORMAL);
+
+
                 Global.diagnosticoTerminal = "asociada";
                 consumirServicioAsociadas();
             }
@@ -142,6 +150,10 @@ public class InicialFragment extends Fragment {
             public void onClick(View v) {
                 liAutorizadas.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
                 liAsociadas.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+                btn_asociadas.setTypeface(null, Typeface.NORMAL);
+                btn_asociadas.setTextSize(13);
+                btn_autorizadas.setTypeface(null, Typeface.BOLD);
+                btn_autorizadas.setTextSize(15);
                 Global.TERMINALES_AUTORIZADAS = null;
                 Global.TERMINALES_AUTORIZADAS = new ArrayList<Terminal>();
                 Global.diagnosticoTerminal = "autorizada";
@@ -151,6 +163,10 @@ public class InicialFragment extends Fragment {
 
         return v;
 
+    }
+
+    public void inicializacionVariables() {
+        Global.terminalVisualizar = new Terminal();
     }
 
     /**
@@ -194,13 +210,7 @@ public class InicialFragment extends Fragment {
 
                             JSONArray jsonArray = response.getJSONArray("observaciones");
 
-                            if (jsonArray.length() == 0) {
-                                Global.mensaje = "No tiene obervaciones";
-                                //   consumirServicioValidaciones();
-                                //  objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
-                                return;
-                            } else {
-
+                            if (jsonArray.length() > 0) {
                                 String obser = null;
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -210,10 +220,10 @@ public class InicialFragment extends Fragment {
 
                                     Global.OBSERVACIONES.add(o);
                                 }
-                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
-                                //consumirServicioValidaciones();
-                            }
 
+                            }
+                            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
+                            return;
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -374,32 +384,25 @@ public class InicialFragment extends Fragment {
                                 return;
                             }
 
-
+                            System.out.println("RESPUESTA VALIDACIONES" + response.get("data").toString());
                             response = new JSONObject(response.get("data").toString());
 
 
                             JSONArray jsonArray = response.getJSONArray("validaciones");
-
-
-                            if (jsonArray.length() == 0) {
-                                // layout_encabezado_vali.setVisibility(View.INVISIBLE);
-                                Toast.makeText(objeto, "No hay validaciones registradas", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            //    layout_encabezado_vali.setVisibility(View.VISIBLE);
-
                             String ter = null;
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                ter = jsonArray.getString(i);
+                            if (jsonArray.length() > 0) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    ter = jsonArray.getString(i);
 
-                                valid = gson.fromJson(ter, Validacion.class);
-                                if (valid != null) {
+                                    valid = gson.fromJson(ter, Validacion.class);
+                                    if (valid != null) {
+                                    }
+                                    Global.VALIDACIONES.add(valid);
                                 }
-                                Global.VALIDACIONES.add(valid);
+                                return;
                             }
-                            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
-                            return;
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -460,20 +463,22 @@ public class InicialFragment extends Fragment {
 
                 Global.serial_ter = terminal.get(position).getTerm_serial();
                 Global.modelo = terminal.get(position).getTerm_model();
+                Global.tecnologia = terminal.get(position).getTerm_technology();
+                Global.marca = terminal.get(position).getTerm_brand();
 
                 //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
                 Global.lista_tipificaciones_tabla = new ArrayList<Tipificacion>();
                 Global.listTipificaciones = new ArrayList<Tipificacion>();
 
-                consumirServicioEtapas();
                 consumirServicioValidaciones();
+                consumirServicioEtapas();
 
-
+                System.out.println("Global.TERMINALES_ASOCIADAS_tamaño[_: "+Global.TERMINALES_ASOCIADAS.size());
+                //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
 
                 //   objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
 
 
-                //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
                 // objeto.listarObservacionesTerminal(serialObtenido);
             }
         }, R.layout.panel_terminal_asociada);

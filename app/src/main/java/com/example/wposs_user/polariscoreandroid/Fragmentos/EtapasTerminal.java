@@ -2,6 +2,7 @@ package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -71,18 +72,20 @@ public class EtapasTerminal extends Fragment {
     }
 
 
-    public void inflarFragmentValidaciones() {
-        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
-
-    }
-
-
     /**
      * Metodo utilizado para llenar el recycler view de las observaciones del terminal seleccionado
      *
      * @Params Recibe la lista  observaciones o etapas que van a ser mostradas
      **/
     public void llenarRVEtapas(List<Observacion> observaciones) {
+        if (observaciones == null || observaciones.size() == 0) {
+            //para que elimine este fragmento de la pila
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            fm.popBackStack();
+            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+            return;
+        }
+
 
         rv.setHasFixedSize(true);
 
@@ -101,7 +104,6 @@ public class EtapasTerminal extends Fragment {
                 }
             }
         }
-
         //Al dar clic en una observacion infla el panel de validaciones
         final AdapterEtapa adapter = new AdapterEtapa(observations, new AdapterEtapa.interfaceClick() {
             @Override
@@ -114,8 +116,11 @@ public class EtapasTerminal extends Fragment {
 
         rv.setAdapter(adapter);
 
-        if (Global.OBSERVACIONES == null || Global.OBSERVACIONES.size() == 0) {
-            inflarFragmentValidaciones();
+        if (observaciones == null || observaciones.size() == 0) {
+            //para que elimine este fragmento de la pila
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            fm.popBackStack();
+            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
 
         }
 

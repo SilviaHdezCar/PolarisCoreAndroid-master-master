@@ -332,16 +332,7 @@ public class EtapasTerminalAutorizada extends Fragment {
         final AdapterEtapa adapter = new AdapterEtapa(observations, new AdapterEtapa.interfaceClick() {
             @Override
             public void onClick(List<Observacion> observaciones, int position) {
-             /*   //Validar fotos: SI--> Pasa al fragment que contiene las fotos. NO-->infla el fragment de validaciones
-                String foto1 = observaciones.get(position).getTeob_photo();
-                String foto2 = observaciones.get(position).getTeob_photo();//validar con la foto dos
-                if (!foto1.isEmpty() || !foto2.isEmpty()) {
-                    Global.foto1_etapa_ter = foto1;
-                    Global.foto2_etapa_ter = foto2;
-                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new FotoObservacionFragment()).addToBackStack(null).commit();
-                } else {
-                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
-                }*/
+
             }
         }, R.layout.panel_etapas);
 

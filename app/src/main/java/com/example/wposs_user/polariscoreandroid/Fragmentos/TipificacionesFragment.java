@@ -167,7 +167,6 @@ public class TipificacionesFragment extends Fragment {
                                 Global.TIPIFICACIONES.add(t);
                             }
                             llenarAutocomplete();
-                            //llenarRVAsociadas(Global.TERMINALES_ASOCIADAS);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -404,7 +403,6 @@ public class TipificacionesFragment extends Fragment {
                 TextView nombre = new TextView(objeto);
                 nombre.setId(100 + i);
                 nombre.setPadding(20,0,0,0);
-
                 nombre.setText(Global.listTipificaciones.get(i).getTetv_description());
 
 

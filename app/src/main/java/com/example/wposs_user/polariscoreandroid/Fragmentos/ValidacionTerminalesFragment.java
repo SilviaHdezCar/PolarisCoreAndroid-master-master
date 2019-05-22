@@ -120,12 +120,7 @@ public class ValidacionTerminalesFragment extends Fragment {
             }
         });
 
-        System.out.println("VALIDACIONES ");
-        System.out.println(Global.validaciones_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()));
 
-
-        System.out.println(Global.validacionesAutorizadas);
-        System.out.println(Global.tipificacionesAutorizadas);
 
         String validaciones[] = Global.validaciones_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
         System.out.println("validatio: tam "+validaciones.length );
