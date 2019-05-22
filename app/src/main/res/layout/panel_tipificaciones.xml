@@ -32,7 +32,8 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:padding="1dp"
-                android:background="@mipmap/papelera" />
+                android:background="@mipmap/papelera"
+                />
         </LinearLayout>
 
 

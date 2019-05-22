@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
      android:gravity="center_horizontal"
-    android:background="@drawable/button_border"
+    android:background="@drawable/rectangulo_borde_negro"
 
 
     >
@@ -17,37 +17,54 @@
             android:textStyle="bold"
             android:textSize="16dp"
             android:layout_marginTop="10dp"
-            android:textColor="@color/borde_verde_botones"
+            android:textColor="@color/negro"
+
 
             />
 
-    <TextView
-        android:layout_width="180dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="El inicio de sesión mediante huella será desactivado"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/redondo_gris"
+
+        >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="El inicio de sesión mediante huella será desactivado"
         android:textSize="14dp"
+        android:textAlignment="center"
 
         />
+
+</LinearLayout>
 
      <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/button_border"
+        android:layout_marginTop="20dp"
+
 
         >
 
         <Button
             android:id="@+id/btn_AceptarHuella"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparente"
+            android:layout_height="30dp"
+            android:background="@drawable/redondo_gris_botones"
             android:text="Aceptar"
             android:textAllCaps="false"
-            android:textColor="@color/borde_verde_botones"
+            android:textColor="@color/negro"
             android:textSize="14dp"
+            android:layout_marginBottom="10dp"
 
 
          />
@@ -55,13 +72,14 @@
         <Button
             android:id="@+id/btn_cancelarHuella"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparente"
+            android:layout_height="30dp"
+            android:background="@drawable/redondo_gris_botones"
             android:text="Cancelar"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="100dp"
             android:textAllCaps="false"
-            android:textColor="@color/borde_verde_botones"
+            android:textColor="@color/negro"
             android:textSize="14dp"
+            android:layout_marginBottom="10dp"
             />
 
 

@@ -55,20 +55,20 @@
                     android:id="@+id/btn_activar_huella"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@color/verde_pestanas"
                     android:text="Activar"
                     android:textAllCaps="false"
-                    android:textColor="@color/blanco" />
+                    android:background="@drawable/redondo_gris_botones"
+                    android:textColor="@color/negro" />
 
                 <Button
                     android:id="@+id/btn_cancelar_huella"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="40dp"
-                    android:background="@color/verde_pestanas"
                     android:text="Cancelar"
                     android:textAllCaps="false"
-                    android:textColor="@color/blanco" />
+                    android:background="@drawable/redondo_gris_botones"
+                    android:textColor="@color/negro" />
 
             </LinearLayout>
 
@@ -150,20 +150,24 @@
                     android:id="@+id/btn_guardarCredenciales"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@color/verde_pestanas"
+                    android:background="@drawable/redondo_gris_botones"
+                    android:textColor="@color/negro"
                     android:text="Ingresar"
                     android:textAllCaps="false"
-                    android:textColor="@color/blanco" />
+                    android:layout_marginBottom="10dp"
+                      />
 
                 <Button
                     android:id="@+id/btn_cancelar_Credenciales"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="40dp"
-                    android:background="@color/verde_pestanas"
+                    android:background="@drawable/redondo_gris_botones"
+                    android:textColor="@color/negro"
                     android:text="Cancelar"
                     android:textAllCaps="false"
-                    android:textColor="@color/blanco" />
+                    android:layout_marginBottom="10dp"
+                    />
 
             </LinearLayout>
 

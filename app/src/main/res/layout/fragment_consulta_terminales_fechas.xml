@@ -68,6 +68,7 @@
                     android:layout_gravity="center_horizontal"
                     android:clickable="true"
                     android:focusable="false"
+
                     android:hint="Fecha inicial"
                     android:textColor="@color/blanco"
                     android:maxLines="1"

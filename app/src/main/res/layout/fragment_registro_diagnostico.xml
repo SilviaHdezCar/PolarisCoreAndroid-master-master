@@ -91,10 +91,11 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginLeft="40dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/redondo_gris_botones"
+            android:textColor="@color/negro"
             android:text="Agregar"
             android:textAllCaps="false"
-            android:textColor="@color/blanco"
+
             style="@style/letra_botones"
              android:textSize="14dp"
             />
@@ -202,10 +203,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginTop="20dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/redondo_gris_botones"
+            android:textColor="@color/negro"
             android:text="Finalizar"
             android:textAllCaps="false"
-            android:textColor="@color/blanco"
+
 
             />
 
