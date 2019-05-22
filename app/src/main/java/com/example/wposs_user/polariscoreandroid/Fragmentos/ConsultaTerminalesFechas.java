@@ -287,7 +287,7 @@ public class ConsultaTerminalesFechas extends Fragment {
 
 
 
-    /********************Metodo usado para obtener la productividad en un dia dado*************************************/////////
+    /********************Metodo usado para obtener el numero de terminales en un rango de fechas dado*************************************/////////
     public void consumirServicioBusquedaFecha() {
 
 
@@ -372,7 +372,7 @@ public class ConsultaTerminalesFechas extends Fragment {
 
 
                             if (jsonArray.length() == 0 && jsonArray2.length() == 0) {
-                                Global.mensaje = "No se encontraron registros para el dia seleccionado";
+                                Global.mensaje = "No se encontraron registros para la fecha seleccionada";
                                 Toast.makeText(view.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
 
                           }

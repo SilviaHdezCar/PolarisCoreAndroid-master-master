@@ -30,6 +30,7 @@ public class DialogCancelarHuella extends DialogFragment {
 
         cancelar = (Button) view.findViewById(R.id.btn_cancelarHuella);
         aceptar = (Button) view.findViewById(R.id.btn_AceptarHuella);
+        setCancelable(false);
 
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override

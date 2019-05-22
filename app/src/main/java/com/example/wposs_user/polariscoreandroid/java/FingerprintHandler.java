@@ -93,8 +93,6 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
         DialogHuella dialogo = objeto_login.getDialogo();
 
-
-
         this.huella = success;
         this.resultado = e;
          if(huella){

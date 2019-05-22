@@ -15,6 +15,7 @@
 
 
     <ImageView
+        android:id="@+id/imagen_huella"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"

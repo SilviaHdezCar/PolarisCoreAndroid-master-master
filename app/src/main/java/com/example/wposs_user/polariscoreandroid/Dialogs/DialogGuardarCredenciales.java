@@ -81,6 +81,8 @@ public class DialogGuardarCredenciales extends DialogFragment {
         btn_activar_huella = (Button) view.findViewById(R.id.btn_activar_huella);
         btn_cancelar_huella = (Button) view.findViewById(R.id.btn_cancelar_huella);
         ver_clave=(ImageButton)view.findViewById(R.id.btn_ver_clave);
+        setCancelable(false);
+
 
         ver_clave.setOnClickListener(new View.OnClickListener() {
             @Override

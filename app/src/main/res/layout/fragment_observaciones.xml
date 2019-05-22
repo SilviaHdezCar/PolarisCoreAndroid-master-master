@@ -124,7 +124,9 @@
                     android:layout_marginTop="25dp"
                     android:background="@drawable/redondo_botones"
                     android:text="Finalizar"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:layout_marginBottom="20dp"
+                    />
             </LinearLayout>
 
         </LinearLayout>

@@ -172,6 +172,7 @@
             android:background="@drawable/redondo_botones"
             android:text="Siguiente"
             android:textAllCaps="false"
+            android:layout_marginBottom="20dp"
  />
     </LinearLayout>
 
