@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 
@@ -47,19 +48,61 @@ public class AdapterTerminal_asociada extends RecyclerView.Adapter<AdapterTermin
         holder.marca.setText(this.listTerminal.get(i).getTerm_brand());
         holder.modelo.setText(this.listTerminal.get(i).getTerm_model());
         holder.tecnologia.setText(this.listTerminal.get(i).getTerm_technology());
-        holder.estado.setText(this.listTerminal.get(i).getTerm_status());
+        String estado = this.listTerminal.get(i).getTerm_status();
+        holder.estado.setText(estado);
         holder.fechaANS.setText("");
         if (this.listTerminal.get(i).getTerm_date_reception() != null) {
-            fechaRecepción = this.listTerminal.get(i).getTerm_date_reception();
+            fechaRecepción = Utils.darFormatoFecha2(this.listTerminal.get(i).getTerm_date_reception());
             holder.fechaANS.setText(fechaRecepción);
         }
         if (this.listTerminal.get(i).getTerm_date_ans() != null) {
-            fechaANS = this.listTerminal.get(i).getTerm_date_reception();
+            fechaANS = Utils.darFormatoFecha2(this.listTerminal.get(i).getTerm_date_reception());
             holder.fechaANS.setText(holder.fechaANS.getText().toString() + " - " + fechaANS);
         }
 
-        //  holder.fechaANS.setText(this.listTerminal.get(i).getTerm_date_reception() + " - " + this.listTerminal.get(i).getTerm_date_ans());
+       if (estado.equals("QA")) {
+            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_verde);
+        }
 
+        if (estado.equals("REPARACIÓN")) {
+            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_amarillo);
+        }
+
+        if (estado.equals("PREDIAGNÓSTICO")) {
+            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_rojo);
+        }
+
+        if (estado.equals("COTIZACIÓN")) {
+            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_marron);
+        }
+
+        if (estado.equals("NUEVO")) {
+            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_azul);
+        }
+
+        if (estado.equals("ALISTAMIENTO")) {
+            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_gris);
+        }
+
+        if (estado.equals("OPERATIVO")) {
+            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_naranja);
+        }
+
+        if (estado.equals("EN TRANSITO")) {
+            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_azul_oscuro);
+        }
+
+        if (estado.equals("DADO DE BAJA")) {
+            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_negro);
+        }
+
+        if (estado.equals("DIAGNÓSTICO")) {
+            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_rojo_oscuro);
+        }
+
+        if (estado.equals("GARANTÍA")) {
+            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_verde_azul);
+        }
 
         holder.layout_terminal_asociada.setOnClickListener(new View.OnClickListener() {
             @Override

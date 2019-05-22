@@ -505,8 +505,9 @@ public class Registro_diagnostico extends Fragment {
                             } else {
                                 eliminarPila();
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Informacion");
+                                alertDialog.setTitle("Información");
                                 alertDialog.setMessage("Diagnóstico registrado exitosamente");
+                                alertDialog.setCancelable(false);
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Aceptar",
 
                                         new DialogInterface.OnClickListener() {

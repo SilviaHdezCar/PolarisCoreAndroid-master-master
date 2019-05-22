@@ -1,6 +1,7 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.AlertDialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +32,7 @@ import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
+import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -39,9 +41,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
@@ -59,6 +63,9 @@ public class ConsultaTerminalesSerial extends Fragment {
     private static Observacion o;
 
     private RequestQueue queue;
+    private String serial_terminal;
+
+    private Terminal terminal;
 
 
     @Override
@@ -68,9 +75,7 @@ public class ConsultaTerminalesSerial extends Fragment {
         view = inflater.inflate(R.layout.fragment_consultar_terminales_serial, container, false);
         objeto.setTitle("       BÚSQUEDA POR SERIAL");
         queue = Volley.newRequestQueue(objeto);
-        Global.TODAS_TERMINALES = null;
-        Global.TODAS_TERMINALES = new ArrayList<Terminal>();
-        servicioTerminales();
+        //servicioTerminales();
 
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_consultaTerminales_por_serial);
         serial = (EditText) view.findViewById(R.id.serial_buscar);
@@ -78,6 +83,7 @@ public class ConsultaTerminalesSerial extends Fragment {
 
         btn_buscar_terminales_serial = (ImageView) view.findViewById(R.id.btn_buscar_terminales_serial);
         btn_ser_rango_fechas = (Button) view.findViewById(R.id.btn_ser_rango_fechas);
+
 
 
         btn_ser_rango_fechas.setOnClickListener(new View.OnClickListener() {
@@ -89,8 +95,13 @@ public class ConsultaTerminalesSerial extends Fragment {
         btn_buscar_terminales_serial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                buscarTerminalesPorSerial();
+                serial_terminal = serial.getText().toString().trim();
+                if (serial_terminal.isEmpty()) {
+                    Toast.makeText(objeto, "Por favor ingrese el serial", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    servicioBuscarTerminal();
+                }
             }
         });
 
@@ -100,82 +111,39 @@ public class ConsultaTerminalesSerial extends Fragment {
 
     }
 
-    //*******************************BUSCA POR SERIAL Y LLENA EL RV
-    public void buscarTerminalesPorSerial() {
-
-       /* Vector<Terminal> terminal = new Vector<>();
-        terminal.removeAllElements();
-*/
-        if (serial.getText().toString().isEmpty()) {
-            Toast.makeText(objeto, "Por favor ingrese el serial", Toast.LENGTH_SHORT).show();
-            return;
-        } else {
-            rv.setHasFixedSize(true);
-
-            LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-            rv.setLayoutManager(llm);
-
-            ArrayList terminals = new ArrayList<>();
-
-            for (Terminal ter : Global.TODAS_TERMINALES) {
-                if (ter.getTerm_serial().equalsIgnoreCase(serial.getText().toString())) {
-                    terminals.add(ter);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
-                }
-            }
-            if (terminals.size() == 0) {
-                Toast.makeText(objeto, "No se encontraron terminales registradas con ese serial", Toast.LENGTH_SHORT).show();
-            }
-
-
-            final AdapterTerminal_asociada adapter = new AdapterTerminal_asociada(terminals, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
-                @Override
-                public void onClick(List<Terminal> terminal, int position) {
-
-                    Global.serial_ter = terminal.get(position).getTerm_serial();
-                    Global.modelo = terminal.get(position).getTerm_model();
-
-                    Global.terminalVisualizar = terminal.get(position);
-                    //System.out.println("");
-
-                  //  objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminalAutorizada()).addToBackStack(null).commit();
-
-                    consumirServicioEtapas();
-
-
-                    //   objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
-
-
-                    //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
-                    // objeto.listarObservacionesTerminal(serialObtenido);
-                }
-            }, R.layout.panel_terminal_asociada);
-
-            rv.setAdapter(adapter);
-
-            serial.setText("");
-
-
-        }
-
-
-    }
-
 
     /**
-     * Metodo utilizados para consumir el servicio  para listar las observaciones de acuerdo a una terminal mediante una petición REST
-     * En el encabezado va el token-> Authenticator
-     * Se envía el serial de la terminal  Global.serial_ter
-     **/
-    public void consumirServicioEtapas() {
-        o = null;
+     * Metodo utilizado para consultar los diagnosticos de una terminal
+     * devuelve:
+     * {
+     * "message": "success",
+     * "status": "ok",
+     * "terminal": [],    //contiene la información de la terminal
+     * "validaciones": [],
+     * "tipificaciones": [],
+     * "repuestos": [],
+     * "observaciones": []
+     * }
+     */
+    public void servicioBuscarTerminal() {
+
+        this.terminal = null;
+        this.terminal = new Terminal();
         Global.OBSERVACIONES = null;
         Global.OBSERVACIONES = new ArrayList<Observacion>();
-        final Gson gson = new GsonBuilder().create();
+        Global.observaciones_con_fotos = null;
+        Global.observaciones_con_fotos = new ArrayList<Observacion>();
 
-        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/observations";
+        Global.validaciones_consultas = new HashMap<String, String>();
+        Global.tipificaciones_consultas = new HashMap<String, String>();
+        Global.repuestos_consultas = new HashMap<String, String>();
+
+        final Gson gson = new GsonBuilder().create();
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/findserial";
         JSONObject jsonObject = new JSONObject();
+        serial_terminal = serial.getText().toString().trim();
         try {
-            jsonObject.put("serial", Global.serial_ter);
+            jsonObject.put("serial", serial_terminal.toUpperCase());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -187,101 +155,8 @@ public class ConsultaTerminalesSerial extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Global.STATUS_SERVICE = response.get("status").toString();
-                            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
-                                Global.mensaje = response.get("message").toString();
-                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
-                                    objeto.consumirSercivioCerrarSesion();
-                                    return;
-                                }
-                                Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            response = new JSONObject(response.get("data").toString());
-
-                            JSONArray jsonArray = response.getJSONArray("observaciones");
-
-                            if (jsonArray.length() == 0) {
-                                Global.mensaje = "No tiene obervaciones";
-                                Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
-                                //   consumirServicioValidaciones();
-                                //  objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
-                                return;
-                            } else {
-
-                                String obser = null;
-
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    obser = jsonArray.getString(i);
-
-                                    o = gson.fromJson(obser, Observacion.class);
-
-                                    Global.OBSERVACIONES.add(o);
-                                }
-                                // Toast.makeText(objeto, "Tiene observaciones", Toast.LENGTH_SHORT).show();
-                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminalAutorizada()).addToBackStack(null).commit();
-                                //consumirServicioValidaciones();
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("RESPUESTA", response.toString());
-                    }
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authenticator", Global.TOKEN);
-
-                return params;
-            }
-        };
-
-        queue.add(jsArrayRequest);
-
-    }
-
-    /********************************metodo usaddo para mostrar en stock las terminales asignadas a un tecnico****************/
-
-    public void servicioTerminales() {
-
-        Global.TODAS_TERMINALES = null;
-        Global.TODAS_TERMINALES = new ArrayList<Terminal>();
-        final ArrayList<Terminal> terminales = new ArrayList<>();
-        final ArrayList<Repuesto> rep = new ArrayList<>();
-        final Gson gson = new GsonBuilder().create();
-
-        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/stock";
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("user", Global.CODE);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
-                Request.Method.POST,
-                url,
-                jsonObject,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println("status:  " + Global.STATUS_SERVICE);
-
-                            if (Global.STATUS_SERVICE.equals("fail")) {
+                            System.out.println("status:  " + response.get("status").toString());
+                            if (response.get("status").toString().equals("fail")) {
                                 Global.mensaje = response.get("message").toString();
 
                                 if (response.get("message").toString().equalsIgnoreCase("token no valido")) {
@@ -293,31 +168,92 @@ public class ConsultaTerminalesSerial extends Fragment {
                                 return;
                             }
 
+                            String info = null;
+                            Validacion validaciones = null;
 
-                            response = new JSONObject(response.get("data").toString());
-
-
-                            JSONArray jsonArray1 = response.getJSONArray("terminales");
-
-
-                            if (jsonArray1.length() == 0) {
-                                Global.mensaje = "No hay terminales registradas";
+                            //obtener el arreglo de la etiqueta Terminal
+                            JSONArray jsonArray = response.getJSONArray("terminal");//
+                            if (jsonArray.length() == 0) {
+                                Global.mensaje = "No se encontró terminal con ese serial";
+                                rv.setVisibility(View.GONE);
                                 Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;
                             } else {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    info = jsonArray.getString(i);
 
-                                String ter = null;
-
-                                for (int i = 0; i < jsonArray1.length(); i++) {
-                                    ter = jsonArray1.getString(i);
-
-                                    Terminal t = gson.fromJson(ter, Terminal.class);
-                                /*if (t != null) {
-                                }*/
-                                    //terminales.add(t);
-                                    Global.TODAS_TERMINALES.add(t);
+                                    terminal = gson.fromJson(info, Terminal.class);
+                                    System.out.println("TERMINAL<<<>>>>>>>" + terminal.toString());
                                 }
                             }
+
+                            //obtener arreglo de la etiqueta validaciones
+                            jsonArray = response.getJSONArray("validaciones");//
+                            String estado = "";
+                            String arreglo = "";
+                            String fecha = "";
+                            if (jsonArray.length() > 0) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    //  info = jsonArray.getString(i);
+                                    estado = jsonArray.getJSONObject(i).getString("tevs_status").toString();
+                                    arreglo = jsonArray.getJSONObject(i).getString("tevs_terminal_validation").toString();
+                                    fecha = jsonArray.getJSONObject(i).getString("tevs_date").toString();
+
+                                    Global.validaciones_consultas.put(estado, fecha + "%" + arreglo);
+                                    System.out.println("Validaciones: " + estado + " - " + fecha + "%" + arreglo);
+                                }
+                            }
+
+                            //Tipificaciones
+                            jsonArray = response.getJSONArray("tipificaciones");//
+                            if (jsonArray.length() > 0) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    //  info = jsonArray.getString(i);
+                                    estado = jsonArray.getJSONObject(i).getString("tets_status").toString();
+                                    arreglo = jsonArray.getJSONObject(i).getString("tets_terminal_type_validation").toString();
+                                    fecha = jsonArray.getJSONObject(i).getString("tets_date").toString();
+
+                                    Global.tipificaciones_consultas.put(estado, fecha + "%" + arreglo);
+                                    System.out.println("Tipificaciones:  " + estado + " - " + fecha + "%" + arreglo);
+                                }
+                            }
+
+                            //Repuestos
+                            jsonArray = response.getJSONArray("repuestos");//
+                            if (jsonArray.length() > 0) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    //  info = jsonArray.getString(i);
+                                    estado = jsonArray.getJSONObject(i).getString("tesw_status").toString();
+                                    arreglo = jsonArray.getJSONObject(i).getString("tesw_repuestos").toString();
+                                    fecha = jsonArray.getJSONObject(i).getString("tesw_date").toString();
+
+                                    if(arreglo!=null ||!arreglo.trim().isEmpty()){
+                                        Global.repuestos_consultas.put(estado, fecha + "%" + arreglo);
+                                        System.out.println("Repuestos: " + estado + " - " + fecha + "%" + arreglo);
+                                    }
+
+                                }
+                            }
+
+                            //observaciones
+                            jsonArray = response.getJSONArray("observaciones");//
+                            if (jsonArray.length() > 0) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    info = jsonArray.getString(i);
+                                    o = gson.fromJson(info, Observacion.class);
+                                    if (o.getTeob_photo() != null ||!o.getTeob_photo().equalsIgnoreCase("")) {
+
+                                        if(o.getTeob_description().isEmpty()){
+                                            System.out.println(o.toString());
+                                            Global.observaciones_con_fotos.add(o);
+                                        }
+                                    }
+                                    Global.OBSERVACIONES.add(o);
+                                    System.out.println("Observación "+i+" : " + o.toString());
+                                }
+                            }
+
+                            llernarRV();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -344,6 +280,51 @@ public class ConsultaTerminalesSerial extends Fragment {
         };
 
         queue.add(jsArrayRequest);
+
+    }
+
+    //*******************************BUSCA POR SERIAL Y LLENA EL RV
+    public void llernarRV() {
+        rv.setVisibility(View.VISIBLE);
+        rv.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
+        rv.setLayoutManager(llm);
+
+        ArrayList terminals = new ArrayList<>();
+
+     /*   for (Terminal ter : Global.TODAS_TERMINALES) {
+            if (ter.getTerm_serial().equalsIgnoreCase(serial.getText().toString())) {
+                terminals.add(ter);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
+            }
+        }*/
+        if (this.terminal != null) {
+            terminals.add(this.terminal);
+        }
+        if (terminals.size() == 0) {
+            Toast.makeText(objeto, "No se encontraron terminales registradas con ese serial", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+        final AdapterTerminal_asociada adapter = new AdapterTerminal_asociada(terminals, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
+            @Override
+            public void onClick(List<Terminal> terminal, int position) {
+
+                Global.serial_ter = terminal.get(position).getTerm_serial();
+                Global.modelo = terminal.get(position).getTerm_model();
+                Global.terminalVisualizar = terminal.get(position);
+                Global.observaciones_con_fotos=null;
+                Global.observaciones_con_fotos=new ArrayList<>();
+                Global.fotos = new ArrayList<>();
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Prediagnostico()).addToBackStack(null).commit();
+
+            }
+        }, R.layout.panel_terminal_asociada);
+
+        rv.setAdapter(adapter);
+
+        serial.setText("");
 
     }
 }

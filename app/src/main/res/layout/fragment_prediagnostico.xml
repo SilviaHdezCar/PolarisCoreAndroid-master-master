@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blanco"
-    tools:context=".Fragmentos.TipificacionesAutorizadas">
+    tools:context=".Fragmentos.Prediagnostico">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,424 +15,428 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <!--LinearLayout pestañas-->
             <LinearLayout
-                android:id="@+id/layout_terminal_asociada"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tabla"
-                android:layout_margin="10dp"
-                android:background="@drawable/borde_rojo"
-                android:orientation="horizontal"
-                android:padding="2dp">
-
-                <ImageView
-                    android:id="@+id/imagen_asociada"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/img_datafono" />
+                android:background="@color/verde_pestanas"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
+                    android:id="@+id/tab_observaciones"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <Button
+                        android:id="@+id/btn_observaciones"
+                        style="@style/letra_tabs"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:background="@drawable/borde_inferior_gris"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/serial_ter_autorizada"
-                            style="@style/letra_negrita_terminal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Terminal"
-                            android:textAllCaps="true" />
-
-                        <TextView
-                            style="@style/letra_negrita_terminal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:text=" - " />
-
-                        <TextView
-                            android:id="@+id/marca_ter_autorizada"
-                            style="@style/letra_negrita_terminal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:textAllCaps="true" />
-
-                    </LinearLayout>
+                        android:layout_height="48dp"
+                        android:background="@color/verde_pestanas"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="10dp"
+                        android:scrollbars="vertical"
+                        android:text="Observaciones" />
 
                     <LinearLayout
+                        android:id="@+id/select_observaciones"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_height="4dp"
+                        android:background="@color/verde_pestanas"
                         android:orientation="horizontal">
 
-
-                        <TextView
-                            android:id="@+id/modelo_ter_autorizada"
-                            style="@style/letra_negrita_terminal_gris_peq"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAllCaps="true" />
-
-                        <TextView
-                            style="@style/letra_negrita_terminal_gris_peq"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" - " />
-
-                        <TextView
-                            android:id="@+id/tecno_ter_autorizada"
-                            style="@style/letra_negrita_terminal_gris_peq"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:textAllCaps="true" />
-
                     </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab_prediagnostico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btn_terminales_prediagnostico"
+                        style="@style/letra_tabs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:background="@color/verde_pestanas"
+                        android:scrollbars="vertical"
+                        android:text="Diagnóstico" />
 
                     <LinearLayout
+                        android:id="@+id/select_prediagnostico"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_height="4dp"
+                        android:background="@color/verde_pestanas"
                         android:orientation="horizontal">
 
-                        <TextView
-                            style="@style/letra_negrita_terminal_gris_grande"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="estado: "
-                            android:textAllCaps="true" />
-
-                        <TextView
-                            android:id="@+id/estado_ter_autorizada"
-                            style="@style/letra_negrita_terminal_gris_grande"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAllCaps="true" />
-
                     </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab_reparacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btn_terminales_reparacion"
+                        style="@style/letra_tabs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:background="@color/verde_pestanas"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:scrollbars="vertical"
+                        android:text="Reparación" />
 
                     <LinearLayout
+                        android:id="@+id/select_reparacion"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:gravity="right"
+                        android:layout_height="4dp"
+                        android:background="@color/verde_pestanas"
+                        android:orientation="horizontal"></LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab_qa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btn_terminales_qa"
+                        style="@style/letra_tabs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:background="@color/verde_pestanas"
+                        android:scrollbars="vertical"
+                        android:text="QA" />
+
+                    <LinearLayout
+                        android:id="@+id/select_qa"
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"
+                        android:background="@color/verde_pestanas"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/fechaANS_ter_autorizada"
-                            style="@style/letra_negrita_terminal_gris_peq"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:text="fecha" />
                     </LinearLayout>
-
                 </LinearLayout>
 
             </LinearLayout>
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/layout_encabezado_vali"
+                <TextView
+                    android:id="@+id/serial_diagnosticos"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_below="@id/layoutSerial"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/gris_fondo"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/letra_titulos"
-                        android:layout_width="220dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="5dp"
-                        android:text="Validación" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            style="@style/letra_titulos"
-                            android:layout_width="40dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="Ok" />
-
-                        <TextView
-                            style="@style/letra_titulos"
-                            android:layout_width="40dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="Falla" />
-
-                        <TextView
-                            style="@style/letra_titulos"
-                            android:layout_width="40dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="Na" />
-
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_encabezado_vali"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="vertical">
+                    android:gravity="center"
+                    android:text="Serial: " />
 
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recycler_view_validaciones_autorizadas"
-                        android:layout_width="360dp"
-                        android:layout_height="345dp"
-                        android:layout_above="@id/btn_siguiente_validaciones_autorizadas" />
-
-
-                </LinearLayout>
-
+                <!--LinearLayout observaciones-->
                 <LinearLayout
+                    android:id="@+id/layout_observaciones"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:background="@drawable/borde_inferior_gris"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/letra_negrita"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/gris_fondo"
-                            android:gravity="center"
-                            android:text="Tipificaciones"
-                            android:textAllCaps="true" />
-                    </LinearLayout>
-
-
                     <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recycler_view_tipificaciones_autorizadas"
+                        android:id="@+id/recycler_view_observaciones_prediagnosticoÒ"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp" />
                 </LinearLayout>
 
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/layout_evidencias"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
+                <!--LinearLayout prediagnostico-->
                 <LinearLayout
+                    android:id="@+id/layout_prediagnostico"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@color/gris_fondo"
+                    android:gravity="center"
                     android:orientation="vertical">
 
-                    <TextView
-                        style="@style/letra_negrita"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center"
-                        android:text="EVIDENCIA"
-                        android:textAllCaps="true" />
-
                     <LinearLayout
+                        android:id="@+id/layout_validaciones"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/borde_todos_gris"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_margin="20dp">
 
+                        <LinearLayout
+                            android:id="@+id/layout_encabezado_vali"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_below="@id/layoutSerial"
+                            android:layout_marginTop="5dp"
+                            android:background="@color/gris_fondo"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/letra_titulos"
+                                android:layout_width="220dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="5dp"
+                                android:text="Validación" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/letra_titulos"
+                                    android:layout_width="40dp"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="Ok" />
+
+                                <TextView
+                                    style="@style/letra_titulos"
+                                    android:layout_width="40dp"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="Falla" />
+
+                                <TextView
+                                    style="@style/letra_titulos"
+                                    android:layout_width="40dp"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="Na" />
+
+
+                            </LinearLayout>
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingLeft="10dp">
+                            android:layout_below="@+id/layout_encabezado_vali"
+                            android:layout_gravity="center_horizontal"
+                            android:orientation="vertical">
 
-                            <ImageView
-                                android:id="@+id/img_evidencia1"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:src="@drawable/img_no_disponible" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/recycler_view_validaciones_pregiagnostico"
+                                android:layout_width="360dp"
+                                android:layout_height="wrap_content"
+                                android:layout_above="@id/btn_siguiente_validaciones_autorizadas"/>
 
-                                <TextView
-                                    android:id="@+id/txt_nomFoto1"
-                                    style="@style/letra_contenido"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="20dp"
-                                    android:layout_marginTop="30dp"
-                                    android:gravity="center_vertical"
-                                    android:inputType="textCapSentences"
-                                    android:paddingLeft="8dp"
-                                    android:text="foto.png" />
 
-                                <TextView
-                                    android:id="@+id/txt_fechaFoto1"
-                                    style="@style/letra_contenido"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="30dp"
-                                    android:gravity="right"
-                                    android:inputType="textCapSentences"
-                                    android:paddingRight="8dp"
-                                    android:text="fecha" />
-
-                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
 
+                    <!--Linear layaut tipificaciones-->
                     <LinearLayout
+                        android:id="@+id/layout_tipificaciones"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/borde_todos_gris"
+                        android:layout_margin="20dp"
                         android:orientation="vertical">
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:background="@drawable/borde_inferior_gris"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/letra_negrita"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/gris_fondo"
+                                android:gravity="center"
+                                android:text="Tipificaciones"
+                                android:textAllCaps="true" />
+                        </LinearLayout>
+
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycler_view_tipificaciones_prediagnostico"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp" />
+                    </LinearLayout>
+
+                    <!--Linear layout evidencias-->
+                    <LinearLayout
+                        android:id="@+id/layout_evidencias_prediagnostico"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingLeft="10dp">
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="@color/gris_fondo"
+                            android:orientation="vertical">
 
-                            <ImageView
-                                android:id="@+id/img_evidencia2"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:src="@drawable/img_no_disponible" />
+                            <TextView
+                                style="@style/letra_negrita"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:gravity="center"
+                                android:text="EVIDENCIA"
+                                android:textAllCaps="true" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/borde_todos_gris"
                                 android:orientation="vertical">
 
-                                <TextView
-                                    android:id="@+id/txt_nomFoto2"
-                                    style="@style/letra_contenido"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="20dp"
-                                    android:layout_marginTop="30dp"
-                                    android:gravity="center_vertical"
-                                    android:inputType="textCapSentences"
-                                    android:paddingLeft="8dp"
-                                    android:text="foto.png" />
 
-                                <TextView
-                                    android:id="@+id/txt_fechaFoto2"
-                                    style="@style/letra_contenido"
+                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="30dp"
-                                    android:gravity="right"
-                                    android:inputType="textCapSentences"
-                                    android:paddingRight="8dp"
-                                    android:text="fecha" />
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:paddingLeft="10dp">
 
+                                    <ImageView
+                                        android:id="@+id/img_evidencia1"
+                                        android:layout_width="100dp"
+                                        android:layout_height="100dp"
+                                        android:src="@drawable/img_no_disponible" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/txt_nomFoto1"
+                                            style="@style/letra_contenido"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="20dp"
+                                            android:layout_marginTop="30dp"
+                                            android:gravity="center_vertical"
+                                            android:inputType="textCapSentences"
+                                            android:paddingLeft="8dp"
+                                            android:text="foto.png" />
+
+                                        <TextView
+                                            android:id="@+id/txt_fechaFoto1"
+                                            style="@style/letra_contenido"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="30dp"
+                                            android:gravity="right"
+                                            android:inputType="textCapSentences"
+                                            android:paddingRight="8dp"
+                                            android:text="fecha" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
                             </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/borde_todos_gris"
+                                android:orientation="vertical">
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:paddingLeft="10dp">
+
+                                    <ImageView
+                                        android:id="@+id/img_evidencia2"
+                                        android:layout_width="100dp"
+                                        android:layout_height="100dp"
+                                        android:src="@drawable/img_no_disponible" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/txt_nomFoto2"
+                                            style="@style/letra_contenido"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="20dp"
+                                            android:layout_marginTop="30dp"
+                                            android:gravity="center_vertical"
+                                            android:inputType="textCapSentences"
+                                            android:paddingLeft="8dp"
+                                            android:text="foto.png" />
+
+                                        <TextView
+                                            android:id="@+id/txt_fechaFoto2"
+                                            style="@style/letra_contenido"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="30dp"
+                                            android:gravity="right"
+                                            android:inputType="textCapSentences"
+                                            android:paddingRight="8dp"
+                                            android:text="fecha" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+
+
                         </LinearLayout>
+                    </LinearLayout>
+
+                    <!--linear layout repuestos-->
+                    <LinearLayout
+                        android:id="@+id/layout_repuestos_prediagnostico"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:background="@drawable/borde_inferior_gris"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/letra_negrita"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/gris_fondo"
+                                android:gravity="center"
+                                android:text="REPUESTOS"
+                                android:textAllCaps="true" />
+                        </LinearLayout>
+
+                        <TableLayout
+                            android:id="@+id/tabla_repuestos_prediagnostico"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:stretchColumns="1">
+
+
+                        </TableLayout>
+
                     </LinearLayout>
 
 
                 </LinearLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/layout_repuestos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:orientation="vertical">
-
-                <TableLayout
-                    android:id="@+id/tabla_seleccionar_repuestos"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:stretchColumns="2">
-
-                    <TableRow android:background="@color/gris_fondo">
-
-                        <TextView
-                            style="@style/letra_negrita"
-                            android:layout_width="280dp"
-                            android:layout_height="30dp"
-                            android:text="Repuestos"
-                            android:textAllCaps="true" />
-
-                        <TextView
-                            style="@style/letra_negrita"
-                            android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:gravity="center"
-                            android:text="ok"
-                            android:textAllCaps="true" />
-
-
-                    </TableRow>
-
-                </TableLayout>
 
             </LinearLayout>
-
-
-            <Button
-                android:id="@+id/btn_siguiente_tipificaciones_autorizadas"
-                style="@style/letra_contenido_blanco"
-                android:layout_width="120dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:background="@drawable/redondo_gris_botones"
-                android:textColor="@color/negro"
-                android:text="Siguiente"
-                android:textAllCaps="false"
-                android:layout_marginBottom="20dp"
-                />
-
-
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

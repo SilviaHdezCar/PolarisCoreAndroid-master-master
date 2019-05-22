@@ -2,6 +2,7 @@ package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,7 +21,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterEtapa;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTipificacionesAutorizadas;
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidacionesAutorizadas;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
@@ -28,6 +31,7 @@ import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
+import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -56,20 +60,25 @@ public class Prediagnostico extends Fragment {
     private View v;
 
     private TextView serial;
-    private TextView marca;
-    private TextView modelo;
-    private TextView tecnologia;
-    private TextView estado;
-    private TextView fechaANS;
+    private Button btn_observaciones;
+    private Button btn_prediagnostico;
+    private Button btn_reparacion;
+    private Button btn_qa;
 
-    private Button btn_siguiente;
-
-    private RecyclerView rv;/*
-    private RecyclerView rvFotos;
-    private RecyclerView rvRepuestos;*/
+    private LinearLayout ly_observaciones;
+    private LinearLayout ly_prediagnostico;
+    private LinearLayout ly_reparacion;
+    private LinearLayout ly_qa;
     private TableLayout tablaRepuestos;
+    private LinearLayout layout_observaciones;
+    private LinearLayout layout_prediagnostico;
     private LinearLayout layout_evidencias;
     private LinearLayout layout_repuestos;
+    private LinearLayout layout_validaciones;
+    private LinearLayout layout_tipificaciones;
+
+    private RecyclerView rv;
+    private List<Repuesto> repuestos;
 
     private ImageView img_evidencia1;
     private ImageView img_evidencia2;
@@ -77,13 +86,7 @@ public class Prediagnostico extends Fragment {
     private TextView txt_nomFoto2;
     private TextView txt_fechaFoto1;
     private TextView txt_fechaFoto2;
-    FragmentManager fragmentManager;
 
-
-    public static ArrayList<Observacion> list_con_fotos;
-
-    private List<Repuesto> repuestos;
-    private List<Tipificacion> tipificacionesRecibidas;
     private boolean tieneRepuestos;
 
     public Prediagnostico() {
@@ -121,23 +124,27 @@ public class Prediagnostico extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_tipificaciones_autorizadas, container, false);
-        objeto.setTitle("          TIPIFICACIONES");
-
-        this.tieneRepuestos = false;
-        list_con_fotos = new ArrayList<Observacion>();
+        v = inflater.inflate(R.layout.fragment_prediagnostico, container, false);
+        objeto.setTitle("          DIAGNÓSTICOS");
         this.repuestos = new ArrayList<Repuesto>();
-        serial = (TextView) v.findViewById(R.id.serial_ter_autorizada);
-        marca = (TextView) v.findViewById(R.id.marca_ter_autorizada);
-        modelo = (TextView) v.findViewById(R.id.modelo_ter_autorizada);
-        tecnologia = (TextView) v.findViewById(R.id.tecno_ter_autorizada);
-        estado = (TextView) v.findViewById(R.id.estado_ter_autorizada);
-        fechaANS = (TextView) v.findViewById(R.id.fechaANS_ter_autorizada);
-        btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_tipificaciones_autorizadas);
-        rv = (RecyclerView) v.findViewById(R.id.recycler_view_tipificaciones_autorizadas);
-        layout_evidencias = (LinearLayout) v.findViewById(R.id.layout_evidencias);
-        layout_repuestos = (LinearLayout) v.findViewById(R.id.layout_repuestos);
-        tablaRepuestos = (TableLayout) v.findViewById(R.id.tabla_seleccionar_repuestos);
+        serial = (TextView) v.findViewById(R.id.serial_diagnosticos);
+
+        btn_observaciones = (Button) v.findViewById(R.id.btn_observaciones);
+        btn_prediagnostico = (Button) v.findViewById(R.id.btn_terminales_prediagnostico);
+        btn_reparacion = (Button) v.findViewById(R.id.btn_terminales_reparacion);
+        btn_qa = (Button) v.findViewById(R.id.btn_terminales_qa);
+        ly_observaciones = (LinearLayout) v.findViewById(R.id.select_observaciones);
+        ly_prediagnostico = (LinearLayout) v.findViewById(R.id.select_prediagnostico);
+        ly_reparacion = (LinearLayout) v.findViewById(R.id.select_reparacion);
+        ly_qa = (LinearLayout) v.findViewById(R.id.select_qa);
+
+        tablaRepuestos = (TableLayout) v.findViewById(R.id.tabla_repuestos_prediagnostico);
+        layout_observaciones = (LinearLayout) v.findViewById(R.id.layout_observaciones);
+        layout_prediagnostico = (LinearLayout) v.findViewById(R.id.layout_prediagnostico);
+        layout_evidencias = (LinearLayout) v.findViewById(R.id.layout_evidencias_prediagnostico);
+        layout_repuestos = (LinearLayout) v.findViewById(R.id.layout_repuestos_prediagnostico);
+        layout_validaciones = (LinearLayout) v.findViewById(R.id.layout_validaciones);
+        layout_tipificaciones = (LinearLayout) v.findViewById(R.id.layout_tipificaciones);
 
         img_evidencia1 = (ImageView) v.findViewById(R.id.img_evidencia1);
         img_evidencia2 = (ImageView) v.findViewById(R.id.img_evidencia2);
@@ -147,24 +154,361 @@ public class Prediagnostico extends Fragment {
         txt_fechaFoto2 = (TextView) v.findViewById(R.id.txt_fechaFoto2);
 
 
-        layout_repuestos.setVisibility(View.VISIBLE);
-        layout_evidencias.setVisibility(View.VISIBLE);
+        styleObservacioneso();
+        llenarRVEtapas(Global.OBSERVACIONES);
+        layout_prediagnostico.setVisibility(View.GONE);
+
+        //al iniciar se debe mostrar todo lo del prediagnostico
 
 
-        System.out.println("TERMINAL: " + Global.terminalVisualizar.getTerm_serial());
-        serial.setText(Global.terminalVisualizar.getTerm_serial());
-        marca.setText(Global.terminalVisualizar.getTerm_brand());
-        modelo.setText(Global.terminalVisualizar.getTerm_model());
-        tecnologia.setText(Global.terminalVisualizar.getTerm_technology());
-        estado.setText(Global.terminalVisualizar.getTerm_status());
-        fechaANS.setText(Global.terminalVisualizar.getTerm_date_register());
+        btn_observaciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                styleObservacioneso();
+                llenarRVEtapas(Global.OBSERVACIONES);
+                layout_prediagnostico.setVisibility(View.GONE);
 
-        recorrerTipificaciones();
-        llenarListaRepuestos();
-        System.out.println("Tamaño lista rep=" + Global.repuestos_listar_autorizadas.size());
-        System.out.println("Tamaño  rep DEFECTUOSOS=" + Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size());
-        System.out.println("Tamaño lista evidencias=" + Global.observaciones_con_fotos.size());
-        tieneRepuestos = tieneRepuestos();
+            }
+        });
+
+        btn_prediagnostico.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stylePrediagnostico();
+                llenarDiagnostico("1");
+
+
+            }
+        });
+
+        btn_reparacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                styleReparacion();
+                llenarDiagnostico("2");
+            }
+        });
+
+        btn_qa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                styleQA();
+                llenarDiagnostico("3");
+            }
+        });
+
+        serial.setText("Serial: " + Global.terminalVisualizar.getTerm_serial());
+
+
+        return v;
+    }
+
+
+    /**
+     * Metodo utilizado para llenar el recycler view de las observaciones del terminal seleccionado
+     *
+     * @Params Recibe la lista  observaciones o etapas que van a ser mostradas
+     **/
+    public void llenarRVEtapas(List<Observacion> observaciones) {
+        rv = (RecyclerView) v.findViewById(R.id.recycler_view_observaciones_prediagnosticoÒ);
+        if (observaciones == null || observaciones.size() == 0) {
+            Toast.makeText(objeto, "Sin observaciones", Toast.LENGTH_SHORT).show();
+        }
+
+        rv.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
+        rv.setLayoutManager(llm);
+
+        ArrayList observations = new ArrayList<>();
+
+        for (Observacion observ : observaciones) {
+            if (observ != null) {
+                if (observ.getTeob_description() != null) {
+                    if (!observ.getTeob_description().isEmpty()) {
+                        observations.add(observ);
+                    }
+                }
+
+            }
+        }
+
+        final AdapterEtapa adapter = new AdapterEtapa(observations, new AdapterEtapa.interfaceClick() {
+            @Override
+            public void onClick(List<Observacion> observaciones, int position) {
+
+            }
+        }, R.layout.panel_etapas);
+
+        rv.setAdapter(adapter);
+
+    }
+
+
+    /**
+     * @param tipo -->-->1. diagnostico, 2.repación. 3. qa
+     */
+    public void llenarDiagnostico(String tipo) {
+
+        //dependiendo del tipo, ocultar paneles
+        layout_observaciones.setVisibility(View.GONE);
+        layout_prediagnostico.setVisibility(View.VISIBLE);
+        layout_evidencias.setVisibility(View.GONE);
+
+        ArrayList<Validacion> validacions = llenarListaValidaciones(tipo);
+        ArrayList<String> tipificaciones = llenarListaTipificaciones(tipo);
+        ArrayList<Repuesto> repuestos = llenarListaRepuestos(tipo);
+        if (validacions == null || validacions.size() == 0) {
+            layout_validaciones.setVisibility(View.GONE);
+        }
+        if (tipificaciones == null || tipificaciones.size() == 0) {
+            layout_tipificaciones.setVisibility(View.GONE);
+        }
+        if (!tieneRepuestos(repuestos)) {
+            layout_repuestos.setVisibility(View.GONE);
+        }
+
+        if (tipo.equals("3")) {
+            layout_evidencias.setVisibility(View.VISIBLE);
+            mostrarEvidencias();
+        }
+    }
+
+    /**
+     * este metodo se ultiliza para llenar la lista de validaciones
+     *
+     * @param tipodiagnostico-->1. prediagnostico, 2.repación. 3. qa
+     * @return
+     */
+    public ArrayList<Validacion> llenarListaValidaciones(String tipodiagnostico) {
+        ArrayList<Validacion> validacions = new ArrayList<>();
+        if (Global.validaciones_consultas.get(tipodiagnostico) != null) {
+            if (!Global.validaciones_consultas.get(tipodiagnostico).equalsIgnoreCase("")) {
+                String array_validaciones[] = Global.validaciones_consultas.get(tipodiagnostico).split("%");
+
+                String validaciones[] = array_validaciones[1].split(",");
+                String vali_estado[];
+                if (!validaciones[0].equals("[]")) {
+
+                    for (int i = 0; i < validaciones.length; i++) {
+                        if (!validaciones[i].equalsIgnoreCase("[]")) {
+                            boolean ok = false, falla = false, no_aplica = false;
+                            String estado = "";
+                            System.out.println("Val pos: " + i + "-" + validaciones[i]);
+                            vali_estado = validaciones[i].split("-");
+
+                            if (vali_estado[1].equalsIgnoreCase("OK")) {
+                                ok = true;
+                                estado = "ok";
+                            } else if (vali_estado[1].equalsIgnoreCase("Falla")) {
+                                falla = true;
+                                estado = "falla";
+                            } else if (vali_estado[1].equalsIgnoreCase("na")) {
+                                no_aplica = true;
+                                estado = "no aplica";
+                            }
+                            if (validaciones[i].split("-")[1].equals("OK")) {
+                                ok = true;
+                            } else if (validaciones[i].split("-")[1].equals("Falla")) {
+                                falla = true;
+                            } else if (validaciones[i].split("-")[1].equals("No aplica")) {
+                                no_aplica = true;
+                            }
+
+                            Validacion v = new Validacion(validaciones[i].split("-")[0], ok, falla, no_aplica, estado);
+                            validacions.add(v);
+                        }
+
+                    }
+                    llenarRVValidaciones(validacions);
+                }
+            }
+        }
+        return validacions;
+    }
+
+
+    /**
+     * Metodo empleado para llenar el recycler view de validaciones
+     *
+     * @param validacionesRecibidas
+     */
+    public void llenarRVValidaciones(List<Validacion> validacionesRecibidas) {
+
+        rv = (RecyclerView) v.findViewById(R.id.recycler_view_validaciones_pregiagnostico);
+
+
+        if (validacionesRecibidas == null || validacionesRecibidas.size() == 0) {
+            Toast.makeText(objeto, "No tiene validaciones", Toast.LENGTH_SHORT).show();
+        }
+        rv.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
+        rv.setLayoutManager(llm);
+
+        final ArrayList validaciones = new ArrayList<>();
+
+        for (Validacion val : validacionesRecibidas) {
+            if (val != null) {
+                validaciones.add(val);
+            }
+
+
+            final AdapterValidacionesAutorizadas adapter = new AdapterValidacionesAutorizadas(validaciones, null, R.layout.panel_validaciones_terminales);
+
+            rv.setAdapter(adapter);
+
+        }
+    }
+
+
+    /**
+     * Recorre el arreglo global de tipificaciones, el cual se llenó al consumir el servicio que consulta la terminal
+     *
+     * @param estado -->1. prediagnostico, 2.repación. 3. qa
+     */
+    public ArrayList<String> llenarListaTipificaciones(String estado) {
+        ArrayList<String> tipificacions = new ArrayList<>();
+        if (Global.tipificaciones_consultas.get(estado) != null) {
+            if (!Global.tipificaciones_consultas.get(estado).equalsIgnoreCase("")) {
+                String arreglo_tipificaciones[] = Global.tipificaciones_consultas.get(estado).split("%");
+                String tipificaciones[] = arreglo_tipificaciones[1].split(",");
+                if (!tipificaciones[0].equals("[]")) {
+
+
+                    if ((tipificaciones.length == 0) || tipificaciones == null) {
+                        Toast.makeText(objeto, "No tiene tipificaciones", Toast.LENGTH_SHORT).show();
+                    } else {
+                        for (int i = 0; i < tipificaciones.length; i++) {
+                            tipificacions.add(tipificaciones[i]);
+                        }
+                        llenarRVTipificaciones(tipificacions);
+                    }
+
+                }
+            }
+        }
+        return tipificacions;
+    }
+
+    /**
+     * este metodo llena el recycler view con las tipificaciones obtenidas al consumir el
+     * servicio que muestra el detalle de la terminal autorizada seleccionada
+     **/
+    public void llenarRVTipificaciones(List<String> tipificacionesRecibidas) {
+        rv = (RecyclerView) v.findViewById(R.id.recycler_view_tipificaciones_prediagnostico);
+
+        if (tipificacionesRecibidas == null || tipificacionesRecibidas.size() == 0) {
+            Toast.makeText(objeto, "No tiene tificaciones", Toast.LENGTH_SHORT).show();
+        }
+        rv.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
+        rv.setLayoutManager(llm);
+
+        final ArrayList tipificaciones = new ArrayList<>();
+
+        for (String val : tipificacionesRecibidas) {
+            if (val != null) {
+                System.out.println("arreg tip: " + val);
+                tipificaciones.add(val);
+            }
+
+            final AdapterTipificacionesAutorizadas adapter = new AdapterTipificacionesAutorizadas(tipificaciones, null, R.layout.panel_tipificaciones_autorizadas);
+
+            rv.setAdapter(adapter);
+
+        }
+
+    }
+
+
+    /**
+     * Este metodo se utiliza para recorrer el arreglo de repuestos enviado por el servicio al seleccionar una autorizada
+     * Split de los repuestos recibidos y los agrega al recycler view
+     **/
+    public ArrayList<Repuesto> llenarListaRepuestos(String estado) {
+        ArrayList<Repuesto> repuests = new ArrayList<>();
+        if (Global.repuestos_consultas.get(estado) != null) {
+            if (!Global.repuestos_consultas.get(estado).equalsIgnoreCase("")) {
+                String arrayRepuestos[] = Global.repuestos_consultas.get(estado).split("%");
+                System.out.println("array repuestos : " + arrayRepuestos.toString());
+
+                if (arrayRepuestos[1] != null || !arrayRepuestos[1].isEmpty()) {
+                    System.out.println("array repuestos pos 1: " + arrayRepuestos[1]);
+                    String reps[] = arrayRepuestos[1].split(",");
+                    this.repuestos = new ArrayList<>();
+                    if (reps == null || reps.length == 0 || reps.equals("")) {
+                        Toast.makeText(objeto, "No tiene repuestos", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (!reps[0].equals("[]") || !reps[0].trim().isEmpty()) {
+                            Repuesto repuesto = null;
+                            String[] rep = null;
+                            for (int i = 0; i < reps.length; i++) {
+                              rep = reps[i].split("-");
+                                if (rep!=null||rep.length>0) {
+                                    //String spar_code,String spar_name, String quantity, String spar_warehouse
+                                    repuesto = new Repuesto(rep[0], rep[1], rep[2], rep[3]);
+                                    this.repuestos.add(repuesto);
+                                    repuests.add(repuesto);
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+            }
+        }
+        return repuests;
+    }
+
+    /**
+     * metodo utilizado para validar si la terminal tiene repuestos
+     *
+     * @return true--> si tiene repuesto (llena la tabla y oculta el panel de evidencias) false--> no tiene repuestos
+     */
+    public boolean tieneRepuestos(List<Repuesto> repuestos) {
+        if (repuestos != null) {
+            if (repuestos.size() > 0) {
+                llenarTabla(repuestos);
+                layout_evidencias.setVisibility(View.GONE);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Metodo utilizado para llenar la tabla de respuestos con la columna OK
+     **/
+    public void llenarTabla(List<Repuesto> repuestos) {
+
+        for (int i = 0; i < repuestos.size(); i++) {
+            TableRow fila = new TableRow(objeto);
+            fila.setId(i);
+            fila.setGravity(Gravity.CENTER_HORIZONTAL);
+            fila.setBackgroundResource(R.drawable.borde_inferior_gris);
+            fila.setPadding(1, 10, 1, 10);
+
+            //celdas
+
+            TextView nombre = new TextView(objeto);
+            nombre.setId(100 + i);
+            nombre.setText(repuestos.get(i).getSpar_name());
+            nombre.setGravity(Gravity.CENTER_HORIZONTAL);
+            nombre.setPadding(30, 10, 1, 10);
+
+            fila.addView(nombre);
+            tablaRepuestos.addView(fila);
+        }
+    }
+
+    /**
+     * Metodo utilizado al mostrar el diagnóstico realizado por QA
+     */
+    public void mostrarEvidencias() {
+        tieneRepuestos = tieneRepuestos(this.repuestos);
 
         if (!tieneRepuestos && Global.observaciones_con_fotos.size() == 0) {
             Toast.makeText(objeto, "La terminal no tiene repuestos ni evidencias", Toast.LENGTH_SHORT).show();
@@ -186,18 +530,16 @@ public class Prediagnostico extends Fragment {
 
                 if (Global.observaciones_con_fotos.get(i).getTeob_photo() != null) {
                     if (!Global.observaciones_con_fotos.get(i).getTeob_photo().trim().isEmpty()) {
-                        if (!buscarArreglo(Global.observaciones_con_fotos.get(i).getTeob_photo())) {
-                            System.out.println("\nagrega");
+                        if (!buscarFoto(Global.observaciones_con_fotos.get(i).getTeob_photo())) {
                             Global.fotos.add(Global.observaciones_con_fotos.get(i));
                         }
-                        System.out.println("\nno agg");
                     }
 
 
                 }
             }
 
-//Obtengo las posiciones donde guarde las observaciones con foto
+            //Obtengo las posiciones donde guarde las observaciones con foto
 
 
             if (Global.fotos != null) {
@@ -242,29 +584,10 @@ public class Prediagnostico extends Fragment {
             }
 
         }
-
-        btn_siguiente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (tieneRepuestos) {
-                    if (validarEstadosRepuestos()) {
-                        //System.out.println();
-                        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesSeleccionarAutorizadas()).addToBackStack(null).commit();
-                        return;
-                    }
-                } else {
-                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesSeleccionarAutorizadas()).addToBackStack(null).commit();
-                    return;
-                }
-            }
-        });
-
-
-        return v;
     }
 
-    public boolean buscarArreglo(String nomFoto) {
+
+    public boolean buscarFoto(String nomFoto) {
         if (Global.fotos != null && Global.fotos.size() > 0) {
             for (Observacion o : Global.fotos) {
                 if (nomFoto.equals(o.getTeob_photo())) {
@@ -275,286 +598,72 @@ public class Prediagnostico extends Fragment {
         return false;
     }
 
+    public void styleObservacioneso() {
+        ly_observaciones.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
+        ly_prediagnostico.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+        ly_reparacion.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+        ly_qa.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
 
-    /*
+        btn_observaciones.setTextSize(15);
+        btn_prediagnostico.setTextSize(13);
+        btn_reparacion.setTextSize(13);
+        btn_qa.setTextSize(13);
+        btn_observaciones.setTypeface(null, Typeface.BOLD);
+        btn_prediagnostico.setTypeface(null, Typeface.NORMAL);
+        btn_reparacion.setTypeface(null, Typeface.NORMAL);
+        btn_qa.setTypeface(null, Typeface.NORMAL);
 
-     */
-    public boolean tieneRepuestos() {
-        if (this.repuestos != null) {
-            if (this.repuestos.size() > 0) {
-
-                System.out.println("tiene repuestos");
-                llenarTabla();
-                layout_evidencias.setVisibility(View.GONE);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Este metodo se utiliza para verificar que todos los repuestos estén OK
-     *
-     * @return true-->si todos están oOK
-     */
-    public boolean validarEstadosRepuestos() {
-        boolean retorno = false;
-        recorrerTabla(tablaRepuestos);
-        Repuesto rep = new Repuesto();
-        for (int i = 0; i < this.repuestos.size(); i++) {
-            rep = this.repuestos.get(i);
-            if (rep != null) {
-                if (!rep.isOk()) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                    alertDialog.setTitle("Información");
-                    alertDialog.setMessage("Faltó seleccionar el repuesto: " + rep.getSpar_name());
-                    alertDialog.setCancelable(true);
-                    alertDialog.show();
-                    return false;
-                } else {
-                    retorno = true;
-                }
-            }
-        }
-        return retorno;
-    }
-
-    /**
-     * Este metodo se utiliza para recorrer la tabla mostrada de repuestos y cambia el estado
-     * del repuesto al presionar el radio button     *
-     *
-     * @param tabla
-     */
-    public void recorrerTabla(TableLayout tabla) {
-
-        int pos_fila;
-        int pos_radio;
-
-        for (int i = 1; i < tabla.getChildCount(); i++) {//filas
-            View child = tabla.getChildAt(i);
-            TableRow row = (TableRow) child;
-            pos_fila = row.getId();
-            View view = row.getChildAt(0);//celdas
-           /* if (view instanceof TextView) {
-
-                System.out.println("id: " + ((TextView) view).getText().toString());
-                view.setEnabled(false);
-            }*/
-            view = row.getChildAt(1);//Celda en la posición 1
-            if (view instanceof RadioButton) {
-                if (((RadioButton) view).isChecked()) {
-                    this.repuestos.get(i - 1).setOk(true);
-                }
-            }
-            System.out.println("Pos: " + i + "-->" + this.repuestos.get(i - 1).getSpar_name() + "-" + this.repuestos.get(i - 1).isOk());
-        }
-    }
-
-
-    /**
-     * Metodo utilizado para llenar la tabla de respuestos con la columna OK
-     **/
-    public void llenarTabla() {
-
-        for (int i = 0; i < this.repuestos.size(); i++) {
-            TableRow fila = new TableRow(objeto);
-            fila.setId(i);
-           // fila.setGravity(View.TEXT_ALIGNMENT_CENTER);
-            fila.setBackgroundResource(R.drawable.borde_inferior_gris);
-            fila.setGravity(Gravity.CENTER_VERTICAL);
-
-            //celdas
-
-            TextView nombre = new TextView(objeto);
-            nombre.setId(100 + i);
-            nombre.setText(this.repuestos.get(i).getSpar_name());
-            nombre.setPadding(20,0,0,0);
-            nombre.setBackgroundResource(R.drawable.borde_inferior_gris);
-
-            RadioButton ok = new RadioButton(objeto);
-            ok.setId(200 + i);
-            ok.setChecked(false);
-
-            fila.addView(nombre);
-            fila.addView(ok);
-            tablaRepuestos.addView(fila);
-
-
-        }
-    }
-
-
-    /**
-     * Este metodo se utiliza para recorrer el arreglo de repuestos enviado por el servicio al seleccionar una autorizada
-     * Split de los repuestos recibidos y los agrega al recycler view
-     **/
-    public void llenarListaRepuestos() {
-        System.out.println("va a llenar lista rep defectuosos");
-        Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS = null;
-        Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS = new ArrayList<Repuesto>();
-        System.out.println("global: " + Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial().toString()));
-
-        if (!Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).equalsIgnoreCase("")) {
-            String reps[] = Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
-            System.out.println("repuestos :::" + reps[0]);
-            repuestos = new ArrayList<>();
-            if (reps == null || reps.length == 0 || reps.equals("")) {
-                Toast.makeText(objeto, "No tiene repuestos", Toast.LENGTH_SHORT).show();
-            } else {
-                if (!reps[0].equals("[]") || !reps[0].trim().isEmpty()) {
-                    Repuesto repuesto = null;
-
-                    for (int i = 0; i < reps.length; i++) {
-                        String[] rep = reps[i].split("-");
-                        System.out.println("Repuesto String ==" + rep[i]);
-                        if (rep[i] != null || rep[i].length() > 0) {
-                            //String spar_code,String spar_name, String quantity, String spar_warehouse
-                            repuesto = new Repuesto(rep[0], rep[1], rep[2], rep[3]);
-                            this.repuestos.add(repuesto);
-                            Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.add(repuesto);
-                        }
-                    }
-
-                }
-            }
-        }
 
     }
 
+    public void stylePrediagnostico() {
+        ly_prediagnostico.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
+        ly_reparacion.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+        ly_qa.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+        ly_observaciones.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
 
-  /*  //mostrar fotos
-    public void llenarRVFotos(List<Observacion> obsRecibidas) {
-        if (obsRecibidas == null || obsRecibidas.size() == 0) {
-            Toast.makeText(objeto, " No tiene evidencias", Toast.LENGTH_SHORT).show();
-            layout_evidencias.setVisibility(View.GONE);
-            return;
-        }
-
-        rvFotos.setHasFixedSize(true);
-
-        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-        rvFotos.setLayoutManager(llm);
-
-        ArrayList obs = new ArrayList<>();
-
-        for (Observacion observa : obsRecibidas) {
-            if (observa != null) {
-                obs.add(observa);//  butons.add(new ButtonCard(nombre, "","",icon,idVenta));
-            }
-        }
+        btn_observaciones.setTextSize(13);
+        btn_observaciones.setTypeface(null, Typeface.NORMAL);
+        btn_prediagnostico.setTextSize(15);
+        btn_reparacion.setTextSize(13);
+        btn_qa.setTextSize(13);
+        btn_prediagnostico.setTypeface(null, Typeface.BOLD);
+        btn_reparacion.setTypeface(null, Typeface.NORMAL);
+        btn_qa.setTypeface(null, Typeface.NORMAL);
 
 
-        final AdapterEvidenciasAutorizadas adapter = new AdapterEvidenciasAutorizadas(obs, new AdapterEvidenciasAutorizadas.interfaceClick() {//seria termi asoc
-            @Override
-            public void onClick(List<Observacion> lisObs, int position) {
-
-
-                //   consumirServicioEtapas();
-
-                //muestra la foto en un fragmen
-
-
-                //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
-
-            }
-        }, R.layout.panel_evidencias_autorizadas);
-
-        rvFotos.setAdapter(adapter);
-    }
-*/
-
-    public void recorrerTipificaciones() {
-
-        String tipificaciones[] = Global.tipificaciones_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
-        System.out.println("Tipificacion pos 0====" + tipificaciones[0]);
-        if (!tipificaciones[0].equals("[]")) {
-
-            ArrayList<String> tipificacions = new ArrayList<>();
-
-            if ((tipificaciones.length == 0) || tipificaciones == null) {
-                Toast.makeText(objeto, "No tiene tipificaciones", Toast.LENGTH_SHORT).show();
-            } else {
-                for (int i = 0; i < tipificaciones.length; i++) {
-                    tipificacions.add(tipificaciones[i]);
-                }
-                llenarRVTipificaciones(tipificacions);
-            }
-
-        }
     }
 
-/*    public void ordenarObsFotos(){
-        if(Global.observaciones_con_fotos!=null|| !(Global.observaciones_con_fotos.size()==0)){
-            Observacion obs[]=arrayObservaciones();
-            Arrays.sort(obs);
-        }
+    public void styleReparacion() {
+        ly_prediagnostico.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+        ly_reparacion.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
+        ly_qa.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+        ly_observaciones.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+
+        btn_observaciones.setTextSize(13);
+        btn_observaciones.setTypeface(null, Typeface.NORMAL);
+        btn_prediagnostico.setTextSize(13);
+        btn_reparacion.setTextSize(15);
+        btn_qa.setTextSize(13);
+        btn_prediagnostico.setTypeface(null, Typeface.NORMAL);
+        btn_reparacion.setTypeface(null, Typeface.BOLD);
+        btn_qa.setTypeface(null, Typeface.NORMAL);
     }
 
-   public  Observacion[] arrayObservaciones(){
-        Observacion observaciones[]=new Observacion[Global.observaciones_con_fotos.size()];
-       for(int i=0; i<Global.observaciones_con_fotos.size();i++){
-           observaciones[i]=Global.observaciones_con_fotos.get(i);
-       }
-       return observaciones;
-   }*/
+    public void styleQA() {
+        ly_prediagnostico.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+        ly_qa.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
+        ly_reparacion.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+        ly_observaciones.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
 
-
-    /**
-     * este metodo llena el recycler view con las tipificaciones obtenidas al consumir el
-     * servicio que muestra el detalle de la terminal autorizada seleccionada
-     **/
-    public void llenarRVTipificaciones(List<String> tipificacionesRecibidas) {
-        //************************SE MUESTRA LA LISTA DE TERMINALES ASOCIADAS
-        if (tipificacionesRecibidas == null || tipificacionesRecibidas.size() == 0) {
-            Toast.makeText(objeto, "No tiene tificaciones", Toast.LENGTH_SHORT).show();
-        }
-        rv.setHasFixedSize(true);
-
-        LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
-        rv.setLayoutManager(llm);
-
-        final ArrayList tipificaciones = new ArrayList<>();
-
-        for (String val : tipificacionesRecibidas) {
-            if (val != null) {
-                System.out.println("arreg tip: " + val);
-                tipificaciones.add(val);
-            }
-
-            final AdapterTipificacionesAutorizadas adapter = new AdapterTipificacionesAutorizadas(tipificaciones, null, R.layout.panel_tipificaciones_autorizadas);
-
-            rv.setAdapter(adapter);
-
-        }
-        System.out.println("Tamaño del arreglo " + tipificaciones.size());
-    }
-
-
-    /**
-     * Este metodo se utiliza para revisar cuales observaciones tienen fotos
-     *
-     * @param
-     **/
-    public boolean revisarFotos() {
-        if (Global.OBSERVACIONES.size() == 0 || Global.OBSERVACIONES == null) {
-            return false;
-        }
-
-        for (int i = 0; i < Global.OBSERVACIONES.size(); i++) {
-
-        }
-
-
-        return false;
-    }
-
-    public void ordenarFechas() {
-
-        if (Global.observaciones_con_fotos != null || Global.observaciones_con_fotos.size() > 0) {
-            for (Observacion ob : Global.observaciones_con_fotos) {
-
-            }
-        }
+        btn_observaciones.setTextSize(13);
+        btn_observaciones.setTypeface(null, Typeface.NORMAL);
+        btn_prediagnostico.setTextSize(13);
+        btn_reparacion.setTextSize(13);
+        btn_qa.setTextSize(15);
+        btn_prediagnostico.setTypeface(null, Typeface.NORMAL);
+        btn_reparacion.setTypeface(null, Typeface.NORMAL);
+        btn_qa.setTypeface(null, Typeface.BOLD);
     }
 
 

@@ -100,17 +100,23 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         Global.VALIDACIONES = new ArrayList<Validacion>();*/
         String fechaRecepción = "";
         String fechaANS = "";
-        if (Global.diagnosticoTerminal.equalsIgnoreCase("asociada")) {
+        modelo_ter_validaciones.setText(Global.modelo);
+         if (Global.diagnosticoTerminal.equals("asociada")) {
+            System.out.println("Global.TERMINALES_ASOCIADAS_tamalo_: "+Global.TERMINALES_ASOCIADAS.size());
             for (Terminal ter : Global.TERMINALES_ASOCIADAS) {
-                if (ter.getTerm_serial().equalsIgnoreCase(Global.serial_ter)) {
-                    marca_ter_validaciones.setText(ter.getTerm_brand());
-                    modelo_ter_validaciones.setText(ter.getTerm_model());
+                System.out.println("sertial..." + ter.getTerm_serial());
+                System.out.println("despues el for, antes if");
+                if (ter.getTerm_serial().equals(Global.serial_ter)) {
+                    System.out.println("los seriales son iguales");
+                    marca_ter_validaciones.setText("deberia ir la marca");
+                    modelo_ter_validaciones.setText(Global.modelo);
                     serial_ter_validaciones.setText(ter.getTerm_serial());
                     tecno_ter_validaciones.setText(ter.getTerm_technology());
                     estado_ter_validaciones.setText(ter.getTerm_status());
                     if (ter.getTerm_warranty_time() != null) {
+
                         if (!ter.getTerm_warranty_time().trim().isEmpty()) {
-                            System.out.println("fin garantía..." + ter.getTerm_warranty_time());
+
                             if (Integer.parseInt(ter.getTerm_warranty_time()) >= 0) {
                                 garantia_ter_validaciones.setText("Con garantía");
                             } else {
@@ -133,7 +139,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
 
                 }
             }
-        } else {
+        } else   if (Global.diagnosticoTerminal.equals("autorizada")){
 
             marca_ter_validaciones.setText(Global.terminalVisualizar.getTerm_brand());
             modelo_ter_validaciones.setText(Global.terminalVisualizar.getTerm_model());
