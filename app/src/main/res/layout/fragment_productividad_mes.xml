@@ -97,7 +97,8 @@
            android:textAllCaps="false"
            android:text="Buscar"
            style="@style/letra_contenido_blanco"
-           android:background="@drawable/redondo_botones"
+           android:background="@drawable/redondo_gris_botones"
+           android:textColor="@color/negro"
 
 
 

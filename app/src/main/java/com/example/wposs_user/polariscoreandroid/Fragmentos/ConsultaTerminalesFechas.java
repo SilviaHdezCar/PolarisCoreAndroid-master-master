@@ -1,13 +1,17 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +23,40 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminalStock;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogOpcionesConsulta;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
+import com.example.wposs_user.polariscoreandroid.java.MyValueFormatter;
+import com.example.wposs_user.polariscoreandroid.java.Productividad;
+import com.example.wposs_user.polariscoreandroid.java.Terminal;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 
@@ -38,6 +68,9 @@ public class ConsultaTerminalesFechas extends Fragment {
     private Button btn_fech_consulta_serial;
     private ImageView buscar_terminales_fecha;
     private LinearLayout layout_estado_terminal;
+    private RecyclerView rv;
+    ArrayList<Terminal> terminales;
+    private RequestQueue queue;
     View view;
 
     public static String Fecha1, Fecha2;
@@ -58,16 +91,26 @@ public class ConsultaTerminalesFechas extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_consulta_terminales_fechas, container, false);
         objeto.setTitle("      BÚSQUEDA POR FECHAS");
+        buscar_terminales_fecha=(ImageView)view.findViewById(R.id.btn_buscar_terminalesPorFechas) ;
 
-        buscar_terminales_fecha = (ImageView) view.findViewById(R.id.btn_buscar_terminalesPorFechas);
+        terminales= new ArrayList<>();
+        queue = Volley.newRequestQueue(objeto);
+
+        rv= (RecyclerView)view.findViewById(R.id.recycler_view_consultaTerminalesFecha);
+        buscar_terminales_fecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                consumirServicioBusquedaFecha();
+            }
+        });
 
         //carga los txt de las fechas al hacer la consulta establecida por fechas
 
         f_inicio = (EditText) view.findViewById(R.id.txt_fecha_inicio);
         f_fin = (EditText) view.findViewById(R.id.txt_fecha_fin);
-        text_estado_ter = (TextView) view.findViewById(R.id.text_estado_ter);
+
         btn_fech_consulta_serial = (Button) view.findViewById(R.id.btn_fech_consulta_serial);
-        layout_estado_terminal = (LinearLayout) view.findViewById(R.id.layout_estado_terminal);
+
 
         btn_fech_consulta_serial.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,13 +119,7 @@ public class ConsultaTerminalesFechas extends Fragment {
             }
         });
 
-        layout_estado_terminal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                opcionesBusqueda();
-                text_estado_ter.setText(Global.opcion_consulta);
-            }
-        });
+
 
         f_inicio.setInputType(InputType.TYPE_NULL);
         f_fin.setInputType(InputType.TYPE_NULL);
@@ -94,9 +131,7 @@ public class ConsultaTerminalesFechas extends Fragment {
         Date date = new Date();
         String fecha = dateFormat.format(date);
         fecha = fecha.replace("-", "/");
-        f_inicio.setText(fecha);
-        Fecha1 = f_inicio.getText().toString();
-        f_inicio.setText(Tools.dateDDMMYYYYStr2(f_inicio.getText().toString()));
+
 
 
         f_inicio.addTextChangedListener(new TextWatcher() {
@@ -171,13 +206,7 @@ public class ConsultaTerminalesFechas extends Fragment {
         });
 
 
-        buscar_terminales_fecha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listarTerminalesfecha();
 
-            }
-        });
 //Fin mostrar calendario
 
 
@@ -218,6 +247,11 @@ public class ConsultaTerminalesFechas extends Fragment {
         recogerFecha.show();
     }
 
+
+
+
+
+
     public boolean validarFecha() {
 
         String fecha_inicial = f_inicio.getText().toString();
@@ -252,16 +286,167 @@ public class ConsultaTerminalesFechas extends Fragment {
     }
 
 
-    public void listarTerminalesfecha() {
+
+    /********************Metodo usado para obtener el numero de terminales en un rango de fechas dado*************************************/////////
+    public void consumirServicioBusquedaFecha() {
 
 
-        boolean x = this.validarFecha();
 
-        if (!x) {
+           String data_inicio = f_inicio.getText().toString();
+           String data_fin = f_fin.getText().toString();
 
-            Toast.makeText(view.getContext(), "La fecha final no puede ser menor a la inicial", Toast.LENGTH_SHORT).show();
+
+        if (data_inicio.isEmpty()||data_fin.isEmpty()) {
+            Toast.makeText(view.getContext(), "Debe seleccionar la fecha de inicio y fin", Toast.LENGTH_SHORT).show();
+
+            return;
+
         }
+        if(!this.validarFecha()){
+
+            Toast.makeText(view.getContext(), "La fecha de inicio debe ser anterior a la final", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+        String fecha_inicial = f_inicio.getText().toString();
+        String[] fecha = fecha_inicial.split("/");
+        final int dia_inicio = Integer.parseInt(fecha[0]);
+        final int mes_inicio = Integer.parseInt(fecha[1]);
+        final int anio_inicio = Integer.parseInt(fecha[2]);
+
+
+        String fecha_final = f_fin.getText().toString();
+        String[] fechaFin = fecha_final.split("/");
+        final int dia_final = Integer.parseInt(fechaFin[0]);
+        final int mes_final = Integer.parseInt(fechaFin[1]);
+        final int anio_final = Integer.parseInt(fechaFin[2]);
+
+        String fecha_inicio = mes_inicio+"/"+dia_inicio+"/"+anio_inicio;
+        String fecha_fin = mes_final+"/"+dia_final+"/"+anio_final;
+
+
+        final Gson gson = new GsonBuilder().create();
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/finddate";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user", Global.CODE);
+            jsonObject.put("fechaInicio", fecha_inicio);
+            jsonObject.put("fechaFin", fecha_fin);
+            System.out.println(jsonObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            System.out.println("status:  " + Global.STATUS_SERVICE);
+
+                            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                return;
+                            }
+
+
+                            response = new JSONObject(response.toString());
+
+                            System.out.println("REPUESTA DEL SERVICIO****************" + response);
+
+
+
+
+                            JSONArray jsonArray = response.getJSONArray("diagnosticos");
+                            JSONArray jsonArray2 = response.getJSONArray("reparaciones");
+
+
+                            if (jsonArray.length() == 0 && jsonArray2.length() == 0) {
+                                Global.mensaje = "No se encontraron registros para la fecha seleccionada";
+                                Toast.makeText(view.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
+
+                          }
+
+                            Terminal ter;
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                String res = jsonArray.getString(i);
+
+                               ter = gson.fromJson(res, Terminal.class);
+
+                                if (ter != null) {
+                                }
+                                terminales.add(ter);
+                            }
+
+                            for (int i = 0; i < jsonArray2.length(); i++) {
+                                String res = jsonArray2.getString(i);
+
+                                ter = gson.fromJson(res, Terminal.class);
+
+                                if (ter != null) {
+                                }
+                                terminales.add(ter);
+                            }
+
+
+
+                            rv.setHasFixedSize(true);
+                            LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
+                            rv.setLayoutManager(llm);
+                            AdapterTerminalStock adapter= new AdapterTerminalStock(view.getContext(),terminales);
+                            rv.setAdapter(adapter);
+
+                            System.out.println("TAMAÑO DE LA RESPUESTA ************************" + terminales.size());
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+
+
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+
     }
+
+
+
+
 
 
 }

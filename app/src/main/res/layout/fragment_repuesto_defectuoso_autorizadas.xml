@@ -79,7 +79,8 @@
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:background="@drawable/redondo_botones"
+            android:background="@drawable/redondo_gris_botones"
+            android:textColor="@color/negro"
             android:text="Solicitar"
             android:layout_marginTop="20dp"
             android:textAllCaps="false" />

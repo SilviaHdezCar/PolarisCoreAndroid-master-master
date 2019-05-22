@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,15 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:ignore="MissingConstraints">
+        android:background="@drawable/cuadrado_fondo_blanco">
 
 
     <ImageView
+        android:id="@+id/imagen_huella"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:src="@mipmap/ic_huella"
-        android:tint="@color/verde_pestanas"
+
         android:layout_gravity="center_horizontal"
         />
 
@@ -27,17 +28,26 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reconocimiento mediante huella digital"
+        android:text="Iniciar sesión mediante huella digital"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
         android:textAlignment="center"
 
         />
 
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:src="@drawable/img_iniciohuella"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+
+            />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Utiliza tu huella para ingresar a la aplicación"
+        android:text="Presiona suavemente el sensor para verificr la huella"
         android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
 
@@ -46,12 +56,16 @@
 
     <Button
         android:id="@+id/cancelar_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
         android:text="Cancelar"
-        android:background="@color/transparente"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/redondo_gris_botones"
+        android:textColor="@color/negro"
         android:textAllCaps="false"
-        android:textColor="@color/verde_pestanas"
+
+        android:layout_marginBottom="10dp"
 
         />
 
@@ -62,4 +76,4 @@
 
 
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

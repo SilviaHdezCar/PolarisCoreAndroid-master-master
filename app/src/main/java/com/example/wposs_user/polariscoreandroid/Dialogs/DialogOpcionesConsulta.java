@@ -30,6 +30,8 @@ public class DialogOpcionesConsulta extends DialogFragment {
 
         //  View view =inflater.inflate(R.layout.dialogcambiarclave, null);
         final FragmentManager fragmentManager = objeto.getSupportFragmentManager();
+        setCancelable(false);
+
 
 
         builder

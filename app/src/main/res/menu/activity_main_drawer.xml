@@ -22,7 +22,7 @@
         <item
             android:id="@+id/nav_consultar_terminales_reparadas"
             android:icon="@mipmap/search"
-            android:title="Consultar terminales reparadas" />
+            android:title="Consultar terminales" />
         <item
             android:id="@+id/nav_productividad"
             android:icon="@drawable/ic_ver_productividad"

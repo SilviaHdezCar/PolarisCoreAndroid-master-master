@@ -2,24 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Actividades.Activity_login">
 
-    <LinearLayout
+
+
+
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/img_fondo"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/img_polariscore"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+
+            />
+
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="190dp"
+            android:layout_marginTop="40dp"
             android:orientation="vertical">
 
             <TextView
@@ -27,10 +37,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-
                 android:gravity="left"
                 android:text="Bienvenido"
                 android:textSize="16dp" />
+
 
             <TextView
                 style="@style/letra_contenido_blanco"
@@ -43,13 +53,26 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/blanco"
+
+            >
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="300dp"
             android:layout_height="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/redondo_fondo_verde_borde_verde"
             android:orientation="horizontal"
             android:padding="5dp">
-
 
 
             <ImageView
@@ -91,10 +114,10 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:background="@color/blanco"
-                android:orientation="horizontal"
 
-                android:layout_marginLeft="10dp">
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/txtPass"
@@ -121,8 +144,16 @@
         </LinearLayout>
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/blanco">
 
 
+        </LinearLayout>
 
 
         <Button
@@ -130,8 +161,8 @@
             style="@style/letra_contenido"
             android:layout_width="180dp"
             android:layout_height="40dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/redondo_fondo_gris"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/redondo_gris_botones"
             android:onClick="iniciarSesion"
             android:text="@string/iniciarSes"
             android:textAllCaps="false"
@@ -140,30 +171,26 @@
             />
 
 
-
-
-
         <TextView
             android:id="@+id/txt_reestablecerClave"
-            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="¿Ha olvidado la contraseña?"
             android:textColor="@color/blanco"
 
             />
 
 
-
         <ImageButton
             android:id="@+id/btn_huella"
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:backgroundTint="@color/transparente"
-            android:text="Iniciar sesión mediante huella digital"
             android:src="@mipmap/ic_huella"
+            android:text="Iniciar sesión mediante huella digital"
 
             android:tint="@color/blanco"
 
@@ -172,13 +199,29 @@
         <TextView
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:text="Iniciar sesión mediante huella digital"
-            android:textColor="@color/blanco"
             android:textAlignment="center"
-            />
+            android:textColor="@color/blanco" />
+
+       <LinearLayout
+       android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/negro_transparente"
+           android:layout_marginTop="21dp"
+    >
+
+           <ImageView
+
+            android:layout_width="match_parent"
+               android:layout_marginRight="30dp"
+               android:layout_marginLeft="30dp"
+               android:layout_height="40dp"
+               android:layout_gravity="center_horizontal"
+                android:src="@drawable/img_logoinicio" />
 
 
-
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -189,4 +232,7 @@
 
 
 
-</LinearLayout>
+
+
+
+

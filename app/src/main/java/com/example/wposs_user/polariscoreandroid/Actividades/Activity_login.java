@@ -117,7 +117,8 @@ public class Activity_login extends AppCompatActivity {
     private ImageButton verClave;
     private TextView recuperarClave;
     private ImageButton huella;
-    DialogHuella dialogo;
+    private DialogHuella dialogo;
+    private FingerprintManager fingerprintManager;
 
     public static Activity_login objeto_login;
 
@@ -127,11 +128,16 @@ public class Activity_login extends AppCompatActivity {
     private KeyStore keyStore;
     private Cipher cipher;
     private TextView textView;
+    private  FingerprintHandler helper;
+    KeyguardManager keyguardManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
+
+        keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+        fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
 
         objeto_login=this;
         setContentView(R.layout.activity_login);
@@ -142,6 +148,10 @@ public class Activity_login extends AppCompatActivity {
         verClave = (ImageButton) findViewById(R.id.btn_mostrarClave);
         recuperarClave = (TextView) findViewById(R.id.txt_reestablecerClave);
         huella = (ImageButton) findViewById(R.id.btn_huella);
+        fingerprintManager = null;
+
+
+
 
         huella.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -501,16 +511,15 @@ public class Activity_login extends AppCompatActivity {
 
     public void loginHuella() {
         //Inicializo las variables  para la huella
-        cipher=null;
+
+
 
         dialogo = new DialogHuella();
         dialogo.show(Activity_login.this.getSupportFragmentManager(), "");
 
         KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
 
-        FingerprintManager fingerprintManager = null;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
         }
 
@@ -520,39 +529,35 @@ public class Activity_login extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!fingerprintManager.isHardwareDetected()) {
-                /**
-                 * An error message will be displayed if the device does not contain the fingerprint hardware.
-                 * However if you plan to implement a default authentication method,
-                 * you can redirect the user to a default authentication activity from here.
-                 * Example:
-                 * Intent intent = new Intent(this, DefaultAuthenticationActivity.class);
-                 * startActivity(intent);
-                 */
 
                 Toast.makeText(this, "Su dipositivo no cuenta con un sensor de huellas", Toast.LENGTH_SHORT).show();
+                dialogo.dismiss();
             } else {
                 // Checks whether fingerprint permission is set on manifest
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
 
                     Toast.makeText(this, "No tiene habilitados los permisos de autenticación con huellas dactilares", Toast.LENGTH_SHORT).show();
+                    dialogo.dismiss();
 
                 } else {
                     // Check whether at least one fingerprint is registered
                     if (!fingerprintManager.hasEnrolledFingerprints()) {
 
                         Toast.makeText(this, "Debe registrar al menos una huella dactilar", Toast.LENGTH_SHORT).show();
+                        dialogo.dismiss();
 
                     } else {
                         // Checks whether lock screen security is enabled or not
                         if (!keyguardManager.isKeyguardSecure()) {
                             Toast.makeText(this, "No esta habilitada la seguridad por sensor de huellas en su dispositivo", Toast.LENGTH_SHORT).show();
+                            dialogo.dismiss();
                         } else {
-                            generateKey();
+                                            generateKey();
 
 
                             if (cipherInit()) {
                                 FingerprintManager.CryptoObject cryptoObject = new FingerprintManager.CryptoObject(cipher);
-                                FingerprintHandler helper = new FingerprintHandler(this);
+                                helper = new FingerprintHandler(this);
                                 helper.startAuth(fingerprintManager, cryptoObject);
                             }
                         }
@@ -564,7 +569,10 @@ public class Activity_login extends AppCompatActivity {
 
     }
 
+
+
     public DialogHuella getDialogo() {
         return dialogo;
     }
 }
+
