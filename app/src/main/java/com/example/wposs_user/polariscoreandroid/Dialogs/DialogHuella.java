@@ -39,8 +39,7 @@ public class DialogHuella  extends DialogFragment {
         setCancelable(false);
 
 
-        img.animate();
-         cancelar.setOnClickListener(new View.OnClickListener() {
+          cancelar.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {

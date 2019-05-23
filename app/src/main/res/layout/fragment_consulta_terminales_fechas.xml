@@ -111,19 +111,14 @@
 
 
 
-        <TextView
-            android:id="@+id/lbl_busq_por_fechas"
-            style="@style/letra_contenido"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:padding="10dp" />
-
-        <android.support.v7.widget.RecyclerView
+            <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_consultaTerminalesFecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp" />
+
     </LinearLayout>
+
+
 </FrameLayout>

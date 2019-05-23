@@ -47,7 +47,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Presiona suavemente el sensor para verificr la huella"
+        android:text="Presiona suavemente el sensor para verificar la huella"
         android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
 

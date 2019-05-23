@@ -221,18 +221,11 @@ public class Registro_diagnostico extends Fragment {
                     Toast.makeText(objeto, "El repuesto seleccionado no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                int cantidad_disponible_repuesto = Global.REPUESTOS.get(i).getSpar_quantity();
+
                 Repuesto r = new Repuesto(Global.REPUESTOS.get(i).getSpar_code(), Global.REPUESTOS.get(i).getSpar_name(), cant_solicitada, Global.REPUESTOS.get(i).getSpar_warehouse());
 
                 for (Repuesto rt : Global.REPUESTOS_DIAGONOSTICO) {
                     if (rt.getSpar_code().equals(r.getSpar_code())) {
-
-                        if (cantidad_disponible_repuesto < rt.getSpar_quantity() + cant_solicitada) {
-                            cantidad_req.setText("");
-                            Toast.makeText(objeto, "El repuesto no cuenta con la cantidad disponible solicitada", Toast.LENGTH_SHORT).show();
-                            return;
-
-                        }
 
                         Global.REPUESTOS_DIAGONOSTICO.remove(rt);
                         r.setSpar_quantity(rt.getSpar_quantity() + cant_solicitada);
