@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -35,6 +36,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -55,6 +57,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogCancelarHuella;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogHuella;
+import com.example.wposs_user.polariscoreandroid.Dialogs.DialogNotificacion;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogOpcionesConsulta;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ActualizarClave_perfil;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ConsultaTerminalesSerial;
@@ -71,9 +74,12 @@ import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ValidacionesTerminalesAsociadas;
 import com.example.wposs_user.polariscoreandroid.java.Etapas;
+import com.example.wposs_user.polariscoreandroid.java.Notificacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -86,6 +92,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import static android.graphics.Color.GRAY;
+import static com.example.wposs_user.polariscoreandroid.R.drawable.ic_sinnotif;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.getValueStrPreference;
 
@@ -101,6 +109,7 @@ public class MainActivity extends AppCompatActivity
     private Vector<Etapas> etapas;
 
 
+
     private TextView serial;
 
     private Spinner spinner_estado_terminal;
@@ -112,23 +121,36 @@ public class MainActivity extends AppCompatActivity
     private TextView usuario_drawer;
     private TextView correo_drawer;
     private ImageView imageView_perfil;
+    private DialogNotificacion dialogo;
+    private ImageView verNotificaciones;
 
     private int contadorFragmentos;
 
     private RequestQueue queue;
+    private int btn_alert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Global.notificaciones= new ArrayList<>();
+
+        Notificacion not = new Notificacion("","24/05/2019","","SIRVIO LAS NOTIFICACIONES","PRUEBA HENDER", "EXITOSO","");
+
+        Notificacion not2 = new Notificacion("","28/05/2019","","SI SIRVE NOTIFICACIONES","PRUEBA HENDER", "SIRVIO","");
+
+        Global.notificaciones.add(not);
+        Global.notificaciones.add(not);
 
 
         objeto = this;
+
         Global.REPUESTOS = new ArrayList<>();
         Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<>();
         Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<>();
         Global.REPUESTOS_DIAGONOSTICO = new ArrayList<>();
+
 
         fragmentManager = getSupportFragmentManager();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -166,6 +188,57 @@ public class MainActivity extends AppCompatActivity
         });
 
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
+
+
+        // Para las notificaciones
+        verNotificaciones=(ImageView)findViewById(R.id.btn_notificaciones);
+
+        if(Global.notificaciones.isEmpty()){
+            verNotificaciones.setImageResource(R.drawable.ic_sinnotif);
+
+
+            Toast.makeText(objeto, "No tiene nuevas notificaciones", Toast.LENGTH_SHORT).show();
+        }
+
+        if(Global.notificaciones.size()>0) {
+            verNotificaciones.setImageResource(R.drawable.ic_notifiok);
+
+            Toast.makeText(objeto, "Tiene notificaciones pendientes", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+
+
+
+
+        verNotificaciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //  this.consumirServicioNotificaciones();
+
+                Notificacion not4 = new Notificacion("","28/05/2019","","SIGUEN SIRVIENDO","PROBANDO", "SIRVIO","");
+               Global.notificaciones.add(not4);
+
+                if(Global.notificaciones.isEmpty()){
+                    verNotificaciones.setImageResource(R.drawable.ic_sinnotifi);
+
+
+                    Toast.makeText(objeto,  "No tiene nuevas notificaciones Nuevas", Toast.LENGTH_SHORT).show();
+                }
+
+                if(Global.notificaciones.size()>0) {
+                    verNotificaciones.setImageResource(R.drawable.ic_notifiok);
+
+
+                    dialogo = new DialogNotificacion();
+                    dialogo.show(MainActivity.this.getSupportFragmentManager(), "");
+                }
+
+            }
+        });
+
 
     }
 
@@ -211,17 +284,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent i;
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        switch (item.getItemId()) {
-            case R.id.btn_alert:
-                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();//Buscar
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -363,4 +425,104 @@ public class MainActivity extends AppCompatActivity
     public void setContadorFragmentos(int contadorFragmentos) {
         this.contadorFragmentos = contadorFragmentos;
     }
+
+
+
+    /***************METODO PARA CONSUMIR EL SERVICIO DE NOTIFICACIONES***************************/
+
+    private static Notificacion n;
+
+    public void consumirServicioNotificaciones() {
+        Notificacion noti= null;
+      Global.notificaciones= new ArrayList<>();
+       final Gson gson = new GsonBuilder().create();
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Notifications/noti ";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user", Global.CODE);
+
+             } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            System.out.println("status:  " + Global.STATUS_SERVICE);
+
+                            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+
+                            response = new JSONObject(response.toString());
+
+
+                            JSONArray jsonArray = response.getJSONArray("notificaciones");
+
+
+                            if (jsonArray.length() == 0) {
+                                Global.mensaje = "No Tiene Notificaciones";
+                                Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                ;
+                                return;
+                            }
+                            String not = null;
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                not = jsonArray.getString(i);
+
+                                n = gson.fromJson(not, Notificacion.class);
+                                if (n != null) {
+                                }
+                               Global.notificaciones.add(n);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+
+    }
+
+
+
+
+
+
 }

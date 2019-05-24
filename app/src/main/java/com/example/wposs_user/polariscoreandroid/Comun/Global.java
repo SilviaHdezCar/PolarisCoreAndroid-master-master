@@ -2,6 +2,7 @@ package com.example.wposs_user.polariscoreandroid.Comun;
 
 import android.widget.ImageView;
 
+import com.example.wposs_user.polariscoreandroid.java.Notificacion;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
@@ -146,6 +147,7 @@ public class Global {
     public static ArrayList<Tipificacion> TIPIFICACIONES_DIAGNOSTICO;
     public static ArrayList<Tipificacion> lista_tipificaciones_tabla = new ArrayList<Tipificacion>();//utilizado para llenar la tabla de tipificaciones asociadas
     public static ArrayList<Tipificacion> listTipificaciones;//utilizado
+    public  static ArrayList<Notificacion> notificaciones;
     public static String reparable = "";
     public static String fallaDetectada = "";
 

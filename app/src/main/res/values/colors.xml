@@ -10,6 +10,10 @@
     <color name="blanco">#FFFFFF</color>
 
     <color name="rojo_borde">#C44C49</color>
+
+    <color name="rojo">#EE0F0A</color>
+
+
     <color name="gris_linea">#EEEEEE</color>
 
     <color name="gris_letra">#8B8B8B</color>
