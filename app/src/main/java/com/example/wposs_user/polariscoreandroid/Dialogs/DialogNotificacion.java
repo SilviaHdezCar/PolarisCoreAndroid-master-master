@@ -83,6 +83,8 @@ public class DialogNotificacion extends DialogFragment {
         Global.notificaciones.remove(position);
         if(Global.notificaciones.size()==0){
             dismiss();
+            ImageView im = (ImageView)objeto.findViewById(R.id.btn_notificaciones);
+            im.setImageResource(R.drawable.ic_sinnotif);
             Toast.makeText(objeto, "No tiene ninguna notificación pendiente", Toast.LENGTH_SHORT).show();
         }
                 llenarRv();
