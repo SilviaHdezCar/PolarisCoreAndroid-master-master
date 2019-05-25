@@ -210,6 +210,7 @@ public class MainActivity extends AppCompatActivity
 
                 if(Global.notificaciones.isEmpty()){
                     verNotificaciones.setImageResource(ic_sinnotif);
+                    Toast.makeText(objeto, "No tiene Notificaciones pendientes", Toast.LENGTH_SHORT).show();
                 }
 
                 if(Global.notificaciones.size()>0) {
@@ -551,9 +552,10 @@ public void iniciarNotificaciones(){
 
     if(Global.notificaciones.isEmpty()){
         verNotificaciones.setImageResource(ic_sinnotif);
+        Toast.makeText(objeto, "No tiene Notificaciones pendientes", Toast.LENGTH_SHORT).show();
     }
 
-   else if(Global.notificaciones.size()>0) {
+    if(Global.notificaciones.size()>0) {
 
         verNotificaciones.setImageResource(R.drawable.ic_notifiok);
         dialogo = new DialogNotificacion();
