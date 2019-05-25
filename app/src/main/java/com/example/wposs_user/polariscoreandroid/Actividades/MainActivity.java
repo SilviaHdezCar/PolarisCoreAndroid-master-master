@@ -50,6 +50,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterNotificacion;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity
     private Vector<Repuesto> repuestos;
     private AutoCompleteTextView autocomplete_tipificaciones;
     private Vector<Etapas> etapas;
+    private RecyclerView rv;
 
 
 
@@ -129,6 +131,8 @@ public class MainActivity extends AppCompatActivity
     private RequestQueue queue;
     private int btn_alert;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -136,10 +140,16 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         objeto = this;
 
+
+
         Global.REPUESTOS = new ArrayList<>();
         Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<>();
         Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<>();
         Global.REPUESTOS_DIAGONOSTICO = new ArrayList<>();
+
+
+        queue = Volley.newRequestQueue(MainActivity.this);
+        consumirServicioNotificaciones();
 
 
         fragmentManager = getSupportFragmentManager();
@@ -149,11 +159,11 @@ public class MainActivity extends AppCompatActivity
         setTitle(null);
         setSupportActionBar(toolbar);
 
-        queue = Volley.newRequestQueue(objeto);
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -162,8 +172,9 @@ public class MainActivity extends AppCompatActivity
         usuario_drawer = (TextView) hView.findViewById(R.id.usuario_drawer);
         correo_drawer = (TextView) hView.findViewById(R.id.correo_drawer);
         imageView_perfil = (ImageView) hView.findViewById(R.id.imageView_perfil);
+        verNotificaciones=(ImageView)findViewById(R.id.btn_notificaciones);
 
-        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/" + Global.ID + ".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView_perfil);
+         Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/" + Global.ID + ".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView_perfil);
 
 
         usuario_drawer.setText(Global.NOMBRE);
@@ -178,27 +189,13 @@ public class MainActivity extends AppCompatActivity
         });
 
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
-        consumirServicioNotificaciones();
+
 
         // Para las notificaciones
         verNotificaciones=(ImageView)findViewById(R.id.btn_notificaciones);
 
-        if(Global.notificaciones.isEmpty()){
-            verNotificaciones.setImageResource(R.drawable.ic_sinnotif);
 
-
-            Toast.makeText(objeto, "No tiene nuevas notificaciones", Toast.LENGTH_SHORT).show();
-        }
-
-        if(Global.notificaciones.size()>0) {
-            verNotificaciones.setImageResource(R.drawable.ic_notifiok);
-
-            Toast.makeText(objeto, "Tiene notificaciones pendientes", Toast.LENGTH_SHORT).show();
-
-        }
-
-
-
+      iniciarNotificaciones();
 
 
 
@@ -207,25 +204,27 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
 
                 consumirServicioNotificaciones();
-                System.out.println("TAMAÑO DE NOTIFICACIONES "+Global.notificaciones.size());
+
+                System.out.println("ME ESTAN LLEGANDO   "+ Global.notificaciones.size()+  "   Notificaciones");
 
 
                 if(Global.notificaciones.isEmpty()){
-                    verNotificaciones.setImageResource(R.drawable.ic_sinnotifi);
+                    verNotificaciones.setImageResource(ic_sinnotif);
+                }
 
+                else if(Global.notificaciones.size()>0) {
 
-                    Toast.makeText(objeto,  "No tiene nuevas notificaciones Nuevas", Toast.LENGTH_SHORT).show();
-                } else
-
-                if(Global.notificaciones.size()>0) {
                     verNotificaciones.setImageResource(R.drawable.ic_notifiok);
                     dialogo = new DialogNotificacion();
                     dialogo.show(MainActivity.this.getSupportFragmentManager(), "");
+
+
                 }
 
             }
         });
 
+        System.out.println("tamaño de las notificaciones"+ Global.notificaciones.size());
 
     }
 
@@ -420,8 +419,9 @@ public class MainActivity extends AppCompatActivity
     private static Notificacion n;
 
     public void consumirServicioNotificaciones() {
+
         Notificacion noti= null;
-      Global.notificaciones= new ArrayList<>();
+
        final Gson gson = new GsonBuilder().create();
 
         String url = "http://100.25.214.91:3000/PolarisCore/Notifications/noti ";
@@ -455,28 +455,47 @@ public class MainActivity extends AppCompatActivity
 
                             System.out.println("RESPUESTA A LA PETICION******"+response.toString());
 
+                           if(response.length()<4){
 
-                            JSONArray jsonArray = response.getJSONArray("notificacion");
-
-                            System.out.println("TAMAÑANO DE LA RESPUESTA*****************"+jsonArray.length());
-
-
-                            if (jsonArray.length() == 0) {
-                                Global.mensaje = "No Tiene Notificaciones";
-                                Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "No tiene notificaciones", Toast.LENGTH_SHORT).show();
                                 return;
                             }
-                            String not = null;
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                not = jsonArray.getString(i);
+                           else {
 
-                                n = gson.fromJson(not, Notificacion.class);
-                                if (n != null) {
-                                }
-                               Global.notificaciones.add(n);
-                                System.out.println("GUARDADOS EN ARRAY*************"+Global.notificaciones.size());
-                            }
+                               JSONArray jsonArray = response.getJSONArray("notificacion");
+
+                               System.out.println("TAMAÑANO DE LA RESPUESTA*****************" + jsonArray.length());
+
+
+                               if (jsonArray.length() == 0) {
+                                   Global.mensaje = "No Tiene Notificaciones";
+                                   Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                   return;
+                               }
+                               String not = null;
+
+                               for (int i = 0; i < jsonArray.length(); i++) {
+                                   not = jsonArray.getString(i);
+
+                                   n = gson.fromJson(not, Notificacion.class);
+                                   if (n != null ) {
+
+                                       if(Global.notificaciones.size()>0){
+
+                                           if(!contieneNotificacion(n)){
+                                               Global.notificaciones.add(n);
+                                           }
+                                       }else if(Global.notificaciones.size()==0){
+
+                                           Global.notificaciones.add(n);
+                                           System.out.println("GUARDADOS EN ARRAY*************" + Global.notificaciones.size());
+                                       }
+
+
+                                   }
+                               }
+                           }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -508,7 +527,43 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+public boolean contieneNotificacion(Notificacion not){
 
+        for(Notificacion n: Global.notificaciones){
+
+            if(n.getNoti_id().equals(not.getNoti_id())){
+
+                return true;
+            }
+
+        }
+
+   return false;
+
+}
+
+public void iniciarNotificaciones(){
+
+        consumirServicioNotificaciones();
+
+       System.out.println("ME ESTAN LLEGANDO   "+ Global.notificaciones.size()+  "   Notificaciones");
+
+
+    if(Global.notificaciones.isEmpty()){
+        verNotificaciones.setImageResource(ic_sinnotif);
+    }
+
+   else if(Global.notificaciones.size()>0) {
+
+        verNotificaciones.setImageResource(R.drawable.ic_notifiok);
+        dialogo = new DialogNotificacion();
+        //dialogo.show(MainActivity.this.getSupportFragmentManager(), "");
+        Toast.makeText(MainActivity.this, "Tiene notificaciones pendientes", Toast.LENGTH_SHORT).show();
+
+    }
+
+
+}
 
 
 }

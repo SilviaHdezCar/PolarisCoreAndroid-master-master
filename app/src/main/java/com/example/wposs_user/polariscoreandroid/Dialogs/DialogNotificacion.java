@@ -46,12 +46,10 @@ public class DialogNotificacion extends DialogFragment {
         dialogo = new AlertDialog.Builder(getActivity());
         view = getActivity().getLayoutInflater().inflate(R.layout.notificaciones, null);
         rv= (RecyclerView)view.findViewById(R.id.rv_notificaciones);
-        llenarRv();
         dialogo.setCancelable(false);
         cerrarNotificacion=(Button)view.findViewById(R.id.btn_cerrarNotificaciones);
        dialogo.setView(view);
-
-
+        llenarRv();
         cerrarNotificacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +70,7 @@ public class DialogNotificacion extends DialogFragment {
 
     public void llenarRv(){
 
+System.out.println("LLENO EL RECICLER");
 
         rv.setHasFixedSize(true);
 
