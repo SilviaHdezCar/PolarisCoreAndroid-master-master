@@ -66,7 +66,8 @@
     <color name="blanco_transparente">#16EEF3F3</color>
     <color name="transparente">#00EEF3F3</color>
     <color name="negro_transparente">#A4022529</color>
-    <color name="gris_botones">#DFDFDF</color>
+    <color name="gris_botones">#FFFFFF</color>
+    <color name="borde_botones">#343434</color>
 
 
 

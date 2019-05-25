@@ -42,13 +42,15 @@ public class DialogNotificacion extends DialogFragment {
     }
 
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
         dialogo = new AlertDialog.Builder(getActivity());
         view = getActivity().getLayoutInflater().inflate(R.layout.notificaciones, null);
         rv= (RecyclerView)view.findViewById(R.id.rv_notificaciones);
+        llenarRv();
         dialogo.setCancelable(false);
         cerrarNotificacion=(Button)view.findViewById(R.id.btn_cerrarNotificaciones);
        dialogo.setView(view);
-       llenarRv();
+
 
         cerrarNotificacion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,11 +78,12 @@ public class DialogNotificacion extends DialogFragment {
         LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
         rv.setLayoutManager(llm);
 
-       System.out.println(Global.notificaciones.toString());
         AdapterNotificacion adapter = new AdapterNotificacion(Global.notificaciones, new AdapterNotificacion.interfaceClick() {
 
             public void onClick(List<Notificacion> notificaciones, int position) {
         Global.notificaciones.remove(position);
+
+        System.out.println("cargados en el recyclerview*********"+ Global.notificaciones.size());
         if(Global.notificaciones.size()==0){
             dismiss();
             ImageView im = (ImageView)objeto.findViewById(R.id.btn_notificaciones);

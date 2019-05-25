@@ -55,7 +55,7 @@
             android:layout_marginLeft="20dp"
             android:background="#00000000"
             android:src="@mipmap/papelera"
-            android:tint="@color/gris_menu_letra" />
+            android:tint="@color/verde_nav_bar" />
 
 
 
