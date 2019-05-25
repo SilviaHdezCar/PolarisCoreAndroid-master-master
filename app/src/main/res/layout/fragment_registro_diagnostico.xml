@@ -33,7 +33,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
 
         >
 
@@ -110,7 +110,6 @@
         android:layout_height="40dp"
         android:layout_marginTop="30dp"
         android:orientation="horizontal"
-
         android:background="@drawable/button_border"
          >
 
@@ -174,15 +173,52 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Observaciones"
-            android:layout_marginTop="20dp"
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
 
-            />
+           >
+           <RelativeLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content">
 
 
+
+           <ImageView
+               android:layout_width="30dp"
+               android:layout_height="30dp"
+               android:src="@drawable/icono_ver"
+               android:layout_marginTop="5dp"
+               android:layout_gravity="center"
+
+
+              />
+
+
+           >
+
+               <ImageView
+                   android:layout_width="30dp"
+                   android:layout_marginLeft="15dp"
+                   android:layout_height="30dp"
+                   android:layout_gravity="center"
+                   android:layout_marginTop="7dp"
+                   android:src="@drawable/ic_lupa"
+
+
+                   />
+           </RelativeLayout>
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="23dp"
+               android:layout_marginLeft="20dp"
+
+               android:layout_marginTop="12dp"
+               android:text="Observaciones" />
+
+       </LinearLayout>
 
 
         <EditText
@@ -200,13 +236,14 @@
             android:id="@+id/btn_registroDioagnostico"
             style="@style/letra_botones"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:background="@drawable/redondo_gris_botones"
             android:textColor="@color/negro"
             android:text="Finalizar"
             android:textAllCaps="false"
+            android:layout_marginBottom="10dp"
 
 
             />

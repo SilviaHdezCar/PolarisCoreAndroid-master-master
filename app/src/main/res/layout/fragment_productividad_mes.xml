@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
      tools:context=".Fragmentos.Productividad_mes"
-    android:padding="20dp"
+    android:padding="10dp"
 
     >
 
@@ -40,14 +40,14 @@
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Mes"
-          />
+          android:layout_marginLeft="20dp"
+          android:text="Mes" />
 
 
     <Spinner
         android:id="@+id/spin_mesxmes"
-        android:layout_width="150dp"
-        android:layout_marginLeft="20dp"
+        android:layout_width="120dp"
+        android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:entries="@array/meses"
@@ -56,28 +56,20 @@
         >
         </Spinner>
 
-  </LinearLayout>
 
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal"
-           android:gravity="center"
-           android:layout_marginTop="20dp"
-
-           >
 
            <TextView
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:text="Año"
+               android:layout_marginLeft="20dp"
                />
 
 
            <Spinner
                android:id="@+id/spiner_añoxmes"
-               android:layout_width="150dp"
-               android:layout_marginLeft="20dp"
+               android:layout_width="120dp"
+               android:layout_marginLeft="10dp"
                android:layout_height="wrap_content"
                android:layout_marginTop="10dp"
                android:entries="@array/años"
@@ -91,11 +83,11 @@
        <Button
            android:id="@+id/produc_mes"
            android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
+           android:layout_height="30dp"
            android:layout_marginTop="20dp"
            android:layout_gravity="center_horizontal"
            android:textAllCaps="false"
-           android:text="Buscar"
+           android:text="Consultar"
            style="@style/letra_contenido_blanco"
            android:background="@drawable/redondo_gris_botones"
            android:textColor="@color/negro"
@@ -131,4 +123,4 @@
 
 
 
-</FrameLayout>
+</ScrollView>

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -35,6 +36,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -48,6 +50,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterNotificacion;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
@@ -55,6 +58,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogCancelarHuella;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogHuella;
+import com.example.wposs_user.polariscoreandroid.Dialogs.DialogNotificacion;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogOpcionesConsulta;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ActualizarClave_perfil;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ConsultaTerminalesSerial;
@@ -71,9 +75,12 @@ import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ValidacionesTerminalesAsociadas;
 import com.example.wposs_user.polariscoreandroid.java.Etapas;
+import com.example.wposs_user.polariscoreandroid.java.Notificacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -86,6 +93,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import static android.graphics.Color.GRAY;
+import static com.example.wposs_user.polariscoreandroid.R.drawable.ic_sinnotif;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.getValueStrPreference;
 
@@ -99,6 +108,8 @@ public class MainActivity extends AppCompatActivity
     private Vector<Repuesto> repuestos;
     private AutoCompleteTextView autocomplete_tipificaciones;
     private Vector<Etapas> etapas;
+    private RecyclerView rv;
+
 
 
     private TextView serial;
@@ -112,23 +123,34 @@ public class MainActivity extends AppCompatActivity
     private TextView usuario_drawer;
     private TextView correo_drawer;
     private ImageView imageView_perfil;
+    private DialogNotificacion dialogo;
+    private ImageView verNotificaciones;
 
     private int contadorFragmentos;
 
     private RequestQueue queue;
+    private int btn_alert;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         objeto = this;
+
+
+
         Global.REPUESTOS = new ArrayList<>();
         Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<>();
         Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<>();
         Global.REPUESTOS_DIAGONOSTICO = new ArrayList<>();
+
+
+        queue = Volley.newRequestQueue(MainActivity.this);
+        consumirServicioNotificaciones();
+
 
         fragmentManager = getSupportFragmentManager();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -137,11 +159,11 @@ public class MainActivity extends AppCompatActivity
         setTitle(null);
         setSupportActionBar(toolbar);
 
-        queue = Volley.newRequestQueue(objeto);
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -150,8 +172,9 @@ public class MainActivity extends AppCompatActivity
         usuario_drawer = (TextView) hView.findViewById(R.id.usuario_drawer);
         correo_drawer = (TextView) hView.findViewById(R.id.correo_drawer);
         imageView_perfil = (ImageView) hView.findViewById(R.id.imageView_perfil);
+        verNotificaciones=(ImageView)findViewById(R.id.btn_notificaciones);
 
-        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/" + Global.ID + ".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView_perfil);
+         Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/" + Global.ID + ".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView_perfil);
 
 
         usuario_drawer.setText(Global.NOMBRE);
@@ -166,6 +189,42 @@ public class MainActivity extends AppCompatActivity
         });
 
         fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
+
+
+        // Para las notificaciones
+        verNotificaciones=(ImageView)findViewById(R.id.btn_notificaciones);
+
+
+      iniciarNotificaciones();
+
+
+
+        verNotificaciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                consumirServicioNotificaciones();
+
+                System.out.println("ME ESTAN LLEGANDO   "+ Global.notificaciones.size()+  "   Notificaciones");
+
+
+                if(Global.notificaciones.isEmpty()){
+                    verNotificaciones.setImageResource(ic_sinnotif);
+                }
+
+                else if(Global.notificaciones.size()>0) {
+
+                    verNotificaciones.setImageResource(R.drawable.ic_notifiok);
+                    dialogo = new DialogNotificacion();
+                    dialogo.show(MainActivity.this.getSupportFragmentManager(), "");
+
+
+                }
+
+            }
+        });
+
+        System.out.println("tamaño de las notificaciones"+ Global.notificaciones.size());
 
     }
 
@@ -211,17 +270,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent i;
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        switch (item.getItemId()) {
-            case R.id.btn_alert:
-                fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();//Buscar
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -363,4 +411,159 @@ public class MainActivity extends AppCompatActivity
     public void setContadorFragmentos(int contadorFragmentos) {
         this.contadorFragmentos = contadorFragmentos;
     }
+
+
+
+    /***************METODO PARA CONSUMIR EL SERVICIO DE NOTIFICACIONES***************************/
+
+    private static Notificacion n;
+
+    public void consumirServicioNotificaciones() {
+
+        Notificacion noti= null;
+
+       final Gson gson = new GsonBuilder().create();
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Notifications/noti ";
+        JSONObject jsonObject = new JSONObject();
+
+
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            System.out.println("status:  " + Global.STATUS_SERVICE);
+
+                            if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+
+                            response = new JSONObject(response.toString());
+
+                            System.out.println("RESPUESTA A LA PETICION******"+response.toString());
+
+                           if(response.length()<4){
+
+                                Toast.makeText(MainActivity.this, "No tiene notificaciones", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                           else {
+
+                               JSONArray jsonArray = response.getJSONArray("notificacion");
+
+                               System.out.println("TAMAÑANO DE LA RESPUESTA*****************" + jsonArray.length());
+
+
+                               if (jsonArray.length() == 0) {
+                                   Global.mensaje = "No Tiene Notificaciones";
+                                   Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_SHORT).show();
+                                   return;
+                               }
+                               String not = null;
+
+                               for (int i = 0; i < jsonArray.length(); i++) {
+                                   not = jsonArray.getString(i);
+
+                                   n = gson.fromJson(not, Notificacion.class);
+                                   if (n != null ) {
+
+                                       if(Global.notificaciones.size()>0){
+
+                                           if(!contieneNotificacion(n)){
+                                               Global.notificaciones.add(n);
+                                           }
+                                       }else if(Global.notificaciones.size()==0){
+
+                                           Global.notificaciones.add(n);
+                                           System.out.println("GUARDADOS EN ARRAY*************" + Global.notificaciones.size());
+                                       }
+
+
+                                   }
+                               }
+                           }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+                params.put("id",Global.CODE);
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+
+    }
+
+public boolean contieneNotificacion(Notificacion not){
+
+        for(Notificacion n: Global.notificaciones){
+
+            if(n.getNoti_id().equals(not.getNoti_id())){
+
+                return true;
+            }
+
+        }
+
+   return false;
+
+}
+
+public void iniciarNotificaciones(){
+
+        consumirServicioNotificaciones();
+
+       System.out.println("ME ESTAN LLEGANDO   "+ Global.notificaciones.size()+  "   Notificaciones");
+
+
+    if(Global.notificaciones.isEmpty()){
+        verNotificaciones.setImageResource(ic_sinnotif);
+    }
+
+   else if(Global.notificaciones.size()>0) {
+
+        verNotificaciones.setImageResource(R.drawable.ic_notifiok);
+        dialogo = new DialogNotificacion();
+        //dialogo.show(MainActivity.this.getSupportFragmentManager(), "");
+        Toast.makeText(MainActivity.this, "Tiene notificaciones pendientes", Toast.LENGTH_SHORT).show();
+
+    }
+
+
+}
+
+
 }

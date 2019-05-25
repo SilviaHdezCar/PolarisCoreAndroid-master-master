@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
-
-
-
-
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/img_fondo"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+
+        >
+
 
         <ImageView
             android:layout_width="match_parent"
@@ -52,7 +55,7 @@
                 android:textSize="16dp" />
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="30dp"
@@ -63,7 +66,7 @@
             >
 
 
-        </LinearLayout>
+        </TextView>
 
 
         <LinearLayout
@@ -144,7 +147,7 @@
         </LinearLayout>
 
 
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="30dp"
@@ -153,7 +156,7 @@
             android:background="@color/blanco">
 
 
-        </LinearLayout>
+        </TextView>
 
 
         <Button
@@ -223,7 +226,10 @@
 
         </LinearLayout>
 
+
     </LinearLayout>
+
+    </RelativeLayout>
 
 
 

@@ -10,6 +10,10 @@
     <color name="blanco">#FFFFFF</color>
 
     <color name="rojo_borde">#C44C49</color>
+
+    <color name="rojo">#EE0F0A</color>
+
+
     <color name="gris_linea">#EEEEEE</color>
 
     <color name="gris_letra">#8B8B8B</color>
@@ -62,7 +66,8 @@
     <color name="blanco_transparente">#16EEF3F3</color>
     <color name="transparente">#00EEF3F3</color>
     <color name="negro_transparente">#A4022529</color>
-    <color name="gris_botones">#DFDFDF</color>
+    <color name="gris_botones">#FFFFFF</color>
+    <color name="borde_botones">#343434</color>
 
 
 

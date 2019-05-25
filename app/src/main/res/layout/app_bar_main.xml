@@ -11,16 +11,36 @@
         android:layout_height="wrap_content"
         >
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/verde_nav_bar"
-            android:textAlignment="center"
-            app:titleTextAppearance="@style/letra_simple_drawer"
-            android:gravity="center">
 
-        </android.support.v7.widget.Toolbar>
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/verde_nav_bar"
+                android:textAlignment="center"
+                app:titleTextAppearance="@style/letra_simple_drawer">
+
+
+
+
+                    <ImageView
+                        android:id="@+id/btn_notificaciones"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right"
+                        android:backgroundTint="@color/transparente"
+                        android:padding="0dp"
+                        android:src="@drawable/ic_campana"
+                        android:layout_marginRight="20dp"
+                                               />
+
+
+            </android.support.v7.widget.Toolbar>
+
+
+
 
 
     </android.support.design.widget.AppBarLayout>

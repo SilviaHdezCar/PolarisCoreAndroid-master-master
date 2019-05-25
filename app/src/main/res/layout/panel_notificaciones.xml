@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linea_notificaciones"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/forma_notificaciones"
+    android:orientation="vertical"
+    android:layout_marginTop="5dp"
+
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+
+        >
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/polaris_logoinicio"
+
+            />
+
+
+        <TextView
+            android:id="@+id/txt_origenNotificacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:text="Origen"
+            android:textSize="10dp"
+            android:textStyle="bold"
+
+
+            />
+
+        <ImageView
+            android:id="@+id/eliminar_notificacion"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="120dp"
+            android:src="@drawable/icon_cerrar"
+
+            android:visibility="visible"
+
+
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_mesage"
+            android:tint="@color/gris_menu_letra"
+
+            />
+
+        <TextView
+            android:id="@+id/mensaje_notificacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Contenido"
+            android:textSize="10dp"
+
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal"
+
+        >
+
+
+        <TextView
+            android:id="@+id/fecha_notificacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="Fecha"
+            android:textSize="10dp"
+
+
+            />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/ic_calendar"
+            android:tint="@color/gris_menu_letra"
+            android:layout_marginBottom="5dp"
+
+            />
+    </LinearLayout>
+
+
+</LinearLayout>

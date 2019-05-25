@@ -272,7 +272,7 @@ public class StockFragment extends Fragment {
                                     ter = jsonArray1.getString(i);
 
                                     Repuesto r = gson.fromJson(ter, Repuesto.class);
-                                    if (r != null) {
+                                    if (r != null && r.getSpar_quantity()>0) {
                                     }
                                     repuestos.add(r);
                                 }
