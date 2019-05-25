@@ -156,7 +156,6 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
 
     public void solicitar() {
         validarEstadosRepuestos();
-        System.out.println("serial " + Global.terminalVisualizar.getTerm_serial());
         observacion = txt_observacion.getText().toString().trim();
         if (observacion.isEmpty() || observacion == null) {
             Toast.makeText(objeto, "Por favor ingrese la observación", Toast.LENGTH_SHORT).show();
@@ -167,7 +166,6 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
             return;
         } else {
             obser = new Observacion(observacion, Global.terminalVisualizar.getTerm_serial(), "");
-            System.out.println("serial des else" + Global.terminalVisualizar.getTerm_serial());
             consumirServicioRepuestoDefectuoso();
         }
 
@@ -223,7 +221,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                     Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i - 1).setOk(true);
                 }
             }
-            System.out.println("Pos: " + i + "-->" + Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i - 1).getSpar_name() + "-" + Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i - 1).isOk());
+            System.out.println("rep defec Pos: " + i + "-->" + Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i - 1).getSpar_name() + "-" + Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i - 1).isOk());
         }
     }
 
@@ -231,7 +229,6 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
      * Metodo utilizado para llenar la tabla de respuestos con la columna OK
      **/
     public void llenarTabla() {
-        System.out.println("Tamaño lista: " + Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size());
 
         for (int i = 0; i < Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size(); i++) {
             TableRow fila = new TableRow(objeto);
@@ -244,7 +241,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
             TextView nombre = new TextView(objeto);
             nombre.setId(100 + i);
             nombre.setText(Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i).getSpar_name());
-            nombre.setPadding(20,0,0,0);
+            nombre.setPadding(20, 0, 0, 0);
 
             RadioButton ok = new RadioButton(objeto);
             ok.setId(200 + i);
@@ -296,7 +293,6 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            System.out.println("STATUS-->" + response.get("status").toString());
                             if (response.get("status").toString().equals("fail")) {
                                 Global.mensaje = response.get("message").toString();
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
@@ -333,7 +329,11 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 
@@ -372,7 +372,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
         JSONArray listas = new JSONArray();
 
         for (int i = 0; i < Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.size(); i++) {
-            //CONSUMO LOS DOS SERVICIOD
+            //CONSUMO LOS DOS SERVICIOD-->PARA CAMBIAR EL ESTADO DE LOS REPUESTOS
             //consumo servio body 1
             String urlBody1 = "http://100.25.214.91:3000/PolarisCore/Spares/actualizarSpare";
             JSONObject jsonObject1 = new JSONObject();
@@ -405,7 +405,6 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                                         objeto.consumirSercivioCerrarSesion();
                                         return;
                                     }
-                                    System.out.println("!success servicio body 1");
                                     return;
 
                                 }
@@ -421,7 +420,11 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                            Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            if (error.getMessage() != null) {
+                                if (!error.getMessage().isEmpty()){
+                                    Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
                         }
                     }
 
@@ -443,9 +446,9 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                 // Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getObj()
                 jsonObjectBody2.put("spar_code", Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getSpar_code());
                 jsonObjectBody2.put("spar_status", "DEFECTUOSO");
-                jsonObjectBody2.put("spar_warehouse", Global.CODE);//REvisar nombre llave
+                jsonObjectBody2.put("spar_warehouse", Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getSpar_warehouse() );//REvisar nombre llave
                 jsonObjectBody2.put("spar_quantity", Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getSpar_quantity());
-                jsonObjectBody2.put("spar_warehouse_new", Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getSpar_warehouse());
+                jsonObjectBody2.put("spar_warehouse_new",Global.CODE);
 
                 Log.d("RESPUESTA", jsonObjectBody2.toString());
 
@@ -468,7 +471,6 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                                         objeto.consumirSercivioCerrarSesion();
                                         return;
                                     }
-                                    System.out.println("!success servicio body 1");
                                     return;
 
                                 }
@@ -484,7 +486,11 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                            Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            if (error.getMessage() != null) {
+                                if (!error.getMessage().isEmpty()){
+                                    Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
                         }
                     }
 

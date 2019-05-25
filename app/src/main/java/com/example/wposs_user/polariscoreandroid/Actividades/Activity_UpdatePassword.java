@@ -33,7 +33,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValuesLogueoHuella;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.saveValueStrPreferenceLogueoHuella;
@@ -143,7 +142,7 @@ public class Activity_UpdatePassword extends AppCompatActivity {
                 contNumero++;
             }
         }
-        if (contLetraMay > 0 && contNumero > 3 && contLetraMin > 0) {
+        if (contLetraMay > 0 && contNumero > 0 && contLetraMin > 0) {
             return true;
         }
         return false;
@@ -176,15 +175,15 @@ public class Activity_UpdatePassword extends AppCompatActivity {
                                     Global.mensaje = response.get("message").toString();
                                     Global.mensaje = response.get("message").toString();
                                     if (Global.mensaje.equalsIgnoreCase("token no valido")) {
-                                        AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                        AlertDialog alertDialog = new AlertDialog.Builder(Activity_UpdatePassword.this).create();
                                         alertDialog.setTitle("Información");
                                         alertDialog.setMessage("Su sesión ha expirado, debe iniciar sesión nuevamente ");
                                         alertDialog.setCancelable(true);
                                         alertDialog.show();
-                                        objeto.consumirSercivioCerrarSesion();
+                                        consumirSercivioCerrarSesion();
                                         return;
                                     }
-                                    Toast.makeText(objeto, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Activity_UpdatePassword.this, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
                                     return;
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -208,8 +207,11 @@ public class Activity_UpdatePassword extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(Activity_UpdatePassword.this, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 
@@ -275,8 +277,11 @@ public class Activity_UpdatePassword extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(Activity_UpdatePassword.this, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 

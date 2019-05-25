@@ -191,10 +191,12 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/cuadrado_gris"
+            android:background="@drawable/redondo_fondo_blanco"
            android:textAlignment="gravity"
             android:maxLength="300"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            android:padding="5dp"
+            android:inputType="textMultiLine|textCapCharacters"/>
 
         <Button
             android:id="@+id/btn_registroDioagnostico"

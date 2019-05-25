@@ -123,14 +123,12 @@ public class ValidacionTerminalesFragment extends Fragment {
 
 
         String validaciones[] = Global.validaciones_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
-        System.out.println("validatio: tam "+validaciones.length );
-        ArrayList<Validacion> validacions = new ArrayList<>();
+       ArrayList<Validacion> validacions = new ArrayList<>();
         String vali_estado[];
         for (int i = 0; i < validaciones.length; i++) {
             if(!validaciones[i].equalsIgnoreCase("[]")){
                 boolean ok = false, falla = false, no_aplica = false;
                 String estado="";
-                System.out.println("Val pos: "+i+"-"+validaciones[i]);
                 vali_estado=validaciones[i].split("-");
 
                 if (vali_estado[1].equalsIgnoreCase("OK")) {
@@ -153,7 +151,6 @@ public class ValidacionTerminalesFragment extends Fragment {
 */
                 //  Validacion v = new Validacion(validaciones[i].split("-")[0], ok, falla, no_aplica );
                 Validacion v = new Validacion(validaciones[i].split("-")[0], ok, falla, no_aplica , estado);
-                System.out.println("Validac------->"+v.getTeva_description()+"-"+v.getEstado()+":::"+v.isOk()+":::"+ v.isFalla()+":::"+ v.isNo_aplica());
                 validacions.add(v);
             }
 
@@ -191,7 +188,6 @@ public class ValidacionTerminalesFragment extends Fragment {
             rv.setAdapter(adapter);
 
         }
-        System.out.println("Tamaño del arreglo " + validaciones.size());
     }
 
 

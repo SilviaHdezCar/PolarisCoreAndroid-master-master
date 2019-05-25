@@ -18,6 +18,7 @@ public class Tools {
     {
         ctx=context;
     }
+
     public static Context getCurrentContext()
     {
         return ctx;

@@ -28,7 +28,6 @@ public class AdapterTipificaciones extends RecyclerView.Adapter<AdapterTipificac
     }
 
     public AdapterTipificaciones(List<Tipificacion> list, interfaceClick ic, int layoutButton) {
-        System.out.println("position: "+layoutButton);
         this.listTipificaciones = list;
         this.ic = ic;
         this.layoutButton = layoutButton;

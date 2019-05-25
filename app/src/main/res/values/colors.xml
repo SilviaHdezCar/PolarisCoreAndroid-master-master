@@ -8,6 +8,7 @@
 
 
     <color name="blanco">#FFFFFF</color>
+    <color name="blanco_transparente50">#50FFFFFF</color>
 
     <color name="rojo_borde">#C44C49</color>
     <color name="gris_linea">#EEEEEE</color>
@@ -16,8 +17,9 @@
 
     <color name="blanca_linea">#FEFDFF</color>
     <color name="verde_linea">#018793</color>
-<!--Colores utilizados en el nav_bar-->
 
+
+    <!--Colores utilizados en el nav_bar-->
     <color name="circulo_nav_bar">#91ADB0</color>
     <color name="verde_osc_nav_bar">#022529</color>
     <color name="verde_pestanas">#025156</color>
@@ -32,15 +34,16 @@
     <color name="lineas_nav_bar">#2E5157</color>
 
 
-    <color name="azul_circulo_foto">#6AC1C5</color>
+    <color name="azul_circulo_foto">#93ACAF</color>
 
 
     <color name="azul_botones">#2196F3</color>
     <color name="negro">#212121</color>
+    <color name="borde_negro_botones">#343434</color>
     <color name="gris_menu">#7D7D7D</color>
     <color name="gris_iconos">#9EC2C9</color>
     <color name="gris_menu_letra">#BDBDBD</color>
-    <color name="gris_fondo">#F2F2F2</color>
+    <color name="gris_fondo">#F8F8F8</color>
     <color name="fondo_edit_text">#F5F5F5</color>
     <color name="naranja">#ED863B</color>
 
@@ -62,10 +65,16 @@
     <color name="blanco_transparente">#16EEF3F3</color>
     <color name="transparente">#00EEF3F3</color>
     <color name="negro_transparente">#A4022529</color>
-    <color name="gris_botones">#DFDFDF</color>
+    <color name="gris_botones">#80FFFFFF</color>
+    <color name="letra_botones">#022529</color>
+    <color name="letra_dialogs">#8C8B8B</color>
+    <color name="cuadros_verdes_opacos">#4DA2A8</color>
+    <color name="icon_ojo_gris">#9D9D9D</color>
+    <color name="verde_opaco_huella">#B3C4C4</color>
 
 
 
+    <color name="gris_letra_dialog">#8C8B8B</color>
 
 
 

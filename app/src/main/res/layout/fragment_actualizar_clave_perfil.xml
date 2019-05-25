@@ -65,7 +65,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/redondo_fondo_blanco"
-                        android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ.-"
+                        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ."
                         android:gravity="center"
                         android:hint="@string/clave_actual"
                         android:inputType="textPassword"
@@ -74,24 +74,20 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                <Button
+                    android:id="@+id/lbl_validarClave"
+                    style="@style/letra_contenido_blanco"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/redondo_gris_botones"
+                    android:textColor="@color/negro"
+                    android:text="Validar contraseña"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="5dp"
+                    android:textAllCaps="false"
+                    android:layout_gravity="center"/>
 
-                    <TextView
-                        android:id="@+id/lbl_validarClave"
-                        style="@style/letra_enlace"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginTop="20dp"
-                        android:text="Validar clave"
-
-                        />
-                </LinearLayout>
             </LinearLayout>
 
 
@@ -126,7 +122,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/redondo_fondo_blanco"
-                    android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ.-"
+                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ."
                     android:gravity="center"
                     android:hint="@string/clave_nueva"
                     android:inputType="textPassword"
@@ -156,7 +152,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/redondo_fondo_blanco"
-                    android:digits="0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñÑ.-"
+                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ."
                     android:gravity="center"
                     android:hint="@string/clave_confirmar"
                     android:inputType="textPassword"

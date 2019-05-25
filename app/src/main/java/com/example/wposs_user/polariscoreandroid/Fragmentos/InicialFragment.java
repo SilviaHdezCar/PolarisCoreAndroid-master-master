@@ -80,6 +80,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
+import static java.util.Collections.sort;
 
 public class InicialFragment extends Fragment {
     private RecyclerView rv;
@@ -107,7 +108,7 @@ public class InicialFragment extends Fragment {
         tabla = (TableLayout) v.findViewById(R.id.tabla_validaciones_autorizadas);//Tabla de validaciones
 
 
-        objeto.setTitle("               TERMINALES");
+        objeto.setTitle("                     TERMINALES");
         btn_asociadas.setTypeface(null, Typeface.BOLD);
         btn_asociadas.setTextSize(15);
         btn_autorizadas.setTextSize(13);
@@ -220,8 +221,11 @@ public class InicialFragment extends Fragment {
 
                                     Global.OBSERVACIONES.add(o);
                                 }
-
+                                if(Global.OBSERVACIONES!=null){
+                                    sort(Global.OBSERVACIONES);
+                                }
                             }
+
                             objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
                             return;
                         } catch (JSONException e) {
@@ -235,7 +239,11 @@ public class InicialFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 
@@ -281,7 +289,6 @@ public class InicialFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println("status:  " + Global.STATUS_SERVICE);
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
@@ -327,7 +334,11 @@ public class InicialFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 
@@ -371,7 +382,6 @@ public class InicialFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println("status:  " + Global.STATUS_SERVICE);
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
@@ -414,7 +424,11 @@ public class InicialFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 
@@ -466,20 +480,13 @@ public class InicialFragment extends Fragment {
                 Global.tecnologia = terminal.get(position).getTerm_technology();
                 Global.marca = terminal.get(position).getTerm_brand();
 
-                //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
                 Global.lista_tipificaciones_tabla = new ArrayList<Tipificacion>();
                 Global.listTipificaciones = new ArrayList<Tipificacion>();
 
                 consumirServicioValidaciones();
                 consumirServicioEtapas();
 
-                System.out.println("Global.TERMINALES_ASOCIADAS_tamaño[_: "+Global.TERMINALES_ASOCIADAS.size());
-                //objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminal()).addToBackStack(null).commit();
 
-                //   objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
-
-
-                // objeto.listarObservacionesTerminal(serialObtenido);
             }
         }, R.layout.panel_terminal_asociada);
 
@@ -586,7 +593,11 @@ public class InicialFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 

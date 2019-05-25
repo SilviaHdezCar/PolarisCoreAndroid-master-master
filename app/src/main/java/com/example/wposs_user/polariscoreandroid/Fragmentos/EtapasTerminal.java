@@ -94,16 +94,15 @@ public class EtapasTerminal extends Fragment {
 
         ArrayList observations = new ArrayList<>();
 
-        for (Observacion observ : observaciones) {
-            if (observ != null) {
-                if (observ.getTeob_description() != null) {
-                    if (!observ.getTeob_description().isEmpty()) {
-                        observations.add(observ);
-                    }
-
+        for (int i = observaciones.size()-1;i>=0;i--){
+            System.out.println("i: "+i);
+            if(observaciones.get(i)!=null){
+                if(!observaciones.get(i).getTeob_description().trim().isEmpty()){
+                    observations.add(observaciones.get(i));
                 }
             }
         }
+
         //Al dar clic en una observacion infla el panel de validaciones
         final AdapterEtapa adapter = new AdapterEtapa(observations, new AdapterEtapa.interfaceClick() {
             @Override

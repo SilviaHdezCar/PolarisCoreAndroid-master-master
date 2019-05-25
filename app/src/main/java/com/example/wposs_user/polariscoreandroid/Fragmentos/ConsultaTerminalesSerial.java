@@ -49,6 +49,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
+import static java.util.Collections.sort;
 
 
 public class ConsultaTerminalesSerial extends Fragment {
@@ -73,7 +74,7 @@ public class ConsultaTerminalesSerial extends Fragment {
                              Bundle savedInstanceState) {
         Global.soloConsulta = "si";
         view = inflater.inflate(R.layout.fragment_consultar_terminales_serial, container, false);
-        objeto.setTitle("       BÚSQUEDA POR SERIAL");
+        objeto.setTitle("          BÚSQUEDA POR SERIAL");
         queue = Volley.newRequestQueue(objeto);
         //servicioTerminales();
 
@@ -131,8 +132,6 @@ public class ConsultaTerminalesSerial extends Fragment {
         this.terminal = new Terminal();
         Global.OBSERVACIONES = null;
         Global.OBSERVACIONES = new ArrayList<Observacion>();
-        Global.observaciones_con_fotos = null;
-        Global.observaciones_con_fotos = new ArrayList<Observacion>();
 
         Global.validaciones_consultas = new HashMap<String, String>();
         Global.tipificaciones_consultas = new HashMap<String, String>();
@@ -155,7 +154,8 @@ public class ConsultaTerminalesSerial extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            System.out.println("status:  " + response.get("status").toString());
+
+                            System.out.println("REPUESTA SERVIDOR:  " + response.toString());
                             if (response.get("status").toString().equals("fail")) {
                                 Global.mensaje = response.get("message").toString();
 
@@ -241,16 +241,10 @@ public class ConsultaTerminalesSerial extends Fragment {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     info = jsonArray.getString(i);
                                     o = gson.fromJson(info, Observacion.class);
-                                    if (o.getTeob_photo() != null ||!o.getTeob_photo().equalsIgnoreCase("")) {
 
-                                        if(o.getTeob_description().isEmpty()){
-                                            System.out.println(o.toString());
-                                            Global.observaciones_con_fotos.add(o);
-                                        }
-                                    }
                                     Global.OBSERVACIONES.add(o);
-                                    System.out.println("Observación "+i+" : " + o.toString());
                                 }
+
                             }
 
                             llernarRV();
@@ -265,7 +259,11 @@ public class ConsultaTerminalesSerial extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 

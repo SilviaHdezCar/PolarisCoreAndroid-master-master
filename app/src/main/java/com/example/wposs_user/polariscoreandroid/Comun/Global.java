@@ -126,7 +126,7 @@ public class Global {
     public static final String MSG_ERR_CONEXION = "Error de Conexión: No se estableció comunicación con el servidor, revise la configuración de Datos Móviles o WIFI";
 
 
-    public static List<Terminal> TODAS_TERMINALES;
+    public static boolean panel_reparable; //Es utilizada dependianTipos de falla 1.
 
 
     public static List<Terminal> TERMINALES_ASOCIADAS;
@@ -137,11 +137,12 @@ public class Global {
     public static ArrayList<Repuesto> REPUESTOS_DIAGONOSTICO = new ArrayList<>();
 
 
-    public static ArrayList<Observacion> observaciones_con_fotos;
+    public static List<Observacion> observaciones_con_fotos;
 
 
     public static ArrayList<Repuesto> REPUESTOS_DEFECTUOSOS_AUTORIZADAS;
     public static ArrayList<Repuesto> REPUESTOS_DEFECTUOSOS_SOLICITAR;
+    public static List<Repuesto> REPUESTOS_CAMBIAR_ESTADO_DANADO;
 
 
     public static ArrayList<Validacion> VALIDACIONES_DIAGNOSTICO;
@@ -174,5 +175,6 @@ public class Global {
     public static Map<String, String>  validaciones_consultas; // Global.validaciones_consultas.put(estado, fecha + "%" + validations);
     public static Map<String, String>  tipificaciones_consultas; // Global.validaciones_consultas.put(estado, fecha + "%" + validations);
     public static Map<String, String>  repuestos_consultas; // Global.validaciones_consultas.put(estado, fecha + "%" + validations);
+
 
 }

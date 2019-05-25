@@ -18,12 +18,14 @@ public class Observacion implements Comparable<Observacion> {
     private String teob_photo;
     private String teob_serial_terminal;
 
-  /*  private String teob_id;
-    private String teob_description;
-    private String teob_fecha;
-    private String teob_id_user;
-    private String teob_photo;
-    private String teob_serial_terminal;*/
+  /* {"teob_id":"2385f6b0-7d92-11e9-b380-4115165f621b",
+  "teob_date":null,
+  "teob_description":"Observación Imagen QA",
+  "teob_fecha":"May 23, 2019 2:37 PM",
+  "teob_id_user":"1093779293",
+  "teob_open":"0",
+  "teob_photo":"TERMINALESPECIAL2_1093779293_23-5-2019_1.png",
+  "teob_serial_terminal":"TERMINALESPECIAL2"},*/
 
 
     public Observacion(String teob_id, String teob_description, String teob_fecha, String teob_id_user, String teob_photo, String teob_serial_terminal) {
@@ -48,7 +50,6 @@ public class Observacion implements Comparable<Observacion> {
     public Observacion(String teob_description, String teob_serial_terminal, String teob_photo) {
         this.teob_description = teob_description;
         this.teob_photo = teob_photo;
-        System.out.println("observacion serial: " + teob_serial_terminal);
         this.teob_serial_terminal = teob_serial_terminal;
     }
 
@@ -156,17 +157,17 @@ public class Observacion implements Comparable<Observacion> {
 
     @Override
     public int compareTo(Observacion o) {
-
+        System.out.println("Fecha observacion tengo: "+getTeob_fecha());
+        System.out.println("Fecha observacion llega: "+o.getTeob_fecha());
         String[] dato1=getTeob_fecha().split(" ");
         String[] dato2=o.getTeob_fecha().split(" ");
-        System.out.println("formato de fecha dado************"+teob_fecha);
 
         int mes= Utils.obtenerNumMes(dato1[0]);
         int mes2= Utils.obtenerNumMes(dato2[0]);
         int dia= Integer.parseInt(dato1[1].substring(0,dato1[1].length()-1));
         int dia2= Integer.parseInt(dato2[1].substring(0,dato2[1].length()-1));
-        int año= Integer.parseInt(dato1[2]);
-        int año2= Integer.parseInt(dato2[2]);
+        int anio= Integer.parseInt(dato1[2]);
+        int anio2= Integer.parseInt(dato2[2]);
 
         String[] hora=dato1[3].split(":");
         String[] hora2=dato2[3].split(":");
@@ -190,11 +191,11 @@ public class Observacion implements Comparable<Observacion> {
         }
 
 
-        if((año-año2)>0){
+        if((anio-anio2)>0){
             return 1;
         }
 
-        else  if((año-año2)==0){
+        else  if((anio-anio2)==0){
 
             if((mes-mes2>0)){
                 return 1;
@@ -212,8 +213,12 @@ public class Observacion implements Comparable<Observacion> {
                     if(horas>horas2){ return 1;}
                     if(horas<horas2){ return -1;}
                     else if(horas==horas2){
-                        if(minutos>minutos2){ return 1;}
-                        if(minutos<minutos2){ return -1;}
+                        if(minutos>minutos2){
+                            System.out.println(" if(minutos>minutos2)" +minutos+">"+minutos2);
+                            return 1;}
+                        if(minutos<minutos2){
+                            System.out.println(" if(minutos<minutos2)" +minutos+"<"+minutos2);
+                            return -1;}
 
                     }
                 }
@@ -222,7 +227,7 @@ public class Observacion implements Comparable<Observacion> {
         }
 
 
-        else if((año-año2)<0){
+        else if((anio-anio2)<0){
             return -1;
         }
 

@@ -1,39 +1,26 @@
 package com.example.wposs_user.polariscoreandroid.Actividades;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,46 +35,27 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
-import com.example.wposs_user.polariscoreandroid.Comun.Messages;
-import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogCancelarHuella;
-import com.example.wposs_user.polariscoreandroid.Dialogs.DialogHuella;
-import com.example.wposs_user.polariscoreandroid.Dialogs.DialogOpcionesConsulta;
-import com.example.wposs_user.polariscoreandroid.Fragmentos.ActualizarClave_perfil;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ConsultaTerminalesSerial;
-import com.example.wposs_user.polariscoreandroid.Fragmentos.EtapasTerminal;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.InicialFragment;
-import com.example.wposs_user.polariscoreandroid.Fragmentos.ObservacionesFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.PerfilFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ProductividadFragment;
-import com.example.wposs_user.polariscoreandroid.Fragmentos.Registro_diagnostico;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.StockFragment;
-import com.example.wposs_user.polariscoreandroid.Fragmentos.TipificacionesFragment;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.TCP.TCP;
-import com.example.wposs_user.polariscoreandroid.Comun.Tools;
-import com.example.wposs_user.polariscoreandroid.Fragmentos.ValidacionesTerminalesAsociadas;
 import com.example.wposs_user.polariscoreandroid.java.Etapas;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
-import com.example.wposs_user.polariscoreandroid.java.Terminal;
-import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
-import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.getValueStrPreference;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -110,7 +78,7 @@ public class MainActivity extends AppCompatActivity
     public static MainActivity objeto;
     private LinearLayout layout_terminal_etapas;
     private TextView usuario_drawer;
-    private TextView correo_drawer;
+    private TextView codigo_drawer;
     private ImageView imageView_perfil;
 
     private int contadorFragmentos;
@@ -148,14 +116,14 @@ public class MainActivity extends AppCompatActivity
 
         View hView = navigationView.getHeaderView(0);
         usuario_drawer = (TextView) hView.findViewById(R.id.usuario_drawer);
-        correo_drawer = (TextView) hView.findViewById(R.id.correo_drawer);
+        codigo_drawer = (TextView) hView.findViewById(R.id.codigo_drawer);
         imageView_perfil = (ImageView) hView.findViewById(R.id.imageView_perfil);
 
         Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/" + Global.ID + ".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView_perfil);
 
 
         usuario_drawer.setText(Global.NOMBRE);
-        correo_drawer.setText(Global.EMAIL);
+        codigo_drawer.setText(Global.CODE);
 
         imageView_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -290,7 +258,6 @@ public class MainActivity extends AppCompatActivity
                                 }
                             }
                             eliminarValues(objeto);
-                            System.out.println("Respuesta obtener" + getValueStrPreference(objeto, "token"));
                             Intent i = new Intent(objeto, Activity_login.class);
                             startActivity(i);
                             finish();
@@ -307,7 +274,11 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 

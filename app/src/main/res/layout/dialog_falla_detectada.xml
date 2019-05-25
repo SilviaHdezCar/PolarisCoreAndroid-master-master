@@ -1,6 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--Este panel es utilizado cuando:
+        1. Al registrar un diagnostico de una terminal asociada, cuando la falla es por USO o FÁBRICA
+        2. Cuando la terminal está en reparación y encuentran una falla y esta puede ser por REPUESTO DEFECTUOSO o NUEVO DIAGNOSTICO-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_descripcion"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:text="Información..."
+            android:textColor="@color/negro"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gris_linea"></LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_falla1"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:text="text1 "
+            android:textColor="@color/gris_letra_dialog"
+            android:textSize="16dp"
+            android:textStyle="normal" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gris_linea"></LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_falla2"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:text="text2"
+            android:textColor="@color/gris_letra_dialog"
+            android:textSize="16dp"
+            android:textStyle="normal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gris_linea"
+            android:layout_marginBottom="20dp"></LinearLayout>
+
+
+    </LinearLayout>
+
 
 </LinearLayout>

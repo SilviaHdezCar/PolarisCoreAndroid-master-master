@@ -6,7 +6,7 @@
         />
     <stroke android:color="@color/borde_verde_edit_text"         />
 
-    <solid android:color="@color/fondo_verde_edit_text"   />
+    <solid android:color="@color/cuadros_verdes_opacos"   />
 
     <corners android:radius="8dp" />
 </shape>

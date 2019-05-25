@@ -42,6 +42,7 @@ public class Reestablecer_password extends AppCompatActivity {
     private TextView txt_estadoRecuperacion;
 
     private LinearLayout layout_enviarRespuesta;
+    private LinearLayout layout_busqueda;
 
     private RequestQueue queue;
     private String codigo;
@@ -66,6 +67,7 @@ public class Reestablecer_password extends AppCompatActivity {
 
 
         layout_enviarRespuesta = (LinearLayout) findViewById(R.id.layout_enviarRespuesta);
+        layout_busqueda = (LinearLayout) findViewById(R.id.layout_busqueda);
 
         layout_enviarRespuesta.setVisibility(View.GONE);
 
@@ -135,6 +137,7 @@ public class Reestablecer_password extends AppCompatActivity {
                                 identificacionRespuesta = ((JSONArray) response.get("result")).getJSONObject(0).getString("user_identification").toString();
 
                                 layout_enviarRespuesta.setVisibility(View.VISIBLE);
+                                layout_busqueda.setVisibility(View.GONE);
                                 txt_userRecuperacion.setText(codigoRespuesta);
                                 txt_correoRecuperacion.setText(correoRespuesta);
                                 txt_estadoRecuperacion.setText(estadoRespuesta);
@@ -151,7 +154,11 @@ public class Reestablecer_password extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(Reestablecer_password.this, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(Reestablecer_password.this, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 
@@ -221,7 +228,11 @@ public class Reestablecer_password extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(Reestablecer_password.this, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(Reestablecer_password.this, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 

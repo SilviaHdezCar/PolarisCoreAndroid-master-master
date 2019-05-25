@@ -108,7 +108,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                 System.out.println("despues el for, antes if");
                 if (ter.getTerm_serial().equals(Global.serial_ter)) {
                     System.out.println("los seriales son iguales");
-                    marca_ter_validaciones.setText("deberia ir la marca");
+                    marca_ter_validaciones.setText(Global.marca);
                     modelo_ter_validaciones.setText(Global.modelo);
                     serial_ter_validaciones.setText(ter.getTerm_serial());
                     tecno_ter_validaciones.setText(ter.getTerm_technology());

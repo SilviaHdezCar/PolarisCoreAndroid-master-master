@@ -4,91 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
 
 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_fondo"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-
-
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/img_fondo"
-        android:gravity="center_horizontal"
+        android:layout_height="100dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/img_polariscore"
+
+        />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="40dp"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:src="@drawable/img_polariscore"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-
-            />
-
-
-        <LinearLayout
+        <TextView
+            style="@style/letra_contenido_blanco"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="left"
+            android:text="Bienvenido"
+            android:textSize="16dp" />
+
+
+        <TextView
+            style="@style/letra_contenido_blanco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:text="Ingrese usuario y contraseña."
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:background="@color/blanco"
+
+        >
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/redondo_fondo_verde_borde_verde"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="40dp"
             android:layout_gravity="left"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="40dp"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/letra_contenido_blanco"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:gravity="left"
-                android:text="Bienvenido"
-                android:textSize="16dp" />
-
-
-            <TextView
-                style="@style/letra_contenido_blanco"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"
-                android:text="Ingrese usuario y contraseña."
-                android:textSize="16dp" />
-        </LinearLayout>
+            android:src="@mipmap/user_grey"
+            android:tint="@color/gris_iconos" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="30dp"
-            android:background="@color/blanco"
-
-            >
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/redondo_fondo_verde_borde_verde"
-            android:orientation="horizontal"
-            android:padding="5dp">
-
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:layout_gravity="left"
-                android:src="@mipmap/user_grey"
-                android:tint="@color/gris_iconos" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/redondo_fondo_blanco"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/txtCorreo"
                 style="@style/letra_contenido"
-                android:layout_width="250dp"
+                android:layout_width="210dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:background="@color/blanco"
+                android:background="@color/transparente"
                 android:gravity="center"
                 android:hint="@string/correo"
                 android:inputType="textEmailAddress"
@@ -96,134 +98,133 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/redondo_fondo_verde_borde_verde"
-            android:orientation="horizontal"
-            android:padding="5dp">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:layout_gravity="left"
-                android:src="@mipmap/key" />
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:background="@color/blanco"
-
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/txtPass"
-                    style="@style/letra_contenido"
-                    android:layout_width="210dp"
-                    android:layout_height="40dp"
-                    android:background="@color/blanco"
-                    android:gravity="center"
-                    android:hint="@string/clave"
-                    android:inputType="textPassword" />
-
-                <ImageButton
-                    android:id="@+id/btn_mostrarClave"
-                    android:layout_width="40dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:backgroundTint="@color/blanco"
-                    android:onClick="mostrarClave"
-                    android:src="@drawable/ic_ver"
-                    android:tint="@color/verde_pestanas" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="30dp"
-            android:background="@color/blanco">
-
-
-        </LinearLayout>
-
-
-        <Button
-            android:id="@+id/btn_login"
-            style="@style/letra_contenido"
-            android:layout_width="180dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/redondo_gris_botones"
-            android:onClick="iniciarSesion"
-            android:text="@string/iniciarSes"
-            android:textAllCaps="false"
-
-
-            />
-
-
-        <TextView
-            android:id="@+id/txt_reestablecerClave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="¿Ha olvidado la contraseña?"
-            android:textColor="@color/blanco"
-
-            />
-
-
-        <ImageButton
-            android:id="@+id/btn_huella"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/transparente"
-            android:src="@mipmap/ic_huella"
-            android:text="Iniciar sesión mediante huella digital"
-
-            android:tint="@color/blanco"
-
-            />
-
-        <TextView
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="Iniciar sesión mediante huella digital"
-            android:textAlignment="center"
-            android:textColor="@color/blanco" />
-
-       <LinearLayout
-       android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/negro_transparente"
-           android:layout_marginTop="21dp"
-    >
-
-           <ImageView
-
-            android:layout_width="match_parent"
-               android:layout_marginRight="30dp"
-               android:layout_marginLeft="30dp"
-               android:layout_height="40dp"
-               android:layout_gravity="center_horizontal"
-                android:src="@drawable/img_logoinicio" />
-
-
-        </LinearLayout>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/redondo_fondo_verde_borde_verde"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_gravity="left"
+            android:src="@mipmap/key" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/redondo_fondo_blanco"
+
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtPass"
+                style="@style/letra_contenido"
+                android:layout_width="210dp"
+                android:layout_height="40dp"
+                android:background="@color/transparente"
+                android:gravity="center"
+                android:hint="@string/clave"
+                android:inputType="textPassword" />
+
+            <ImageButton
+                android:id="@+id/btn_mostrarClave"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/transparente"
+                android:onClick="mostrarClave"
+                android:src="@drawable/ic_ver"
+                android:tint="@color/verde_pestanas" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="30dp"
+        android:background="@color/blanco">
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt_reestablecerClave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="¿Ha olvidado la contraseña?"
+        android:textColor="@color/blanco_transparente50"
+
+        />
+
+    <Button
+        android:id="@+id/btn_login"
+        style="@style/letra_contenido_blanco"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/redondo_botones"
+        android:onClick="iniciarSesion"
+        android:text="@string/iniciarSes"
+        android:textAllCaps="false"
+
+
+        />
+
+
+    <ImageButton
+        android:id="@+id/btn_huella"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/transparente"
+        android:src="@mipmap/ic_huella"
+        android:text="Iniciar sesión mediante huella digital"
+
+        android:tint="@color/blanco"
+
+        />
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Iniciar sesión mediante huella digital"
+        android:textAlignment="center"
+        android:textColor="@color/blanco" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="21dp"
+        android:background="@color/negro_transparente"
+        android:layout_marginBottom="2dp">
+
+        <ImageView
+
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:src="@drawable/img_logoinicio" />
+    </LinearLayout>
+
+</LinearLayout>
 
 
 

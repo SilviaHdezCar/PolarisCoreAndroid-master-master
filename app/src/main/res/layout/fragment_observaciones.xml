@@ -53,7 +53,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="12dp"
                             android:layout_marginTop="175dp"
-                            android:background="@color/gris_linea"
+                            android:background="@drawable/degradado_gris"
                             android:gravity="center_horizontal"
                             android:text="Foto 1" />
                     </RelativeLayout>
@@ -85,7 +85,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="12dp"
                             android:layout_marginTop="175dp"
-                            android:background="@color/gris_linea"
+                            android:background="@drawable/degradado_gris"
                             android:gravity="center_horizontal"
                             android:text="Foto 2" />
                     </RelativeLayout>
@@ -111,9 +111,11 @@
                     android:background="@drawable/redondo_fondo_blanco"
                     android:gravity="top|left"
                     android:hint="Observación"
-                    android:inputType="textMultiLine|textCapSentences"
+                    android:inputType="textMultiLine|textCapCharacters"
                     android:maxLength="300"
-                    android:padding="5dp" />
+                    android:scrollbars="vertical"
+                    android:padding="5dp"
+                    android:maxLines="8"/>
 
                 <Button
                     android:id="@+id/btn_finalizar_observacion"

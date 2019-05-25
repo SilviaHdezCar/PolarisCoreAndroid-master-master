@@ -35,7 +35,6 @@ public class AdapterValidaciones extends RecyclerView.Adapter<AdapterValidacione
     }
 
     public AdapterValidaciones(List<Validacion> list, interfaceClick ic, int layoutButton) {
-        System.out.println("position: " + layoutButton);
         this.listValidaciones = list;
         this.ic = ic;
         this.layoutButton = layoutButton;
@@ -54,20 +53,17 @@ public class AdapterValidaciones extends RecyclerView.Adapter<AdapterValidacione
         //Llena los campos
         holder.txt_validaciones.setText(this.listValidaciones.get(position).getTeva_description());
 
-        System.out.println("Adapter validaciones"+listValidaciones.get(position).getTeva_description()+"-"+listValidaciones.get(position).getEstado());
         //Esperando clic
         holder.ok.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // Tools.toast("click: "+ buttonCards.get(position).text1);
-                System.out.println("Adapter validaciones inicio: "+position+":-"+listValidaciones.get(position).getTeva_description()+"-"+listValidaciones.get(position).getEstado());
                 //ic.onClick(listValidaciones, position, 1);
                 listValidaciones.get(position).setOk(true);
                 listValidaciones.get(position).setFalla(false);
                 listValidaciones.get(position).setNo_aplica(false);
                 listValidaciones.get(position).setEstado("OK");
-                System.out.println("Adapter validaciones fin: "+position+":-"+listValidaciones.get(position).getTeva_description()+"-"+listValidaciones.get(position).getEstado());
             }
 
         });
@@ -76,13 +72,11 @@ public class AdapterValidaciones extends RecyclerView.Adapter<AdapterValidacione
             @Override
             public void onClick(View v) {
                 // Tools.toast("click: "+ buttonCards.get(position).text1);
-                System.out.println("Adapter validaciones inicio: "+position+":-"+listValidaciones.get(position).getTeva_description()+"-"+listValidaciones.get(position).getEstado());
                 ic.onClick(listValidaciones, position, 2);
                 listValidaciones.get(position).setOk(false);
                 listValidaciones.get(position).setFalla(true);
                 listValidaciones.get(position).setNo_aplica(false);
                 listValidaciones.get(position).setEstado("Falla");
-                System.out.println("Adapter validaciones fin: "+position+":-"+listValidaciones.get(position).getTeva_description()+"-"+listValidaciones.get(position).getEstado());
             }
 
         });
@@ -91,14 +85,12 @@ public class AdapterValidaciones extends RecyclerView.Adapter<AdapterValidacione
             @Override
             public void onClick(View v) {
                 // Tools.toast("click: "+ buttonCards.get(position).text1);
-                System.out.println("Adapter validaciones inicio: "+position+":-"+listValidaciones.get(position).getTeva_description()+"-"+listValidaciones.get(position).getEstado());
-                ic.onClick(listValidaciones, position, 3);
+               ic.onClick(listValidaciones, position, 3);
                 listValidaciones.get(position).setOk(false);
                 listValidaciones.get(position).setFalla(false);
                 listValidaciones.get(position).setNo_aplica(true);
                 listValidaciones.get(position).setEstado("No aplica");
-                System.out.println("Adapter validaciones fin: "+position+":-"+listValidaciones.get(position).getTeva_description()+"-"+listValidaciones.get(position).getEstado());
-            }
+               }
 
         });
 
