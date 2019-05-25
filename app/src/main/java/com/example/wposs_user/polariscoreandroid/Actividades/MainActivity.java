@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity
                     verNotificaciones.setImageResource(ic_sinnotif);
                 }
 
-                else if(Global.notificaciones.size()>0) {
+                if(Global.notificaciones.size()>0) {
 
                     verNotificaciones.setImageResource(R.drawable.ic_notifiok);
                     dialogo = new DialogNotificacion();
