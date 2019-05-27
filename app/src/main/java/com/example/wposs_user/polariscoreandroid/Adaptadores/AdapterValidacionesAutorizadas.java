@@ -35,7 +35,6 @@ public class AdapterValidacionesAutorizadas extends RecyclerView.Adapter<Adapter
     }
 
     public AdapterValidacionesAutorizadas(List<Validacion> list, interfaceClick ic, int layoutButton) {
-        System.out.println("position: " + layoutButton);
         this.listValidaciones = list;
         this.ic = ic;
         this.layoutButton = layoutButton;
@@ -53,9 +52,7 @@ public class AdapterValidacionesAutorizadas extends RecyclerView.Adapter<Adapter
     public void onBindViewHolder(@NonNull final ViewHolderValidaciones holder, final int position) {
 
         holder.txt_validaciones.setText(this.listValidaciones.get(position).getTeva_description());
-        //System.out.println(Global.terminalVisualizar.getTerm_serial().toString());
-        //holder.setTitulo("SERIAL: "+Global.terminalVisualizar.getTerm_serial().toString());
-        if(listValidaciones.get(position).isOk()){
+         if(listValidaciones.get(position).isOk()){
             holder.setOK(true);
         }else if(listValidaciones.get(position).isFalla()){
             holder.setFalla(true);

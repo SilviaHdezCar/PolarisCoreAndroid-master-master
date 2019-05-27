@@ -35,7 +35,7 @@ Button buscar;
                 buscar_productividad();
             }
         });
-
+objeto.setTitle("                PRODUCTIVIDAD");
 
 
 

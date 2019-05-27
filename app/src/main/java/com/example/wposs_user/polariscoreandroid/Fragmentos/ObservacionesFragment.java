@@ -206,8 +206,11 @@ public class ObservacionesFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("ERROR!!!!" + error.getMessage());
-                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                if (error.getMessage() != null) {
+                    if (!error.getMessage().isEmpty()){
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         }
         ) {
@@ -363,8 +366,11 @@ public class ObservacionesFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 

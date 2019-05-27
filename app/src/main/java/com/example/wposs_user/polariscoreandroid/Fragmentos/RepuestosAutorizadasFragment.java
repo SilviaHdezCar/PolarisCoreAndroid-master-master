@@ -117,15 +117,15 @@ public class RepuestosAutorizadasFragment extends Fragment {
         estado.setText(Global.terminalVisualizar.getTerm_status());
         fechaANS.setText(Global.terminalVisualizar.getTerm_date_register());
 
-       // btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_repuestos_autorizadas);
-        tabla= (TableLayout)v.findViewById(R.id.tabla_seleccionar_repuestos);
+        // btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_repuestos_autorizadas);
+        tabla = (TableLayout) v.findViewById(R.id.tabla_seleccionar_repuestos);
 
         llenarTabla();
 
         btn_siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validarEstadosRepuestos()){
+                if (validarEstadosRepuestos()) {
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesSeleccionarAutorizadas()).addToBackStack(null).commit();
                     return;
 
@@ -138,13 +138,14 @@ public class RepuestosAutorizadasFragment extends Fragment {
 
     /**
      * Este metodo se utiliza para verificar que todos los repuestos estén OK
+     *
      * @return true-->si todos están oOK
      */
     public boolean validarEstadosRepuestos() {
         boolean retorno = false;
         recorrerTabla(tabla);
         Repuesto rep = new Repuesto();
-        for (int i = 0; i <this.repuestos.size(); i++) {
+        for (int i = 0; i < this.repuestos.size(); i++) {
             rep = this.repuestos.get(i);
             if (rep != null) {
                 if (!rep.isOk()) {
@@ -155,7 +156,7 @@ public class RepuestosAutorizadasFragment extends Fragment {
                     alertDialog.show();
                     return false;
                 } else {
-                    retorno=true;
+                    retorno = true;
                 }
             }
         }
@@ -166,6 +167,7 @@ public class RepuestosAutorizadasFragment extends Fragment {
     /**
      * Este metodo se utiliza para recorrer la tabla mostrada de repuestos y cambia el estado
      * del repuesto al presionar el radio button     *
+     *
      * @param tabla
      */
     public void recorrerTabla(TableLayout tabla) {
@@ -178,18 +180,13 @@ public class RepuestosAutorizadasFragment extends Fragment {
             TableRow row = (TableRow) child;
             pos_fila = row.getId();
             View view = row.getChildAt(0);//celdas
-           /* if (view instanceof TextView) {
 
-                System.out.println("id: " + ((TextView) view).getText().toString());
-                view.setEnabled(false);
-            }*/
             view = row.getChildAt(1);//Celda en la posición 1
             if (view instanceof RadioButton) {
-                if(((RadioButton) view).isChecked()){
-                    this.repuestos.get(i-1).setOk(true);
+                if (((RadioButton) view).isChecked()) {
+                    this.repuestos.get(i - 1).setOk(true);
                 }
             }
-            System.out.println("Pos: " + i + "-->" +this.repuestos.get(i - 1).getSpar_name() + "-" +  this.repuestos.get(i-1).isOk());
         }
     }
 
@@ -210,7 +207,7 @@ public class RepuestosAutorizadasFragment extends Fragment {
             TextView nombre = new TextView(objeto);
             nombre.setId(100 + i);
             nombre.setText(this.repuestos.get(i).getSpar_name());
-            nombre.setPadding(20,0,0,0);
+            nombre.setPadding(20, 0, 0, 0);
 
             RadioButton ok = new RadioButton(objeto);
             ok.setId(200 + i);
@@ -225,14 +222,13 @@ public class RepuestosAutorizadasFragment extends Fragment {
     }
 
 
-
     /**
      * Este metodo se utiliza para recorrer el arreglo de repuestos enviado por el servicio al seleccionar una autorizada
      * Split de los repuestos recibidos y los agrega al recycler view
      **/
     public void llenarListaRepuestos() {
-        Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS=null;
-        Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS=new ArrayList<Repuesto>();
+        Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS = null;
+        Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS = new ArrayList<Repuesto>();
 
         String tipificaciones[] = Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
         if (!tipificaciones[0].equals("[]")) {
@@ -244,7 +240,6 @@ public class RepuestosAutorizadasFragment extends Fragment {
             } else {
                 for (int i = 0; i < tipificaciones.length; i++) {
                     String[] rep = tipificaciones[i].split("-");
-                    System.out.println("Repuesto" + rep[1]);
                     //String spar_code,String spar_name, String quantity, String spar_warehouse
                     repuesto = new Repuesto(rep[0], rep[1], rep[2], rep[3]);
                     this.repuestos.add(repuesto);
@@ -254,9 +249,6 @@ public class RepuestosAutorizadasFragment extends Fragment {
 
         }
     }
-
-
-
 
 
     // TODO: Rename method, update argument and hook method into UI event

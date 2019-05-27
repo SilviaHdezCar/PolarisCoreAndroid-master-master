@@ -26,6 +26,7 @@ import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTipificacion
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
+import com.example.wposs_user.polariscoreandroid.Dialogs.DialogMostarFoto;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
@@ -181,18 +182,13 @@ public class TipificacionesAutorizadas extends Fragment {
 
             sort(Global.observaciones_con_fotos);
 
-            System.out.print(Global.observaciones_con_fotos.toString());
-
-
             for (int i = Global.observaciones_con_fotos.size() - 3; i < Global.observaciones_con_fotos.size(); i++) {
 
                 if (Global.observaciones_con_fotos.get(i).getTeob_photo() != null) {
                     if (!Global.observaciones_con_fotos.get(i).getTeob_photo().trim().isEmpty()) {
                         if (!buscarArreglo(Global.observaciones_con_fotos.get(i).getTeob_photo())) {
-                            System.out.println("\nagrega");
                             Global.fotos.add(Global.observaciones_con_fotos.get(i));
                         }
-                        System.out.println("\nno agg");
                     }
 
 
@@ -209,9 +205,7 @@ public class TipificacionesAutorizadas extends Fragment {
 
 
                     final String foto1 = obFoto1.getTeob_photo();
-                    System.out.println("nombre de la foto1:::" + foto1);
                     final String foto2 = obFoto2.getTeob_photo();
-                    System.out.println("nombre de la foto2:::" + foto2);
 
                     txt_nomFoto1.setText(foto1);
                     txt_nomFoto2.setText(foto2);
@@ -227,7 +221,7 @@ public class TipificacionesAutorizadas extends Fragment {
                         public void onClick(View v) {
                             //inflar fragment evidencias y carga la foto
                             Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1;
-                            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EvidenciaAutorizada()).addToBackStack(null).commit();
+                           cargarPanel();
 
                         }
                     });
@@ -236,7 +230,7 @@ public class TipificacionesAutorizadas extends Fragment {
                         public void onClick(View v) {
                             //inflar fragment evidencias y carga la foto
                             Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto2;
-                            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EvidenciaAutorizada()).addToBackStack(null).commit();
+                           cargarPanel();
 
                         }
                     });
@@ -251,7 +245,7 @@ public class TipificacionesAutorizadas extends Fragment {
 
                 if (tieneRepuestos) {
                     if (validarEstadosRepuestos()) {
-                        //System.out.println();
+                        Global.REPUESTOS_CAMBIAR_ESTADO_DANADO=repuestos;
                         objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesSeleccionarAutorizadas()).addToBackStack(null).commit();
                         return;
                     }
@@ -264,6 +258,11 @@ public class TipificacionesAutorizadas extends Fragment {
 
 
         return v;
+    }
+
+    public void cargarPanel() {
+        DialogMostarFoto dialog = new DialogMostarFoto();
+        dialog.show(objeto.getSupportFragmentManager(), "");
     }
 
     public boolean buscarArreglo(String nomFoto) {
@@ -284,8 +283,6 @@ public class TipificacionesAutorizadas extends Fragment {
     public boolean tieneRepuestos() {
         if (this.repuestos != null) {
             if (this.repuestos.size() > 0) {
-
-                System.out.println("tiene repuestos");
                 llenarTabla();
                 layout_evidencias.setVisibility(View.GONE);
                 return true;
@@ -337,18 +334,13 @@ public class TipificacionesAutorizadas extends Fragment {
             TableRow row = (TableRow) child;
             pos_fila = row.getId();
             View view = row.getChildAt(0);//celdas
-           /* if (view instanceof TextView) {
 
-                System.out.println("id: " + ((TextView) view).getText().toString());
-                view.setEnabled(false);
-            }*/
             view = row.getChildAt(1);//Celda en la posición 1
             if (view instanceof RadioButton) {
                 if (((RadioButton) view).isChecked()) {
                     this.repuestos.get(i - 1).setOk(true);
                 }
             }
-            System.out.println("Pos: " + i + "-->" + this.repuestos.get(i - 1).getSpar_name() + "-" + this.repuestos.get(i - 1).isOk());
         }
     }
 
@@ -388,15 +380,11 @@ public class TipificacionesAutorizadas extends Fragment {
      * Split de los repuestos recibidos y los agrega a la tabla
      **/
     public void llenarListaRepuestos() {
-        System.out.println("va a llenar lista rep defectuosos");
         Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS = null;
         Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS = new ArrayList<Repuesto>();
-        System.out.println("global: " + Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial().toString()));
 
         if (!Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).equalsIgnoreCase("")) {
             String reps[] = Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
-            System.out.println("repuestos pos 0:::" + reps[0]);
-            System.out.println("repuestos pos 1:::" + reps[1]);
             repuestos = new ArrayList<>();
             if (reps == null || reps.length == 0 || reps.equals("")) {
                 Toast.makeText(objeto, "No tiene repuestos", Toast.LENGTH_SHORT).show();
@@ -405,9 +393,8 @@ public class TipificacionesAutorizadas extends Fragment {
                     Repuesto repuesto = null;
                     String[] rep = null;
                     for (int i = 0; i < reps.length; i++) {
-                        System.out.println(" for repuesto: " + reps[i]);
                         rep = reps[i].split("-");
-                        if(rep!=null||rep.length>0){
+                        if (rep != null || rep.length > 0) {
                             repuesto = new Repuesto(rep[0], rep[1], rep[2], rep[3]);
                             this.repuestos.add(repuesto);
                             Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.add(repuesto);
@@ -426,7 +413,6 @@ public class TipificacionesAutorizadas extends Fragment {
     public void recorrerTipificaciones() {
 
         String tipificaciones[] = Global.tipificaciones_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
-        System.out.println("Tipificacion pos 0====" + tipificaciones[0]);
         if (!tipificaciones[0].equals("[]")) {
 
             ArrayList<String> tipificacions = new ArrayList<>();
@@ -461,7 +447,6 @@ public class TipificacionesAutorizadas extends Fragment {
 
         for (String val : tipificacionesRecibidas) {
             if (val != null) {
-                System.out.println("arreg tip: " + val);
                 tipificaciones.add(val);
             }
 
@@ -470,7 +455,7 @@ public class TipificacionesAutorizadas extends Fragment {
             rv.setAdapter(adapter);
 
         }
-        System.out.println("Tamaño del arreglo " + tipificaciones.size());
+
     }
 
 

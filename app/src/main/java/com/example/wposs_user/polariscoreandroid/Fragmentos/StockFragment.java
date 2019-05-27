@@ -69,7 +69,7 @@ public class StockFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        objeto.setTitle("            STOCK");
+        objeto.setTitle("                 STOCK");
         terminales= new ArrayList<Terminal>();
         repuestos= new ArrayList<Repuesto>();
         // Inflate the layout for this fragment
@@ -136,7 +136,6 @@ public class StockFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println("status:  " + Global.STATUS_SERVICE);
 
                             if (Global.STATUS_SERVICE.equals("fail")) {
                                 Global.mensaje = response.get("message").toString();
@@ -195,7 +194,11 @@ public class StockFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 
@@ -237,7 +240,6 @@ public class StockFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println("status:  " + Global.STATUS_SERVICE);
 
                             if (Global.STATUS_SERVICE.equals("fail")) {
                                 Global.mensaje = response.get("message").toString();
@@ -299,7 +301,11 @@ public class StockFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 

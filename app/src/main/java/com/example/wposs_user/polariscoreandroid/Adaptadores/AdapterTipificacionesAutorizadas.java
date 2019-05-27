@@ -23,7 +23,6 @@ public class AdapterTipificacionesAutorizadas extends RecyclerView.Adapter<Adapt
     }
 
     public AdapterTipificacionesAutorizadas(List<String> list, interfaceClick ic, int layoutButton) {
-        System.out.println("position: " + layoutButton);
         this.listTipificaciones = list;
         this.ic = ic;
         this.layoutButton = layoutButton;
@@ -39,7 +38,6 @@ public class AdapterTipificacionesAutorizadas extends RecyclerView.Adapter<Adapt
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolderTipificaciones holder, final int position) {
-        System.out.println("Está en Adaptador tipifi va a llernar RV");
         holder.txt_tipificacion.setText(this.listTipificaciones.get(position));
 
     }

@@ -7,37 +7,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.java.Terminal;
-import com.example.wposs_user.polariscoreandroid.java.Usuario;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
@@ -52,13 +30,13 @@ public class PerfilFragment extends Fragment {
     private TextView correo;
     private TextView ubicacion;
     private Button btn_cambiar_clave;
-
+//com.google.android.gms:play-services-ads:15.0.0
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_perfil, container, false);
 
-        objeto.setTitle("DATOS DEL USUARIO");
+        objeto.setTitle("           DATOS DEL USUARIO");
         nomUsuario = (TextView) v.findViewById(R.id.perfil_nombre_usuario);
         usuario = (TextView) v.findViewById(R.id.perfil_usuario);
         cargo = (TextView) v.findViewById(R.id.perfil_cargo);

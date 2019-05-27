@@ -324,7 +324,6 @@ public class Productividad_dia extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println("status:  " + Global.STATUS_SERVICE);
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
@@ -362,8 +361,6 @@ public class Productividad_dia extends Fragment {
                                 }
                                 productividad.add(pro);
                             }
-
-                            System.out.println("TAMAÑO DE LA RESPUESTA ************************" + productividad.size());
 
                             this.pintarGrafica();
 
@@ -439,7 +436,11 @@ public class Productividad_dia extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 

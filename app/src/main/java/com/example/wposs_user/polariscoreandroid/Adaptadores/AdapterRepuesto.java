@@ -26,8 +26,7 @@ public class AdapterRepuesto extends RecyclerView.Adapter<AdapterRepuesto.ViewHo
     }
 
     public AdapterRepuesto(List<Repuesto> list, interfaceClick ic, int layoutButton) {
-        System.out.println("position: "+layoutButton);
-        this.listRepuesto = list;
+       this.listRepuesto = list;
         this.ic = ic;
         this.layoutButton = layoutButton;
     }

@@ -33,8 +33,7 @@ public class AdapterEvidenciasAutorizadas extends RecyclerView.Adapter<AdapterEv
     }
 
     public AdapterEvidenciasAutorizadas(List<Observacion> list, interfaceClick ic, int layoutButton) {
-        System.out.println("position: " + layoutButton);
-        this.listObservaciones = list;
+       this.listObservaciones = list;
         this.ic = ic;
         this.layoutButton = layoutButton;
     }
@@ -49,7 +48,6 @@ public class AdapterEvidenciasAutorizadas extends RecyclerView.Adapter<AdapterEv
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolderEvidencias holder, final int position) {
-        System.out.println("Está en Adaptador tipifi va a llernar RV");
         String nomfotos=listObservaciones.get(position).getTeob_photo().trim();
         String foto1="";
         String foto2="";

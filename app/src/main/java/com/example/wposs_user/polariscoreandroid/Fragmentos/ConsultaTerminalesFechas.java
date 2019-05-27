@@ -90,7 +90,7 @@ public class ConsultaTerminalesFechas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_consulta_terminales_fechas, container, false);
-        objeto.setTitle("      BÚSQUEDA POR FECHAS");
+        objeto.setTitle("          BÚSQUEDA POR FECHAS");
         buscar_terminales_fecha=(ImageView)view.findViewById(R.id.btn_buscar_terminalesPorFechas) ;
 
         terminales= new ArrayList<>();
@@ -260,15 +260,12 @@ public class ConsultaTerminalesFechas extends Fragment {
         int mes_inicio = Integer.parseInt(fecha[1]);
         int año_inicio = Integer.parseInt(fecha[2]);
 
-        System.out.println("Fecha inicial:  " + "dia:" + dia_inicio + "mes:" + mes_inicio + "año:" + año_inicio);
 
         String fecha_final = f_fin.getText().toString();
         String[] fechaFin = fecha_final.split("/");
         int dia_fin = Integer.parseInt(fechaFin[0]);
         int mes_fin = Integer.parseInt(fechaFin[1]);
         int año_fin = Integer.parseInt(fechaFin[2]);
-
-        System.out.println("Fecha final:  " + "dia:" + dia_fin + "mes:" + mes_fin + "año:" + año_fin);
 
 
         if (año_fin < año_inicio) {
@@ -334,7 +331,6 @@ public class ConsultaTerminalesFechas extends Fragment {
             jsonObject.put("user", Global.CODE);
             jsonObject.put("fechaInicio", fecha_inicio);
             jsonObject.put("fechaFin", fecha_fin);
-            System.out.println(jsonObject.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -347,7 +343,6 @@ public class ConsultaTerminalesFechas extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println("status:  " + Global.STATUS_SERVICE);
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
@@ -361,10 +356,6 @@ public class ConsultaTerminalesFechas extends Fragment {
 
 
                             response = new JSONObject(response.toString());
-
-                            System.out.println("REPUESTA DEL SERVICIO****************" + response);
-
-
 
 
                             JSONArray jsonArray = response.getJSONArray("diagnosticos");
@@ -407,9 +398,6 @@ public class ConsultaTerminalesFechas extends Fragment {
                             AdapterTerminalStock adapter= new AdapterTerminalStock(view.getContext(),terminales);
                             rv.setAdapter(adapter);
 
-                            System.out.println("TAMAÑO DE LA RESPUESTA ************************" + terminales.size());
-
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -425,7 +413,11 @@ public class ConsultaTerminalesFechas extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 

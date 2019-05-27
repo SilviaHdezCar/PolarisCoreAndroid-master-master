@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blanco"
     tools:context=".Fragmentos.RepuestoDefectuosoAutorizadas">
 
     <LinearLayout
@@ -16,9 +17,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="Selecciones el repuesto defectuoso"
+            android:text="Seleccione el repuesto defectuoso"
             android:gravity="center"
             style="@style/letra_contenido"
+            android:textColor="@color/negro"
             android:layout_margin="10dp"/>
 
         <LinearLayout
@@ -59,17 +61,43 @@
 
         </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:background="@color/gris_fondo"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/observation"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Observaciones"
+                android:textColor="@color/negro"
+                android:textSize="16dp"
+                android:layout_marginLeft="4dp"
+                android:padding="2dp"
+                />
+
+        </LinearLayout>
+
+
         <EditText
             android:id="@+id/txt_observacion_repuesto"
-            style="@style/letra_contenido"
+            style="@style/letra_contenido2"
             android:layout_width="350dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:background="@drawable/redondo_fondo_blanco"
+            android:background="@drawable/redondo_gris_fondo_gris"
             android:gravity="top|left"
             android:hint="Observación obliogatoria"
-            android:inputType="textMultiLine|textCapSentences"
+            android:inputType="textMultiLine|textCapCharacters"
             android:maxLength="300"
             android:padding="5dp" />
 

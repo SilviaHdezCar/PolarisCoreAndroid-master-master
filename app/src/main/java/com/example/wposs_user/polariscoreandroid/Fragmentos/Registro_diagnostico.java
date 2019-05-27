@@ -100,9 +100,6 @@ public class Registro_diagnostico extends Fragment {
         }
 
 
-        System.out.println("TAMAÑO DE LAS TIPIFICACIONES    " + Global.TIPIFICACIONES_DIAGNOSTICO.size());
-
-
         this.consumirServicioRepuestos();
 
         cantidad_req.setEnabled(false);
@@ -158,7 +155,6 @@ public class Registro_diagnostico extends Fragment {
                 Global.codigo_rep = repuest[0];
                 cantidad_req.setEnabled(true);
 
-                System.out.println(" Codigo del repuesto seleccionado;" + Global.codigo_rep);
                 InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
                 in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
             }
@@ -198,7 +194,7 @@ public class Registro_diagnostico extends Fragment {
         }
 
         if (cant.isEmpty()) {
-            Toast.makeText(objeto, "Debe ingresar una cantidad valida", Toast.LENGTH_SHORT).show();
+            Toast.makeText(objeto, "Debe ingresar una cantidad válida", Toast.LENGTH_SHORT).show();
             Global.codigo_rep = "";
             return;
         }
@@ -284,7 +280,7 @@ public class Registro_diagnostico extends Fragment {
 
         if (Global.REPUESTOS_DIAGONOSTICO.size() == 0 && descripicionObserv.trim().isEmpty()) {
 
-            Toast.makeText(objeto, "Debe agregar como minimo un repuesto o una observación", Toast.LENGTH_SHORT).show();
+            Toast.makeText(objeto, "Debe agregar como mínimo un repuesto o una observación", Toast.LENGTH_SHORT).show();
             return;
 
         }
@@ -293,7 +289,7 @@ public class Registro_diagnostico extends Fragment {
         if (Global.REPUESTOS_DIAGONOSTICO.size() == 0) {
 
             if (descripicionObserv.isEmpty()) {
-                Toast.makeText(objeto, "Debe agregar un repuesto al menos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(objeto, "Debe agregar al menos un repuesto", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -377,7 +373,7 @@ public class Registro_diagnostico extends Fragment {
 
 
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("INFORMACIÓN");
+                                alertDialog.setTitle("Información");
                                 alertDialog.setMessage("Error: " + response.get("message").toString() + "\n");
                                 alertDialog.setCancelable(true);
 
@@ -413,7 +409,11 @@ public class Registro_diagnostico extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 
@@ -444,8 +444,7 @@ public class Registro_diagnostico extends Fragment {
 
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals/savediagnosis";
-        System.out.println("enviando...........");
-        JSONObject jsonObject = new JSONObject();
+       JSONObject jsonObject = new JSONObject();
         JSONObject obj2 = new JSONObject();
         try {
 
@@ -487,7 +486,7 @@ public class Registro_diagnostico extends Fragment {
                                     return;
                                 }
                                 AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("INFORMACIÓN");
+                                alertDialog.setTitle("Información");
                                 alertDialog.setMessage("Error: " + response.get("message").toString() + "\n");
                                 alertDialog.setCancelable(true);
 
@@ -524,7 +523,11 @@ public class Registro_diagnostico extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 
@@ -623,7 +626,11 @@ public class Registro_diagnostico extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 

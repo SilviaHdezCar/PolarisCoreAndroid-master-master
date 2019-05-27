@@ -48,7 +48,7 @@ import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesCl
 public class ActualizarClave_perfil extends Fragment {
 
     private View v;
-    private TextView btn_validar;
+    private Button btn_validar;
     private EditText perfil_clave_actual;
     private EditText perfil_clave_nueva;
     private EditText perfil_clave_confirmar;
@@ -66,9 +66,9 @@ public class ActualizarClave_perfil extends Fragment {
 
         v = inflater.inflate(R.layout.fragment_actualizar_clave_perfil, container, false);
 
-        objeto.setTitle("ACTUALIZAR CONTRASEÑA");
+        objeto.setTitle("       ACTUALIZAR CONTRASEÑA");
         queue = Volley.newRequestQueue(objeto);
-        btn_validar = (TextView) v.findViewById(R.id.lbl_validarClave);
+        btn_validar = (Button) v.findViewById(R.id.lbl_validarClave);
         perfil_clave_actual = (EditText) v.findViewById(R.id.perfil_clave_actual);
         perfil_clave_nueva = (EditText) v.findViewById(R.id.perfil_clave_nueva);
         perfil_clave_confirmar = (EditText) v.findViewById(R.id.perfil_clave_confirmar);
@@ -178,7 +178,7 @@ public class ActualizarClave_perfil extends Fragment {
                 contNumero++;
             }
         }
-        if (contLetraMay > 0 && contNumero > 3 && contLetraMin > 0) {
+        if (contLetraMay > 0 && contNumero > 0 && contLetraMin > 0) {
             return true;
         }
         return false;
@@ -244,7 +244,11 @@ public class ActualizarClave_perfil extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 
@@ -322,7 +326,11 @@ public class ActualizarClave_perfil extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 

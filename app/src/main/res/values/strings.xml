@@ -25,6 +25,7 @@
 
     <string name="informacion_huella">Tenga en cuenta que cualquier huella registrada en este dispositivo podrá ser utilizada para acceder a la aplicación.</string>
     <string name="informacion2_huella">Puede desactivar esta opción en cualquier momento desde la aplicación, en el menú / Autenticación con huella</string>
+    <string name="informacion3_huella">Ingresa su correo y la contraseña para habilitar el inicio de sesión por huella</string>
 
 
     <string-array name="preguntas">

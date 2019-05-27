@@ -98,7 +98,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
 
-import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.getValueStrPreference;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.getValueStrPreferenceLogueoHuella;
@@ -308,8 +307,11 @@ public class Activity_login extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(Activity_login.this, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto_login, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 
@@ -405,8 +407,11 @@ public class Activity_login extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(getApplicationContext(), "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto_login, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 

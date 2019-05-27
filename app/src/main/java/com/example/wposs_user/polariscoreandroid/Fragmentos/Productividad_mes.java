@@ -226,7 +226,6 @@ public class Productividad_mes extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println("status:  " + Global.STATUS_SERVICE);
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
@@ -242,8 +241,6 @@ public class Productividad_mes extends Fragment {
 
 
                             response = new JSONObject(response.get("data").toString());
-                            System.out.println("REPUESTA DEL SERVICIO****************" + response.toString().trim());
-
 
                             JSONArray jsonArray = response.getJSONArray("productividad");
 
@@ -267,8 +264,6 @@ public class Productividad_mes extends Fragment {
                                 productividad.add(pro);
                             }
 
-                            System.out.println("TAMAÑO DE LA RESPUESTA ************************" + productividad.size());
-
                             this.pintarGrafica();
 
                         } catch (JSONException e) {
@@ -283,18 +278,6 @@ public class Productividad_mes extends Fragment {
                         ArrayList<Entry> diagnosticadas = new ArrayList<>();
                         ArrayList<Entry> reparadas = new ArrayList<>();
 
-
-
-
-
-          /*    System.out.println(productividad.toString());
-
-              BarGraphSeries<DataPoint> diagnostico = null;
-              BarGraphSeries<DataPoint>  reparadas= null;
-              DataPoint[] datos1= new DataPoint[productividad.size()];
-              DataPoint[] datos2= new DataPoint[productividad.size()];
-              diagnostico = new BarGraphSeries<>(new DataPoint[]{});
-              reparadas = new BarGraphSeries<>(new DataPoint[]{ });*/
                         Productividad[] pro = llenarSerie();
                         Arrays.sort(pro);
 
@@ -320,12 +303,6 @@ public class Productividad_mes extends Fragment {
                             reparado[diaDado] = new Entry(diaDado, q);
 
 
-                            System.out.println("Posicion****" + diaDado + "*****" + reparado[diaDado].toString() + "\n");
-
-
-                   /*diagnosticadas.add(new BarEntry(diaDado,productividad.get(i).getUste_associated_terminals()));
-                  reparadas.add(new BarEntry(diaDado,productividad.get(i).getUste_completed_terminals()));*/
-
                         }
 
 
@@ -343,7 +320,6 @@ public class Productividad_mes extends Fragment {
 
                         ArrayList<Entry> datosDiagnostico = getValoresArray(diagnostico);
                         ArrayList<Entry> datosReparadas = getValoresArray(reparado);
-                        System.out.println("ARRAYLIST DE DATOS**************" + datosReparadas.toString());
 
                         ArrayList<ILineDataSet> datos5 = new ArrayList<>();
                         LineDataSet misdatos = new LineDataSet(datosDiagnostico, "Diagnosticadas");
@@ -385,7 +361,11 @@ public class Productividad_mes extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 

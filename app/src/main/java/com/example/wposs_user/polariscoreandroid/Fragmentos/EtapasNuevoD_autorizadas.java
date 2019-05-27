@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
+import static java.util.Collections.sort;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -215,7 +216,6 @@ public class EtapasNuevoD_autorizadas extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println("status:  " + Global.STATUS_SERVICE);
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
@@ -230,26 +230,18 @@ public class EtapasNuevoD_autorizadas extends Fragment {
                             response = new JSONObject(response.get("data").toString());
 
                             JSONArray jsonArray = response.getJSONArray("observaciones");
-
-
-                            if (jsonArray.length() == 0) {
-                                Global.mensaje = "No tiene obervaciones";
-                                return;
-                            }
-
                             String obser = null;
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                obser = jsonArray.getString(i);
-
-                                o = gson.fromJson(obser, Observacion.class);
-                               /* if (o.getTeob_fecha() != null) {
-                                    o.setTeob_fecha(Utils.darFormatoFechaObservaciones(o.getTeob_fecha()));
-                                }*//*if (o.getTeob_photo()!=null||!o.getTeob_photo().trim().isEmpty()) {
-                                    Global.observaciones_con_fotos.add(o);
-                                }*/
-                                Global.OBSERVACIONES.add(o);
+                            if (jsonArray.length() > 0) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    obser = jsonArray.getString(i);
+                                    o = gson.fromJson(obser, Observacion.class);
+                                    Global.OBSERVACIONES.add(o);
+                                }
+                                if(Global.OBSERVACIONES!=null){
+                                    sort(Global.OBSERVACIONES);
+                                }
                             }
+
                             llenarRVEtapas(Global.OBSERVACIONES);
 
 
@@ -264,7 +256,11 @@ public class EtapasNuevoD_autorizadas extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 
@@ -296,12 +292,10 @@ public class EtapasNuevoD_autorizadas extends Fragment {
 
         ArrayList observations = new ArrayList<>();
 
-        for (Observacion observ : observaciones) {
-            if (observ != null) {
-                if (observ.getTeob_description() != null) {
-                    if (!observ.getTeob_description().trim().isEmpty()) {
-                        observations.add(observ);
-                    }
+        for (int i = observaciones.size()-1;i>=0;i--){
+            if(observaciones.get(i)!=null){
+                if(!observaciones.get(i).getTeob_description().trim().isEmpty()){
+                    observations.add(observaciones.get(i));
                 }
             }
         }
@@ -310,16 +304,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
         final AdapterEtapa adapter = new AdapterEtapa(observations, new AdapterEtapa.interfaceClick() {
             @Override
             public void onClick(List<Observacion> observaciones, int position) {
-                //Validar fotos: SI--> Pasa al fragment que contiene las fotos. NO-->infla el fragment de validaciones
-                String foto1 = observaciones.get(position).getTeob_photo();
-                String foto2 = observaciones.get(position).getTeob_photo();//validar con la foto dos
-                if (!foto1.isEmpty() || !foto2.isEmpty()) {
-                    Global.foto1_etapa_ter = foto1;
-                    Global.foto2_etapa_ter = foto2;
-                  //  objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new FotoObservacionFragment()).addToBackStack(null).commit();
-                } else {
-                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
-                }
+
             }
         }, R.layout.panel_etapas);
 
@@ -381,7 +366,11 @@ public class EtapasNuevoD_autorizadas extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 

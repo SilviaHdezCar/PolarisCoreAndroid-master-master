@@ -2,6 +2,7 @@ package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,7 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
-import com.example.wposs_user.polariscoreandroid.Dialogs.DialogFallaDetectada_autorizadas;
+import com.example.wposs_user.polariscoreandroid.Dialogs.DialogFallaDetectada;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 
@@ -36,7 +37,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -124,10 +124,9 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                 if (verificacionEstados.equalsIgnoreCase("faltan")) {
                     return;
                 } else {
-                    System.out.println("verificación--> " + verificacionEstados);
                     if (verificacionEstados.equalsIgnoreCase("ok")) {
-                        consumirServiciosCambiarEstadosRep();
-                        consumirServicioReparacionExitosa();
+                        consumirServiciosCambiarEstadosRep();//CAMBIA EL ESTADO DE NUEVO A DAÑADO
+                        //  consumirServicioReparacionExitosa();
                     } else if (verificacionEstados.equalsIgnoreCase("falla")) {
                         fallaDetectada();
 
@@ -162,7 +161,6 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                     alertDialog.show();
                     return "faltan";
                 } else {
-                    System.out.println(Global.VALIDACIONES.get(i).getTeva_description() + "-" + Global.VALIDACIONES.get(i).getEstado());
                     if (val.getEstado().equalsIgnoreCase("falla")) {
                         contFalla++;
                     }
@@ -174,7 +172,6 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
         } else {
             retorno = "falla";
         }
-        System.out.println("Con falla: " + contFalla);
         return retorno;
     }
 
@@ -194,41 +191,31 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
             View child = tabla.getChildAt(i);
             TableRow row = (TableRow) child;
             pos_fila = row.getId();
-            System.out.println("fila: " + pos_fila);
             View view = row.getChildAt(0);//celdas
-           /* if (view instanceof TextView) {
 
-                System.out.println("id: " + ((TextView) view).getText().toString());
-                view.setEnabled(false);
-            }*/
             view = row.getChildAt(1);//celda en la pos 1
             if (view instanceof RadioGroup) {
                 pos_radio = ((RadioGroup) view).getCheckedRadioButtonId();
-                System.out.println("Pos_radio: " + pos_radio);
 
                 if (pos_radio == (300 + pos_fila)) {
                     Global.VALIDACIONES.get(i - 1).setEstado("ok");
                     Global.VALIDACIONES.get(i - 1).setOk(true);
                     Global.VALIDACIONES.get(i - 1).setFalla(false);
                     Global.VALIDACIONES.get(i - 1).setNo_aplica(false);
-                    System.out.println("isOK");
                 }
                 if (pos_radio == (400 + pos_fila)) {
                     Global.VALIDACIONES.get(i - 1).setEstado("falla");
                     Global.VALIDACIONES.get(i - 1).setOk(false);
                     Global.VALIDACIONES.get(i - 1).setFalla(true);
                     Global.VALIDACIONES.get(i - 1).setNo_aplica(false);
-                    System.out.println("isFalla");
                 }
                 if (pos_radio == (500 + pos_fila)) {
                     Global.VALIDACIONES.get(i - 1).setEstado("na");
                     Global.VALIDACIONES.get(i - 1).setOk(false);
                     Global.VALIDACIONES.get(i - 1).setFalla(false);
                     Global.VALIDACIONES.get(i - 1).setNo_aplica(true);
-                    System.out.println("isNa");
                 }
             }
-            System.out.println("Pos: " + i + "-->" + Global.VALIDACIONES.get(i - 1).getTeva_description() + "-" + Global.VALIDACIONES.get(i - 1).getEstado());
         }
     }
 
@@ -252,7 +239,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
             nombre.setId(200 + i);
             nombre.setText(Global.VALIDACIONES.get(i).getTeva_description());
             nombre.setWidth(2);
-            nombre.setPadding(20,0,0,0);
+            nombre.setPadding(20, 0, 0, 0);
 
             RadioGroup rg = new RadioGroup(objeto);
 
@@ -308,14 +295,13 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
 
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals/saveDiagnosisQa";
-        System.out.println("REPARACION EXITOSA ");
 
         JSONObject jsonObject = new JSONObject();
         try {
 
             JSONArray val = this.getValidaciones();
             jsonObject.put("validaciones", val);
-           // jsonObject.put("term_serial", Global.serial_ter);
+            // jsonObject.put("term_serial", Global.serial_ter);
 
             Log.d("RESPUESTA", jsonObject.toString());
 
@@ -331,9 +317,8 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            System.out.println("STATUS-->" + response.get("status").toString());
                             if (response.get("status").toString().equals("fail")) {
-                                Global.mensaje=response.get("message").toString();
+                                Global.mensaje = response.get("message").toString();
                                 if (Global.mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
                                     objeto.consumirSercivioCerrarSesion();
@@ -346,12 +331,13 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                                 alertDialog.show();
 
                             } else {
-                                eliminarPila();
-                                AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+
+                                final AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                                 alertDialog.setTitle("Información");
                                 alertDialog.setMessage("Reparación finalizada");
                                 alertDialog.setCancelable(true);
                                 alertDialog.show();
+                                eliminarPila();
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
 
@@ -366,7 +352,11 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()){
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
 
@@ -383,24 +373,30 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
 
     }
 
+    public void crearAlertDialog() {
+
+
+    }
+
+
     /**
-     * METODO QUE RECORRE LOS REPUESTOS Y LS AGREGA AL ARREGLO
+     * METODO QUE RECORRE LOS REPUESTOS Y LE CAMBIA EL ESTADO A DAÑADO
      **/
-    public void consumirServiciosCambiarEstadosRep(){
+    public void consumirServiciosCambiarEstadosRep() {
 
 //cambia estado a nuevo
-        for (int i = 0; i < Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size(); i++) {
-            //CONSUMO LOS DOS SERVICIOD
+        for (int i = 0; i < Global.REPUESTOS_CAMBIAR_ESTADO_DANADO.size(); i++) {
+            //CONSUMO LOS DOS SERVICIOD-->PARA CAMBIAR EL ESTADO DE LOS REPUESTOS
             //consumo servio body 1
             String urlBody1 = "http://100.25.214.91:3000/PolarisCore/Spares/actualizarSpare";
             JSONObject jsonObject1 = new JSONObject();
             try {
 
                 // Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getObj()
-                jsonObject1.put("spar_code", Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i).getSpar_code());
+                jsonObject1.put("spar_code", Global.REPUESTOS_CAMBIAR_ESTADO_DANADO.get(i).getSpar_code());
                 jsonObject1.put("spar_status", "NUEVO");
                 jsonObject1.put("spar_warehouse", Global.CODE);//REvisar nombre llave
-                jsonObject1.put("spar_quantity", Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i).getSpar_quantity());
+                jsonObject1.put("spar_quantity", Global.REPUESTOS_CAMBIAR_ESTADO_DANADO.get(i).getSpar_quantity());
 
                 Log.d("RESPUESTA", jsonObject1.toString());
 
@@ -423,11 +419,9 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                                         objeto.consumirSercivioCerrarSesion();
                                         return;
                                     }
-                                    System.out.println("!success servicio body 1");
                                     return;
 
                                 }
-                                System.out.println("cambiar estado dañado bien");
                                 return;
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -440,7 +434,11 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                            Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            if (error.getMessage() != null) {
+                                if (!error.getMessage().isEmpty()){
+                                    Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
                         }
                     }
 
@@ -454,19 +452,17 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
             };
 
             queue2.add(jsArrayRequest1);
-
-   //cambia estado a Dañado
             //consumo servio body 2
             String urlBody2 = "http://100.25.214.91:3000/PolarisCore/Spares/actualizarSpare";
             JSONObject jsonObjectBody2 = new JSONObject();
             try {
 
                 // Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getObj()
-                jsonObjectBody2.put("spar_code", Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i).getSpar_code());
+                jsonObjectBody2.put("spar_code", Global.REPUESTOS_CAMBIAR_ESTADO_DANADO.get(i).getSpar_code());
                 jsonObjectBody2.put("spar_status", "DAÑADO");
-                jsonObjectBody2.put("spar_warehouse", Global.CODE);//REvisar nombre llave
-                jsonObjectBody2.put("spar_quantity", Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i).getSpar_quantity());
-                jsonObjectBody2.put("spar_warehouse_new", Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i).getSpar_warehouse());
+                jsonObjectBody2.put("spar_warehouse",Global.REPUESTOS_CAMBIAR_ESTADO_DANADO.get(i).getSpar_warehouse() );//REvisar nombre llave
+                jsonObjectBody2.put("spar_quantity", Global.REPUESTOS_CAMBIAR_ESTADO_DANADO.get(i).getSpar_quantity());
+                jsonObjectBody2.put("spar_warehouse_new",Global.CODE);
 
                 Log.d("RESPUESTA", jsonObjectBody2.toString());
 
@@ -489,7 +485,6 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                                         objeto.consumirSercivioCerrarSesion();
                                         return;
                                     }
-                                    System.out.println("!success servicio body 1");
                                     return;
 
                                 }
@@ -505,7 +500,11 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
-                            Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            if (error.getMessage() != null) {
+                                if (!error.getMessage().isEmpty()){
+                                    Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
                         }
                     }
 
@@ -519,14 +518,13 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
             };
 
             queue3.add(jsArrayRequest2);
-
+            consumirServicioReparacionExitosa();
         }
 
     }
 
     /**
      * Este metodo elimina todos los fragmentos de la pila
-     * ()
      */
     public void eliminarPila() {
         FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -540,7 +538,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
      * Este metodo infla el cuadro de dialogo donde permite seleccionar la razón de la falla detectada
      */
     public void fallaDetectada() {
-        DialogFallaDetectada_autorizadas dialog = new DialogFallaDetectada_autorizadas();
+        DialogFallaDetectada dialog = new DialogFallaDetectada();
         dialog.show(objeto.getSupportFragmentManager(), "");
     }
 

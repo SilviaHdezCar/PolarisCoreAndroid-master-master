@@ -5,8 +5,8 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/img_datafono"
-            android:title="Terminales"
+            android:icon="@drawable/ic_home"
+            android:title="Inicio"
 
             />
         <item
@@ -30,20 +30,14 @@
         <item
             android:id="@+id/nav_autenticacion_huella"
             android:icon="@mipmap/ic_huella"
-            android:title="Autenticaciòn con huella"
+            android:title="Autenticación con huella"
+            />
+        <item
+            android:id="@+id/nav_cerrar_sesion"
+            android:icon="@drawable/ic_cerrar_sesion"
+            android:title="Cerrar sesión"
             />
     </group>
 
-    <item android:title="">
-        <menu>
-
-            <item
-                android:id="@+id/nav_cerrar_sesion"
-                android:icon="@drawable/ic_cerrar_sesion"
-                android:title="Cerrar sesion"
-                />
-
-        </menu>
-    </item>
 
 </menu>

@@ -160,7 +160,6 @@ public class Messages {
         Global.inputData = Global.httpDataBuffer.getBytes();
 
         tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
-        System.out.println("trama completa: " + tramaCompleta);
 
         JSONObject jsonObject = null;
         try {
@@ -409,7 +408,6 @@ public class Messages {
             JSONArray jsonArray = jsonObject.getJSONArray("validaciones");
 
 
-            System.out.println("**************************TAMAÑO DEL ARREGLO DE VALIDACIONES: " + jsonArray.length());
             if (jsonArray.length() == 0) {
                 Global.mensaje = "No tiene validaciones";
                 return true;
@@ -551,7 +549,6 @@ public class Messages {
 
 
         tramaCompleta = uninterpret_ASCII(Global.inputData, indice, Global.inputData.length);//se convierte arreglo de bytes a string
-        System.out.println("TAMAÑO DE LA TRAMA " + Global.httpDataBuffer.length() + " inputData " + Global.inputData.length);
 
 
         Gson gson = new GsonBuilder().create();
@@ -649,12 +646,10 @@ public class Messages {
 
             if (jsonObject.get("status").toString().equals("fail")) {
                 Global.STATUS_SERVICE = jsonObject.getString("status");
-                System.out.println("--------------ENTRÓ AL MSJ DE ERROR");
-                return false;
+               return false;
 
             }
 
-            System.out.println("*********Obtiene el arreglo de repuestos");
 
             Object data = jsonObject.get("data");
             jsonObject = new JSONObject(data.toString());
@@ -662,7 +657,6 @@ public class Messages {
             JSONArray jsonArray = jsonObject.getJSONArray("repuestos");
 
             Global.REPUESTOS = new ArrayList<Repuesto>();
-            System.out.println("Va a recorrer el JsonArray de repuestos");
             if (jsonArray.length() == 0) {
                 Global.mensaje = "No se encontraron repuestos asociados a la terminal";
                 return true;
@@ -671,7 +665,6 @@ public class Messages {
                 String obs = jsonArray.getString(i);
 
                 r = gson.fromJson(obs, Repuesto.class);
-                System.out.println("***********Va a agg Repuesto a la List<Repuestos>*************Repuesto(" + i + "): " + r.toString());
                 Global.REPUESTOS.add(r);
 
             }
@@ -679,7 +672,6 @@ public class Messages {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        System.out.print("numero de repuestos" + "  " + Global.REPUESTOS.size());
 
         return true;
 
@@ -697,7 +689,6 @@ public class Messages {
         Bitmap bmp = BitmapFactory.decodeByteArray(Global.inputData, 0, Global.inputData.length);
           Global.foto_perfil= new ImageView(c);
         Global.foto_perfil.setImageBitmap(bmp);
-       System.out.print("PRUEBA"+uninterpret_ASCII(Global.inputData,0, Global.inputData.length));
 
     }
 
@@ -737,7 +728,6 @@ public class Messages {
             JSONArray jsonArray = jsonObject.getJSONArray("observaciones");
 
             Global.OBSERVACIONES = new ArrayList<Observacion>();
-            System.out.println("*******************Tamaño del arreglo de observaciones: " + jsonArray.length());
             if (jsonArray.length() == 0) {
                 Global.mensaje = "No tiene observaciones";
                 return true;
