@@ -40,7 +40,6 @@ import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -220,8 +219,6 @@ public class StockFragment extends Fragment {
 
     /********************************metodo usaddo para mostrar en stock los repuestos asignados a un tecnico****************/
 
-    private Repuesto r;
-
     public void servicioRpuestoStock(){
         final  ArrayList<Repuesto>repuestos= new ArrayList<>();
         final ArrayList<Repuesto>rep=new ArrayList<>();
@@ -271,26 +268,18 @@ public class StockFragment extends Fragment {
 
                             else {
 
-                                String rep = null;
+                                String ter = null;
 
                                 for (int i = 0; i < jsonArray1.length(); i++) {
-                                    rep = jsonArray1.getString(i);
+                                    ter = jsonArray1.getString(i);
 
-
-                                    r = gson.fromJson(rep, Repuesto.class);
-
-
-                                    if (r != null) {
-
-                                        if(r.getSpar_quantity().equals("NaN")){
-                                            r.setSpar_quantity("0");
-                                        }
-                                        repuestos.add(r);
-                                        }
+                                    Repuesto r = gson.fromJson(ter, Repuesto.class);
+                                    if (r != null && r.getSpar_quantity()>0) {
                                     }
+                                    repuestos.add(r);
                                 }
-
-
+                            }
+                            
 
                             rv.setHasFixedSize(true);
                             LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
