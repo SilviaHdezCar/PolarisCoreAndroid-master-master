@@ -51,6 +51,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +71,7 @@ public class Registro_diagnostico extends Fragment {
     private Button agregar;
     private EditText observ;
     private Button registroDiag;
-    android.support.v4.app.FragmentManager fragmentManager;
+    FragmentManager fragmentManager;
     private RequestQueue queue;
     private LinearLayout linea;
     private int fallas = 0;
@@ -213,18 +214,15 @@ public class Registro_diagnostico extends Fragment {
         for (int i = 0; i < Global.REPUESTOS.size(); i++) {
 
             if (Global.REPUESTOS.get(i).getSpar_code().equals(Global.codigo_rep)) {
-                if (Global.REPUESTOS.get(i).getSpar_quantity() < cant_solicitada) {
-                    Toast.makeText(objeto, "El repuesto seleccionado no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
-                Repuesto r = new Repuesto(Global.REPUESTOS.get(i).getSpar_code(), Global.REPUESTOS.get(i).getSpar_name(), cant_solicitada, Global.REPUESTOS.get(i).getSpar_warehouse());
+                Repuesto r = new Repuesto(Global.REPUESTOS.get(i).getSpar_code(), Global.REPUESTOS.get(i).getSpar_name(), String.valueOf(cant_solicitada), Global.REPUESTOS.get(i).getSpar_warehouse());
 
                 for (Repuesto rt : Global.REPUESTOS_DIAGONOSTICO) {
                     if (rt.getSpar_code().equals(r.getSpar_code())) {
 
                         Global.REPUESTOS_DIAGONOSTICO.remove(rt);
-                        r.setSpar_quantity(rt.getSpar_quantity() + cant_solicitada);
+                        int suma= Integer.parseInt(rt.getSpar_quantity())+cant_solicitada;
+                        r.setSpar_quantity(String.valueOf(suma));
                         Global.REPUESTOS_DIAGONOSTICO.add(r);
                         this.llenarRv();
                         cantidad_req.setText("");
@@ -609,10 +607,20 @@ public class Registro_diagnostico extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 rep = jsonArray.getString(i);
 
+
                                 r = gson.fromJson(rep, Repuesto.class);
+
                                 if (r != null) {
+
+                                    if(r.getSpar_quantity().equals("NaN")){
+                                        r.setSpar_quantity("0");
+
+                                    }
+
+                               if(Integer.parseInt(r.getSpar_quantity())>0) {
+                                   Global.REPUESTOS.add(r);
+                               }
                                 }
-                                Global.REPUESTOS.add(r);
                             }
                             llenarAutocomplete();
                         } catch (JSONException e) {
