@@ -128,6 +128,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_etapas_terminal_autorizada, container, false);
+        objeto.setTitulo("ETAPAS");
         if(Global.diagnosticoTerminal.equalsIgnoreCase("autorizada")){
             Global.lista_tipificaciones_tabla=new ArrayList<Tipificacion>();
             Global.listTipificaciones=new ArrayList<Tipificacion>();

@@ -37,7 +37,7 @@
                         android:paddingLeft="5dp"
                         android:paddingRight="10dp"
                         android:scrollbars="vertical"
-                        android:text="Observaciones" />
+                        android:text="ETAPAS" />
 
                     <LinearLayout
                         android:id="@+id/select_observaciones"

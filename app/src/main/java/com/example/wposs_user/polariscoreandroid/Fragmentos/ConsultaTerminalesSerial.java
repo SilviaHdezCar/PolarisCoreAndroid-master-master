@@ -74,7 +74,7 @@ public class ConsultaTerminalesSerial extends Fragment {
                              Bundle savedInstanceState) {
         Global.soloConsulta = "si";
         view = inflater.inflate(R.layout.fragment_consultar_terminales_serial, container, false);
-        objeto.setTitle("          BÚSQUEDA POR SERIAL");
+        objeto.setTitulo("BÚSQUEDA POR SERIAL");
         queue = Volley.newRequestQueue(objeto);
         //servicioTerminales();
 

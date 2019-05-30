@@ -42,7 +42,6 @@ public class AdapterTerminal_asociada extends RecyclerView.Adapter<AdapterTermin
 
     @Override
     public void onBindViewHolder(final ViewHolderTerminal holder, final int i) {
-        String fechaRecepción = "";
         String fechaANS = "";
         holder.serial.setText(this.listTerminal.get(i).getTerm_serial());
         holder.marca.setText(this.listTerminal.get(i).getTerm_brand());
@@ -51,13 +50,10 @@ public class AdapterTerminal_asociada extends RecyclerView.Adapter<AdapterTermin
         String estado = this.listTerminal.get(i).getTerm_status();
         holder.estado.setText(estado);
         holder.fechaANS.setText("");
-        if (this.listTerminal.get(i).getTerm_date_reception() != null) {
-            fechaRecepción = Utils.darFormatoFecha2(this.listTerminal.get(i).getTerm_date_reception());
-            holder.fechaANS.setText(fechaRecepción);
-        }
+
         if (this.listTerminal.get(i).getTerm_date_ans() != null) {
             fechaANS = Utils.darFormatoFecha2(this.listTerminal.get(i).getTerm_date_reception());
-            holder.fechaANS.setText(holder.fechaANS.getText().toString() + " - " + fechaANS);
+            holder.fechaANS.setText(fechaANS);
         }
 
        if (estado.equals("QA")) {

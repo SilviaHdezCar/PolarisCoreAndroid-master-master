@@ -10,29 +10,23 @@ public class Repuesto {
 
 
     String spar_id,spar_code,spar_date_register,spar_name,spar_register_by,spar_status,spar_status_temporal,spar_terminal_model,spar_warehouse;
-    int spar_quantity;
+    String spar_quantity;
 
     private boolean ok;
 
     public Repuesto() {
     }
 
-    public Repuesto(String spar_code,String spar_name, String quantity, String spar_warehouse ) {
-        this.spar_code = spar_code;
-        this.spar_name = spar_name;
-        this.spar_quantity = Integer.parseInt(quantity);
-        this.spar_warehouse = spar_warehouse;
-        this.ok = false;
-    }
 
-    public Repuesto(String spar_code, String spar_name, int spar_quantity, String spar_warehouse) {
+    public Repuesto(String spar_code, String spar_name, String spar_quantity, String spar_warehouse) {
         this.spar_code = spar_code;
         this.spar_name = spar_name;
         this.spar_quantity = spar_quantity;
         this.spar_warehouse = spar_warehouse;
+        this.ok = false;
     }
 
-    public Repuesto(String spar_id, String spar_code, String spar_date_register, String spar_name, int spar_quantity, String spar_register_by, String spar_status, String spar_status_temporal, String spar_terminal_model, String spar_warehouse) {
+    public Repuesto(String spar_id, String spar_code, String spar_date_register, String spar_name, String spar_quantity, String spar_register_by, String spar_status, String spar_status_temporal, String spar_terminal_model, String spar_warehouse) {
         this.spar_id = spar_id;
         this.spar_code = spar_code;
         this.spar_date_register = spar_date_register;
@@ -86,11 +80,11 @@ public class Repuesto {
         this.spar_name = spar_name;
     }
 
-    public int getSpar_quantity() {
+    public String getSpar_quantity() {
         return spar_quantity;
     }
 
-    public void setSpar_quantity(int spar_quantity) {
+    public void setSpar_quantity(String spar_quantity) {
         this.spar_quantity = spar_quantity;
     }
 

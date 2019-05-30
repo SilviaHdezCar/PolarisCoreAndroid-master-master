@@ -74,7 +74,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_validaciones_terminales_asociadas, container, false);
-        objeto.setTitle("      VALIDACIONES TERMINAL");
+        objeto.setTitulo("VALIDACIONES TERMINAL");
 
 
         marca_ter_validaciones = (TextView) v.findViewById(R.id.marca_ter_validaciones);
@@ -98,48 +98,43 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         //voy a recorrer el arreglo de terminales para que me liste la informacion de la terminal selecciona
        /* Global.VALIDACIONES = null;
         Global.VALIDACIONES = new ArrayList<Validacion>();*/
+
         String fechaRecepción = "";
         String fechaANS = "";
-        modelo_ter_validaciones.setText(Global.modelo);
-         if (Global.diagnosticoTerminal.equals("asociada")) {
-            System.out.println("Global.TERMINALES_ASOCIADAS_tamalo_: "+Global.TERMINALES_ASOCIADAS.size());
-            for (Terminal ter : Global.TERMINALES_ASOCIADAS) {
-                System.out.println("sertial..." + ter.getTerm_serial());
-                System.out.println("despues el for, antes if");
-                if (ter.getTerm_serial().equals(Global.serial_ter)) {
-                    System.out.println("los seriales son iguales");
-                    marca_ter_validaciones.setText(Global.marca);
-                    modelo_ter_validaciones.setText(Global.modelo);
-                    serial_ter_validaciones.setText(ter.getTerm_serial());
-                    tecno_ter_validaciones.setText(ter.getTerm_technology());
-                    estado_ter_validaciones.setText(ter.getTerm_status());
-                    if (ter.getTerm_warranty_time() != null) {
-
-                        if (!ter.getTerm_warranty_time().trim().isEmpty()) {
-
-                            if (Integer.parseInt(ter.getTerm_warranty_time()) >= 0) {
-                                garantia_ter_validaciones.setText("Con garantía");
-                            } else {
-                                garantia_ter_validaciones.setText("Sin garantía");
-                            }
-                        } else {
-                            garantia_ter_validaciones.setText("No establecida");
-                        }
+        if (Global.diagnosticoTerminal.equals("asociada")) {
+            modelo_ter_validaciones.setText(Global.modelo);
+            marca_ter_validaciones.setText(Global.marca);
+            serial_ter_validaciones.setText(Global.serial_ter);
+            tecno_ter_validaciones.setText(Global.tecnologia);
+            estado_ter_validaciones.setText(Global.estado);
+            fechal_ans_ter_validaciones.setText("");
+            if (Global.garantia != null) {
+                if (!Global.garantia.trim().isEmpty()) {
+                    if (Integer.parseInt(Global.garantia) >= 0) {
+                        garantia_ter_validaciones.setText("Con garantía");
+                    } else {
+                        garantia_ter_validaciones.setText("Sin garantía");
                     }
-
-                    if (ter.getTerm_date_reception() != null) {
-                        fechaRecepción = Utils.darFormatoFecha2(ter.getTerm_date_reception()) ;
-                        fechal_ans_ter_validaciones.setText(fechaRecepción);
-                    }
-                    if (ter.getTerm_date_ans() != null) {
-                        fechaANS =Utils.darFormatoFecha2( ter.getTerm_date_reception());
-                        fechal_ans_ter_validaciones.setText(fechal_ans_ter_validaciones.getText().toString() + " - " + fechaANS);
-                    }
-                    fechal_ans_ter_validaciones.setText("");
-
+                } else {
+                    garantia_ter_validaciones.setText("No establecida");
                 }
             }
-        } else   if (Global.diagnosticoTerminal.equals("autorizada")){
+
+            if (Global.fechaRecepcion != null) {
+                if (!Global.fechaRecepcion.trim().isEmpty()) {
+                    fechaRecepción = Utils.darFormatoFecha2(Global.fechaRecepcion);
+                    fechal_ans_ter_validaciones.setText(fechaRecepción);
+                }
+            }
+            if (Global.fechaANS != null) {
+                if (!Global.fechaANS.trim().isEmpty()) {
+                    fechaANS = Utils.darFormatoFecha2(Global.fechaANS);
+                    fechal_ans_ter_validaciones.setText(fechal_ans_ter_validaciones.getText().toString() + " - " + fechaANS);
+                }
+
+
+            }
+        } else if (Global.diagnosticoTerminal.equals("autorizada")) {
 
             marca_ter_validaciones.setText(Global.terminalVisualizar.getTerm_brand());
             modelo_ter_validaciones.setText(Global.terminalVisualizar.getTerm_model());
@@ -160,11 +155,11 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
             }
 
             if (Global.terminalVisualizar.getTerm_date_reception() != null) {
-                fechaRecepción = Utils.darFormatoFecha2(Global.terminalVisualizar.getTerm_date_reception()) ;
+                fechaRecepción = Utils.darFormatoFecha2(Global.terminalVisualizar.getTerm_date_reception());
                 fechal_ans_ter_validaciones.setText(fechaRecepción);
             }
             if (Global.terminalVisualizar.getTerm_date_ans() != null) {
-                fechaANS =Utils.darFormatoFecha2( Global.terminalVisualizar.getTerm_date_reception());
+                fechaANS = Utils.darFormatoFecha2(Global.terminalVisualizar.getTerm_date_reception());
                 fechal_ans_ter_validaciones.setText(fechal_ans_ter_validaciones.getText().toString() + " - " + fechaANS);
             }
             fechal_ans_ter_validaciones.setText("");
@@ -292,7 +287,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
             nombre.setId(200 + i);
             nombre.setText(Global.VALIDACIONES.get(i).getTeva_description());
             nombre.setWidth(2);
-            nombre.setPadding(20,0,0,0);
+            nombre.setPadding(20, 0, 0, 0);
 
             RadioGroup rg = new RadioGroup(objeto);
 

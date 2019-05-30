@@ -36,7 +36,7 @@ public class PerfilFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_perfil, container, false);
 
-        objeto.setTitle("           DATOS DEL USUARIO");
+        objeto.setTitulo("DATOS DEL USUARIO");
         nomUsuario = (TextView) v.findViewById(R.id.perfil_nombre_usuario);
         usuario = (TextView) v.findViewById(R.id.perfil_usuario);
         cargo = (TextView) v.findViewById(R.id.perfil_cargo);

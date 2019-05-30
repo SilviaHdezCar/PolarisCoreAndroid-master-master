@@ -129,6 +129,7 @@ public class Productividad_mes extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_productividad_mes, container, false);
+        objeto.setTitulo("PRODUCTIVIDAD POR MES");
         mes = (Spinner) v.findViewById(R.id.spin_mesxmes);
         año = (Spinner) v.findViewById(R.id.spiner_añoxmes);
         produc = (Button) v.findViewById(R.id.produc_mes);

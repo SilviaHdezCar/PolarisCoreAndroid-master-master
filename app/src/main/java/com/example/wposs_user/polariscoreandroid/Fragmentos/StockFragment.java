@@ -69,7 +69,7 @@ public class StockFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        objeto.setTitle("                 STOCK");
+        objeto.setTitulo("STOCK");
         terminales= new ArrayList<Terminal>();
         repuestos= new ArrayList<Repuesto>();
         // Inflate the layout for this fragment
@@ -217,7 +217,9 @@ public class StockFragment extends Fragment {
     }
 
 
-    /********************************metodo usaddo para mostrar en stock los repuestos asignados a un tecnico****************/
+    /***********metodo usaddo para mostrar en stock los repuestos asignados a un tecnico*****/
+
+    private Repuesto r;
 
     public void servicioRpuestoStock(){
         final  ArrayList<Repuesto>repuestos= new ArrayList<>();
@@ -268,18 +270,26 @@ public class StockFragment extends Fragment {
 
                             else {
 
-                                String ter = null;
+                                String rep = null;
 
                                 for (int i = 0; i < jsonArray1.length(); i++) {
-                                    ter = jsonArray1.getString(i);
+                                    rep = jsonArray1.getString(i);
 
-                                    Repuesto r = gson.fromJson(ter, Repuesto.class);
-                                    if (r != null && r.getSpar_quantity()>0) {
+
+                                    r = gson.fromJson(rep, Repuesto.class);
+
+
+                                    if (r != null) {
+
+                                        if(r.getSpar_quantity().equals("NaN")){
+                                            r.setSpar_quantity("0");
+                                        }
+                                        repuestos.add(r);
                                     }
-                                    repuestos.add(r);
                                 }
                             }
-                            
+
+
 
                             rv.setHasFixedSize(true);
                             LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
@@ -322,9 +332,6 @@ public class StockFragment extends Fragment {
         queue.add(jsArrayRequest);
 
     }
-
-
-
 
 }
 

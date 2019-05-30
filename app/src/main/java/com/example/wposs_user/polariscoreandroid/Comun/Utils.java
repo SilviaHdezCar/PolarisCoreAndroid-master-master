@@ -1321,24 +1321,32 @@ public class Utils {
 
 
     /**
-     * Metodo que le da formato a la fecha cuando es= May 13, 2019 1:35PM  ---> Mayo 03 2019
+     * Metodo que le da formato a la fecha cuando es= May 13, 2019 1:35 PM  ---> Mayo 03 2019
      *
      * @param fecha
      * @return
      */
     public static String darFormatoFechaObservaciones(String fecha) {
-
         String[] date = fecha.split(" ");
         String mes = date[0];
         String dia = date[1].substring(0, date[1].length() - 1);
         String anio = date[2];
+        String hora = date[3];
+        String AM_PM=date[4];
+        String [] hour=hora.split(":");
+        int hor=Integer.parseInt(hour[0]);
+        String min=hour[1].substring(0,2);
         String mesFec = obtenerMes(mes);
-        return mesFec + " " + dia + " " + anio;
+        if(AM_PM.equalsIgnoreCase("PM")){
+           hor+=12;
+        }
+        hora=hor+":"+min;
+        return mesFec + " " + dia + " " + anio+" "+hora;
     }
 
 
     /**
-     * Metodo que le da formato a la fecha cuando es= Tue Jan 27 2009 15:27:00  ---> Junio 27 2009
+     * Metodo que le da formato a la fecha cuando es= Tue Jan 27 2009 15:27:00  ---> Junio 27 2009 15:27
      *
      * @param fecha
      * @return
@@ -1348,8 +1356,9 @@ public class Utils {
         String mes = obtenerMes(date[1]);
         String dia = date[2];
         String anio = date[3];
+        String hora [] = date[4].split(":");
 
-        return mes + " " + dia + " " + anio;
+        return mes + " " + dia + " " + anio+" "+hora[0]+":"+hora[1];
     }
 
 

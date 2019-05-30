@@ -6,7 +6,7 @@ public class Notificacion {
     private String noti_date_create;
     private String noti_dest;
     private String noti_msg;
-    private String noti_origen;
+    private String noti_origin;
     private String noti_state;
     private String noti_type;
 
@@ -16,7 +16,7 @@ public class Notificacion {
         this.noti_date_create = noti_date_create;
         this.noti_dest = noti_dest;
         this.noti_msg = noti_msg;
-        this.noti_origen = noti_origen;
+        this.noti_origin = noti_origen;
         this.noti_state = noti_state;
         this.noti_type = noti_type;
     }
@@ -55,11 +55,11 @@ public class Notificacion {
     }
 
     public String getNoti_origen() {
-        return noti_origen;
+        return noti_origin;
     }
 
     public void setNoti_origen(String noti_origen) {
-        this.noti_origen = noti_origen;
+        this.noti_origin = noti_origen;
     }
 
     public String getNoti_state() {
@@ -83,7 +83,7 @@ public class Notificacion {
         return "Notificacion{" +
                 "noti_date_create='" + noti_date_create + '\'' +
                 ", noti_msg='" + noti_msg + '\'' +
-                ", noti_origen='" + noti_origen + '\'' +
+                ", noti_origen='" + noti_origin + '\'' +
                 '}';
     }
 }

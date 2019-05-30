@@ -59,7 +59,7 @@ public class DialogEsRepable extends DialogFragment {
             @Override
             public void onClick(View v) {
                 case2 = txt_info2.getText().toString();
-                if (case2.equals("Fábrica")) {
+                if (case2.equals("NO")) {
                     Global.reparable = "NO";
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ObservacionesFragment()).addToBackStack(null).commit();
                     dismiss();

@@ -128,7 +128,7 @@ public class Prediagnostico extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_prediagnostico, container, false);
-        objeto.setTitle("          DIAGNÓSTICOS");
+        objeto.setTitulo("DIAGNÓSTICOS");
         this.repuestos = new ArrayList<Repuesto>();
         serial = (TextView) v.findViewById(R.id.serial_diagnosticos);
 

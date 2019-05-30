@@ -52,12 +52,12 @@ public class AdapterTerminal extends RecyclerView.Adapter<AdapterTerminal.ViewHo
         holder.tecnologia.setText(this.listTerminal.get(i).getTerm_technology());
         String estado = this.listTerminal.get(i).getTerm_status();
         holder.estado.setText(estado);
-
+        holder.fechaANS.setText("");
         if (this.listTerminal.get(i).getTerm_date_ans() != null) {
             fechaANS = Utils.darFormatoFecha2(this.listTerminal.get(i).getTerm_date_ans());
             holder.fechaANS.setText(fechaANS);
         }
-        holder.fechaANS.setText("No");
+
 
         if (estado.equals("QA")) {
             holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_verde);

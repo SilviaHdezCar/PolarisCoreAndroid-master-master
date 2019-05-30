@@ -108,7 +108,7 @@ public class InicialFragment extends Fragment {
         tabla = (TableLayout) v.findViewById(R.id.tabla_validaciones_autorizadas);//Tabla de validaciones
 
 
-        objeto.setTitle("                     TERMINALES");
+        objeto.setTitulo("TERMINALES");
         btn_asociadas.setTypeface(null, Typeface.BOLD);
         btn_asociadas.setTextSize(15);
         btn_autorizadas.setTextSize(13);
@@ -474,16 +474,20 @@ public class InicialFragment extends Fragment {
         final AdapterTerminal_asociada adapter = new AdapterTerminal_asociada(terminals, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
             @Override
             public void onClick(List<Terminal> terminal, int position) {
-
+                consumirServicioValidaciones();
                 Global.serial_ter = terminal.get(position).getTerm_serial();
                 Global.modelo = terminal.get(position).getTerm_model();
                 Global.tecnologia = terminal.get(position).getTerm_technology();
                 Global.marca = terminal.get(position).getTerm_brand();
+                Global.garantia = terminal.get(position).getTerm_warranty_time();
+                Global.fechaANS = terminal.get(position).getTerm_date_ans();
+                Global.estado = terminal.get(position).getTerm_status();
+                Global.fechaRecepcion = terminal.get(position).getTerm_date_reception();
 
                 Global.lista_tipificaciones_tabla = new ArrayList<Tipificacion>();
                 Global.listTipificaciones = new ArrayList<Tipificacion>();
 
-                consumirServicioValidaciones();
+
                 consumirServicioEtapas();
 
 
