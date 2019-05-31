@@ -49,6 +49,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -268,15 +269,11 @@ public class ConsultaTerminalesFechas extends Fragment {
         int año_fin = Integer.parseInt(fechaFin[2]);
 
 
-        if (año_fin < año_inicio) {
-            return false;
-        }
-        if (mes_fin < mes_inicio) {
-            return false;
-        }
-        if (dia_fin < dia_inicio) {
-            return false;
-        }
+        if (año_fin < año_inicio) {  return false; }
+
+         if (mes_fin < mes_inicio) {  return false; }
+
+        if (dia_fin < dia_inicio) {   return false; }
 
         return true;
 
@@ -295,15 +292,12 @@ public class ConsultaTerminalesFechas extends Fragment {
 
         if (data_inicio.isEmpty()||data_fin.isEmpty()) {
             Toast.makeText(view.getContext(), "Debe seleccionar la fecha de inicio y fin", Toast.LENGTH_SHORT).show();
-
+            rv.setAdapter(null);
+            terminales= new ArrayList<>();
             return;
 
         }
-        if(!this.validarFecha()){
 
-            Toast.makeText(view.getContext(), "La fecha de inicio debe ser anterior a la final", Toast.LENGTH_SHORT).show();
-
-        }
 
 
         String fecha_inicial = f_inicio.getText().toString();
@@ -321,6 +315,40 @@ public class ConsultaTerminalesFechas extends Fragment {
 
         String fecha_inicio = mes_inicio+"/"+dia_inicio+"/"+anio_inicio;
         String fecha_fin = mes_final+"/"+dia_final+"/"+anio_final;
+
+        if(!validarFechaActual(dia_inicio,mes_inicio,anio_inicio)){
+
+            Toast.makeText(objeto, "La fecha debe ser igual o anterior a la fecha actual", Toast.LENGTH_SHORT).show();
+            f_inicio.setText(" ");
+            f_fin.setText(" ");
+            rv.setAdapter(null);
+            terminales= new ArrayList<>();
+
+            return;
+
+        }
+
+        if(!validarFechaActual(dia_final,mes_final,anio_final)){
+
+            Toast.makeText(objeto, "La fecha debe ser igual o anterior a la fecha actual", Toast.LENGTH_SHORT).show();
+            f_inicio.setText(" ");
+            f_fin.setText(" ");
+            rv.setAdapter(null);
+            terminales= new ArrayList<>();
+            return;
+
+        }
+
+        if(!this.validarFecha()){
+
+            Toast.makeText(view.getContext(), "La fecha de inicio debe ser anterior a la final", Toast.LENGTH_SHORT).show();
+            f_inicio.setText(" ");
+            f_fin.setText(" ");
+            rv.setAdapter(null);
+            terminales= new ArrayList<>();
+            return;
+
+        }
 
 
         final Gson gson = new GsonBuilder().create();
@@ -436,6 +464,34 @@ public class ConsultaTerminalesFechas extends Fragment {
 
     }
 
+    public boolean validarFechaActual(int dia, int mes, int año){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date = new Date();
+        String fechaActual = dateFormat.format(date);
+        String []fechaAct= fechaActual.split("-");
+        int anioAct=Integer.parseInt( fechaAct[0]);
+        int mesAct=Integer.parseInt( fechaAct[1]);
+        int diaAct= Integer.parseInt(fechaAct[2]);
+
+        if(año>anioAct){ return false;}
+
+        if(anio<anioAct){ return true;}
+
+
+        if(anio==anioAct){
+
+            if(mes>mesAct){return false;}
+            if(mes<mesAct){return true;}
+            if(mes==mesAct){
+                if(dia>diaAct){return false;}
+            }
+        }
+
+        return true;
+
+
+    }
 
 
 
