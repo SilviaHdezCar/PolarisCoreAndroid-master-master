@@ -1321,7 +1321,7 @@ public class Utils {
 
 
     /**
-     * Metodo que le da formato a la fecha cuando es= May 13, 2019 1:35 PM  ---> Mayo 03 2019
+     * Metodo que le da formato a la fecha cuando es= May 13, 2019 1:35 PM  ---> DD/MM/AAAA HORA
      *
      * @param fecha
      * @return
@@ -1332,39 +1332,49 @@ public class Utils {
         String dia = date[1].substring(0, date[1].length() - 1);
         String anio = date[2];
         String hora = date[3];
-        String AM_PM=date[4];
-        String [] hour=hora.split(":");
-        int hor=Integer.parseInt(hour[0]);
-        String min=hour[1].substring(0,2);
-        String mesFec = obtenerMes(mes);
-        if(AM_PM.equalsIgnoreCase("PM")){
-           hor+=12;
+        String AM_PM = date[4];
+        String[] hour = hora.split(":");
+        int hor = Integer.parseInt(hour[0]);
+        String min = hour[1].substring(0, 2);
+
+        if (AM_PM.equalsIgnoreCase("PM")) {
+            hor += 12;
         }
-        hora=hor+":"+min;
-        return mesFec + " " + dia + " " + anio+" "+hora;
+        hora = hor + ":" + min;
+        int mesFec = obtenerNumMes(mes);
+        String month="";
+        if (mesFec < 10){
+            month = "0" + mesFec;
+        } if (Integer.parseInt( dia)<10){
+            dia="0"+dia;
+        }
+
+        return dia + "/" + month + "/" + anio + " " + hora;
     }
 
 
     /**
-     * Metodo que le da formato a la fecha cuando es= Tue Jan 27 2009 15:27:00  ---> Junio 27 2009 15:27
+     * Metodo que le da formato a la fecha cuando es= Tue Jan 27 2009 15:27:00  ---> DD/MM/AAAA HORA
      *
      * @param fecha
      * @return
      */
     public static String darFormatoFecha2(String fecha) {
         String[] date = fecha.split(" ");
-        String mes = obtenerMes(date[1]);
+        int mes = obtenerNumMes(date[1]);
         String dia = date[2];
         String anio = date[3];
-        String hora [] = date[4].split(":");
+        String hora[] = date[4].split(":");
+        String month=mes+"";
+        if (mes < 10)
+            month = "0" + mes;
 
-        return mes + " " + dia + " " + anio+" "+hora[0]+":"+hora[1];
+        return dia + "/" + month + "/" + anio + " " + hora[0] + ":" + hora[1];
     }
 
 
     /**
      * Este metodo obtiene la suma de la fecha
-     *
      *
      * @Params recibe la fecha en el formato
      * @Retorna una un entero con la sumatopria de la fecha
@@ -1373,18 +1383,19 @@ public class Utils {
         String fechaFormateada = darFormatoFechaObservaciones(fecha);
         String date[] = fechaFormateada.split(" ");
 
-        int day=Integer.parseInt(date[1]);
-        System.out.println("dia: "+day);
+        int day = Integer.parseInt(date[1]);
+        System.out.println("dia: " + day);
 
         int month = obtenerNumMes(date[0]);
-        System.out.println("Mes: "+month);
+        System.out.println("Mes: " + month);
 
-        int year =Integer.parseInt(date[2]);
-        System.out.println("Año: "+year);
+        int year = Integer.parseInt(date[2]);
+        System.out.println("Año: " + year);
 
-        return day+month+year;
+        return day + month + year;
 
     }
+
     /**
      * Este metodo obtiene la fecha y hora actual
      * en el formato DD/MM/YYYY
@@ -1396,14 +1407,14 @@ public class Utils {
         String fechaFormateada = darFormatoFechaObservaciones(fecha);
         String date[] = fechaFormateada.split(" ");
 
-        String day=date[1];
-        System.out.println("dia: "+day);
+        String day = date[1];
+        System.out.println("dia: " + day);
 
         int month = obtenerNumMes(date[0]);
-        System.out.println("Mes: "+month);
+        System.out.println("Mes: " + month);
 
-        String year =date[2];
-        System.out.println("Año: "+year);
+        String year = date[2];
+        System.out.println("Año: " + year);
 
         String mes;
 
@@ -1415,7 +1426,7 @@ public class Utils {
 
         //year = year.substring(2,4);
 
-        String dateTime = day+"/"+month+"/"+year;
+        String dateTime = day + "/" + month + "/" + year;
         return dateTime;
     }
 
@@ -1504,8 +1515,6 @@ public class Utils {
 
     //Obtener dia mes-->Ejemplo: Mayo-->05
     public static int obtenerNumMes(String mes) {
-
-
         int numMes = 0;
         switch (mes) {
             case "Enero":
@@ -1557,7 +1566,7 @@ public class Utils {
                 numMes = 4;
                 break;
             case "May":
-                numMes=5;
+                numMes = 5;
                 break;
             case "June":
                 numMes = 6;
@@ -1575,7 +1584,7 @@ public class Utils {
                 numMes = 10;
                 break;
             case "November":
-                numMes=11;
+                numMes = 11;
                 break;
             case "December":
                 numMes = 12;
@@ -1592,7 +1601,6 @@ public class Utils {
             case "Apr":
                 numMes = 4;
                 break;
-
             case "Jun":
                 numMes = 6;
                 break;
@@ -1618,8 +1626,6 @@ public class Utils {
         }
         return numMes;
     }
-
-
 
 
 }
