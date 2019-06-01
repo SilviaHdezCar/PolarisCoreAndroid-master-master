@@ -154,7 +154,7 @@ public class Productividad_mes extends Fragment {
         mes = (Spinner) v.findViewById(R.id.spin_mesxmes);
         año = (Spinner) v.findViewById(R.id.spiner_añoxmes);
         año.setAdapter(comboAdapter);
-        produc = (Button) v.findViewById(R.id.produc_mes);
+         produc = (Button) v.findViewById(R.id.produc_mes);
         grafica = (LineChart) v.findViewById(R.id.grafica_mes);
         prom=(LinearLayout)v.findViewById(R.id.linea_promDia) ;
         prom2=(LinearLayout)v.findViewById(R.id.linea_promRep) ;
@@ -213,14 +213,20 @@ public class Productividad_mes extends Fragment {
 
         if (mes.getSelectedItem() == null || año.getSelectedItem() == null) {
             Toast.makeText(v.getContext(), "Debe selecccionar el mes y año a consultar", Toast.LENGTH_SHORT).show();
+            grafica.clear();
             grafica.setVisibility(INVISIBLE);
+            prom.setVisibility(VISIBLE);
+            prom2.setVisibility(VISIBLE);
             return;
 
         }
 
         if (mes.getSelectedItem().toString().equals("Selecccione") || año.getSelectedItem().equals("Seleccione")) {
             Toast.makeText(v.getContext(), "Seleccione un mes y año valido", Toast.LENGTH_SHORT).show();
+            grafica.clear();
             grafica.setVisibility(INVISIBLE);
+            prom.setVisibility(VISIBLE);
+            prom2.setVisibility(VISIBLE);
             return;
 
         }
@@ -378,11 +384,17 @@ public class Productividad_mes extends Fragment {
                         misdatos.setValueFormatter(new MyValueFormatter());
                         misdatos2.setValueFormatter(new MyValueFormatter());
 
+                        misdatos.setLineWidth(2);
+                        misdatos2.setLineWidth(2);
 
-                        misdatos.setDrawCircles(false);
+                        misdatos.setValueTextSize(10);
+                        misdatos2.setValueTextSize(10);
+
+
+                        //misdatos.setDrawCircles(false);
                         misdatos.setColor(Color.BLUE);
 
-                        misdatos2.setDrawCircles(false);
+                       // misdatos2.setDrawCircles(false);
                         misdatos2.setColor(Color.RED);
 
 
@@ -397,8 +409,7 @@ public class Productividad_mes extends Fragment {
                         x.setGranularity(1);
                         x.setAxisMinimum(0);
                         grafica.getAxisRight().setGranularity(1);
-                        x.setAxisMaximum(can_dias);
-
+                        x.setAxisMaximum(can_dias+1);
 
                         grafica.getAxisRight().setGranularity(1);
                         x.setValueFormatter(new MyValueFormatter());
@@ -614,10 +625,11 @@ public class Productividad_mes extends Fragment {
 
         int anioActual = Integer.parseInt(fechas[0]);
 
-        anios = new String[20];
+        anios = new String[21];
+        anios[0]= "Seleccione";
 
 
-        for (int i = 0; i < anios.length; i++) {
+        for (int i = 1; i < anios.length; i++) {
 
             anios[i] = String.valueOf(anioActual);
             anioActual--;

@@ -4,6 +4,7 @@
     android:layout_height="40dp"
     android:textSize="14dp"
     android:gravity="left"
+    android:textColor="@color/negro"
 
 
 

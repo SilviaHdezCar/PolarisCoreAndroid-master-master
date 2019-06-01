@@ -70,6 +70,8 @@
             android:layout_width="320dp"
             android:visibility="invisible"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/borde_verde_azul"
+
 
             />
 

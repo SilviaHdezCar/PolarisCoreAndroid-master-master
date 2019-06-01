@@ -35,12 +35,14 @@
       android:gravity="center"
       android:layout_marginTop="20dp"
 
+
       >
 
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginLeft="20dp"
+          android:textColor="@color/negro"
           android:text="Mes" />
 
 
@@ -63,6 +65,7 @@
                android:layout_height="wrap_content"
                android:text="Año"
                android:layout_marginLeft="20dp"
+               android:textColor="@color/negro"
                />
 
 
@@ -72,9 +75,7 @@
                android:layout_marginLeft="10dp"
                android:layout_height="wrap_content"
                android:layout_marginTop="10dp"
-                 style="@layout/spinner_sytle"
-
-               >
+                               >
            </Spinner>
 
        </LinearLayout>
@@ -102,6 +103,7 @@
            android:layout_width="320dp"
            android:visibility="invisible"
            android:layout_gravity="center_horizontal"
+           android:background="@drawable/borde_verde_azul"
 
            />
 

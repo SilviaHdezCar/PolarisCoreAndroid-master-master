@@ -157,7 +157,7 @@ public class Productividad_dia extends Fragment {
         //carga los txt de las fechas al hacer la consulta establecida por fechas
 
         f_inicio.setInputType(InputType.TYPE_NULL);
-        f_inicio.setInputType(InputType.TYPE_NULL);
+
 
 
         java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
@@ -419,25 +419,29 @@ public class Productividad_dia extends Fragment {
 
 
                         BarData datosGrafica = new BarData(datos, valores);
+                        datosGrafica.setValueTextSize(10);
                         grafica.setData(datosGrafica);
                         // String []meses= new String[]{"enero", "febrero", "marzo", "abril", "mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"};
                         XAxis x = grafica.getXAxis();
                         //  x.setValueFormatter(new IndexAxisValueFormatter(meses));
 
-                        grafica.getAxisRight().setAxisMinimum(0);
-                        x.setCenterAxisLabels(true);
+
+
+                        grafica.setScaleY(1);
+                        grafica.setScaleX(1);
+                                                x.setCenterAxisLabels(true);
                         x.setLabelCount(0);
                         x.setDrawLabels(false);
                         x.setPosition(XAxis.XAxisPosition.BOTTOM);
                         x.setGranularity(1);
                         x.setGranularityEnabled(true);
                         grafica.setDragEnabled(true);
-                        grafica.setVisibleXRangeMaximum(5);
+                        grafica.setVisibleXRangeMaximum(2);
                         float barSpace = 0.02f;
                         float groupSpace = 0.8f;
                         datosGrafica.setBarWidth(0.2f);
                         grafica.getXAxis().setAxisMinimum(0);
-                        grafica.getXAxis().setAxisMaximum(2);
+                        grafica.getXAxis().setAxisMaximum(1);
                         grafica.groupBars(0, groupSpace, barSpace);
                         grafica.invalidate();
                         grafica.getDescription().setEnabled(false);
