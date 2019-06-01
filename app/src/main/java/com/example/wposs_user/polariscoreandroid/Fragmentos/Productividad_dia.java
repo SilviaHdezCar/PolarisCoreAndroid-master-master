@@ -51,6 +51,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -278,7 +279,9 @@ public class Productividad_dia extends Fragment {
     public void consumirServicioProductividadDia() {
 
 
-        grafica.clear();
+
+
+
 
 
         productividad = new ArrayList<>();
@@ -297,11 +300,22 @@ public class Productividad_dia extends Fragment {
 
         String fecha_inicial = f_inicio.getText().toString();
         String[] fecha = fecha_inicial.split("/");
-        final int dia_inicio = Integer.parseInt(fecha[0]);
 
+        final int dia_inicio = Integer.parseInt(fecha[0]);
         int mes_inicio = Integer.parseInt(fecha[1]);
         int año_inicio = Integer.parseInt(fecha[2]);
+
+        if(!validarFechaActual(dia_inicio,mes_inicio,año_inicio)){
+
+            Toast.makeText(v.getContext(), "La fecha selecionada debe ser igual o anterior a la actual", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        grafica.clear();
+
         String fecha_inicio = mes_inicio + "/" + dia_inicio + "/" + año_inicio;
+
+
 
 
         final Gson gson = new GsonBuilder().create();
@@ -397,6 +411,7 @@ public class Productividad_dia extends Fragment {
                         valores.setColor(Color.GREEN);
                         datos.setDrawValues(true);
 
+
                         valores.setDrawValues(true);
 
                         datos.setValueFormatter(new MyValueFormatter());
@@ -408,6 +423,8 @@ public class Productividad_dia extends Fragment {
                         // String []meses= new String[]{"enero", "febrero", "marzo", "abril", "mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"};
                         XAxis x = grafica.getXAxis();
                         //  x.setValueFormatter(new IndexAxisValueFormatter(meses));
+
+                        grafica.getAxisRight().setAxisMinimum(0);
                         x.setCenterAxisLabels(true);
                         x.setLabelCount(0);
                         x.setDrawLabels(false);
@@ -455,6 +472,36 @@ public class Productividad_dia extends Fragment {
         };
 
         queue.add(jsArrayRequest);
+
+    }
+
+
+    public boolean validarFechaActual(int dia, int mes, int año){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date = new Date();
+        String fechaActual = dateFormat.format(date);
+        String []fechaAct= fechaActual.split("-");
+        int anioAct=Integer.parseInt( fechaAct[0]);
+        int mesAct=Integer.parseInt( fechaAct[1]);
+        int diaAct= Integer.parseInt(fechaAct[2]);
+
+        if(año>anioAct){ return false;}
+
+        if(anio<anioAct){ return true;}
+
+
+       if(anio==anioAct){
+
+            if(mes>mesAct){return false;}
+            if(mes<mesAct){return true;}
+            if(mes==mesAct){
+                if(dia>diaAct){return false;}
+                    }
+                 }
+
+       return true;
+
 
     }
 

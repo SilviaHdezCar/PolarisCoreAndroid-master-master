@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -47,17 +48,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
+import static com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM;
 import static java.util.Collections.sort;
 
 
@@ -85,6 +90,16 @@ public class Productividad_mes extends Fragment {
     private Spinner año;
     private Button produc;
     private LineChart grafica;
+    private String [] anios;
+    private ArrayAdapter comboAdapter;
+    private int totalReparadas;
+    private int totalDiagnosticadas;
+    private TextView promreparadas;
+    private TextView promDiagnosticadas;
+    private LinearLayout prom;
+    private LinearLayout prom2;
+
+
 
 
     // TODO: Rename and change types of parameters
@@ -128,12 +143,24 @@ public class Productividad_mes extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+       totalReparadas = 0;
+       totalDiagnosticadas=0;
         v = inflater.inflate(R.layout.fragment_productividad_mes, container, false);
+        obtenerAnios();
+        promreparadas= (TextView)v.findViewById(R.id.txt_promRep);
+        promDiagnosticadas=(TextView)v.findViewById(R.id.txt_promDiag);
+        comboAdapter = new ArrayAdapter<String>(objeto,R.layout.spinner_sytle, anios);
         mes = (Spinner) v.findViewById(R.id.spin_mesxmes);
         año = (Spinner) v.findViewById(R.id.spiner_añoxmes);
+        año.setAdapter(comboAdapter);
         produc = (Button) v.findViewById(R.id.produc_mes);
         grafica = (LineChart) v.findViewById(R.id.grafica_mes);
+        prom=(LinearLayout)v.findViewById(R.id.linea_promDia) ;
+        prom2=(LinearLayout)v.findViewById(R.id.linea_promRep) ;
         queue = Volley.newRequestQueue(objeto);
+
+
         produc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -321,12 +348,36 @@ public class Productividad_mes extends Fragment {
                         ArrayList<Entry> datosDiagnostico = getValoresArray(diagnostico);
                         ArrayList<Entry> datosReparadas = getValoresArray(reparado);
 
+                        for(int i=0;i<datosDiagnostico.size();i++){
+
+                            int datoY= (int) datosDiagnostico.get(i).getY();
+                            int datoY2 =(int)datosReparadas.get(i).getY();
+                            totalDiagnosticadas = totalDiagnosticadas+datoY;
+                            totalReparadas= totalReparadas+datoY2;
+                        }
+                        System.out.println("TOTAL DIAGNOSTICADAS"+totalDiagnosticadas);
+                        System.out.println("TOTAL REPARADAS"+totalReparadas);
+
+                        int promedioReparadas=totalReparadas/can_dias;
+                        int promedioDiagnosticadas= totalDiagnosticadas/can_dias;
+
+                        prom.setVisibility(VISIBLE);
+                        prom2.setVisibility(VISIBLE);
+
+                        promreparadas.setText(""+promedioReparadas);
+                        promDiagnosticadas.setText(""+promedioDiagnosticadas);
+
+
+
+
+
                         ArrayList<ILineDataSet> datos5 = new ArrayList<>();
                         LineDataSet misdatos = new LineDataSet(datosDiagnostico, "Diagnosticadas");
                         LineDataSet misdatos2 = new LineDataSet(datosReparadas, "Reparadas");
 
                         misdatos.setValueFormatter(new MyValueFormatter());
                         misdatos2.setValueFormatter(new MyValueFormatter());
+
 
                         misdatos.setDrawCircles(false);
                         misdatos.setColor(Color.BLUE);
@@ -341,14 +392,18 @@ public class Productividad_mes extends Fragment {
                         grafica.setData(li);
                         grafica.invalidate();
                         XAxis x = grafica.getXAxis();
+                        x.setPosition(BOTTOM);
+
                         x.setGranularity(1);
                         x.setAxisMinimum(0);
                         grafica.getAxisRight().setGranularity(1);
                         x.setAxisMaximum(can_dias);
 
+
                         grafica.getAxisRight().setGranularity(1);
                         x.setValueFormatter(new MyValueFormatter());
                         grafica.getDescription().setEnabled(false);
+
                         grafica.setVisibility(VISIBLE);
 
                         grafica.animateXY(2000, 2000);
@@ -396,7 +451,8 @@ public class Productividad_mes extends Fragment {
         if (meses.equals("Marzo")) {
             return 3;
         }
-        if (meses.equals("Abril")) return 4;
+        if (meses.equals("Abril")){
+            return 4;}
         if (meses.equals("Mayo")) {
             return 5;
         }
@@ -415,10 +471,10 @@ public class Productividad_mes extends Fragment {
         if (meses.equals("Octubre")) {
             return 10;
         }
-        if (meses.equals("noviembre")) {
+        if (meses.equals("Noviembre")) {
             return 11;
         }
-        if (meses.equals("Diviembre")) {
+        if (meses.equals("Diciembre")) {
             return 12;
         }
 
@@ -547,6 +603,31 @@ public class Productividad_mes extends Fragment {
 
 
     }
+
+    public void  obtenerAnios() {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date = new Date();
+        String fecha = dateFormat.format(date);
+
+        String[] fechas = fecha.split("-");
+
+        int anioActual = Integer.parseInt(fechas[0]);
+
+        anios = new String[20];
+
+
+        for (int i = 0; i < anios.length; i++) {
+
+            anios[i] = String.valueOf(anioActual);
+            anioActual--;
+
+        }
+
+    }
+
+
+
 
 
 }

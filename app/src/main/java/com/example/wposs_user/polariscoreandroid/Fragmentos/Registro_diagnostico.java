@@ -213,19 +213,17 @@ public class Registro_diagnostico extends Fragment {
         for (int i = 0; i < Global.REPUESTOS.size(); i++) {
 
             if (Global.REPUESTOS.get(i).getSpar_code().equals(Global.codigo_rep)) {
-                if (Global.REPUESTOS.get(i).getSpar_quantity() < cant_solicitada) {
-                    Toast.makeText(objeto, "El repuesto seleccionado no tiene disponible la cantidad solicitada", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
-                Repuesto r = new Repuesto(Global.REPUESTOS.get(i).getSpar_code(), Global.REPUESTOS.get(i).getSpar_name(), cant_solicitada, Global.REPUESTOS.get(i).getSpar_warehouse());
+                Repuesto reps = Global.REPUESTOS.get(i);
 
                 for (Repuesto rt : Global.REPUESTOS_DIAGONOSTICO) {
-                    if (rt.getSpar_code().equals(r.getSpar_code())) {
+                    if (reps.getSpar_code().equals(rt.getSpar_code())) {
 
+
+                        String total= String.valueOf(Integer.parseInt(rt.getSpar_quantity())+cant_solicitada);
                         Global.REPUESTOS_DIAGONOSTICO.remove(rt);
-                        r.setSpar_quantity(rt.getSpar_quantity() + cant_solicitada);
-                        Global.REPUESTOS_DIAGONOSTICO.add(r);
+                        reps.setSpar_quantity(total);
+                        Global.REPUESTOS_DIAGONOSTICO.add(reps);
                         this.llenarRv();
                         cantidad_req.setText("");
                         aut_repuesto.setText("");
@@ -236,7 +234,8 @@ public class Registro_diagnostico extends Fragment {
 
 
                 }
-                Global.REPUESTOS_DIAGONOSTICO.add(r);
+                reps.setSpar_quantity(String.valueOf(cant_solicitada));
+                Global.REPUESTOS_DIAGONOSTICO.add(reps);
                 this.llenarRv();
                 cantidad_req.setText("");
                 aut_repuesto.setText("");

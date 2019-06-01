@@ -72,8 +72,7 @@
                android:layout_marginLeft="10dp"
                android:layout_height="wrap_content"
                android:layout_marginTop="10dp"
-               android:entries="@array/años"
-               style="@layout/spinner_sytle"
+                 style="@layout/spinner_sytle"
 
                >
            </Spinner>
@@ -92,8 +91,6 @@
            android:background="@drawable/redondo_gris_botones"
            android:textColor="@color/negro"
 
-
-
            />
 
 
@@ -108,11 +105,91 @@
 
            />
 
+       <LinearLayout
+           android:id="@+id/linea_promRep"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:visibility="invisible"
+           android:layout_marginLeft="35dp"
+           android:layout_marginRight="40dp"
+           android:layout_marginTop="20dp"
+           android:layout_gravity="center_horizontal"
+           android:textAlignment="center"
 
 
 
 
+           >
 
+       <TextView
+           android:layout_width="200dp"
+           android:layout_height="wrap_content"
+           android:text="Promedio Terminales Reparadas"
+           android:textSize="10dp"
+           android:textStyle="bold"
+
+
+
+           />
+
+           <TextView
+               android:layout_marginLeft="10dp"
+               android:id="@+id/txt_promRep"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text=""
+               android:textSize="10dp"
+
+
+               />
+
+
+
+       </LinearLayout>
+
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:id="@+id/linea_promDia"
+           android:visibility="invisible"
+           android:layout_marginLeft="35dp"
+           android:layout_marginRight="40dp"
+           android:layout_marginTop="10dp"
+           android:layout_gravity="center_horizontal"
+           android:textAlignment="center"
+
+
+           >
+
+           <TextView
+
+               android:layout_height="wrap_content"
+               android:text="Promedio Terminales Diagnosticadas"
+               android:layout_width="200dp"
+               android:textSize="10dp"
+               android:textStyle="bold"
+
+
+
+               />
+
+           <TextView
+               android:layout_marginLeft="10dp"
+               android:id="@+id/txt_promDiag"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text=""
+               android:textSize="10dp"
+
+
+               />
+
+
+
+       </LinearLayout>
 
 
    </LinearLayout>
