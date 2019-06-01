@@ -78,13 +78,7 @@ public class Notificacion {
         this.noti_type = noti_type;
     }
 
-    @Override
-    public String toString() {
-        return "Notificacion{" +
-                "noti_date_create='" + noti_date_create + '\'' +
-                ", noti_msg='" + noti_msg + '\'' +
-                ", noti_origen='" + noti_origin + '\'' +
-                '}';
-    }
+
+
 }
 

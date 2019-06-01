@@ -411,6 +411,7 @@ public class Productividad_dia extends Fragment {
                         valores.setColor(Color.GREEN);
                         datos.setDrawValues(true);
 
+
                         valores.setDrawValues(true);
 
                         datos.setValueFormatter(new MyValueFormatter());
@@ -422,6 +423,8 @@ public class Productividad_dia extends Fragment {
                         // String []meses= new String[]{"enero", "febrero", "marzo", "abril", "mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"};
                         XAxis x = grafica.getXAxis();
                         //  x.setValueFormatter(new IndexAxisValueFormatter(meses));
+
+                        grafica.getAxisRight().setAxisMinimum(0);
                         x.setCenterAxisLabels(true);
                         x.setLabelCount(0);
                         x.setDrawLabels(false);

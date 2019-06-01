@@ -476,9 +476,9 @@ public class MainActivity extends AppCompatActivity
                                    not = ((JSONArray) jsonArray).getString(i);
 
                                    n = gson.fromJson(not, Notificacion.class);
-                                   if (n != null ) {
+                                   if (n != null &&!n.getNoti_msg().contains("albarán") ) {
 
-                                       if(Global.notificaciones.size()>0){
+                                       if(Global.notificaciones.size()>0 ){
 
                                            if(!contieneNotificacion(n)){
                                                Global.notificaciones.add(n);
@@ -502,7 +502,7 @@ public class MainActivity extends AppCompatActivity
 
                                   verNotificaciones.setImageResource(R.drawable.ic_notifiok);
                                    dialogo = new DialogNotificacion();
-                                   
+
 
 
                                }

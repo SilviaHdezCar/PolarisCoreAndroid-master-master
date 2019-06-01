@@ -11,6 +11,9 @@ import com.example.wposs_user.polariscoreandroid.R;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 import static com.example.wposs_user.polariscoreandroid.R.drawable.ic_sinnotif;
 
+//clase que permite ejecutar en2 plano el servicio de notificaciones actualizandolo cada 15 minutos
+
+
 public class NotificacionTecnico implements Runnable {
 
 
