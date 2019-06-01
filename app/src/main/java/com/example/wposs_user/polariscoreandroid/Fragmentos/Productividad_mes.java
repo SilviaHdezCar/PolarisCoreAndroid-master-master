@@ -403,6 +403,7 @@ public class Productividad_mes extends Fragment {
                         grafica.getAxisRight().setGranularity(1);
                         x.setValueFormatter(new MyValueFormatter());
                         grafica.getDescription().setEnabled(false);
+
                         grafica.setVisibility(VISIBLE);
 
                         grafica.animateXY(2000, 2000);

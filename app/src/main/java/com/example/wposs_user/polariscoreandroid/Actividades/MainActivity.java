@@ -53,6 +53,7 @@ import com.example.wposs_user.polariscoreandroid.Fragmentos.StockFragment;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Etapas;
 import com.example.wposs_user.polariscoreandroid.java.Notificacion;
+import com.example.wposs_user.polariscoreandroid.java.NotificacionTecnico;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -98,6 +99,8 @@ public class MainActivity extends AppCompatActivity
     private ImageView imageView_perfil;
     private DialogNotificacion dialogo;
     private ImageView verNotificaciones;
+    private ArrayList<Notificacion>notificaciones;
+    private NotificacionTecnico ntecnico;
 
     private int contadorFragmentos;
 
@@ -110,6 +113,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
+        notificaciones= new ArrayList<>();
         setContentView(R.layout.activity_main);
         objeto = this;
 
@@ -120,7 +124,6 @@ public class MainActivity extends AppCompatActivity
 
 
         queue = Volley.newRequestQueue(MainActivity.this);
-        consumirServicioNotificaciones();
 
 
         fragmentManager = getSupportFragmentManager();
@@ -163,10 +166,18 @@ public class MainActivity extends AppCompatActivity
 
 
         // Para las notificaciones
+
+
+        System.out.println("TAMAÑO DE NOTIFIACIONES***   "+ Global.notificaciones.size());
+
+
         verNotificaciones=(ImageView)findViewById(R.id.btn_notificaciones);
 
+        ntecnico= new NotificacionTecnico();
+      new Thread(ntecnico).start();//
+        System.out.println("ME ESTAN LLEGANDO   "+ Global.notificaciones.size()+  "   Notificaciones");
 
-      iniciarNotificaciones();
+
 
 
 
@@ -176,12 +187,9 @@ public class MainActivity extends AppCompatActivity
 
                 consumirServicioNotificaciones();
 
-                System.out.println("ME ESTAN LLEGANDO   "+ Global.notificaciones.size()+  "   Notificaciones");
-
-
                 if(Global.notificaciones.isEmpty()){
                     verNotificaciones.setImageResource(ic_sinnotif);
-                    Toast.makeText(objeto, "No tiene Notificaciones pendientes", Toast.LENGTH_SHORT).show();
+
                 }
 
                 if(Global.notificaciones.size()>0) {
@@ -288,6 +296,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return false;
     }
+
 
 
     /*************************************************************************************
@@ -410,15 +419,17 @@ public class MainActivity extends AppCompatActivity
 
        final Gson gson = new GsonBuilder().create();
 
+
         String url = "http://100.25.214.91:3000/PolarisCore/Notifications/noti ";
         JSONObject jsonObject = new JSONObject();
+
 
 
         JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
                 jsonObject,
-                new Response.Listener<JSONObject>() {
+                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
@@ -481,6 +492,21 @@ public class MainActivity extends AppCompatActivity
 
                                    }
                                }
+
+                               if(Global.notificaciones.size()==0){
+                                   verNotificaciones.setImageResource(ic_sinnotif);
+
+                               }
+                               else
+                               if(Global.notificaciones.size()>0) {
+
+                                  verNotificaciones.setImageResource(R.drawable.ic_notifiok);
+                                   dialogo = new DialogNotificacion();
+                                   
+
+
+                               }
+
                            }
 
                         } catch (JSONException e) {
@@ -532,12 +558,10 @@ public void iniciarNotificaciones(){
 
         consumirServicioNotificaciones();
 
-       System.out.println("ME ESTAN LLEGANDO   "+ Global.notificaciones.size()+  "   Notificaciones");
-
 
     if(Global.notificaciones.isEmpty()){
         verNotificaciones.setImageResource(ic_sinnotif);
-        Toast.makeText(objeto, "No tiene Notificaciones pendientes", Toast.LENGTH_SHORT).show();
+
     }
 
     if(Global.notificaciones.size()>0) {
@@ -545,7 +569,7 @@ public void iniciarNotificaciones(){
         verNotificaciones.setImageResource(R.drawable.ic_notifiok);
         dialogo = new DialogNotificacion();
         //dialogo.show(MainActivity.this.getSupportFragmentManager(), "");
-        Toast.makeText(MainActivity.this, "Tiene notificaciones pendientes", Toast.LENGTH_SHORT).show();
+
 
     }
 
