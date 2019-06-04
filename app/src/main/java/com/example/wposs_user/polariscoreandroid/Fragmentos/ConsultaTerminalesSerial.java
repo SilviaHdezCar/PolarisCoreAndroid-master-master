@@ -86,7 +86,6 @@ public class ConsultaTerminalesSerial extends Fragment {
         btn_ser_rango_fechas = (Button) view.findViewById(R.id.btn_ser_rango_fechas);
 
 
-
         btn_ser_rango_fechas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,11 +226,14 @@ public class ConsultaTerminalesSerial extends Fragment {
                                     arreglo = jsonArray.getJSONObject(i).getString("tesw_repuestos").toString();
                                     fecha = jsonArray.getJSONObject(i).getString("tesw_date").toString();
 
-                                    if(arreglo!=null ||!arreglo.trim().isEmpty()){
-                                        Global.repuestos_consultas.put(estado, fecha + "%" + arreglo);
-                                        System.out.println("Repuestos: " + estado + " - " + fecha + "%" + arreglo);
+                                    if (arreglo != null || !arreglo.trim().isEmpty()) {
+                                        if (arreglo != null) {
+                                            if (!arreglo.isEmpty()) {
+                                                Global.repuestos_consultas.put(estado, fecha + "%" + arreglo);
+                                                System.out.println("Repuestos: " + estado + " - " + fecha + "%" + arreglo);
+                                            }
+                                        }
                                     }
-
                                 }
                             }
 
@@ -260,7 +262,7 @@ public class ConsultaTerminalesSerial extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -312,8 +314,8 @@ public class ConsultaTerminalesSerial extends Fragment {
                 Global.serial_ter = terminal.get(position).getTerm_serial();
                 Global.modelo = terminal.get(position).getTerm_model();
                 Global.terminalVisualizar = terminal.get(position);
-                Global.observaciones_con_fotos=null;
-                Global.observaciones_con_fotos=new ArrayList<>();
+                Global.observaciones_con_fotos = null;
+                Global.observaciones_con_fotos = new ArrayList<>();
                 Global.fotos = new ArrayList<>();
                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Prediagnostico()).addToBackStack(null).commit();
 

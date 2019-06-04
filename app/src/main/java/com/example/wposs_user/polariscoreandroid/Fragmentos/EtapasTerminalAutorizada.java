@@ -155,8 +155,10 @@ public class EtapasTerminalAutorizada extends Fragment {
         tecnologia.setText(Global.terminalVisualizar.getTerm_technology());
         estado.setText(Global.terminalVisualizar.getTerm_status());
         fechaANS.setText("");
-        if (Global.terminalVisualizar.getTerm_date_ans() == null) {
-            fechaANS.setText(Global.terminalVisualizar.getTerm_date_ans());
+        if (Global.terminalVisualizar.getTerm_date_reception() != null ) {
+            fechaANS.setText(Utils.darFormatoFecha2(Global.terminalVisualizar.getTerm_date_reception())+" - ");
+        }if (Global.terminalVisualizar.getTerm_date_ans() != null ) {
+            fechaANS.setText(fechaANS.getText().toString()+Utils.darFormatoFecha2(Global.terminalVisualizar.getTerm_date_ans()));
         }
 
         etapaView = (Button) view.findViewById(R.id.btn_etapas);
