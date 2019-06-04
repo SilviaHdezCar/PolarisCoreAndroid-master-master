@@ -26,14 +26,14 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/btn_eliminar_tipificacion"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:padding="1dp"
                 android:src="@mipmap/papelera"
-                android:tint="@color/gris_menu_letra"
+                android:tint="@color/verde_nav_bar"
                 />
         </LinearLayout>
 

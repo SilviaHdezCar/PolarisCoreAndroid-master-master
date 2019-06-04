@@ -131,7 +131,7 @@ public class Registro_diagnostico extends Fragment {
 
         for (int i = 0; i < Global.REPUESTOS.size(); i++) {
 
-            rep[i] = Global.REPUESTOS.get(i).getSpar_code() + "   " + Global.REPUESTOS.get(i).getSpar_name();
+            rep[i] = Global.REPUESTOS.get(i).getSpar_code() + "  -  " + Global.REPUESTOS.get(i).getSpar_name();
 
         }
         return rep;
@@ -146,12 +146,12 @@ public class Registro_diagnostico extends Fragment {
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(), R.layout.spinner_sytle, rep);
 
         aut_repuesto.setAdapter(adapter);
-        aut_repuesto.setThreshold(1);
+        aut_repuesto.setThreshold(0);
         aut_repuesto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String code = adapter.getItem(i);
-                String[] repuest = code.split(" ");
+                String[] repuest = code.split("  -  ");
                 Global.codigo_rep = repuest[0];
                 cantidad_req.setEnabled(true);
 
@@ -166,7 +166,7 @@ public class Registro_diagnostico extends Fragment {
                 if (i == EditorInfo.IME_ACTION_DONE) {
 
                     String code = adapter.getItem(i);
-                    String[] repuest = code.split(" ");
+                    String[] repuest = code.split("  -  ");
                     Global.codigo_rep = repuest[0];
                     InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
                     in.hideSoftInputFromWindow(textView.getApplicationWindowToken(), 0);
@@ -210,6 +210,17 @@ public class Registro_diagnostico extends Fragment {
         }
 
 
+
+        if (cant_solicitada >3) {
+
+            Toast.makeText(objeto, "Debe solicitar como máximo 3 repuestos", Toast.LENGTH_SHORT).show();
+            Global.codigo_rep = "";
+            return;
+
+        }
+
+
+
         for (int i = 0; i < Global.REPUESTOS.size(); i++) {
 
             if (Global.REPUESTOS.get(i).getSpar_code().equals(Global.codigo_rep)) {
@@ -221,6 +232,19 @@ public class Registro_diagnostico extends Fragment {
 
 
                         String total= String.valueOf(Integer.parseInt(rt.getSpar_quantity())+cant_solicitada);
+
+                        if (Integer.parseInt(total)>3) {
+
+                            Toast.makeText(objeto, "Solo puede solicitar como máximo 3 repuestos", Toast.LENGTH_SHORT).show();
+                            Global.codigo_rep = "";
+                            cantidad_req.setText("");
+                            aut_repuesto.setText("");
+                            this.cantidad_req.setEnabled(false);
+                            return;
+
+                        }
+
+
                         Global.REPUESTOS_DIAGONOSTICO.remove(rt);
                         reps.setSpar_quantity(total);
                         Global.REPUESTOS_DIAGONOSTICO.add(reps);
@@ -257,7 +281,7 @@ public class Registro_diagnostico extends Fragment {
 
         final AdapterRepuesto adapter = new AdapterRepuesto(Global.REPUESTOS_DIAGONOSTICO, new AdapterRepuesto.interfaceClick() {//seria termi asoc
 
-            public void onClick(List<Repuesto> terminal, int position) {
+            public void onClick(List<Repuesto> repuesto, int position) {
 
                 Global.REPUESTOS_DIAGONOSTICO.remove(position);
                 llenarRv();
