@@ -128,7 +128,7 @@ public class Prediagnostico extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_prediagnostico, container, false);
-        objeto.setTitle("          DIAGNÓSTICOS");
+        objeto.setTitulo("DIAGNÓSTICOS");
         this.repuestos = new ArrayList<Repuesto>();
         serial = (TextView) v.findViewById(R.id.serial_diagnosticos);
 
@@ -159,14 +159,14 @@ public class Prediagnostico extends Fragment {
 
         styleObservacioneso();
         System.out.println("***********************ANTES DEL SORT***********************");
-            for (Observacion ob:Global.OBSERVACIONES){
-                System.out.println("----FECHA OB: "+ob.getTeob_fecha());
-            }
+        for (Observacion ob : Global.OBSERVACIONES) {
+            System.out.println("----FECHA OB: " + ob.getTeob_fecha());
+        }
         Collections.sort(Global.OBSERVACIONES);
 
         System.out.println("***********************DESPUES DEL SORT***********************");
-        for (Observacion ob:Global.OBSERVACIONES){
-            System.out.println("----FECHA OB: "+ob.getTeob_fecha());
+        for (Observacion ob : Global.OBSERVACIONES) {
+            System.out.println("----FECHA OB: " + ob.getTeob_fecha());
         }
 
         llenarRVEtapas(Global.OBSERVACIONES);
@@ -234,7 +234,11 @@ public class Prediagnostico extends Fragment {
         });
 
         serial.setText("Serial: " + Global.terminalVisualizar.getTerm_serial());
-
+        if (Global.terminalVisualizar.getTerm_status().equals("DADO DE BAJA")) {
+            btn_reparacion.setVisibility(View.GONE);
+            btn_qa.setVisibility(View.GONE);
+            btn_prediagnostico.setVisibility(View.GONE);
+        }
 
         return v;
     }
@@ -469,6 +473,8 @@ public class Prediagnostico extends Fragment {
         if (Global.repuestos_consultas.get(estado) != null) {
             if (!Global.repuestos_consultas.get(estado).equalsIgnoreCase("")) {
                 String arrayRepuestos[] = Global.repuestos_consultas.get(estado).split("%");
+                System.out.println("Array repuestos: " + arrayRepuestos.toString());
+                System.out.println("Array repuestos pos 0: " + arrayRepuestos[0]);
                 if (arrayRepuestos[1] != null || !arrayRepuestos[1].isEmpty()) {
                     String reps[] = arrayRepuestos[1].split(",");
                     this.repuestos = new ArrayList<>();

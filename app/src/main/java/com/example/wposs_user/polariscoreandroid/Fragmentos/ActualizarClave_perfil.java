@@ -66,7 +66,7 @@ public class ActualizarClave_perfil extends Fragment {
 
         v = inflater.inflate(R.layout.fragment_actualizar_clave_perfil, container, false);
 
-        objeto.setTitle("       ACTUALIZAR CONTRASEÑA");
+        objeto.setTitulo("ACTUALIZAR CONTRASEÑA");
         queue = Volley.newRequestQueue(objeto);
         btn_validar = (Button) v.findViewById(R.id.lbl_validarClave);
         perfil_clave_actual = (EditText) v.findViewById(R.id.perfil_clave_actual);
@@ -311,8 +311,9 @@ public class ActualizarClave_perfil extends Fragment {
                                 }
                             } else {
                                 actualizarLogueoHuella();
-                                Toast.makeText(objeto, "Contraseña actualizada", Toast.LENGTH_SHORT).show();
-                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
+                                Toast.makeText(objeto, "Contraseña actualizada, por favor inicie sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                objeto.consumirSercivioCerrarSesion();
+                                // objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
                             }
 
                         } catch (JSONException e) {

@@ -80,7 +80,7 @@ public class Registro_diagnostico extends Fragment {
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_registro_diagnostico, container, false);
-        objeto.setTitle("REGISTRAR DIAGNÓSTICO");
+        objeto.setTitulo("REGISTRAR DIAGNÓSTICO");
         Global.REPUESTOS = new ArrayList<>();
         Global.REPUESTOS_DIAGONOSTICO = new ArrayList<Repuesto>();
         Global.obs = new Observacion("", "", "", "", "  ", Global.serial_ter);
@@ -608,10 +608,20 @@ public class Registro_diagnostico extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 rep = jsonArray.getString(i);
 
+
                                 r = gson.fromJson(rep, Repuesto.class);
+
                                 if (r != null) {
+
+                                    if(r.getSpar_quantity().equals("NaN")){
+                                        r.setSpar_quantity("0");
+
+                                    }
+
+                                    if(Integer.parseInt(r.getSpar_quantity())>0) {
+                                        Global.REPUESTOS.add(r);
+                                    }
                                 }
-                                Global.REPUESTOS.add(r);
                             }
                             llenarAutocomplete();
                         } catch (JSONException e) {

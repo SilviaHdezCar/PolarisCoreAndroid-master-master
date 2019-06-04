@@ -15,10 +15,9 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 
 
 public class ProductividadFragment extends Fragment {
-View v;
-Spinner s;
-Button buscar;
-
+    View v;
+    Spinner s;
+    Button buscar;
 
 
     @Override
@@ -26,44 +25,39 @@ Button buscar;
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        v= inflater.inflate(R.layout.fragment_productividad, container, false);
-        s= (Spinner)v.findViewById(R.id.tipo_consulta);
-        buscar= (Button)v.findViewById(R.id.btn_busqueda);
+        v = inflater.inflate(R.layout.fragment_productividad, container, false);
+        s = (Spinner) v.findViewById(R.id.tipo_consulta);
+        buscar = (Button) v.findViewById(R.id.btn_busqueda);
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buscar_productividad();
             }
         });
-objeto.setTitle("                PRODUCTIVIDAD");
-
+        objeto.setTitulo("PRODUCTIVIDAD");
 
 
         return v;
     }
 
 
-
     public void buscar_productividad() {
 
-        if(s.getSelectedItem().toString().equals("Seleccione")){
+        if (s.getSelectedItem().toString().equals("Seleccione")) {
 
-            Toast.makeText(v.getContext(),"Debe seleccionar un criterio válido",Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), "Debe seleccionar un criterio válido", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(s.getSelectedItem().toString().equals("Dia")){
+        if (s.getSelectedItem().toString().equals("Dia")) {
             objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Productividad_dia()).addToBackStack(null).commit();
         }
 
-        if(s.getSelectedItem().toString().equals("Mes")){
+        if (s.getSelectedItem().toString().equals("Mes")) {
             objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Productividad_mes()).addToBackStack(null).commit();
         }
 
 
-
     }
-
-
 
 
 }

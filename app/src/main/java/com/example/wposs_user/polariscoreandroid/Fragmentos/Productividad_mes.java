@@ -151,6 +151,7 @@ public class Productividad_mes extends Fragment {
         promreparadas= (TextView)v.findViewById(R.id.txt_promRep);
         promDiagnosticadas=(TextView)v.findViewById(R.id.txt_promDiag);
         comboAdapter = new ArrayAdapter<String>(objeto,R.layout.spinner_sytle, anios);
+        objeto.setTitulo("PRODUCTIVIDAD POR MES");
         mes = (Spinner) v.findViewById(R.id.spin_mesxmes);
         año = (Spinner) v.findViewById(R.id.spiner_añoxmes);
         año.setAdapter(comboAdapter);

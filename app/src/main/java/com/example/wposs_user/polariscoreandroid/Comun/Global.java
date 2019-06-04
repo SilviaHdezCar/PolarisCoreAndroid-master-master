@@ -31,6 +31,10 @@ public class Global {
     public static String serial_ter = "";
     public static String tecnologia = "";
     public static String marca= "";
+    public static String garantia= "";
+    public static String fechaANS= "";
+    public static String fechaRecepcion= "";
+    public static String estado= "";
 
 
     public static String diagnosticoTerminal = "";//es asignado al dar clic en el btn asociadas o autorizadas, es utilizado en tipificaciones, para consumir el servicio de diag asociada o reparacion

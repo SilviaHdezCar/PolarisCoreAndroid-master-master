@@ -7,175 +7,181 @@
     tools:context=".Fragmentos.ValidacionTerminalesFragment">
 
 
-    <TableLayout
-        android:id="@+id/tabla"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:shrinkColumns="*"
-        android:stretchColumns="*">
-
-
-        <TableRow>
-
-            <LinearLayout
-                android:id="@+id/tab_asociada"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btn_etapas"
-                    style="@style/letra_tabs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/verde_pestanas"
-                    android:scrollbars="vertical"
-                    android:text="ETAPAS" />
-
-                <LinearLayout
-                    android:id="@+id/selectAsociadas"
-                    android:layout_width="match_parent"
-                    android:layout_height="4dp"
-                    android:background="@color/verde_pestanas"
-                    android:orientation="horizontal">
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/tab_autorizada"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btn_validacion_terminales_autorizada"
-                    style="@style/letra_tabs"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="@color/verde_pestanas"
-                    android:scrollbars="vertical"
-                    android:text="VALIDACIÓN" />
-
-                <LinearLayout
-                    android:id="@+id/selectAutorizadas"
-                    android:layout_width="match_parent"
-                    android:layout_height="4dp"
-                    android:background="@color/blanca_linea"
-                    android:orientation="horizontal">
-
-                </LinearLayout>
-            </LinearLayout>
-
-
-        </TableRow>
-
-    </TableLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutSerial"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tabla"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <TextView
-            android:id="@+id/tituloSerial"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SERIAL: " />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/layout_encabezado_vali"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_below="@id/layoutSerial"
-        android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/gris_fondo"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/letra_titulos"
-            android:layout_width="220dp"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:paddingLeft="5dp"
-            android:text="Validación" />
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-            <TextView
-                style="@style/letra_titulos"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
+            <TableLayout
+                android:id="@+id/tabla"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:shrinkColumns="*"
+                android:stretchColumns="*">
+
+
+                <TableRow>
+
+                    <LinearLayout
+                        android:id="@+id/tab_asociada"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/btn_etapas"
+                            style="@style/letra_tabs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/verde_pestanas"
+                            android:scrollbars="vertical"
+                            android:text="ETAPAS" />
+
+                        <LinearLayout
+                            android:id="@+id/selectAsociadas"
+                            android:layout_width="match_parent"
+                            android:layout_height="4dp"
+                            android:background="@color/verde_pestanas"
+                            android:orientation="horizontal">
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tab_autorizada"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/btn_validacion_terminales_autorizada"
+                            style="@style/letra_tabs"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@color/verde_pestanas"
+                            android:scrollbars="vertical"
+                            android:text="VALIDACIÓN" />
+
+                        <LinearLayout
+                            android:id="@+id/selectAutorizadas"
+                            android:layout_width="match_parent"
+                            android:layout_height="4dp"
+                            android:background="@color/blanca_linea"
+                            android:orientation="horizontal">
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                </TableRow>
+
+            </TableLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutSerial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Ok" />
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-            <TextView
-                style="@style/letra_titulos"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Falla" />
+                <TextView
+                    android:id="@+id/tituloSerial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SERIAL: " />
 
-            <TextView
-                style="@style/letra_titulos"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Na" />
+            </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/layout_encabezado_vali"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gris_fondo"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/letra_titulos"
+                    android:layout_width="220dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:text="Validación" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/letra_titulos"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Ok" />
+
+                    <TextView
+                        style="@style/letra_titulos"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Falla" />
+
+                    <TextView
+                        style="@style/letra_titulos"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Na" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_validaciones_autorizadas"
+                    android:layout_width="360dp"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/btn_siguiente_validaciones_autorizadas" />
+
+
+                <Button
+                    android:id="@+id/btn_siguiente_validaciones_autorizadas"
+                    style="@style/letra_contenido_blanco"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/recycler_view_validaciones"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/redondo_gris_botones"
+                    android:text="Siguiente"
+                    android:textAllCaps="false"
+                    android:textColor="@color/negro" />
+            </LinearLayout>
 
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_below="@+id/layout_encabezado_vali"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="10dp"
-        android:orientation="vertical"
-       >
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_validaciones_autorizadas"
-            android:layout_width="360dp"
-            android:layout_height="345dp"
-            android:layout_above="@id/btn_siguiente_validaciones_autorizadas"
-            />
-
-
-        <Button
-            android:id="@+id/btn_siguiente_validaciones_autorizadas"
-            style="@style/letra_contenido_blanco"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/recycler_view_validaciones"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/redondo_gris_botones"
-            android:textColor="@color/negro"
-            android:text="Siguiente"
-            android:textAllCaps="false"
-            android:layout_marginBottom="20dp"
- />
-    </LinearLayout>
+    </ScrollView>
 
 
 </RelativeLayout>

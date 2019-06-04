@@ -134,12 +134,12 @@ public class Activity_login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_login);
         keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
         fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
 
         objeto_login=this;
-        setContentView(R.layout.activity_login);
+
         txtCorreo = (EditText) findViewById(R.id.txtCorreo);
         txtPass = (EditText) findViewById(R.id.txtPass);
         StringBuilder str = new StringBuilder();

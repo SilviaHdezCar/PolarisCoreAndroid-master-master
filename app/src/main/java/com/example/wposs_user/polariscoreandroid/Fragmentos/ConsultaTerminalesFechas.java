@@ -91,7 +91,7 @@ public class ConsultaTerminalesFechas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_consulta_terminales_fechas, container, false);
-        objeto.setTitle("          BÚSQUEDA POR FECHAS");
+        objeto.setTitulo("BÚSQUEDA POR FECHAS");
         buscar_terminales_fecha=(ImageView)view.findViewById(R.id.btn_buscar_terminalesPorFechas) ;
 
         terminales= new ArrayList<>();

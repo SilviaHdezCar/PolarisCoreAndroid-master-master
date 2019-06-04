@@ -108,7 +108,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_validaciones_seleccionar_autorizadas, container, false);
-        objeto.setTitle("               VALIDACIONES");
+        objeto.setTitulo("VALIDACIONES");
         queue = Volley.newRequestQueue(objeto);
         queue2 = Volley.newRequestQueue(objeto);
         queue3 = Volley.newRequestQueue(objeto);
@@ -331,13 +331,12 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                                 alertDialog.show();
 
                             } else {
-
+                                eliminarPila();
                                 final AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                                 alertDialog.setTitle("Información");
                                 alertDialog.setMessage("Reparación finalizada");
                                 alertDialog.setCancelable(true);
                                 alertDialog.show();
-                                eliminarPila();
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
 
@@ -527,10 +526,13 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
      * Este metodo elimina todos los fragmentos de la pila
      */
     public void eliminarPila() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-            fm.popBackStack();
+        if( getActivity().getSupportFragmentManager()!=null){
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                fm.popBackStack();
+            }
         }
+
 
     }
 

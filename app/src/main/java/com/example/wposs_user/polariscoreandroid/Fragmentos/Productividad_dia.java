@@ -144,7 +144,7 @@ public class Productividad_dia extends Fragment {
         productividad = new ArrayList<>();
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_productividad_dia, container, false);
-        objeto.setTitle("       PRODUCTIVIDAD POR DÍA");
+        objeto.setTitulo("PRODUCTIVIDAD POR DÍA");
 
 
         queue = Volley.newRequestQueue(objeto);

@@ -51,6 +51,7 @@ public class AdapterEtapa extends RecyclerView.Adapter<AdapterEtapa.ViewHolderOb
 
         String fecha = " ";
         if (this.listObservacion.get(i).getTeob_fecha() != null || !this.listObservacion.get(i).getTeob_fecha().isEmpty()) {
+
             fecha = Utils.darFormatoFechaObservaciones(this.listObservacion.get(i).getTeob_fecha());
         }
         holder.fecha_etapas.setText(fecha);

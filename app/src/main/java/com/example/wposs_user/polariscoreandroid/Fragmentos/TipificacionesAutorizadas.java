@@ -128,7 +128,7 @@ public class TipificacionesAutorizadas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tipificaciones_autorizadas, container, false);
-        objeto.setTitle("          TIPIFICACIONES");
+        objeto.setTitulo("TIPIFICACIONES");
 
         this.tieneRepuestos = false;
         list_con_fotos = new ArrayList<Observacion>();
@@ -162,7 +162,7 @@ public class TipificacionesAutorizadas extends Fragment {
         modelo.setText(Global.terminalVisualizar.getTerm_model());
         tecnologia.setText(Global.terminalVisualizar.getTerm_technology());
         estado.setText(Global.terminalVisualizar.getTerm_status());
-        fechaANS.setText(Global.terminalVisualizar.getTerm_date_register());
+        fechaANS.setText(Utils.darFormatoFechaObservaciones(Global.terminalVisualizar.getTerm_date_register()));
 
         recorrerTipificaciones();
         llenarListaRepuestos();

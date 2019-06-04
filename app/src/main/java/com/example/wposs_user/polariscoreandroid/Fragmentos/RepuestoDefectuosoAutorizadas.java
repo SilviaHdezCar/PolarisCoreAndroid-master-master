@@ -1,11 +1,15 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +40,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 /**
@@ -118,7 +121,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
         Global.REPUESTOS_DEFECTUOSOS_SOLICITAR = null;
         Global.REPUESTOS_DEFECTUOSOS_SOLICITAR = new ArrayList<Repuesto>();
 
-        objeto.setTitle("          REPUESTOS DEFECTUOSOS");
+        objeto.setTitulo("REPUESTOS DEFECTUOSOS");
         queue = Volley.newRequestQueue(objeto);
         queue2 = Volley.newRequestQueue(objeto);
         queue3 = Volley.newRequestQueue(objeto);
@@ -309,11 +312,12 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
 
                             } else {
                                 eliminarPila();
-                                AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Informacion");
+                                CustomAlertDialog(objeto, "Información", "Reparación finalizada", 3000, true);
+                               /* AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                                alertDialog.setTitle("");
                                 alertDialog.setMessage("Reparación finalizada");
                                 alertDialog.setCancelable(true);
-                                alertDialog.show();
+                                alertDialog.show();*/
 
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
@@ -512,6 +516,47 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
 
         return listas;
     }
+
+
+    static AlertDialog dialog;
+    public void CustomAlertDialog(Context c, String titulo, String msg, int tiempo, boolean cancelable) {
+        if( dialog!=null) {
+            if(dialog.isShowing())
+                dialog.dismiss();
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(c, R.style.DialogColor));
+        builder.setTitle(titulo);
+        builder.setMessage(msg);
+        builder.setCancelable(cancelable);
+        dialog = builder.create();
+        if(((Activity) c).isFinishing()) {
+            return;
+        }
+        //dialog.show();
+        try{
+            dialog.show();
+        }
+        catch(Exception e){
+            Log.i("exception","Mensaje cerrado por la fuerza");
+        }
+        int titleDividerId = c.getResources().getIdentifier("titleDivider", "id", "android");
+        View titleDivider = dialog.findViewById(titleDividerId);
+        if (titleDivider != null) {
+            titleDivider.setBackgroundColor(c.getResources().getColor(R.color.colorPrimary));
+        }
+        if (!cancelable)
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    dialog.dismiss();
+                }
+            }, tiempo);
+    }
+
+
+
+
+
 
 
     /**

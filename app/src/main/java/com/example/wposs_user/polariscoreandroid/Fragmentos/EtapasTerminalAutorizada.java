@@ -131,7 +131,7 @@ public class EtapasTerminalAutorizada extends Fragment {
         // Inflate the layout for this fragment
         Global.fotos = new ArrayList<>();
         view = inflater.inflate(R.layout.fragment_etapas_terminal_autorizada, container, false);
-
+        objeto.setTitulo("ETAPAS");
 
         // muestro la terminal seleccionada con los valores que guarde en el obj terminal
 
@@ -155,15 +155,19 @@ public class EtapasTerminalAutorizada extends Fragment {
         tecnologia.setText(Global.terminalVisualizar.getTerm_technology());
         estado.setText(Global.terminalVisualizar.getTerm_status());
         fechaANS.setText("");
-        if (Global.terminalVisualizar.getTerm_date_ans() == null) {
-            fechaANS.setText(Global.terminalVisualizar.getTerm_date_ans());
+        if (Global.terminalVisualizar.getTerm_date_reception() != null ) {
+            fechaANS.setText(Utils.darFormatoFecha2(Global.terminalVisualizar.getTerm_date_reception())+" - ");
+        }if (Global.terminalVisualizar.getTerm_date_ans() != null ) {
+            fechaANS.setText(fechaANS.getText().toString()+Utils.darFormatoFecha2(Global.terminalVisualizar.getTerm_date_ans()));
         }
 
         etapaView = (Button) view.findViewById(R.id.btn_etapas);
         validacionView = (Button) view.findViewById(R.id.btn_validacion_terminales);
+
         validacionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                objeto.setTitulo("VALIDACIONES");
                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionTerminalesFragment()).addToBackStack(null).commit();
             }
         });
@@ -173,6 +177,7 @@ public class EtapasTerminalAutorizada extends Fragment {
             tablaObservacion.setVisibility(View.GONE);
         }
         consumirServicioEtapas();
+
         btn_agregar_etapa_autorizada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -272,7 +277,7 @@ public class EtapasTerminalAutorizada extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -315,9 +320,9 @@ public class EtapasTerminalAutorizada extends Fragment {
 
         ArrayList observations = new ArrayList<>();
 
-        for (int i = observaciones.size()-1;i>=0;i--){
-            if(observaciones.get(i)!=null){
-                if(!observaciones.get(i).getTeob_description().trim().isEmpty()){
+        for (int i = observaciones.size() - 1; i >= 0; i--) {
+            if (observaciones.get(i) != null) {
+                if (!observaciones.get(i).getTeob_description().trim().isEmpty()) {
                     observations.add(observaciones.get(i));
                 }
             }
@@ -391,7 +396,7 @@ public class EtapasTerminalAutorizada extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
