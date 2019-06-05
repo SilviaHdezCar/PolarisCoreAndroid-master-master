@@ -53,11 +53,11 @@ public class AdapterRepuestoStock extends RecyclerView.Adapter<AdapterRepuestoSt
 
 
     @Override
-    public void onBindViewHolder( final ViewHolderRepuestoStock holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolderRepuestoStock holder, final int position) {
 
-        holder.cod_rep.setText(this.listRepuesto.get(position).getSpar_code());
-        holder.nombre_rep.setText(this.listRepuesto.get(position).getSpar_name());
-        holder.cant_rep.setText(""+this.listRepuesto.get(position).getSpar_quantity());
+        holder.cod_rep.setText(this.listRepuesto.get(position).getSpar_code().trim());
+        holder.nombre_rep.setText(this.listRepuesto.get(position).getSpar_name().trim());
+        holder.cant_rep.setText(this.listRepuesto.get(position).getSpar_quantity());
         holder.status.setText(this.listRepuesto.get(position).getSpar_status());
         String estados = holder.status.getText().toString();
 
@@ -83,7 +83,7 @@ public class AdapterRepuestoStock extends RecyclerView.Adapter<AdapterRepuestoSt
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 

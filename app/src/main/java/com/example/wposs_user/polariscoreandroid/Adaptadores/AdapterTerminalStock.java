@@ -49,9 +49,9 @@ public class AdapterTerminalStock extends RecyclerView.Adapter<AdapterTerminalSt
 
 
         Terminal ter = this.listTerminal.get(i);
-        holder.marca_modelo.setText(ter.getTerm_brand() + "    " + ter.getTerm_model());
+        holder.marca_modelo.setText(ter.getTerm_brand() + " " + ter.getTerm_model());
         holder.serial.setText(ter.getTerm_serial());
-        holder.tecnologia.setText(ter.getTerm_technology());
+        holder.tecnologia.setText(ter.getTerm_technology().trim());
         holder.estado.setText(ter.getTerm_status());
         String estados = holder.estado.getText().toString();
 

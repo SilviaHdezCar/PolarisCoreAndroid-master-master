@@ -2,6 +2,7 @@ package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -393,9 +394,10 @@ public class TipificacionesFragment extends Fragment {
                 btn_eliminar.setMaxHeight(30);
                 btn_eliminar.setMinimumHeight(30);
                 //btn_eliminar.setPadding(1, 5, 1, 5);
-                btn_eliminar.setImageResource(R.drawable.ic_delete);
-                btn_eliminar.setColorFilter(R.color.colorPrimary);//para cambiar el color de la imagen
-                btn_eliminar.setBackgroundResource(R.color.blanco);
+                btn_eliminar.setImageResource(R.mipmap.papelera);
+                btn_eliminar.setColorFilter(Color.parseColor("#018793"));//para cambiar el color de la imagen
+                btn_eliminar.setBackgroundColor(Color.parseColor("#00EEF3F3"));
+
 
                 fila.addView(nombre);
                 fila.addView(btn_eliminar);

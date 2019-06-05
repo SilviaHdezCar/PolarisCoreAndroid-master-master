@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -75,13 +76,13 @@ public class AdapterTipificaciones extends RecyclerView.Adapter<AdapterTipificac
     public class ViewHolderTipificaciones extends RecyclerView.ViewHolder {
 
         private TextView txt_tipificaciones;
-        private ImageButton btn_eliminar_tipificacion;
+        private ImageView btn_eliminar_tipificacion;
 
 
         ViewHolderTipificaciones(View itemView) {
             super(itemView);
             txt_tipificaciones = (TextView) itemView.findViewById(R.id.txt_tipificaciones);
-            btn_eliminar_tipificacion = (ImageButton) itemView.findViewById(R.id.btn_eliminar_tipificacion);
+            btn_eliminar_tipificacion = (ImageView) itemView.findViewById(R.id.btn_eliminar_tipificacion);
 
 
         }

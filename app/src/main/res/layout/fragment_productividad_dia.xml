@@ -61,11 +61,23 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:text="Terminales Diagnosticadas y Reparadas por Día"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textSize="16dp"
+            android:textStyle="bold"
+
+            />
+
 
         <com.github.mikephil.charting.charts.BarChart
 
             android:layout_height="350dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:id="@+id/grafica_dia"
             android:layout_width="320dp"
             android:visibility="invisible"
