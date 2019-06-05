@@ -298,7 +298,7 @@ public class Productividad_dia extends Fragment {
         }
 
 
-        String fecha_inicial = f_inicio.getText().toString();
+        final String fecha_inicial = f_inicio.getText().toString();
         String[] fecha = fecha_inicial.split("/");
 
         final int dia_inicio = Integer.parseInt(fecha[0]);
@@ -407,15 +407,15 @@ public class Productividad_dia extends Fragment {
 
                         BarDataSet datos = new BarDataSet(diagnosticadas, "Diagnosticadas");
                         BarDataSet valores = new BarDataSet(reparadas, "Reparadas");
+                        String y= "        "+fecha_inicial;
+                        String[] fecha = new String[] {y};
                         datos.setColor(Color.RED);
-                        valores.setColor(Color.GREEN);
+                         valores.setColor(Color.GREEN);
                         datos.setDrawValues(true);
-
-
                         valores.setDrawValues(true);
-
                         datos.setValueFormatter(new MyValueFormatter());
                         valores.setValueFormatter(new MyValueFormatter());
+                        grafica.setFitBars(true);
 
 
                         BarData datosGrafica = new BarData(datos, valores);
@@ -425,20 +425,26 @@ public class Productividad_dia extends Fragment {
                         XAxis x = grafica.getXAxis();
                         //  x.setValueFormatter(new IndexAxisValueFormatter(meses));
 
+                        x.setValueFormatter(new IndexAxisValueFormatter(fecha));
+
+
+                        x.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+
 
 
                         grafica.setScaleY(1);
                         grafica.setScaleX(1);
-                                                x.setCenterAxisLabels(true);
-                        x.setLabelCount(0);
-                        x.setDrawLabels(false);
+                        x.setCenterAxisLabels(true);
+                        grafica.getAxisRight().setEnabled(false);
+                        x.setLabelCount(1);
+                        x.setDrawLabels(true);
                         x.setPosition(XAxis.XAxisPosition.BOTTOM);
                         x.setGranularity(1);
                         x.setGranularityEnabled(true);
                         grafica.setDragEnabled(true);
                         grafica.setVisibleXRangeMaximum(2);
                         float barSpace = 0.02f;
-                        float groupSpace = 0.8f;
+                        float groupSpace = 0.6f;
                         datosGrafica.setBarWidth(0.2f);
                         grafica.getXAxis().setAxisMinimum(0);
                         grafica.getXAxis().setAxisMaximum(1);

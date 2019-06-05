@@ -29,7 +29,7 @@ public class NotificacionTecnico implements Runnable {
 
                 objeto.consumirServicioNotificaciones();
 
-                Thread.sleep(900000);
+                Thread.sleep(30000);
 
 
             }
