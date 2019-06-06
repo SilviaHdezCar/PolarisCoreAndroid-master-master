@@ -93,12 +93,14 @@ public class InicialFragment extends Fragment {
     private RequestQueue queue;
     private static Validacion valid;
     private TableLayout tabla;
+    public static InicialFragment inicial;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_inicial, container, false);
         Global.soloConsulta = "no";
+        inicial = this;
 
         btn_asociadas = (Button) v.findViewById(R.id.btn_terminales_asociadas);
         btn_autorizadas = (Button) v.findViewById(R.id.btn_terminales_autorizadas);
@@ -221,7 +223,7 @@ public class InicialFragment extends Fragment {
 
                                     Global.OBSERVACIONES.add(o);
                                 }
-                                if(Global.OBSERVACIONES!=null){
+                                if (Global.OBSERVACIONES != null) {
                                     sort(Global.OBSERVACIONES);
                                 }
                             }
@@ -240,7 +242,7 @@ public class InicialFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -335,7 +337,7 @@ public class InicialFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -425,7 +427,7 @@ public class InicialFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -470,16 +472,17 @@ public class InicialFragment extends Fragment {
             }
         }
 
-
+        consumirServicioValidaciones();
         final AdapterTerminal_asociada adapter = new AdapterTerminal_asociada(terminals, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
             @Override
             public void onClick(List<Terminal> terminal, int position) {
-                consumirServicioValidaciones();
+
                 Global.serial_ter = terminal.get(position).getTerm_serial();
                 Global.modelo = terminal.get(position).getTerm_model();
                 Global.tecnologia = terminal.get(position).getTerm_technology();
                 Global.marca = terminal.get(position).getTerm_brand();
-                Global.garantia = terminal.get(position).getTerm_warranty_time();
+                Global.garantia = terminal.get(position).getTerm_date_finish();
+                System.out.println("fecha fin garantía: " + Global.garantia);
                 Global.fechaANS = terminal.get(position).getTerm_date_ans();
                 Global.estado = terminal.get(position).getTerm_status();
                 Global.fechaRecepcion = terminal.get(position).getTerm_date_reception();
@@ -509,7 +512,6 @@ public class InicialFragment extends Fragment {
         Global.TERMINALES_AUTORIZADAS = new ArrayList<Terminal>();
         Global.REPUESTOS = null;
         Global.REPUESTOS = new ArrayList<Repuesto>();
-
         Global.validaciones_listar_autorizadas = null;
         Global.tipificaciones_listar_autorizadas = null;
         Global.repuestos_listar_autorizadas = null;
@@ -572,7 +574,7 @@ public class InicialFragment extends Fragment {
                                     t = gson.fromJson(ter, Terminal.class);
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                                     if (t != null) {
-
+                                        System.out.println("*******************SErvicio Validavionesssssssss=="+i+"\n"+jsonObject.get("validaciones").toString());
                                         Global.validacionesAutorizadas = jsonObject.get("validaciones").toString();
                                         Global.validaciones_listar_autorizadas.put(t.getTerm_serial(), Global.validacionesAutorizadas);
 
@@ -598,7 +600,7 @@ public class InicialFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }

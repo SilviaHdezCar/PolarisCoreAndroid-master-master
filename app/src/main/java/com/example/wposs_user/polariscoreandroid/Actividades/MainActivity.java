@@ -1,10 +1,13 @@
 package com.example.wposs_user.polariscoreandroid.Actividades;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -17,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -363,6 +367,50 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    /**
+     * Metodo que crea un Alert dialogo y se cierrar atomaticamente
+     *
+     * @param c contexto
+     * @param titulo -->Titulo del cuadro de dialogo
+     * @param msg -->Información del cuadro de dialogo
+     * @param tiempo -->Tiempo en el cual permanece activo el cuadro de dialogo
+     * @param cancelable -->True: si es cancelable, False: si no
+     */
+    static AlertDialog dialog;
+
+    public void CustomAlertDialog(Context c, String titulo, String msg, int tiempo, boolean cancelable) {
+        if (dialog != null) {
+            if (dialog.isShowing())
+                dialog.dismiss();
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(c, R.style.AppTheme));
+        builder.setTitle(titulo);
+        builder.setMessage(msg);
+        builder.setCancelable(cancelable);
+        dialog = builder.create();
+        if (((Activity) c).isFinishing()) {
+            return;
+        }
+        //dialog.show();
+        try {
+            dialog.show();
+        } catch (Exception e) {
+            Log.i("Error:", "Mensaje cerrado por la fuerza");
+        }
+        int titleDividerId = c.getResources().getIdentifier("titleDivider", "id", "android");
+        View titleDivider = dialog.findViewById(titleDividerId);
+        if (titleDivider != null) {
+            titleDivider.setBackgroundColor(c.getResources().getColor(R.color.colorPrimary));
+        }
+        if (!cancelable)
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    dialog.dismiss();
+                }
+            }, tiempo);
+    }
+
     public RecyclerView getRecyclerView() {
         return recyclerView;
     }
@@ -477,14 +525,14 @@ public class MainActivity extends AppCompatActivity
                                 }
                             }
 
-                            if(Global.notificaciones.size()==0){
+                            if (Global.notificaciones.size() == 0) {
                                 verNotificaciones.setImageResource(ic_sinnotif);
 
-                            }if(Global.notificaciones.size()>0) {
+                            }
+                            if (Global.notificaciones.size() > 0) {
 
                                 verNotificaciones.setImageResource(R.drawable.ic_notifiok);
                                 dialogo = new DialogNotificacion();
-
 
 
                             }
@@ -539,16 +587,16 @@ public class MainActivity extends AppCompatActivity
         consumirServicioNotificaciones();
 
 
-    if(Global.notificaciones.isEmpty()){
-        verNotificaciones.setImageResource(ic_sinnotif);
+        if (Global.notificaciones.isEmpty()) {
+            verNotificaciones.setImageResource(ic_sinnotif);
 
-    }
+        }
 
         if (Global.notificaciones.size() > 0) {
 
-        verNotificaciones.setImageResource(R.drawable.ic_notifiok);
-        dialogo = new DialogNotificacion();
-        //dialogo.show(MainActivity.this.getSupportFragmentManager(), "");
+            verNotificaciones.setImageResource(R.drawable.ic_notifiok);
+            dialogo = new DialogNotificacion();
+            //dialogo.show(MainActivity.this.getSupportFragmentManager(), "");
         }
     }
 

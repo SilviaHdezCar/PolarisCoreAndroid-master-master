@@ -23,21 +23,14 @@ public class NotificacionTecnico implements Runnable {
 
     @Override
     public void run() {
-
         try {
             while (Boolean.TRUE){
-
                 objeto.consumirServicioNotificaciones();
-
                 Thread.sleep(900000);
-
-
             }
         }catch (Exception e){
 
-
         }
-        objeto.consumirServicioNotificaciones();
 
     }
 

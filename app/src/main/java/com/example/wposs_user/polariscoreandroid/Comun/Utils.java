@@ -57,82 +57,6 @@ public class Utils {
     }
 
     /**
-     * Este metodo convierte un array de Bytes a un objeto tipo String
-     *
-     * @retorna la cadena tipo String
-     */
-    public static String variable1 = "";
-
-    public static String uninterpret_ASCII(byte[] rawData, int offset, int length) {
-        char[] ret = new char[length];
-        for (int i = 0; i < length; i++) {
-            ret[i] = (char) rawData[offset + i];
-        }
-        return new String(ret);
-    }
-
-    /*******************************************************************************
-     Function:   replaceChar
-     Description: reemplazar un caracter por otro en un buffer
-     Input:    *outputData = buffer a modificar
-     antiguo = caracter que se reemplaza
-     nuevo= caracter con el que se reemplaza
-     len= longitud a recorrer en el buffer
-     Return:   Nothing
-     *******************************************************************************/
-    public static void replaceChar(byte[] outputData, byte antiguo, byte nuevo, int len) {
-        int i;
-
-        for (i = 0; i < len; i++)
-            if (outputData[i] == antiguo)
-                outputData[i] = nuevo;
-    }
-
-    /**
-     * Este metodo separa un array de bytes en tokens dependiendo del caracter recibido
-     *
-     * @Retorna un array de cadenas con los tokens separados
-     */
-    public static String[] tokenizer(byte[] array, int offset, int length, byte separator, int numTokens) {
-        String[] tokens = new String[numTokens];
-        int i, len_tok, j = 0;
-
-        while (j < numTokens) {
-            len_tok = 0;
-            for (i = offset; i < length; i++) {
-                if (array[i] == separator) {
-
-                    tokens[j] = uninterpret_ASCII(array, offset, len_tok);
-
-                    offset += (len_tok + 1);
-                    j++;
-                    break;
-                }
-                len_tok++;
-            }
-        }
-
-        return tokens;
-    }
-
-    /**
-     * Este metodo separa un array de bytes en tokens dependiendo del tama�o (LV)
-     *
-     * @Retorna un array de cadenas con los tokens separados
-     */
-    public static String[] tokenizer(byte[] array, int offset, int numTokens) {
-        String[] tokens = new String[numTokens];
-        int i;
-
-        for (i = 0; i < numTokens; i++) {
-            tokens[i] = uninterpret_ASCII(array, offset + 1, array[offset]);
-            offset += (array[offset] + 1);
-        }
-
-        return tokens;
-    }
-
-    /**
      * Este metodo obtiene la fecha y hora actual
      * en el formato YYYYMMDDhhmmss
      *
@@ -345,50 +269,7 @@ public class Utils {
     }
 
 
-    /**
-     * Muestra la memoria de un boffer en hexa y ascii
-     *
-     * @param Buffer: buffer que se va a mostrar
-     * @param tam:    Tama�o que se va a mostrar
-     */
-    public static void dumpMemory(byte[] Buffer, int tam) {
-        int i;
 
-        byte[] BufferDisplay = new byte[tam];
-
-        for (i = 0; i < tam; i++) {
-            if (Buffer[i] >= 32 && Buffer[i] <= 126)
-                BufferDisplay[i] = Buffer[i];
-            else
-                BufferDisplay[i] = '.';
-        }
-
-        System.out.println("\n\n\n");
-
-        for (i = 0; i < tam; i++) {
-
-            //System.out.print( ISOUtil.unPadLeft( (ISOUtil.padleft(Integer.toHexString(Buffer[i]), 2, '0').toUpperCase() ) , 'F' ) + " " );
-
-            System.out.print(ISOUtil.hexString(Buffer[i]) + " ");
-
-            if ((i + 1) % 16 == 0) {
-                System.out.print("   " + uninterpret_ASCII(BufferDisplay, i - 15, 16));
-                System.out.println();
-            } else if (i + 1 == tam) {
-
-                System.out.print(ISOUtil.padleft("   ", 3 * (16 - tam % 16), ' '));
-                System.out.print("   " + uninterpret_ASCII(BufferDisplay, i - (tam % 16) + 1, tam % 16));
-
-                System.out.println();
-            }
-
-        }
-
-        System.out.println();
-
-        //System.out.println(ISOUtil.hexString(Buffer, 0, tam));
-
-    }
 
     /*******************************************************************************
      Function        : strLen
@@ -408,60 +289,7 @@ public class Utils {
     }
 
 
-    /*******************************************************************************
-     Function        : formatMiles
-     Description     : Recibe una cadena y la convierte en formato miles
-     Input           : cadena = Cadena a convertir
-     Return          : cadena formateada
-     ******************************************************************************/
-    public static String formatMiles(String cadena) {
-        int i, k = 0;
-        int j = 0;
-        int tam;
 
-        tam = cadena.length();
-
-        byte[] cadena_orig = cadena.getBytes();
-        byte[] cad_destino = new byte[50];
-
-        i = tam / 3;                                                            // Calc�lo la cantidad de puntos de mil que se van a agregar
-        if (i * 3 == tam) i--;
-        k = 0;
-
-        for (j = tam - 1; j >= 0; j--) {
-            cad_destino[j + i] = cadena_orig[j];
-            k++;
-            if ((k / 3) * 3 == k) {
-                i--;
-
-                if ((j + i) > 0)
-                    cad_destino[j + i] = '.';
-            }
-        }
-
-        return uninterpret_ASCII(cad_destino, 0, strLen(cad_destino));
-    }
-
-    /**
-     * 弹出撤销框
-     */
-    private static int toByte(char c) {
-        byte b = (byte) "0123456789ABCDEF".indexOf(c);
-        return b;
-    }
-
-    public static byte[] hexStringToByteArray(String hex) {
-        int len = hex.length() / 2;
-        byte[] result = new byte[len];
-        char[] achar = hex.toCharArray();
-
-        for (int i = 0; i < len; ++i) {
-            int pos = i * 2;
-            result[i] = (byte) (toByte(achar[pos]) << 4 | toByte(achar[pos + 1]));
-        }
-
-        return result;
-    }
 
     /*******************************************************************************
      Function        : extraerString
@@ -1259,66 +1087,6 @@ public class Utils {
             activity.finish();
         }
     }
-
-    /***************************
-     Function    : calculateContentLength
-     Description : calcula la longitud de la data http
-     Input       : Nothing
-     Return      : retorna la longitud de la data http
-     ***************************/
-    public static int calculateContentLength() {
-        byte[] left_limit = "Content-Length: ".getBytes();
-        byte[] right_limit = "\r\n".getBytes();
-        byte[] str = new byte[6 + 1];
-        int i, j, content_length = -1;
-
-        dumpMemory(left_limit, left_limit.length);
-
-        dumpMemory(right_limit, right_limit.length);
-
-        i = find_bytes_secuence(Global.inputData, left_limit, Global.inputLen, left_limit.length);
-
-        if (i != -1) {
-            //j = find_str(inputData + i + strlen(left_limit), right_limit);
-            int indiceArray = i + left_limit.length;
-            j = find_bytes_secuence(Global.inputData, right_limit, Global.inputLen, right_limit.length, indiceArray, 0);
-
-            if (j != -1) {
-                memSet(str, (byte) 0x00, str.length);
-                System.arraycopy(Global.inputData, i + left_limit.length, str, 0, j);
-                content_length = Integer.parseInt(uninterpret_ASCII(str, 0, j));
-            } else
-                content_length = 0;
-        }
-
-        return content_length;
-
-    }
-
-
-    /***************************
-     Function    : calculateTotalLength
-     Description : calcula la longitud total del mensaje http mensaje HTTP
-     la longitud es el tamaño de la data mas el tamaño de la cabecera
-     Input       : Nothing
-     Return      : retorna la longitud del mensaje recibido
-     ***************************/
-    public static int calculateTotalLength() {
-        byte[] right_limit = new byte[]{(byte) 0x0D, (byte) 0x0A, (byte) 0x0D, (byte) 0x0A};
-        int http_header_length, content_length, total_length = 0;
-
-        content_length = calculateContentLength();
-        http_header_length = find_bytes_secuence(Global.inputData, right_limit, Global.inputLen, right_limit.length);
-
-        if (content_length == -1 || http_header_length == -1)
-            return (Global.inputData.length);
-
-        total_length = content_length + http_header_length + right_limit.length;
-
-        return total_length;
-
-    }
-
 
     /**
      * Metodo que le da formato a la fecha cuando es= May 13, 2019 1:35 PM  ---> DD/MM/AAAA HORA
