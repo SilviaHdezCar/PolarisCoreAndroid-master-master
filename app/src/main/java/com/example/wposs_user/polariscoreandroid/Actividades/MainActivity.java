@@ -69,6 +69,8 @@ import java.util.Map;
 import java.util.Vector;
 
 import static android.graphics.Color.GRAY;
+import static com.example.wposs_user.polariscoreandroid.R.drawable.ic_notification;
+import static com.example.wposs_user.polariscoreandroid.R.drawable.ic_notnotificacion;
 import static com.example.wposs_user.polariscoreandroid.R.drawable.ic_sinnotif;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
 
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity
     private ImageView verNotificaciones;
     private ArrayList<Notificacion> notificaciones;
     private NotificacionTecnico ntecnico;
+    String mensaje;
 
     private int contadorFragmentos;
 
@@ -171,23 +174,22 @@ public class MainActivity extends AppCompatActivity
         new Thread(ntecnico).start();//
         System.out.println("ME ESTAN LLEGANDO   " + Global.notificaciones.size() + "   Notificaciones");
 
-        iniciarNotificaciones();
+        consumirServicioNotificaciones();
 
 
         verNotificaciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                consumirServicioNotificaciones();
 
                 if (Global.notificaciones.isEmpty()) {
-                    verNotificaciones.setImageResource(ic_sinnotif);
+                    verNotificaciones.setImageResource(ic_notnotificacion);
 
                 }
 
                 if (Global.notificaciones.size() > 0) {
 
-                    verNotificaciones.setImageResource(R.drawable.ic_notifiok);
+                    verNotificaciones.setImageResource(ic_notification);
                     dialogo = new DialogNotificacion();
                     dialogo.show(MainActivity.this.getSupportFragmentManager(), "");
 
@@ -426,6 +428,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+
                             Global.STATUS_SERVICE = response.get("status").toString();
                             System.out.println("status:  " + Global.STATUS_SERVICE);
 
@@ -442,6 +445,7 @@ public class MainActivity extends AppCompatActivity
 
 
                             response = new JSONObject(response.toString());
+
 
                             if (response.length() < 4) {
 
@@ -464,30 +468,24 @@ public class MainActivity extends AppCompatActivity
                                     n = gson.fromJson(not, Notificacion.class);
                                     if (n != null && !n.getNoti_msg().contains("albarán")) {
 
-                                        if (Global.notificaciones.size() > 0) {
 
-                                            if (!contieneNotificacion(n)) {
-                                                Global.notificaciones.add(n);
-                                            }
-                                        } else if (Global.notificaciones.size() == 0) {
+                                             Global.notificaciones.add(n);
 
-                                            Global.notificaciones.add(n);
-                                        }
                                     }
                                 }
                             }
 
                             if(Global.notificaciones.size()==0){
-                                verNotificaciones.setImageResource(ic_sinnotif);
-
-                            }if(Global.notificaciones.size()>0) {
-
-                                verNotificaciones.setImageResource(R.drawable.ic_notifiok);
-                                dialogo = new DialogNotificacion();
-
-
+                                verNotificaciones.setImageResource(ic_notnotificacion);
 
                             }
+
+                            if(Global.notificaciones.size()>0) {
+
+                                verNotificaciones.setImageResource(ic_notification);
+                                dialogo = new DialogNotificacion();
+
+                           }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -519,38 +517,66 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public boolean contieneNotificacion(Notificacion not) {
 
-        for (Notificacion n : Global.notificaciones) {
 
-            if (n.getNoti_id().equals(not.getNoti_id())) {
+    /***************METODO PARA ELIMINAR UNA NOTIFICACION***************************/
 
-                return true;
+
+
+    public void eliminarNotificacion(final String id) {
+
+        Notificacion noti = null;
+
+        final Gson gson = new GsonBuilder().create();
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Notifications";
+        JSONObject jsonObject = new JSONObject();
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.DELETE,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                                response = new JSONObject(response.toString());
+
+                            if(!response.get("message").equals("success")){
+
+                                Toast.makeText(objeto, "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+                params.put("id",id);
+
+                return params;
             }
+        };
 
-        }
-
-        return false;
-
-    }
-
-    public void iniciarNotificaciones() {
-
-        consumirServicioNotificaciones();
-
-
-    if(Global.notificaciones.isEmpty()){
-        verNotificaciones.setImageResource(ic_sinnotif);
+        queue.add(jsArrayRequest);
 
     }
 
-        if (Global.notificaciones.size() > 0) {
 
-        verNotificaciones.setImageResource(R.drawable.ic_notifiok);
-        dialogo = new DialogNotificacion();
-        //dialogo.show(MainActivity.this.getSupportFragmentManager(), "");
-        }
-    }
 
 
 }

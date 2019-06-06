@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
+import static com.example.wposs_user.polariscoreandroid.R.drawable.ic_notnotificacion;
 
 public class DialogNotificacion extends DialogFragment {
 
@@ -80,13 +81,15 @@ System.out.println("LLENO EL RECICLER");
         AdapterNotificacion adapter = new AdapterNotificacion(Global.notificaciones, new AdapterNotificacion.interfaceClick() {
 
             public void onClick(List<Notificacion> notificaciones, int position) {
-        Global.notificaciones.remove(position);
+                Notificacion not= Global.notificaciones.get(position);
+                 objeto.eliminarNotificacion(not.getNoti_id());
+                  Global.notificaciones.remove(position);
 
         System.out.println("cargados en el recyclerview*********"+ Global.notificaciones.size());
         if(Global.notificaciones.size()==0){
             dismiss();
             ImageView im = (ImageView)objeto.findViewById(R.id.btn_notificaciones);
-            im.setImageResource(R.drawable.ic_sinnotif);
+            im.setImageResource(ic_notnotificacion);
             Toast.makeText(objeto, "No tiene ninguna notificación pendiente", Toast.LENGTH_SHORT).show();
         }
                 llenarRv();
