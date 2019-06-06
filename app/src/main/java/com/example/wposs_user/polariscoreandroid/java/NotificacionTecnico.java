@@ -11,7 +11,7 @@ import com.example.wposs_user.polariscoreandroid.R;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 import static com.example.wposs_user.polariscoreandroid.R.drawable.ic_sinnotif;
 
-//clase que permite ejecutar en2 plano el servicio de notificaciones actualizandolo cada 15 minutos
+//clase que permite ejecutar en2 plano el servicio de notificaciones actualizandolo cada 20 SEGUNDOS
 
 
 public class NotificacionTecnico implements Runnable {
@@ -29,7 +29,9 @@ public class NotificacionTecnico implements Runnable {
 
                 objeto.consumirServicioNotificaciones();
 
-                Thread.sleep(300000);
+                System.out.println("CONSUME EL SERVICIO DE NOTIFICACIONES***");
+
+                Thread.sleep(20000);
 
 
             }
@@ -37,9 +39,8 @@ public class NotificacionTecnico implements Runnable {
 
 
         }
-        objeto.consumirServicioNotificaciones();
 
-    }
+           }
 
 
 

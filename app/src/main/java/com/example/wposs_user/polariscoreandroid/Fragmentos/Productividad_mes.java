@@ -226,6 +226,8 @@ public class Productividad_mes extends Fragment {
 
                             response = new JSONObject(response.get("data").toString());
 
+                            System.out.println("RESPUESTA DE PRODUCTIVIDAD***"+ response.toString());
+
                             JSONArray jsonArray = response.getJSONArray("productividad");
 
 
@@ -392,10 +394,6 @@ public class Productividad_mes extends Fragment {
                         promDiagnosticadas.setText(" "+promedioDiagnosticadas);
                         promreparadas.setText(""+promedioReparadas);
                         grafica.setVisibility(VISIBLE);
-
-
-
-
 
                     }
 

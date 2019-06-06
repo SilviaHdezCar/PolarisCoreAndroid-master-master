@@ -323,6 +323,8 @@ public class ConsultaTerminalesFechas extends Fragment {
             f_fin.setText(" ");
             rv.setAdapter(null);
             terminales= new ArrayList<>();
+            f_inicio.setText("");
+            f_fin.setText("");
 
             return;
 
@@ -335,6 +337,8 @@ public class ConsultaTerminalesFechas extends Fragment {
             f_fin.setText(" ");
             rv.setAdapter(null);
             terminales= new ArrayList<>();
+            f_inicio.setText("");
+            f_fin.setText("");
             return;
 
         }
@@ -346,6 +350,8 @@ public class ConsultaTerminalesFechas extends Fragment {
             f_fin.setText(" ");
             rv.setAdapter(null);
             terminales= new ArrayList<>();
+            f_inicio.setText("");
+            f_fin.setText("");
             return;
 
         }
@@ -414,8 +420,10 @@ public class ConsultaTerminalesFechas extends Fragment {
                                 ter = gson.fromJson(res, Terminal.class);
 
                                 if (ter != null) {
+
+                                    terminales.add(ter);
                                 }
-                                terminales.add(ter);
+
                             }
 
 
@@ -425,6 +433,8 @@ public class ConsultaTerminalesFechas extends Fragment {
                             rv.setLayoutManager(llm);
                             AdapterTerminalStock adapter= new AdapterTerminalStock(view.getContext(),terminales);
                             rv.setAdapter(adapter);
+                            f_inicio.setText("");
+                            f_fin.setText("");
 
 
                         } catch (JSONException e) {

@@ -412,6 +412,7 @@ public class MainActivity extends AppCompatActivity
 
     public void consumirServicioNotificaciones() {
 
+
         Notificacion noti = null;
 
         final Gson gson = new GsonBuilder().create();
@@ -468,8 +469,8 @@ public class MainActivity extends AppCompatActivity
                                     n = gson.fromJson(not, Notificacion.class);
                                     if (n != null && !n.getNoti_msg().contains("albarán")) {
 
-
-                                             Global.notificaciones.add(n);
+                                        if(!contieNotificacion(n.getNoti_id()))
+                                            Global.notificaciones.add(n);
 
                                     }
                                 }
@@ -574,6 +575,17 @@ public class MainActivity extends AppCompatActivity
 
         queue.add(jsArrayRequest);
 
+    }
+
+    public boolean contieNotificacion(String id){
+
+        for(Notificacion not :Global.notificaciones){
+
+            if(not.getNoti_id().equals(id)){
+                return true;
+            }
+        }
+        return false;
     }
 
 
