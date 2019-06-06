@@ -207,7 +207,7 @@ public class ObservacionesFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error.getMessage() != null) {
-                    if (!error.getMessage().isEmpty()){
+                    if (!error.getMessage().isEmpty()) {
                         Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -347,12 +347,7 @@ public class ObservacionesFragment extends Fragment {
 
                             } else {
                                 eliminarPila();
-                                AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Información");
-                                alertDialog.setMessage("Diagnóstico registrado exitosamente");
-                                alertDialog.setCancelable(true);
-                                alertDialog.show();
-
+                                objeto.CustomAlertDialog(objeto, "Información", "Diagnóstico registrado exitosamente", 3000, false);
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
 
@@ -367,7 +362,7 @@ public class ObservacionesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }

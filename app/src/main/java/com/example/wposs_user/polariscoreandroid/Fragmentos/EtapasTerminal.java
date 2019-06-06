@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
+import static com.example.wposs_user.polariscoreandroid.Fragmentos.InicialFragment.inicial;
 
 
 public class EtapasTerminal extends Fragment {
@@ -46,8 +47,8 @@ public class EtapasTerminal extends Fragment {
 
     private TextView observacionesEtapas;
     private View view;
+    private Button btn_siguiente;
     private RecyclerView rv;
-    private View v;
     private static Observacion o;
     private RequestQueue queue;
 
@@ -65,8 +66,15 @@ public class EtapasTerminal extends Fragment {
 
 
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_etapas);
+        btn_siguiente = (Button) view.findViewById(R.id.btn_siguiente_etapas);
 //ordenar observaciones por fechas
         llenarRVEtapas(Global.OBSERVACIONES);
+        btn_siguiente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+            }
+        });
         return view;
 
     }
@@ -78,6 +86,7 @@ public class EtapasTerminal extends Fragment {
      * @Params Recibe la lista  observaciones o etapas que van a ser mostradas
      **/
     public void llenarRVEtapas(List<Observacion> observaciones) {
+
         if (observaciones == null || observaciones.size() == 0) {
             //para que elimine este fragmento de la pila
             FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -107,7 +116,7 @@ public class EtapasTerminal extends Fragment {
         final AdapterEtapa adapter = new AdapterEtapa(observations, new AdapterEtapa.interfaceClick() {
             @Override
             public void onClick(List<Observacion> observaciones, int position) {
-                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+               // objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
 
 
             }

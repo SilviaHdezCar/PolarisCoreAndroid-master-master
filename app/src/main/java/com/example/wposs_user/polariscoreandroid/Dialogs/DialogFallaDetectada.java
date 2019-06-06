@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
@@ -21,6 +22,7 @@ public class DialogFallaDetectada extends DialogFragment {
     private TextView txt_descripcion;
     private TextView txt_info1;
     private TextView txt_info2;
+    private Button btn_cancelar;
     private View v;
 
     private String falla1;
@@ -39,6 +41,7 @@ public class DialogFallaDetectada extends DialogFragment {
         txt_descripcion = (TextView) v.findViewById(R.id.txt_descripcion);
         txt_info1 = (TextView) v.findViewById(R.id.txt_falla1);
         txt_info2 = (TextView) v.findViewById(R.id.txt_falla2);
+        btn_cancelar = (Button) v.findViewById(R.id.btn_cancelar_falla_detectada);
         setCancelable(false);
 
         if (Global.diagnosticoTerminal.equals("asociada")) {
@@ -78,6 +81,12 @@ public class DialogFallaDetectada extends DialogFragment {
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasNuevoD_autorizadas()).addToBackStack(null).commit();
                     dismiss();
                 }
+            }
+        });
+        btn_cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
             }
         });
 

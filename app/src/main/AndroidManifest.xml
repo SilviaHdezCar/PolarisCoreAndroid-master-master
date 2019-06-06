@@ -15,7 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Actividades.Reestablecer_password"  android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".LectorCodigo.ActivityLectorCodigo"></activity>
+        <activity
+            android:name=".Actividades.Reestablecer_password"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Actividades.Inicial">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

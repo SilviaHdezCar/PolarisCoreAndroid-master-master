@@ -236,7 +236,7 @@ public class Prediagnostico extends Fragment {
         serial.setText("Serial: " + Global.terminalVisualizar.getTerm_serial());
         if (Global.terminalVisualizar.getTerm_status().equals("DADO DE BAJA")) {
             btn_reparacion.setVisibility(View.GONE);
-            btn_qa.setVisibility(View.GONE);
+            btn_qa.setVisibility(View.VISIBLE);
             btn_prediagnostico.setVisibility(View.GONE);
         }
 

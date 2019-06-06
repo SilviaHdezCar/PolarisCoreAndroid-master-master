@@ -33,6 +33,7 @@
                         style="@style/letra_tabs"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
+                        android:padding="2dp"
                         android:background="@color/verde_pestanas"
                         android:scrollbars="vertical"
                         android:text="ETAPAS" />
@@ -58,6 +59,7 @@
                         style="@style/letra_tabs"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
+                        android:padding="2dp"
                         android:background="@color/verde_pestanas"
                         android:scrollbars="vertical"
                         android:text="Diagnóstico" />
@@ -83,6 +85,7 @@
                         style="@style/letra_tabs"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
+                        android:padding="2dp"
                         android:background="@color/verde_pestanas"
                         android:scrollbars="vertical"
                         android:text="Reparación" />
@@ -95,6 +98,7 @@
                         android:orientation="horizontal"></LinearLayout>
                 </LinearLayout>
 
+                <!--Pestaña de evidencias-->
                 <LinearLayout
                     android:id="@+id/tab_qa"
                     android:layout_width="wrap_content"
@@ -106,9 +110,10 @@
                         style="@style/letra_tabs"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
+                        android:padding="2dp"
                         android:background="@color/verde_pestanas"
                         android:scrollbars="vertical"
-                        android:text="QA" />
+                        android:text="EVIDENCIAS" />
 
                     <LinearLayout
                         android:id="@+id/select_qa"
@@ -120,30 +125,6 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/tab_evidencias"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/btn_terminales_evidencias"
-                        style="@style/letra_tabs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:background="@color/verde_pestanas"
-                        android:scrollbars="vertical"
-                        android:text="EVIENCIAS" />
-
-                    <LinearLayout
-                        android:id="@+id/select_evidencias"
-                        android:layout_width="match_parent"
-                        android:layout_height="4dp"
-                        android:background="@color/verde_pestanas"
-                        android:orientation="horizontal">
-
-                    </LinearLayout>
-                </LinearLayout>
             </LinearLayout>
 
 

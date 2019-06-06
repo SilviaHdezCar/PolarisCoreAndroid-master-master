@@ -1,13 +1,16 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -143,7 +146,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
     /**
      * Este metodo Recorre el arreglo de validaciones y verifica que todos los estados esten ok o NA.     *
      *
-     * @return true--> si el estado de la validacion es ok o Na(No aplica). false--> si el estado es Falla
+     * @return faltan--> si el estado de la validacion es ok o Na(No aplica). falla--> si hay fallas en las validaciones. Ok--> si todo está ok o NA
      */
     public String validarEstadosValidaciones() {
         String retorno = "";
@@ -153,13 +156,15 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
         for (int i = 0; i < Global.VALIDACIONES.size(); i++) {
             val = Global.VALIDACIONES.get(i);
             if (val != null) {
-                if (val.getEstado().isEmpty() || val.getEstado() == null) {
+                if (val.getEstado() == null || val.getEstado().isEmpty()) {
+                    System.out.println(val.toString());
                     AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                     alertDialog.setTitle("Información");
                     alertDialog.setMessage("Verifique el estado de la validación: " + val.getTeva_description());
                     alertDialog.setCancelable(true);
                     alertDialog.show();
                     return "faltan";
+
                 } else {
                     if (val.getEstado().equalsIgnoreCase("falla")) {
                         contFalla++;
@@ -198,19 +203,25 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                 pos_radio = ((RadioGroup) view).getCheckedRadioButtonId();
 
                 if (pos_radio == (300 + pos_fila)) {
+                    System.out.println("Dio clic: "+Global.VALIDACIONES.get(i - 1).getTeva_description()+" estado: "+Global.VALIDACIONES.get(i - 1).getEstado());
                     Global.VALIDACIONES.get(i - 1).setEstado("ok");
+                    System.out.println("Despues clic: "+Global.VALIDACIONES.get(i - 1).getTeva_description()+" estado: "+Global.VALIDACIONES.get(i - 1).getEstado());
                     Global.VALIDACIONES.get(i - 1).setOk(true);
                     Global.VALIDACIONES.get(i - 1).setFalla(false);
                     Global.VALIDACIONES.get(i - 1).setNo_aplica(false);
                 }
                 if (pos_radio == (400 + pos_fila)) {
+                    System.out.println("Dio clic: "+Global.VALIDACIONES.get(i - 1).getTeva_description()+" estado: "+Global.VALIDACIONES.get(i - 1).getEstado());
                     Global.VALIDACIONES.get(i - 1).setEstado("falla");
+                    System.out.println("Despues clic: "+Global.VALIDACIONES.get(i - 1).getTeva_description()+" estado: "+Global.VALIDACIONES.get(i - 1).getEstado());
                     Global.VALIDACIONES.get(i - 1).setOk(false);
                     Global.VALIDACIONES.get(i - 1).setFalla(true);
                     Global.VALIDACIONES.get(i - 1).setNo_aplica(false);
                 }
                 if (pos_radio == (500 + pos_fila)) {
+                    System.out.println("Dio clic: "+Global.VALIDACIONES.get(i - 1).getTeva_description()+" estado: "+Global.VALIDACIONES.get(i - 1).getEstado());
                     Global.VALIDACIONES.get(i - 1).setEstado("na");
+                    System.out.println("Despues clic: "+Global.VALIDACIONES.get(i - 1).getTeva_description()+" estado: "+Global.VALIDACIONES.get(i - 1).getEstado());
                     Global.VALIDACIONES.get(i - 1).setOk(false);
                     Global.VALIDACIONES.get(i - 1).setFalla(false);
                     Global.VALIDACIONES.get(i - 1).setNo_aplica(true);
@@ -266,8 +277,6 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
             fila.addView(nombre);
             fila.addView(rg);
             tabla.addView(fila);
-
-
         }
     }
 
@@ -277,7 +286,8 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
     public void llenarListValidaciones() {
         Global.VALIDACIONES = null;
         Global.VALIDACIONES = new ArrayList<>();
-        String validaciones[] = Global.validacionesAutorizadas.split(",");
+        String validaciones[] = Global.validaciones_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
+        System.out.println("**************************************************validaciones+*******: " + validaciones.length + "-" + validaciones.toString());
 
         for (int i = 0; i < validaciones.length; i++) {
             Validacion v = new Validacion(validaciones[i].split("-")[0], false, false, false);
@@ -332,11 +342,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
 
                             } else {
                                 eliminarPila();
-                                final AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Información");
-                                alertDialog.setMessage("Reparación finalizada");
-                                alertDialog.setCancelable(true);
-                                alertDialog.show();
+                                objeto.CustomAlertDialog(objeto, "Información", "Reparación finalizada", 3000, false);
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
 
@@ -352,7 +358,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -434,7 +440,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                         public void onErrorResponse(VolleyError error) {
                             Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                             if (error.getMessage() != null) {
-                                if (!error.getMessage().isEmpty()){
+                                if (!error.getMessage().isEmpty()) {
                                     Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -459,9 +465,9 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                 // Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getObj()
                 jsonObjectBody2.put("spar_code", Global.REPUESTOS_CAMBIAR_ESTADO_DANADO.get(i).getSpar_code());
                 jsonObjectBody2.put("spar_status", "DAÑADO");
-                jsonObjectBody2.put("spar_warehouse",Global.REPUESTOS_CAMBIAR_ESTADO_DANADO.get(i).getSpar_warehouse() );//REvisar nombre llave
+                jsonObjectBody2.put("spar_warehouse", Global.REPUESTOS_CAMBIAR_ESTADO_DANADO.get(i).getSpar_warehouse());//REvisar nombre llave
                 jsonObjectBody2.put("spar_quantity", Global.REPUESTOS_CAMBIAR_ESTADO_DANADO.get(i).getSpar_quantity());
-                jsonObjectBody2.put("spar_warehouse_new",Global.CODE);
+                jsonObjectBody2.put("spar_warehouse_new", Global.CODE);
 
                 Log.d("RESPUESTA", jsonObjectBody2.toString());
 
@@ -500,7 +506,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                         public void onErrorResponse(VolleyError error) {
                             Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                             if (error.getMessage() != null) {
-                                if (!error.getMessage().isEmpty()){
+                                if (!error.getMessage().isEmpty()) {
                                     Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -526,8 +532,8 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
      * Este metodo elimina todos los fragmentos de la pila
      */
     public void eliminarPila() {
-        if( getActivity().getSupportFragmentManager()!=null){
-            FragmentManager fm = getActivity().getSupportFragmentManager();
+        if (objeto.getSupportFragmentManager() != null) {
+            FragmentManager fm = objeto.getSupportFragmentManager();
             for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                 fm.popBackStack();
             }

@@ -355,7 +355,7 @@ public class Registro_diagnostico extends Fragment {
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals/saveNewDiagnosis";
         JSONObject jsonObject = new JSONObject();
-        JSONObject obj2 = new JSONObject();
+        final JSONObject obj2 = new JSONObject();
         try {
 
             JSONArray val = this.getValidaciones();
@@ -393,32 +393,13 @@ public class Registro_diagnostico extends Fragment {
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }
-
-
-                                AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Información");
-                                alertDialog.setMessage("Error: " + response.get("message").toString() + "\n");
-                                alertDialog.setCancelable(true);
-
-                                alertDialog.show();
-
+                                Toast.makeText(objeto, "Error: " + response.get("message").toString(), Toast.LENGTH_SHORT).show();
                                 return;
 
                             } else {
                                 eliminarPila();
-                                AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Información");
-                                alertDialog.setMessage("Diagnóstico registrado exitosamente");
-                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Aceptar",
-
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                alertDialog.show();
-
+                                objeto.CustomAlertDialog(objeto, "Información", "Diagnóstico registrado exitosamente", 3000, false);
+                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
 
                         } catch (JSONException e) {
@@ -433,7 +414,7 @@ public class Registro_diagnostico extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -467,8 +448,8 @@ public class Registro_diagnostico extends Fragment {
 
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals/savediagnosis";
-       JSONObject jsonObject = new JSONObject();
-        JSONObject obj2 = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
+        final JSONObject obj2 = new JSONObject();
         try {
 
             JSONArray val = this.getValidaciones();
@@ -508,31 +489,14 @@ public class Registro_diagnostico extends Fragment {
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }
-                                AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Información");
-                                alertDialog.setMessage("Error: " + response.get("message").toString() + "\n");
-                                alertDialog.setCancelable(true);
 
-                                alertDialog.show();
-
+                                Toast.makeText(objeto, "Error: " + response.get("message").toString(), Toast.LENGTH_SHORT).show();
                                 return;
 
                             } else {
                                 eliminarPila();
-                                AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Información");
-                                alertDialog.setMessage("Diagnóstico registrado exitosamente");
-                                alertDialog.setCancelable(false);
-                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Aceptar",
-
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                               objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                alertDialog.show();
-
+                                objeto.CustomAlertDialog(objeto, "Información", "Diagnóstico registrado exitosamente", 3000, false);
+                                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
 
                         } catch (JSONException e) {
@@ -547,7 +511,7 @@ public class Registro_diagnostico extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -624,7 +588,6 @@ public class Registro_diagnostico extends Fragment {
                             if (jsonArray.length() == 0) {
                                 Global.mensaje = "No existen repuestos disponibles para el modelo de serial seleccionado";
                                 Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
-                                ;
                                 return;
                             }
                             String rep = null;
@@ -637,12 +600,12 @@ public class Registro_diagnostico extends Fragment {
 
                                 if (r != null) {
 
-                                    if(r.getSpar_quantity().equals("NaN")){
+                                    if (r.getSpar_quantity().equals("NaN")) {
                                         r.setSpar_quantity("0");
 
                                     }
 
-                                    if(Integer.parseInt(r.getSpar_quantity())>0) {
+                                    if (Integer.parseInt(r.getSpar_quantity()) > 0) {
                                         Global.REPUESTOS.add(r);
                                     }
                                 }
@@ -660,7 +623,7 @@ public class Registro_diagnostico extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }

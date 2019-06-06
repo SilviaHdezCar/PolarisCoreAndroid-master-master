@@ -277,7 +277,7 @@
                                     android:inputType="textMultiLine|textCapCharacters"
                                     android:maxLines="4"
                                     android:maxLength="300"
-                                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,-_:;+*/"
+                                    android:digits=" 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,-_:;+*/"
                                     android:overScrollMode="always"
                                     android:padding="5dp"
                                     android:scrollbarStyle="insideInset"
@@ -341,7 +341,7 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycler_view_observaciones_validacion"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginBottom="3dp" />
@@ -360,6 +360,7 @@
                             android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:layout_marginBottom="20dp"
+                            android:layout_marginTop="20dp"
                             android:background="@drawable/redondo_gris_botones"
                             android:text="Siguiente"
                             android:textAllCaps="false"

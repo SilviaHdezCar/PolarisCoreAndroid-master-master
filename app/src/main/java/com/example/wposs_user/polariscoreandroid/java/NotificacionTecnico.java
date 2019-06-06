@@ -39,6 +39,7 @@ public class NotificacionTecnico implements Runnable {
 
 
         }
+        objeto.consumirServicioNotificaciones();
 
            }
 

@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
@@ -21,6 +22,7 @@ public class DialogEsRepable extends DialogFragment {
     private TextView txt_info1;
     private TextView txt_info2;
     private View v;
+    private Button btn_cancelar;
     private String case1; //SI
     private String case2; //NO
 
@@ -34,7 +36,8 @@ public class DialogEsRepable extends DialogFragment {
         txt_descripcion = (TextView) v.findViewById(R.id.txt_descripcion);
         txt_info1 = (TextView) v.findViewById(R.id.txt_falla1);
         txt_info2 = (TextView) v.findViewById(R.id.txt_falla2);
-        setCancelable(false);
+        btn_cancelar = (Button) v.findViewById(R.id.btn_cancelar_falla_detectada);
+       setCancelable(false);
 
         if (Global.panel_reparable) {
             txt_descripcion.setText("¿La terminal es reparable? ");
@@ -66,7 +69,12 @@ public class DialogEsRepable extends DialogFragment {
                 }
             }
         });
-
+        btn_cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
         builder.setView(v);
         
