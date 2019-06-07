@@ -48,17 +48,9 @@ public class DialogNotificacion extends DialogFragment {
         view = getActivity().getLayoutInflater().inflate(R.layout.notificaciones, null);
         rv= (RecyclerView)view.findViewById(R.id.rv_notificaciones);
         dialogo.setCancelable(false);
-        cerrarNotificacion=(Button)view.findViewById(R.id.btn_cerrarNotificaciones);
-       dialogo.setView(view);
+        dialogo.setView(view);
         llenarRv();
-        cerrarNotificacion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                dismiss();
-
-            }
-        });
 
 
 
