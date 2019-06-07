@@ -131,7 +131,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
                 <TextView
                     android:id="@+id/serial_diagnosticos"
@@ -144,9 +145,12 @@
                 <!--LinearLayout observaciones-->
                 <LinearLayout
                     android:id="@+id/layout_observaciones"
-                    android:layout_width="match_parent"
+                    android:layout_width="330dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_gravity="center_horizontal"
+
+                    >
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycler_view_observaciones_prediagnosticoÒ"
@@ -165,7 +169,7 @@
 
                     <LinearLayout
                         android:id="@+id/layout_validaciones"
-                        android:layout_width="match_parent"
+                        android:layout_width="330dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
                         android:orientation="vertical">
@@ -176,16 +180,25 @@
                             android:layout_height="40dp"
                             android:layout_below="@id/layoutSerial"
                             android:layout_marginTop="5dp"
-                            android:background="@color/gris_fondo"
+                            android:background="@color/borde_verde_edit_text"
                             android:orientation="horizontal">
 
                             <TextView
                                 style="@style/letra_titulos"
-                                android:layout_width="220dp"
+                                android:layout_width="210dp"
                                 android:layout_height="match_parent"
                                 android:gravity="center_vertical"
                                 android:paddingLeft="5dp"
-                                android:text="Validación" />
+                                android:text="Validación"
+                                android:textColor="@color/blanco" />
+
+                            <LinearLayout
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/gris_botones"
+
+                                ></LinearLayout>
+
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -197,21 +210,25 @@
                                     android:layout_width="40dp"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
-                                    android:text="Ok" />
+                                    android:text="Ok"
+                                    android:textColor="@color/blanco" />
+
 
                                 <TextView
                                     style="@style/letra_titulos"
                                     android:layout_width="40dp"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
-                                    android:text="Falla" />
+                                    android:text="Falla"
+                                    android:textColor="@color/blanco" />
 
                                 <TextView
                                     style="@style/letra_titulos"
                                     android:layout_width="40dp"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
-                                    android:text="Na" />
+                                    android:text="Na"
+                                    android:textColor="@color/blanco" />
 
 
                             </LinearLayout>
@@ -238,54 +255,57 @@
                     <!--Linear layaut tipificaciones-->
                     <LinearLayout
                         android:id="@+id/layout_tipificaciones"
-                        android:layout_width="match_parent"
+                        android:layout_width="330dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_margin="20dp"
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="330dp"
                             android:layout_height="30dp"
-                            android:background="@drawable/borde_inferior_gris"
+                            android:layout_gravity="center_horizontal"
                             android:orientation="vertical">
 
                             <TextView
                                 style="@style/letra_negrita"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@color/gris_fondo"
+                                android:background="@drawable/cuadrado_fondo_verde"
                                 android:gravity="center"
                                 android:text="Tipificaciones"
-                                android:textAllCaps="true" />
+                                android:textAllCaps="true"
+                                android:textColor="@color/blanco" />
+
                         </LinearLayout>
 
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recycler_view_tipificaciones_prediagnostico"
-                            android:layout_width="match_parent"
+                            android:layout_width="330dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="3dp" />
                     </LinearLayout>
 
                     <!--Linear layout evidencias-->
                     <LinearLayout
                         android:id="@+id/layout_evidencias_prediagnostico"
-                        android:layout_width="match_parent"
+                        android:layout_width="330dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
                         android:orientation="vertical"
                         android:padding="5dp">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="312dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
                             android:layout_marginBottom="20dp"
                             android:orientation="vertical">
 
                             <LinearLayout
-                                android:layout_width="match_parent"
+                                android:layout_width="312dp"
                                 android:layout_height="wrap_content"
                                 android:background="@color/gris_fondo"
                                 android:orientation="vertical">
@@ -294,23 +314,25 @@
                                     style="@style/letra_negrita"
                                     android:layout_width="match_parent"
                                     android:layout_height="30dp"
+                                    android:background="@drawable/cuadrado_fondo_verde"
                                     android:gravity="center"
                                     android:text="EVIDENCIA"
-                                    android:textAllCaps="true" />
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/blanco" />
 
                             </LinearLayout>
 
 
                             <LinearLayout
-                                android:layout_width="match_parent"
+                                android:layout_width="319dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redondo_borde_gris_fondo_blanco"
+                                android:background="@drawable/cuadrado_fondo_blanco"
                                 android:orientation="vertical"
                                 android:padding="5dp">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
+                                    android:layout_width="305dp"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
                                     android:padding="5dp">
@@ -323,7 +345,7 @@
                                         android:src="@drawable/img_no_disponible" />
 
                                     <LinearLayout
-                                        android:layout_width="match_parent"
+                                        android:layout_width="193dp"
                                         android:layout_height="match_parent"
                                         android:orientation="vertical">
 
@@ -356,15 +378,15 @@
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_width="match_parent"
+                                android:layout_width="312dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redondo_borde_gris_fondo_blanco"
+                                android:background="@drawable/cuadrado_fondo_blanco"
                                 android:orientation="vertical"
                                 android:padding="5dp">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
+                                    android:layout_width="301dp"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
                                     android:padding="5dp">
@@ -377,7 +399,7 @@
                                         android:src="@drawable/img_no_disponible" />
 
                                     <LinearLayout
-                                        android:layout_width="match_parent"
+                                        android:layout_width="190dp"
                                         android:layout_height="match_parent"
                                         android:orientation="vertical">
 
@@ -416,14 +438,16 @@
                     <!--linear layout repuestos-->
                     <LinearLayout
                         android:id="@+id/layout_repuestos_prediagnostico"
-                        android:layout_width="match_parent"
+                        android:layout_width="330dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:layout_margin="20dp"
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="330dp"
                             android:layout_height="30dp"
+                            android:layout_gravity="center_horizontal"
                             android:background="@drawable/borde_inferior_gris"
                             android:orientation="vertical">
 
@@ -431,10 +455,11 @@
                                 style="@style/letra_negrita"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@color/gris_fondo"
+                                android:background="@drawable/cuadrado_fondo_verde"
                                 android:gravity="center"
                                 android:text="REPUESTOS"
-                                android:textAllCaps="true" />
+                                android:textAllCaps="true"
+                                android:textColor="@color/blanco" />
                         </LinearLayout>
 
                         <TableLayout
