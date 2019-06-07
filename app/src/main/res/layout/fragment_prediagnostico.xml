@@ -150,7 +150,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
                 <TextView
                     android:id="@+id/serial_diagnosticos"
@@ -184,7 +185,7 @@
 
                     <LinearLayout
                         android:id="@+id/layout_validaciones"
-                        android:layout_width="match_parent"
+                        android:layout_width="330dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
                         android:orientation="vertical">
@@ -195,16 +196,25 @@
                             android:layout_height="40dp"
                             android:layout_below="@id/layoutSerial"
                             android:layout_marginTop="5dp"
-                            android:background="@color/gris_fondo"
+                            android:background="@color/borde_verde_edit_text"
                             android:orientation="horizontal">
 
                             <TextView
                                 style="@style/letra_titulos"
-                                android:layout_width="220dp"
+                                android:layout_width="210dp"
                                 android:layout_height="match_parent"
                                 android:gravity="center_vertical"
                                 android:paddingLeft="5dp"
+                                android:textColor="@color/blanco"
                                 android:text="Validación" />
+                            <LinearLayout
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/gris_botones"
+
+                                >
+                            </LinearLayout>
+
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -215,12 +225,15 @@
                                     style="@style/letra_titulos"
                                     android:layout_width="40dp"
                                     android:layout_height="match_parent"
+                                    android:textColor="@color/blanco"
                                     android:gravity="center"
                                     android:text="Ok" />
+
 
                                 <TextView
                                     style="@style/letra_titulos"
                                     android:layout_width="40dp"
+                                    android:textColor="@color/blanco"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:text="Falla" />
@@ -229,6 +242,7 @@
                                     style="@style/letra_titulos"
                                     android:layout_width="40dp"
                                     android:layout_height="match_parent"
+                                    android:textColor="@color/blanco"
                                     android:gravity="center"
                                     android:text="Na" />
 

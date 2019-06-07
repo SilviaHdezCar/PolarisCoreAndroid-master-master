@@ -241,7 +241,10 @@
                     android:background="@drawable/redondo_gris_botones"
                     android:text="Cancelar"
                     android:textAllCaps="false"
-                    android:textColor="@color/negro" />
+                    android:textColor="@color/negro"
+                    android:layout_marginBottom="10dp"
+
+                    />
 
             </LinearLayout>
 
