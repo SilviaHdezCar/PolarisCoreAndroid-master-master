@@ -157,8 +157,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
             val = Global.VALIDACIONES.get(i);
             if (val != null) {
                 if (val.getEstado() == null || val.getEstado().isEmpty()) {
-                    System.out.println(val.toString());
-                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
+                   AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
                     alertDialog.setTitle("Información");
                     alertDialog.setMessage("Verifique el estado de la validación: " + val.getTeva_description());
                     alertDialog.setCancelable(true);
@@ -203,25 +202,19 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                 pos_radio = ((RadioGroup) view).getCheckedRadioButtonId();
 
                 if (pos_radio == (300 + pos_fila)) {
-                    System.out.println("Dio clic: "+Global.VALIDACIONES.get(i - 1).getTeva_description()+" estado: "+Global.VALIDACIONES.get(i - 1).getEstado());
                     Global.VALIDACIONES.get(i - 1).setEstado("ok");
-                    System.out.println("Despues clic: "+Global.VALIDACIONES.get(i - 1).getTeva_description()+" estado: "+Global.VALIDACIONES.get(i - 1).getEstado());
-                    Global.VALIDACIONES.get(i - 1).setOk(true);
+                   Global.VALIDACIONES.get(i - 1).setOk(true);
                     Global.VALIDACIONES.get(i - 1).setFalla(false);
                     Global.VALIDACIONES.get(i - 1).setNo_aplica(false);
                 }
                 if (pos_radio == (400 + pos_fila)) {
-                    System.out.println("Dio clic: "+Global.VALIDACIONES.get(i - 1).getTeva_description()+" estado: "+Global.VALIDACIONES.get(i - 1).getEstado());
                     Global.VALIDACIONES.get(i - 1).setEstado("falla");
-                    System.out.println("Despues clic: "+Global.VALIDACIONES.get(i - 1).getTeva_description()+" estado: "+Global.VALIDACIONES.get(i - 1).getEstado());
                     Global.VALIDACIONES.get(i - 1).setOk(false);
                     Global.VALIDACIONES.get(i - 1).setFalla(true);
                     Global.VALIDACIONES.get(i - 1).setNo_aplica(false);
                 }
                 if (pos_radio == (500 + pos_fila)) {
-                    System.out.println("Dio clic: "+Global.VALIDACIONES.get(i - 1).getTeva_description()+" estado: "+Global.VALIDACIONES.get(i - 1).getEstado());
-                    Global.VALIDACIONES.get(i - 1).setEstado("na");
-                    System.out.println("Despues clic: "+Global.VALIDACIONES.get(i - 1).getTeva_description()+" estado: "+Global.VALIDACIONES.get(i - 1).getEstado());
+                   Global.VALIDACIONES.get(i - 1).setEstado("na");
                     Global.VALIDACIONES.get(i - 1).setOk(false);
                     Global.VALIDACIONES.get(i - 1).setFalla(false);
                     Global.VALIDACIONES.get(i - 1).setNo_aplica(true);
@@ -287,7 +280,6 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
         Global.VALIDACIONES = null;
         Global.VALIDACIONES = new ArrayList<>();
         String validaciones[] = Global.validaciones_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
-        System.out.println("**************************************************validaciones+*******: " + validaciones.length + "-" + validaciones.toString());
 
         for (int i = 0; i < validaciones.length; i++) {
             Validacion v = new Validacion(validaciones[i].split("-")[0], false, false, false);

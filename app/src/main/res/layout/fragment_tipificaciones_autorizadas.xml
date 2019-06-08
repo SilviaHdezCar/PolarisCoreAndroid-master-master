@@ -334,7 +334,7 @@
                             style="@style/letra_negrita"
                             android:layout_width="280dp"
                             android:layout_height="30dp"
-                            android:text="Repuestos"
+                            android:text="Repuestos autorizados"
                             android:textAllCaps="true" />
 
                         <TextView
