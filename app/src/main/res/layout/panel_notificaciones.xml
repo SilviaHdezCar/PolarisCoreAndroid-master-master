@@ -9,16 +9,7 @@
 
     >
 
-    <ImageView
-        android:id="@+id/eliminar_notificacion"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-       android:layout_gravity="right"
-        android:src="@drawable/icon_cerrar"
-        android:visibility="visible"
-        android:layout_margin="5dp"
 
-        />
 
 
     <LinearLayout
@@ -52,6 +43,22 @@
 
             />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            >
+        <ImageView
+            android:id="@+id/eliminar_notificacion"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="right"
+            android:src="@drawable/icon_cerrar"
+            android:visibility="visible"
+            android:layout_margin="5dp"
+
+            />
+        </LinearLayout>
 
 
     </LinearLayout>
@@ -87,6 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
 
         >
