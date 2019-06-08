@@ -173,7 +173,7 @@ public class ConsultaTerminalesSerial extends Fragment {
                             //obtener el arreglo de la etiqueta Terminal
                             JSONArray jsonArray = response.getJSONArray("terminal");//
                             if (jsonArray.length() == 0) {
-                                Global.mensaje = "No se encontró terminal con ese serial";
+                                Global.mensaje = "Terminal no encontrada";
                                 rv.setVisibility(View.GONE);
                                 Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;

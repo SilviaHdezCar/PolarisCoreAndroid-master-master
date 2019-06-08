@@ -6,7 +6,7 @@
         />
     <stroke android:color="@color/borde_verde_botones"         />
 
-    <solid android:color="@color/blanco"   />
+    <solid android:color="@color/fondo_verde_edit_text"   />
 
     <corners android:radius="8dp" />
 </shape>
