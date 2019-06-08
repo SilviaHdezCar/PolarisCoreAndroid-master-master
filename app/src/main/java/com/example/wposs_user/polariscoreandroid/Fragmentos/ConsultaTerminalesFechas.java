@@ -1,5 +1,6 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -67,7 +68,7 @@ public class ConsultaTerminalesFechas extends Fragment {
     private EditText f_fin;
     private TextView text_estado_ter;
     private Button btn_fech_consulta_serial;
-    private ImageView buscar_terminales_fecha;
+    private Button buscar_terminales_fecha;
     private LinearLayout layout_estado_terminal;
     private RecyclerView rv;
     ArrayList<Terminal> terminales;
@@ -92,15 +93,17 @@ public class ConsultaTerminalesFechas extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_consulta_terminales_fechas, container, false);
         objeto.setTitulo("BÚSQUEDA POR FECHAS");
-        buscar_terminales_fecha=(ImageView)view.findViewById(R.id.btn_buscar_terminalesPorFechas) ;
+        buscar_terminales_fecha=(Button) view.findViewById(R.id.btn_buscar_terminalesPorFechas) ;
 
         terminales= new ArrayList<>();
         queue = Volley.newRequestQueue(objeto);
 
         rv= (RecyclerView)view.findViewById(R.id.recycler_view_consultaTerminalesFecha);
         buscar_terminales_fecha.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
+                buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#04807B"));
                 consumirServicioBusquedaFecha();
             }
         });
@@ -282,6 +285,7 @@ public class ConsultaTerminalesFechas extends Fragment {
 
 
     /********************Metodo usado para obtener el numero de terminales en un rango de fechas dado*************************************/////////
+
     public void consumirServicioBusquedaFecha() {
 
 
@@ -293,6 +297,7 @@ public class ConsultaTerminalesFechas extends Fragment {
         if (data_inicio.isEmpty()||data_fin.isEmpty()) {
             Toast.makeText(view.getContext(), "Debe seleccionar la fecha de inicio y fin", Toast.LENGTH_SHORT).show();
             rv.setAdapter(null);
+            buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#80FFFFFF"));
             terminales= new ArrayList<>();
             return;
 
@@ -325,6 +330,7 @@ public class ConsultaTerminalesFechas extends Fragment {
             terminales= new ArrayList<>();
             f_inicio.setText("");
             f_fin.setText("");
+            buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#80FFFFFF"));
 
             return;
 
@@ -339,6 +345,7 @@ public class ConsultaTerminalesFechas extends Fragment {
             terminales= new ArrayList<>();
             f_inicio.setText("");
             f_fin.setText("");
+            buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#80FFFFFF"));
             return;
 
         }
@@ -351,6 +358,7 @@ public class ConsultaTerminalesFechas extends Fragment {
             rv.setAdapter(null);
             terminales= new ArrayList<>();
             f_inicio.setText("");
+            buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#80FFFFFF"));
             f_fin.setText("");
             return;
 
@@ -435,6 +443,7 @@ public class ConsultaTerminalesFechas extends Fragment {
                             rv.setAdapter(adapter);
                             f_inicio.setText("");
                             f_fin.setText("");
+                            buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#80FFFFFF"));
 
 
                         } catch (JSONException e) {
