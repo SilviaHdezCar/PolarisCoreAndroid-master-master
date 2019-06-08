@@ -49,6 +49,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,12 +86,13 @@ public class Productividad_mes extends Fragment {
     private BarChart grafica;
     private String [] anios;
     private ArrayAdapter comboAdapter;
-    private int promedioReparadas;
-    private int promedioDiagnosticadas;
+    private double promedioReparadas;
+    private double promedioDiagnosticadas;
     private TextView promreparadas;
     private TextView promDiagnosticadas;
     private LinearLayout prom;
     private LinearLayout prom2;
+    private TextView tituloGra;
     private int[] productividadMesReparadas;
     private int[] productividadMesDiagnosticadas;
 
@@ -109,15 +111,17 @@ public class Productividad_mes extends Fragment {
         obtenerAnios();
         promreparadas= (TextView)v.findViewById(R.id.txt_promRep);
         promDiagnosticadas=(TextView)v.findViewById(R.id.txt_promDiag);
+        tituloGra=(TextView)v.findViewById(R.id.titulo_gr);
         comboAdapter = new ArrayAdapter<String>(objeto,R.layout.spinner_sytle, anios);
         objeto.setTitulo("PRODUCTIVIDAD POR MES");
         mes = (Spinner) v.findViewById(R.id.spin_mesxmes);
         año = (Spinner) v.findViewById(R.id.spiner_añoxmes);
         año.setAdapter(comboAdapter);
-         produc = (Button) v.findViewById(R.id.produc_mes);
+        produc = (Button) v.findViewById(R.id.produc_mes);
         grafica = (BarChart) v.findViewById(R.id.grafica_mes);
         prom=(LinearLayout)v.findViewById(R.id.linea_promDia) ;
         prom2=(LinearLayout)v.findViewById(R.id.linea_promRep) ;
+
         queue = Volley.newRequestQueue(objeto);
 
 
@@ -154,16 +158,21 @@ public class Productividad_mes extends Fragment {
             grafica.setVisibility(INVISIBLE);
             prom.setVisibility(INVISIBLE);
             prom2.setVisibility(INVISIBLE);
+            tituloGra.setVisibility(INVISIBLE);
+            mes.setSelection(0);
+            año.setSelection(0);
             return;
 
         }
 
         if (mes.getSelectedItem().toString().equals("Selecccione") || año.getSelectedItem().equals("Seleccione")) {
-            Toast.makeText(v.getContext(), "Seleccione un mes y año valido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), "Seleccione un mes y año válido", Toast.LENGTH_SHORT).show();
             grafica.clear();
             grafica.setVisibility(INVISIBLE);
             prom.setVisibility(INVISIBLE);
             prom2.setVisibility(INVISIBLE);
+            mes.setSelection(0);
+            año.setSelection(0);
             return;
 
         }
@@ -175,11 +184,14 @@ public class Productividad_mes extends Fragment {
 
         if(!validarFechaActual(mes_selecionado,anioDado)){
 
-            Toast.makeText(v.getContext(), "El mes y año debe ser anterior al actual", Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), "El mes y año debe ser igual o anterior al actual", Toast.LENGTH_SHORT).show();
             grafica.clear();
             grafica.setVisibility(INVISIBLE);
-            prom.setVisibility(VISIBLE);
-            prom2.setVisibility(VISIBLE);
+            prom.setVisibility(INVISIBLE);
+            prom2.setVisibility(INVISIBLE);
+            tituloGra.setVisibility(INVISIBLE);
+            mes.setSelection(0);
+            año.setSelection(0);
             return;
 
         }
@@ -234,8 +246,11 @@ public class Productividad_mes extends Fragment {
                             if (jsonArray.length() == 0) {
                                 Global.mensaje = "No se encontraron registros para el mes y año seleccionado";
                                 Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
-                                grafica.setVisibility(INVISIBLE);
                                 grafica.clear();
+                                grafica.setVisibility(INVISIBLE);
+                                prom.setVisibility(INVISIBLE);
+                                prom2.setVisibility(INVISIBLE);
+                                tituloGra.setVisibility(INVISIBLE);
                                 return;
                             }
                             Productividad pro;
@@ -325,8 +340,13 @@ public class Productividad_mes extends Fragment {
                             calcularPromedioReparadas();
                             prom.setVisibility(VISIBLE);
                             prom2.setVisibility(VISIBLE);
-                            promDiagnosticadas.setText(" "+promedioDiagnosticadas);
-                            promreparadas.setText(""+promedioReparadas);
+
+
+                            promDiagnosticadas.setText(String.format("%3f",promedioDiagnosticadas));
+                            promreparadas.setText(String.format("%3f",promedioReparadas));
+                            mes.setSelection(0);
+                            año.setSelection(0);
+                            tituloGra.setVisibility(VISIBLE);
                             grafica.setVisibility(VISIBLE);
 
 
@@ -391,8 +411,15 @@ public class Productividad_mes extends Fragment {
                         calcularPromedioReparadas();
                         prom.setVisibility(VISIBLE);
                         prom2.setVisibility(VISIBLE);
-                        promDiagnosticadas.setText(" "+promedioDiagnosticadas);
-                        promreparadas.setText(""+promedioReparadas);
+
+
+                        DecimalFormat df = new DecimalFormat("0.00");
+
+                        promDiagnosticadas.setText(df.format(promedioDiagnosticadas));
+                        promreparadas.setText(df.format(promedioReparadas));
+
+
+                        tituloGra.setVisibility(VISIBLE);
                         grafica.setVisibility(VISIBLE);
 
                     }
@@ -726,6 +753,8 @@ public class Productividad_mes extends Fragment {
 
         promedioDiagnosticadas=sumaDiag/cantDias;
 
+        System.out.println("PROMEDIO DIAGNOSTICADAS** "+promedioDiagnosticadas);
+
     }
 
     public void calcularPromedioReparadas(){
@@ -746,6 +775,7 @@ public class Productividad_mes extends Fragment {
         }
 
         promedioReparadas=sumaDiag/cantDias;
+        System.out.println("PROMEDIO REPARADAS** "+promedioReparadas);
 
 
 

@@ -97,7 +97,7 @@
     <!--TIPOS DE BUSQUEDA DE PRODUCTIVIDAD-->
     <string-array name="tipo_busqueda">
         <item>Seleccione</item>
-        <item>Dia</item>
+        <item>Día</item>
         <item>Mes</item>
     </string-array>
 
@@ -119,6 +119,6 @@
     </string-array>
 
     <string name="title_activity_tipificaciones_diagnostico">TipificacionesDiagnostico</string>
-    <string name="bienvenido_seleccione_el_criterio_de_busqueda_en_que_desea_ver_su_productividad">Bienvenido, seleccione el criterio de busqueda en que desea ver su productividad</string>
+    <string name="bienvenido_seleccione_el_criterio_de_busqueda_en_que_desea_ver_su_productividad">Bienvenido, seleccione el criterio de búsqueda en que desea ver su productividad</string>
 
 </resources>

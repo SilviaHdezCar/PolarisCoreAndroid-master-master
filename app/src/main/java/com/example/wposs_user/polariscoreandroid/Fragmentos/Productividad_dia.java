@@ -80,12 +80,13 @@ public class Productividad_dia extends Fragment {
 
     private View v;
     private RequestQueue queue;
-    ArrayList<Productividad> productividad;
+    private ArrayList<Productividad> productividad;
     private EditText f_inicio;
-    Button produc;
-    TextView titulo;
-    BarChart grafica;
-    LinearLayout linea;
+    private Button produc;
+    private TextView titulo;
+    private BarChart grafica;
+    private LinearLayout linea;
+    private TextView tituloG;
 
 
     public static String Fecha1, Fecha2;
@@ -152,6 +153,7 @@ public class Productividad_dia extends Fragment {
 
         f_inicio = (EditText) v.findViewById(R.id.txt_fecha_inicio_produc);
         grafica = (BarChart) v.findViewById(R.id.grafica_dia);
+        tituloG=(TextView)v.findViewById(R.id.titulo_prod);
 
 
         //carga los txt de las fechas al hacer la consulta establecida por fechas
@@ -279,19 +281,15 @@ public class Productividad_dia extends Fragment {
     public void consumirServicioProductividadDia() {
 
 
-
-
-
-
-
         productividad = new ArrayList<>();
 
         String data_inicio = f_inicio.getText().toString();
 
 
         if (data_inicio.isEmpty()) {
-            Toast.makeText(v.getContext(), "Debe seleccionar el dia", Toast.LENGTH_SHORT).show();
-            grafica.clear();
+            Toast.makeText(v.getContext(), "Debe seleccionar el día", Toast.LENGTH_SHORT).show();
+             grafica.clear();
+            tituloG.setVisibility(INVISIBLE);
             grafica.setVisibility(INVISIBLE);
             return;
 
@@ -308,6 +306,10 @@ public class Productividad_dia extends Fragment {
         if(!validarFechaActual(dia_inicio,mes_inicio,año_inicio)){
 
             Toast.makeText(v.getContext(), "La fecha selecionada debe ser igual o anterior a la actual", Toast.LENGTH_SHORT).show();
+            grafica.clear();
+            tituloG.setVisibility(INVISIBLE);
+            grafica.setVisibility(INVISIBLE);
+            f_inicio.setText("");
             return;
         }
 
@@ -358,8 +360,11 @@ public class Productividad_dia extends Fragment {
 
 
                             if (jsonArray.length() == 0) {
-                                Global.mensaje = "No se encontraron registros para el dia seleccionado";
+                                Global.mensaje = "No se encontraron registros para el día seleccionado";
                                 Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
+                                grafica.clear();
+                                f_inicio.setText("");
+                                tituloG.setVisibility(INVISIBLE);
                                 grafica.setVisibility(INVISIBLE);
 
                                 return;
@@ -432,6 +437,7 @@ public class Productividad_dia extends Fragment {
 
 
 
+                        tituloG.setVisibility(VISIBLE);
                         grafica.setScaleY(1);
                         grafica.setScaleX(1);
                         x.setCenterAxisLabels(true);
@@ -453,6 +459,7 @@ public class Productividad_dia extends Fragment {
                         grafica.getDescription().setEnabled(false);
                         grafica.getAxisRight().setGranularity(1);
                         grafica.setVisibility(VISIBLE);
+                        f_inicio.setText("");
 
 
                     }

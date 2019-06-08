@@ -22,7 +22,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           style="@style/letra_contenido"
-          android:text="Seleeccione el mes y año a consultar"
+          android:text="Seleccione el mes y año a consultar"
 
 
           />
@@ -48,7 +48,7 @@
 
     <Spinner
         android:id="@+id/spin_mesxmes"
-        android:layout_width="120dp"
+        android:layout_width="135dp"
         android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -71,11 +71,11 @@
 
            <Spinner
                android:id="@+id/spiner_añoxmes"
-               android:layout_width="120dp"
+               android:layout_width="135dp"
                android:layout_marginLeft="10dp"
                android:layout_height="wrap_content"
                android:layout_marginTop="10dp"
-                               >
+               >
            </Spinner>
 
        </LinearLayout>
@@ -95,13 +95,15 @@
            />
 
        <TextView
+           android:id="@+id/titulo_gr"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_gravity="center"
-           android:text="Productividad por Mes"
+           android:text="Productividad por mes"
            android:layout_marginTop="20dp"
-           android:textSize="16dp"
+           android:textSize="14dp"
            android:textStyle="bold"
+           android:visibility="invisible"
 
            />
 
@@ -138,7 +140,7 @@
        <TextView
            android:layout_width="200dp"
            android:layout_height="wrap_content"
-           android:text="Promedio Terminales Reparadas"
+           android:text="Promedio terminales reparadas"
            android:textSize="10dp"
            android:textStyle="bold"
 
@@ -180,7 +182,7 @@
            <TextView
 
                android:layout_height="wrap_content"
-               android:text="Promedio Terminales Diagnosticadas"
+               android:text="Promedio terminales diagnosticadas"
                android:layout_width="200dp"
                android:textSize="10dp"
                android:textStyle="bold"

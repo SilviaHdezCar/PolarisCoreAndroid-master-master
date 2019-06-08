@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/letra_contenido"
-            android:text="Bienvenido, por favor seleccione el dia realizar su consulta"
+            android:text="Bienvenido, por favor seleccione el día realizar su consulta"
 
             />
 
@@ -39,7 +39,7 @@
                 android:layout_height="40dp"
                 android:clickable="true"
                 android:focusable="false"
-                android:hint="Selecione el dia"
+                android:hint="Selecione el día"
                 android:maxLines="1"
                 android:layout_gravity="center_horizontal"
 
@@ -62,14 +62,16 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/titulo_prod"
             android:layout_width="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
-            android:text="Terminales Diagnosticadas y Reparadas por Día"
+            android:text="Terminales diagnosticadas y reparadas por día"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:textStyle="bold"
+            android:visibility="invisible"
 
             />
 

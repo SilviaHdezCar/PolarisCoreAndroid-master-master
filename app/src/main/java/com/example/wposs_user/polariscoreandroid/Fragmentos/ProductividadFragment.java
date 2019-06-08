@@ -48,7 +48,7 @@ public class ProductividadFragment extends Fragment {
             Toast.makeText(v.getContext(), "Debe seleccionar un criterio válido", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (s.getSelectedItem().toString().equals("Dia")) {
+        if (s.getSelectedItem().toString().equals("Día")) {
             objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Productividad_dia()).addToBackStack(null).commit();
         }
 

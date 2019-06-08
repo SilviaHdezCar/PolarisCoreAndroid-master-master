@@ -44,6 +44,7 @@ import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterNotificacion
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
+import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogCancelarHuella;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogHuella;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogNotificacion;
@@ -67,7 +68,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -515,8 +518,28 @@ public class MainActivity extends AppCompatActivity
                                     n = gson.fromJson(not, Notificacion.class);
                                     if (n != null && !n.getNoti_msg().contains("albarán")) {
 
-                                        if(!contieNotificacion(n.getNoti_id()))
+                                        if(!contieNotificacion(n.getNoti_id())) {
+                                            String[] fecha= n.getNoti_date_create().split(",");
+                                            String[] diames= fecha[0].split(" ");
+                                            String mes= Utils.obtenerMes(diames[0]);
+                                            String dia= diames[1];
+                                            String fecha_not= mes + " "+dia + ","+fecha[1];
+                                           n.setNoti_date_create(fecha_not);
+
+                                           String msj= n.getNoti_msg();
+
+
+                                           String nMensaje= eliminarCaracteres(msj);
+                                           n.setNoti_msg(nMensaje);
+                                            System.out.println("mensaje de la notificacion"+nMensaje);
+
+
+
+
                                             Global.notificaciones.add(n);
+
+                                        }
+
 
                                     }
                                 }
@@ -634,6 +657,51 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
+
+    public String eliminarCaracteres(String msj){
+
+        char [] caracteres= msj.toCharArray();
+
+        for(int i=0; i<caracteres.length;i++){
+
+            if(caracteres[i] == '['){
+
+                caracteres[i]= ' ';
+            }
+
+            if(caracteres[i] == ']'){
+
+                caracteres[i]= ' ';
+            }
+
+            if(caracteres[i] == '{'){
+
+                caracteres[i]= ' ';
+            }
+            if(caracteres[i] == '}'){
+
+                caracteres[i]= ' ';
+            }
+
+            if(caracteres[i] == '"'){
+
+                caracteres[i]= ' ';
+            }
+
+         }
+
+       String x= "";
+
+
+        for(Character c:caracteres){
+            x+=c;
+
+        }
+
+        return x;
+
+
+    }
 
 
 
