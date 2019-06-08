@@ -216,20 +216,24 @@ public class TipificacionesAutorizadas extends Fragment {
 
                     Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
                     Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto2).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
+                    Global.foto=1;
+                    Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1;
                     img_evidencia1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             //inflar fragment evidencias y carga la foto
-                            Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1;
+
                            cargarPanel();
 
                         }
                     });
+                    Global.foto=2;
+                    Global.rutaFotoObservacion2 = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto2;
                     img_evidencia2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             //inflar fragment evidencias y carga la foto
-                            Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto2;
+
                            cargarPanel();
 
                         }

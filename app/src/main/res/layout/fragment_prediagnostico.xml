@@ -167,6 +167,7 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
+                    <!--Layout validaciones-->
                     <LinearLayout
                         android:id="@+id/layout_validaciones"
                         android:layout_width="330dp"

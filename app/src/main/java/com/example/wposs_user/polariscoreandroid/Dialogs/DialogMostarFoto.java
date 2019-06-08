@@ -51,6 +51,10 @@ public class DialogMostarFoto extends DialogFragment {
     private ImageView imagen;
     private ImageView btn_close;
     private PhotoViewAttacher photoView;
+    private ImageButton btn_before;
+    private ImageButton btn_next;
+    private LinearLayout layout_desplazamiento;
+
 
 //    private LinearLayout layout_informacion;
 //    private LinearLayout layout_credenciales;
@@ -64,22 +68,53 @@ public class DialogMostarFoto extends DialogFragment {
 
         view = getActivity().getLayoutInflater().inflate(R.layout.fragment_evidencia_autorizada, null);
         imagen = (ImageView) view.findViewById(R.id.imagen_zoom);
-        Picasso.with(objeto).load(Global.rutaFotoObservacion).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
-
-        photoView = new PhotoViewAttacher(imagen);
-
+        btn_before = (ImageButton) view.findViewById(R.id.btn_before);
+        btn_next = (ImageButton) view.findViewById(R.id.btn_next);
         btn_close = (ImageView) view.findViewById(R.id.btn_close);
-
+        layout_desplazamiento = (LinearLayout) view.findViewById(R.id.layout_desplazamiento);
 
         setCancelable(false);
 
+        if (Global.foto == 1) {
+            Picasso.with(objeto).load(Global.rutaFotoObservacion).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+        } else if (Global.foto == 2) {
+            Picasso.with(objeto).load(Global.rutaFotoObservacion2).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+        }
 
+        photoView = new PhotoViewAttacher(imagen);
+
+
+        btn_before.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Global.foto == 1) {
+                    Global.foto = 2;
+                    Picasso.with(objeto).load(Global.rutaFotoObservacion2).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+                } else if (Global.foto == 2) {
+                    Global.foto = 1;
+                    Picasso.with(objeto).load(Global.rutaFotoObservacion).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+                }
+            }
+        });
+        btn_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Global.foto == 1) {
+                    Global.foto = 2;
+                    Picasso.with(objeto).load(Global.rutaFotoObservacion2).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+                } else if (Global.foto == 2) {
+                    Global.foto = 1;
+                    Picasso.with(objeto).load(Global.rutaFotoObservacion).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+                }
+            }
+        });
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
+        layout_desplazamiento.setVisibility(View.VISIBLE);
 
         builder.setView(view);
 
