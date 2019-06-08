@@ -40,6 +40,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 /**
@@ -160,12 +161,12 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
     public void solicitar() {
         validarEstadosRepuestos();
         observacion = txt_observacion.getText().toString().trim();
-        if (observacion.isEmpty() || observacion == null) {
-            Toast.makeText(objeto, "Por favor ingrese la observación", Toast.LENGTH_SHORT).show();
-            return;
-        }
         if (Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.size() == 0 || Global.REPUESTOS_DEFECTUOSOS_SOLICITAR == null) {
             Toast.makeText(objeto, "Debe seleccionar al menos un repuesto", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (observacion.isEmpty() || observacion == null) {
+            Toast.makeText(objeto, "Por favor ingrese la observación", Toast.LENGTH_SHORT).show();
             return;
         } else {
             obser = new Observacion(observacion, Global.terminalVisualizar.getTerm_serial(), "");
@@ -181,7 +182,8 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
      * @return true-->si todos están oOK
      */
     public void validarEstadosRepuestos() {
-        recorrerTabla(tabla);
+    //    recorrerTabla(tabla);
+        Global.REPUESTOS_DEFECTUOSOS_SOLICITAR=new ArrayList<Repuesto>();
         Repuesto rep = new Repuesto();
         for (int i = 0; i < Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size(); i++) {
             rep = Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i);
@@ -220,9 +222,42 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
             view = row.getChildAt(1);//Celda en la posición 1
 
             if (view instanceof RadioButton) {
-                if (((RadioButton) view).isChecked()) {
-                    Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i - 1).setOk(true);
-                }
+                final View finalView = view;
+                final int finalI = i;
+                ((RadioButton) view).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (((RadioButton) finalView).isChecked()) {
+                            if (((RadioButton) finalView).isSelected()) {
+                                System.out.println("if selected true ");
+                                ((RadioButton) finalView).setSelected(false);
+                                ((RadioButton) finalView).setChecked(false);
+                                Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(finalI - 1).setOk(false);
+                                if( Global.REPUESTOS_DEFECTUOSOS_SOLICITAR!=null){
+                                    if( Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.size()>0){
+                                        System.out.println("tamaño reopuestos solicitar: "+ Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.size());
+                                        System.out.println("tamaño reopuestos autorizadas: "+ Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.size());
+                                        for (Repuesto rep: Global.REPUESTOS_DEFECTUOSOS_SOLICITAR){
+                                            if(rep.getSpar_code().equals(Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(finalI - 1).getSpar_code())){
+                                                Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.remove(rep);
+                                                break;
+
+                                            }
+                                        }
+                                    }
+                                }
+
+                            } else if (!((RadioButton) finalView).isSelected()) {
+                                ((RadioButton) finalView).setSelected(true);
+                                Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(finalI - 1).setOk(true);
+                            }
+
+
+                        }
+                    }
+                });
+
             }
             System.out.println("rep defec Pos: " + i + "-->" + Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i - 1).getSpar_name() + "-" + Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(i - 1).isOk());
         }
@@ -253,9 +288,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
             fila.addView(nombre);
             fila.addView(ok);
             tabla.addView(fila);
-
-
-        }
+        }recorrerTabla(tabla);
     }
 
     /**
@@ -334,7 +367,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -425,7 +458,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                         public void onErrorResponse(VolleyError error) {
                             Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                             if (error.getMessage() != null) {
-                                if (!error.getMessage().isEmpty()){
+                                if (!error.getMessage().isEmpty()) {
                                     Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -450,9 +483,9 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                 // Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getObj()
                 jsonObjectBody2.put("spar_code", Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getSpar_code());
                 jsonObjectBody2.put("spar_status", "DEFECTUOSO");
-                jsonObjectBody2.put("spar_warehouse", Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getSpar_warehouse() );//REvisar nombre llave
+                jsonObjectBody2.put("spar_warehouse", Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getSpar_warehouse());//REvisar nombre llave
                 jsonObjectBody2.put("spar_quantity", Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.get(i).getSpar_quantity());
-                jsonObjectBody2.put("spar_warehouse_new",Global.CODE);
+                jsonObjectBody2.put("spar_warehouse_new", Global.CODE);
 
                 Log.d("RESPUESTA", jsonObjectBody2.toString());
 
@@ -491,7 +524,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                         public void onErrorResponse(VolleyError error) {
                             Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                             if (error.getMessage() != null) {
-                                if (!error.getMessage().isEmpty()){
+                                if (!error.getMessage().isEmpty()) {
                                     Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -519,9 +552,10 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
 
 
     static AlertDialog dialog;
+
     public void CustomAlertDialog(Context c, String titulo, String msg, int tiempo, boolean cancelable) {
-        if( dialog!=null) {
-            if(dialog.isShowing())
+        if (dialog != null) {
+            if (dialog.isShowing())
                 dialog.dismiss();
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(c, R.style.DialogColor));
@@ -529,15 +563,14 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
         builder.setMessage(msg);
         builder.setCancelable(cancelable);
         dialog = builder.create();
-        if(((Activity) c).isFinishing()) {
+        if (((Activity) c).isFinishing()) {
             return;
         }
         //dialog.show();
-        try{
+        try {
             dialog.show();
-        }
-        catch(Exception e){
-            Log.i("exception","Mensaje cerrado por la fuerza");
+        } catch (Exception e) {
+            Log.i("exception", "Mensaje cerrado por la fuerza");
         }
         int titleDividerId = c.getResources().getIdentifier("titleDivider", "id", "android");
         View titleDivider = dialog.findViewById(titleDividerId);
@@ -552,11 +585,6 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                 }
             }, tiempo);
     }
-
-
-
-
-
 
 
     /**
