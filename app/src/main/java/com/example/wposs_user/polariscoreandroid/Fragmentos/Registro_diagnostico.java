@@ -24,6 +24,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,7 +66,7 @@ public class Registro_diagnostico extends Fragment {
 
     private View v;
     private EditText cantidad_req;
-    private AutoCompleteTextView aut_repuesto;
+    private Spinner aut_repuesto;
     private RecyclerView rv;
     private Button agregar;
     private EditText observ;
@@ -84,7 +85,7 @@ public class Registro_diagnostico extends Fragment {
         Global.REPUESTOS = new ArrayList<>();
         Global.REPUESTOS_DIAGONOSTICO = new ArrayList<Repuesto>();
         Global.obs = new Observacion("", "", "", "", "  ", Global.serial_ter);
-        aut_repuesto = (AutoCompleteTextView) v.findViewById(R.id.auto_repuesto);
+        aut_repuesto = (Spinner) v.findViewById(R.id.auto_repuesto);
         cantidad_req = v.findViewById(R.id.txt_cantReq);
         rv = (RecyclerView) v.findViewById(R.id.rv_repuestos_diag);
         agregar = (Button) v.findViewById(R.id.bton_agregarRepuesto);
@@ -103,6 +104,26 @@ public class Registro_diagnostico extends Fragment {
         this.consumirServicioRepuestos();
 
         cantidad_req.setEnabled(false);
+
+        aut_repuesto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String[] spares = convertirRepuestos();
+                String r= spares[position];
+
+                   if(!r.equals("Seleccione")){
+                    cantidad_req.setEnabled(true);
+                    String [] selecionado =r.split(" - ");
+                    Global.codigo_rep= selecionado[0].trim();
+                   }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         registroDiag.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,8 +149,9 @@ public class Registro_diagnostico extends Fragment {
 
         String[] rep = new String[Global.REPUESTOS.size()];
 
+        rep[0] = "Seleccione";
 
-        for (int i = 0; i < Global.REPUESTOS.size(); i++) {
+        for (int i = 1; i < Global.REPUESTOS.size(); i++) {
 
             rep[i] = Global.REPUESTOS.get(i).getSpar_code() + "  -  " + Global.REPUESTOS.get(i).getSpar_name();
 
@@ -142,42 +164,10 @@ public class Registro_diagnostico extends Fragment {
     public void llenarAutocomplete() {
 
         final String[] rep = this.convertirRepuestos();
-        aut_repuesto = (AutoCompleteTextView) v.findViewById(R.id.auto_repuesto);
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(), R.layout.spinner_sytle, rep);
 
         aut_repuesto.setAdapter(adapter);
-        aut_repuesto.setThreshold(0);
-        aut_repuesto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String code = adapter.getItem(i);
-                String[] repuest = code.split("  -  ");
-                Global.codigo_rep = repuest[0];
-                cantidad_req.setEnabled(true);
-
-                InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
-                in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
-            }
-        });
-        aut_repuesto.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-
-                if (i == EditorInfo.IME_ACTION_DONE) {
-
-                    String code = adapter.getItem(i);
-                    String[] repuest = code.split("  -  ");
-                    Global.codigo_rep = repuest[0];
-                    InputMethodManager in = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
-                    in.hideSoftInputFromWindow(textView.getApplicationWindowToken(), 0);
-                    cantidad_req.setEnabled(true);
-                    return true;
-                }
-                return false;
-            }
-        });
-
-    }
+          }
 
 
     public void agregarRepuesto() {
@@ -185,9 +175,9 @@ public class Registro_diagnostico extends Fragment {
         String cant = cantidad_req.getText().toString();
 
 
-        if (Global.REPUESTOS.size() == 0) {
+        if (Global.REPUESTOS.size() == 1) {
 
-            observ.setText("No hay repuestos para el modelo de terminal seleccionado, seleccione otra e intentelo de nuevo");
+        Toast.makeText(objeto,"No existen repuestos seleccionados para el modelo de terminal seleccionado",Toast.LENGTH_SHORT).show();
             agregar.setEnabled(false);
             registroDiag.setEnabled(false);
             return;
@@ -222,10 +212,11 @@ public class Registro_diagnostico extends Fragment {
 
 
         for (int i = 0; i < Global.REPUESTOS.size(); i++) {
-
+            System.out.println("codigo del repuesto selecionado**"+Global.codigo_rep);
             if (Global.REPUESTOS.get(i).getSpar_code().equals(Global.codigo_rep)) {
 
                 Repuesto reps = Global.REPUESTOS.get(i);
+                System.out.println("");
 
                 for (Repuesto rt : Global.REPUESTOS_DIAGONOSTICO) {
                     if (reps.getSpar_code().equals(rt.getSpar_code())) {
@@ -238,8 +229,8 @@ public class Registro_diagnostico extends Fragment {
                             Toast.makeText(objeto, "Solo puede solicitar como máximo 3 repuestos", Toast.LENGTH_SHORT).show();
                             Global.codigo_rep = "";
                             cantidad_req.setText("");
-                            aut_repuesto.setText("");
-                            this.cantidad_req.setEnabled(false);
+                            aut_repuesto.setSelection(0);
+                             this.cantidad_req.setEnabled(false);
                             return;
 
                         }
@@ -250,8 +241,8 @@ public class Registro_diagnostico extends Fragment {
                         Global.REPUESTOS_DIAGONOSTICO.add(reps);
                         this.llenarRv();
                         cantidad_req.setText("");
-                        aut_repuesto.setText("");
                         this.cantidad_req.setEnabled(false);
+                        aut_repuesto.setSelection(0);
                         return;
 
                     }
@@ -262,7 +253,7 @@ public class Registro_diagnostico extends Fragment {
                 Global.REPUESTOS_DIAGONOSTICO.add(reps);
                 this.llenarRv();
                 cantidad_req.setText("");
-                aut_repuesto.setText("");
+                aut_repuesto.setSelection(0);
                 this.cantidad_req.setEnabled(false);
                 return;
 

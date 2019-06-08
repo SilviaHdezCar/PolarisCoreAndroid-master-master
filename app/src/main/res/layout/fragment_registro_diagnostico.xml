@@ -58,7 +58,7 @@
 
         >
 
-        <AutoCompleteTextView
+        <Spinner
             android:id="@+id/auto_repuesto"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
