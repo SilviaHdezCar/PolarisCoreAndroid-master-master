@@ -242,7 +242,6 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                                             if(rep.getSpar_code().equals(Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.get(finalI - 1).getSpar_code())){
                                                 Global.REPUESTOS_DEFECTUOSOS_SOLICITAR.remove(rep);
                                                 break;
-
                                             }
                                         }
                                     }

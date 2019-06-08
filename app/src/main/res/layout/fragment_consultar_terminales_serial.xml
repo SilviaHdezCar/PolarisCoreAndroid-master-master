@@ -14,56 +14,65 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/verde_pestanas">
+            android:background="@color/verde_pestanas"
+            android:orientation="horizontal">
 
 
-                <Button
-                    android:id="@+id/btn_ser_consulta_serial"
-                    style="@style/letra_tabs"
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/borde_inferior_blanco"
-                    android:scrollbars="vertical"
-                    android:text="Serial"
-                    />
+            <Button
+                android:id="@+id/btn_ser_consulta_serial"
+                style="@style/letra_tabs"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/borde_inferior_blanco"
+                android:scrollbars="vertical"
+                android:text="Serial" />
 
 
-                <Button
-                    android:id="@+id/btn_ser_rango_fechas"
-                    style="@style/letra_tabs"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/verde_pestanas"
-                    android:scrollbars="vertical"
-                    android:text="Rango de fechas" />
+            <Button
+                android:id="@+id/btn_ser_rango_fechas"
+                style="@style/letra_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/verde_pestanas"
+                android:scrollbars="vertical"
+                android:text="Rango de fechas" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
             android:layout_margin="30dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/redondo_gris">
+            android:background="@drawable/redondo_gris"
+            android:gravity="center"
+            android:paddingLeft="4dp"
+            android:paddingRight="5dp">
 
-            <EditText
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/serial_buscar"
-                android:hint="Serial"
-                android:inputType="text"
-                android:maxLength="25"
-                android:textAllCaps="true"
-                style="@style/letra_contenido"
-                />
-            <ImageView
-                android:id="@+id/btn_buscar_terminales_serial"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:src="@mipmap/search"
-                android:background="@color/gris_menu"/>
+                <EditText
+                    android:id="@+id/serial_buscar"
+                    style="@style/letra_contenido"
+                    android:layout_width="200dp"
+                    android:layout_height="30dp"
+                    android:background="@color/blanco"
+                    android:gravity="center"
+                    android:hint="Serial"
+                    android:inputType="text"
+                    android:maxLength="25"
+                    android:textAllCaps="true" />
 
+
+
+
+                <ImageView
+                    android:id="@+id/btn_buscar_terminales_serial"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/search"
+                    android:backgroundTint="@color/fondo_verde_edit_text"
+                    android:background="@color/blanco"
+                    android:padding="2dp"
+                     />
 
 
         </LinearLayout>

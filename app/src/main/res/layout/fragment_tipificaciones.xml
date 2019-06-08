@@ -15,32 +15,32 @@
             android:id="@+id/layout_tipificaciones"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:orientation="vertical"
             android:layout_gravity="center"
-            android:background="@color/verde_pestanas">
+            android:background="@color/verde_pestanas"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
                 android:gravity="center"
-                >
+                android:orientation="horizontal">
 
-                <AutoCompleteTextView
-                    android:id="@+id/autocomplete_tipificaciones"
-                    style="@style/letra_contenido"
+                <Spinner
+                    android:id="@+id/spinner_tipificaciones"
                     android:layout_width="300dp"
                     android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/redondo_botones_fondo_blanco"
-                    android:hint="Seleccione"
+                    android:gravity="center"
                     android:inputType="text"
-                    android:paddingLeft="5dp"
-                    />
+                    android:background="@color/blanco"
+                    android:paddingLeft="5dp">
+
+                </Spinner>
+
 
             </LinearLayout>
-        </LinearLayout>
 
+
+        </LinearLayout>
 
 
         <ScrollView
@@ -56,16 +56,16 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_margin="20dp">
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
 
                     <TableLayout
                         android:id="@+id/tabla_tipificaciones_asociadas"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/blanco"
                         android:gravity="center_horizontal"
-                        android:stretchColumns="*"
-                        android:background="@color/blanco">
+                        android:stretchColumns="*">
 
                     </TableLayout>
 
@@ -78,12 +78,12 @@
                     style="@style/letra_contenido_blanco"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/redondo_gris_botones"
-                    android:textColor="@color/negro"
                     android:text="Siguiente"
                     android:textAllCaps="false"
-                    android:layout_gravity="center_horizontal"/>
+                    android:textColor="@color/negro" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

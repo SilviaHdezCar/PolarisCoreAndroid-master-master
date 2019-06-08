@@ -5,23 +5,17 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -34,12 +28,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTipificaciones;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogEsRepable;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.Comun.Tools;
-import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -49,19 +40,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 
 public class TipificacionesFragment extends Fragment {
 
     private LinearLayout layout_tipificaciones;
-    private AutoCompleteTextView autocomplete_tipificaciones;
+    private Spinner spinner_tipificaciones;
     // private RecyclerView rv;
 
     public String descripcionTipificaion;
@@ -80,7 +68,7 @@ public class TipificacionesFragment extends Fragment {
         objeto.setTitulo("TIPIFICACIONES TERMINAL");
         descripcionTipificaion = "";
         layout_tipificaciones = (LinearLayout) v.findViewById(R.id.layout_tipificaciones);
-        autocomplete_tipificaciones = (AutoCompleteTextView) v.findViewById(R.id.autocomplete_tipificaciones);
+        spinner_tipificaciones = (Spinner) v.findViewById(R.id.spinner_tipificaciones);
         btn_siguiente_Tipificaciones = (Button) v.findViewById(R.id.btn_siguiente_Tipificaciones);
         Global.panel_reparable = false;
         tabla = (TableLayout) v.findViewById(R.id.tabla_tipificaciones_asociadas);
@@ -92,6 +80,26 @@ public class TipificacionesFragment extends Fragment {
         Global.TIPIFICACIONES_DIAGNOSTICO = null;
         Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<Tipificacion>();
         tabla.removeAllViews();
+
+        spinner_tipificaciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String[] spares = getTipificaciones();
+                String r= spares[position];
+
+                if(!r.equals("Seleccione")){
+
+                    descripcionTipificaion = r;
+                    agregarTipificacion();
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         llenarTabla();
 
         btn_siguiente_Tipificaciones.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +174,7 @@ public class TipificacionesFragment extends Fragment {
                                 }
                                 Global.TIPIFICACIONES.add(t);
                             }
-                            llenarAutocomplete();
+                            llenarSpinner();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -205,9 +213,8 @@ public class TipificacionesFragment extends Fragment {
     public String[] getTipificaciones() {
 
         String[] rep = new String[Global.TIPIFICACIONES.size()];
-
-
-        for (int i = 0; i < Global.TIPIFICACIONES.size(); i++) {
+        rep[0] = "Seleccione";
+        for (int i = 1; i < Global.TIPIFICACIONES.size(); i++) {
 
             rep[i] = Global.TIPIFICACIONES.get(i).getTetv_description();
 
@@ -217,28 +224,13 @@ public class TipificacionesFragment extends Fragment {
     }
 
 
-    public void llenarAutocomplete() {
+    public void llenarSpinner() {
 
         final String[] getTipificaciones = this.getTipificaciones();
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(objeto, android.R.layout.simple_list_item_1, getTipificaciones);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(objeto, R.layout.spinner_tipificaciones_style, getTipificaciones);
 
-        autocomplete_tipificaciones.setAdapter(adapter);
-        autocomplete_tipificaciones.setThreshold(0);
-        //al dar clic agg la tipificacion al arreglo
-        autocomplete_tipificaciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                descripcionTipificaion = adapter.getItem(i);
-
-                InputMethodManager in = (InputMethodManager) objeto.getSystemService(INPUT_METHOD_SERVICE);
-                in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
-
-                agregarTipificacion();
-            }
-        });
-
+        spinner_tipificaciones.setAdapter(adapter);
     }
 
     /**
@@ -259,11 +251,11 @@ public class TipificacionesFragment extends Fragment {
                         tabla.removeAllViews();
                         llenarTabla();
                         descripcionTipificaion = "";
-                        autocomplete_tipificaciones.setText("");
+                        spinner_tipificaciones.setSelection(0);
                     } else {
                         Toast.makeText(objeto, "La tipificación ya fue agregada", Toast.LENGTH_SHORT).show();
                         descripcionTipificaion = "";
-                        autocomplete_tipificaciones.setText("");
+                        spinner_tipificaciones.setSelection(0);
                         return;
                     }
                 }
