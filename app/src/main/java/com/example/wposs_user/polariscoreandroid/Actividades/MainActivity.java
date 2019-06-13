@@ -109,7 +109,9 @@ public class MainActivity extends AppCompatActivity
     private ImageView verNotificaciones;
     private ArrayList<Notificacion> notificaciones;
     private NotificacionTecnico ntecnico;
-    String mensaje;
+    private String mensaje;
+    private Thread t;
+
 
     private int contadorFragmentos;
 
@@ -179,7 +181,7 @@ public class MainActivity extends AppCompatActivity
 
         ntecnico = new NotificacionTecnico();
         new Thread(ntecnico).start();//
-        System.out.println("ME ESTAN LLEGANDO   " + Global.notificaciones.size() + "   Notificaciones");
+
 
         consumirServicioNotificaciones();
 
@@ -335,9 +337,10 @@ public class MainActivity extends AppCompatActivity
                                 }
                             }
                             eliminarValues(objeto);
-                            Intent i = new Intent(objeto, Activity_login.class);
+                             Intent i = new Intent(objeto, Activity_login.class);
                             startActivity(i);
                             finish();
+                            ntecnico.stop();
                             return;
 
                         } catch (JSONException e) {

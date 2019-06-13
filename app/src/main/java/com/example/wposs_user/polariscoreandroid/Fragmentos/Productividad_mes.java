@@ -103,7 +103,8 @@ public class Productividad_mes extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+       productividadMesDiagnosticadas= new int[5];
+       productividadMesReparadas= new int[5];
 
       promedioReparadas = 0;
        promedioDiagnosticadas=0;
@@ -310,7 +311,6 @@ public class Productividad_mes extends Fragment {
 
                             datosGrafica.setValueTextSize(10);
                             grafica.setData(datosGrafica);
-
 
                             XAxis x = grafica.getXAxis();
                             x.setValueFormatter(new IndexAxisValueFormatter(fecha));

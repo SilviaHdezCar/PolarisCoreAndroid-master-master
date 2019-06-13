@@ -10,12 +10,15 @@ import com.example.wposs_user.polariscoreandroid.R;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 import static com.example.wposs_user.polariscoreandroid.R.drawable.ic_sinnotif;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 //clase que permite ejecutar en2 plano el servicio de notificaciones actualizandolo cada 20 SEGUNDOS
 
 
 public class NotificacionTecnico implements Runnable {
 
+    private Boolean correr= TRUE;
 
 
     public NotificacionTecnico() {
@@ -25,7 +28,7 @@ public class NotificacionTecnico implements Runnable {
     public void run() {
 
         try {
-            while (Boolean.TRUE){
+            while (correr){
 
                 objeto.consumirServicioNotificaciones();
 
@@ -35,11 +38,20 @@ public class NotificacionTecnico implements Runnable {
 
 
             }
+
+
+
         }catch (Exception e){
 
+            Toast.makeText(objeto, "Ha ocurrido un error al cargar las notificaciones", Toast.LENGTH_SHORT).show();
 
         }
-        objeto.consumirServicioNotificaciones();
+
+
+           }
+
+           public void stop(){
+           correr= FALSE;
 
            }
 
