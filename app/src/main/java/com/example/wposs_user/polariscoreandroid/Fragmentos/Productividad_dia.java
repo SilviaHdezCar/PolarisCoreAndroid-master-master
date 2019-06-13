@@ -36,6 +36,7 @@ import com.example.wposs_user.polariscoreandroid.java.Productividad;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -415,7 +416,7 @@ public class Productividad_dia extends Fragment {
                         String y= "        "+fecha_inicial;
                         String[] fecha = new String[] {y};
                         datos.setColor(Color.RED);
-                         valores.setColor(Color.GREEN);
+                        valores.setColor(Color.GREEN);
                         datos.setDrawValues(true);
                         valores.setDrawValues(true);
                         datos.setValueFormatter(new MyValueFormatter());
@@ -435,7 +436,10 @@ public class Productividad_dia extends Fragment {
 
                         x.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
 
-
+                        YAxis yAxis = grafica.getAxis(YAxis.AxisDependency.LEFT);
+                        yAxis.setCenterAxisLabels(true);
+                        yAxis.setAxisMinimum(0);
+                        yAxis.setGranularity(1);
 
                         tituloG.setVisibility(VISIBLE);
                         grafica.setScaleY(1);

@@ -30,6 +30,7 @@ import com.example.wposs_user.polariscoreandroid.java.Productividad;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -102,8 +103,7 @@ public class Productividad_mes extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       productividadMesDiagnosticadas= new int[5];
-       productividadMesReparadas= new int[5];
+
 
       promedioReparadas = 0;
        promedioDiagnosticadas=0;
@@ -296,7 +296,7 @@ public class Productividad_mes extends Fragment {
                             reparadas.add(new BarEntry(1,productividadMesReparadas[2]));
                             reparadas.add(new BarEntry(1,productividadMesReparadas[3]));
 
-                            BarDataSet datos = new BarDataSet(diagnosticadas, "Diagnosticadas");
+                            BarDataSet datos = new BarDataSet(diagnosticadas, "Asignadas");
                             BarDataSet valores = new BarDataSet(reparadas, "Reparadas");
 
                             String[] fecha = new String[] {"Semana1","Semana 2", "Semana 3", "Semana 4"};
@@ -311,10 +311,16 @@ public class Productividad_mes extends Fragment {
                             datosGrafica.setValueTextSize(10);
                             grafica.setData(datosGrafica);
 
+
                             XAxis x = grafica.getXAxis();
                             x.setValueFormatter(new IndexAxisValueFormatter(fecha));
                             x.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
 
+
+                            YAxis yAxis = grafica.getAxis(YAxis.AxisDependency.LEFT);
+                            yAxis.setCenterAxisLabels(true);
+                            yAxis.setAxisMinimum(0);
+                            yAxis.setGranularity(1);
 
                             grafica.setScaleY(1);
                             grafica.setScaleX(1);
@@ -367,7 +373,7 @@ public class Productividad_mes extends Fragment {
                         reparadas.add(new BarEntry(4,productividadMesReparadas[3]));
                         reparadas.add(new BarEntry(5,productividadMesReparadas[4]));
 
-                        BarDataSet datos = new BarDataSet(diagnosticadas, "Diagnosticadas");
+                        BarDataSet datos = new BarDataSet(diagnosticadas, "Asignadas");
                         BarDataSet valores = new BarDataSet(reparadas, "Reparadas");
 
                         String[] fecha = new String[] {"Semana1","Semana 2", "Semana 3", "Semana 4", "Semana 5"};
@@ -381,6 +387,10 @@ public class Productividad_mes extends Fragment {
 
                         datosGrafica.setValueTextSize(10);
                         grafica.setData(datosGrafica);
+                        YAxis yAxis = grafica.getAxis(YAxis.AxisDependency.LEFT);
+                        yAxis.setCenterAxisLabels(true);
+                        yAxis.setAxisMinimum(0);
+                        yAxis.setGranularity(1);
 
                         XAxis x = grafica.getXAxis();
                         x.setValueFormatter(new IndexAxisValueFormatter(fecha));
@@ -597,6 +607,9 @@ public class Productividad_mes extends Fragment {
 
     public void obtenerProductSemana() {
 
+        productividadMesReparadas= new int[5];
+
+        productividadMesDiagnosticadas= new int[5];
 
         for (int i = 1; i < 8; i++) {
 
