@@ -102,8 +102,6 @@ public class Productividad_mes extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       productividadMesDiagnosticadas= new int[5];
-       productividadMesReparadas= new int[5];
 
       promedioReparadas = 0;
        promedioDiagnosticadas=0;
@@ -282,6 +280,7 @@ public class Productividad_mes extends Fragment {
                         obtenerProductSemana();
 
 
+
                         if(mesDado.equalsIgnoreCase("Febrero")){
 
                              ArrayList<BarEntry> diagnosticadas = new ArrayList<>();
@@ -296,7 +295,7 @@ public class Productividad_mes extends Fragment {
                             reparadas.add(new BarEntry(1,productividadMesReparadas[2]));
                             reparadas.add(new BarEntry(1,productividadMesReparadas[3]));
 
-                            BarDataSet datos = new BarDataSet(diagnosticadas, "Diagnosticadas");
+                            BarDataSet datos = new BarDataSet(diagnosticadas, "Asignadas");
                             BarDataSet valores = new BarDataSet(reparadas, "Reparadas");
 
                             String[] fecha = new String[] {"Semana1","Semana 2", "Semana 3", "Semana 4"};
@@ -367,7 +366,7 @@ public class Productividad_mes extends Fragment {
                         reparadas.add(new BarEntry(4,productividadMesReparadas[3]));
                         reparadas.add(new BarEntry(5,productividadMesReparadas[4]));
 
-                        BarDataSet datos = new BarDataSet(diagnosticadas, "Diagnosticadas");
+                        BarDataSet datos = new BarDataSet(diagnosticadas, "Asignadas");
                         BarDataSet valores = new BarDataSet(reparadas, "Reparadas");
 
                         String[] fecha = new String[] {"Semana1","Semana 2", "Semana 3", "Semana 4", "Semana 5"};
@@ -597,6 +596,8 @@ public class Productividad_mes extends Fragment {
 
     public void obtenerProductSemana() {
 
+        productividadMesDiagnosticadas= new int[5];
+        productividadMesReparadas= new int[5];
 
         for (int i = 1; i < 8; i++) {
 

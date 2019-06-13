@@ -272,9 +272,13 @@ public class ConsultaTerminalesFechas extends Fragment {
         int año_fin = Integer.parseInt(fechaFin[2]);
 
 
-        if (año_fin < año_inicio) {  return false; }
+        if (año_fin < año_inicio) {    return false; }
 
-         if (mes_fin < mes_inicio) {  return false; }
+        if (año_fin > año_inicio) {    return true; }
+
+        if(mes_fin>mes_inicio){return true;}
+
+        if (mes_fin < mes_inicio) {  return false; }
 
         if (dia_fin < dia_inicio) {   return false; }
 

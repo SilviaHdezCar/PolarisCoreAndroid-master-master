@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
-            android:text="Terminales diagnosticadas y reparadas por día"
+            android:text="Terminales Asociadas y reparadas por día"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
             android:textSize="14dp"

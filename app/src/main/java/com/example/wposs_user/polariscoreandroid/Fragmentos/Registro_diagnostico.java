@@ -147,13 +147,13 @@ public class Registro_diagnostico extends Fragment {
 
     public String[] convertirRepuestos() {
 
-        String[] rep = new String[Global.REPUESTOS.size()];
+        String[] rep = new String[Global.REPUESTOS.size()+1];
 
         rep[0] = "Seleccione";
 
-        for (int i = 1; i < Global.REPUESTOS.size(); i++) {
+        for (int i = 0; i < Global.REPUESTOS.size(); i++) {
 
-            rep[i] = Global.REPUESTOS.get(i).getSpar_code() + "  -  " + Global.REPUESTOS.get(i).getSpar_name();
+            rep[i+1] = Global.REPUESTOS.get(i).getSpar_code() + "  -  " + Global.REPUESTOS.get(i).getSpar_name();
 
         }
         return rep;

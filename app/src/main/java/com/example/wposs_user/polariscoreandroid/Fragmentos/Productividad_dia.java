@@ -36,6 +36,7 @@ import com.example.wposs_user.polariscoreandroid.java.Productividad;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -410,7 +411,7 @@ public class Productividad_dia extends Fragment {
 
                         }
 
-                        BarDataSet datos = new BarDataSet(diagnosticadas, "Diagnosticadas");
+                        BarDataSet datos = new BarDataSet(diagnosticadas, "Asignadas");
                         BarDataSet valores = new BarDataSet(reparadas, "Reparadas");
                         String y= "        "+fecha_inicial;
                         String[] fecha = new String[] {y};
@@ -438,11 +439,22 @@ public class Productividad_dia extends Fragment {
 
 
                         tituloG.setVisibility(VISIBLE);
-                        grafica.setScaleY(1);
-                        grafica.setScaleX(1);
+
+                        YAxis yAxis = grafica.getAxis(YAxis.AxisDependency.LEFT);
+                        yAxis.setCenterAxisLabels(true);
+                        yAxis.setAxisMinimum(0);
+                        yAxis.setGranularity(1);
+
+
+
+                        //  x.setValueFormatter(new IndexAxisValueFormatter(meses));
+
+
+                        x.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+
                         x.setCenterAxisLabels(true);
                         grafica.getAxisRight().setEnabled(false);
-                        x.setLabelCount(1);
+                        x.setLabelCount(2);
                         x.setDrawLabels(true);
                         x.setPosition(XAxis.XAxisPosition.BOTTOM);
                         x.setGranularity(1);
@@ -453,12 +465,13 @@ public class Productividad_dia extends Fragment {
                         float groupSpace = 0.6f;
                         datosGrafica.setBarWidth(0.2f);
                         grafica.getXAxis().setAxisMinimum(0);
-                        grafica.getXAxis().setAxisMaximum(1);
+                        grafica.getXAxis().setAxisMaximum(2);
                         grafica.groupBars(0, groupSpace, barSpace);
                         grafica.invalidate();
                         grafica.getDescription().setEnabled(false);
                         grafica.getAxisRight().setGranularity(1);
                         grafica.setVisibility(VISIBLE);
+                          grafica.setVisibility(VISIBLE);
                         f_inicio.setText("");
 
 
@@ -493,7 +506,7 @@ public class Productividad_dia extends Fragment {
     }
 
 
-    public boolean validarFechaActual(int dia, int mes, int año){
+    public boolean validarFechaActual(int dia, int mes, int anio){
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();
@@ -503,7 +516,7 @@ public class Productividad_dia extends Fragment {
         int mesAct=Integer.parseInt( fechaAct[1]);
         int diaAct= Integer.parseInt(fechaAct[2]);
 
-        if(año>anioAct){ return false;}
+        if(anio>anioAct){ return false;}
 
         if(anio<anioAct){ return true;}
 

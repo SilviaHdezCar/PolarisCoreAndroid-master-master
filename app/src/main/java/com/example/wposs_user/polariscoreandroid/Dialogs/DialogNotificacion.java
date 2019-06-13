@@ -47,7 +47,7 @@ public class DialogNotificacion extends DialogFragment {
         dialogo = new AlertDialog.Builder(getActivity());
         view = getActivity().getLayoutInflater().inflate(R.layout.notificaciones, null);
         rv= (RecyclerView)view.findViewById(R.id.rv_notificaciones);
-        dialogo.setCancelable(false);
+        dialogo.setCancelable(true);
         dialogo.setView(view);
         llenarRv();
 
