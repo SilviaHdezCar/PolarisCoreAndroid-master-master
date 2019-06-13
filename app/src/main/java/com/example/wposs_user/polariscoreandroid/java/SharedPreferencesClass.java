@@ -23,8 +23,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SharedPreferencesClass {
 
-    protected final static String PREFS_KEY = "Mis preferencias";
-    protected final static String PREFS_KEY2 = "android.polaris.core.access";
+    protected final static String PREFS_KEY = "com.example.wposs_user.polariscoreandroid.java.log";
+    protected final static String PREFS_KEY2 = "com.example.wposs_user.polariscoreandroid.java.access";
 
     static android.content.SharedPreferences settings;
     static android.content.SharedPreferences.Editor editor;

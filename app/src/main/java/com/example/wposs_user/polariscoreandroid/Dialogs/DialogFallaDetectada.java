@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.EtapasNuevoD_autorizadas;
-import com.example.wposs_user.polariscoreandroid.Fragmentos.NuevoDiagnosticoAutorizadas;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.Registro_diagnostico;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.RepuestoDefectuosoAutorizadas;
 import com.example.wposs_user.polariscoreandroid.R;

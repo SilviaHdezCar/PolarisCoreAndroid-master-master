@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -128,6 +129,7 @@ public class Prediagnostico extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_prediagnostico, container, false);
+        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("DIAGNÓSTICOS");
         this.repuestos = new ArrayList<Repuesto>();
         serial = (TextView) v.findViewById(R.id.serial_diagnosticos);

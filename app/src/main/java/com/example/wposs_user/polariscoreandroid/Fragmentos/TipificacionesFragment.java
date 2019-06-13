@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -65,6 +66,7 @@ public class TipificacionesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tipificaciones, container, false);
+        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("TIPIFICACIONES TERMINAL");
         descripcionTipificaion = "";
         layout_tipificaciones = (LinearLayout) v.findViewById(R.id.layout_tipificaciones);
@@ -84,12 +86,10 @@ public class TipificacionesFragment extends Fragment {
         spinner_tipificaciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String[] spares = getTipificaciones();
-                String r= spares[position];
-
-                if(!r.equals("Seleccione")){
-
-                    descripcionTipificaion = r;
+                String[] tipificaciones = obtenerTipificaciones();
+                String t= tipificaciones[position];
+                if(!t.equalsIgnoreCase("Seleccione")){
+                    descripcionTipificaion = t;
                     agregarTipificacion();
                 }
 
@@ -210,14 +210,11 @@ public class TipificacionesFragment extends Fragment {
     }
 
     //Concierte el arreglode tipificaciones a un arreglo de String
-    public String[] getTipificaciones() {
-
-        String[] rep = new String[Global.TIPIFICACIONES.size()];
+    public String[] obtenerTipificaciones() {
+        String[] rep = new String[Global.TIPIFICACIONES.size()+1];
         rep[0] = "Seleccione";
-        for (int i = 1; i < Global.TIPIFICACIONES.size(); i++) {
-
-            rep[i] = Global.TIPIFICACIONES.get(i).getTetv_description();
-
+        for (int i = 0; i < Global.TIPIFICACIONES.size(); i++) {
+            rep[i+1] = Global.TIPIFICACIONES.get(i).getTetv_description();
         }
         return rep;
 
@@ -226,7 +223,7 @@ public class TipificacionesFragment extends Fragment {
 
     public void llenarSpinner() {
 
-        final String[] getTipificaciones = this.getTipificaciones();
+        final String[] getTipificaciones = this.obtenerTipificaciones();
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(objeto, R.layout.spinner_tipificaciones_style, getTipificaciones);
 
@@ -237,7 +234,6 @@ public class TipificacionesFragment extends Fragment {
      * Al prsionar la tipificación, la agrega a la tabla
      **/
     private void agregarTipificacion() {
-
         if (descripcionTipificaion.isEmpty()) {
             Toast.makeText(objeto, "Debe seleccionar una tipificación", Toast.LENGTH_SHORT).show();
             return;
@@ -260,15 +256,6 @@ public class TipificacionesFragment extends Fragment {
                     }
                 }
             }
-
-            /*for (Tipificacion tip : Global.TIPIFICACIONES) {
-                if (tip != null) {
-                    if (tip.getTetv_description().equalsIgnoreCase(descripcionTipificaion)) {
-
-                    }
-                }
-            }*/
-
         }
     }
 
@@ -381,10 +368,10 @@ public class TipificacionesFragment extends Fragment {
 
                 ImageButton btn_eliminar = new ImageButton(objeto);
                 btn_eliminar.setId(200 + i);
-                btn_eliminar.setMaxWidth(30);
-                btn_eliminar.setMinimumWidth(30);
-                btn_eliminar.setMaxHeight(30);
-                btn_eliminar.setMinimumHeight(30);
+                btn_eliminar.setMaxWidth(20);
+                btn_eliminar.setMinimumWidth(15);
+                btn_eliminar.setMaxHeight(20);
+                btn_eliminar.setMinimumHeight(15);
                 //btn_eliminar.setPadding(1, 5, 1, 5);
                 btn_eliminar.setImageResource(R.mipmap.papelera);
                 btn_eliminar.setColorFilter(Color.parseColor("#018793"));//para cambiar el color de la imagen
@@ -396,33 +383,6 @@ public class TipificacionesFragment extends Fragment {
                 tabla.addView(fila);
             }
         }
-       /* for (int i = 0; i < listTipificaciones.size(); i++) {
-            TableRow fila = new TableRow(objeto);
-            fila.setId(i);
-            fila.setGravity(View.TEXT_ALIGNMENT_CENTER);
-            //celdas
-
-            TextView nombre = new TextView(objeto);
-            nombre.setId(100 + i);
-
-            nombre.setText(listTipificaciones.get(i).getTetv_description());
-
-
-            ImageButton btn_eliminar= new ImageButton(objeto);
-            btn_eliminar.setId(200 + i);
-            btn_eliminar.setMaxWidth(30);
-            btn_eliminar.setMinimumWidth(30);
-            btn_eliminar.setMaxHeight(30);
-            btn_eliminar.setMinimumHeight(30);
-            btn_eliminar.setPadding(1,1,1,1);
-            btn_eliminar.setImageResource(R.drawable.ic_delete);
-
-            fila.addView(nombre);
-            fila.addView(btn_eliminar);
-            tabla.addView(fila);
-
-
-        }*/
         recorrerTabla(tabla);
     }
 
@@ -433,7 +393,6 @@ public class TipificacionesFragment extends Fragment {
      * SI-->  Mostrar cuadro de dialogo que pregunta si es por USO o FABRICA-->Pasar a la selección de repuestos
      **/
     public void siguienteTipificaciones() {
-
         if (llenarTipificacionesDiagnostico()) {
             if (Global.diagnosticoTerminal.equalsIgnoreCase("autorizada")) {
                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).addToBackStack(null).commit();
@@ -448,7 +407,6 @@ public class TipificacionesFragment extends Fragment {
     public boolean llenarTipificacionesDiagnostico() {
         boolean retorno = false;
         String cadena = "";
-
         if (Global.listTipificaciones.size() == 0) {
             AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
             alertDialog.setTitle("¡ATENCIÓN!");

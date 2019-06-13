@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.textclassifier.TextLinks;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -99,6 +100,7 @@ public class InicialFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_inicial, container, false);
+        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         Global.soloConsulta = "no";
         inicial = this;
 

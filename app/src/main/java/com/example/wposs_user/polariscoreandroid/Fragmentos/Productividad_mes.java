@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -101,13 +102,15 @@ public class Productividad_mes extends Fragment {
    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+       v = inflater.inflate(R.layout.fragment_productividad_mes, container, false);
+       objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
        productividadMesDiagnosticadas= new int[5];
        productividadMesReparadas= new int[5];
 
       promedioReparadas = 0;
        promedioDiagnosticadas=0;
-        v = inflater.inflate(R.layout.fragment_productividad_mes, container, false);
+
         obtenerAnios();
         promreparadas= (TextView)v.findViewById(R.id.txt_promRep);
         promDiagnosticadas=(TextView)v.findViewById(R.id.txt_promDiag);

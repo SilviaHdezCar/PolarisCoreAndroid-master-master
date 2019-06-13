@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.drawable.RotateDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,6 +18,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -67,8 +72,8 @@ public class ObservacionesFragment extends Fragment {
 
     private String nombre_foto1;
     private String nombre_foto2;
-    Bitmap bitmap_foto1;
-    Bitmap bitmap_foto2;
+    private Bitmap bitmap_foto1;
+    private Bitmap bitmap_foto2;
     private RequestQueue queue;
     private StringRequest stringRequest;
     private int foto;
@@ -84,6 +89,7 @@ public class ObservacionesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_observaciones, container, false);
+        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("OBSERVACIÓN");
 
 
@@ -249,6 +255,9 @@ public class ObservacionesFragment extends Fragment {
                 if (data.getExtras() != null) {
                     if (data.getExtras().get("data") != null) {
                         bitmap_foto1 = (Bitmap) data.getExtras().get("data");
+                        Matrix matrix = new Matrix();
+                        matrix.postRotate(90);
+                        bitmap_foto1 = Bitmap.createBitmap(bitmap_foto1, 0, 0, bitmap_foto1.getWidth(), bitmap_foto1.getHeight(), matrix, true);//para girar la imagen
                         imagen_observación.setImageBitmap(bitmap_foto1);
                     }
                 }
@@ -259,7 +268,11 @@ public class ObservacionesFragment extends Fragment {
                 if (data.getExtras() != null) {
                     if (data.getExtras().get("data") != null) {
                         bitmap_foto2 = (Bitmap) data.getExtras().get("data");
+                        Matrix matrix = new Matrix();
+                        matrix.postRotate(90);
+                        bitmap_foto2 = Bitmap.createBitmap(bitmap_foto2, 0, 0, bitmap_foto2.getWidth(), bitmap_foto2.getHeight(), matrix, true);
                         imagen_observación2.setImageBitmap(bitmap_foto2);
+
                     }
                 }
             }

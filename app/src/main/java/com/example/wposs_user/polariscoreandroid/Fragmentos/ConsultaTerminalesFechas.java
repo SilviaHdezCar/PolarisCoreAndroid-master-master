@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -71,9 +72,9 @@ public class ConsultaTerminalesFechas extends Fragment {
     private Button buscar_terminales_fecha;
     private LinearLayout layout_estado_terminal;
     private RecyclerView rv;
-    ArrayList<Terminal> terminales;
+    private ArrayList<Terminal> terminales;
     private RequestQueue queue;
-    View view;
+    private View view;
 
     public static String Fecha1, Fecha2;
 
@@ -92,13 +93,15 @@ public class ConsultaTerminalesFechas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_consulta_terminales_fechas, container, false);
+        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("BÚSQUEDA POR FECHAS");
-        buscar_terminales_fecha=(Button) view.findViewById(R.id.btn_buscar_terminalesPorFechas) ;
+        buscar_terminales_fecha = (Button) view.findViewById(R.id.btn_buscar_terminalesPorFechas);
 
-        terminales= new ArrayList<>();
+        terminales = new ArrayList<>();
         queue = Volley.newRequestQueue(objeto);
 
-        rv= (RecyclerView)view.findViewById(R.id.recycler_view_consultaTerminalesFecha);
+        rv = (RecyclerView) view.findViewById(R.id.recycler_view_consultaTerminalesFecha);
+
         buscar_terminales_fecha.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -124,7 +127,6 @@ public class ConsultaTerminalesFechas extends Fragment {
         });
 
 
-
         f_inicio.setInputType(InputType.TYPE_NULL);
         f_fin.setInputType(InputType.TYPE_NULL);
         f_inicio.setInputType(InputType.TYPE_NULL);
@@ -135,7 +137,6 @@ public class ConsultaTerminalesFechas extends Fragment {
         Date date = new Date();
         String fecha = dateFormat.format(date);
         fecha = fecha.replace("-", "/");
-
 
 
         f_inicio.addTextChangedListener(new TextWatcher() {
@@ -210,7 +211,6 @@ public class ConsultaTerminalesFechas extends Fragment {
         });
 
 
-
 //Fin mostrar calendario
 
 
@@ -252,10 +252,6 @@ public class ConsultaTerminalesFechas extends Fragment {
     }
 
 
-
-
-
-
     public boolean validarFecha() {
 
         String fecha_inicial = f_inicio.getText().toString();
@@ -272,37 +268,39 @@ public class ConsultaTerminalesFechas extends Fragment {
         int año_fin = Integer.parseInt(fechaFin[2]);
 
 
-        if (año_fin < año_inicio) {  return false; }
+        if (año_fin < año_inicio) {
+            return false;
+        }
 
-         if (mes_fin < mes_inicio) {  return false; }
+        if (mes_fin < mes_inicio) {
+            return false;
+        }
 
-        if (dia_fin < dia_inicio) {   return false; }
+        if (dia_fin < dia_inicio) {
+            return false;
+        }
 
         return true;
 
     }
 
 
-
     /********************Metodo usado para obtener el numero de terminales en un rango de fechas dado*************************************/////////
-
     public void consumirServicioBusquedaFecha() {
 
 
+        String data_inicio = f_inicio.getText().toString();
+        String data_fin = f_fin.getText().toString();
 
-           String data_inicio = f_inicio.getText().toString();
-           String data_fin = f_fin.getText().toString();
 
-
-        if (data_inicio.isEmpty()||data_fin.isEmpty()) {
+        if (data_inicio.isEmpty() || data_fin.isEmpty()) {
             Toast.makeText(view.getContext(), "Debe seleccionar la fecha de inicio y fin", Toast.LENGTH_SHORT).show();
             rv.setAdapter(null);
             buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#80FFFFFF"));
-            terminales= new ArrayList<>();
+            terminales = new ArrayList<>();
             return;
 
         }
-
 
 
         String fecha_inicial = f_inicio.getText().toString();
@@ -318,16 +316,16 @@ public class ConsultaTerminalesFechas extends Fragment {
         final int mes_final = Integer.parseInt(fechaFin[1]);
         final int anio_final = Integer.parseInt(fechaFin[2]);
 
-        String fecha_inicio = mes_inicio+"/"+dia_inicio+"/"+anio_inicio;
-        String fecha_fin = mes_final+"/"+dia_final+"/"+anio_final;
+        String fecha_inicio = mes_inicio + "/" + dia_inicio + "/" + anio_inicio;
+        String fecha_fin = mes_final + "/" + dia_final + "/" + anio_final;
 
-        if(!validarFechaActual(dia_inicio,mes_inicio,anio_inicio)){
+        if (!validarFechaActual(dia_inicio, mes_inicio, anio_inicio)) {
 
             Toast.makeText(objeto, "La fecha debe ser igual o anterior a la fecha actual", Toast.LENGTH_SHORT).show();
             f_inicio.setText(" ");
             f_fin.setText(" ");
             rv.setAdapter(null);
-            terminales= new ArrayList<>();
+            terminales = new ArrayList<>();
             f_inicio.setText("");
             f_fin.setText("");
             buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#80FFFFFF"));
@@ -336,13 +334,13 @@ public class ConsultaTerminalesFechas extends Fragment {
 
         }
 
-        if(!validarFechaActual(dia_final,mes_final,anio_final)){
+        if (!validarFechaActual(dia_final, mes_final, anio_final)) {
 
             Toast.makeText(objeto, "La fecha debe ser igual o anterior a la fecha actual", Toast.LENGTH_SHORT).show();
             f_inicio.setText(" ");
             f_fin.setText(" ");
             rv.setAdapter(null);
-            terminales= new ArrayList<>();
+            terminales = new ArrayList<>();
             f_inicio.setText("");
             f_fin.setText("");
             buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#80FFFFFF"));
@@ -350,13 +348,13 @@ public class ConsultaTerminalesFechas extends Fragment {
 
         }
 
-        if(!this.validarFecha()){
+        if (!this.validarFecha()) {
 
             Toast.makeText(view.getContext(), "La fecha de inicio debe ser anterior a la final", Toast.LENGTH_SHORT).show();
             f_inicio.setText(" ");
             f_fin.setText(" ");
             rv.setAdapter(null);
-            terminales= new ArrayList<>();
+            terminales = new ArrayList<>();
             f_inicio.setText("");
             buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#80FFFFFF"));
             f_fin.setText("");
@@ -408,14 +406,14 @@ public class ConsultaTerminalesFechas extends Fragment {
                                 Global.mensaje = "No se encontraron registros para la fecha seleccionada";
                                 Toast.makeText(view.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
 
-                          }
+                            }
 
                             Terminal ter;
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 String res = jsonArray.getString(i);
 
-                               ter = gson.fromJson(res, Terminal.class);
+                                ter = gson.fromJson(res, Terminal.class);
 
                                 if (ter != null) {
                                 }
@@ -435,11 +433,10 @@ public class ConsultaTerminalesFechas extends Fragment {
                             }
 
 
-
                             rv.setHasFixedSize(true);
                             LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
                             rv.setLayoutManager(llm);
-                            AdapterTerminalStock adapter= new AdapterTerminalStock(view.getContext(),terminales);
+                            AdapterTerminalStock adapter = new AdapterTerminalStock(view.getContext(), terminales);
                             rv.setAdapter(adapter);
                             f_inicio.setText("");
                             f_fin.setText("");
@@ -453,15 +450,13 @@ public class ConsultaTerminalesFechas extends Fragment {
                     }
 
 
-
-
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -483,27 +478,37 @@ public class ConsultaTerminalesFechas extends Fragment {
 
     }
 
-    public boolean validarFechaActual(int dia, int mes, int año){
+    public boolean validarFechaActual(int dia, int mes, int año) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();
         String fechaActual = dateFormat.format(date);
-        String []fechaAct= fechaActual.split("-");
-        int anioAct=Integer.parseInt( fechaAct[0]);
-        int mesAct=Integer.parseInt( fechaAct[1]);
-        int diaAct= Integer.parseInt(fechaAct[2]);
+        String[] fechaAct = fechaActual.split("-");
+        int anioAct = Integer.parseInt(fechaAct[0]);
+        int mesAct = Integer.parseInt(fechaAct[1]);
+        int diaAct = Integer.parseInt(fechaAct[2]);
 
-        if(año>anioAct){ return false;}
+        if (año > anioAct) {
+            return false;
+        }
 
-        if(anio<anioAct){ return true;}
+        if (anio < anioAct) {
+            return true;
+        }
 
 
-        if(anio==anioAct){
+        if (anio == anioAct) {
 
-            if(mes>mesAct){return false;}
-            if(mes<mesAct){return true;}
-            if(mes==mesAct){
-                if(dia>diaAct){return false;}
+            if (mes > mesAct) {
+                return false;
+            }
+            if (mes < mesAct) {
+                return true;
+            }
+            if (mes == mesAct) {
+                if (dia > diaAct) {
+                    return false;
+                }
             }
         }
 
@@ -511,9 +516,6 @@ public class ConsultaTerminalesFechas extends Fragment {
 
 
     }
-
-
-
 
 
 }

@@ -270,7 +270,7 @@
             android:maxLength="300"
             android:textSize="14dp"
             android:padding="5dp"
-            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ óáéíúÓÁÉÍÚ.,:;"
             android:inputType="textMultiLine|textCapCharacters"/>
 
         <Button

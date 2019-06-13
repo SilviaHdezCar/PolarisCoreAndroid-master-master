@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -131,6 +132,7 @@ public class EtapasTerminalAutorizada extends Fragment {
         // Inflate the layout for this fragment
         Global.fotos = new ArrayList<>();
         view = inflater.inflate(R.layout.fragment_etapas_terminal_autorizada, container, false);
+        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("ETAPAS");
 
         // muestro la terminal seleccionada con los valores que guarde en el obj terminal
@@ -155,10 +157,11 @@ public class EtapasTerminalAutorizada extends Fragment {
         tecnologia.setText(Global.terminalVisualizar.getTerm_technology());
         estado.setText(Global.terminalVisualizar.getTerm_status());
         fechaANS.setText("");
-        if (Global.terminalVisualizar.getTerm_date_reception() != null ) {
-            fechaANS.setText(Utils.darFormatoFecha2(Global.terminalVisualizar.getTerm_date_reception())+" - ");
-        }if (Global.terminalVisualizar.getTerm_date_ans() != null ) {
-            fechaANS.setText(fechaANS.getText().toString()+Utils.darFormatoFecha2(Global.terminalVisualizar.getTerm_date_ans()));
+        if (Global.terminalVisualizar.getTerm_date_reception() != null) {
+            fechaANS.setText(Utils.darFormatoFecha2(Global.terminalVisualizar.getTerm_date_reception()) + " - ");
+        }
+        if (Global.terminalVisualizar.getTerm_date_ans() != null) {
+            fechaANS.setText(fechaANS.getText().toString() + Utils.darFormatoFecha2(Global.terminalVisualizar.getTerm_date_ans()));
         }
 
         etapaView = (Button) view.findViewById(R.id.btn_etapas);
@@ -228,6 +231,7 @@ public class EtapasTerminalAutorizada extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            Log.d("RESPUESTA OBSERVACIONES", response.toString());
                             Global.STATUS_SERVICE = response.get("status").toString();
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
@@ -249,15 +253,18 @@ public class EtapasTerminalAutorizada extends Fragment {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     obser = jsonArray.getString(i);
                                     o = gson.fromJson(obser, Observacion.class);
-                                    if (o.getTeob_photo() != null || !o.getTeob_photo().equalsIgnoreCase("")) {
+                                    System.out.println(i+"-Ob llegó: "+o.toString());
 
-                                        if (o.getTeob_description().isEmpty()) {
-                                            Global.observaciones_con_fotos.add(o);
+                                    if (o.getTeob_photo() != null ) {
+                                        if ( !o.getTeob_photo().equalsIgnoreCase("")) {
+                                            if (o.getTeob_description()==null||o.getTeob_description().isEmpty()) {
+                                                Global.observaciones_con_fotos.add(o);
+                                            }
                                         }
-
                                     }
                                     Global.OBSERVACIONES.add(o);
                                 }
+                                System.out.println("tamaño ob fotos: "+ Global.observaciones_con_fotos.size());
                                 if (Global.OBSERVACIONES != null) {
                                     sort(Global.OBSERVACIONES);
                                 }
@@ -268,7 +275,7 @@ public class EtapasTerminalAutorizada extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.d("RESPUESTA", response.toString());
+
                     }
 
                 },

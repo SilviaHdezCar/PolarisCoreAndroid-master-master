@@ -1,86 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blanco"
+    android:background="@color/blanco_transparente50"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".Actividades.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/ly_imagen"
+        android:background="@color/transparente"
+        android:gravity="right">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:padding="5dp">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/btn_close"
+            layout_alignParentTop="true"
+            layout_centerHorizontal="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@color/blanco_transparente50"
+            android:src="@drawable/ic_close"
+            app:civ_border_color="@color/negro"
+            app:civ_border_width="2dp" />
+    </LinearLayout>
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/btn_close"
-                layout_alignParentTop="true"
-                layout_centerHorizontal="true"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-
-
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:background="@color/blanco"
-                android:src="@drawable/ic_close"
-                app:civ_border_color="@color/negro"
-                app:civ_border_width="2dp" />
-        </LinearLayout>
-
+    <RelativeLayout
+        android:id="@+id/ly_imagen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/imagen_zoom"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_desplazamiento"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="300dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        >
+            android:layout_height="400dp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:id="@+id/btn_before"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@color/blanco"
-                android:src="@drawable/ic_navigate_before" />
-        </LinearLayout>
-
-
-        <LinearLayout
+            android:id="@+id/layout_desplazamiento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right">
+           android:layout_marginTop="120dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/btn_next"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@color/blanco"
-                android:src="@drawable/ic_navigate_next" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/btn_before"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/blanco_transparente50"
+                    android:src="@drawable/ic_navigate_before" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <ImageButton
+                    android:id="@+id/btn_next"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/blanco_transparente50"
+                    android:src="@drawable/ic_navigate_next" />
+            </LinearLayout>
+
         </LinearLayout>
-
-    </LinearLayout>
-
+    </RelativeLayout>
 
 
-
-
-</RelativeLayout>
+</LinearLayout>

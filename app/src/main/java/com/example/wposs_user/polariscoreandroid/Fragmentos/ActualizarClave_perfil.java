@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,7 +66,7 @@ public class ActualizarClave_perfil extends Fragment {
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_actualizar_clave_perfil, container, false);
-
+        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("ACTUALIZAR CONTRASEÑA");
         queue = Volley.newRequestQueue(objeto);
         btn_validar = (Button) v.findViewById(R.id.lbl_validarClave);

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
@@ -128,6 +129,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_etapas_terminal_autorizada, container, false);
+        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("ETAPAS");
         if(Global.diagnosticoTerminal.equalsIgnoreCase("autorizada")){
             Global.lista_tipificaciones_tabla=new ArrayList<Tipificacion>();
