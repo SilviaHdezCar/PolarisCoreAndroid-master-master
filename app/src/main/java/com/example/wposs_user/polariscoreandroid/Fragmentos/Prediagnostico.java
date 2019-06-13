@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -128,6 +129,7 @@ public class Prediagnostico extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_prediagnostico, container, false);
+        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("DIAGNÓSTICOS");
         this.repuestos = new ArrayList<Repuesto>();
         serial = (TextView) v.findViewById(R.id.serial_diagnosticos);
@@ -582,11 +584,13 @@ public class Prediagnostico extends Fragment {
                             txt_nomFoto1.setMovementMethod(new ScrollingMovementMethod());
                             System.out.println("Información de la foto: " + nombreFoto1 + "");
                             Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto1).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
+                            Global.foto=1;
+                            Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto1;
                             img_evidencia1.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     //inflar fragment evidencias y carga la foto
-                                    Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto1;
+
                                     cargarPanel();
 
                                 }
@@ -604,12 +608,13 @@ public class Prediagnostico extends Fragment {
                             txt_nomFoto2.setText(nombreFoto2);
 
                             Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto2).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
+                            Global.foto=2;
+                            Global.rutaFotoObservacion2 = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto2;
                             img_evidencia2.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     //inflar fragment evidencias y carga la foto
-                                    Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto2;
-                                    cargarPanel();
+                                   cargarPanel();
 
                                 }
                             });

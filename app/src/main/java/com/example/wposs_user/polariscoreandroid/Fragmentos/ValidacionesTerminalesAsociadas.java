@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -78,7 +79,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         View v = inflater.inflate(R.layout.fragment_validaciones_terminales_asociadas, container, false);
         objeto.setTitulo("VALIDACIONES TERMINAL");
         fechaActual = Utils.getDate();
-
+        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         marca_ter_validaciones = (TextView) v.findViewById(R.id.marca_ter_validaciones);
         modelo_ter_validaciones = (TextView) v.findViewById(R.id.modelo_ter_validaciones);
         serial_ter_validaciones = (TextView) v.findViewById(R.id.serial_ter_validaciones);

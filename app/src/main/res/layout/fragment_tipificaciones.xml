@@ -25,16 +25,23 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <Spinner
-                    android:id="@+id/spinner_tipificaciones"
+                <LinearLayout
                     android:layout_width="300dp"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:inputType="text"
-                    android:background="@color/blanco"
-                    android:paddingLeft="5dp">
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:background="@drawable/redondo_fondo_blanco">
+                    <Spinner
+                        android:id="@+id/spinner_tipificaciones"
+                        android:layout_width="300dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:inputType="text"
+                        android:background="@color/blanco"
+                        android:paddingLeft="5dp">
 
-                </Spinner>
+                    </Spinner>
+                </LinearLayout>
+
 
 
             </LinearLayout>

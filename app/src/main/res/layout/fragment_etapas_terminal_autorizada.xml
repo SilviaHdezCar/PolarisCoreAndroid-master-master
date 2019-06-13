@@ -278,7 +278,7 @@
                                     android:inputType="textMultiLine|textCapCharacters"
                                     android:maxLines="4"
                                     android:maxLength="300"
-                                    android:digits=" 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,-_:;+*/"
+                                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ óáéíúÓÁÉÍÚ.,:;"
                                     android:overScrollMode="always"
                                     android:padding="5dp"
                                     android:scrollbarStyle="insideInset"

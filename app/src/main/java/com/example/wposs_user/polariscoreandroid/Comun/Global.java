@@ -153,7 +153,7 @@ public class Global {
     public static ArrayList<Validacion> VALIDACIONES_DIAGNOSTICO;
     public static ArrayList<Tipificacion> TIPIFICACIONES_DIAGNOSTICO;
     public static ArrayList<Tipificacion> lista_tipificaciones_tabla = new ArrayList<Tipificacion>();//utilizado para llenar la tabla de tipificaciones asociadas
-    public static ArrayList<Tipificacion> listTipificaciones;//utilizado
+    public static ArrayList<Tipificacion> listTipificaciones;//son los de la tabla
     public  static ArrayList<Notificacion> notificaciones = new ArrayList<>();
     public static String reparable = "";
     public static String fallaDetectada = "";
@@ -164,6 +164,8 @@ public class Global {
     public static int lenS1;
     public static String claveNueva;
     public static String rutaFotoObservacion;
+    public static String rutaFotoObservacion2;
+    public static int foto=0;
 
     ///Variables Terminales Autorizadas
     public static String repuestosAutorizadas = "";

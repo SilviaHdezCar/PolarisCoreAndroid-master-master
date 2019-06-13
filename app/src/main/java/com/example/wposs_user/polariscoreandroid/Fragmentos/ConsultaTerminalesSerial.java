@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -74,6 +75,7 @@ public class ConsultaTerminalesSerial extends Fragment {
                              Bundle savedInstanceState) {
         Global.soloConsulta = "si";
         view = inflater.inflate(R.layout.fragment_consultar_terminales_serial, container, false);
+        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("BÚSQUEDA POR SERIAL");
         queue = Volley.newRequestQueue(objeto);
         //servicioTerminales();

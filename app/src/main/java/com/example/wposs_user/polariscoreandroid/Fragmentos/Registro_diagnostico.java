@@ -16,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -81,6 +82,7 @@ public class Registro_diagnostico extends Fragment {
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_registro_diagnostico, container, false);
+        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("REGISTRAR DIAGNÓSTICO");
         Global.REPUESTOS = new ArrayList<>();
         Global.REPUESTOS_DIAGONOSTICO = new ArrayList<Repuesto>();
@@ -662,15 +664,12 @@ public class Registro_diagnostico extends Fragment {
     }
 
     public JSONArray getTipificaciones() throws JSONException {
-
         JSONArray listas = new JSONArray();
 
         for (int i = 0; i < Global.TIPIFICACIONES_DIAGNOSTICO.size(); i++) {
             JSONObject ob = Global.TIPIFICACIONES_DIAGNOSTICO.get(i).getObj();
-
             listas.put(ob);
         }
-
         return listas;
     }
 

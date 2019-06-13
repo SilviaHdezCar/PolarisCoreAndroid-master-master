@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TableLayout;
@@ -119,6 +120,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_repuesto_defectuoso_autorizadas, container, false);
+        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         Global.REPUESTOS_DEFECTUOSOS_SOLICITAR = null;
         Global.REPUESTOS_DEFECTUOSOS_SOLICITAR = new ArrayList<Repuesto>();
 

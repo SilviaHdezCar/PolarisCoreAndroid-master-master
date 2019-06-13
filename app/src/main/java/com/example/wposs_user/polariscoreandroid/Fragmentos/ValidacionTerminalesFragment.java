@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,6 +93,7 @@ public class ValidacionTerminalesFragment extends Fragment {
         // Inflate the layout for this fragment
 
            view = inflater.inflate(R.layout.fragment_validacion_terminales, container, false);
+        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
            objeto.setTitulo("VALIDACIONES");
         Global.fotos = new ArrayList<>();
         etapaView = (Button) view.findViewById(R.id.btn_etapas);
