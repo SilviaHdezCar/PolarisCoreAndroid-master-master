@@ -6,6 +6,7 @@
     android:background="@color/blanco"
     tools:context=".Fragmentos.RepuestoDefectuosoAutorizadas">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,7 +27,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:orientation="vertical">
 
             <TableLayout
@@ -37,13 +39,14 @@
                 android:stretchColumns="2">
 
                 <TableRow
-                    android:background="@color/gris_fondo">
+                    android:background="@drawable/cuadrado_fondo_verde">
 
                     <TextView
                         style="@style/letra_negrita"
                         android:layout_width="280dp"
                         android:layout_height="30dp"
                         android:text="Repuestos"
+                        android:textColor="@color/blanco"
                         android:textAllCaps="true" />
 
                     <TextView
@@ -52,6 +55,7 @@
                         android:layout_height="30dp"
                         android:gravity="center"
                         android:text="ok"
+                        android:textColor="@color/blanco"
                         android:textAllCaps="true" />
 
 
@@ -65,20 +69,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
-            android:background="@color/gris_fondo"
+            android:layout_margin="20dp"
+            android:background="@drawable/cuadrado_fondo_verde"
             android:gravity="center_horizontal">
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@mipmap/observation"/>
+                android:src="@mipmap/observation"
+                android:tint="@color/blanco"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Observaciones"
-                android:textColor="@color/negro"
+                android:textColor="@color/blanco"
                 android:textSize="16dp"
                 android:layout_marginLeft="4dp"
                 android:padding="2dp"
@@ -90,10 +94,11 @@
         <EditText
             android:id="@+id/txt_observacion_repuesto"
             style="@style/letra_contenido2"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/redondo_gris_fondo_gris"
             android:gravity="top|left"
             android:hint="Observación obliogatoria"

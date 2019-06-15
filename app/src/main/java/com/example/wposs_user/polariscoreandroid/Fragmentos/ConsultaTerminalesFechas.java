@@ -322,8 +322,8 @@ public class ConsultaTerminalesFechas extends Fragment {
         final int mes_final = Integer.parseInt(fechaFin[1]);
         final int anio_final = Integer.parseInt(fechaFin[2]);
 
-        String fecha_inicio = mes_inicio+"/"+dia_inicio+"/"+anio_inicio;
-        String fecha_fin = mes_final+"/"+dia_final+"/"+anio_final;
+        String fecha_inicio = mes_inicio+"-"+dia_inicio+"-"+anio_inicio;
+        String fecha_fin = mes_final+"-"+dia_final+"-"+anio_final;
 
         if(!validarFechaActual(dia_inicio,mes_inicio,anio_inicio)){
 
@@ -492,7 +492,7 @@ public class ConsultaTerminalesFechas extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();
         String fechaActual = dateFormat.format(date);
-        String []fechaAct= fechaActual.split("-");
+        String []fechaAct= fechaActual.split("/");
         int anioAct=Integer.parseInt( fechaAct[0]);
         int mesAct=Integer.parseInt( fechaAct[1]);
         int diaAct= Integer.parseInt(fechaAct[2]);

@@ -3,7 +3,7 @@ package com.example.wposs_user.polariscoreandroid.java;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Tipificacion {
+public class Tipificacion implements Comparable<Tipificacion>{
 
    private String tetv_id;
     private String tetv_description;
@@ -63,5 +63,12 @@ public class Tipificacion {
                 "tetv_id='" + tetv_id + '\'' +
                 ", tetv_description='" + tetv_description + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Tipificacion o) {
+        String a=new String(String.valueOf(this.getTetv_description()));
+        String b=new String(String.valueOf(o.getTetv_description()));
+        return a.compareTo(b);
     }
 }

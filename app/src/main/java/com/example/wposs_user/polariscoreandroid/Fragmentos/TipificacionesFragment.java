@@ -1,16 +1,20 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -41,6 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,7 +87,7 @@ public class TipificacionesFragment extends Fragment {
         Global.TIPIFICACIONES_DIAGNOSTICO = null;
         Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<Tipificacion>();
         tabla.removeAllViews();
-
+        llenarTabla();
         spinner_tipificaciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -100,7 +105,7 @@ public class TipificacionesFragment extends Fragment {
 
             }
         });
-        llenarTabla();
+
 
         btn_siguiente_Tipificaciones.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +113,7 @@ public class TipificacionesFragment extends Fragment {
                 siguienteTipificaciones();
             }
         });
+
 
 
         consumirServicioTipificaciones();
@@ -174,6 +180,7 @@ public class TipificacionesFragment extends Fragment {
                                 }
                                 Global.TIPIFICACIONES.add(t);
                             }
+                            Collections.sort((ArrayList)Global.TIPIFICACIONES);
                             llenarSpinner();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -368,11 +375,11 @@ public class TipificacionesFragment extends Fragment {
 
                 ImageButton btn_eliminar = new ImageButton(objeto);
                 btn_eliminar.setId(200 + i);
-                btn_eliminar.setMaxWidth(20);
-                btn_eliminar.setMinimumWidth(15);
-                btn_eliminar.setMaxHeight(20);
-                btn_eliminar.setMinimumHeight(15);
-                //btn_eliminar.setPadding(1, 5, 1, 5);
+                btn_eliminar.setMaxWidth(10);
+              /*  btn_eliminar.setMinimumWidth(10);
+                btn_eliminar.setMaxHeight(10);
+                btn_eliminar.setMinimumHeight(10);*/
+                btn_eliminar.setPadding(0, 0, 0, 0);
                 btn_eliminar.setImageResource(R.mipmap.papelera);
                 btn_eliminar.setColorFilter(Color.parseColor("#018793"));//para cambiar el color de la imagen
                 btn_eliminar.setBackgroundColor(Color.parseColor("#00EEF3F3"));

@@ -208,7 +208,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     public int compararFechas(String garantia) {//Dia/mes/año (20/01/18)
         System.out.println("Fecha actual: " + fechaActual);
         System.out.println("Fecha termina: " + garantia);
-        String[] fecha1 = fechaActual.split("/");
+        String[] fecha1 = fechaActual.split("-");
         if (garantia!=null){
             if (!garantia.trim().isEmpty()&&!garantia.equals("Invalid Date")){
                 String[] fecha2 = garantia.split(" ");

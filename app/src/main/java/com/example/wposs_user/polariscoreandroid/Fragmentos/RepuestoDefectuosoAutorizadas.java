@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -30,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
+import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
@@ -123,6 +125,8 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
         objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         Global.REPUESTOS_DEFECTUOSOS_SOLICITAR = null;
         Global.REPUESTOS_DEFECTUOSOS_SOLICITAR = new ArrayList<Repuesto>();
+        LinearLayout layout_terminales=(LinearLayout)v.findViewById(R.id.layout_terminales);
+        layout_terminales.setBackgroundResource(R.drawable.borde_amarillo);
 
         objeto.setTitulo("REPUESTOS DEFECTUOSOS");
         queue = Volley.newRequestQueue(objeto);
@@ -141,7 +145,12 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
         modelo.setText(Global.terminalVisualizar.getTerm_model());
         tecnologia.setText(Global.terminalVisualizar.getTerm_technology());
         estado.setText(Global.terminalVisualizar.getTerm_status());
-        fechaANS.setText(Global.terminalVisualizar.getTerm_date_register());
+        fechaANS.setText("");
+        if(Global.terminalVisualizar.getTerm_date_ans()!=null
+                && !Global.terminalVisualizar.getTerm_date_ans().isEmpty()){
+            fechaANS.setText(Utils.darFormatoNewDate(Global.terminalVisualizar.getTerm_date_ans()));
+        }
+
 
         btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_repuestos_defectuoso_autorizadas);
         txt_observacion = (TextView) v.findViewById(R.id.txt_observacion_repuesto);

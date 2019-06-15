@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragmentos.EtapasTerminalAutorizada"
-    >
+    tools:context=".Fragmentos.EtapasTerminalAutorizada">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -13,7 +12,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -223,26 +222,72 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
-                        android:layout_marginRight="20dp"
                         android:layout_marginLeft="20dp"
-                        android:background="@color/gris_fondo"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/cuadrado_fondo_verde"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Observaciones registradas"
+                            android:textColor="@color/blanco"
+                            android:textSize="16dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginRight="5dp"
+                                android:src="@mipmap/observation"
+                                android:tint="@color/blanco" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view_observaciones_validacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="3dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/cuadrado_fondo_verde"
                         android:gravity="center_vertical">
+
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:layout_marginRight="5dp"
                             android:src="@mipmap/observation"
-                            android:layout_marginRight="5dp"/>
+                            android:tint="@color/blanco" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Registrar observación"
-                            android:textColor="@color/negro"
-                            android:textSize="16dp"
                             android:padding="2dp"
-                            />
+                            android:text="Registrar observación"
+                            android:textColor="@color/blanco"
+                            android:textSize="16dp" />
 
                     </LinearLayout>
 
@@ -252,8 +297,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/toolbar"
-                        android:layout_marginRight="20dp"
                         android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
                         android:shrinkColumns="*"
                         android:stretchColumns="*">
 
@@ -273,12 +318,12 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="80dp"
                                     android:background="@drawable/redondo_gris_fondo_gris"
-                                    android:gravity="top|left"
-                                    android:hint="Observación"
-                                    android:inputType="textMultiLine|textCapCharacters"
-                                    android:maxLines="4"
-                                    android:maxLength="300"
                                     android:digits="0123456789abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ óáéíúÓÁÉÍÚ.,:;"
+                                    android:gravity="top|left"
+                                    android:hint="Ingresar observación"
+                                    android:inputType="textMultiLine|textCapCharacters"
+                                    android:maxLength="300"
+                                    android:maxLines="4"
                                     android:overScrollMode="always"
                                     android:padding="5dp"
                                     android:scrollbarStyle="insideInset"
@@ -288,9 +333,10 @@
                             </LinearLayout>
 
 
-
                         </TableRow>
+
                         <TableRow>
+
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -314,41 +360,6 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@color/gris_fondo"
-                        android:gravity="center_vertical"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Observaciones registradas"
-                            android:textColor="@color/negro"
-                            android:textSize="16dp"/>
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@mipmap/observation"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="120dp"/>
-                    </LinearLayout>
-
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recycler_view_observaciones_validacion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="3dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical"
@@ -360,8 +371,8 @@
                             android:layout_width="120dp"
                             android:layout_height="30dp"
                             android:layout_gravity="center"
-                            android:layout_marginBottom="20dp"
                             android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
                             android:background="@drawable/redondo_gris_botones"
                             android:text="Siguiente"
                             android:textAllCaps="false"

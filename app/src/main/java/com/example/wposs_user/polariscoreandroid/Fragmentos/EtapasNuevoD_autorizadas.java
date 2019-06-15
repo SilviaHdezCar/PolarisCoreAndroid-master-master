@@ -8,10 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
@@ -47,25 +50,8 @@ import java.util.Map;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 import static java.util.Collections.sort;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link EtapasNuevoD_autorizadas.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link EtapasNuevoD_autorizadas#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EtapasNuevoD_autorizadas extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
 
     private View view;
 
@@ -98,32 +84,6 @@ public class EtapasNuevoD_autorizadas extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EtapasNuevoD_autorizadas.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EtapasNuevoD_autorizadas newInstance(String param1, String param2) {
-        EtapasNuevoD_autorizadas fragment = new EtapasNuevoD_autorizadas();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -131,9 +91,9 @@ public class EtapasNuevoD_autorizadas extends Fragment {
         view = inflater.inflate(R.layout.fragment_etapas_terminal_autorizada, container, false);
         objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("ETAPAS");
-        if(Global.diagnosticoTerminal.equalsIgnoreCase("autorizada")){
-            Global.lista_tipificaciones_tabla=new ArrayList<Tipificacion>();
-            Global.listTipificaciones=new ArrayList<Tipificacion>();
+        if (Global.diagnosticoTerminal.equalsIgnoreCase("autorizada")) {
+            Global.lista_tipificaciones_tabla = new ArrayList<Tipificacion>();
+            Global.listTipificaciones = new ArrayList<Tipificacion>();
         }
 
         // muestro la terminal seleccionada con los valores que guarde en el obj terminal
@@ -181,7 +141,21 @@ public class EtapasNuevoD_autorizadas extends Fragment {
         btn_siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main,
+                        new ValidacionesTerminalesAsociadas()).addToBackStack(null).commit();
+            }
+        });
+        textArea_observacion.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_NEXT || i == EditorInfo.IME_ACTION_DONE
+                        || i == EditorInfo.IME_FLAG_NO_ENTER_ACTION || i == EditorInfo.IME_ACTION_GO
+                        || i == EditorInfo.IME_ACTION_NONE) {
+                    InputMethodManager imm = (InputMethodManager) objeto.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+                return false;
             }
         });
 
@@ -240,7 +214,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
                                     o = gson.fromJson(obser, Observacion.class);
                                     Global.OBSERVACIONES.add(o);
                                 }
-                                if(Global.OBSERVACIONES!=null){
+                                if (Global.OBSERVACIONES != null) {
                                     sort(Global.OBSERVACIONES);
                                 }
                             }
@@ -260,7 +234,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -295,9 +269,9 @@ public class EtapasNuevoD_autorizadas extends Fragment {
 
         ArrayList observations = new ArrayList<>();
 
-        for (int i = observaciones.size()-1;i>=0;i--){
-            if(observaciones.get(i)!=null){
-                if(!observaciones.get(i).getTeob_description().trim().isEmpty()){
+        for (int i = observaciones.size() - 1; i >= 0; i--) {
+            if (observaciones.get(i) != null) {
+                if (!observaciones.get(i).getTeob_description().trim().isEmpty()) {
                     observations.add(observaciones.get(i));
                 }
             }
@@ -370,7 +344,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
                         if (error.getMessage() != null) {
-                            if (!error.getMessage().isEmpty()){
+                            if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -392,32 +366,4 @@ public class EtapasNuevoD_autorizadas extends Fragment {
     }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

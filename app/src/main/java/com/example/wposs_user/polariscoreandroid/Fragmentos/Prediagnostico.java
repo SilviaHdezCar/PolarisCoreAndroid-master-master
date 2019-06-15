@@ -44,21 +44,8 @@ import java.util.List;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 import static java.util.Collections.sort;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Prediagnostico.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Prediagnostico#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Prediagnostico extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
-    private OnFragmentInteractionListener mListener;
+public class Prediagnostico extends Fragment {
 
 
     private View v;
@@ -80,6 +67,10 @@ public class Prediagnostico extends Fragment {
     private LinearLayout layout_repuestos;
     private LinearLayout layout_validaciones;
     private LinearLayout layout_tipificaciones;
+    private LinearLayout tab_prediagnostico;
+    private LinearLayout tab_reparacion;
+    private LinearLayout tab_evidencias;
+    private LinearLayout tab_observaciones;
 
     private RecyclerView rv;
     private List<Repuesto> repuestos;
@@ -97,42 +88,27 @@ public class Prediagnostico extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TipificacionesAutorizadas.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Prediagnostico newInstance(String param1, String param2) {
-        Prediagnostico fragment = new Prediagnostico();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     // Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/"+Global.ID+".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView);
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_prediagnostico, container, false);
+        this.inicializaciones();
+
+        validarPestaniasMostrar();
+
+        this.metodosOnCLick();
+        return v;
+    }
+
+    public void inicializaciones() {
         objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("DIAGNÓSTICOS");
         this.repuestos = new ArrayList<Repuesto>();
         serial = (TextView) v.findViewById(R.id.serial_diagnosticos);
+        serial.setText("Serial: " + Global.terminalVisualizar.getTerm_serial());
+        Collections.sort(Global.OBSERVACIONES);
 
         btn_observaciones = (Button) v.findViewById(R.id.btn_observaciones);
         btn_prediagnostico = (Button) v.findViewById(R.id.btn_terminales_prediagnostico);//Sería DIAGNOSTICO
@@ -142,6 +118,11 @@ public class Prediagnostico extends Fragment {
         ly_prediagnostico = (LinearLayout) v.findViewById(R.id.select_prediagnostico);
         ly_reparacion = (LinearLayout) v.findViewById(R.id.select_reparacion);
         ly_qa = (LinearLayout) v.findViewById(R.id.select_qa);
+
+        tab_prediagnostico = (LinearLayout) v.findViewById(R.id.tab_prediagnostico);
+        tab_reparacion = (LinearLayout) v.findViewById(R.id.tab_reparacion);
+        tab_evidencias = (LinearLayout) v.findViewById(R.id.tab_evidencias);
+        tab_observaciones = (LinearLayout) v.findViewById(R.id.tab_observaciones);
 
         tablaRepuestos = (TableLayout) v.findViewById(R.id.tabla_repuestos_prediagnostico);
         layout_observaciones = (LinearLayout) v.findViewById(R.id.layout_observaciones);
@@ -158,25 +139,10 @@ public class Prediagnostico extends Fragment {
         txt_fechaFoto1 = (TextView) v.findViewById(R.id.txt_fechaFoto1_qa);
         txt_fechaFoto2 = (TextView) v.findViewById(R.id.txt_fechaFoto2_qa);
 
-
-        styleObservacioneso();
-        System.out.println("***********************ANTES DEL SORT***********************");
-        for (Observacion ob : Global.OBSERVACIONES) {
-            System.out.println("----FECHA OB: " + ob.getTeob_fecha());
-        }
-        Collections.sort(Global.OBSERVACIONES);
-
-        System.out.println("***********************DESPUES DEL SORT***********************");
-        for (Observacion ob : Global.OBSERVACIONES) {
-            System.out.println("----FECHA OB: " + ob.getTeob_fecha());
-        }
-
-        llenarRVEtapas(Global.OBSERVACIONES);
-        layout_prediagnostico.setVisibility(View.GONE);
-
-        //al iniciar se debe mostrar todo lo del prediagnostico
+    }
 
 
+    public void metodosOnCLick() {
         btn_observaciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,7 +170,6 @@ public class Prediagnostico extends Fragment {
 
             }
         });
-
         btn_reparacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -225,26 +190,78 @@ public class Prediagnostico extends Fragment {
             public void onClick(View v) {
                 styleQA();
                 layout_prediagnostico.setVisibility(View.VISIBLE);
-                layout_validaciones.setVisibility(View.VISIBLE);
+
                 layout_tipificaciones.setVisibility(View.GONE);
                 layout_repuestos.setVisibility(View.GONE);
                 layout_observaciones.setVisibility(View.GONE);
                 layout_evidencias.setVisibility(View.VISIBLE);
                 llenarDiagnostico("3");
+                layout_validaciones.setVisibility(View.GONE);
 
             }
         });
 
-        serial.setText("Serial: " + Global.terminalVisualizar.getTerm_serial());
+
         if (Global.terminalVisualizar.getTerm_status().equals("DADO DE BAJA")) {
             btn_reparacion.setVisibility(View.GONE);
             btn_qa.setVisibility(View.VISIBLE);
             btn_prediagnostico.setVisibility(View.GONE);
         }
-
-        return v;
     }
 
+
+    /**
+     * Valida las pestañas que serán mostradas
+     *
+     * @return
+     */
+    public void validarPestaniasMostrar() {
+        System.out.println("tiene obs: "+validarObservaciones());
+        if (!validarObservaciones()&&Global.validaciones_consultas.get("1") != null) {
+
+            tab_prediagnostico.setVisibility(View.VISIBLE);
+
+            stylePrediagnostico();
+            layout_prediagnostico.setVisibility(View.VISIBLE);
+            layout_validaciones.setVisibility(View.VISIBLE);
+            layout_tipificaciones.setVisibility(View.VISIBLE);
+            layout_repuestos.setVisibility(View.VISIBLE);
+            layout_observaciones.setVisibility(View.GONE);
+            layout_evidencias.setVisibility(View.GONE);
+            llenarDiagnostico("1");
+        }
+        if (Global.validaciones_consultas.get("1") == null) {
+            System.out.println("Global.validaciones_consultas.get(1)" + Global.validaciones_consultas.get("1"));
+            tab_prediagnostico.setVisibility(View.GONE);
+        }
+        if (Global.validaciones_consultas.get("2") == null) {
+            tab_reparacion.setVisibility(View.GONE);
+        }
+        if (!observacionesConfoto()) {
+            tab_evidencias.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * Valida que tenga observaciones
+     *
+     * @return true--> si tiene observaciones y las muestra al inciiar. false--> si no tiene y oculta la pestaña
+     */
+    public boolean validarObservaciones() {
+        boolean retorno = false;
+        if (Global.OBSERVACIONES != null && Global.OBSERVACIONES.size() > 0) {
+            System.out.println("tamano obs="+Global.OBSERVACIONES.size());
+            styleObservacioneso();
+            tab_observaciones.setVisibility(View.VISIBLE);
+            llenarRVEtapas(Global.OBSERVACIONES);
+            layout_prediagnostico.setVisibility(View.GONE);
+            retorno = true;
+        } else {
+            tab_observaciones.setVisibility(View.GONE);
+            retorno = false;
+        }
+        return retorno;
+    }
 
     /**
      * Metodo utilizado para llenar el recycler view de las observaciones del terminal seleccionado
@@ -555,77 +572,91 @@ public class Prediagnostico extends Fragment {
         String fechaFoto2 = "";
         System.out.println("Tamaño del arreglo observaciones con foto: " + Global.observaciones_con_fotos.size());
         System.out.println("Tamaño del arreglo observaciones: " + Global.OBSERVACIONES.size());
-        Global.observaciones_con_fotos = null;
-        Global.observaciones_con_fotos = new ArrayList<Observacion>();
 
-        if (Global.OBSERVACIONES != null) {
-            if (Global.OBSERVACIONES.size() > 0) {
-                for (Observacion o : Global.OBSERVACIONES) {
-                    if (o.getTeob_photo() != null || !o.getTeob_photo().equalsIgnoreCase("")) {
 
-                        if (o.getTeob_description().isEmpty() || o.getTeob_description().equals("Observación Imagen QA")) {
-                            System.out.println(o.toString());
-                            Global.observaciones_con_fotos.add(o);
-                        }
-                    }
-                }
-            }
+        if (observacionesConfoto()) {
 
             System.out.println("Observaciones con foto: " + Global.observaciones_con_fotos.size());
-            if (Global.observaciones_con_fotos != null) {
-                if (Global.observaciones_con_fotos.size() == 1 || Global.observaciones_con_fotos.size() == 2) {
 
-                    if (Global.observaciones_con_fotos.get(0) != null) {
-                        if (Global.observaciones_con_fotos.get(0).getTeob_photo() != null || !Global.observaciones_con_fotos.get(0).getTeob_photo().isEmpty()) {
-                            final String nombreFoto1 = Global.observaciones_con_fotos.get(0).getTeob_photo();
-                            fechaFoto1 = Utils.darFormatoFechaObservaciones(Global.observaciones_con_fotos.get(0).getTeob_fecha());
-                            txt_fechaFoto1.setText(fechaFoto1);
-                            txt_nomFoto1.setText(nombreFoto1);
-                            txt_nomFoto1.setMovementMethod(new ScrollingMovementMethod());
-                            System.out.println("Información de la foto: " + nombreFoto1 + "");
-                            Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto1).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
-                            Global.foto=1;
-                            Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto1;
-                            img_evidencia1.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    //inflar fragment evidencias y carga la foto
+            if (Global.observaciones_con_fotos.size() == 1 || Global.observaciones_con_fotos.size() == 2||Global.observaciones_con_fotos.size()>2) {
 
-                                    cargarPanel();
+                if (Global.observaciones_con_fotos.get(0) != null) {
+                    if (Global.observaciones_con_fotos.get(0).getTeob_photo() != null || !Global.observaciones_con_fotos.get(0).getTeob_photo().isEmpty()) {
+                        final String nombreFoto1 = Global.observaciones_con_fotos.get(0).getTeob_photo();
+                        fechaFoto1 = Utils.darFormatoFechaObservaciones(Global.observaciones_con_fotos.get(0).getTeob_fecha());
+                        txt_fechaFoto1.setText(fechaFoto1);
+                        txt_nomFoto1.setText(nombreFoto1);
+                        txt_nomFoto1.setMovementMethod(new ScrollingMovementMethod());
+                        System.out.println("Información de la foto: " + nombreFoto1 + "");
+                        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto1).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
+                        Global.foto = 1;
+                        Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto1;
+                        img_evidencia1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //inflar fragment evidencias y carga la foto
 
-                                }
-                            });
-                        }
+                                cargarPanel();
 
+                            }
+                        });
                     }
-                    if (Global.observaciones_con_fotos.get(1) != null) {
-                        if (Global.observaciones_con_fotos.get(1).getTeob_photo() != null || !Global.observaciones_con_fotos.get(1).getTeob_photo().isEmpty()) {
-                            final String nombreFoto2 = Global.observaciones_con_fotos.get(1).getTeob_photo();
-                            System.out.println("fecha 2: " + Global.observaciones_con_fotos.get(1).getTeob_fecha());
-                            fechaFoto2 = Utils.darFormatoFechaObservaciones(Global.observaciones_con_fotos.get(1).getTeob_fecha());
-                            System.out.println("String fecha 2: " + fechaFoto2);
-                            txt_fechaFoto2.setText(fechaFoto2);
-                            txt_nomFoto2.setText(nombreFoto2);
 
-                            Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto2).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
-                            Global.foto=2;
-                            Global.rutaFotoObservacion2 = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto2;
-                            img_evidencia2.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    //inflar fragment evidencias y carga la foto
-                                   cargarPanel();
+                }
+                if (Global.observaciones_con_fotos.get(1) != null) {
+                    if (Global.observaciones_con_fotos.get(1).getTeob_photo() != null || !Global.observaciones_con_fotos.get(1).getTeob_photo().isEmpty()) {
+                        final String nombreFoto2 = Global.observaciones_con_fotos.get(1).getTeob_photo();
+                        System.out.println("fecha 2: " + Global.observaciones_con_fotos.get(1).getTeob_fecha());
+                        fechaFoto2 = Utils.darFormatoFechaObservaciones(Global.observaciones_con_fotos.get(1).getTeob_fecha());
+                        System.out.println("String fecha 2: " + fechaFoto2);
+                        txt_fechaFoto2.setText(fechaFoto2);
+                        txt_nomFoto2.setText(nombreFoto2);
 
-                                }
-                            });
-                        }
+                        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto2).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
+                        Global.foto = 2;
+                        Global.rutaFotoObservacion2 = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto2;
+                        img_evidencia2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //inflar fragment evidencias y carga la foto
+                                cargarPanel();
 
+                            }
+                        });
                     }
 
                 }
 
             }
         }
+    }
+
+    /**
+     * Recorre el arreglo de observaciones y revisa cuales tienen fotos y las asigna al arreglo de observaciones con foto
+     *
+     * @return ture--> tiene Foto false-->No tiene fotos
+     */
+    public boolean observacionesConfoto() {
+        boolean retorno = false;
+        Global.observaciones_con_fotos = null;
+        Global.observaciones_con_fotos = new ArrayList<Observacion>();
+        if (Global.OBSERVACIONES != null) {
+            if (Global.OBSERVACIONES.size() > 0) {
+                for (Observacion o : Global.OBSERVACIONES) {
+                    if (o.getTeob_photo() != null || !o.getTeob_photo().equalsIgnoreCase("")) {
+                        if (o.getTeob_description().isEmpty() || o.getTeob_description().equals("Observación Imagen QA")) {
+                            System.out.println(o.toString());
+                            Global.observaciones_con_fotos.add(o);
+                        }
+                    }
+                }
+                if (Global.observaciones_con_fotos != null && Global.observaciones_con_fotos.size() > 0) {
+                    retorno = true;
+                    System.out.println("Global obs fotos="+Global.observaciones_con_fotos.size());
+                }
+            }
+        }
+        return retorno;
     }
 
     public void cargarPanel() {
@@ -702,33 +733,4 @@ public class Prediagnostico extends Fragment {
     }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }
