@@ -231,4 +231,46 @@ public class Tools {
 
 
     }
+
+    public static String dateDDMMYYYYStr3(String date) {
+        int mm;
+        int dd ;
+        int yyyy;
+
+        StringTokenizer tokens=new StringTokenizer(date,"-");
+        dd=Integer.parseInt(tokens.nextElement().toString());
+        mm=Integer.parseInt(tokens.nextElement().toString());
+        yyyy=Integer.parseInt(tokens.nextElement().toString());
+
+
+        String mmC;
+        String ddC;
+        String yyyyC;
+
+        ///Mes
+        if (mm < 10){
+            mmC = "0" + String.valueOf(mm);
+        }
+        else{
+            mmC = String.valueOf(mm);
+        }
+
+        ///Dia
+        if (dd < 10){
+            ddC = "0" + String.valueOf(dd);
+        }
+        else{
+            ddC = String.valueOf(dd);
+        }
+
+        //Año
+        if (yyyy < 200)
+            yyyy += 1900;
+
+        yyyyC = String.valueOf(yyyy);
+
+        return ddC+"-"+mmC+"-"+yyyyC;
+
+
+    }
 }

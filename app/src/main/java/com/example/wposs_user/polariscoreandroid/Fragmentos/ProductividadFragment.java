@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -16,9 +16,10 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 
 
 public class ProductividadFragment extends Fragment {
-    View v;
-    Spinner s;
-    Button buscar;
+    private View v;
+    private Spinner s;
+    private Button buscar;
+    private ArrayAdapter comboAdapter;
 
 
     @Override
@@ -27,7 +28,6 @@ public class ProductividadFragment extends Fragment {
         // Inflate the layout for this fragment
 
         v = inflater.inflate(R.layout.fragment_productividad, container, false);
-        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         s = (Spinner) v.findViewById(R.id.tipo_consulta);
         buscar = (Button) v.findViewById(R.id.btn_busqueda);
         buscar.setOnClickListener(new View.OnClickListener() {
@@ -37,6 +37,8 @@ public class ProductividadFragment extends Fragment {
             }
         });
         objeto.setTitulo("PRODUCTIVIDAD");
+        comboAdapter = new ArrayAdapter<String>(objeto,R.layout.spiner_style_center, new String[]{"Seleccione","Día","Semana","Mes"});
+        s.setAdapter(comboAdapter);
 
 
         return v;

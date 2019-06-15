@@ -1395,5 +1395,98 @@ public class Utils {
         return numMes;
     }
 
+    //Obtener dia mes-->Ejemplo: Mayo-->05
+    public static String obtenerNumMes2(String mes) {
+        String numMes = "";
+        switch (mes) {
+            case "Enero":
+                numMes = "01";
+                break;
+            case "Febrero":
+                numMes = "02";
+                break;
+            case "Marzo":
+                numMes = "03";
+                break;
+            case "Abril":
+                numMes = "04";
+                break;
+            case "Mayo":
+                numMes = "05";
+                break;
+            case "Junio":
+                numMes = "06";
+                break;
+            case "Julio":
+                numMes = "07";
+                break;
+            case "Agosto":
+                numMes = "08";
+                break;
+            case "Septiembre":
+                numMes = "09";
+                break;
+            case "Octubre":
+                numMes = "10";
+                break;
+            case "Noviembre":
+                numMes = "11";
+                break;
+            case "Diciembre":
+                numMes = "12";
+                break;
+
+        }
+        return numMes;
+    }
+
+    public static String formatoDia(int dia){
+        String rta=String.valueOf(dia);
+
+        if(dia<10){
+
+            if(dia==1){
+                rta="01";
+
+            }
+            if(dia==2){
+                rta="02";
+
+            }
+            if(dia==3){
+                rta="03";
+
+            }
+            if(dia==4){
+                rta="04";
+
+            }
+            if(dia==5){
+                rta="05";
+
+            }
+            if(dia==6){
+                rta="06";
+
+            }
+            if(dia==7){
+                rta="07";
+
+            }
+            if(dia==8){
+                rta="08";
+
+            }
+            if(dia==9){
+                rta="09";
+
+            }
+        }
+     return rta;
+
+    }
+
+
+
 
 }
