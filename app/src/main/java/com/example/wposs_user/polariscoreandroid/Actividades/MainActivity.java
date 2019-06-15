@@ -26,7 +26,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -40,16 +39,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterNotificacion;
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal;
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogCancelarHuella;
-import com.example.wposs_user.polariscoreandroid.Dialogs.DialogHuella;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogNotificacion;
-import com.example.wposs_user.polariscoreandroid.Dialogs.DialogOpcionesConsulta;
-import com.example.wposs_user.polariscoreandroid.Fragmentos.ActualizarClave_perfil;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.ConsultaTerminalesSerial;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.InicialFragment;
 import com.example.wposs_user.polariscoreandroid.Fragmentos.PerfilFragment;
@@ -68,17 +61,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import static android.graphics.Color.GRAY;
 import static com.example.wposs_user.polariscoreandroid.R.drawable.ic_notification;
 import static com.example.wposs_user.polariscoreandroid.R.drawable.ic_notnotificacion;
-import static com.example.wposs_user.polariscoreandroid.R.drawable.ic_sinnotif;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
 
 public class MainActivity extends AppCompatActivity
@@ -192,13 +181,13 @@ public class MainActivity extends AppCompatActivity
 
 
                 if (Global.notificaciones.isEmpty()) {
-                    verNotificaciones.setImageResource(ic_notnotificacion);
+                    verNotificaciones.setImageResource(R.mipmap.ic_campanano);
 
                 }
 
                 if (Global.notificaciones.size() > 0) {
 
-                    verNotificaciones.setImageResource(ic_notification);
+                    verNotificaciones.setImageResource(R.mipmap.ic_campanasi);
                     dialogo = new DialogNotificacion();
                     dialogo.show(MainActivity.this.getSupportFragmentManager(), "");
 
@@ -466,7 +455,7 @@ public class MainActivity extends AppCompatActivity
 
     public void consumirServicioNotificaciones() {
 
-        Notificacion noti = null;
+        Global.notificaciones= new ArrayList<>();
 
         final Gson gson = new GsonBuilder().create();
 
@@ -500,19 +489,19 @@ public class MainActivity extends AppCompatActivity
 
                             response = new JSONObject(response.toString());
 
-                            if (response.length() < 4) {
+                            System.out.println("RESPUESTA DEL SERVICIO");
 
-                                Toast.makeText(MainActivity.this, "No tiene notificaciones", Toast.LENGTH_SHORT).show();
+
+                            if (response.get("notificacion").equals("{}")) {
+
+                               verNotificaciones.setImageResource(R.mipmap.ic_campanano);
+
                                 return;
                             } else {
 
                                 JSONArray jsonArray = response.getJSONArray("notificacion");
 
-                                if (jsonArray.length() == 0) {
-                                    Global.mensaje = "No Tiene Notificaciones";
-                                    Toast.makeText(MainActivity.this, Global.mensaje, Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
+
                                 String not = null;
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -525,17 +514,36 @@ public class MainActivity extends AppCompatActivity
                                             String[] fecha= n.getNoti_date_create().split(",");
                                             String[] diames= fecha[0].split(" ");
                                             String mes= Utils.obtenerMes(diames[0]);
-                                            String dia= diames[1];
-                                            String fecha_not= mes + " "+dia + ","+fecha[1];
+
+                                            int dia= Integer.parseInt(diames[1]);
+
+                                            String[] anioHora=fecha[1].split(" ");
+                                            String anio= anioHora[0];
+
+                                            String fecha_not= Utils.formatoDia(dia) + "-"+ Utils.obtenerNumMes2(mes) +"-"+anioHora[1]+"   " +anioHora[2];
                                            n.setNoti_date_create(fecha_not);
 
                                            String msj= n.getNoti_msg();
 
 
-                                           String nMensaje= eliminarCaracteres(msj);
-                                           n.setNoti_msg(nMensaje);
-                                            System.out.println("mensaje de la notificacion"+nMensaje);
+                                           if(msj.contains("terminal")) {
+                                               String nMensaje = eliminarCaracteres(msj);
+                                               String[] mesagge= nMensaje.split("  ");
+                                               String titulo= mesagge[0];
 
+
+                                               ArrayList<String> terminales = listarNotterminales(nMensaje);
+
+                                             String text= formatoNotificaciones(terminales.toString());
+
+                                               String msjFin =formatoNot(text);
+
+                                              String mensFinal= titulo+"\n"+"\n"+ msjFin;
+
+
+                                               n.setNoti_msg(mensFinal);
+
+                                           }
 
 
 
@@ -548,14 +556,14 @@ public class MainActivity extends AppCompatActivity
                                 }
                             }
 
-                            if(Global.notificaciones.size()==0){
-                                verNotificaciones.setImageResource(ic_notnotificacion);
+                            if(Global.notificaciones.size() == 0){
+                                verNotificaciones.setImageResource(R.mipmap.ic_campanano);
 
                             }
 
                             if(Global.notificaciones.size()>0) {
 
-                                verNotificaciones.setImageResource(ic_notification);
+                                verNotificaciones.setImageResource(R.mipmap.ic_campanasi);
                                 dialogo = new DialogNotificacion();
 
                            }
@@ -592,7 +600,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    /***************METODO PARA ELIMINAR UNA NOTIFICACION***************************/
+    /***************SERVICIO PARA ELIMINAR UNA NOTIFICACION***************************/
 
 
 
@@ -705,6 +713,111 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
+
+    public ArrayList<String> listarNotterminales(String ms){
+      ArrayList <String> ter= new ArrayList<>();
+     String [] body=ms.split("  ");
+
+     if(body.length==2){
+         ter.add(ms);
+
+     }
+
+
+
+        if(body.length>2){
+            String tit= body[0]+"\n";
+
+            for(int i=2;i<body.length;i=i+2){
+
+                String x= "\n"+body[i]+"\n";
+                ter.add(x);
+
+            }
+
+
+        }
+
+        return  ter;
+
+
+    }
+
+    public String formatoNotificaciones(String mens){
+
+        char[] texto= mens.toCharArray();
+
+        for(int i=0;i<texto.length;i++){
+
+            if(texto[i] == '['){
+
+                texto[i]= ' ';
+            }
+            if(texto[i] == ']'){
+
+                texto[i]= ' ';
+            }
+            if(texto[i] == ','){
+
+                texto[i]= ' ';
+            }
+        }
+
+
+        String x= "";
+
+
+        for(Character c:texto){
+            x+=c;
+
+        }
+
+        return x;
+
+    }
+
+
+    public String formatoNot(String txt){
+
+        String rta="";
+
+        String [] tlista= txt.split("  ");
+
+
+        for(int i=0;i<tlista.length;i=i+3){
+
+           String []marca= tlista[i].split(":");
+           String[]modelo=tlista[i+1].split(":");
+           String[]serial=tlista[i+2].split(":");
+
+           if(marca[0].trim().equals("marca")){
+               marca[0]="Marca";
+           }
+
+            if(modelo[0].trim().equals("modelo")){
+                modelo[0]="Modelo";
+            }
+
+            if(serial[0].trim().equals("serial")){
+                serial[0]="Serial";
+            }
+
+           tlista[i]=marca[0]+":"+marca[1];
+            tlista[i+1]=modelo[0]+":"+modelo[1];
+            tlista[i+2]=serial[0]+":"+serial[1];
+
+            rta+=tlista[i]+"\n"+tlista[i+1]+"\n"+tlista[2]+"\n";
+
+
+        }
+
+        return rta;
+
+    }
+
+
+
 
 
 

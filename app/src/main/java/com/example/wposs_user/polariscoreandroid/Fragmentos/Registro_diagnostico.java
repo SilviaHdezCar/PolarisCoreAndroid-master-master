@@ -194,7 +194,9 @@ public class Registro_diagnostico extends Fragment {
         if (cant_solicitada == 0) {
 
             Toast.makeText(objeto, "Debe solicitar como minimo 1 repuesto", Toast.LENGTH_SHORT).show();
+            cantidad_req.setText("");
             Global.codigo_rep = "";
+
             return;
 
         }
@@ -204,8 +206,9 @@ public class Registro_diagnostico extends Fragment {
         if (cant_solicitada >3) {
 
             Toast.makeText(objeto, "Debe solicitar como máximo 3 repuestos", Toast.LENGTH_SHORT).show();
-            Global.codigo_rep = "";
+            cantidad_req.setText("");
             return;
+
 
         }
 

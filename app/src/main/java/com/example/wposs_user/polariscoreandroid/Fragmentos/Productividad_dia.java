@@ -94,7 +94,7 @@ public class Productividad_dia extends Fragment {
 
     boolean isChanged = false;
     private static final String CERO = "0";
-    private static final String BARRA = "/";
+    private static final String BARRA = "-";
 
     FragmentManager fragmentManager;
     public final java.util.Calendar c = java.util.Calendar.getInstance();
@@ -166,7 +166,7 @@ public class Productividad_dia extends Fragment {
         java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         Date date = new Date();
         String fecha = dateFormat.format(date);
-        fecha = fecha.replace("-", "/");
+        fecha = fecha.replace("-", "-");
         // f_inicio.setText(fecha);
         Fecha1 = f_inicio.getText().toString();
         //f_inicio.setText(Tools.dateDDMMYYYYStr2(f_inicio.getText().toString()));
@@ -193,7 +193,7 @@ public class Productividad_dia extends Fragment {
                     public void run() {
 
                         Fecha1 = f_inicio.getText().toString();
-                        f_inicio.setText(Tools.dateDDMMYYYYStr2(f_inicio.getText().toString()));
+                        f_inicio.setText(Tools.dateDDMMYYYYStr3(f_inicio.getText().toString()));
                         return;
                     }
                 }, 70);
@@ -298,7 +298,7 @@ public class Productividad_dia extends Fragment {
 
 
         final String fecha_inicial = f_inicio.getText().toString();
-        String[] fecha = fecha_inicial.split("/");
+        String[] fecha = fecha_inicial.split("-");
 
         final int dia_inicio = Integer.parseInt(fecha[0]);
         int mes_inicio = Integer.parseInt(fecha[1]);
@@ -316,7 +316,7 @@ public class Productividad_dia extends Fragment {
 
         grafica.clear();
 
-        String fecha_inicio = mes_inicio + "/" + dia_inicio + "/" + año_inicio;
+        String fecha_inicio = mes_inicio + "-" + dia_inicio + "-" + año_inicio;
 
 
 
@@ -415,8 +415,9 @@ public class Productividad_dia extends Fragment {
                         BarDataSet valores = new BarDataSet(reparadas, "Reparadas");
                         String y= "        "+fecha_inicial;
                         String[] fecha = new String[] {y};
-                        datos.setColor(Color.RED);
-                        valores.setColor(Color.GREEN);
+                        datos.setColor(Color.parseColor("#038793"));
+                        valores.setColor(Color.parseColor("#BDBDBD"));
+
                         datos.setDrawValues(true);
                         valores.setDrawValues(true);
                         datos.setValueFormatter(new MyValueFormatter());
@@ -431,19 +432,19 @@ public class Productividad_dia extends Fragment {
                         XAxis x = grafica.getXAxis();
                         //  x.setValueFormatter(new IndexAxisValueFormatter(meses));
 
-                        x.setValueFormatter(new IndexAxisValueFormatter(fecha));
+
 
 
                         x.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
-
                         YAxis yAxis = grafica.getAxis(YAxis.AxisDependency.LEFT);
                         yAxis.setCenterAxisLabels(true);
                         yAxis.setAxisMinimum(0);
                         yAxis.setGranularity(1);
 
                         tituloG.setVisibility(VISIBLE);
+                        tituloG.setText("Productividad del día:" + fecha_inicial);
 
-                        YAxis yAxis = grafica.getAxis(YAxis.AxisDependency.LEFT);
+                       grafica.getAxis(YAxis.AxisDependency.LEFT);
                         yAxis.setCenterAxisLabels(true);
                         yAxis.setAxisMinimum(0);
                         yAxis.setGranularity(1);
@@ -457,8 +458,8 @@ public class Productividad_dia extends Fragment {
 
                         x.setCenterAxisLabels(true);
                         grafica.getAxisRight().setEnabled(false);
-                        x.setLabelCount(2);
-                        x.setDrawLabels(true);
+                        x.setLabelCount(1);
+                        x.setDrawLabels(false);
                         x.setPosition(XAxis.XAxisPosition.BOTTOM);
                         x.setGranularity(1);
                         x.setGranularityEnabled(true);
@@ -468,7 +469,7 @@ public class Productividad_dia extends Fragment {
                         float groupSpace = 0.6f;
                         datosGrafica.setBarWidth(0.2f);
                         grafica.getXAxis().setAxisMinimum(0);
-                        grafica.getXAxis().setAxisMaximum(2);
+                        grafica.getXAxis().setAxisMaximum(1);
                         grafica.groupBars(0, groupSpace, barSpace);
                         grafica.invalidate();
                         grafica.getDescription().setEnabled(false);

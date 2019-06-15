@@ -43,15 +43,15 @@
           android:layout_height="wrap_content"
           android:layout_marginLeft="20dp"
           android:textColor="@color/negro"
+          android:layout_gravity="center_vertical"
           android:text="Mes" />
 
 
     <Spinner
         android:id="@+id/spin_mesxmes"
-        android:layout_width="135dp"
+        android:layout_width="150dp"
         android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:entries="@array/meses"
         style="@layout/spinner_sytle"
 
@@ -59,26 +59,46 @@
         </Spinner>
 
 
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:gravity="center"
+           android:layout_marginTop="20dp"
+
+
+           >
 
            <TextView
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="Año"
                android:layout_marginLeft="20dp"
                android:textColor="@color/negro"
-               />
+               android:layout_gravity="center_vertical"
+               android:text="Año" />
 
 
            <Spinner
                android:id="@+id/spiner_añoxmes"
-               android:layout_width="135dp"
+               android:layout_width="150dp"
                android:layout_marginLeft="10dp"
                android:layout_height="wrap_content"
-               android:layout_marginTop="10dp"
+               android:textAlignment="gravity"
+                style="@layout/spinner_sytle"
+
                >
            </Spinner>
 
+
        </LinearLayout>
+
+
+
+
+
+
 
        <Button
            android:id="@+id/produc_mes"

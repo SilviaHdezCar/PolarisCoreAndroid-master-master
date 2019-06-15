@@ -81,7 +81,7 @@ System.out.println("LLENO EL RECICLER");
         if(Global.notificaciones.size()==0){
             dismiss();
             ImageView im = (ImageView)objeto.findViewById(R.id.btn_notificaciones);
-            im.setImageResource(ic_notnotificacion);
+            im.setImageResource(R.mipmap.ic_campanano);
             Toast.makeText(objeto, "No tiene ninguna notificación pendiente", Toast.LENGTH_SHORT).show();
         }
                 llenarRv();

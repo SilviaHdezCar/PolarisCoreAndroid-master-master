@@ -22,8 +22,8 @@
 
             <ImageView
                 android:id="@+id/btn_notificaciones"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="right"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/transparente"

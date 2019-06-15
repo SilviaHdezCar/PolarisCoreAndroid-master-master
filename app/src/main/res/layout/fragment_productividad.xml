@@ -13,7 +13,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     style="@style/letra_contenido"
-    android:text="@string/bienvenido_seleccione_el_criterio_de_busqueda_en_que_desea_ver_su_productividad"
+    android:text="Seleccione el criterio de búsqueda para ver su productividad."
+    android:layout_margin="20dp"
     />
 
     <Spinner
@@ -22,7 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
        android:entries="@array/tipo_busqueda"
-
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        android:gravity="center"
         > </Spinner>
 
 
@@ -30,7 +33,7 @@
             android:id="@+id/btn_busqueda"
             style="@style/letra_contenido_blanco"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:background="@drawable/redondo_gris_botones"
