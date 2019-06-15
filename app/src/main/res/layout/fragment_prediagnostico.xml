@@ -22,6 +22,7 @@
                 android:background="@color/verde_pestanas"
                 android:orientation="horizontal">
 
+                <!--Pestaña de etapas-->
                 <LinearLayout
                     android:id="@+id/tab_observaciones"
                     android:layout_width="wrap_content"
@@ -48,6 +49,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!--Pestaña de diagnostico-->
                 <LinearLayout
                     android:id="@+id/tab_prediagnostico"
                     android:layout_width="wrap_content"
@@ -74,6 +76,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!--Pestaña de reparacion-->
                 <LinearLayout
                     android:id="@+id/tab_reparacion"
                     android:layout_width="wrap_content"
@@ -100,7 +103,7 @@
 
                 <!--Pestaña de evidencias-->
                 <LinearLayout
-                    android:id="@+id/tab_qa"
+                    android:id="@+id/tab_evidencias"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -178,9 +181,10 @@
                         <LinearLayout
                             android:id="@+id/layout_encabezado_vali"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_below="@id/layoutSerial"
                             android:layout_marginTop="5dp"
+                            android:padding="5dp"
                             android:background="@color/borde_verde_edit_text"
                             android:orientation="horizontal">
 

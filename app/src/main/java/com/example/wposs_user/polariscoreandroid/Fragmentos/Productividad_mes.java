@@ -562,7 +562,7 @@ public class Productividad_mes extends Fragment {
         Date date = new Date();
         String fecha = dateFormat.format(date);
 
-        String[] fechas = fecha.split("-");
+        String[] fechas = fecha.split("/");
 
         int anioActual = Integer.parseInt(fechas[0]);
 
@@ -584,7 +584,7 @@ public class Productividad_mes extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();
         String fechaActual = dateFormat.format(date);
-        String []fechaAct= fechaActual.split("-");
+        String []fechaAct= fechaActual.split("/");
         int anioA=Integer.parseInt(fechaAct[0]);
         int mesA=Integer.parseInt(fechaAct[1]);
 

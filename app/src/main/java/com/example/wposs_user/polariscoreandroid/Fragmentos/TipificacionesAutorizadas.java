@@ -176,7 +176,7 @@ public class TipificacionesAutorizadas extends Fragment {
         } else if (Global.observaciones_con_fotos != null && Global.observaciones_con_fotos.size() >= 2) {//NO Tiene repuestos
             if (!tieneRepuestos) {
                 layout_repuestos.setVisibility(View.GONE);
-            }else{
+            } else {
                 layout_repuestos.setVisibility(View.VISIBLE);
                 layout_evidencias.setVisibility(View.VISIBLE);
 
@@ -184,9 +184,9 @@ public class TipificacionesAutorizadas extends Fragment {
                 System.out.println("tamaño ob fotos: " + Global.observaciones_con_fotos.size());
 
                 Observacion obFoto1 = Global.observaciones_con_fotos.get(Global.observaciones_con_fotos.size() - 1);
-                System.out.println("obFoto1 "+obFoto1.toString());
+                System.out.println("obFoto1 " + obFoto1.toString());
                 Observacion obFoto2 = Global.observaciones_con_fotos.get(Global.observaciones_con_fotos.size() - 2);
-                System.out.println("obFoto2 "+obFoto2.toString());
+                System.out.println("obFoto2 " + obFoto2.toString());
                 final String foto1 = obFoto1.getTeob_photo();
                 final String foto2 = obFoto2.getTeob_photo();
 
@@ -222,8 +222,6 @@ public class TipificacionesAutorizadas extends Fragment {
                     }
                 });
             }
-
-
 
 
             //Obtengo las posiciones donde guarde las observaciones con foto
@@ -281,11 +279,9 @@ public class TipificacionesAutorizadas extends Fragment {
             public void onClick(View v) {
 
                 if (tieneRepuestos) {
-                    if (validarEstadosRepuestos()) {
-                        Global.REPUESTOS_CAMBIAR_ESTADO_DANADO = repuestos;
-                        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesSeleccionarAutorizadas()).addToBackStack(null).commit();
-                        return;
-                    }
+                    Global.REPUESTOS_CAMBIAR_ESTADO_DANADO = repuestos;
+                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesSeleccionarAutorizadas()).addToBackStack(null).commit();
+                    return;
                 } else {
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionesSeleccionarAutorizadas()).addToBackStack(null).commit();
                     return;
@@ -328,59 +324,6 @@ public class TipificacionesAutorizadas extends Fragment {
         return false;
     }
 
-    /**
-     * Este metodo se utiliza para verificar que todos los repuestos estén OK
-     *
-     * @return true-->si todos están oOK
-     */
-    public boolean validarEstadosRepuestos() {
-        boolean retorno = false;
-        recorrerTabla(tablaRepuestos);
-        Repuesto rep = new Repuesto();
-        for (int i = 0; i < this.repuestos.size(); i++) {
-            rep = this.repuestos.get(i);
-            if (rep != null) {
-                if (!rep.isOk()) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                    alertDialog.setTitle("Información");
-                    alertDialog.setMessage("Faltó seleccionar el repuesto: " + rep.getSpar_name());
-                    alertDialog.setCancelable(true);
-                    alertDialog.show();
-                    return false;
-                } else {
-                    retorno = true;
-                }
-            }
-        }
-        return retorno;
-    }
-
-    /**
-     * Este metodo se utiliza para recorrer la tabla mostrada de repuestos y cambia el estado
-     * del repuesto al presionar el radio button     *
-     *
-     * @param tabla
-     */
-    public void recorrerTabla(TableLayout tabla) {
-
-        int pos_fila;
-        int pos_radio;
-
-        for (int i = 1; i < tabla.getChildCount(); i++) {//filas
-            View child = tabla.getChildAt(i);
-            TableRow row = (TableRow) child;
-            pos_fila = row.getId();
-            View view = row.getChildAt(0);//celdas
-
-            view = row.getChildAt(1);//Celda en la posición 1
-            if (view instanceof RadioButton) {
-                if (((RadioButton) view).isChecked()) {
-                    this.repuestos.get(i - 1).setOk(true);
-                }
-            }
-        }
-    }
-
 
     /**
      * Metodo utilizado para llenar la tabla de respuestos con la columna OK
@@ -399,14 +342,10 @@ public class TipificacionesAutorizadas extends Fragment {
             TextView nombre = new TextView(objeto);
             nombre.setId(100 + i);
             nombre.setText(this.repuestos.get(i).getSpar_name());
-            nombre.setPadding(20, 0, 0, 0);
-
-            RadioButton ok = new RadioButton(objeto);
-            ok.setId(200 + i);
-            ok.setChecked(false);
+            nombre.setPadding(20, 20, 0, 20);
+            nombre.setGravity(Gravity.CENTER);
 
             fila.addView(nombre);
-            fila.addView(ok);
             tablaRepuestos.addView(fila);
         }
     }

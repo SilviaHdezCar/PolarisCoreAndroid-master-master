@@ -1,18 +1,27 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.RotateDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +48,7 @@ import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Messages;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
+import com.example.wposs_user.polariscoreandroid.Dialogs.DialogMostarFoto;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
@@ -85,6 +95,17 @@ public class ObservacionesFragment extends Fragment {
     private String observacion_text;
     private String nomFotos;
 
+    //tomar foto
+    private static final int PICTURE_RESULT = 122;
+    private ContentValues values;
+    private Uri imageUri;
+ //   private Button myButton;
+   // private ImageView myImageView;
+    private Bitmap thumbnail;
+
+    String imageurl;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -92,59 +113,106 @@ public class ObservacionesFragment extends Fragment {
         objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("OBSERVACIÓN");
 
+      permisos();
 
-        imagen_observación = (ImageView) v.findViewById(R.id.imagen_observacion);
-        imagen_observación2 = (ImageView) v.findViewById(R.id.imagen_observacion2);
-        queue = Volley.newRequestQueue(objeto);
-        finalizar = (Button) v.findViewById(R.id.btn_finalizar_observacion);
+            imagen_observación = (ImageView) v.findViewById(R.id.imagen_observacion);
+            imagen_observación2 = (ImageView) v.findViewById(R.id.imagen_observacion2);
+            queue = Volley.newRequestQueue(objeto);
+            finalizar = (Button) v.findViewById(R.id.btn_finalizar_observacion);
 
-        //layout_finalizar_diagnostico.setVisibility(View.INVISIBLE);
+            //layout_finalizar_diagnostico.setVisibility(View.INVISIBLE);
 
-        txt_observacion = (TextView) v.findViewById(R.id.txt_observacion_fin);
-        lbl_nomFoto = (TextView) v.findViewById(R.id.lbl_nomFoto);
-        lbl_nomFoto2 = (TextView) v.findViewById(R.id.lbl_nomFoto2);
+            txt_observacion = (TextView) v.findViewById(R.id.txt_observacion_fin);
+            lbl_nomFoto = (TextView) v.findViewById(R.id.lbl_nomFoto);
+            lbl_nomFoto2 = (TextView) v.findViewById(R.id.lbl_nomFoto2);
 
-        bitmap_foto1 = null;
-        bitmap_foto2 = null;
+            bitmap_foto1 = null;
+            bitmap_foto2 = null;
 
-        foto = 0;
+            foto = 0;
 
-        imagen_observación.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                foto = 1;
-                Intent intento1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intento1, 0);
-            }
-        });
+            imagen_observación.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                 foto = 1;
+                    values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, "MyPicture");
+                    values.put(MediaStore.Images.Media.DESCRIPTION, "Photo taken on " + System.currentTimeMillis());
+                    imageUri = objeto.getContentResolver().insert(
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                    startActivityForResult(intent, PICTURE_RESULT);
+                }
+            });
 
-        imagen_observación2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                foto = 2;
-                Intent intento1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intento1, 0);
-            }
-        });
+            imagen_observación2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    foto = 2;
+                    values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, "MyPicture");
+                    values.put(MediaStore.Images.Media.DESCRIPTION, "Photo taken on " + System.currentTimeMillis());
+                    imageUri = objeto.getContentResolver().insert(
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                    startActivityForResult(intent, PICTURE_RESULT);
+                }
+            });
 
+            finalizar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-        finalizar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    finalizarDiagnostico();
+                }
+            });
 
-                finalizarDiagnostico();
-            }
-        });
 
         return v;
 
     }
 
+    public boolean permisos() {
+        boolean retorno = true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //Verifica permisos para Android 6.0+
+            if (!checkExternalStoragePermission()) {
+                Toast.makeText(objeto, "No tiene permiso para acceder archivos", Toast.LENGTH_SHORT).show();
+                retorno = false;
+            }
+        }
+        return retorno;
+    }
+
+    //pERMISOS PARA ACCEDER A LA MEMORIA EXTERNA
+    private boolean checkExternalStoragePermission() {
+        int permissionCheck = ContextCompat.checkSelfPermission(
+                objeto, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Mensaje", "No se tiene permiso para leer.");
+            ActivityCompat.requestPermissions(objeto, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 225);
+        } else {
+            Log.i("Mensaje", "Se tiene permiso para leer!");
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public void cargarPanel() {
+        DialogMostarFoto dialog = new DialogMostarFoto();
+        dialog.show(objeto.getSupportFragmentManager(), "");
+    }
 
     /**
      * Este método se utiliza para cargar subir las fotos y activa el boton para finalizar el diagnostico
      **/
     public void consumirServicioEnviarFotos() {
+        finalizar.setEnabled(false);
+        Toast.makeText(objeto, "Cargando...", Toast.LENGTH_SHORT).show();
         String url = "http://100.25.214.91:3000/PolarisCore/upload/uploadImgObservations/";
         JSONObject jsonObject = new JSONObject();
 
@@ -186,6 +254,7 @@ public class ObservacionesFragment extends Fragment {
 
                                 }
                                 Toast.makeText(objeto, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
+                                finalizar.setEnabled(true);
                                 return;
                             } else {
 
@@ -250,7 +319,7 @@ public class ObservacionesFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (foto == 1) {
+       /*if (foto == 1) {
             if (data != null) {
                 if (data.getExtras() != null) {
                     if (data.getExtras().get("data") != null) {
@@ -259,6 +328,7 @@ public class ObservacionesFragment extends Fragment {
                         matrix.postRotate(90);
                         bitmap_foto1 = Bitmap.createBitmap(bitmap_foto1, 0, 0, bitmap_foto1.getWidth(), bitmap_foto1.getHeight(), matrix, true);//para girar la imagen
                         imagen_observación.setImageBitmap(bitmap_foto1);
+                        Global.bitmap = bitmap_foto1;
                     }
                 }
             }
@@ -277,10 +347,49 @@ public class ObservacionesFragment extends Fragment {
                 }
             }
         }
+*/
 
+        switch (requestCode) {
+            case PICTURE_RESULT:
+                if (requestCode == PICTURE_RESULT)
+                    if (resultCode == Activity.RESULT_OK) {
+                        try {
+                            if(foto==1){
+                                bitmap_foto1 = MediaStore.Images.Media.getBitmap(objeto.getContentResolver(), imageUri);
+                                Matrix matrix = new Matrix();
+                                matrix.postRotate(90);
+                                bitmap_foto1 = Bitmap.createBitmap(bitmap_foto1, 0, 0, bitmap_foto1.getWidth(), bitmap_foto1.getHeight(), matrix, true);//para girar la imagen
+                                imagen_observación.setImageBitmap(bitmap_foto1);
+                                Global.bitmap = bitmap_foto1;
+
+                                //Obtiene la ruta donde se encuentra guardada la imagen.
+                                imageurl = getRealPathFromURI(imageUri);
+                            }else if(foto==2){
+                                bitmap_foto2 = MediaStore.Images.Media.getBitmap(objeto.getContentResolver(), imageUri);
+                                Global.bitmap =bitmap_foto2;
+                                Matrix matrix = new Matrix();
+                                matrix.postRotate(90);
+                                bitmap_foto2 = Bitmap.createBitmap(bitmap_foto2, 0, 0, bitmap_foto2.getWidth(), bitmap_foto2.getHeight(), matrix, true);
+                                imagen_observación2.setImageBitmap(bitmap_foto2);
+                                //Obtiene la ruta donde se encuentra guardada la imagen.
+                                imageurl = getRealPathFromURI(imageUri);
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+        }
 
     }
-
+    public String getRealPathFromURI(Uri contentUri) {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = objeto.managedQuery(contentUri, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
 
     //Metodo utilizado para finalizar el diagnostico (Consume el servicio de finalizar diagnostico)
     public void finalizarDiagnostico() {
@@ -298,6 +407,7 @@ public class ObservacionesFragment extends Fragment {
             Toast.makeText(objeto, "Por favor ingrese la observación", Toast.LENGTH_SHORT).show();
             return;
         }
+
         consumirServicioEnviarFotos();
 
     }

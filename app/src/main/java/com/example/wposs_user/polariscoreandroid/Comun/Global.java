@@ -1,5 +1,6 @@
 package com.example.wposs_user.polariscoreandroid.Comun;
 
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.example.wposs_user.polariscoreandroid.java.Notificacion;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Global {
-
+public static Bitmap bitmap;
 
     public static String correo;
     public static String password;

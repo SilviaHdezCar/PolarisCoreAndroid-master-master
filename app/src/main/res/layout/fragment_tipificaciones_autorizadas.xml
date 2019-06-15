@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tabla"
                 android:layout_margin="10dp"
-                android:background="@drawable/borde_rojo"
+                android:background="@drawable/borde_amarillo"
                 android:orientation="horizontal"
                 android:padding="2dp">
 
@@ -149,8 +149,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_margin="10dp"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -161,17 +161,18 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:orientation="vertical"
-                        android:background="@drawable/borde_inferior_gris">
+                        android:background="@drawable/borde_inferior_gris"
+                        android:orientation="vertical">
 
                         <TextView
                             style="@style/letra_negrita"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:background="@drawable/cuadrado_fondo_verde"
                             android:gravity="center"
                             android:text="Tipificaciones"
-                            android:background="@color/gris_fondo"
-                            android:textAllCaps="true" />
+                            android:textAllCaps="true"
+                            android:textColor="@color/blanco" />
                     </LinearLayout>
 
 
@@ -185,14 +186,12 @@
             </LinearLayout>
 
 
-
             <LinearLayout
                 android:id="@+id/layout_evidencias"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="10dp">
-
+                android:layout_margin="10dp"
+                android:orientation="vertical">
 
 
                 <LinearLayout
@@ -200,16 +199,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
-                    android:orientation="vertical"
-                    android:background="@color/gris_fondo">
+                    android:background="@color/gris_fondo"
+                    android:orientation="vertical">
 
                     <TextView
                         style="@style/letra_negrita"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
+                        android:background="@drawable/cuadrado_fondo_verde"
                         android:gravity="center"
                         android:text="EVIDENCIA"
-                        android:textAllCaps="true" />
+                        android:textAllCaps="true"
+                        android:textColor="@color/blanco" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -243,11 +244,11 @@
                                     style="@style/letra_contenido"
                                     android:layout_width="match_parent"
                                     android:layout_height="20dp"
+                                    android:layout_marginTop="30dp"
                                     android:gravity="center_vertical"
-                                    android:paddingLeft="8dp"
-                                    android:text="foto.png"
                                     android:inputType="textCapSentences"
-                                    android:layout_marginTop="30dp" />
+                                    android:paddingLeft="8dp"
+                                    android:text="foto.png" />
 
                                 <TextView
                                     android:id="@+id/txt_fechaFoto1"
@@ -255,9 +256,9 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="30dp"
                                     android:gravity="right"
+                                    android:inputType="textCapSentences"
                                     android:paddingRight="8dp"
-                                    android:text="fecha"
-                                    android:inputType="textCapSentences" />
+                                    android:text="fecha" />
 
                             </LinearLayout>
                         </LinearLayout>
@@ -295,11 +296,11 @@
                                     style="@style/letra_contenido"
                                     android:layout_width="match_parent"
                                     android:layout_height="20dp"
+                                    android:layout_marginTop="30dp"
                                     android:gravity="center_vertical"
-                                    android:paddingLeft="8dp"
-                                    android:text="foto.png"
                                     android:inputType="textCapSentences"
-                                    android:layout_marginTop="30dp" />
+                                    android:paddingLeft="8dp"
+                                    android:text="foto.png" />
 
                                 <TextView
                                     android:id="@+id/txt_fechaFoto2"
@@ -307,9 +308,9 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="30dp"
                                     android:gravity="right"
+                                    android:inputType="textCapSentences"
                                     android:paddingRight="8dp"
-                                    android:text="fecha"
-                                    android:inputType="textCapSentences" />
+                                    android:text="fecha" />
 
                             </LinearLayout>
                         </LinearLayout>
@@ -331,25 +332,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:stretchColumns="2">
+                    android:stretchColumns="*">
 
-                    <TableRow
-                        android:background="@color/gris_fondo">
-
-                        <TextView
-                            style="@style/letra_negrita"
-                            android:layout_width="280dp"
-                            android:layout_height="30dp"
-                            android:text="Repuestos autorizados"
-                            android:textAllCaps="true" />
+                    <TableRow android:background="@drawable/cuadrado_fondo_verde">
 
                         <TextView
                             style="@style/letra_negrita"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:gravity="center"
-                            android:text="ok"
-                            android:textAllCaps="true" />
+                            android:text="Repuestos autorizados"
+                            android:textAllCaps="true"
+                            android:textColor="@color/blanco" />
 
 
                     </TableRow>
@@ -359,20 +353,17 @@
             </LinearLayout>
 
 
-
-
             <Button
                 android:id="@+id/btn_siguiente_tipificaciones_autorizadas"
                 style="@style/letra_contenido_blanco"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/redondo_gris_botones"
-                android:textColor="@color/negro"
                 android:text="Siguiente"
                 android:textAllCaps="false"
-                android:layout_marginBottom="20dp"
-                />
+                android:textColor="@color/negro" />
 
 
         </LinearLayout>

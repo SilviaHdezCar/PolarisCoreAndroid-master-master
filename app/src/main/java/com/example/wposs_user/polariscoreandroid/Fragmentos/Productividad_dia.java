@@ -444,8 +444,7 @@ public class Productividad_dia extends Fragment {
                         yAxis.setGranularity(1);
 
                         tituloG.setVisibility(VISIBLE);
-
-                        YAxis yAxis = grafica.getAxis(YAxis.AxisDependency.LEFT);
+                         yAxis = grafica.getAxis(YAxis.AxisDependency.LEFT);
                         yAxis.setCenterAxisLabels(true);
                         yAxis.setAxisMinimum(0);
                         yAxis.setGranularity(1);
@@ -516,7 +515,7 @@ public class Productividad_dia extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();
         String fechaActual = dateFormat.format(date);
-        String []fechaAct= fechaActual.split("-");
+        String []fechaAct= fechaActual.split("/");
         int anioAct=Integer.parseInt( fechaAct[0]);
         int mesAct=Integer.parseInt( fechaAct[1]);
         int diaAct= Integer.parseInt(fechaAct[2]);

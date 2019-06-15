@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
     android:background="@color/blanco"
     android:orientation="vertical"
-    android:layout_gravity="center_horizontal"
     tools:context=".Actividades.MainActivity">
 
 
@@ -14,46 +14,43 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/layout_fotos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/blanca_linea"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
                     android:orientation="vertical">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-
-                        android:padding="20dp">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:id="@+id/imagen_observacion"
-                            android:layout_width="200dp"
-                            android:layout_height="200dp"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
                             android:src="@drawable/img_sin_foto" />
 
                         <TextView
                             android:id="@+id/lbl_nomFoto"
-                            android:layout_width="170dp"
+                            android:layout_width="90dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:layout_marginTop="175dp"
-                            android:background="@drawable/degradado_gris"
+                            android:layout_below="@+id/imagen_observacion"
+                            android:layout_centerInParent="true"
                             android:gravity="center_horizontal"
                             android:text="Foto 1" />
                     </RelativeLayout>
@@ -69,23 +66,20 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="20dp">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:id="@+id/imagen_observacion2"
-                            android:layout_width="200dp"
-                            android:layout_height="200dp"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
                             android:src="@drawable/img_sin_foto" />
 
                         <TextView
                             android:id="@+id/lbl_nomFoto2"
-                            android:layout_width="170dp"
+                            android:layout_width="90dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:layout_marginTop="175dp"
-                            android:background="@drawable/degradado_gris"
+                            android:layout_below="@+id/imagen_observacion2"
+                            android:layout_centerInParent="true"
                             android:gravity="center_horizontal"
                             android:text="Foto 2" />
                     </RelativeLayout>
@@ -93,6 +87,7 @@
                 </LinearLayout>
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/layout_finalizar_diagnostico"
@@ -109,14 +104,14 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/redondo_fondo_blanco"
+                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ óáéíúÓÁÉÍÚ.,:;"
                     android:gravity="top|left"
                     android:hint="Observación"
                     android:inputType="textMultiLine|textCapCharacters"
                     android:maxLength="300"
-                    android:scrollbars="vertical"
-                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ óáéíúÓÁÉÍÚ.,:;"
+                    android:maxLines="8"
                     android:padding="5dp"
-                    android:maxLines="8"/>
+                    android:scrollbars="vertical" />
 
                 <Button
                     android:id="@+id/btn_finalizar_observacion"
@@ -125,12 +120,11 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="25dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/redondo_gris_botones"
-                    android:textColor="@color/negro"
                     android:text="Finalizar"
                     android:textAllCaps="false"
-                    android:layout_marginBottom="20dp"
-                    />
+                    android:textColor="@color/negro" />
             </LinearLayout>
 
         </LinearLayout>
