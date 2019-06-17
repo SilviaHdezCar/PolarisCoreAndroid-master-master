@@ -526,7 +526,7 @@ public class MainActivity extends AppCompatActivity
                                            String msj= n.getNoti_msg();
 
 
-                                           if(msj.contains("terminal")) {
+                                           if(msj.contains("terminal")&& !msj.contains("repuesto")) {
                                                String nMensaje = eliminarCaracteres(msj);
                                                String[] mesagge= nMensaje.split("  ");
                                                String titulo= mesagge[0];
