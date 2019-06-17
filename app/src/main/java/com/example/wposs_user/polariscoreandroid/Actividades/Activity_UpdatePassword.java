@@ -64,9 +64,8 @@ public class Activity_UpdatePassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validarClave()) {
-                    System.out.println("DIO CLIC EN CAMBIAR CLAVE");
                     consumirServicioCambiarClave();
-                    System.out.println("FIN CAMBIAR CLAVE");
+
                 }
 
 
