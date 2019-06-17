@@ -283,6 +283,7 @@ public class Productividad_dia extends Fragment {
     /********************Metodo usado para obtener la productividad en un dia dado*************************************/////////
     public void consumirServicioProductividadDia() {
 
+        grafica.clear();
 
         productividad = new ArrayList<>();
 
@@ -308,7 +309,7 @@ public class Productividad_dia extends Fragment {
 
         if(!validarFechaActual(dia_inicio,mes_inicio,año_inicio)){
 
-            Toast.makeText(v.getContext(), "La fecha selecionada debe ser igual o anterior a la actual", Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), "La fecha selecionada debe  anterior a la actual", Toast.LENGTH_SHORT).show();
             grafica.clear();
             tituloG.setVisibility(INVISIBLE);
             grafica.setVisibility(INVISIBLE);
@@ -318,7 +319,7 @@ public class Productividad_dia extends Fragment {
 
         grafica.clear();
 
-        String fecha_inicio = mes_inicio + "-" + dia_inicio + "-" + año_inicio;
+        String fecha_inicio = mes_inicio + "/" + dia_inicio + "/" + año_inicio;
 
 
 
@@ -414,7 +415,7 @@ public class Productividad_dia extends Fragment {
                         }
 
                         BarDataSet datos = new BarDataSet(diagnosticadas, "Asignadas");
-                        BarDataSet valores = new BarDataSet(reparadas, "Reparadas");
+                        BarDataSet valores = new BarDataSet(reparadas, "Diagnosticadas");
                         String y= "        "+fecha_inicial;
                         String[] fecha = new String[] {y};
                         datos.setColor(Color.parseColor("#038793"));
@@ -532,7 +533,7 @@ public class Productividad_dia extends Fragment {
             if(mes>mesAct){return false;}
             if(mes<mesAct){return true;}
             if(mes==mesAct){
-                if(dia>diaAct){return false;}
+                if(dia>=diaAct){return false;}
                     }
                  }
 

@@ -526,24 +526,53 @@ public class MainActivity extends AppCompatActivity
                                            String msj= n.getNoti_msg();
 
 
-                                           if(msj.contains("terminal")&& !msj.contains("repuesto")) {
-                                               String nMensaje = eliminarCaracteres(msj);
-                                               String[] mesagge= nMensaje.split("  ");
-                                               String titulo= mesagge[0];
+                                           if(msj.contains("terminal")&&  !msj.contains("object")) {
 
 
-                                               ArrayList<String> terminales = listarNotterminales(nMensaje);
-
-                                             String text= formatoNotificaciones(terminales.toString());
-
-                                               String msjFin =formatoNot(text);
-
-                                              String mensFinal= titulo+"\n"+"\n"+ msjFin;
+                                                   String nMensaje = eliminarCaracteres(msj);
+                                                   String[] mesagge = nMensaje.split("  ");
+                                                   String titulo = mesagge[0];
 
 
-                                               n.setNoti_msg(mensFinal);
+                                                   ArrayList<String> terminales = listarNotterminales(nMensaje);
+
+                                                   String text = formatoNotificaciones(terminales.toString());
+
+                                                   String msjFin = formatoNot(text);
+
+                                                   String mensFinal = titulo + "\n" + "\n" + msjFin;
+
+
+                                                   n.setNoti_msg(mensFinal);
+
 
                                            }
+
+                                            if(msj.contains("repuesto")&&  !msj.contains("object")) {
+
+
+                                                String nMensaje = eliminarCaracteres(msj);
+                                                String[] mesagge = nMensaje.split("   ");
+                                                String titulo = mesagge[0];
+
+                                                System.out.println("MENSAJE QUE CONTIENE** "+mesagge[1]);
+
+
+                                                String msjFin= eliminarCaracteres(mesagge[1]);
+
+                                                String msjFinal = formatoRep(msjFin);
+
+
+                                                String mensFinal = titulo + "\n" + "\n" + msjFinal;
+
+
+                                                n.setNoti_msg(mensFinal);
+
+
+                                            }
+
+
+
 
 
 
@@ -699,6 +728,7 @@ public class MainActivity extends AppCompatActivity
                 caracteres[i]= ' ';
             }
 
+
          }
 
        String x= "";
@@ -780,6 +810,8 @@ public class MainActivity extends AppCompatActivity
 
     public String formatoNot(String txt){
 
+        System.out.println("ERROR ENCONTRADO EN NOTIFIACIONES***"+ txt);
+
         String rta="";
 
         String [] tlista= txt.split("  ");
@@ -817,7 +849,45 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    public String formatoRep(String txt){
 
+        System.out.println("ME ESTA LLEGANDO REPUESTO**"+txt);
+
+        String rta="";
+
+        String [] tlista= txt.split(",");
+
+
+        for(int i=0;i<tlista.length;i=i+3){
+
+            String []codigo= tlista[i].split(":");
+            String[]nombre=tlista[i+1].split(":");
+            String[]cantidad=tlista[i+2].split(":");
+
+            if(codigo[0].trim().equals("codigo")){
+                codigo[0]="Código";
+            }
+
+            if(nombre[0].trim().equals("nombre")){
+                nombre[0]="Nombre";
+            }
+
+            if(cantidad[0].trim().equals("cantidad")){
+                cantidad[0]="Cantidad";
+            }
+
+            tlista[i]=codigo[0]+":"+codigo[1];
+            tlista[i+1]=nombre[0]+":"+nombre[1];
+            tlista[i+2]=cantidad[0]+":"+cantidad[1];
+
+            rta+=tlista[i]+"\n"+tlista[i+1]+"\n"+tlista[2]+"\n"+"\n";
+
+
+        }
+
+        return rta;
+
+    }
 
 
 
