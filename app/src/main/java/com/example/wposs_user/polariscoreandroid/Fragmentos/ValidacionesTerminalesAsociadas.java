@@ -45,6 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +71,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     private TextView title_validaciones;
     private TableLayout tabla;
     private Button btn_siguiente;
-    private String fechaActual;
+    private Date fechaActual;
 
 
     @Override
@@ -78,7 +79,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_validaciones_terminales_asociadas, container, false);
         objeto.setTitulo("VALIDACIONES TERMINAL");
-        fechaActual = Utils.getDate();
+
         objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         marca_ter_validaciones = (TextView) v.findViewById(R.id.marca_ter_validaciones);
         modelo_ter_validaciones = (TextView) v.findViewById(R.id.modelo_ter_validaciones);
@@ -112,22 +113,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
             tecno_ter_validaciones.setText(Global.tecnologia);
             estado_ter_validaciones.setText(Global.estado);
             fechal_ans_ter_validaciones.setText("");
-            garantia_ter_validaciones.setText("No establecida");
-            if (Global.garantia != null) {
-                if (!Global.garantia.trim().isEmpty()) {
-                    int comp=compararFechas(Global.garantia);
-                    System.out.println("garantía: "+comp);
-                    if (comp>0) {
-                        garantia_ter_validaciones.setText("Con garantía");
-                    } else if(comp==-3){
-                        garantia_ter_validaciones.setText("No establecida");
-                    } else {
-                        garantia_ter_validaciones.setText("Sin garantía");
-                    }
-                } else {
-
-                }
-            }
+            garantia_ter_validaciones.setText(this.estadoGarantía(Global.garantia));
 
             if (Global.fechaRecepcion != null) {
                 if (!Global.fechaRecepcion.trim().isEmpty()) {
@@ -150,23 +136,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
             serial_ter_validaciones.setText(Global.terminalVisualizar.getTerm_serial());
             tecno_ter_validaciones.setText(Global.terminalVisualizar.getTerm_technology());
             estado_ter_validaciones.setText(Global.terminalVisualizar.getTerm_status());
-            garantia_ter_validaciones.setText("No establecida");
-
-            if (Global.terminalVisualizar.getTerm_date_finish() != null) {
-                if (!Global.terminalVisualizar.getTerm_date_finish().trim().isEmpty()) {
-                    int comp=compararFechas(Global.terminalVisualizar.getTerm_date_finish());
-                    System.out.println("garantía: "+comp);
-                    if (comp>0) {
-                        garantia_ter_validaciones.setText("Con garantía");
-                    }else if(comp==-3){
-                        garantia_ter_validaciones.setText("No establecida");
-                    } else {
-                        garantia_ter_validaciones.setText("Sin garantía");
-                    }
-                } else {
-
-                }
-            }
+            garantia_ter_validaciones.setText(this.estadoGarantía(Global.terminalVisualizar.getTerm_date_finish()));
 
             if (Global.terminalVisualizar.getTerm_date_reception() != null) {
                 fechaRecepción = Utils.darFormatoFecha2(Global.terminalVisualizar.getTerm_date_reception());
@@ -201,56 +171,44 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     }
 
     /**
-     *
+     * Este metodo devuelve el estado dela garantía de la terminal
+     * @param garantia
+     * @return Con garantía: Sí la garantía está vigente, No establecida: si la fecha de garantía no se estableció, Sin garantía: si ya no tiene garantía
+     */
+    public String estadoGarantía(String garantia) {
+       String retorno="";
+        int comparacionFechas=compararFechas(garantia);
+        if(comparacionFechas>=0){
+            retorno="Con garantía";
+        }else if(comparacionFechas==-3){
+            retorno="No establecida";
+        }else{
+            retorno="Sin garantía";
+        }
+
+        return retorno;
+    }
+
+    /**Utilizadop para validar el estado de la garantía
      * @param garantia fecha fin de lka garantia
      * @return 0 --->si fecha1==fecha2, 1-->  fecha1>fecha2, -1-->fecha1 <fecha2
      */
-    public int compararFechas(String garantia) {//Dia/mes/año (20/01/18)
-        System.out.println("Fecha actual: " + fechaActual);
-        System.out.println("Fecha termina: " + garantia);
-        String[] fecha1 = fechaActual.split("-");
-        if (garantia!=null){
-            if (!garantia.trim().isEmpty()&&!garantia.equals("Invalid Date")){
-                String[] fecha2 = garantia.split(" ");
+    public int compararFechas(String garantia) {
+        int retorno = -3;
+        if (garantia != null) {
+            if (!garantia.trim().isEmpty() && !garantia.equals("Invalid Date")) {
+                fechaActual = new Date();
+                String stringFechaAct = fechaActual + "";
+                Date dateActual = Utils.convertirDate(stringFechaAct);
+                System.out.println("*******dateActual-->" + dateActual);
 
-                int mes = Utils.obtenerNumMes(fecha1[1]);
-                int mes2 = Utils.obtenerNumMes(fecha2[1]);
-                int dia = Integer.parseInt(fecha1[0]);
-                int dia2 = Integer.parseInt(fecha2[2]);
-                int anio = Integer.parseInt(fecha1[2]);
-                int anio2 = Integer.parseInt(fecha2[3]);
+                Date dateGarantia = Utils.convertirDate(garantia);
+                System.out.println("*******dateGarantia-->" + dateGarantia);
 
-                if ((anio2 - anio) > 0) {
-                    return 1;
-                } else if ((anio2 - anio) == 0) {
-
-                    if ((mes2 - mes > 0)) {
-                        return 1;
-                    }
-
-                    if (mes2 - mes < 0) {
-                        return -1;
-                    } else if (mes2 - mes == 0) {
-                        if (dia2 > dia) {
-                            return 1;
-                        }
-                        if (dia2 < dia) {
-                            return -1;
-                        } else if (dia2 == dia) {
-
-                        }
-
-                    }
-                } else if ((anio2 - anio) < 0) {
-                    return -1;
-                }
-
-
-                return 0;
+                retorno = dateActual.compareTo(dateGarantia);
             }
         }
-
-        return -3;//si no tiene fecha fin
+        return retorno;//si no tiene fecha fin
     }
 
     /**

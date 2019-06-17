@@ -26,7 +26,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 import java.util.TimeZone;
 
@@ -269,6 +271,32 @@ public class Utils {
             month = "0" + mes;
 
         return dia + "-" + month + "-" + anio + " " + hora[0] + ":" + hora[1];
+    }
+
+    public static String darFormatoSimple(String fecha) {
+        String[] date = fecha.split(" ");
+        int mes = obtenerNumMes(date[1]);
+        String dia = date[2];
+        String anio = date[3];
+        String month=mes+"";
+        if (mes < 10)
+            month = "0" + mes;
+
+        return dia + "/" + month + "/" + anio ;
+    }
+
+    public static Date convertirDate(String fecha){
+        Date date =null;
+        SimpleDateFormat format= new SimpleDateFormat("dd/MM/yyyy");
+
+        try{
+             date =format.parse(darFormatoSimple(fecha));
+            System.out.println(date);
+            System.out.println(format.format(date));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return date;
     }
 
 

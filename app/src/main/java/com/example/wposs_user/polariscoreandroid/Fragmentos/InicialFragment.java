@@ -484,6 +484,7 @@ public class InicialFragment extends Fragment {
                 Global.tecnologia = terminal.get(position).getTerm_technology();
                 Global.marca = terminal.get(position).getTerm_brand();
                 Global.garantia = terminal.get(position).getTerm_date_finish();
+                System.out.println("Garantía -->" +Global.garantia);
                 System.out.println("fecha fin garantía: " + Global.garantia);
                 Global.fechaANS = terminal.get(position).getTerm_date_ans();
                 Global.estado = terminal.get(position).getTerm_status();
@@ -651,6 +652,7 @@ public class InicialFragment extends Fragment {
 
                 Global.serial_ter = terminal.get(position).getTerm_serial();
                 Global.modelo = terminal.get(position).getTerm_model();
+                Global.garantia = terminal.get(position).getTerm_date_finish();
 
                 Global.terminalVisualizar = terminal.get(position);
                 //System.out.println("");
