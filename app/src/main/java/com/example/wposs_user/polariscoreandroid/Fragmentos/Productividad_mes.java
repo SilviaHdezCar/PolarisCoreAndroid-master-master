@@ -182,7 +182,7 @@ public class Productividad_mes extends Fragment {
         }
 
         final int mes_selecionado = this.getMes(mesDado);
-        final int anioDado=Integer.parseInt(añoDado);
+        final int anioDado=Integer.parseInt(añoDado.trim());
 
 
 
@@ -301,7 +301,7 @@ public class Productividad_mes extends Fragment {
                             reparadas.add(new BarEntry(1,productividadMesReparadas[3]));
 
                             BarDataSet datos = new BarDataSet(diagnosticadas, "Asignadas");
-                            BarDataSet valores = new BarDataSet(reparadas, "Reparadas");
+                            BarDataSet valores = new BarDataSet(reparadas, "Diagnosticadas");
 
                             String[] fecha = new String[] {"Semana1","Semana 2", "Semana 3", "Semana 4"};
 
@@ -329,7 +329,7 @@ public class Productividad_mes extends Fragment {
                             grafica.setScaleX(1);
                             x.setCenterAxisLabels(true);
                             grafica.getAxisRight().setEnabled(false);
-                            x.setLabelCount(5);
+                            x.setLabelCount(4);
                             x.setDrawLabels(true);
                             x.setPosition(XAxis.XAxisPosition.BOTTOM);
                             x.setGranularity(1);
@@ -340,7 +340,7 @@ public class Productividad_mes extends Fragment {
                             float groupSpace = 0.6f;
                             datosGrafica.setBarWidth(0.4f);
                             grafica.getXAxis().setAxisMinimum(0);
-                            grafica.getXAxis().setAxisMaximum(5);
+                            grafica.getXAxis().setAxisMaximum(4);
                             grafica.groupBars(0, groupSpace, barSpace);
                             grafica.invalidate();
                             grafica.getDescription().setEnabled(false);
@@ -404,7 +404,7 @@ public class Productividad_mes extends Fragment {
                         grafica.setScaleX(1);
                         x.setCenterAxisLabels(true);
                         grafica.getAxisRight().setEnabled(false);
-                        x.setLabelCount(6);
+                        x.setLabelCount(5);
                         x.setDrawLabels(true);
                         x.setPosition(XAxis.XAxisPosition.BOTTOM);
                         x.setGranularity(1);
@@ -415,7 +415,7 @@ public class Productividad_mes extends Fragment {
                         float groupSpace = 0.6f;
                         datosGrafica.setBarWidth(0.2f);
                         grafica.getXAxis().setAxisMinimum(0);
-                        grafica.getXAxis().setAxisMaximum(6);
+                        grafica.getXAxis().setAxisMaximum(5);
                         grafica.groupBars(0, groupSpace, barSpace);
                         grafica.invalidate();
                         grafica.getDescription().setEnabled(false);
@@ -562,7 +562,7 @@ public class Productividad_mes extends Fragment {
         Date date = new Date();
         String fecha = dateFormat.format(date);
 
-        String[] fechas = fecha.split("/");
+        String[] fechas = fecha.split("-");
 
         int anioActual = Integer.parseInt(fechas[0]);
 
@@ -584,7 +584,7 @@ public class Productividad_mes extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();
         String fechaActual = dateFormat.format(date);
-        String []fechaAct= fechaActual.split("/");
+        String []fechaAct= fechaActual.split("-");
         int anioA=Integer.parseInt(fechaAct[0]);
         int mesA=Integer.parseInt(fechaAct[1]);
 

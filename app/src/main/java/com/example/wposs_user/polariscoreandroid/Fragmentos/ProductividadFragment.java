@@ -37,7 +37,7 @@ public class ProductividadFragment extends Fragment {
             }
         });
         objeto.setTitulo("PRODUCTIVIDAD");
-        comboAdapter = new ArrayAdapter<String>(objeto,R.layout.spiner_style_center, new String[]{"Seleccione","Día","Mes"});
+        comboAdapter = new ArrayAdapter<String>(objeto,R.layout.spiner_style_center, new String[]{"Seleccione","Día","Semana","Mes" });
         s.setAdapter(comboAdapter);
 
 
@@ -60,6 +60,9 @@ public class ProductividadFragment extends Fragment {
             objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Productividad_mes()).addToBackStack(null).commit();
         }
 
+        if (s.getSelectedItem().toString().equals("Semana")) {
+            objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ProductividadSemana()).addToBackStack(null).commit();
+        }
 
     }
 
