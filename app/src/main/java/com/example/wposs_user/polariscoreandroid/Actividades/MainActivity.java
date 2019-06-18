@@ -62,6 +62,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -113,6 +114,8 @@ public class MainActivity extends AppCompatActivity
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         notificaciones = new ArrayList<>();
         objeto = this;
@@ -330,6 +333,7 @@ public class MainActivity extends AppCompatActivity
                             startActivity(i);
                             finish();
                             ntecnico.stop();
+                            Global.notificaciones= new ArrayList<>();
                             return;
 
                         } catch (JSONException e) {
@@ -489,7 +493,7 @@ public class MainActivity extends AppCompatActivity
 
                             response = new JSONObject(response.toString());
 
-                            System.out.println("RESPUESTA DEL SERVICIO");
+                            System.out.println("RESPUESTA DEL SERVICIO DE NOTIFIACIONES*  "+ response.toString());
 
 
                             if (response.get("notificacion").equals("{}")) {
@@ -507,80 +511,97 @@ public class MainActivity extends AppCompatActivity
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     not = ((JSONArray) jsonArray).getString(i);
 
-                                    n = gson.fromJson(not, Notificacion.class);
+                                   n = gson.fromJson(not, Notificacion.class);
+
+
+
+
                                     if (n != null && !n.getNoti_msg().contains("albarán")) {
 
-                                        if(!contieNotificacion(n.getNoti_id())) {
-                                            String[] fecha= n.getNoti_date_create().split(",");
-                                            String[] diames= fecha[0].split(" ");
-                                            String mes= Utils.obtenerMes(diames[0]);
+                                        String[] ms = n.getNoti_msg().split(":");
+                                        String tit = ms[0];
+                                        String men = ms[1];
+                                        String[] vacio = men.split(",");
+                                        String h = eliminarCaracteres(men);
 
-                                            int dia= Integer.parseInt(diames[1]);
+                                        System.out.println("VACIO**" + h);
 
-                                            String[] anioHora=fecha[1].split(" ");
-                                            String anio= anioHora[0];
+                                        if (h.contains("c")||h.contains("m")) {
 
-                                            String fecha_not= Utils.formatoDia(dia) + "-"+ Utils.obtenerNumMes2(mes) +"-"+anioHora[1]+"   " +anioHora[2];
-                                           n.setNoti_date_create(fecha_not);
+                                            if (!contieNotificacion(n.getNoti_id())) {
 
-                                           String msj= n.getNoti_msg();
+                                                String[] fecha = n.getNoti_date_create().split(",");
+                                                String[] diames = fecha[0].split(" ");
+                                                String mes = Utils.obtenerMes(diames[0]);
 
+                                                int dia = Integer.parseInt(diames[1]);
 
-                                           if(msj.contains("terminal")&&  !msj.contains("object")) {
+                                                String[] anioHora = fecha[1].split(" ");
+                                                String anio = anioHora[0];
 
+                                                String fecha_not = Utils.formatoDia(dia) + "-" + Utils.obtenerNumMes2(mes) + "-" + anioHora[1] + "   " + anioHora[2];
+                                                n.setNoti_date_create(fecha_not);
 
-                                                   String nMensaje = eliminarCaracteres(msj);
-                                                   String[] mesagge = nMensaje.split("  ");
-                                                   String titulo = mesagge[0];
-
-
-                                                   ArrayList<String> terminales = listarNotterminales(nMensaje);
-
-                                                   String text = formatoNotificaciones(terminales.toString());
-
-                                                   String msjFin = formatoNot(text);
-
-                                                   String mensFinal = titulo + "\n" + "\n" + msjFin;
+                                                String msj = n.getNoti_msg();
 
 
-                                                   n.setNoti_msg(mensFinal);
+                                                if (msj.contains("terminal") && !msj.contains("object")) {
 
 
-                                           }
-
-                                            if(msj.contains("repuesto")&&  !msj.contains("object")) {
-
-
-                                                String nMensaje = eliminarCaracteres(msj);
-                                                String[] mesagge = nMensaje.split("   ");
-                                                String titulo = mesagge[0];
-
-                                                System.out.println("MENSAJE QUE CONTIENE** "+mesagge[1]);
+                                                    String nMensaje = eliminarCaracteres(msj);
+                                                    String[] mesagge = nMensaje.split("  ");
+                                                    String titulo = mesagge[0];
 
 
-                                                String msjFin= eliminarCaracteres(mesagge[1]);
+                                                    ArrayList<String> terminales = listarNotterminales(nMensaje);
 
-                                                String msjFinal = formatoRep(msjFin);
+                                                    String text = formatoNotificaciones(terminales.toString());
+
+                                                    String msjFin = formatoNot(text);
 
 
-                                                String mensFinal = titulo + "\n" + "\n" + msjFinal;
+
+                                                    n.setNoti_titulo(titulo);
+
+                                                    n.setNoti_msg(msjFin);
 
 
-                                                n.setNoti_msg(mensFinal);
 
+
+                                                }
+
+                                                if (msj.contains("repuesto") && !msj.contains("object")) {
+
+
+                                                    String nMensaje = eliminarCaracteres(msj);
+                                                    String[] mesagge = nMensaje.split("   ");
+                                                    String titulo = mesagge[0];
+
+                                                    System.out.println("MENSAJE QUE CONTIENE** " + mesagge[1]);
+
+
+                                                    String msjFin = eliminarCaracteres(mesagge[1]);
+
+
+                                                    String msjFinal = formatoRep(msjFin);
+
+                                                    n.setNoti_titulo(titulo);
+
+
+
+
+                                                    n.setNoti_msg(msjFinal);
+
+
+                                                }
+
+
+                                                Global.notificaciones.add(n);
 
                                             }
 
 
-
-
-
-
-                                            Global.notificaciones.add(n);
-
                                         }
-
-
                                     }
                                 }
                             }
@@ -876,11 +897,12 @@ public class MainActivity extends AppCompatActivity
                 cantidad[0]="Cantidad";
             }
 
-            tlista[i]=codigo[0]+":"+codigo[1];
-            tlista[i+1]=nombre[0]+":"+nombre[1];
-            tlista[i+2]=cantidad[0]+":"+cantidad[1];
 
-            rta+=tlista[i]+"\n"+tlista[i+1]+"\n"+tlista[2]+"\n"+"\n";
+                tlista[i] = codigo[0] + ":" + codigo[1];
+                tlista[i + 1] = nombre[0] + ":" + nombre[1];
+                tlista[i + 2] = cantidad[0] + ":" + cantidad[1];
+
+                rta += tlista[i] + "\n" + tlista[i + 1] + "\n" + tlista[2] + "\n" + "\n";
 
 
         }

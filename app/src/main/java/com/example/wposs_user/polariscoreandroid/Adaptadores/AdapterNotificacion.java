@@ -45,6 +45,7 @@ public class AdapterNotificacion extends RecyclerView.Adapter<AdapterNotificacio
         holder.remitente.setText(this.notificaciones.get(position).getNoti_origen());
         holder.contenido.setText(notificaciones.get(position).getNoti_msg());
         holder.fecha.setText(notificaciones.get(position).getNoti_date_create());
+        holder.titulo.setText(notificaciones.get(position).getNoti_titulo());
 
         holder.eliminar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +54,24 @@ public class AdapterNotificacion extends RecyclerView.Adapter<AdapterNotificacio
                 ic.onClick(notificaciones, position);
             }
 
+        });
+
+        holder.mostrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.contenido.setVisibility(View.VISIBLE);
+                holder.mostrar.setVisibility(View.GONE);
+                holder.ocultar.setVisibility(View.VISIBLE);
+            }
+        });
+
+        holder.ocultar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.contenido.setVisibility(View.GONE);
+                holder.mostrar.setVisibility(View.VISIBLE);
+                holder.ocultar.setVisibility(View.GONE);
+            }
         });
     }
 
@@ -79,13 +98,20 @@ public class AdapterNotificacion extends RecyclerView.Adapter<AdapterNotificacio
         private TextView remitente;
         private TextView contenido;
         private TextView fecha;
+        private TextView titulo;
         private ImageView eliminar;
+        private ImageView mostrar;
+        private  ImageView ocultar;
 
 
         ViewHolderNotificacion(View itemView) {
             super(itemView);
             remitente = (TextView) itemView.findViewById(R.id.txt_origenNotificacion);
+            ocultar=(ImageView)itemView.findViewById(R.id.ic_ocultarNot);
+            mostrar=(ImageView)itemView.findViewById(R.id.ic_MostrarNot);
+
             contenido = (TextView) itemView.findViewById(R.id.mensaje_notificacion);
+            titulo=(TextView)itemView.findViewById(R.id.txt_titulo_not) ;
             fecha= (TextView) itemView.findViewById(R.id.fecha_notificacion);
             eliminar = (ImageView) itemView.findViewById(R.id.eliminar_notificacion);
 

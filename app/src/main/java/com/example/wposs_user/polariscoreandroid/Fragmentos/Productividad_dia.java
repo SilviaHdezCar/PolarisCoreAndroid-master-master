@@ -2,6 +2,7 @@ package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.app.DatePickerDialog;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -364,7 +365,7 @@ public class Productividad_dia extends Fragment {
 
 
                             if (jsonArray.length() == 0) {
-                                Global.mensaje = "No se encontraron registros para el día seleccionado";
+                                Global.mensaje = "No existen registros para el día seleccionado";
                                 Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
                                 grafica.clear();
                                 f_inicio.setText("");
@@ -428,6 +429,7 @@ public class Productividad_dia extends Fragment {
                         grafica.setFitBars(true);
 
 
+
                         BarData datosGrafica = new BarData(datos, valores);
                         datosGrafica.setValueTextSize(10);
                         grafica.setData(datosGrafica);
@@ -445,7 +447,7 @@ public class Productividad_dia extends Fragment {
                         yAxis.setGranularity(1);
 
                         tituloG.setVisibility(VISIBLE);
-                        tituloG.setText("Productividad del día:" + fecha_inicial);
+                        tituloG.setText("Productividad del día: " + fecha_inicial);
 
                        grafica.getAxis(YAxis.AxisDependency.LEFT);
                         yAxis.setCenterAxisLabels(true);

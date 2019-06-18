@@ -13,6 +13,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     style="@style/letra_contenido"
+    android:textSize="14dp"
     android:text="Seleccione el criterio de búsqueda para ver su productividad."
     android:layout_margin="20dp"
     />

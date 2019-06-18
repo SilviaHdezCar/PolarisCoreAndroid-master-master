@@ -66,8 +66,8 @@
     <color name="borde_morado">#5E35B1</color>
     <color name="rojo_oscuro">#693030</color>
     <color name="verde_azul">#9700C1A4</color>
-    <color name="blanco_transparente">#16EEF3F3</color>
-    <color name="transparente">#00EEF3F3</color>
+    <color name="blanco_transparente">#0FEEF3F3</color>
+    <color name="transparente">#00000000</color>
     <color name="negro_transparente">#A4022529</color>
     <color name="gris_botones">#80FFFFFF</color>
     <color name="letra_botones">#022529</color>

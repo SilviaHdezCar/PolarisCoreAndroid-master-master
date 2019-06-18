@@ -9,6 +9,8 @@ public class Notificacion {
     private String noti_origin;
     private String noti_state;
     private String noti_type;
+    private String noti_titulo;
+
 
 
     public Notificacion(String noti_id, String noti_date_create, String noti_dest, String noti_msg, String noti_origin, String noti_state, String noti_type) {
@@ -21,6 +23,27 @@ public class Notificacion {
         this.noti_type = noti_type;
     }
 
+    public Notificacion(String noti_id, String noti_date_create, String noti_msg) {
+        this.noti_id = noti_id;
+        this.noti_date_create = noti_date_create;
+        this.noti_msg = noti_msg;
+    }
+
+    public String getNoti_origin() {
+        return noti_origin;
+    }
+
+    public void setNoti_origin(String noti_origin) {
+        this.noti_origin = noti_origin;
+    }
+
+    public String getNoti_titulo() {
+        return noti_titulo;
+    }
+
+    public void setNoti_titulo(String noti_titulo) {
+        this.noti_titulo = noti_titulo;
+    }
 
     public String getNoti_id() {
         return noti_id;

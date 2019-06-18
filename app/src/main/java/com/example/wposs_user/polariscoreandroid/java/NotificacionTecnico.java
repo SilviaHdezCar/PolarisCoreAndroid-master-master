@@ -8,6 +8,8 @@ import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogNotificacion;
 import com.example.wposs_user.polariscoreandroid.R;
 
+import java.util.ArrayList;
+
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 import static com.example.wposs_user.polariscoreandroid.R.drawable.ic_sinnotif;
 import static java.lang.Boolean.FALSE;
@@ -29,7 +31,7 @@ public class NotificacionTecnico implements Runnable {
 
         try {
             while (correr){
-
+                Global.notificaciones= new ArrayList<>();
                 objeto.consumirServicioNotificaciones();
 
                 System.out.println("CONSUME EL SERVICIO DE NOTIFICACIONES***");

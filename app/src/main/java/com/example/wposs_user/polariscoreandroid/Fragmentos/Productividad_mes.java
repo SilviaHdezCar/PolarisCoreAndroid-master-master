@@ -156,7 +156,7 @@ public class Productividad_mes extends Fragment {
         productividad = new ArrayList<>();
 
 
-        if (mes.getSelectedItem() == null || año.getSelectedItem() == null) {
+        /*if (mes.getSelectedItem().toString().equals("Seleccione") || año.getSelectedItem().toString().equals("Seleccione")) {
             Toast.makeText(v.getContext(), "Debe selecccionar el mes y año a consultar", Toast.LENGTH_SHORT).show();
             grafica.clear();
             grafica.setVisibility(INVISIBLE);
@@ -167,9 +167,9 @@ public class Productividad_mes extends Fragment {
             año.setSelection(0);
             return;
 
-        }
+        }*/
 
-        if (mes.getSelectedItem().toString().equals("Selecccione") || año.getSelectedItem().equals("Seleccione")) {
+        if (mes.getSelectedItem().toString().equals("Seleccione") || año.getSelectedItem().equals("Seleccione")) {
             Toast.makeText(v.getContext(), "Seleccione un mes y año válido", Toast.LENGTH_SHORT).show();
             grafica.clear();
             grafica.setVisibility(INVISIBLE);
@@ -188,7 +188,7 @@ public class Productividad_mes extends Fragment {
 
         if(!validarFechaActual(mes_selecionado,anioDado)){
 
-            Toast.makeText(v.getContext(), "El mes y año debe ser igual o anterior al actual", Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), "El mes y año debe ser anterior al actual", Toast.LENGTH_SHORT).show();
             grafica.clear();
             grafica.setVisibility(INVISIBLE);
             prom.setVisibility(INVISIBLE);
@@ -248,7 +248,7 @@ public class Productividad_mes extends Fragment {
 
 
                             if (jsonArray.length() == 0) {
-                                Global.mensaje = "No se encontraron registros para el mes y año seleccionado";
+                                Global.mensaje = "No existen registros para el mes seleccionado";
                                 Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
                                 grafica.clear();
                                 grafica.setVisibility(INVISIBLE);
@@ -353,8 +353,6 @@ public class Productividad_mes extends Fragment {
 
                             promDiagnosticadas.setText(String.format("%3f",promedioDiagnosticadas));
                             promreparadas.setText(String.format("%3f",promedioReparadas));
-                            mes.setSelection(0);
-                            año.setSelection(0);
                             tituloGra.setVisibility(VISIBLE);
                             grafica.setVisibility(VISIBLE);
 

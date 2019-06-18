@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.text.RelativeDateTimeFormatter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,15 +47,18 @@ import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
+import com.example.wposs_user.polariscoreandroid.java.TerminalHistory;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +81,7 @@ public class Registro_diagnostico extends Fragment {
     private RequestQueue queue;
     private LinearLayout linea;
     private int fallas = 0;
+    private ArrayList<TerminalHistory>thistory;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -316,7 +322,7 @@ public class Registro_diagnostico extends Fragment {
             Observacion obser = new Observacion("", descripicionObserv, "", "", " ", Global.serial_ter);
             Global.obs = obser;
 
-            this.consumirServicioDiagnostico();
+            this.obtenerHistorialTerminal();
             return;
 
         }
@@ -331,7 +337,7 @@ public class Registro_diagnostico extends Fragment {
 
 
         } else {
-            consumirServicioDiagnostico();//Consume el servicio cuando la terminal es asociada
+            obtenerHistorialTerminal();;//Consume el servicio cuando la terminal es asociada
         }
 
 
@@ -490,8 +496,9 @@ public class Registro_diagnostico extends Fragment {
                                 return;
 
                             } else {
+
                                 eliminarPila();
-                                objeto.CustomAlertDialog(objeto, "Información", "Diagnóstico registrado exitosamente", 3000, false);
+                                objeto.CustomAlertDialog(objeto,"Información", "Diagnóstico registrado exitosamente",3000,true);
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
 
@@ -527,6 +534,349 @@ public class Registro_diagnostico extends Fragment {
         queue.add(jsArrayRequest);
 
     }
+
+
+
+
+    /**
+     * servicio para actualizar el historial de una terminal
+     **/
+    public void servicioActualizarTerminal() {
+
+
+        String estado="";
+
+        Date date = new Date();
+
+        if(Global.fallaDetectada.equals("USO")){
+
+            estado= "COTIZACIÓN";
+
+        }
+
+        if(Global.fallaDetectada.equals("FABRICA")){
+
+            estado="GARANTÍA";
+
+        }
+
+        JSONObject jsonObject3= new JSONObject();
+
+        try {
+            jsonObject3.put("term_location",Global.CODE);
+            jsonObject3.put("term_state",estado);
+            jsonObject3.put("date",date.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final Gson gson = new GsonBuilder().create();
+
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/updateHistoryTerminal";
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+
+
+            jsonObject.put("terminal_history", jsonObject3);
+            jsonObject.put("tehi_serial",Global.serial_ter);
+
+
+
+            Log.d("RESPUESTA", jsonObject.toString());
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.PUT,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+
+                        System.out.println("RESPUESTA DEL SERVICIO ACTUALIZAR HISTORIAL**"+response.toString());
+
+                        try {
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            Log.d("RESPUESTA", response.get("message").toString());
+
+                            if (Global.STATUS_SERVICE.equals("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+
+                                Toast.makeText(objeto, "Error: " + response.get("message").toString(), Toast.LENGTH_SHORT).show();
+                                return;
+
+                            } else {
+
+                             consumirServicioGestionarTerminal();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()) {
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+                params.put("Id",Global.serial_ter);
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+
+    }
+
+
+
+    /**
+     * servicio para obtener el historial de una terminal
+     **/
+    public void obtenerHistorialTerminal() {
+
+
+        thistory= new ArrayList<>();
+
+
+        final Gson gson = new GsonBuilder().create();
+
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/getHistoryTerminal";
+        JSONObject jsonObject = new JSONObject();
+
+
+        Log.d("RESPUESTA", jsonObject.toString());
+
+
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        System.out.println("REPUESTA DEL SERVICIO OBTENER TERMINAL**"+response.toString());
+                        try {
+
+                            Log.d("RESPUESTA", response.get("message").toString());
+
+                            if (response.get("message").equals("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+
+                                Toast.makeText(objeto, "Error: " + response.get("message").toString(), Toast.LENGTH_SHORT).show();
+                                return;
+
+                            } else {
+
+                                response= response.getJSONObject("data");
+                               String rta = response.getString("tehi_historial");
+
+
+
+                                JSONArray jsonArray= new JSONArray(rta);
+
+
+                                if (jsonArray.length() == 1) {
+
+                                    servicioActualizarTerminal();
+                                    return;
+
+                               }
+
+
+                                String rep = null;
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    rep = jsonArray.getString(i);
+
+                                    String mensj= eliminarComillas(rep);
+                                    String[]history= mensj.split(",");
+
+                                    TerminalHistory t= new TerminalHistory(history[0],history[1],history[2]);
+
+                                    thistory.add(t);
+
+
+
+                                }
+
+
+                                TerminalHistory term= thistory.get(thistory.size()-2);
+
+                                String codTec= term.getTerm_location();
+                                String statusF= term.getTerm_state();
+
+                                if(codTec.equals(Global.CODE)){
+
+                                    if(statusF.equals("REPARACIÓN")|| statusF.equals("COTIZACIÓN")||statusF.equals("GARANTÍA")){
+                                         servicioActualizarTerminal();
+                                        return;
+                                    }
+
+                                }
+
+                                servicioActualizarTerminal();
+
+
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()) {
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+                params.put("id",Global.serial_ter);
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+
+    }
+
+
+    /**
+     * servicio para actualizar el historial de una terminal
+     **/
+    public void consumirServicioGestionarTerminal() {
+
+
+        final Gson gson = new GsonBuilder().create();
+
+
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/incrementarGestionadas";
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            jsonObject.put("user",Global.CODE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+
+                    public void onResponse(JSONObject response) {
+
+                        System.out.println("REPUESTA DEL SERVICIO GESTIONAR TERMINAL**"+response.toString());
+                        try {
+                            Global.STATUS_SERVICE = response.get("status").toString();
+                            Log.d("RESPUESTA", response.get("message").toString());
+
+                            if (Global.STATUS_SERVICE.equals("fail")) {
+                                Global.mensaje = response.get("message").toString();
+                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+
+                                Toast.makeText(objeto, "Error: " + response.get("message").toString(), Toast.LENGTH_SHORT).show();
+                                return;
+
+                            } else {
+
+
+                                consumirServicioDiagnostico();
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("RESPUESTA", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "Error Respuesta en JSON: " + error.getMessage());
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()) {
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authenticator", Global.TOKEN);
+
+
+                return params;
+            }
+        };
+
+        queue.add(jsArrayRequest);
+
+    }
+
+
+
+
 
 
     /**
@@ -718,5 +1068,39 @@ public class Registro_diagnostico extends Fragment {
         return false;
     }
 
+
+
+    public String eliminarComillas(String mens){
+
+        char[] texto= mens.toCharArray();
+
+            for(int i=0;i<texto.length;i++){
+
+                if(texto[i] == '{'){
+
+                    texto[i]= ' ';
+                }
+
+                if(texto[i] == '"'){
+
+                    texto[i]= ' ';
+                }
+
+            }
+
+
+            String x= "";
+
+
+            for(Character c:texto){
+                x+=c;
+
+            }
+
+            return x;
+
+
+
+    }
 
 }

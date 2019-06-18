@@ -3,11 +3,13 @@
 <TextView
 
     android:layout_width="match_parent"
-    android:layout_height="30dp"
+    android:layout_height="40dp"
     android:textSize="14dp"
-    android:textAlignment="center"
-    android:gravity="center"
+    android:textAlignment="gravity"
+    android:gravity="right"
     android:textColor="@color/negro"
+    android:padding="10dp"
+    android:text="hola"
 
 
 xmlns:android="http://schemas.android.com/apk/res/android" />
