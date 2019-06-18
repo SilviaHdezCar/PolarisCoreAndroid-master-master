@@ -310,7 +310,7 @@ public class Productividad_dia extends Fragment {
 
         if(!validarFechaActual(dia_inicio,mes_inicio,año_inicio)){
 
-            Toast.makeText(v.getContext(), "La fecha selecionada debe  anterior a la actual", Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), "La fecha selecionada debe ser anterior a la actual", Toast.LENGTH_SHORT).show();
             grafica.clear();
             tituloG.setVisibility(INVISIBLE);
             grafica.setVisibility(INVISIBLE);

@@ -270,7 +270,7 @@ public class ProductividadSemana extends Fragment {
 
 
                             if (jsonArray.length() == 0) {
-                                Toast.makeText(v.getContext(), "No existenn registros para la semana seleccionada", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(v.getContext(), "No existen registros para la semana seleccionada", Toast.LENGTH_SHORT).show();
                                 graficaSeman.clear();
                                 graficaSeman.setVisibility(INVISIBLE);
                                 titulo.setVisibility(INVISIBLE);
