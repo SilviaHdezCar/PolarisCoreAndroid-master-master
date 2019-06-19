@@ -295,7 +295,7 @@ public class Productividad_dia extends Fragment {
             Toast.makeText(v.getContext(), "Debe seleccionar el día", Toast.LENGTH_SHORT).show();
              grafica.clear();
             tituloG.setVisibility(INVISIBLE);
-            grafica.setVisibility(INVISIBLE);
+            grafica.setVisibility(View.GONE);
             return;
 
         }
@@ -306,21 +306,21 @@ public class Productividad_dia extends Fragment {
 
         final int dia_inicio = Integer.parseInt(fecha[0]);
         int mes_inicio = Integer.parseInt(fecha[1]);
-        int año_inicio = Integer.parseInt(fecha[2]);
+        int anio_inicio = Integer.parseInt(fecha[2]);
 
-        if(!validarFechaActual(dia_inicio,mes_inicio,año_inicio)){
+        if(!validarFechaActual(dia_inicio,mes_inicio,anio_inicio)){
 
-            Toast.makeText(v.getContext(), "La fecha selecionada debe ser anterior a la actual", Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), "La fecha selecionada no puede ser posterior a la actual", Toast.LENGTH_SHORT).show();
             grafica.clear();
             tituloG.setVisibility(INVISIBLE);
-            grafica.setVisibility(INVISIBLE);
+            grafica.setVisibility(View.GONE);
             f_inicio.setText("");
             return;
         }
 
         grafica.clear();
 
-        String fecha_inicio = mes_inicio + "/" + dia_inicio + "/" + año_inicio;
+        String fecha_inicio = mes_inicio + "/" + dia_inicio + "/" + anio_inicio;
 
 
 
@@ -370,7 +370,7 @@ public class Productividad_dia extends Fragment {
                                 grafica.clear();
                                 f_inicio.setText("");
                                 tituloG.setVisibility(INVISIBLE);
-                                grafica.setVisibility(INVISIBLE);
+                                grafica.setVisibility(View.GONE);
 
                                 return;
                             }
@@ -504,12 +504,12 @@ public class Productividad_dia extends Fragment {
                         x.setGranularity(1);
                         x.setGranularityEnabled(true);
                         grafica.setDragEnabled(true);
-                        grafica.setVisibleXRangeMaximum(2);
+                        grafica.setVisibleXRangeMaximum(1);
                         float barSpace = 0.02f;
                         float groupSpace = 0.6f;
                         datosGrafica.setBarWidth(0.2f);
                         grafica.getXAxis().setAxisMinimum(0);
-                        grafica.getXAxis().setAxisMaximum(1);
+                        grafica.getXAxis().setAxisMaximum(2);
                         grafica.groupBars(0, groupSpace, barSpace);
                         grafica.invalidate();
                         grafica.getDescription().setEnabled(false);
@@ -570,7 +570,7 @@ public class Productividad_dia extends Fragment {
             if(mes>mesAct){return false;}
             if(mes<mesAct){return true;}
             if(mes==mesAct){
-                if(dia>=diaAct){return false;}
+                if(dia>diaAct){return false;}
                     }
                  }
 

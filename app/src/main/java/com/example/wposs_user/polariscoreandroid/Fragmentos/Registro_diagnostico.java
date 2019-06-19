@@ -548,17 +548,24 @@ public class Registro_diagnostico extends Fragment {
 
         Date date = new Date();
 
-        if(Global.fallaDetectada.equals("USO")){
+        if(Global.fallaDetectada.equals("USO") && tipo.equals("asociada")){
 
             estado= "COTIZACIÓN";
 
         }
 
-        if(Global.fallaDetectada.equals("FABRICA")){
+        if(Global.fallaDetectada.equals("FABRICA")&& tipo.equals("asociada")){
 
             estado="GARANTÍA";
 
         }
+
+        if(tipo.equals("autorizada")){
+
+            estado="REPARACIÓN";
+
+        }
+
 
         JSONObject jsonObject3= new JSONObject();
 

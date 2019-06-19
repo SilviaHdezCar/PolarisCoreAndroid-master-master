@@ -50,6 +50,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import static android.view.View.INVISIBLE;
+import static android.view.View.SCROLLBARS_OUTSIDE_INSET;
 import static android.view.View.VISIBLE;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
@@ -191,7 +192,7 @@ public class ProductividadSemana extends Fragment {
 
 
         if(anioSel.equals("Seleccione el año")||mesSel.equals("Seleccione el mes")||semanaSel.equals("Seleccione la semana")){
-            graficaSeman.setVisibility(INVISIBLE);
+            graficaSeman.setVisibility(View.GONE);
             graficaSeman.clear();
             titulo.setVisibility(INVISIBLE);
             semanas.setSelection(0);
@@ -203,28 +204,28 @@ public class ProductividadSemana extends Fragment {
 
         }
 
-        int diaInicio= getDiaInicio(semanaSel);
-        int diaFin= diaInicio+6;
+        final int diaInicio= getDiaInicio(semanaSel);
+        final int diaFin= diaInicio+6;
         final int mesSelec= Utils.obtenerNumMes(mesSel.trim());
-        int anioSele=Integer.parseInt(anioSel.trim());
+        final int anioSele=Integer.parseInt(anioSel.trim());
 
 
-      /*if(!validarFechaActual(diaFin,mesSelec)){
+      if(!validarFechaActual(diaInicio,mesSelec)){
 
-            Toast.makeText(v.getContext(), "La fecha selecionada debe ser anterior a la actual", Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), "La fecha selecionada no puede ser posterior a la actual", Toast.LENGTH_SHORT).show();
             graficaSeman.clear();
-            graficaSeman.setVisibility(INVISIBLE);
+            graficaSeman.setVisibility(View.GONE);
             titulo.setVisibility(INVISIBLE);
             semanas.setSelection(0);
             meses.setSelection(0);
             anios.setSelection(0);
             return;
-        }*/
+        }
 
 
 
         String fecha_inicio = mesSelec+ "/" + diaInicio + "/" + anioSel;
-         String fecha_fin= mesSelec+"/" + diaFin + "/" + anioSel;
+         final String fecha_fin= mesSelec+"/" + diaFin + "/" + anioSel;
 
 
         System.out.println("FECHA DE INICIO DE LA SEMANA**  "+fecha_inicio);
@@ -272,7 +273,7 @@ public class ProductividadSemana extends Fragment {
                             if (jsonArray.length() == 0) {
                                 Toast.makeText(v.getContext(), "No existen registros para la semana seleccionada", Toast.LENGTH_SHORT).show();
                                 graficaSeman.clear();
-                                graficaSeman.setVisibility(INVISIBLE);
+                                graficaSeman.setVisibility(View.GONE);
                                 titulo.setVisibility(INVISIBLE);
                                 semanas.setSelection(0);
                                 meses.setSelection(0);
@@ -282,6 +283,24 @@ public class ProductividadSemana extends Fragment {
                             }
                             Productividad pro;
 
+
+                            System.out.println();
+
+                            int inicial=diaInicio-1;
+
+                            for(int i=0;i<8;i++){
+
+
+                                if(productividad.size()<i){
+
+                                    String fechaT= (inicial+i)+"/"+mesSelec+"/"+anioSele;
+                                    Productividad r = new Productividad("",fechaT,"0","0","0","0");
+                                    productividad.add(r);
+                                }
+
+                            }
+
+
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 String res = jsonArray.getString(i);
 
@@ -289,18 +308,31 @@ public class ProductividadSemana extends Fragment {
 
                                 if (pro != null) {
 
-                                    if (pro.getUste_diagnosed_terminals()== null || pro.getUste_diagnosed_terminals().equals("NaN")) {
-                                       pro.setUste_diagnosed_terminals("0");
-                                    }
+                                    String[]fecha2 = pro.getUste_date().split("/");
+                                    int dia1= Integer.parseInt(fecha2[0]);
+                                    int mes1= Integer.parseInt(fecha2[1]);
+                                    int anio2= Integer.parseInt(fecha2[2]);
 
-                                    if (pro.getUste_repaired_terminals() == null || pro.getUste_repaired_terminals().equalsIgnoreCase("NaN")) {
-                                        pro.setUste_repaired_terminals("0");
-                                    }
+                                    String fechaTot= dia1+"/"+mes1+"/"+anio2;
 
-                                    productividad.add(pro);
+                                   for(int j=0;i<8;i++){
+
+                                       String[]fecha = productividad.get(j).getUste_date().split("/");
+                                       int dia3= Integer.parseInt(fecha2[0]);
+                                       int mes3= Integer.parseInt(fecha2[1]);
+                                       int anio3= Integer.parseInt(fecha2[2]);
+
+                                      if(dia1==dia3){
+                                          System.out.println("DIA OBTENIDO"+ dia1);
+                                           String[] fech= productividad.get(j).getUste_date().split("/");
+                                           int difDia= dia1-diaInicio;
+                                            productividad.set(difDia,pro);
+                                       }
+
+                                   }
                                 }
-
                             }
+                            System.out.println("PRODUCTIVIDAD PARA MOSTRAR**"+ productividad.toString());
 
                             this.pintarGrafica();
 
@@ -312,6 +344,19 @@ public class ProductividadSemana extends Fragment {
 
                     private void pintarGrafica() {
 
+
+                        if(totalProdu()==0){
+
+                            Toast.makeText(v.getContext(), "No existen registros para la semana seleccionada", Toast.LENGTH_SHORT).show();
+                            graficaSeman.clear();
+                            graficaSeman.setVisibility(View.GONE);
+                            titulo.setVisibility(INVISIBLE);
+                            semanas.setSelection(0);
+                            meses.setSelection(0);
+                            anios.setSelection(0);
+                            return;
+
+                        }
 
                         String []fechas= new String[7];
 
@@ -326,26 +371,13 @@ public class ProductividadSemana extends Fragment {
                             Productividad p= productividad.get(0);
                             diagnosticadas.add(new BarEntry(1,Integer.parseInt(p.getUste_diagnosed_terminals())));
                             reparadas.add(new BarEntry(1,Integer.parseInt(p.getUste_repaired_terminals())));
-                            fechas[0]= p.getUste_date();
+                            fechas[0]= p.getUste_date();// dia obtenido
 
+                            String fechaT="";
                             String [] fechaObtenida= fechas[0].split("/");
                             int diaO =Integer.parseInt(fechaObtenida[0]);
-                            String fechaT="";
 
-
-                            for(int i=2;i<4;i++){
-
-                                if(productividad.size()<i){
-
-                                    fechaT= (diaO+i)+"/"+fechaObtenida[1]+"/"+fechaObtenida[2];
-                                    Productividad r = new Productividad("",fechaT,"0","0","0","0");
-                                    productividad.add(r);
-                                }
-
-                            }
-
-
-                             Productividad r= productividad.get(1);
+                            Productividad r= productividad.get(1);
                             diagnosticadas.add(new BarEntry(2,Integer.parseInt(r.getUste_diagnosed_terminals())));
                             reparadas.add(new BarEntry(2,Integer.parseInt(r.getUste_repaired_terminals())));
                             fechas[1]= r.getUste_date();
@@ -360,7 +392,7 @@ public class ProductividadSemana extends Fragment {
                             BarDataSet datos2= new BarDataSet(reparadas, "Reparadas");
                             BarDataSet datos3= new BarDataSet(diagnosticadas, "Diagnosticadas");
 
-                            datos2.setColor(Color.parseColor("#038793"));
+                            datos2.setColor(Color.parseColor("#45A5F3"));
                             datos3.setColor(Color.parseColor("#BDBDBD"));
 
                             datos2.setDrawValues(true);
@@ -435,17 +467,6 @@ public class ProductividadSemana extends Fragment {
                             int diaO =Integer.parseInt(fechaObtenida[0]);
                             String fechaT="";
 
-
-                            for(int i=2;i<3;i++){
-
-                                if(productividad.size()<i){
-
-                                    fechaT= (diaO+i)+"/"+fechaObtenida[1]+"/"+fechaObtenida[2];
-                                    Productividad r = new Productividad("",fechaT,"0","0","0","0");
-                                    productividad.add(r);
-                                }
-
-                            }
                             Productividad r= productividad.get(1);
 
 
@@ -457,7 +478,7 @@ public class ProductividadSemana extends Fragment {
                             BarDataSet datos2= new BarDataSet(reparadas, "Reparadas");
                             BarDataSet datos3= new BarDataSet(diagnosticadas, "Diagnosticadas");
 
-                            datos2.setColor(Color.parseColor("#038793"));
+                            datos2.setColor(Color.parseColor("#45A5F3"));
                             datos3.setColor(Color.parseColor("#BDBDBD"));
 
                             datos2.setDrawValues(true);
@@ -516,29 +537,10 @@ public class ProductividadSemana extends Fragment {
 
                         }
 
-
                        Productividad p = productividad.get(0);
                        reparadas.add(new BarEntry(1, Integer.parseInt(p.getUste_repaired_terminals())));
                        diagnosticadas.add(new BarEntry(1, Integer.parseInt(p.getUste_diagnosed_terminals())));
                         fechas[0]= p.getUste_date();
-
-
-                        String [] fechaObtenida= fechas[0].split("/");
-                        int diaO =Integer.parseInt(fechaObtenida[0]);
-                        String fechaT="";
-
-
-                        for(int i=2;i<8;i++){
-
-                            if(productividad.size()<i){
-
-                                fechaT= (diaO+i)+"/"+fechaObtenida[1]+"/"+fechaObtenida[2];
-                                Productividad r = new Productividad("",fechaT,"0","0","0","0");
-                                productividad.add(r);
-                            }
-
-                        }
-
 
                         Productividad r= productividad.get(1);
                         reparadas.add(new BarEntry(2,Integer.parseInt(r.getUste_repaired_terminals())));
@@ -575,7 +577,7 @@ public class ProductividadSemana extends Fragment {
                         BarDataSet datos2= new BarDataSet(reparadas, "Reparadas");
                         BarDataSet datos3= new BarDataSet(diagnosticadas, "Diagnosticadas");
 
-                        datos2.setColor(Color.parseColor("#038793"));
+                        datos2.setColor(Color.parseColor("#45A5F3"));
                         datos3.setColor(Color.parseColor("#BDBDBD"));
 
                         datos2.setDrawValues(true);
@@ -609,7 +611,7 @@ public class ProductividadSemana extends Fragment {
                         graficaSeman.setScaleX(1);
                         x.setCenterAxisLabels(true);
                         graficaSeman.getAxisRight().setEnabled(false);
-                        x.setLabelCount(3);
+                        x.setLabelCount(7);
                         x.setDrawLabels(true);
                         x.setPosition(XAxis.XAxisPosition.BOTTOM);
                         x.setGranularity(1);
@@ -620,7 +622,7 @@ public class ProductividadSemana extends Fragment {
                         float groupSpace = 0.6f;
                         datosGrafica.setBarWidth(0.2f);
                         graficaSeman.getXAxis().setAxisMinimum(0);
-                        graficaSeman.getXAxis().setAxisMaximum(3);
+                        graficaSeman.getXAxis().setAxisMaximum(7);
                         graficaSeman.groupBars(0, groupSpace, barSpace);
                         graficaSeman.invalidate();
                         graficaSeman.getDescription().setEnabled(false);
@@ -713,7 +715,7 @@ public class ProductividadSemana extends Fragment {
         if(mes>mesAct){return false;}
 
         if(mes==mesAct){
-            if(dia>=diaAct){
+            if(dia>diaAct){
 
                 return false;
             }
@@ -784,6 +786,7 @@ public class ProductividadSemana extends Fragment {
         return i;
 
     }
+
 
 
 
