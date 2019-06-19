@@ -734,6 +734,22 @@ public class Registro_diagnostico extends Fragment {
                             } else {
 
                                 response= response.getJSONObject("data");
+
+                                if(response.toString().equals("")){
+
+
+                                    if(tipoDiag.equals("asociada")){
+                                        servicioActualizarTerminal("si","asociada");
+                                        return;
+                                    }
+
+
+                                    if(tipoDiag.equals("autorizada")){
+                                        servicioActualizarTerminal("si","autorizada");
+                                        return;
+                                    }
+
+                                }
                                String rta = response.getString("tehi_historial");
 
 
