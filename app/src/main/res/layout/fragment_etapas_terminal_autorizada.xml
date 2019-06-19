@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".Fragmentos.EtapasTerminalAutorizada">
 
     <ScrollView
@@ -10,6 +12,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -245,6 +248,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right">
+
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -268,8 +272,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
-                        android:layout_marginTop="20dp"
                         android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginRight="20dp"
                         android:background="@drawable/cuadrado_fondo_verde"
                         android:gravity="center_vertical">
@@ -292,97 +296,105 @@
                     </LinearLayout>
 
 
-                    <TableLayout
-                        android:id="@+id/tablaObservacion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/toolbar"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:shrinkColumns="*"
-                        android:stretchColumns="*">
-
-
-                        <TableRow android:gravity="center">
-
-                            <LinearLayout
-                                android:layout_width="250dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="horizontal"
-                                android:padding="10dp">
-
-                                <EditText
-                                    android:id="@+id/textArea_information"
-                                    style="@style/letra_contenido2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="80dp"
-                                    android:background="@drawable/redondo_gris_fondo_gris"
-                                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ óáéíúÓÁÉÍÚ.,:;"
-                                    android:gravity="top|left"
-                                    android:hint="Ingresar observación"
-                                    android:inputType="textMultiLine|textCapCharacters"
-                                    android:maxLength="300"
-                                    android:maxLines="4"
-                                    android:overScrollMode="always"
-                                    android:padding="5dp"
-                                    android:scrollbarStyle="insideInset"
-                                    android:scrollbars="vertical"
-                                    android:scrollHorizontally="false" />
-
-                            </LinearLayout>
-
-
-                        </TableRow>
-
-                        <TableRow>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:orientation="horizontal">
-
-                                <Button
-                                    android:id="@+id/btn_agregar_etapa_autorizada"
-                                    style="@style/letra_contenido_blanco"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="30dp"
-                                    android:layout_gravity="center"
-                                    android:background="@drawable/redondo_gris_botones"
-                                    android:text="Agregar"
-                                    android:textAllCaps="false"
-                                    android:textColor="@color/negro" />
-                            </LinearLayout>
-                        </TableRow>
-
-                    </TableLayout>
-
                     <LinearLayout
+                        android:id="@+id/ly_contenedor"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="10dp">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                        <Button
-                            android:id="@+id/btn_siguiente_etapas_autorizadas"
-                            style="@style/letra_contenido_blanco"
-                            android:layout_width="120dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginBottom="20dp"
-                            android:background="@drawable/redondo_gris_botones"
-                            android:text="Siguiente"
-                            android:textAllCaps="false"
-                            android:textColor="@color/negro" />
+                        <TableLayout
+                            android:id="@+id/tablaObservacion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/toolbar"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:shrinkColumns="*"
+                            android:stretchColumns="*">
+
+
+                            <TableRow android:gravity="center">
+
+                                <LinearLayout
+                                    android:layout_width="250dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal"
+                                    android:padding="10dp">
+
+                                    <EditText
+                                        android:id="@+id/textArea_information"
+                                        style="@style/letra_contenido2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="80dp"
+                                        android:background="@drawable/redondo_gris_fondo_gris"
+                                        android:digits="0123456789abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ óáéíúÓÁÉÍÚ.,:;"
+                                        android:gravity="top|left"
+                                        android:hint="Ingresar observación"
+                                        android:inputType="text|textCapCharacters"
+                                        android:maxLength="300"
+                                        android:maxLines="4"
+                                        android:overScrollMode="always"
+                                        android:padding="5dp"
+                                        android:scrollbarStyle="insideInset"
+                                        android:scrollbars="vertical"
+                                        android:scrollHorizontally="false" />
+                                </LinearLayout>
+
+
+                            </TableRow>
+
+                            <TableRow>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <Button
+                                        android:id="@+id/btn_agregar_etapa_autorizada"
+                                        style="@style/letra_contenido_blanco"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="30dp"
+                                        android:layout_gravity="center"
+                                        android:background="@drawable/redondo_gris_botones"
+                                        android:text="Agregar"
+                                        android:textAllCaps="false"
+                                        android:textColor="@color/negro" />
+                                </LinearLayout>
+                            </TableRow>
+
+                            <TableRow>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="10dp">
+
+                                    <Button
+                                        android:id="@+id/btn_siguiente_etapas_autorizadas"
+                                        style="@style/letra_contenido_blanco"
+                                        android:layout_width="120dp"
+                                        android:layout_height="30dp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="20dp"
+                                        android:layout_marginBottom="20dp"
+                                        android:background="@drawable/redondo_gris_botones"
+                                        android:text="Siguiente"
+                                        android:textAllCaps="false"
+                                        android:textColor="@color/negro" />
+                                </LinearLayout>
+                            </TableRow>
+
+                        </TableLayout>
                     </LinearLayout>
-
 
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-</FrameLayout>
+</ScrollView>

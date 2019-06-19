@@ -101,7 +101,7 @@
             android:layout_marginRight="20dp"
             android:background="@drawable/redondo_gris_fondo_gris"
             android:gravity="top|left"
-            android:hint="Observación obliogatoria"
+            android:hint="Ingresar observación"
             android:inputType="textMultiLine|textCapCharacters"
             android:maxLength="300"
             android:padding="5dp" />

@@ -122,7 +122,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_repuesto_defectuoso_autorizadas, container, false);
-        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+       // objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         Global.REPUESTOS_DEFECTUOSOS_SOLICITAR = null;
         Global.REPUESTOS_DEFECTUOSOS_SOLICITAR = new ArrayList<Repuesto>();
         LinearLayout layout_terminales=(LinearLayout)v.findViewById(R.id.layout_terminales);

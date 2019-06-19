@@ -132,7 +132,7 @@ public class EtapasTerminalAutorizada extends Fragment {
         // Inflate the layout for this fragment
         Global.fotos = new ArrayList<>();
         view = inflater.inflate(R.layout.fragment_etapas_terminal_autorizada, container, false);
-        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+       // objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("ETAPAS");
 
         // muestro la terminal seleccionada con los valores que guarde en el obj terminal

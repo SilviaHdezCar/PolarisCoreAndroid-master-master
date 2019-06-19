@@ -66,7 +66,7 @@ public class ActualizarClave_perfil extends Fragment {
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_actualizar_clave_perfil, container, false);
-        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+       // objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("ACTUALIZAR CONTRASEÑA");
         queue = Volley.newRequestQueue(objeto);
         btn_validar = (Button) v.findViewById(R.id.lbl_validarClave);

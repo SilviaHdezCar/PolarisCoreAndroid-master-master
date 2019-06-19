@@ -146,7 +146,7 @@ public class Productividad_dia extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         productividad = new ArrayList<>();
-        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+       // objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_productividad_dia, container, false);
         objeto.setTitulo("PRODUCTIVIDAD POR DÍA");

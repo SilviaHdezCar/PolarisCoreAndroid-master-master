@@ -29,7 +29,6 @@
             android:name=".Actividades.Activity_UpdatePassword"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
             android:name=".Actividades.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             />

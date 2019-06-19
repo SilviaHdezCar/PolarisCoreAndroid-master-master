@@ -2,19 +2,13 @@ package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.drawable.RotateDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,11 +22,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,30 +35,22 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.wposs_user.polariscoreandroid.Actividades.MainActivity;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
-import com.example.wposs_user.polariscoreandroid.Comun.Messages;
-import com.example.wposs_user.polariscoreandroid.Comun.Utils;
+import com.example.wposs_user.polariscoreandroid.Dialogs.DialogLoading;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogMostarFoto;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Method;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
@@ -99,81 +82,83 @@ public class ObservacionesFragment extends Fragment {
     private static final int PICTURE_RESULT = 122;
     private ContentValues values;
     private Uri imageUri;
- //   private Button myButton;
-   // private ImageView myImageView;
-    private Bitmap thumbnail;
+    private String imageurl;
+    private String mensaje;
 
-    String imageurl;
+
+    private boolean actualizar;
+    private JSONArray jsonArrayHistorial;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_observaciones, container, false);
-        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+      //  objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("OBSERVACIÓN");
 
-      permisos();
+        permisos();
 
-            imagen_observación = (ImageView) v.findViewById(R.id.imagen_observacion);
-            imagen_observación2 = (ImageView) v.findViewById(R.id.imagen_observacion2);
-            queue = Volley.newRequestQueue(objeto);
-            finalizar = (Button) v.findViewById(R.id.btn_finalizar_observacion);
+        imagen_observación = (ImageView) v.findViewById(R.id.imagen_observacion);
+        imagen_observación2 = (ImageView) v.findViewById(R.id.imagen_observacion2);
+        queue = Volley.newRequestQueue(objeto);
+        finalizar = (Button) v.findViewById(R.id.btn_finalizar_observacion);
 
-            //layout_finalizar_diagnostico.setVisibility(View.INVISIBLE);
+        //layout_finalizar_diagnostico.setVisibility(View.INVISIBLE);
 
-            txt_observacion = (TextView) v.findViewById(R.id.txt_observacion_fin);
-            lbl_nomFoto = (TextView) v.findViewById(R.id.lbl_nomFoto);
-            lbl_nomFoto2 = (TextView) v.findViewById(R.id.lbl_nomFoto2);
+        txt_observacion = (TextView) v.findViewById(R.id.txt_observacion_fin);
+        lbl_nomFoto = (TextView) v.findViewById(R.id.lbl_nomFoto);
+        lbl_nomFoto2 = (TextView) v.findViewById(R.id.lbl_nomFoto2);
 
-            bitmap_foto1 = null;
-            bitmap_foto2 = null;
+        bitmap_foto1 = null;
+        bitmap_foto2 = null;
 
-            foto = 0;
+        foto = 0;
 
-            imagen_observación.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                 foto = 1;
-                    values = new ContentValues();
-                    values.put(MediaStore.Images.Media.TITLE, "MyPicture");
-                    values.put(MediaStore.Images.Media.DESCRIPTION, "Photo taken on " + System.currentTimeMillis());
-                    imageUri = objeto.getContentResolver().insert(
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                    startActivityForResult(intent, PICTURE_RESULT);
-                }
-            });
+        imagen_observación.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                foto = 1;
+                values = new ContentValues();
+                values.put(MediaStore.Images.Media.TITLE, "PolarisCoreLab");
+                values.put(MediaStore.Images.Media.DESCRIPTION, "Photo taken on " + System.currentTimeMillis());
+                imageUri = objeto.getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, PICTURE_RESULT);
+            }
+        });
 
-            imagen_observación2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    foto = 2;
-                    values = new ContentValues();
-                    values.put(MediaStore.Images.Media.TITLE, "MyPicture");
-                    values.put(MediaStore.Images.Media.DESCRIPTION, "Photo taken on " + System.currentTimeMillis());
-                    imageUri = objeto.getContentResolver().insert(
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                    startActivityForResult(intent, PICTURE_RESULT);
-                }
-            });
+        imagen_observación2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                foto = 2;
+                values = new ContentValues();
+                values.put(MediaStore.Images.Media.TITLE, "PolarisCoreLab");
+                values.put(MediaStore.Images.Media.DESCRIPTION, "Photo taken on " + System.currentTimeMillis());
+                imageUri = objeto.getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, PICTURE_RESULT);
+            }
+        });
 
-            finalizar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        finalizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    finalizarDiagnostico();
-                }
-            });
+                finalizarDiagnostico();
+            }
+        });
 
 
         return v;
 
     }
 
+    //validar los permisos para acceder SD
     public boolean permisos() {
         boolean retorno = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -218,14 +203,7 @@ public class ObservacionesFragment extends Fragment {
 
         String img1 = convertirImagenString(bitmap_foto1);
         String img2 = convertirImagenString(bitmap_foto2);
-        //  String img1 = getString(R.string.img2_base64);
 
-        System.out.println("id-->" + Global.ID);
-        System.out.println("serial-->" + Global.serial_ter);
-
-        Log.i("IMG1-->", img1);
-        Log.i("IMG2-->", img2);
-        //System.out.println("IMG2-->"+img2);
         try {
             jsonObject.put("identificacion", Global.ID);
             jsonObject.put("serial", Global.serial_ter);
@@ -244,16 +222,16 @@ public class ObservacionesFragment extends Fragment {
                     public void onResponse(JSONObject response) {
 
                         try {
-                            System.out.println("RESPUESTA SERVIDOR-->" + response.get("message").toString());
+                            System.out.println("RESPUESTA FOTOS-->" + response.get("message").toString());
                             if (!response.get("status").toString().equalsIgnoreCase("ok")) {
-                                Global.mensaje = response.get("message").toString();
-                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                Global.loading = false;
+                                mensaje = response.get("message").toString();
+                                if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
-
                                 }
-                                Toast.makeText(objeto, "ERROR: " + Global.mensaje, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(objeto, "ERROR: " + mensaje, Toast.LENGTH_SHORT).show();
                                 finalizar.setEnabled(true);
                                 return;
                             } else {
@@ -268,8 +246,7 @@ public class ObservacionesFragment extends Fragment {
                                 nomFotos = nombre_foto1 + "/" + nombre_foto2;
                                 System.out.println("nombre de las fotos" + nomFotos);
                                 obser = new Observacion(observacion_text, Global.serial_ter, nomFotos);
-                                consumirServicioDiagnostico();
-
+                                consumirServicioObtenerHistorial();
                             }
 
                         } catch (JSONException e) {
@@ -319,42 +296,21 @@ public class ObservacionesFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-       /*if (foto == 1) {
-            if (data != null) {
-                if (data.getExtras() != null) {
-                    if (data.getExtras().get("data") != null) {
-                        bitmap_foto1 = (Bitmap) data.getExtras().get("data");
-                        Matrix matrix = new Matrix();
-                        matrix.postRotate(90);
-                        bitmap_foto1 = Bitmap.createBitmap(bitmap_foto1, 0, 0, bitmap_foto1.getWidth(), bitmap_foto1.getHeight(), matrix, true);//para girar la imagen
-                        imagen_observación.setImageBitmap(bitmap_foto1);
-                        Global.bitmap = bitmap_foto1;
-                    }
-                }
-            }
-
-        } else if (foto == 2) {
-            if (data != null) {
-                if (data.getExtras() != null) {
-                    if (data.getExtras().get("data") != null) {
-                        bitmap_foto2 = (Bitmap) data.getExtras().get("data");
-                        Matrix matrix = new Matrix();
-                        matrix.postRotate(90);
-                        bitmap_foto2 = Bitmap.createBitmap(bitmap_foto2, 0, 0, bitmap_foto2.getWidth(), bitmap_foto2.getHeight(), matrix, true);
-                        imagen_observación2.setImageBitmap(bitmap_foto2);
-
-                    }
-                }
-            }
-        }
-*/
-
+/*
+*  values = new ContentValues();
+                values.put(MediaStore.Images.Media.TITLE, "PolarisCoreLab");
+                values.put(MediaStore.Images.Media.DESCRIPTION, "Photo taken on " + System.currentTimeMillis());
+                imageUri = objeto.getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, PICTURE_RESULT);*/
         switch (requestCode) {
             case PICTURE_RESULT:
                 if (requestCode == PICTURE_RESULT)
                     if (resultCode == Activity.RESULT_OK) {
                         try {
-                            if(foto==1){
+                            if (foto == 1) {
                                 bitmap_foto1 = MediaStore.Images.Media.getBitmap(objeto.getContentResolver(), imageUri);
                                 Matrix matrix = new Matrix();
                                 matrix.postRotate(90);
@@ -364,9 +320,9 @@ public class ObservacionesFragment extends Fragment {
 
                                 //Obtiene la ruta donde se encuentra guardada la imagen.
                                 imageurl = getRealPathFromURI(imageUri);
-                            }else if(foto==2){
+                            } else if (foto == 2) {
                                 bitmap_foto2 = MediaStore.Images.Media.getBitmap(objeto.getContentResolver(), imageUri);
-                                Global.bitmap =bitmap_foto2;
+                                Global.bitmap = bitmap_foto2;
                                 Matrix matrix = new Matrix();
                                 matrix.postRotate(90);
                                 bitmap_foto2 = Bitmap.createBitmap(bitmap_foto2, 0, 0, bitmap_foto2.getWidth(), bitmap_foto2.getHeight(), matrix, true);
@@ -383,8 +339,9 @@ public class ObservacionesFragment extends Fragment {
         }
 
     }
+
     public String getRealPathFromURI(Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.DATA };
+        String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = objeto.managedQuery(contentUri, proj, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
@@ -407,20 +364,267 @@ public class ObservacionesFragment extends Fragment {
             Toast.makeText(objeto, "Por favor ingrese la observación", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        Global.loading = true;
+        dialogLoading();
         consumirServicioEnviarFotos();
 
     }
+
+    public void dialogLoading() {
+        DialogLoading dialog = new DialogLoading();
+        dialog.show(objeto.getSupportFragmentManager(), "");
+
+    }
+
+    /**
+     * Metodo utilizados para consumir el servicio  que permite obtener el historial de la terminal
+     * En el encabezado va el token-> Authenticator
+     **/
+    public void consumirServicioObtenerHistorial() {
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/getHistoryTerminal";
+        System.out.println("llegó a consumir servicio que obtiene el historial");
+        jsonArrayHistorial = new JSONArray();
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.d("RESPUESTA OB His", response.toString());
+                            if (!response.get("message").toString().equals("success")) {
+                                Global.loading = false;
+                                mensaje = response.get("message").toString();
+                                if (mensaje.equalsIgnoreCase("token no valido")) {
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "Error: " + mensaje, Toast.LENGTH_SHORT).show();
+                                return;
+                            } else {
+
+                                response = response.getJSONObject("data");
+                                // jsonObject=response.getJSONArray("tehi_historial");
+                                System.out.println("response-->" + response.toString());
+                                String tehi_historial = response.getString("tehi_historial");
+                                System.out.println("tehi_historial-->" + tehi_historial);
+                                if (!tehi_historial.equals("")) {
+                                    jsonArrayHistorial = new JSONArray(tehi_historial);
+                                    System.out.println("jsonArray--->" + jsonArrayHistorial.length());
+                                    if (jsonArrayHistorial != null && jsonArrayHistorial.length() > 0) {
+                                        evaluarJsonArray();
+                                    }
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()) {
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("authenticator", Global.TOKEN);
+                params.put("Id", Global.serial_ter);
+
+                return params;
+            }
+        };
+        queue.add(jsArrayRequest);
+    }
+
+
+    /**
+     * Este metodo se utiliza para revisar la respuesta obtenida luego de consumir el servicio en
+     * le que se obtiene el historial de gestionadas de la terminal
+     */
+    public void evaluarJsonArray() {
+        try {
+            if (jsonArrayHistorial.length() == 1) {
+                consumirServicioSumarGestion();
+
+            } else {
+                JSONObject jsonObject = jsonArrayHistorial.getJSONObject(jsonArrayHistorial.length() - 2);
+                String estado = jsonObject.get("term_state").toString();
+                String tecnico = jsonObject.get("term_location").toString();
+                if ((estado.equalsIgnoreCase("COTIZACIÓN")
+                        || estado.equalsIgnoreCase("GARANTÍA")
+                        || estado.equalsIgnoreCase("DIAGNÓSTICO"))
+                        && tecnico.equalsIgnoreCase(Global.CODE)) {
+                    consumirServicioActualizarGestionadas();
+                } else {
+                    consumirServicioSumarGestion();
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /**
+     * Metodo utilizados para consumir el servicio  que permite incrementar las terminales
+     * gwartionadas por el técnico
+     * En el encabezado va el token-> Authenticator
+     **/
+    public void consumirServicioSumarGestion() {
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/incrementarGestionadas";
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user", Global.CODE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.d("RESPUESTA SUMAR", response.toString());
+                            if (!response.get("status").toString().equals("ok")) {
+                                Global.loading = false;
+                                mensaje = response.get("message").toString();
+                                if (mensaje.equalsIgnoreCase("token no valido")) {
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "Error: " + mensaje, Toast.LENGTH_SHORT).show();
+                                return;
+                            } else {
+                                consumirServicioActualizarGestionadas();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()) {
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("authenticator", Global.TOKEN);
+
+                return params;
+            }
+        };
+        queue.add(jsArrayRequest);
+    }
+
+
+    /**
+     * Metodo utilizados para consumir el servicio  que permite actualizar las terminales gestionadas
+     * gwartionadas por el técnico
+     * En el encabezado va el token-> Authenticator
+     **/
+    public void consumirServicioActualizarGestionadas() {
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/updateHistoryTerminal";
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("terminal_history", this.JObjectActualizarHistorial());
+            jsonObject.put("tehi_serial", Global.serial_ter);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.PUT,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.d("RESPUESTA ACTUALIZAR", response.toString());
+                            if (!response.get("status").toString().equals("ok")) {
+                                Global.loading = false;
+                                mensaje = response.get("message").toString();
+                                if (mensaje.equalsIgnoreCase("token no valido")) {
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "Error: " + mensaje, Toast.LENGTH_SHORT).show();
+                                return;
+                            } else {
+                                System.out.println("consumirServicioActualizarGestionadas()-->ok");
+                                consumirServicioDiagnostico();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()) {
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("authenticator", Global.TOKEN);
+                params.put("iD", Global.serial_ter);
+
+                return params;
+            }
+        };
+        queue.add(jsArrayRequest);
+    }
+
+    public JSONObject JObjectActualizarHistorial() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            Date date = new Date();
+            jsonObject.put("term_location", Global.CODE);
+            jsonObject.put("term_state", "DIAGNÓSTICO");
+            jsonObject.put("date", date + "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
 
     /**
      * Metodo utilizados para consumir el servicio  que permite registrar un diagnostico con observaciones mediante una petición REST
      * En el encabezado va el token-> Authenticator
      **/
     public void consumirServicioDiagnostico() {
-
-
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals/savediagnosis";
-        System.out.println("TIPIFICACIONES ENVIADAS FINALIZAR DIAGNOSTICO: ");
 
         JSONObject jsonObject = new JSONObject();
         JSONObject obj2 = new JSONObject();
@@ -455,20 +659,18 @@ public class ObservacionesFragment extends Fragment {
                         try {
                             System.out.println("STATUS-->" + response.get("status").toString());
                             if (response.get("status").toString().equals("fail")) {
-                                Global.mensaje = response.get("message").toString();
-                                if (Global.mensaje.equalsIgnoreCase("token no valido")) {
+                                mensaje = response.get("message").toString();
+                                if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }
-
-                                AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("Información");
-                                alertDialog.setMessage("Error: " + response.get("message").toString());
-                                alertDialog.setCancelable(true);
-                                alertDialog.show();
+                                Toast.makeText(objeto, "Error: " + mensaje, Toast.LENGTH_SHORT).show();
+                                return;
 
                             } else {
+                                System.out.println("registrar diagnistico--->ok");
+                                Global.loading = false;
                                 eliminarPila();
                                 objeto.CustomAlertDialog(objeto, "Información", "Diagnóstico registrado exitosamente", 3000, false);
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
