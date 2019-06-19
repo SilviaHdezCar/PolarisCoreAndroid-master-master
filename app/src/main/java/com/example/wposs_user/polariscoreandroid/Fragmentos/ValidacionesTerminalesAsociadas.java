@@ -235,6 +235,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                 } else {
                     Validacion v = new Validacion(Global.serial_ter, val.getTeva_description(), val.getEstado());
                     Global.VALIDACIONES_DIAGNOSTICO.add(v);
+                    System.out.println("validación: "+v.getTeva_description()+" estado: "+v.getEstado());
                     retorno = true;
                 }
             }
@@ -305,7 +306,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
             fila.setId(i);
             fila.setBackgroundResource(R.drawable.borde_inferior_gris);
             fila.setGravity(Gravity.CENTER_VERTICAL);
-
+            Global.VALIDACIONES.get(i).setEstado("");
             //celdas
 
             TextView nombre = new TextView(objeto);

@@ -363,8 +363,7 @@ public class TipificacionesFragment extends Fragment {
                 fila.setId(i);
                 fila.setBackgroundResource(R.drawable.borde_inferior_gris);
                 fila.setGravity(Gravity.CENTER_VERTICAL);
-                System.out.println("tamaño fila " + i + ": " + fila.getWeightSum());
-                fila.setPadding(1, 10, 1, 10);
+                fila.setPadding(0, 0, 0, 0);
 
                 //celdas
                 TextView nombre = new TextView(objeto);
@@ -380,7 +379,7 @@ public class TipificacionesFragment extends Fragment {
                 btn_eliminar.setMaxHeight(0);
                 btn_eliminar.setMinimumHeight(0);
                 btn_eliminar.setPadding(0, 0, 0, 0);
-                btn_eliminar.setImageResource(R.drawable.ic_trash);
+                btn_eliminar.setImageResource(R.mipmap.ic_papelera_peq);
                // btn_eliminar.setColorFilter(Color.parseColor("#018793"));//para cambiar el color de la imagen
                 btn_eliminar.setBackgroundColor(Color.parseColor("#00EEF3F3"));
 

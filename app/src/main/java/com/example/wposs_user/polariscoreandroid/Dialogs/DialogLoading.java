@@ -29,7 +29,7 @@ public class DialogLoading extends DialogFragment {
 
         v = getActivity().getLayoutInflater().inflate(R.layout.dialog_loading, null);
 
-        setCancelable(true);
+        setCancelable(false);
 
         builder.setView(v);
         cerrar();

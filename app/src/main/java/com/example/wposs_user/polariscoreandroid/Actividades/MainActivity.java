@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Notificacion> notificaciones;
     private NotificacionTecnico ntecnico;
     private String mensaje;
-    private Thread t;
 
 
     private int contadorFragmentos;
@@ -114,7 +113,6 @@ public class MainActivity extends AppCompatActivity
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
         notificaciones = new ArrayList<>();
@@ -329,11 +327,12 @@ public class MainActivity extends AppCompatActivity
                                 }
                             }
                             eliminarValues(objeto);
-                             Intent i = new Intent(objeto, Activity_login.class);
+                            ntecnico.stop();
+                            Global.notificaciones = new ArrayList<>();
+                            Intent i = new Intent(objeto, Activity_login.class);
                             startActivity(i);
                             finish();
-                            ntecnico.stop();
-                            Global.notificaciones= new ArrayList<>();
+
                             return;
 
                         } catch (JSONException e) {
@@ -459,7 +458,7 @@ public class MainActivity extends AppCompatActivity
 
     public void consumirServicioNotificaciones() {
 
-        Global.notificaciones= new ArrayList<>();
+        Global.notificaciones = new ArrayList<>();
 
         final Gson gson = new GsonBuilder().create();
 
@@ -493,12 +492,12 @@ public class MainActivity extends AppCompatActivity
 
                             response = new JSONObject(response.toString());
 
-                            System.out.println("RESPUESTA DEL SERVICIO DE NOTIFIACIONES*  "+ response.toString());
+                            System.out.println("RESPUESTA DEL SERVICIO DE NOTIFIACIONES*  " + response.toString());
 
 
                             if (response.get("notificacion").equals("{}")) {
 
-                               verNotificaciones.setImageResource(R.mipmap.ic_campanano);
+                                verNotificaciones.setImageResource(R.mipmap.ic_campanano);
 
                                 return;
                             } else {
@@ -511,9 +510,7 @@ public class MainActivity extends AppCompatActivity
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     not = ((JSONArray) jsonArray).getString(i);
 
-                                   n = gson.fromJson(not, Notificacion.class);
-
-
+                                    n = gson.fromJson(not, Notificacion.class);
 
 
                                     if (n != null && !n.getNoti_msg().contains("albarán")) {
@@ -526,7 +523,7 @@ public class MainActivity extends AppCompatActivity
 
                                         System.out.println("VACIO**" + h);
 
-                                        if (h.contains("c")||h.contains("m")) {
+                                        if (h.contains("c") || h.contains("m")) {
 
                                             if (!contieNotificacion(n.getNoti_id())) {
 
@@ -560,12 +557,9 @@ public class MainActivity extends AppCompatActivity
                                                     String msjFin = formatoNot(text);
 
 
-
                                                     n.setNoti_titulo(titulo);
 
                                                     n.setNoti_msg(msjFin);
-
-
 
 
                                                 }
@@ -588,8 +582,6 @@ public class MainActivity extends AppCompatActivity
                                                     n.setNoti_titulo(titulo);
 
 
-
-
                                                     n.setNoti_msg(msjFinal);
 
 
@@ -606,17 +598,17 @@ public class MainActivity extends AppCompatActivity
                                 }
                             }
 
-                            if(Global.notificaciones.size() == 0){
+                            if (Global.notificaciones.size() == 0) {
                                 verNotificaciones.setImageResource(R.mipmap.ic_campanano);
 
                             }
 
-                            if(Global.notificaciones.size()>0) {
+                            if (Global.notificaciones.size() > 0) {
 
                                 verNotificaciones.setImageResource(R.mipmap.ic_campanasi);
                                 dialogo = new DialogNotificacion();
 
-                           }
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -649,9 +641,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     /***************SERVICIO PARA ELIMINAR UNA NOTIFICACION***************************/
-
 
 
     public void eliminarNotificacion(final String id) {
@@ -670,9 +660,9 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                                response = new JSONObject(response.toString());
+                            response = new JSONObject(response.toString());
 
-                            if(!response.get("message").equals("success")){
+                            if (!response.get("message").equals("success")) {
 
                                 Toast.makeText(objeto, "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
                             }
@@ -697,7 +687,7 @@ public class MainActivity extends AppCompatActivity
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Authenticator", Global.TOKEN);
-                params.put("id",id);
+                params.put("id", id);
 
                 return params;
             }
@@ -707,11 +697,11 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public boolean contieNotificacion(String id){
+    public boolean contieNotificacion(String id) {
 
-        for(Notificacion not :Global.notificaciones){
+        for (Notificacion not : Global.notificaciones) {
 
-            if(not.getNoti_id().equals(id)){
+            if (not.getNoti_id().equals(id)) {
                 return true;
             }
         }
@@ -719,44 +709,44 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public String eliminarCaracteres(String msj){
+    public String eliminarCaracteres(String msj) {
 
-        char [] caracteres= msj.toCharArray();
+        char[] caracteres = msj.toCharArray();
 
-        for(int i=0; i<caracteres.length;i++){
+        for (int i = 0; i < caracteres.length; i++) {
 
-            if(caracteres[i] == '['){
+            if (caracteres[i] == '[') {
 
-                caracteres[i]= ' ';
+                caracteres[i] = ' ';
             }
 
-            if(caracteres[i] == ']'){
+            if (caracteres[i] == ']') {
 
-                caracteres[i]= ' ';
+                caracteres[i] = ' ';
             }
 
-            if(caracteres[i] == '{'){
+            if (caracteres[i] == '{') {
 
-                caracteres[i]= ' ';
+                caracteres[i] = ' ';
             }
-            if(caracteres[i] == '}'){
+            if (caracteres[i] == '}') {
 
-                caracteres[i]= ' ';
-            }
-
-            if(caracteres[i] == '"'){
-
-                caracteres[i]= ' ';
+                caracteres[i] = ' ';
             }
 
+            if (caracteres[i] == '"') {
 
-         }
+                caracteres[i] = ' ';
+            }
 
-       String x= "";
+
+        }
+
+        String x = "";
 
 
-        for(Character c:caracteres){
-            x+=c;
+        for (Character c : caracteres) {
+            x += c;
 
         }
 
@@ -766,23 +756,22 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public ArrayList<String> listarNotterminales(String ms){
-      ArrayList <String> ter= new ArrayList<>();
-     String [] body=ms.split("  ");
+    public ArrayList<String> listarNotterminales(String ms) {
+        ArrayList<String> ter = new ArrayList<>();
+        String[] body = ms.split("  ");
 
-     if(body.length==2){
-         ter.add(ms);
+        if (body.length == 2) {
+            ter.add(ms);
 
-     }
+        }
 
 
+        if (body.length > 2) {
+            String tit = body[0] + "\n";
 
-        if(body.length>2){
-            String tit= body[0]+"\n";
+            for (int i = 2; i < body.length; i = i + 2) {
 
-            for(int i=2;i<body.length;i=i+2){
-
-                String x= "\n"+body[i]+"\n";
+                String x = "\n" + body[i] + "\n";
                 ter.add(x);
 
             }
@@ -790,37 +779,37 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        return  ter;
+        return ter;
 
 
     }
 
-    public String formatoNotificaciones(String mens){
+    public String formatoNotificaciones(String mens) {
 
-        char[] texto= mens.toCharArray();
+        char[] texto = mens.toCharArray();
 
-        for(int i=0;i<texto.length;i++){
+        for (int i = 0; i < texto.length; i++) {
 
-            if(texto[i] == '['){
+            if (texto[i] == '[') {
 
-                texto[i]= ' ';
+                texto[i] = ' ';
             }
-            if(texto[i] == ']'){
+            if (texto[i] == ']') {
 
-                texto[i]= ' ';
+                texto[i] = ' ';
             }
-            if(texto[i] == ','){
+            if (texto[i] == ',') {
 
-                texto[i]= ' ';
+                texto[i] = ' ';
             }
         }
 
 
-        String x= "";
+        String x = "";
 
 
-        for(Character c:texto){
-            x+=c;
+        for (Character c : texto) {
+            x += c;
 
         }
 
@@ -829,38 +818,38 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public String formatoNot(String txt){
+    public String formatoNot(String txt) {
 
-        System.out.println("ERROR ENCONTRADO EN NOTIFIACIONES***"+ txt);
+        System.out.println("ERROR ENCONTRADO EN NOTIFIACIONES***" + txt);
 
-        String rta="";
+        String rta = "";
 
-        String [] tlista= txt.split("  ");
+        String[] tlista = txt.split("  ");
 
 
-        for(int i=0;i<tlista.length;i=i+3){
+        for (int i = 0; i < tlista.length; i = i + 3) {
 
-           String []marca= tlista[i].split(":");
-           String[]modelo=tlista[i+1].split(":");
-           String[]serial=tlista[i+2].split(":");
+            String[] marca = tlista[i].split(":");
+            String[] modelo = tlista[i + 1].split(":");
+            String[] serial = tlista[i + 2].split(":");
 
-           if(marca[0].trim().equals("marca")){
-               marca[0]="Marca";
-           }
-
-            if(modelo[0].trim().equals("modelo")){
-                modelo[0]="Modelo";
+            if (marca[0].trim().equals("marca")) {
+                marca[0] = "Marca";
             }
 
-            if(serial[0].trim().equals("serial")){
-                serial[0]="Serial";
+            if (modelo[0].trim().equals("modelo")) {
+                modelo[0] = "Modelo";
             }
 
-           tlista[i]=marca[0]+":"+marca[1];
-            tlista[i+1]=modelo[0]+":"+modelo[1];
-            tlista[i+2]=serial[0]+":"+serial[1];
+            if (serial[0].trim().equals("serial")) {
+                serial[0] = "Serial";
+            }
 
-            rta+=tlista[i]+"\n"+tlista[i+1]+"\n"+tlista[2]+"\n";
+            tlista[i] = marca[0] + ":" + marca[1];
+            tlista[i + 1] = modelo[0] + ":" + modelo[1];
+            tlista[i + 2] = serial[0] + ":" + serial[1];
+
+            rta += tlista[i] + "\n" + tlista[i + 1] + "\n" + tlista[2] + "\n";
 
 
         }
@@ -870,39 +859,39 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public String formatoRep(String txt){
+    public String formatoRep(String txt) {
 
-        System.out.println("ME ESTA LLEGANDO REPUESTO**"+txt);
+        System.out.println("ME ESTA LLEGANDO REPUESTO**" + txt);
 
-        String rta="";
+        String rta = "";
 
-        String [] tlista= txt.split(",");
+        String[] tlista = txt.split(",");
 
 
-        for(int i=0;i<tlista.length;i=i+3){
+        for (int i = 0; i < tlista.length; i = i + 3) {
 
-            String []codigo= tlista[i].split(":");
-            String[]nombre=tlista[i+1].split(":");
-            String[]cantidad=tlista[i+2].split(":");
+            String[] codigo = tlista[i].split(":");
+            String[] nombre = tlista[i + 1].split(":");
+            String[] cantidad = tlista[i + 2].split(":");
 
-            if(codigo[0].trim().equals("codigo")){
-                codigo[0]="Código";
+            if (codigo[0].trim().equals("codigo")) {
+                codigo[0] = "Código";
             }
 
-            if(nombre[0].trim().equals("nombre")){
-                nombre[0]="Nombre";
+            if (nombre[0].trim().equals("nombre")) {
+                nombre[0] = "Nombre";
             }
 
-            if(cantidad[0].trim().equals("cantidad")){
-                cantidad[0]="Cantidad";
+            if (cantidad[0].trim().equals("cantidad")) {
+                cantidad[0] = "Cantidad";
             }
 
 
-                tlista[i] = codigo[0] + ":" + codigo[1];
-                tlista[i + 1] = nombre[0] + ":" + nombre[1];
-                tlista[i + 2] = cantidad[0] + ":" + cantidad[1];
+            tlista[i] = codigo[0] + ":" + codigo[1];
+            tlista[i + 1] = nombre[0] + ":" + nombre[1];
+            tlista[i + 2] = cantidad[0] + ":" + cantidad[1];
 
-                rta += tlista[i] + "\n" + tlista[i + 1] + "\n" + tlista[2] + "\n" + "\n";
+            rta += tlista[i] + "\n" + tlista[i + 1] + "\n" + tlista[2] + "\n" + "\n";
 
 
         }
@@ -910,7 +899,6 @@ public class MainActivity extends AppCompatActivity
         return rta;
 
     }
-
 
 
 }

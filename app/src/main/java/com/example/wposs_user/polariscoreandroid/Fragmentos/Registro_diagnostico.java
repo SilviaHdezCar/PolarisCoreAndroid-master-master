@@ -88,7 +88,7 @@ public class Registro_diagnostico extends Fragment {
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_registro_diagnostico, container, false);
-        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+       // objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("REGISTRAR DIAGNÓSTICO");
         Global.REPUESTOS = new ArrayList<>();
         Global.REPUESTOS_DIAGONOSTICO = new ArrayList<Repuesto>();
@@ -871,6 +871,12 @@ public class Registro_diagnostico extends Fragment {
 
         try {
             jsonObject.put("user",Global.CODE);
+            if(tipo.equalsIgnoreCase("asociada")){
+                jsonObject.put("tipo", "DIAGNÓSTICO");
+            }else{
+                jsonObject.put("tipo", "REPARACIÓN");
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

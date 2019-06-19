@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,12 +90,13 @@ public class ObservacionesFragment extends Fragment {
     private boolean actualizar;
     private JSONArray jsonArrayHistorial;
 
+    private DialogLoading dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_observaciones, container, false);
-      //  objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //  objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("OBSERVACIÓN");
 
         permisos();
@@ -186,11 +188,6 @@ public class ObservacionesFragment extends Fragment {
         return false;
     }
 
-
-    public void cargarPanel() {
-        DialogMostarFoto dialog = new DialogMostarFoto();
-        dialog.show(objeto.getSupportFragmentManager(), "");
-    }
 
     /**
      * Este método se utiliza para cargar subir las fotos y activa el boton para finalizar el diagnostico
@@ -371,10 +368,11 @@ public class ObservacionesFragment extends Fragment {
     }
 
     public void dialogLoading() {
-        DialogLoading dialog = new DialogLoading();
+        dialog = new DialogLoading();
         dialog.show(objeto.getSupportFragmentManager(), "");
-
     }
+
+
 
     /**
      * Metodo utilizados para consumir el servicio  que permite obtener el historial de la terminal
@@ -488,6 +486,7 @@ public class ObservacionesFragment extends Fragment {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("user", Global.CODE);
+            jsonObject.put("tipo", "DIAGNÓSTICO");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -670,7 +669,7 @@ public class ObservacionesFragment extends Fragment {
 
                             } else {
                                 System.out.println("registrar diagnistico--->ok");
-                                Global.loading = false;
+                               dialog.dismiss();
                                 eliminarPila();
                                 objeto.CustomAlertDialog(objeto, "Información", "Diagnóstico registrado exitosamente", 3000, false);
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
