@@ -209,7 +209,7 @@ public class ProductividadSemana extends Fragment {
         int anioSele=Integer.parseInt(anioSel.trim());
 
 
-      if(!validarFechaActual(diaFin,mesSelec)){
+      /*if(!validarFechaActual(diaFin,mesSelec)){
 
             Toast.makeText(v.getContext(), "La fecha selecionada debe ser anterior a la actual", Toast.LENGTH_SHORT).show();
             graficaSeman.clear();
@@ -219,7 +219,7 @@ public class ProductividadSemana extends Fragment {
             meses.setSelection(0);
             anios.setSelection(0);
             return;
-        }
+        }*/
 
 
 
@@ -288,8 +288,18 @@ public class ProductividadSemana extends Fragment {
                                 pro = gson.fromJson(res, Productividad.class);
 
                                 if (pro != null) {
+
+                                    if (pro.getUste_diagnosed_terminals()== null || pro.getUste_diagnosed_terminals().equals("NaN")) {
+                                       pro.setUste_diagnosed_terminals("0");
+                                    }
+
+                                    if (pro.getUste_repaired_terminals() == null || pro.getUste_repaired_terminals().equalsIgnoreCase("NaN")) {
+                                        pro.setUste_repaired_terminals("0");
+                                    }
+
+                                    productividad.add(pro);
                                 }
-                                productividad.add(pro);
+
                             }
 
                             this.pintarGrafica();
@@ -307,15 +317,15 @@ public class ProductividadSemana extends Fragment {
 
                        int cantDias= getDiasMes(mesSelec);
 
-                        ArrayList<BarEntry> asignadas= new ArrayList<>();
+                        ArrayList<BarEntry> reparadas= new ArrayList<>();
                         ArrayList<BarEntry> diagnosticadas = new ArrayList<>();
 
                         if(semanaSel.equals("Semana 5") && cantDias==31){
 
 
                             Productividad p= productividad.get(0);
-                            asignadas.add(new BarEntry(1,Integer.parseInt(p.getUste_associated_terminals())));
-                            asignadas.add(new BarEntry(1,Integer.parseInt(p.getUste_completed_terminals())));
+                            diagnosticadas.add(new BarEntry(1,Integer.parseInt(p.getUste_diagnosed_terminals())));
+                            reparadas.add(new BarEntry(1,Integer.parseInt(p.getUste_repaired_terminals())));
                             fechas[0]= p.getUste_date();
 
                             String [] fechaObtenida= fechas[0].split("/");
@@ -328,7 +338,7 @@ public class ProductividadSemana extends Fragment {
                                 if(productividad.size()<i){
 
                                     fechaT= (diaO+i)+"/"+fechaObtenida[1]+"/"+fechaObtenida[2];
-                                    Productividad r = new Productividad("",fechaT,"0","0");
+                                    Productividad r = new Productividad("",fechaT,"0","0","0","0");
                                     productividad.add(r);
                                 }
 
@@ -336,18 +346,18 @@ public class ProductividadSemana extends Fragment {
 
 
                              Productividad r= productividad.get(1);
-                            asignadas.add(new BarEntry(2,Integer.parseInt(r.getUste_associated_terminals())));
-                            asignadas.add(new BarEntry(2,Integer.parseInt(r.getUste_completed_terminals())));
+                            diagnosticadas.add(new BarEntry(2,Integer.parseInt(r.getUste_diagnosed_terminals())));
+                            reparadas.add(new BarEntry(2,Integer.parseInt(r.getUste_repaired_terminals())));
                             fechas[1]= r.getUste_date();
 
 
                             Productividad pr= productividad.get(2);
-                            asignadas.add(new BarEntry(3,Integer.parseInt(pr.getUste_associated_terminals())));
-                            asignadas.add(new BarEntry(3,Integer.parseInt(pr.getUste_completed_terminals())));
+                            diagnosticadas.add(new BarEntry(3,Integer.parseInt(pr.getUste_diagnosed_terminals())));
+                            reparadas.add(new BarEntry(3,Integer.parseInt(pr.getUste_repaired_terminals())));
                             fechas[2]= pr.getUste_date();
 
 
-                            BarDataSet datos2= new BarDataSet(asignadas, "Asignadas");
+                            BarDataSet datos2= new BarDataSet(reparadas, "Reparadas");
                             BarDataSet datos3= new BarDataSet(diagnosticadas, "Diagnosticadas");
 
                             datos2.setColor(Color.parseColor("#038793"));
@@ -416,8 +426,8 @@ public class ProductividadSemana extends Fragment {
 
 
                             Productividad p= productividad.get(0);
-                            asignadas.add(new BarEntry(1,Integer.parseInt(p.getUste_associated_terminals())));
-                            asignadas.add(new BarEntry(1,Integer.parseInt(p.getUste_completed_terminals())));
+                           diagnosticadas.add(new BarEntry(1,Integer.parseInt(p.getUste_associated_terminals())));
+                            reparadas.add(new BarEntry(1,Integer.parseInt(p.getUste_repaired_terminals())));
                             fechas[0]= p.getUste_date();
 
 
@@ -431,7 +441,7 @@ public class ProductividadSemana extends Fragment {
                                 if(productividad.size()<i){
 
                                     fechaT= (diaO+i)+"/"+fechaObtenida[1]+"/"+fechaObtenida[2];
-                                    Productividad r = new Productividad("",fechaT,"0","0");
+                                    Productividad r = new Productividad("",fechaT,"0","0","0","0");
                                     productividad.add(r);
                                 }
 
@@ -439,12 +449,12 @@ public class ProductividadSemana extends Fragment {
                             Productividad r= productividad.get(1);
 
 
-                            asignadas.add(new BarEntry(2,Integer.parseInt(r.getUste_associated_terminals())));
-                            asignadas.add(new BarEntry(2,Integer.parseInt(r.getUste_completed_terminals())));
+                            reparadas.add(new BarEntry(2,Integer.parseInt(r.getUste_repaired_terminals())));
+                            diagnosticadas.add(new BarEntry(2,Integer.parseInt(r.getUste_diagnosed_terminals())));
                             fechas[1]= r.getUste_date();
 
 
-                            BarDataSet datos2= new BarDataSet(asignadas, "Asignadas");
+                            BarDataSet datos2= new BarDataSet(reparadas, "Reparadas");
                             BarDataSet datos3= new BarDataSet(diagnosticadas, "Diagnosticadas");
 
                             datos2.setColor(Color.parseColor("#038793"));
@@ -508,8 +518,8 @@ public class ProductividadSemana extends Fragment {
 
 
                        Productividad p = productividad.get(0);
-                       asignadas.add(new BarEntry(1, Integer.parseInt(p.getUste_associated_terminals())));
-                       asignadas.add(new BarEntry(1, Integer.parseInt(p.getUste_completed_terminals())));
+                       reparadas.add(new BarEntry(1, Integer.parseInt(p.getUste_repaired_terminals())));
+                       diagnosticadas.add(new BarEntry(1, Integer.parseInt(p.getUste_diagnosed_terminals())));
                         fechas[0]= p.getUste_date();
 
 
@@ -523,7 +533,7 @@ public class ProductividadSemana extends Fragment {
                             if(productividad.size()<i){
 
                                 fechaT= (diaO+i)+"/"+fechaObtenida[1]+"/"+fechaObtenida[2];
-                                Productividad r = new Productividad("",fechaT,"0","0");
+                                Productividad r = new Productividad("",fechaT,"0","0","0","0");
                                 productividad.add(r);
                             }
 
@@ -531,38 +541,38 @@ public class ProductividadSemana extends Fragment {
 
 
                         Productividad r= productividad.get(1);
-                        asignadas.add(new BarEntry(2,Integer.parseInt(r.getUste_associated_terminals())));
-                        asignadas.add(new BarEntry(2,Integer.parseInt(r.getUste_completed_terminals())));
+                        reparadas.add(new BarEntry(2,Integer.parseInt(r.getUste_repaired_terminals())));
+                        diagnosticadas.add(new BarEntry(2,Integer.parseInt(r.getUste_diagnosed_terminals())));
                         fechas[1]= r.getUste_date();
 
 
                         Productividad pr= productividad.get(2);
-                        asignadas.add(new BarEntry(3,Integer.parseInt(pr.getUste_associated_terminals())));
-                        asignadas.add(new BarEntry(3,Integer.parseInt(pr.getUste_completed_terminals())));
+                        reparadas.add(new BarEntry(3,Integer.parseInt(pr.getUste_repaired_terminals())));
+                        diagnosticadas.add(new BarEntry(3,Integer.parseInt(pr.getUste_diagnosed_terminals())));
                         fechas[2]= pr.getUste_date();
 
                         Productividad q= productividad.get(3);
-                        asignadas.add(new BarEntry(4,Integer.parseInt(q.getUste_associated_terminals())));
-                        asignadas.add(new BarEntry(4,Integer.parseInt(q.getUste_completed_terminals())));
+                        reparadas.add(new BarEntry(4,Integer.parseInt(q.getUste_repaired_terminals())));
+                        diagnosticadas.add(new BarEntry(4,Integer.parseInt(q.getUste_diagnosed_terminals())));
                         fechas[3]= q.getUste_date();
 
                         Productividad qr= productividad.get(4);
-                        asignadas.add(new BarEntry(5,Integer.parseInt(qr.getUste_associated_terminals())));
-                        asignadas.add(new BarEntry(5,Integer.parseInt(qr.getUste_completed_terminals())));
+                        reparadas.add(new BarEntry(5,Integer.parseInt(qr.getUste_repaired_terminals())));
+                        diagnosticadas.add(new BarEntry(5,Integer.parseInt(qr.getUste_diagnosed_terminals())));
                         fechas[4]= qr.getUste_date();
 
                         Productividad ss= productividad.get(5);
-                        asignadas.add(new BarEntry(6,Integer.parseInt(ss.getUste_associated_terminals())));
-                        asignadas.add(new BarEntry(6,Integer.parseInt(ss.getUste_completed_terminals())));
+                        reparadas.add(new BarEntry(6,Integer.parseInt(ss.getUste_repaired_terminals())));
+                        diagnosticadas.add(new BarEntry(6,Integer.parseInt(ss.getUste_diagnosed_terminals())));
                         fechas[5]= ss.getUste_date();
 
                         Productividad tr= productividad.get(6);
-                        asignadas.add(new BarEntry(7,Integer.parseInt(tr.getUste_associated_terminals())));
-                        asignadas.add(new BarEntry(7,Integer.parseInt(tr.getUste_completed_terminals())));
+                        reparadas.add(new BarEntry(7,Integer.parseInt(tr.getUste_repaired_terminals())));
+                        diagnosticadas.add(new BarEntry(7,Integer.parseInt(tr.getUste_diagnosed_terminals())));
                         fechas[6]= tr.getUste_date();
 
 
-                        BarDataSet datos2= new BarDataSet(asignadas, "Asignadas");
+                        BarDataSet datos2= new BarDataSet(reparadas, "Reparadas");
                         BarDataSet datos3= new BarDataSet(diagnosticadas, "Diagnosticadas");
 
                         datos2.setColor(Color.parseColor("#038793"));
@@ -759,6 +769,21 @@ public class ProductividadSemana extends Fragment {
 
     }
 
+
+    public int totalProdu(){
+
+        int i=0;
+
+        for(Productividad p: productividad){
+
+            i+=Integer.parseInt( p.getUste_diagnosed_terminals());
+            i+=Integer.parseInt(p.getUste_repaired_terminals());
+
+        }
+
+        return i;
+
+    }
 
 
 

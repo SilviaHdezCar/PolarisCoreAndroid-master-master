@@ -401,44 +401,79 @@ public class Productividad_dia extends Fragment {
 
                         ArrayList<BarEntry> diagnosticadas = new ArrayList<>();
                         ArrayList<BarEntry> reparadas = new ArrayList<>();
+                        ArrayList<BarEntry> asignadas = new ArrayList<>();
 
                         if (pr.getUste_associated_terminals() == null || pr.getUste_associated_terminals().equalsIgnoreCase("NaN")) {
-                            reparadas.add(new BarEntry(dia_inicio, 0));
-                        }
-                        if (pr.getUste_completed_terminals() == null || pr.getUste_completed_terminals().equalsIgnoreCase("NaN")) {
-                            diagnosticadas.add(new BarEntry(dia_inicio, 0));
-                        } else {
-                            diagnosticadas.add(new BarEntry(dia_inicio, Float.parseFloat(pr.getUste_associated_terminals())));
-
-
-                            reparadas.add(new BarEntry(dia_inicio, Float.parseFloat(pr.getUste_completed_terminals())));
-
+                            asignadas.add(new BarEntry(2, 0));
                         }
 
-                        BarDataSet datos = new BarDataSet(diagnosticadas, "Asignadas");
-                        BarDataSet valores = new BarDataSet(reparadas, "Diagnosticadas");
+                        if (pr.getUste_diagnosed_terminals()== null || pr.getUste_diagnosed_terminals().equals("NaN")) {
+                           diagnosticadas.add(new BarEntry(2, 0));
+                        }
+
+                        if (pr.getUste_repaired_terminals() == null || pr.getUste_repaired_terminals().equalsIgnoreCase("NaN")) {
+                            reparadas.add(new BarEntry(2, 0));
+                        }
+
+
+                        if (pr.getUste_associated_terminals() != null ) {
+
+                            if(!pr.getUste_associated_terminals().equalsIgnoreCase("NaN")){
+
+                                asignadas.add(new BarEntry(2,Float.parseFloat(pr.getUste_associated_terminals())));
+
+                            }
+
+                        }
+
+                        if (pr.getUste_diagnosed_terminals()!= null ) {
+
+                            if(!pr.getUste_diagnosed_terminals().equals("NaN")){
+
+                                diagnosticadas.add(new BarEntry(2, Float.parseFloat(pr.getUste_diagnosed_terminals())));
+
+
+                            }
+
+
+                        }
+
+                        if (pr.getUste_repaired_terminals() != null ) {
+                            if( !pr.getUste_repaired_terminals().equalsIgnoreCase("NaN")){
+
+                                reparadas.add(new BarEntry(2, Float.parseFloat(pr.getUste_repaired_terminals())));
+                            }
+
+                        }
+
+                        BarDataSet tAsignadas = new BarDataSet(asignadas, "Asignadas");
+                        BarDataSet tDiagnosticadas = new BarDataSet(diagnosticadas, "Diagnosticadas");
+                        BarDataSet tReparadas= new BarDataSet(reparadas,"Reparadas");
                         String y= "        "+fecha_inicial;
                         String[] fecha = new String[] {y};
-                        datos.setColor(Color.parseColor("#038793"));
-                        valores.setColor(Color.parseColor("#BDBDBD"));
 
-                        datos.setDrawValues(true);
-                        valores.setDrawValues(true);
-                        datos.setValueFormatter(new MyValueFormatter());
-                        valores.setValueFormatter(new MyValueFormatter());
+                        tAsignadas.setColor(Color.parseColor("#038793"));
+                        tDiagnosticadas.setColor(Color.parseColor("#BDBDBD"));
+                        tReparadas.setColor(Color.parseColor("#45A5F3"));
+
+
+                        tAsignadas.setDrawValues(true);
+                        tReparadas.setDrawValues(true);
+                        tDiagnosticadas.setDrawValues(true);
+
+                        tAsignadas.setValueFormatter(new MyValueFormatter());
+                        tReparadas.setValueFormatter(new MyValueFormatter());
+                        tDiagnosticadas.setValueFormatter(new MyValueFormatter());
                         grafica.setFitBars(true);
 
 
 
-                        BarData datosGrafica = new BarData(datos, valores);
+                        BarData datosGrafica = new BarData(tAsignadas, tDiagnosticadas,tReparadas);
                         datosGrafica.setValueTextSize(10);
                         grafica.setData(datosGrafica);
                         // String []meses= new String[]{"enero", "febrero", "marzo", "abril", "mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"};
                         XAxis x = grafica.getXAxis();
                         //  x.setValueFormatter(new IndexAxisValueFormatter(meses));
-
-
-
 
                         x.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
                         YAxis yAxis = grafica.getAxis(YAxis.AxisDependency.LEFT);

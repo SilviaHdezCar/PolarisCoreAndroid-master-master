@@ -11,15 +11,34 @@ public class Productividad implements Comparable<Productividad>{
     String uste_date;
     String uste_associated_terminals;
     String uste_completed_terminals;
+    String uste_diagnosed_terminals;
+    String uste_repaired_terminals;
 
 
-    public Productividad(String uste_user, String uste_date, String uste_associated_terminals, String uste_completed_terminals) {
+    public Productividad(String uste_user, String uste_date, String uste_associated_terminals, String uste_completed_terminals, String uste_diagnosed_terminals, String uste_repaired_terminals) {
         this.uste_user = uste_user;
         this.uste_date = uste_date;
         this.uste_associated_terminals = uste_associated_terminals;
         this.uste_completed_terminals = uste_completed_terminals;
+        this.uste_diagnosed_terminals = uste_diagnosed_terminals;
+        this.uste_repaired_terminals = uste_repaired_terminals;
     }
 
+    public String getUste_diagnosed_terminals() {
+        return uste_diagnosed_terminals;
+    }
+
+    public void setUste_diagnosed_terminals(String uste_diagnosed_terminals) {
+        this.uste_diagnosed_terminals = uste_diagnosed_terminals;
+    }
+
+    public String getUste_repaired_terminals() {
+        return uste_repaired_terminals;
+    }
+
+    public void setUste_repaired_terminals(String uste_repaired_terminals) {
+        this.uste_repaired_terminals = uste_repaired_terminals;
+    }
 
     public String getUste_user() {
         return uste_user;
