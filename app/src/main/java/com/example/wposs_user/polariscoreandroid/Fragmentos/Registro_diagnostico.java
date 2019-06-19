@@ -322,7 +322,7 @@ public class Registro_diagnostico extends Fragment {
             Observacion obser = new Observacion("", descripicionObserv, "", "", " ", Global.serial_ter);
             Global.obs = obser;
 
-            this.obtenerHistorialTerminal();
+            this.obtenerHistorialTerminal("asociada");
             return;
 
         }
@@ -333,11 +333,11 @@ public class Registro_diagnostico extends Fragment {
 
         if (Global.diagnosticoTerminal.equalsIgnoreCase("autorizada")) {//consume el servicio: FINALIZAR REGISTRO DE REPARACIÓN POR NUEVO DIAGNÓSTICO:
 
-            consumirServicioDiagnosticoAutorizada();
+           obtenerHistorialTerminal("autorizada");
 
 
         } else {
-            obtenerHistorialTerminal();;//Consume el servicio cuando la terminal es asociada
+            obtenerHistorialTerminal("asociada");;//Consume el servicio cuando la terminal es asociada
         }
 
 
@@ -541,7 +541,7 @@ public class Registro_diagnostico extends Fragment {
     /**
      * servicio para actualizar el historial de una terminal
      **/
-    public void servicioActualizarTerminal() {
+    public void servicioActualizarTerminal(final String est, final String tipo) {
 
 
         String estado="";
@@ -618,7 +618,37 @@ public class Registro_diagnostico extends Fragment {
 
                             } else {
 
-                             consumirServicioGestionarTerminal();
+                                if(est.equals("no")&&tipo.equals("asociada")){
+
+                                    consumirServicioDiagnostico();
+                                    return;
+
+                                }
+
+
+                                if(est.equals("si")&&tipo.equals("asociada")){
+
+                                    consumirServicioGestionarTerminal("asociada");
+                                    return;
+
+                                }
+
+                                if(est.equals("no")&&tipo.equals("autorizada")){
+
+                                    consumirServicioDiagnosticoAutorizada();
+                                    return;
+
+                                }
+
+
+                                if(est.equals("si")&&tipo.equals("autorizada")){
+
+                                    consumirServicioGestionarTerminal("autorizada");
+                                    return;
+
+                                }
+
+
                             }
 
                         } catch (JSONException e) {
@@ -660,7 +690,7 @@ public class Registro_diagnostico extends Fragment {
     /**
      * servicio para obtener el historial de una terminal
      **/
-    public void obtenerHistorialTerminal() {
+    public void obtenerHistorialTerminal(final String tipoDiag) {
 
 
         thistory= new ArrayList<>();
@@ -713,8 +743,19 @@ public class Registro_diagnostico extends Fragment {
 
                                 if (jsonArray.length() == 1) {
 
-                                    servicioActualizarTerminal();
-                                    return;
+
+
+
+                                    if(tipoDiag.equals("asociada")){
+                                        servicioActualizarTerminal("si","asociada");
+                                        return;
+                                    }
+
+
+                                    if(tipoDiag.equals("autorizada")){
+                                        servicioActualizarTerminal("si","autorizada");
+                                        return;
+                                    }
 
                                }
 
@@ -731,10 +772,7 @@ public class Registro_diagnostico extends Fragment {
 
                                     thistory.add(t);
 
-
-
-                                }
-
+                               }
 
                                 TerminalHistory term= thistory.get(thistory.size()-2);
 
@@ -743,14 +781,26 @@ public class Registro_diagnostico extends Fragment {
 
                                 if(codTec.equals(Global.CODE)){
 
-                                    if(statusF.equals("REPARACIÓN")|| statusF.equals("COTIZACIÓN")||statusF.equals("GARANTÍA")){
-                                         servicioActualizarTerminal();
-                                        return;
+                                    if(tipoDiag.equals("asociada")) {
+
+                                        if (statusF.equals("DIAGNÓSTICO") || statusF.equals("COTIZACIÓN") || statusF.equals("GARANTÍA")) {
+                                            servicioActualizarTerminal("no","asociada");
+                                            return;
+                                        }
+                                    }
+
+                                    if(tipoDiag.equals("autorizada")) {
+
+                                        if (statusF.equals("REPARACIÓN")) {
+                                            servicioActualizarTerminal("no","autorizada");
+                                            return;
+                                        }
                                     }
 
                                 }
 
-                                servicioActualizarTerminal();
+
+                                servicioActualizarTerminal("si",tipoDiag);
 
 
 
@@ -794,7 +844,7 @@ public class Registro_diagnostico extends Fragment {
     /**
      * servicio para actualizar el historial de una terminal
      **/
-    public void consumirServicioGestionarTerminal() {
+    public void consumirServicioGestionarTerminal(final String tipo) {
 
 
         final Gson gson = new GsonBuilder().create();
@@ -836,7 +886,14 @@ public class Registro_diagnostico extends Fragment {
                             } else {
 
 
-                                consumirServicioDiagnostico();
+                                if(tipo.equals("asociada")) {
+                                    consumirServicioDiagnostico();
+                                }
+
+                                if(tipo.equals("autorizada")) {
+                                    consumirServicioDiagnosticoAutorizada();
+                                }
+
 
                             }
 
