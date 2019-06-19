@@ -375,12 +375,12 @@ public class TipificacionesFragment extends Fragment {
 
                 ImageButton btn_eliminar = new ImageButton(objeto);
                 btn_eliminar.setId(200 + i);
-                btn_eliminar.setMaxWidth(10);
+                btn_eliminar.setMaxWidth(0);
                 btn_eliminar.setMinimumWidth(0);
                 btn_eliminar.setMaxHeight(0);
                 btn_eliminar.setMinimumHeight(0);
                 btn_eliminar.setPadding(0, 0, 0, 0);
-                btn_eliminar.setImageResource(R.drawable.ic_papelera);
+                btn_eliminar.setImageResource(R.drawable.ic_trash);
                // btn_eliminar.setColorFilter(Color.parseColor("#018793"));//para cambiar el color de la imagen
                 btn_eliminar.setBackgroundColor(Color.parseColor("#00EEF3F3"));
 

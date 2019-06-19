@@ -331,7 +331,7 @@
                                         android:digits="0123456789abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ óáéíúÓÁÉÍÚ.,:;"
                                         android:gravity="top|left"
                                         android:hint="Ingresar observación"
-                                        android:inputType="text"
+                                        android:inputType="text|textCapCharacters"
                                         android:maxLength="300"
                                         android:maxLines="4"
                                         android:overScrollMode="always"
