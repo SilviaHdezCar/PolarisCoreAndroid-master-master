@@ -44,6 +44,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -80,7 +82,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         View v = inflater.inflate(R.layout.fragment_validaciones_terminales_asociadas, container, false);
         objeto.setTitulo("VALIDACIONES TERMINAL");
 
-        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         marca_ter_validaciones = (TextView) v.findViewById(R.id.marca_ter_validaciones);
         modelo_ter_validaciones = (TextView) v.findViewById(R.id.modelo_ter_validaciones);
         serial_ter_validaciones = (TextView) v.findViewById(R.id.serial_ter_validaciones);
@@ -97,11 +99,6 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
 
         tabla = (TableLayout) v.findViewById(R.id.tabla_validaciones_autorizadas);
         btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_seleccionar_validaciones_autorizadas);
-
-
-        //voy a recorrer el arreglo de terminales para que me liste la informacion de la terminal selecciona
-       /* Global.VALIDACIONES = null;
-        Global.VALIDACIONES = new ArrayList<Validacion>();*/
 
         String fechaRecepción = "";
         String fechaANS = "";
@@ -172,43 +169,47 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
 
     /**
      * Este metodo devuelve el estado dela garantía de la terminal
+     *
      * @param garantia
      * @return Con garantía: Sí la garantía está vigente, No establecida: si la fecha de garantía no se estableció, Sin garantía: si ya no tiene garantía
      */
     public String estadoGarantía(String garantia) {
-       String retorno="";
-        int comparacionFechas=compararFechas(garantia);
-        if(comparacionFechas>=0){
-            retorno="Con garantía";
-        }else if(comparacionFechas==-3){
-            retorno="No establecida";
-        }else{
-            retorno="Sin garantía";
+        String retorno = "";
+        int comparacionFechas = tiempoGarantiaTerminal(garantia);
+        System.out.println("comparacion-->" + comparacionFechas);
+        if (comparacionFechas > 0) {
+            retorno = "Con garantía";
+        } else if (comparacionFechas == 0) {
+            retorno = "No establecida";
+        } else {
+            retorno = "Sin garantía";
         }
 
         return retorno;
     }
-
-    /**Utilizadop para validar el estado de la garantía
-     * @param garantia fecha fin de lka garantia
-     * @return 0 --->si fecha1==fecha2, 1-->  fecha1>fecha2, -1-->fecha1 <fecha2
+    /**
+     * Metodo que permite calcular el tiempo que duró la atención de la incidencia
+     *
+     * @return
      */
-    public int compararFechas(String garantia) {
-        int retorno = -3;
-        if (garantia != null) {
-            if (!garantia.trim().isEmpty() && !garantia.equals("Invalid Date")) {
-                fechaActual = new Date();
-                String stringFechaAct = fechaActual + "";
-                Date dateActual = Utils.convertirDate(stringFechaAct);
-                System.out.println("*******dateActual-->" + dateActual);
-
-                Date dateGarantia = Utils.convertirDate(garantia);
-                System.out.println("*******dateGarantia-->" + dateGarantia);
-
-                retorno = dateActual.compareTo(dateGarantia);
+    public int tiempoGarantiaTerminal(String garantia) {
+        int retorno =0;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd H:m:s");
+        Date dateEnd = new Date();
+        Date fechaGarantia = null;
+        try {
+            if (garantia != null) {
+                if (!garantia.trim().isEmpty() && !garantia.equals("Invalid Date")) {
+                    fechaGarantia = dateFormat.parse(Utils.darFormatoNewDateDiferencia(garantia));
+                    Date fechaActual = dateFormat.parse(Utils.darFormatoNewDateDiferencia2(dateEnd + ""));
+                    int diferencia = (int) ((fechaGarantia.getTime() - fechaActual.getTime()) / 1000);
+                    retorno =diferencia;
+                }
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        return retorno;//si no tiene fecha fin
+        return retorno;
     }
 
     /**

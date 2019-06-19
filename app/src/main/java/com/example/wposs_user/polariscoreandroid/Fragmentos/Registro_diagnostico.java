@@ -82,7 +82,7 @@ public class Registro_diagnostico extends Fragment {
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_registro_diagnostico, container, false);
-        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+      //  objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("REGISTRAR DIAGNÓSTICO");
         Global.REPUESTOS = new ArrayList<>();
         Global.REPUESTOS_DIAGONOSTICO = new ArrayList<Repuesto>();
@@ -326,10 +326,7 @@ public class Registro_diagnostico extends Fragment {
 
 
         if (Global.diagnosticoTerminal.equalsIgnoreCase("autorizada")) {//consume el servicio: FINALIZAR REGISTRO DE REPARACIÓN POR NUEVO DIAGNÓSTICO:
-
             consumirServicioDiagnosticoAutorizada();
-
-
         } else {
             consumirServicioDiagnostico();//Consume el servicio cuando la terminal es asociada
         }

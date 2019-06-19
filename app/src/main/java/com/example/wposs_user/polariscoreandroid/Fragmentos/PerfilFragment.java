@@ -36,7 +36,7 @@ public class PerfilFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_perfil, container, false);
-        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("DATOS DEL USUARIO");
         nomUsuario = (TextView) v.findViewById(R.id.perfil_nombre_usuario);
         usuario = (TextView) v.findViewById(R.id.perfil_usuario);

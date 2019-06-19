@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--Este panel es utilizado cuando:
+        1. Al registrar un diagnostico de una terminal asociada, cuando la falla es por USO o FÁBRICA
+        2. Cuando la terminal está en reparación y encuentran una falla y esta puede ser por REPUESTO DEFECTUOSO o NUEVO DIAGNOSTICO-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:gravity="center">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/gif_loading"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cargando....."
+            android:textSize="18dp"
+            android:textColor="@color/verde_pestanas"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

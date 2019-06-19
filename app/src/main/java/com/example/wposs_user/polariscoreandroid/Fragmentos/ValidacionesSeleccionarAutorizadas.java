@@ -112,7 +112,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_validaciones_seleccionar_autorizadas, container, false);
-        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("VALIDACIONES");
         queue = Volley.newRequestQueue(objeto);
         queue2 = Volley.newRequestQueue(objeto);

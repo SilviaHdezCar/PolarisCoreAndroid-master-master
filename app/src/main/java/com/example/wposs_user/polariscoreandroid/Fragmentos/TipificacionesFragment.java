@@ -71,7 +71,7 @@ public class TipificacionesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tipificaciones, container, false);
-        objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+     //   objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("TIPIFICACIONES TERMINAL");
         descripcionTipificaion = "";
         layout_tipificaciones = (LinearLayout) v.findViewById(R.id.layout_tipificaciones);
@@ -364,7 +364,7 @@ public class TipificacionesFragment extends Fragment {
                 fila.setBackgroundResource(R.drawable.borde_inferior_gris);
                 fila.setGravity(Gravity.CENTER_VERTICAL);
                 System.out.println("tamaño fila " + i + ": " + fila.getWeightSum());
-                fila.setPadding(1, 5, 1, 5);
+                fila.setPadding(1, 10, 1, 10);
 
                 //celdas
                 TextView nombre = new TextView(objeto);
@@ -376,12 +376,12 @@ public class TipificacionesFragment extends Fragment {
                 ImageButton btn_eliminar = new ImageButton(objeto);
                 btn_eliminar.setId(200 + i);
                 btn_eliminar.setMaxWidth(10);
-              /*  btn_eliminar.setMinimumWidth(10);
-                btn_eliminar.setMaxHeight(10);
-                btn_eliminar.setMinimumHeight(10);*/
+                btn_eliminar.setMinimumWidth(0);
+                btn_eliminar.setMaxHeight(0);
+                btn_eliminar.setMinimumHeight(0);
                 btn_eliminar.setPadding(0, 0, 0, 0);
-                btn_eliminar.setImageResource(R.mipmap.papelera);
-                btn_eliminar.setColorFilter(Color.parseColor("#018793"));//para cambiar el color de la imagen
+                btn_eliminar.setImageResource(R.drawable.ic_papelera);
+               // btn_eliminar.setColorFilter(Color.parseColor("#018793"));//para cambiar el color de la imagen
                 btn_eliminar.setBackgroundColor(Color.parseColor("#00EEF3F3"));
 
 

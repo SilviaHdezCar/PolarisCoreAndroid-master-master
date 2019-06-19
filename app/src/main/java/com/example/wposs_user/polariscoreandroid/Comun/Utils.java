@@ -291,15 +291,51 @@ public class Utils {
 
         try{
              date =format.parse(darFormatoSimple(fecha));
-            System.out.println(date);
-            System.out.println(format.format(date));
+
         }catch (Exception e){
             e.printStackTrace();
         }
         return date;
     }
+    /*** Metodo que le da formato a la fecha cuando es=  Fri Sep 13 2019 14:05:38 GMT-0500 (hora estándar de Colombia)---> DD/MM/AAAA HORA
+     * @param fecha
+     * @return
+     */
+    public static String darFormatoNewDateDiferencia(String fecha) {
+        String[] date = fecha.split(" ");
+
+        int mes = obtenerNumMes(date[1]);
+        String dia = date[2];
+        String anio = date[3];
+        String hora[] = date[4].split(":");
+
+        String month = mes + "";
+        if (mes < 10)
+            month = "0" + mes;
+
+        return anio + "-" + month + "-" + dia + " " + hora[0] + ":" + hora[1]+":"+hora[2];
+    }
 
 
+    /*** Metodo que le da formato a la fecha cuando es= Tue Jun 18 17:14:22 GMT-05:00 2019---> DD/MM/AAAA HORA
+     * @param fecha
+     * @return
+     */
+    public static String darFormatoNewDateDiferencia2(String fecha) {
+        String[] date = fecha.split(" ");
+
+
+        int mes = obtenerNumMes(date[1]);
+        String dia = date[2];
+        String anio = date[5];
+        String hora[] = date[3].split(":");
+
+        String month = mes + "";
+        if (mes < 10)
+            month = "0" + mes;
+
+        return anio + "-" + month + "-" + dia + " " + hora[0] + ":" + hora[1]+":"+hora[2];
+    }
     /**
      * Este metodo obtiene la suma de la fecha     *
      * @Params recibe la fecha en el formato
@@ -310,13 +346,13 @@ public class Utils {
         String date[] = fechaFormateada.split(" ");
 
         int day = Integer.parseInt(date[1]);
-        System.out.println("dia: " + day);
+
 
         int month = obtenerNumMes(date[0]);
-        System.out.println("Mes: " + month);
+
 
         int year = Integer.parseInt(date[2]);
-        System.out.println("Año: " + year);
+
 
         return day + month + year;
 
@@ -329,10 +365,8 @@ public class Utils {
      */
     public static String darFormatoNewDate(String fecha) {
         String[] date = fecha.split(" ");
-        System.out.println("fecha "+fecha);
-        for(int i=0;i<date.length;i++){
-            System.out.println("Fecha pos["+i+"]:"+date[i]);
-        }
+
+
         int mes = obtenerNumMes(date[1]);
         String dia = date[2];
         String anio = date[3];
@@ -356,13 +390,10 @@ public class Utils {
         String date[] = fechaFormateada.split(" ");
 
         String day = date[1];
-        System.out.println("dia: " + day);
 
         int month = obtenerNumMes(date[0]);
-        System.out.println("Mes: " + month);
 
         String year = date[2];
-        System.out.println("Año: " + year);
 
         String mes;
 
