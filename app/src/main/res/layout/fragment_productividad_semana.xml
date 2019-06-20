@@ -97,7 +97,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Productividad de terminales asociadas y diagnosticadas por semana"
+            android:text="Productividad de terminales diagnosticadas y reparadas por semana"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:textStyle="bold"
@@ -111,14 +111,15 @@
 
         <com.github.mikephil.charting.charts.BarChart
 
-            android:layout_height="300dp"
+            android:layout_height="350dp"
             android:layout_marginTop="20dp"
             android:id="@+id/grafica_semana"
-            android:layout_width="260dp"
-            android:visibility="invisible"
+            android:layout_width="280dp"
+            android:visibility="gone"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/redondo_gris_botones"
+            android:background="@drawable/cuadrado_fondo_blanco"
+
 
             />
 

@@ -108,7 +108,6 @@ public class AdapterRepuestoStock extends RecyclerView.Adapter<AdapterRepuestoSt
             status=(TextView) itemView.findViewById(R.id.txt_estado_repuesto_stock);
             rl=(LinearLayout)itemView.findViewById(R.id.cargar_repuestos);
 
-
         }
     }
 

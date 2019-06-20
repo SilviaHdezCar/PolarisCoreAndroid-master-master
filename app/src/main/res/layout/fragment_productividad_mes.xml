@@ -95,11 +95,6 @@
        </LinearLayout>
 
 
-
-
-
-
-
        <Button
            android:id="@+id/produc_mes"
            android:layout_width="wrap_content"
@@ -118,8 +113,8 @@
            android:id="@+id/titulo_gr"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_gravity="center"
-           android:text="Terminales asignadas y reparadas por mes"
+           android:gravity="center"
+           android:text="Productividad de terminales diagnosticadas y reparadas por mes"
            android:layout_marginTop="20dp"
            android:textSize="14dp"
            android:textStyle="bold"
@@ -130,101 +125,18 @@
 
        <com.github.mikephil.charting.charts.BarChart
 
-           android:layout_height="300dp"
+           android:layout_height="350dp"
            android:layout_marginTop="20dp"
            android:id="@+id/grafica_mes"
-           android:layout_width="320dp"
-           android:visibility="invisible"
+           android:layout_width="280dp"
+           android:visibility="gone"
            android:layout_gravity="center_horizontal"
-           android:background="@drawable/borde_verde_azul"
+           android:background="@drawable/cuadrado_fondo_blanco"
+           android:layout_marginBottom="20dp"
 
            />
 
-       <LinearLayout
-           android:id="@+id/linea_promRep"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal"
-           android:visibility="invisible"
-           android:layout_marginLeft="35dp"
-           android:layout_marginRight="40dp"
-           android:layout_marginTop="20dp"
-           android:layout_gravity="center_horizontal"
-           android:textAlignment="center"
 
-
-
-
-           >
-
-       <TextView
-           android:layout_width="200dp"
-           android:layout_height="wrap_content"
-           android:text="Promedio terminales diagnosticadas"
-           android:textSize="10dp"
-           android:textStyle="bold"
-
-
-
-           />
-
-           <TextView
-               android:layout_marginLeft="10dp"
-               android:id="@+id/txt_promRep"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text=""
-               android:textSize="10dp"
-
-
-               />
-
-
-
-       </LinearLayout>
-
-
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal"
-           android:id="@+id/linea_promDia"
-           android:visibility="invisible"
-           android:layout_marginLeft="35dp"
-           android:layout_marginRight="40dp"
-           android:layout_marginTop="10dp"
-           android:layout_gravity="center_horizontal"
-           android:textAlignment="center"
-
-
-           >
-
-           <TextView
-
-               android:layout_height="wrap_content"
-               android:text="Promedio terminales asignadas"
-               android:layout_width="200dp"
-               android:textSize="10dp"
-               android:textStyle="bold"
-
-
-
-               />
-
-           <TextView
-               android:layout_marginLeft="10dp"
-               android:id="@+id/txt_promDiag"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text=""
-               android:textSize="10dp"
-
-
-               />
-
-
-
-       </LinearLayout>
 
 
    </LinearLayout>

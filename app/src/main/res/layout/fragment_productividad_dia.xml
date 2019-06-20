@@ -66,12 +66,12 @@
             android:layout_width="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
-            android:text="Terminales asociadas y diagnosticadas por día"
+            android:text="Terminales asociadas, diagnosticadas y reparadas por día"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
             android:textSize="14dp"
             android:textStyle="bold"
-            android:visibility="invisible"
+            android:visibility="gone"
 
             />
 
@@ -81,10 +81,11 @@
             android:layout_height="350dp"
             android:layout_marginTop="10dp"
             android:id="@+id/grafica_dia"
-            android:layout_width="320dp"
+            android:layout_width="280dp"
             android:visibility="invisible"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/redondo_gris_botones"
+            android:background="@drawable/cuadrado_fondo_blanco"
+            android:layout_marginBottom="20dp"
 
 
             />

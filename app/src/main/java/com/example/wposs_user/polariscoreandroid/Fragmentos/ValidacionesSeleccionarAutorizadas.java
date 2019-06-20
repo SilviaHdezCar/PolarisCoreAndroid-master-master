@@ -42,6 +42,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,6 +63,8 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
     private RequestQueue queue2;
     private RequestQueue queue3;
     private OnFragmentInteractionListener mListener;
+    private JSONArray jsonArrayHistorial;
+    private String mensaje;
 
     public ValidacionesSeleccionarAutorizadas() {
         // Required empty public constructor
@@ -331,11 +334,244 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
 
     }
 
-    public void crearAlertDialog() {
+    /**
+     * Metodo utilizados para consumir el servicio  que permite obtener el historial de la terminal
+     * En el encabezado va el token-> Authenticator
+     **/
+    public void consumirServicioObtenerHistorial() {
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/getHistoryTerminal";
+        jsonArrayHistorial = new JSONArray();
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.d("RESPUESTA OB His", response.toString());
+                            if (!response.get("message").toString().equals("success")) {
+                                Global.loading = false;
+                                mensaje = response.get("message").toString();
+                                if (mensaje.equalsIgnoreCase("token no valido")) {
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "Error: " + mensaje, Toast.LENGTH_SHORT).show();
+                                return;
+                            } else {
 
+                                response = response.getJSONObject("data");
+                                // jsonObject=response.getJSONArray("tehi_historial");
+                                System.out.println("response-->" + response.toString());
+                                String tehi_historial = response.getString("tehi_historial");
+                                System.out.println("tehi_historial-->" + tehi_historial);
+                                if (!tehi_historial.equals("")) {
+                                    jsonArrayHistorial = new JSONArray(tehi_historial);
+                                    System.out.println("jsonArray--->" + jsonArrayHistorial.length());
+                                    if (jsonArrayHistorial != null && jsonArrayHistorial.length() > 0) {
+                                        evaluarJsonArray();
+                                    }
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()) {
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("authenticator", Global.TOKEN);
+                params.put("Id", Global.terminalVisualizar.getTerm_serial());
+
+                return params;
+            }
+        };
+        queue.add(jsArrayRequest);
+    }
+
+
+    /**
+     * Este metodo se utiliza para revisar la respuesta obtenida luego de consumir el servicio en
+     * le que se obtiene el historial de gestionadas de la terminal
+     */
+    public void evaluarJsonArray() {
+        try {
+            if (jsonArrayHistorial.length() == 1) {
+                consumirServicioSumarGestion();
+
+            } else {
+                JSONObject jsonObject = jsonArrayHistorial.getJSONObject(jsonArrayHistorial.length() - 2);
+                String estado = jsonObject.get("term_state").toString();
+                String tecnico = jsonObject.get("term_location").toString();
+                if (estado.equalsIgnoreCase("REPARACIÓN")&& tecnico.equalsIgnoreCase(Global.CODE)) {
+                    consumirServicioActualizarGestionadas();
+                } else {
+                    consumirServicioSumarGestion();
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
+
+    /**
+     * Metodo utilizados para consumir el servicio  que permite incrementar las terminales
+     * gwartionadas por el técnico
+     * En el encabezado va el token-> Authenticator
+     **/
+    public void consumirServicioSumarGestion() {
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/incrementarGestionadas";
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user", Global.CODE);
+            jsonObject.put("tipo", "QA");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.d("RESPUESTA SUMAR", response.toString());
+                            if (!response.get("status").toString().equals("ok")) {
+                                Global.loading = false;
+                                mensaje = response.get("message").toString();
+                                if (mensaje.equalsIgnoreCase("token no valido")) {
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "Error: " + mensaje, Toast.LENGTH_SHORT).show();
+                                return;
+                            } else {
+                                consumirServicioActualizarGestionadas();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()) {
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("authenticator", Global.TOKEN);
+
+                return params;
+            }
+        };
+        queue.add(jsArrayRequest);
+    }
+
+
+    /**
+     * Metodo utilizados para consumir el servicio  que permite actualizar las terminales gestionadas
+     * gwartionadas por el técnico
+     * En el encabezado va el token-> Authenticator
+     **/
+    public void consumirServicioActualizarGestionadas() {
+        String url = "http://100.25.214.91:3000/PolarisCore/Terminals/updateHistoryTerminal";
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("terminal_history", this.JObjectActualizarHistorial());
+            jsonObject.put("tehi_serial", Global.terminalVisualizar.getTerm_serial());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.PUT,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.d("RESPUESTA ACTUALIZAR", response.toString());
+                            if (!response.get("status").toString().equals("ok")) {
+                                Global.loading = false;
+                                mensaje = response.get("message").toString();
+                                if (mensaje.equalsIgnoreCase("token no valido")) {
+                                    Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
+                                    objeto.consumirSercivioCerrarSesion();
+                                    return;
+                                }
+                                Toast.makeText(objeto, "Error: " + mensaje, Toast.LENGTH_SHORT).show();
+                                return;
+                            } else {
+                                System.out.println("consumirServicioActualizarGestionadas()-->ok");
+                                consumirServicioReparacionExitosa();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error.getMessage() != null) {
+                            if (!error.getMessage().isEmpty()) {
+                                Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("authenticator", Global.TOKEN);
+                params.put("iD", Global.terminalVisualizar.getTerm_serial());
+
+                return params;
+            }
+        };
+        queue.add(jsArrayRequest);
+    }
+
+    public JSONObject JObjectActualizarHistorial() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            Date date = new Date();
+            jsonObject.put("term_location", Global.CODE);
+            jsonObject.put("term_state", "DIAGNÓSTICO");
+            jsonObject.put("date", date + "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
 
     /**
      * METODO QUE RECORRE LOS REPUESTOS Y LE CAMBIA EL ESTADO A DAÑADO
@@ -476,7 +712,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
             };
 
             queue3.add(jsArrayRequest2);
-            consumirServicioReparacionExitosa();
+            consumirServicioObtenerHistorial();
         }
 
     }
