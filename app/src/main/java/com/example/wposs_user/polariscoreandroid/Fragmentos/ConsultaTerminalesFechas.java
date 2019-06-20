@@ -79,7 +79,7 @@ public class ConsultaTerminalesFechas extends Fragment {
 
     boolean isChanged = false;
     private static final String CERO = "0";
-    private static final String BARRA = "/";
+    private static final String BARRA = "-";
 
     FragmentManager fragmentManager;
     public final java.util.Calendar c = java.util.Calendar.getInstance();
@@ -134,7 +134,7 @@ public class ConsultaTerminalesFechas extends Fragment {
         java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         Date date = new Date();
         String fecha = dateFormat.format(date);
-        fecha = fecha.replace("-", "/");
+        fecha = fecha.replace("-", "-");
 
 
 
@@ -159,7 +159,7 @@ public class ConsultaTerminalesFechas extends Fragment {
                     public void run() {
 
                         Fecha1 = f_inicio.getText().toString();
-                        f_inicio.setText(Tools.dateDDMMYYYYStr2(f_inicio.getText().toString()));
+                        f_inicio.setText(Tools.dateDDMMYYYYStr3(f_inicio.getText().toString()));
                         return;
                     }
                 }, 70);
@@ -187,7 +187,7 @@ public class ConsultaTerminalesFechas extends Fragment {
                     public void run() {
 
                         Fecha2 = f_fin.getText().toString();
-                        f_fin.setText(Tools.dateDDMMYYYYStr2(f_fin.getText().toString()));
+                        f_fin.setText(Tools.dateDDMMYYYYStr3(f_fin.getText().toString()));
                         return;
                     }
                 }, 70);
@@ -259,14 +259,14 @@ public class ConsultaTerminalesFechas extends Fragment {
     public boolean validarFecha() {
 
         String fecha_inicial = f_inicio.getText().toString();
-        String[] fecha = fecha_inicial.split("/");
+        String[] fecha = fecha_inicial.split("-");
         int dia_inicio = Integer.parseInt(fecha[0]);
         int mes_inicio = Integer.parseInt(fecha[1]);
         int año_inicio = Integer.parseInt(fecha[2]);
 
 
         String fecha_final = f_fin.getText().toString();
-        String[] fechaFin = fecha_final.split("/");
+        String[] fechaFin = fecha_final.split("-");
         int dia_fin = Integer.parseInt(fechaFin[0]);
         int mes_fin = Integer.parseInt(fechaFin[1]);
         int año_fin = Integer.parseInt(fechaFin[2]);
@@ -310,14 +310,14 @@ public class ConsultaTerminalesFechas extends Fragment {
 
 
         String fecha_inicial = f_inicio.getText().toString();
-        String[] fecha = fecha_inicial.split("/");
+        String[] fecha = fecha_inicial.split("-");
         final int dia_inicio = Integer.parseInt(fecha[0]);
         final int mes_inicio = Integer.parseInt(fecha[1]);
         final int anio_inicio = Integer.parseInt(fecha[2]);
 
 
         String fecha_final = f_fin.getText().toString();
-        String[] fechaFin = fecha_final.split("/");
+        String[] fechaFin = fecha_final.split("-");
         final int dia_final = Integer.parseInt(fechaFin[0]);
         final int mes_final = Integer.parseInt(fechaFin[1]);
         final int anio_final = Integer.parseInt(fechaFin[2]);
@@ -327,7 +327,7 @@ public class ConsultaTerminalesFechas extends Fragment {
 
         if(!validarFechaActual(dia_inicio,mes_inicio,anio_inicio)){
 
-            Toast.makeText(objeto, "La fecha debe ser igual o anterior a la fecha actual", Toast.LENGTH_SHORT).show();
+            Toast.makeText(objeto, "La fecha debe ser anterior a la fecha actual", Toast.LENGTH_SHORT).show();
             f_inicio.setText(" ");
             f_fin.setText(" ");
             rv.setAdapter(null);
@@ -492,7 +492,7 @@ public class ConsultaTerminalesFechas extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();
         String fechaActual = dateFormat.format(date);
-        String []fechaAct= fechaActual.split("/");
+        String []fechaAct= fechaActual.split("-");
         int anioAct=Integer.parseInt( fechaAct[0]);
         int mesAct=Integer.parseInt( fechaAct[1]);
         int diaAct= Integer.parseInt(fechaAct[2]);
