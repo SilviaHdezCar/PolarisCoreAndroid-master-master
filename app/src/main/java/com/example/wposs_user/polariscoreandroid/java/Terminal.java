@@ -1,5 +1,7 @@
 package com.example.wposs_user.polariscoreandroid.java;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -265,5 +267,7 @@ public class Terminal {
                 ", term_warranty_time='" + term_warranty_time + '\'' +
                 '}';
     }
+
+
 }
 

@@ -847,10 +847,14 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
      * ()
      */
     public void eliminarPila() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-            fm.popBackStack();
+        if(objeto.getSupportFragmentManager()!=null){
+            FragmentManager fm = objeto.getSupportFragmentManager();
+
+            for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                fm.popBackStack();
+            }
         }
+
 
     }
 
