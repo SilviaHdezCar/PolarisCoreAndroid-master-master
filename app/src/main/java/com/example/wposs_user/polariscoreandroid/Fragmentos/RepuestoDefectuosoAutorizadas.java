@@ -185,7 +185,6 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
         } else {
             obser = new Observacion(observacion, Global.terminalVisualizar.getTerm_serial(), "");
            consumirServicioObtenerHistorial();
-           consumirServicioObtenerHistorial();
         }
 
     }
@@ -391,7 +390,9 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                 JSONObject jsonObject = jsonArrayHistorial.getJSONObject(jsonArrayHistorial.length() - 2);
                 String estado = jsonObject.get("term_state").toString();
                 String tecnico = jsonObject.get("term_location").toString();
-                if (estado.equalsIgnoreCase("REPARACIÓN")&& tecnico.equalsIgnoreCase(Global.CODE)) {
+                if ((estado.equalsIgnoreCase("REPARACIÓN")
+                        ||estado.equalsIgnoreCase("QA"))
+                        && tecnico.equalsIgnoreCase(Global.CODE)) {
                     consumirServicioActualizarGestionadas();
                 } else {
                     consumirServicioSumarGestion();
