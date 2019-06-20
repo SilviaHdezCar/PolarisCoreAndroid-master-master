@@ -169,7 +169,7 @@ public class StockFragment extends Fragment {
                                     ter = jsonArray1.getString(i);
 
                                     Terminal t = gson.fromJson(ter, Terminal.class);
-                                    if (t != null) {
+                                    if (t != null ) {
                                     }
                                     terminales.add(t);
                                 }
@@ -286,8 +286,9 @@ public class StockFragment extends Fragment {
                                     }
 
                                     if (r != null && Integer.parseInt(r.getSpar_quantity())>0) {
+                                        repuestos.add(r);
                                     }
-                                    repuestos.add(r);
+
                                 }
                             }
                             

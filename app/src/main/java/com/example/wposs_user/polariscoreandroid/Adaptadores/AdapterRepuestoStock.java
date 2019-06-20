@@ -58,6 +58,7 @@ public class AdapterRepuestoStock extends RecyclerView.Adapter<AdapterRepuestoSt
         holder.cod_rep.setText(this.listRepuesto.get(position).getSpar_code().trim());
         holder.nombre_rep.setText(this.listRepuesto.get(position).getSpar_name().trim());
         holder.cant_rep.setText(this.listRepuesto.get(position).getSpar_quantity());
+        holder.model.setText(this.listRepuesto.get(position).getSpar_terminal_model());
         holder.status.setText(this.listRepuesto.get(position).getSpar_status());
         String estados = holder.status.getText().toString();
 
@@ -98,6 +99,7 @@ public class AdapterRepuestoStock extends RecyclerView.Adapter<AdapterRepuestoSt
         private TextView cant_rep;
         private TextView status;
         private LinearLayout rl;
+        private TextView model;
 
 
         ViewHolderRepuestoStock(View itemView) {
@@ -107,6 +109,7 @@ public class AdapterRepuestoStock extends RecyclerView.Adapter<AdapterRepuestoSt
             cant_rep = (TextView) itemView.findViewById(R.id.txt_cantidad_repuesto_stock);
             status=(TextView) itemView.findViewById(R.id.txt_estado_repuesto_stock);
             rl=(LinearLayout)itemView.findViewById(R.id.cargar_repuestos);
+            model=(TextView)itemView.findViewById(R.id.txt_model_terminal);
 
 
         }
