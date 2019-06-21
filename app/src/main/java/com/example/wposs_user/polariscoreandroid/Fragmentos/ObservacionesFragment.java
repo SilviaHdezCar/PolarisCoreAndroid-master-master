@@ -194,7 +194,6 @@ public class ObservacionesFragment extends Fragment {
      **/
     public void consumirServicioEnviarFotos() {
         finalizar.setEnabled(false);
-        Toast.makeText(objeto, "Cargando...", Toast.LENGTH_SHORT).show();
         String url = "http://100.25.214.91:3000/PolarisCore/upload/uploadImgObservations/";
         JSONObject jsonObject = new JSONObject();
 

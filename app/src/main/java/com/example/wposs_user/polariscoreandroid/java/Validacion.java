@@ -5,7 +5,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Validacion {
+public class Validacion implements  Comparable<Validacion>{
     private String teva_id;
     private String teva_description;
     private boolean ok;
@@ -141,5 +141,12 @@ public class Validacion {
                 ", no_aplica=" + no_aplica +
                 ", estado='" + estado + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Validacion o) {
+        String a=new String(String.valueOf(this.teva_description));
+        String b=new String(String.valueOf(o.getTeva_description()));
+        return a.compareTo(b);
     }
 }

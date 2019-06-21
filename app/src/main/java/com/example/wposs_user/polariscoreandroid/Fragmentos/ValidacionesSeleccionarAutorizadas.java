@@ -42,6 +42,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -249,6 +250,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
             Validacion v = new Validacion(validaciones[i].split("-")[0], false, false, false);
             Global.VALIDACIONES.add(v);
         }
+        Collections.sort((ArrayList)Global.VALIDACIONES);
     }
 
 

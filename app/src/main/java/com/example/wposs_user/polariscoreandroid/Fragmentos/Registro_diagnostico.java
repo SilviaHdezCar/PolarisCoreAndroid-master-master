@@ -58,6 +58,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1042,6 +1043,7 @@ public class Registro_diagnostico extends Fragment {
                                     }
                                 }
                             }
+                             Collections.sort((ArrayList) Global.REPUESTOS);
                             llenarAutocomplete();
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -374,6 +374,7 @@ public class Prediagnostico extends Fragment {
                         }
 
                     }
+                    Collections.sort((ArrayList) validacions);
                     llenarRVValidaciones(validacions);
                 }
             }
@@ -436,6 +437,7 @@ public class Prediagnostico extends Fragment {
                         for (int i = 0; i < tipificaciones.length; i++) {
                             tipificacions.add(tipificaciones[i]);
                         }
+                        Collections.sort((ArrayList) tipificacions);
                         llenarRVTipificaciones(tipificacions);
                     }
 
@@ -505,6 +507,8 @@ public class Prediagnostico extends Fragment {
                                     repuests.add(repuesto);
                                 }
                             }
+                            Collections.sort((ArrayList) this.repuestos);
+                            Collections.sort((ArrayList) repuests);
 
                         }
                     }

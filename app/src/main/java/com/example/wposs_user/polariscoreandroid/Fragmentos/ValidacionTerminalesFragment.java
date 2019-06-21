@@ -24,6 +24,7 @@ import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
@@ -113,9 +114,9 @@ public class ValidacionTerminalesFragment extends Fragment {
                 Validacion v = new Validacion(validaciones[i].split("-")[0], ok, falla, no_aplica, estado);
                 validacions.add(v);
             }
-
         }
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_validaciones_autorizadas);
+        Collections.sort((ArrayList) validacions);
         llenarRVValidaciones(validacions);
 
 

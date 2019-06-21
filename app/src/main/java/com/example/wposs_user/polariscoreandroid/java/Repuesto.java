@@ -5,7 +5,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Repuesto {
+public class Repuesto implements Comparable<Repuesto> {
 
 
 
@@ -169,5 +169,12 @@ public class Repuesto {
         }
 
         return obj;
+    }
+
+    @Override
+    public int compareTo(Repuesto o) {
+        String a=new String(String.valueOf(this.getSpar_name()));
+        String b=new String(String.valueOf(o.getSpar_name()));
+        return a.compareTo(b);
     }
 }
