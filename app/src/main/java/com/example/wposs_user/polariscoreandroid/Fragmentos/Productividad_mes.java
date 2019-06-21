@@ -248,6 +248,13 @@ public class Productividad_mes extends Fragment {
                                 pro = gson.fromJson(res, Productividad.class);
 
                                 if (pro != null) {
+                                    if(pro.getUste_repaired_terminals()==null){
+                                        pro.setUste_repaired_terminals("0");
+
+                                        if(pro.getUste_diagnosed_terminals()==null){
+                                            pro.setUste_diagnosed_terminals("0");
+                                        }
+                                    }
                                     productividad.add(pro);
 
                                 }
@@ -267,6 +274,15 @@ public class Productividad_mes extends Fragment {
                     private void pintarGrafica() {
 
                         obtenerProductSemana();
+
+                        if(producTotal()==0){
+
+                            Toast.makeText(v.getContext(), "No existen registros para el mes seleccionado", Toast.LENGTH_SHORT).show();
+                            grafica.clear();
+                            grafica.setVisibility(View.GONE);
+                            tituloGra.setVisibility(INVISIBLE);
+                            return;
+                        }
 
 
                         if(mesDado.equalsIgnoreCase("Febrero")){
@@ -722,6 +738,18 @@ public class Productividad_mes extends Fragment {
             }
 
         }
+
+    }
+
+    public int producTotal(){
+        int total=0;
+
+        for(int i=0;i<productividadMesDiagnosticadas.length;i++){
+            total= total+productividadMesDiagnosticadas[i];
+
+
+        }
+        return  total;
 
     }
 

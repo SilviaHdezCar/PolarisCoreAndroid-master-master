@@ -322,12 +322,12 @@ public class ConsultaTerminalesFechas extends Fragment {
         final int mes_final = Integer.parseInt(fechaFin[1]);
         final int anio_final = Integer.parseInt(fechaFin[2]);
 
-        String fecha_inicio = mes_inicio+"-"+dia_inicio+"-"+anio_inicio;
-        String fecha_fin = mes_final+"-"+dia_final+"-"+anio_final;
+        String fecha_inicio = mes_inicio+"/"+dia_inicio+"/"+anio_inicio;
+        String fecha_fin = mes_final+"/"+dia_final+"/"+anio_final;
 
         if(!validarFechaActual(dia_inicio,mes_inicio,anio_inicio)){
 
-            Toast.makeText(objeto, "La fecha debe ser anterior a la fecha actual", Toast.LENGTH_SHORT).show();
+            Toast.makeText(objeto, "La fecha inicial debe ser anterior   igual a la fecha actual", Toast.LENGTH_SHORT).show();
             f_inicio.setText(" ");
             f_fin.setText(" ");
             rv.setAdapter(null);
@@ -340,23 +340,10 @@ public class ConsultaTerminalesFechas extends Fragment {
 
         }
 
-        if(!validarFechaActual(dia_final,mes_final,anio_final)){
-
-            Toast.makeText(objeto, "La fecha debe ser igual o anterior a la fecha actual", Toast.LENGTH_SHORT).show();
-            f_inicio.setText(" ");
-            f_fin.setText(" ");
-            rv.setAdapter(null);
-            terminales= new ArrayList<>();
-            f_inicio.setText("");
-            f_fin.setText("");
-            buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#80FFFFFF"));
-            return;
-
-        }
 
         if(!this.validarFecha()){
 
-            Toast.makeText(view.getContext(), "La fecha de inicio debe ser anterior a la final", Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "La fecha inicial debe ser anterior a la final", Toast.LENGTH_SHORT).show();
             f_inicio.setText(" ");
             f_fin.setText(" ");
             rv.setAdapter(null);
@@ -367,7 +354,8 @@ public class ConsultaTerminalesFechas extends Fragment {
             return;
 
         }
-
+         fecha_inicio = mes_inicio+"/"+dia_inicio+"/"+anio_inicio;
+        fecha_fin = mes_final+"/"+(dia_final+1)+"/"+anio_final;
 
         final Gson gson = new GsonBuilder().create();
 
@@ -422,8 +410,9 @@ public class ConsultaTerminalesFechas extends Fragment {
                                ter = gson.fromJson(res, Terminal.class);
 
                                 if (ter != null) {
+                                    terminales.add(ter);
                                 }
-                                terminales.add(ter);
+
                             }
 
                             for (int i = 0; i < jsonArray2.length(); i++) {

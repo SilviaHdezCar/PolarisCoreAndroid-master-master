@@ -119,7 +119,7 @@ public class ProductividadSemana extends Fragment {
                 }
                 if(!r.equals("Febrero")){
 
-                    semanasMes= new String []{ "Seleccione la semana","Semana 1","Semana 2","Semana 3","Semana 4","Seamana 5"};
+                    semanasMes= new String []{ "Seleccione la semana","Semana 1","Semana 2","Semana 3","Semana 4","Semana 5"};
                     comboSemana= new ArrayAdapter<String>(objeto,R.layout.spiner_style_center,semanasMes);
                     semanas.setAdapter(comboSemana);
 
@@ -212,7 +212,7 @@ public class ProductividadSemana extends Fragment {
 
       if(!validarFechaActual(diaInicio,mesSelec)){
 
-            Toast.makeText(v.getContext(), "La fecha selecionada no puede ser posterior a la actual", Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), "La semana selecionada no puede ser posterior a la actual", Toast.LENGTH_SHORT).show();
             graficaSeman.clear();
             graficaSeman.setVisibility(View.GONE);
             titulo.setVisibility(INVISIBLE);
@@ -307,6 +307,15 @@ public class ProductividadSemana extends Fragment {
                                 pro = gson.fromJson(res, Productividad.class);
 
                                 if (pro != null) {
+
+                                    if(pro.getUste_diagnosed_terminals()==null){
+                                        pro.setUste_diagnosed_terminals("0");
+
+                                    }
+
+                                    if(pro.getUste_repaired_terminals()==null){
+                                        pro.setUste_repaired_terminals("0");
+                                    }
 
                                     String[]fecha2 = pro.getUste_date().split("/");
                                     int dia1= Integer.parseInt(fecha2[0]);

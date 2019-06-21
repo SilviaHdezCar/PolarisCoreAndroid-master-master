@@ -382,10 +382,29 @@ public class Productividad_dia extends Fragment {
                                 pro = gson.fromJson(res, Productividad.class);
 
                                 if (pro != null) {
+                                    if(pro.getUste_repaired_terminals()==null) {
+                                        pro.setUste_repaired_terminals("0");
+                                    }
+                                        if(pro.getUste_diagnosed_terminals()==null){
+                                            pro.setUste_diagnosed_terminals("0");
+                                        }
+                                    productividad.add(pro);
                                 }
-                                productividad.add(pro);
+
                             }
 
+
+                           int total= Integer.parseInt(productividad.get(0).getUste_associated_terminals())+Integer.parseInt(productividad.get(0).getUste_diagnosed_terminals())+Integer.parseInt(productividad.get(0).getUste_repaired_terminals());
+
+                            if(total==0){
+
+                                Toast.makeText(v.getContext(), "No existen registros para el día seleccionado", Toast.LENGTH_SHORT).show();
+                                grafica.clear();
+                                tituloG.setVisibility(INVISIBLE);
+                                grafica.setVisibility(View.GONE);
+                                f_inicio.setText("");
+                                return;
+                            }
                             this.pintarGrafica();
 
                         } catch (JSONException e) {

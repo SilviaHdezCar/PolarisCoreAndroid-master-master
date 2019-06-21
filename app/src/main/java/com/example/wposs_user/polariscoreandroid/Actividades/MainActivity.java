@@ -590,6 +590,7 @@ public class MainActivity extends AppCompatActivity
 
                                                 Global.notificaciones.add(n);
 
+
                                             }
 
 
@@ -609,6 +610,8 @@ public class MainActivity extends AppCompatActivity
                                 dialogo = new DialogNotificacion();
 
                             }
+
+                            System.out.println("NOTIFICACIONES AGREGADAS"+Global.notificaciones.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -849,9 +852,9 @@ public class MainActivity extends AppCompatActivity
             tlista[i + 1] = modelo[0] + ":" + modelo[1];
             tlista[i + 2] = serial[0] + ":" + serial[1];
 
-            rta += tlista[i] + "\n" + tlista[i + 1] + "\n" + tlista[2] + "\n";
+            rta = rta + tlista[i] + "\n" + tlista[i + 1] + "\n" + tlista[i+2] + "\n";
 
-
+            System.out.println("NOTIFICACIONES SALIDA**" +  tlista[i+2]);
         }
 
         return rta;
@@ -861,7 +864,7 @@ public class MainActivity extends AppCompatActivity
 
     public String formatoRep(String txt) {
 
-        System.out.println("ME ESTA LLEGANDO REPUESTO**" + txt);
+
 
         String rta = "";
 
@@ -891,7 +894,7 @@ public class MainActivity extends AppCompatActivity
             tlista[i + 1] = nombre[0] + ":" + nombre[1];
             tlista[i + 2] = cantidad[0] + ":" + cantidad[1];
 
-            rta += tlista[i] + "\n" + tlista[i + 1] + "\n" + tlista[2] + "\n" + "\n";
+            rta =rta+ tlista[i] + "\n" + tlista[i + 1] + "\n" + tlista[i+2] + "\n" + "\n";
 
 
         }
