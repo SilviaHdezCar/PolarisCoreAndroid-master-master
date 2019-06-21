@@ -101,7 +101,18 @@ public class Notificacion {
         this.noti_type = noti_type;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Notificacion{" +
+                "noti_id='" + noti_id + '\'' +
+                ", noti_date_create='" + noti_date_create + '\'' +
+                ", noti_dest='" + noti_dest + '\'' +
+                ", noti_msg='" + noti_msg + '\'' +
+                ", noti_origin='" + noti_origin + '\'' +
+                ", noti_state='" + noti_state + '\'' +
+                ", noti_type='" + noti_type + '\'' +
+                ", noti_titulo='" + noti_titulo + '\'' +
+                '}';
+    }
 }
 
