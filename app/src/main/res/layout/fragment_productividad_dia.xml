@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="20dp"
+        android:layout_margin="30dp"
 
 
         >
@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/letra_contenido"
+            android:textSize="16dp"
             android:text="Seleccione el día"
 
             />
@@ -40,6 +41,7 @@
                 android:clickable="true"
                 android:focusable="false"
                 android:hint="dd-mm-aaaa"
+                android:textSize="16dp"
                 android:maxLines="1"
                 android:layout_gravity="center_horizontal"
 
@@ -67,9 +69,9 @@
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:text="Terminales asociadas, diagnosticadas y reparadas por día"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:textAlignment="center"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textStyle="bold"
             android:visibility="gone"
 
