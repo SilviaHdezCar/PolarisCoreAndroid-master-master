@@ -351,7 +351,6 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                         try {
                             Log.d("RESPUESTA OB His", response.toString());
                             if (!response.get("message").toString().equals("success")) {
-                                Global.loading = false;
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -456,7 +455,6 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                         try {
                             Log.d("RESPUESTA SUMAR", response.toString());
                             if (!response.get("status").toString().equals("ok")) {
-                                Global.loading = false;
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -520,7 +518,6 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                         try {
                             Log.d("RESPUESTA ACTUALIZAR", response.toString());
                             if (!response.get("status").toString().equals("ok")) {
-                                Global.loading = false;
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();

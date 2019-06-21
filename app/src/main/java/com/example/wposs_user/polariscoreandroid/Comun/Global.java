@@ -186,5 +186,4 @@ public static Bitmap bitmap;
     public static Map<String, String>  repuestos_consultas; // Global.validaciones_consultas.put(estado, fecha + "%" + validations);
 
 
-    public static boolean loading;//utilizado para mostrar el gif cargando...
 }

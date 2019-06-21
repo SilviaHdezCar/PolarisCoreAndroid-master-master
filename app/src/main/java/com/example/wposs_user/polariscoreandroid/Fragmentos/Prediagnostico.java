@@ -77,10 +77,6 @@ public class Prediagnostico extends Fragment {
 
     private ImageView img_evidencia1;
     private ImageView img_evidencia2;
-    private TextView txt_nomFoto1;
-    private TextView txt_nomFoto2;
-    private TextView txt_fechaFoto1;
-    private TextView txt_fechaFoto2;
 
     private boolean tieneRepuestos;
 
@@ -103,7 +99,7 @@ public class Prediagnostico extends Fragment {
     }
 
     public void inicializaciones() {
-     //   objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //   objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("DIAGNÓSTICOS");
         this.repuestos = new ArrayList<Repuesto>();
         serial = (TextView) v.findViewById(R.id.serial_diagnosticos);
@@ -134,10 +130,7 @@ public class Prediagnostico extends Fragment {
 
         img_evidencia1 = (ImageView) v.findViewById(R.id.img_evidencia1_qa);
         img_evidencia2 = (ImageView) v.findViewById(R.id.img_evidencia2_qa);
-        txt_nomFoto1 = (TextView) v.findViewById(R.id.txt_nomFoto1_qa);
-        txt_nomFoto2 = (TextView) v.findViewById(R.id.txt_nomFoto2_qa);
-        txt_fechaFoto1 = (TextView) v.findViewById(R.id.txt_fechaFoto1_qa);
-        txt_fechaFoto2 = (TextView) v.findViewById(R.id.txt_fechaFoto2_qa);
+
 
     }
 
@@ -216,8 +209,8 @@ public class Prediagnostico extends Fragment {
      * @return
      */
     public void validarPestaniasMostrar() {
-        System.out.println("tiene obs: "+validarObservaciones());
-        if (!validarObservaciones()&&Global.validaciones_consultas.get("1") != null) {
+        System.out.println("tiene obs: " + validarObservaciones());
+        if (!validarObservaciones() && Global.validaciones_consultas.get("1") != null) {
 
             tab_prediagnostico.setVisibility(View.VISIBLE);
 
@@ -250,7 +243,7 @@ public class Prediagnostico extends Fragment {
     public boolean validarObservaciones() {
         boolean retorno = false;
         if (Global.OBSERVACIONES != null && Global.OBSERVACIONES.size() > 0) {
-            System.out.println("tamano obs="+Global.OBSERVACIONES.size());
+            System.out.println("tamano obs=" + Global.OBSERVACIONES.size());
             styleObservacioneso();
             tab_observaciones.setVisibility(View.VISIBLE);
             llenarRVEtapas(Global.OBSERVACIONES);
@@ -578,24 +571,20 @@ public class Prediagnostico extends Fragment {
 
             System.out.println("Observaciones con foto: " + Global.observaciones_con_fotos.size());
 
-            if (Global.observaciones_con_fotos.size() == 1 || Global.observaciones_con_fotos.size() == 2||Global.observaciones_con_fotos.size()>2) {
+            if (Global.observaciones_con_fotos.size() == 1 || Global.observaciones_con_fotos.size() == 2 || Global.observaciones_con_fotos.size() > 2) {
 
                 if (Global.observaciones_con_fotos.get(0) != null) {
                     if (Global.observaciones_con_fotos.get(0).getTeob_photo() != null || !Global.observaciones_con_fotos.get(0).getTeob_photo().isEmpty()) {
                         final String nombreFoto1 = Global.observaciones_con_fotos.get(0).getTeob_photo();
                         fechaFoto1 = Utils.darFormatoFechaObservaciones(Global.observaciones_con_fotos.get(0).getTeob_fecha());
-                        txt_fechaFoto1.setText(fechaFoto1);
-                        txt_nomFoto1.setText(nombreFoto1);
-                        txt_nomFoto1.setMovementMethod(new ScrollingMovementMethod());
                         System.out.println("Información de la foto: " + nombreFoto1 + "");
                         Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto1).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
-                        Global.foto = 1;
-                        Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto1;
+
                         img_evidencia1.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                //inflar fragment evidencias y carga la foto
-
+                                Global.foto = 1;
+                                Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto1;
                                 cargarPanel();
 
                             }
@@ -609,16 +598,13 @@ public class Prediagnostico extends Fragment {
                         System.out.println("fecha 2: " + Global.observaciones_con_fotos.get(1).getTeob_fecha());
                         fechaFoto2 = Utils.darFormatoFechaObservaciones(Global.observaciones_con_fotos.get(1).getTeob_fecha());
                         System.out.println("String fecha 2: " + fechaFoto2);
-                        txt_fechaFoto2.setText(fechaFoto2);
-                        txt_nomFoto2.setText(nombreFoto2);
 
                         Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto2).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
-                        Global.foto = 2;
-                        Global.rutaFotoObservacion2 = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto2;
                         img_evidencia2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                //inflar fragment evidencias y carga la foto
+                                Global.foto = 2;
+                                Global.rutaFotoObservacion2 = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto2;
                                 cargarPanel();
 
                             }
@@ -652,7 +638,7 @@ public class Prediagnostico extends Fragment {
                 }
                 if (Global.observaciones_con_fotos != null && Global.observaciones_con_fotos.size() > 0) {
                     retorno = true;
-                    System.out.println("Global obs fotos="+Global.observaciones_con_fotos.size());
+                    System.out.println("Global obs fotos=" + Global.observaciones_con_fotos.size());
                 }
             }
         }

@@ -42,7 +42,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +68,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
     private TextView tecnologia;
     private TextView estado;
     private TextView fechaANS;
+    private TextView garantia;
     private EditText textArea_observacion;
 
     private Button btn_agregar_etapa;
@@ -107,6 +111,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
         modelo = (TextView) view.findViewById(R.id.modelo_ter_asociada);
         tecnologia = (TextView) view.findViewById(R.id.tecno_ter_asociada);
         estado = (TextView) view.findViewById(R.id.estado_ter_asociada);
+        garantia = (TextView) view.findViewById(R.id.txt_garantia);
         fechaANS = (TextView) view.findViewById(R.id.fechal_ter_asociada);
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_observaciones_validacion);
         btn_agregar_etapa = (Button) view.findViewById(R.id.btn_agregar_etapa_autorizada);
@@ -119,10 +124,12 @@ public class EtapasNuevoD_autorizadas extends Fragment {
         modelo.setText(Global.terminalVisualizar.getTerm_model());
         tecnologia.setText(Global.terminalVisualizar.getTerm_technology());
         estado.setText(Global.terminalVisualizar.getTerm_status());
+        garantia.setText(this.estadoGarantía(Global.terminalVisualizar.getTerm_date_finish()));
         fechaANS.setText("");
         if (Global.terminalVisualizar.getTerm_date_ans() == null) {
             fechaANS.setText(Global.terminalVisualizar.getTerm_date_ans());
         }
+
 
         encabezado.setVisibility(View.GONE);
 
@@ -290,7 +297,51 @@ public class EtapasNuevoD_autorizadas extends Fragment {
         rv.setAdapter(adapter);
 
     }
+    /**
+     * Este metodo devuelve el estado dela garantía de la terminal
+     *
+     * @param garantia
+     * @return Con garantía: Sí la garantía está vigente, No establecida: si la fecha de garantía no se estableció, Sin garantía: si ya no tiene garantía
+     */
+    public String estadoGarantía(String garantia) {
+        String retorno = "";
+        System.out.println("garantía--> +"+garantia);
+        int comparacionFechas = tiempoGarantiaTerminal(garantia);
+        System.out.println("comparacion-->" + comparacionFechas);
+        if (comparacionFechas > 0) {
+            retorno = "Con garantía";
+        } else if (comparacionFechas == 0) {
+            retorno = "No establecida";
+        } else {
+            retorno = "Sin garantía";
+        }
 
+        return retorno;
+    }
+    /**
+     * Metodo que permite calcular el tiempo que duró la atención de la incidencia
+     *
+     * @return
+     */
+    public int tiempoGarantiaTerminal(String garantia) {
+        int retorno =0;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd H:m:s");
+        Date dateEnd = new Date();
+        Date fechaGarantia = null;
+        try {
+            if (garantia != null) {
+                if (!garantia.trim().isEmpty() && !garantia.equals("Invalid Date")) {
+                    fechaGarantia = dateFormat.parse(Utils.darFormatoNewDateDiferencia(garantia));
+                    Date fechaActual = dateFormat.parse(Utils.darFormatoNewDateDiferencia2(dateEnd + ""));
+                    int diferencia = (int) ((fechaGarantia.getTime() - fechaActual.getTime()) / 1000);
+                    retorno =diferencia;
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return retorno;
+    }
 
     /**
      * Metodo utilizados para consumir el servicio  para listar las observaciones de acuerdo a una terminal mediante una petición REST
