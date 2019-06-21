@@ -221,7 +221,7 @@ public class ObservacionesFragment extends Fragment {
                         try {
                             System.out.println("RESPUESTA FOTOS-->" + response.get("message").toString());
                             if (!response.get("status").toString().equalsIgnoreCase("ok")) {
-                                Global.loading = false;
+                                dialog.dismiss();
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -348,30 +348,29 @@ public class ObservacionesFragment extends Fragment {
     //Metodo utilizado para finalizar el diagnostico (Consume el servicio de finalizar diagnostico)
     public void finalizarDiagnostico() {
         observacion_text = txt_observacion.getText().toString();
-
+        dialogLoading();
         if (bitmap_foto1 == null) {
             Toast.makeText(objeto, "Por favor tome la primera foto", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
             return;
         }
         if (bitmap_foto2 == null) {
             Toast.makeText(objeto, "Por favor tome la segunda foto", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
             return;
         }
         if (observacion_text.isEmpty()) {
             Toast.makeText(objeto, "Por favor ingrese la observación", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
             return;
         }
-        Global.loading = true;
-        dialogLoading();
         consumirServicioEnviarFotos();
-
     }
 
     public void dialogLoading() {
         dialog = new DialogLoading();
         dialog.show(objeto.getSupportFragmentManager(), "");
     }
-
 
 
     /**
@@ -392,7 +391,7 @@ public class ObservacionesFragment extends Fragment {
                         try {
                             Log.d("RESPUESTA OB His", response.toString());
                             if (!response.get("message").toString().equals("success")) {
-                                Global.loading = false;
+                                dialog.dismiss();
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -500,7 +499,7 @@ public class ObservacionesFragment extends Fragment {
                         try {
                             Log.d("RESPUESTA SUMAR", response.toString());
                             if (!response.get("status").toString().equals("ok")) {
-                                Global.loading = false;
+                                dialog.dismiss();
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -564,7 +563,7 @@ public class ObservacionesFragment extends Fragment {
                         try {
                             Log.d("RESPUESTA ACTUALIZAR", response.toString());
                             if (!response.get("status").toString().equals("ok")) {
-                                Global.loading = false;
+                                dialog.dismiss();
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -658,6 +657,7 @@ public class ObservacionesFragment extends Fragment {
                         try {
                             System.out.println("STATUS-->" + response.get("status").toString());
                             if (response.get("status").toString().equals("fail")) {
+                                dialog.dismiss();
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -669,7 +669,7 @@ public class ObservacionesFragment extends Fragment {
 
                             } else {
                                 System.out.println("registrar diagnistico--->ok");
-                               dialog.dismiss();
+                                dialog.dismiss();
                                 eliminarPila();
                                 objeto.CustomAlertDialog(objeto, "Información", "Diagnóstico registrado exitosamente", 3000, false);
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();

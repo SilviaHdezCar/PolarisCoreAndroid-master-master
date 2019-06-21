@@ -54,7 +54,6 @@ public class DialogMostarFoto extends DialogFragment {
 
     private View view;
     private ImageView imagen;
-    private ImageView btn_close;
     private PhotoViewAttacher photoView;
     private ImageButton btn_before;
     private ImageButton btn_next;
@@ -75,15 +74,17 @@ public class DialogMostarFoto extends DialogFragment {
         imagen = (ImageView) view.findViewById(R.id.imagen_zoom);
         btn_before = (ImageButton) view.findViewById(R.id.btn_before);
         btn_next = (ImageButton) view.findViewById(R.id.btn_next);
-        btn_close = (ImageView) view.findViewById(R.id.btn_close);
+
         layout_desplazamiento = (LinearLayout) view.findViewById(R.id.layout_desplazamiento);
 
-        setCancelable(false);
+        setCancelable(true);
 
         if (Global.foto == 1) {
-            Picasso.with(objeto).load(Global.rutaFotoObservacion).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+            Picasso.with(objeto).load(Global.rutaFotoObservacion).error(R.drawable.img_no_disponible).fit().centerCrop().into(imagen);
+           // Picasso.with(objeto).load(Global.rutaFotoObservacion).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
         } else if (Global.foto == 2) {
-            Picasso.with(objeto).load(Global.rutaFotoObservacion2).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+            Picasso.with(objeto).load(Global.rutaFotoObservacion2).error(R.drawable.img_no_disponible).fit().centerCrop().into(imagen);
+           // Picasso.with(objeto).load(Global.rutaFotoObservacion2).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
         }
 
         photoView = new PhotoViewAttacher(imagen);
@@ -94,10 +95,10 @@ public class DialogMostarFoto extends DialogFragment {
             public void onClick(View v) {
                 if (Global.foto == 1) {
                     Global.foto = 2;
-                    Picasso.with(objeto).load(Global.rutaFotoObservacion2).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+                    Picasso.with(objeto).load(Global.rutaFotoObservacion2).error(R.drawable.img_no_disponible).fit().centerCrop().into(imagen);
                 } else if (Global.foto == 2) {
                     Global.foto = 1;
-                    Picasso.with(objeto).load(Global.rutaFotoObservacion).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+                    Picasso.with(objeto).load(Global.rutaFotoObservacion).error(R.drawable.img_no_disponible).fit().centerCrop().into(imagen);
                 }
             }
         });
@@ -106,19 +107,14 @@ public class DialogMostarFoto extends DialogFragment {
             public void onClick(View v) {
                 if (Global.foto == 1) {
                     Global.foto = 2;
-                    Picasso.with(objeto).load(Global.rutaFotoObservacion2).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+                    Picasso.with(objeto).load(Global.rutaFotoObservacion2).error(R.drawable.img_no_disponible).fit().centerCrop().into(imagen);
                 } else if (Global.foto == 2) {
                     Global.foto = 1;
-                    Picasso.with(objeto).load(Global.rutaFotoObservacion).error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+                    Picasso.with(objeto).load(Global.rutaFotoObservacion).error(R.drawable.img_no_disponible).fit().centerCrop().into(imagen);
                 }
             }
         });
-        btn_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+
         layout_desplazamiento.setVisibility(View.VISIBLE);
 
         builder.setView(view);
@@ -127,63 +123,6 @@ public class DialogMostarFoto extends DialogFragment {
         return builder.create();
     }
 
-    private void scaleImage(ImageView view) throws NoSuchElementException { // Get bitmap from the the ImageView.
-        Bitmap bitmap = null;
-        try {
-            Drawable drawing = view.getDrawable();
-            bitmap = ((BitmapDrawable) drawing).getBitmap();
-        } catch (NullPointerException e) {
-            throw new NoSuchElementException("No drawable on given view");
-        } catch (ClassCastException e) {
-            // Check bitmap is Ion drawable
-            e.printStackTrace();
-          //  bitmap = Ion.with(view).getBitmap();
-        }
-        // Get current dimensions AND the desired bounding box
-        int width = 0;
-        try {
-            width = bitmap.getWidth();
-        } catch (NullPointerException e) {
-            throw new NoSuchElementException("Can't find bitmap on given view/drawable");
-        }
-        int height = bitmap.getHeight();
-        int bounding = dpToPx(250);
-        Log.i("Test", "original width = " + Integer.toString(width));
-        Log.i("Test", "original height = " + Integer.toString(height));
-        Log.i("Test", "bounding = " + Integer.toString(bounding));
-        // Determine how much to scale: the dimension requiring less scaling is
-        // closer to the its side. This way the image always stays inside your
-        // bounding box AND either x/y axis touches it.
-        float xScale = ((float) bounding) / width;
-        float yScale = ((float) bounding) / height;
-        float scale = (xScale <= yScale) ? xScale : yScale;
-        Log.i("Test", "xScale = " + Float.toString(xScale));
-        Log.i("Test", "yScale = " + Float.toString(yScale));
-        Log.i("Test", "scale = " + Float.toString(scale));
-        // Create a matrix for the scaling and add the scaling data
-        Matrix matrix = new Matrix();
-        matrix.postScale(scale, scale);
-        // Create a new bitmap and convert it to a format understood by the ImageView
-        Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
-        width = scaledBitmap.getWidth();
-        // re-use height = scaledBitmap.getHeight(); // re-use
-        BitmapDrawable result = new BitmapDrawable(scaledBitmap);
-        Log.i("Test", "scaled width = " + Integer.toString(width));
-        Log.i("Test", "scaled height = " + Integer.toString(height));
-        // Apply the scaled bitmap
-        view.setImageDrawable(result);
-        // Now change ImageView's dimensions to match the scaled image
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
-        params.width = width;
-        params.height = height;
-        view.setLayoutParams(params);
-        Log.i("Test", "done");
-    }
-
-    private int dpToPx(int dp) {
-        float density = objeto.getResources().getDisplayMetrics().density;
-        return Math.round((float) dp * density);
-    }
 }
 
 

@@ -52,7 +52,7 @@ public class AdapterTerminal_asociada extends RecyclerView.Adapter<AdapterTermin
         holder.fechaANS.setText("");
 
         if (this.listTerminal.get(i).getTerm_date_ans() != null) {
-            fechaANS = Utils.darFormatoFecha2(this.listTerminal.get(i).getTerm_date_reception());
+            fechaANS = Utils.darFormatoFecha2(this.listTerminal.get(i).getTerm_date_ans());
             holder.fechaANS.setText(fechaANS);
         }
 

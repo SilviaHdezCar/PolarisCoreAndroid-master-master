@@ -32,14 +32,9 @@ public class DialogLoading extends DialogFragment {
         setCancelable(false);
 
         builder.setView(v);
-        cerrar();
+
 
         return builder.create();
     }
 
-    public void cerrar() {
-        if(!Global.loading){
-            dismiss();
-        }
-    }
 }

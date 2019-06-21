@@ -184,7 +184,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
             return;
         } else {
             obser = new Observacion(observacion, Global.terminalVisualizar.getTerm_serial(), "");
-           consumirServicioObtenerHistorial();
+            consumirServicioObtenerHistorial();
         }
 
     }
@@ -323,7 +323,6 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                         try {
                             Log.d("RESPUESTA OB His", response.toString());
                             if (!response.get("message").toString().equals("success")) {
-                                Global.loading = false;
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -391,7 +390,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                 String estado = jsonObject.get("term_state").toString();
                 String tecnico = jsonObject.get("term_location").toString();
                 if ((estado.equalsIgnoreCase("REPARACIÓN")
-                        ||estado.equalsIgnoreCase("QA"))
+                        || estado.equalsIgnoreCase("QA"))
                         && tecnico.equalsIgnoreCase(Global.CODE)) {
                     consumirServicioActualizarGestionadas();
                 } else {
@@ -430,7 +429,6 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                         try {
                             Log.d("RESPUESTA SUMAR", response.toString());
                             if (!response.get("status").toString().equals("ok")) {
-                                Global.loading = false;
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -494,7 +492,6 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                         try {
                             Log.d("RESPUESTA ACTUALIZAR", response.toString());
                             if (!response.get("status").toString().equals("ok")) {
-                                Global.loading = false;
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -602,12 +599,6 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                             } else {
                                 eliminarPila();
                                 CustomAlertDialog(objeto, "Información", "Reparación finalizada", 3000, true);
-                               /* AlertDialog alertDialog = new AlertDialog.Builder(objeto).create();
-                                alertDialog.setTitle("");
-                                alertDialog.setMessage("Reparación finalizada");
-                                alertDialog.setCancelable(true);
-                                alertDialog.show();*/
-
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
 
@@ -848,7 +839,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
      * ()
      */
     public void eliminarPila() {
-        if(objeto.getSupportFragmentManager()!=null){
+        if (objeto.getSupportFragmentManager() != null) {
             FragmentManager fm = objeto.getSupportFragmentManager();
 
             for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
