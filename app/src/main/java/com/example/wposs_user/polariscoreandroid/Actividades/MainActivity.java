@@ -545,12 +545,28 @@ public class MainActivity extends AppCompatActivity
                                                 if (msj.contains("terminal") && !msj.contains("object")) {
 
 
+                                                    if(!msj.contains("[")){
+
+                                                        String mx= msj.substring(0,33);
+                                                        String con= msj.substring(33,msj.length());
+
+                                                        msj= mx+"["+con+"]";
+
+                                                        System.out.println("MENSAJE ARREGLADO*** " +msj);
+
+                                                    }
+
                                                     String nMensaje = eliminarCaracteres(msj);
-                                                    String[] mesagge = nMensaje.split("  ");
+
+                                                    System.out.println("NOTIFICACIONES RECIBIDAS** "+ nMensaje);
+                                                    String[] mesagge = nMensaje.split(":");
                                                     String titulo = mesagge[0];
 
+                                                    String mesag;
 
-                                                    ArrayList<String> terminales = listarNotterminales(nMensaje);
+
+                                                      ArrayList<String>terminales= listarNotterminales(nMensaje)
+;
 
                                                     String text = formatoNotificaciones(terminales.toString());
 
@@ -782,7 +798,10 @@ public class MainActivity extends AppCompatActivity
 
         }
 
+        System.out.println("VALOR RETORNADO EN EL METODO**"+ ter.toString());
+
         return ter;
+
 
 
     }
