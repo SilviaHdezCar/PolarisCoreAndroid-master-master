@@ -34,7 +34,6 @@
                         style="@style/letra_tabs"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
-                        android:padding="2dp"
                         android:background="@color/verde_pestanas"
                         android:scrollbars="vertical"
                         android:text="ETAPAS" />
@@ -61,7 +60,6 @@
                         style="@style/letra_tabs"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
-                        android:padding="2dp"
                         android:background="@color/verde_pestanas"
                         android:scrollbars="vertical"
                         android:text="Diagnóstico" />
@@ -88,7 +86,6 @@
                         style="@style/letra_tabs"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
-                        android:padding="2dp"
                         android:background="@color/verde_pestanas"
                         android:scrollbars="vertical"
                         android:text="Reparación" />
@@ -101,6 +98,31 @@
                         android:orientation="horizontal"></LinearLayout>
                 </LinearLayout>
 
+                <!--Pestaña de qa-->
+                <LinearLayout
+                    android:id="@+id/tab_qa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btn_terminales_qa"
+                        style="@style/letra_tabs"
+                        android:layout_width="50dp"
+                        android:layout_height="48dp"
+                        android:background="@color/verde_pestanas"
+                        android:scrollbars="vertical"
+                        android:text="QA" />
+
+                    <LinearLayout
+                        android:id="@+id/select_qa"
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"
+                        android:background="@color/verde_pestanas"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
+                </LinearLayout>
                 <!--Pestaña de evidencias-->
                 <LinearLayout
                     android:id="@+id/tab_evidencias"
@@ -109,17 +131,17 @@
                     android:orientation="vertical">
 
                     <Button
-                        android:id="@+id/btn_terminales_qa"
+                        android:id="@+id/btn_terminales_evidencia"
                         style="@style/letra_tabs"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
-                        android:padding="2dp"
                         android:background="@color/verde_pestanas"
+                        android:padding="2dp"
                         android:scrollbars="vertical"
                         android:text="EVIDENCIAS" />
 
                     <LinearLayout
-                        android:id="@+id/select_qa"
+                        android:id="@+id/select_evidencia"
                         android:layout_width="match_parent"
                         android:layout_height="4dp"
                         android:background="@color/verde_pestanas"
@@ -134,8 +156,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/serial_diagnosticos"
@@ -150,8 +171,8 @@
                     android:id="@+id/layout_observaciones"
                     android:layout_width="330dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_gravity="center_horizontal"
+                    android:orientation="vertical"
 
                     >
 
@@ -184,9 +205,9 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/layoutSerial"
                             android:layout_marginTop="5dp"
-                            android:padding="5dp"
                             android:background="@color/borde_verde_edit_text"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:padding="5dp">
 
                             <TextView
                                 style="@style/letra_titulos"
@@ -335,30 +356,82 @@
                                 android:background="@drawable/cuadrado_fondo_blanco"
                                 android:orientation="vertical"
                                 android:padding="5dp">
-
+                                <!--Fotos de prediagnostico -->
                                 <LinearLayout
+                                    android:id="@+id/ly_evidencias_pred"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:padding="5dp"
-                                    android:gravity="center">
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="PREDIAGNÓSTICO" />
 
-                                    <ImageView
-                                        android:id="@+id/img_evidencia1_qa"
-                                        android:layout_width="100dp"
-                                        android:layout_height="100dp"
-                                        android:padding="1dp"
-                                        android:src="@drawable/img_no_disponible" />
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="horizontal"
+                                        android:padding="5dp">
 
-                                    <ImageView
-                                        android:id="@+id/img_evidencia2_qa"
-                                        android:layout_width="100dp"
-                                        android:layout_height="100dp"
-                                        android:layout_marginLeft="30dp"
-                                        android:padding="1dp"
-                                        android:src="@drawable/img_no_disponible" />
+                                        <ImageView
+                                            android:id="@+id/img_evidencia1_pred"
+                                            android:layout_width="100dp"
+                                            android:layout_height="100dp"
+                                            android:padding="1dp"
+                                            android:src="@drawable/img_no_disponible" />
 
+                                        <ImageView
+                                            android:id="@+id/img_evidencia2_pred"
+                                            android:layout_width="100dp"
+                                            android:layout_height="100dp"
+                                            android:layout_marginLeft="30dp"
+                                            android:padding="1dp"
+                                            android:src="@drawable/img_no_disponible" />
+
+                                    </LinearLayout>
                                 </LinearLayout>
+
+
+                                <!--Fotos de QA-->
+                                <LinearLayout
+                                    android:id="@+id/ly_evidencias_qa"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:layout_marginTop="20dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="QA" />
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="horizontal"
+                                        android:padding="5dp">
+
+                                        <ImageView
+                                            android:id="@+id/img_evidencia1_qa"
+                                            android:layout_width="100dp"
+                                            android:layout_height="100dp"
+                                            android:padding="1dp"
+                                            android:src="@drawable/img_no_disponible" />
+
+                                        <ImageView
+                                            android:id="@+id/img_evidencia2_qa"
+                                            android:layout_width="100dp"
+                                            android:layout_height="100dp"
+                                            android:layout_marginLeft="30dp"
+                                            android:padding="1dp"
+                                            android:src="@drawable/img_no_disponible" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+
                             </LinearLayout>
 
 

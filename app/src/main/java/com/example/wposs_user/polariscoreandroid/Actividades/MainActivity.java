@@ -476,7 +476,6 @@ public class MainActivity extends AppCompatActivity
                         try {
 
                             Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println("status:  " + Global.STATUS_SERVICE);
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
@@ -491,9 +490,6 @@ public class MainActivity extends AppCompatActivity
 
 
                             response = new JSONObject(response.toString());
-
-                            System.out.println("RESPUESTA DEL SERVICIO DE NOTIFIACIONES*  " + response.toString());
-
 
                             if (response.get("notificacion").equals("{}")) {
 
@@ -520,8 +516,6 @@ public class MainActivity extends AppCompatActivity
                                         String men = ms[1];
                                         String[] vacio = men.split(",");
                                         String h = eliminarCaracteres(men);
-
-                                        System.out.println("VACIO**" + h);
 
                                         if (h.contains("c") || h.contains("m")) {
 
@@ -571,10 +565,7 @@ public class MainActivity extends AppCompatActivity
                                                     String[] mesagge = nMensaje.split("   ");
                                                     String titulo = mesagge[0];
 
-                                                    System.out.println("MENSAJE QUE CONTIENE** " + mesagge[1]);
-
-
-                                                    String msjFin = eliminarCaracteres(mesagge[1]);
+                                                     String msjFin = eliminarCaracteres(mesagge[1]);
 
 
                                                     String msjFinal = formatoRep(msjFin);
@@ -611,12 +602,9 @@ public class MainActivity extends AppCompatActivity
 
                             }
 
-                            System.out.println("NOTIFICACIONES AGREGADAS"+Global.notificaciones.toString());
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.d("RESPUESTA", response.toString());
                     }
 
                 },
@@ -823,9 +811,7 @@ public class MainActivity extends AppCompatActivity
 
     public String formatoNot(String txt) {
 
-        System.out.println("ERROR ENCONTRADO EN NOTIFIACIONES***" + txt);
-
-        String rta = "";
+       String rta = "";
 
         String[] tlista = txt.split("  ");
 
@@ -853,8 +839,6 @@ public class MainActivity extends AppCompatActivity
             tlista[i + 2] = serial[0] + ":" + serial[1];
 
             rta = rta + tlista[i] + "\n" + tlista[i + 1] + "\n" + tlista[i+2] + "\n";
-
-            System.out.println("NOTIFICACIONES SALIDA**" +  tlista[i+2]);
         }
 
         return rta;

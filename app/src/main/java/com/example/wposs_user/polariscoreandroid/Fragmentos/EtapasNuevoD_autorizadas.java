@@ -1,8 +1,6 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,11 +10,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +35,7 @@ import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,6 +83,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
 
     private String observacion;
 
+
     public EtapasNuevoD_autorizadas() {
         // Required empty public constructor
     }
@@ -106,6 +106,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
 
         queue = Volley.newRequestQueue(objeto);
         encabezado = (TableLayout) view.findViewById(R.id.tabla_encabezado);
+
         serial = (TextView) view.findViewById(R.id.serial_ter_asociada);
         marca = (TextView) view.findViewById(R.id.marca_ter_asociada);
         modelo = (TextView) view.findViewById(R.id.modelo_ter_asociada);
@@ -118,7 +119,13 @@ public class EtapasNuevoD_autorizadas extends Fragment {
         btn_siguiente = (Button) view.findViewById(R.id.btn_siguiente_etapas_autorizadas);
         textArea_observacion = (EditText) view.findViewById(R.id.textArea_information);
 
-         btn_siguiente.bringToFront();
+
+        ImageView imagen = (ImageView) view.findViewById(R.id.imagen_asociada_eta);
+        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/"+
+                Global.terminalVisualizar.getTerm_model().toUpperCase()+".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+
+        btn_siguiente.bringToFront();
+
         serial.setText(Global.terminalVisualizar.getTerm_serial());
         marca.setText(Global.terminalVisualizar.getTerm_brand());
         modelo.setText(Global.terminalVisualizar.getTerm_model());

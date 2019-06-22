@@ -18,7 +18,6 @@
             android:id="@+id/imagen_asociada"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/img_datafono"
             android:layout_gravity="center"/>
 
         <LinearLayout

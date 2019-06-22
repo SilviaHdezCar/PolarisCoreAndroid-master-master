@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -39,6 +40,7 @@ import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,6 +94,9 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         fechal_ans_ter_validaciones = (TextView) v.findViewById(R.id.fechal_ans_ter_validaciones);
         Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<>();
 
+        ImageView imagen = (ImageView) v.findViewById(R.id.imagen_asociada);
+        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/"+
+                Global.modelo.toUpperCase()+".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
 
         title_validaciones = (TextView) v.findViewById(R.id.tile_validaciones);
         title_validaciones.setVisibility(View.GONE);

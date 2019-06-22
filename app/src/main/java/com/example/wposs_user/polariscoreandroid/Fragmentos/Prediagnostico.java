@@ -1,23 +1,17 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
-import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -28,12 +22,10 @@ import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTipificacion
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidacionesAutorizadas;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
-import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogMostarFoto;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
-import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.squareup.picasso.Picasso;
 
@@ -55,11 +47,13 @@ public class Prediagnostico extends Fragment {
     private Button btn_prediagnostico;
     private Button btn_reparacion;
     private Button btn_qa;
+    private Button btn_evidencias;
 
     private LinearLayout ly_observaciones;
     private LinearLayout ly_prediagnostico;
     private LinearLayout ly_reparacion;
     private LinearLayout ly_qa;
+    private LinearLayout ly_evidencias;
     private TableLayout tablaRepuestos;
     private LinearLayout layout_observaciones;
     private LinearLayout layout_prediagnostico;
@@ -69,14 +63,18 @@ public class Prediagnostico extends Fragment {
     private LinearLayout layout_tipificaciones;
     private LinearLayout tab_prediagnostico;
     private LinearLayout tab_reparacion;
+    private LinearLayout tab_qa;
     private LinearLayout tab_evidencias;
     private LinearLayout tab_observaciones;
 
     private RecyclerView rv;
     private List<Repuesto> repuestos;
 
+    //evidencias
     private ImageView img_evidencia1;
     private ImageView img_evidencia2;
+    private ImageView img_evidencia3;
+    private ImageView img_evidencia4;
 
     private boolean tieneRepuestos;
 
@@ -110,13 +108,16 @@ public class Prediagnostico extends Fragment {
         btn_prediagnostico = (Button) v.findViewById(R.id.btn_terminales_prediagnostico);//Sería DIAGNOSTICO
         btn_reparacion = (Button) v.findViewById(R.id.btn_terminales_reparacion);
         btn_qa = (Button) v.findViewById(R.id.btn_terminales_qa);
+        btn_evidencias = (Button) v.findViewById(R.id.btn_terminales_evidencia);
         ly_observaciones = (LinearLayout) v.findViewById(R.id.select_observaciones);
         ly_prediagnostico = (LinearLayout) v.findViewById(R.id.select_prediagnostico);
         ly_reparacion = (LinearLayout) v.findViewById(R.id.select_reparacion);
         ly_qa = (LinearLayout) v.findViewById(R.id.select_qa);
+        ly_evidencias = (LinearLayout) v.findViewById(R.id.select_evidencia);
 
         tab_prediagnostico = (LinearLayout) v.findViewById(R.id.tab_prediagnostico);
         tab_reparacion = (LinearLayout) v.findViewById(R.id.tab_reparacion);
+        tab_qa = (LinearLayout) v.findViewById(R.id.tab_qa);
         tab_evidencias = (LinearLayout) v.findViewById(R.id.tab_evidencias);
         tab_observaciones = (LinearLayout) v.findViewById(R.id.tab_observaciones);
 
@@ -128,9 +129,11 @@ public class Prediagnostico extends Fragment {
         layout_validaciones = (LinearLayout) v.findViewById(R.id.layout_validaciones);
         layout_tipificaciones = (LinearLayout) v.findViewById(R.id.layout_tipificaciones);
 
-        img_evidencia1 = (ImageView) v.findViewById(R.id.img_evidencia1_qa);
-        img_evidencia2 = (ImageView) v.findViewById(R.id.img_evidencia2_qa);
-
+        //Evidencias
+        img_evidencia1 = (ImageView) v.findViewById(R.id.img_evidencia1_pred);
+        img_evidencia2 = (ImageView) v.findViewById(R.id.img_evidencia2_pred);
+        img_evidencia3 = (ImageView) v.findViewById(R.id.img_evidencia1_qa);
+        img_evidencia4 = (ImageView) v.findViewById(R.id.img_evidencia2_qa);
 
     }
 
@@ -144,7 +147,6 @@ public class Prediagnostico extends Fragment {
                 llenarRVEtapas(Global.OBSERVACIONES);
                 layout_observaciones.setVisibility(View.VISIBLE);
                 layout_prediagnostico.setVisibility(View.GONE);
-
             }
         });
 
@@ -183,12 +185,25 @@ public class Prediagnostico extends Fragment {
             public void onClick(View v) {
                 styleQA();
                 layout_prediagnostico.setVisibility(View.VISIBLE);
+                layout_tipificaciones.setVisibility(View.GONE);
+                layout_repuestos.setVisibility(View.GONE);
+                layout_observaciones.setVisibility(View.GONE);
+                layout_evidencias.setVisibility(View.GONE);
+                llenarDiagnostico("3");
+                layout_validaciones.setVisibility(View.VISIBLE);
 
+            }
+        });
+        btn_evidencias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                styleEvidencias();
+                layout_prediagnostico.setVisibility(View.VISIBLE);
                 layout_tipificaciones.setVisibility(View.GONE);
                 layout_repuestos.setVisibility(View.GONE);
                 layout_observaciones.setVisibility(View.GONE);
                 layout_evidencias.setVisibility(View.VISIBLE);
-                llenarDiagnostico("3");
+                mostrarEvidencias();
                 layout_validaciones.setVisibility(View.GONE);
 
             }
@@ -209,7 +224,6 @@ public class Prediagnostico extends Fragment {
      * @return
      */
     public void validarPestaniasMostrar() {
-        System.out.println("tiene obs: " + validarObservaciones());
         if (!validarObservaciones() && Global.validaciones_consultas.get("1") != null) {
 
             tab_prediagnostico.setVisibility(View.VISIBLE);
@@ -230,6 +244,9 @@ public class Prediagnostico extends Fragment {
         if (Global.validaciones_consultas.get("2") == null) {
             tab_reparacion.setVisibility(View.GONE);
         }
+        if (Global.validaciones_consultas.get("3") == null) {
+            tab_qa.setVisibility(View.GONE);
+        }
         if (!observacionesConfoto()) {
             tab_evidencias.setVisibility(View.GONE);
         }
@@ -243,7 +260,6 @@ public class Prediagnostico extends Fragment {
     public boolean validarObservaciones() {
         boolean retorno = false;
         if (Global.OBSERVACIONES != null && Global.OBSERVACIONES.size() > 0) {
-            System.out.println("tamano obs=" + Global.OBSERVACIONES.size());
             styleObservacioneso();
             tab_observaciones.setVisibility(View.VISIBLE);
             llenarRVEtapas(Global.OBSERVACIONES);
@@ -309,8 +325,6 @@ public class Prediagnostico extends Fragment {
             if (validacions == null || validacions.size() == 0) {
                 layout_validaciones.setVisibility(View.GONE);
             }
-            layout_evidencias.setVisibility(View.VISIBLE);
-            mostrarEvidencias();
             return;
         }
 
@@ -561,65 +575,135 @@ public class Prediagnostico extends Fragment {
     }
 
     /**
-     * Metodo utilizado al mostrar el diagnóstico realizado por QA
+     * Metodo utilizado para validar si la terminal ya pasó por QA y obtener los nombres de las fotos
      */
     public void mostrarEvidencias() {
+        boolean obsFotos = observacionesConfoto();
+        if (obsFotos) {
 
-        String fechaFoto1 = "";
-        String fechaFoto2 = "";
-        System.out.println("Tamaño del arreglo observaciones con foto: " + Global.observaciones_con_fotos.size());
-        System.out.println("Tamaño del arreglo observaciones: " + Global.OBSERVACIONES.size());
-
-
-        if (observacionesConfoto()) {
-
-            System.out.println("Observaciones con foto: " + Global.observaciones_con_fotos.size());
-
-            if (Global.observaciones_con_fotos.size() == 1 || Global.observaciones_con_fotos.size() == 2 || Global.observaciones_con_fotos.size() > 2) {
-
-                if (Global.observaciones_con_fotos.get(0) != null) {
-                    if (Global.observaciones_con_fotos.get(0).getTeob_photo() != null || !Global.observaciones_con_fotos.get(0).getTeob_photo().isEmpty()) {
-                        final String nombreFoto1 = Global.observaciones_con_fotos.get(0).getTeob_photo();
-                        fechaFoto1 = Utils.darFormatoFechaObservaciones(Global.observaciones_con_fotos.get(0).getTeob_fecha());
-                        System.out.println("Información de la foto: " + nombreFoto1 + "");
-                        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto1).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
-
-                        img_evidencia1.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Global.foto = 1;
-                                Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto1;
-                                cargarPanel();
-
-                            }
-                        });
-                    }
-
-                }
-                if (Global.observaciones_con_fotos.get(1) != null) {
-                    if (Global.observaciones_con_fotos.get(1).getTeob_photo() != null || !Global.observaciones_con_fotos.get(1).getTeob_photo().isEmpty()) {
-                        final String nombreFoto2 = Global.observaciones_con_fotos.get(1).getTeob_photo();
-                        System.out.println("fecha 2: " + Global.observaciones_con_fotos.get(1).getTeob_fecha());
-                        fechaFoto2 = Utils.darFormatoFechaObservaciones(Global.observaciones_con_fotos.get(1).getTeob_fecha());
-                        System.out.println("String fecha 2: " + fechaFoto2);
-
-                        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto2).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
-                        img_evidencia2.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Global.foto = 2;
-                                Global.rutaFotoObservacion2 = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + nombreFoto2;
-                                cargarPanel();
-
-                            }
-                        });
-                    }
-
-                }
-
+            String[] fotos;
+            if ((!Global.validaciones_qa) && Global.observaciones_con_fotos.size() == 2) {//Valida que solo tenga fotos de prediagnóstico
+                fotos = new String[2];
+                fotos[0] = Global.observaciones_con_fotos.get(0).getTeob_photo();
+                fotos[1] = Global.observaciones_con_fotos.get(1).getTeob_photo();
+                System.out.println("foto pre 1: " + fotos[0]);
+                System.out.println("foto pre 2: " + fotos[1]);
+                llenarFotos(fotos, 1);
+            } else if (Global.validaciones_qa && Global.observaciones_con_fotos.size() == 2) {//Valida que solo tenga fotos de QA
+                fotos = new String[2];
+                fotos[0] = Global.observaciones_con_fotos.get(0).getTeob_photo();
+                fotos[1] = Global.observaciones_con_fotos.get(1).getTeob_photo();
+                System.out.println("foto pre 1: " + fotos[0]);
+                System.out.println("foto pre 2: " + fotos[1]);
+                llenarFotos(fotos, 2);
+            } else if (Global.validaciones_qa && Global.observaciones_con_fotos.size() == 4) {//Valida que solo tenga fotos de prediagnóstico y QA
+                fotos = new String[4];
+                fotos[0] = Global.observaciones_con_fotos.get(0).getTeob_photo();
+                fotos[1] = Global.observaciones_con_fotos.get(1).getTeob_photo();
+                fotos[2] = Global.observaciones_con_fotos.get(2).getTeob_photo();
+                fotos[3] = Global.observaciones_con_fotos.get(3).getTeob_photo();
+                System.out.println("foto pre 1: " + fotos[0]);
+                System.out.println("foto pre 2: " + fotos[1]);
+                System.out.println("foto pre 3: " + fotos[2]);
+                System.out.println("foto pre 4: " + fotos[3]);
+                llenarFotos(fotos, 3);
             }
         }
     }
+
+    /**
+     * @param fotos
+     * @param estado 1.-->Prediagnóstico   2. -->Qa   3. -->Prediagnóstico y QA
+     * @return
+     */
+    public boolean llenarFotos(final String[] fotos, int estado) {
+        boolean retorno = false;
+        LinearLayout linearLayout;
+        if (fotos.length == 2 && estado == 1) {//no tiene fotos de  qa
+            linearLayout = (LinearLayout) v.findViewById((R.id.ly_evidencias_qa));
+            linearLayout.setVisibility(View.GONE);
+            Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[0]).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
+            img_evidencia1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Global.foto = 1;
+                    Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[0];
+                    cargarPanel();
+                }
+            });
+            Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[1]).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
+            img_evidencia2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Global.foto = 2;
+                    Global.rutaFotoObservacion2 = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[1];
+                    cargarPanel();
+                }
+            });
+        } else if (fotos.length == 2 && estado == 2) {// not iene fotos de prediagnostico
+            linearLayout = (LinearLayout) v.findViewById((R.id.ly_evidencias_pred));
+            linearLayout.setVisibility(View.GONE);
+            Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[0]).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia3);
+            img_evidencia3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Global.foto = 1;
+                    Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[0];
+                    cargarPanel();
+                }
+            });
+            Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[1]).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia4);
+            img_evidencia4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Global.foto = 2;
+                    Global.rutaFotoObservacion2 = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[1];
+                    cargarPanel();
+                }
+            });
+        } else if (fotos.length == 4 && estado == 3) { //tiene fotos de Qa
+            Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[0]).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
+            img_evidencia1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Global.foto = 1;
+                    Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[0];
+                    cargarPanel();
+                }
+            });
+            Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[1]).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
+            img_evidencia2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Global.foto = 2;
+                    Global.rutaFotoObservacion2 = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[1];
+                    cargarPanel();
+                }
+            });
+            Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[2]).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia3);
+            img_evidencia3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Global.foto = 1;
+                    Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[2];
+                    cargarPanel();
+                }
+            });
+            Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[3]).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia4);
+            img_evidencia4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Global.foto = 2;
+                    Global.rutaFotoObservacion2 = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + fotos[3];
+                    cargarPanel();
+                }
+            });
+        }
+
+
+        return retorno;
+    }
+
 
     /**
      * Recorre el arreglo de observaciones y revisa cuales tienen fotos y las asigna al arreglo de observaciones con foto
@@ -630,20 +714,18 @@ public class Prediagnostico extends Fragment {
         boolean retorno = false;
         Global.observaciones_con_fotos = null;
         Global.observaciones_con_fotos = new ArrayList<Observacion>();
-        if (Global.OBSERVACIONES != null) {
-            if (Global.OBSERVACIONES.size() > 0) {
-                for (Observacion o : Global.OBSERVACIONES) {
-                    if (o.getTeob_photo() != null || !o.getTeob_photo().equalsIgnoreCase("")) {
-                        if (o.getTeob_description().isEmpty() || o.getTeob_description().equals("Observación Imagen QA")) {
-                            System.out.println(o.toString());
-                            Global.observaciones_con_fotos.add(o);
-                        }
+        if (Global.OBSERVACIONES != null && Global.OBSERVACIONES.size() > 0) {
+            for (Observacion o : Global.OBSERVACIONES) {
+                if (o.getTeob_photo() != null || !o.getTeob_photo().equalsIgnoreCase("")) {
+                    if (o.getTeob_description().isEmpty()) {
+                        System.out.println(o.toString());
+                        Global.observaciones_con_fotos.add(o);
                     }
                 }
-                if (Global.observaciones_con_fotos != null && Global.observaciones_con_fotos.size() > 0) {
-                    retorno = true;
-                    System.out.println("Global obs fotos=" + Global.observaciones_con_fotos.size());
-                }
+            }
+            if (Global.observaciones_con_fotos != null && Global.observaciones_con_fotos.size() > 0) {
+                Collections.sort(Global.observaciones_con_fotos);
+                retorno = true;
             }
         }
         return retorno;
@@ -678,16 +760,20 @@ public class Prediagnostico extends Fragment {
         ly_qa.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
         ly_observaciones.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
 
+
         btn_observaciones.setTextSize(13);
         btn_observaciones.setTypeface(null, Typeface.NORMAL);
         btn_prediagnostico.setTextSize(15);
         btn_reparacion.setTextSize(13);
         btn_qa.setTextSize(13);
+
         btn_prediagnostico.setTypeface(null, Typeface.BOLD);
         btn_reparacion.setTypeface(null, Typeface.NORMAL);
         btn_qa.setTypeface(null, Typeface.NORMAL);
 
-
+        btn_evidencias.setTypeface(null, Typeface.NORMAL);
+        btn_evidencias.setTextSize(13);
+        ly_evidencias.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
     }
 
     public void styleReparacion() {
@@ -704,6 +790,10 @@ public class Prediagnostico extends Fragment {
         btn_prediagnostico.setTypeface(null, Typeface.NORMAL);
         btn_reparacion.setTypeface(null, Typeface.BOLD);
         btn_qa.setTypeface(null, Typeface.NORMAL);
+
+        btn_evidencias.setTypeface(null, Typeface.NORMAL);
+        btn_evidencias.setTextSize(13);
+        ly_evidencias.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
     }
 
     public void styleQA() {
@@ -720,6 +810,30 @@ public class Prediagnostico extends Fragment {
         btn_prediagnostico.setTypeface(null, Typeface.NORMAL);
         btn_reparacion.setTypeface(null, Typeface.NORMAL);
         btn_qa.setTypeface(null, Typeface.BOLD);
+
+        btn_evidencias.setTypeface(null, Typeface.NORMAL);
+        btn_evidencias.setTextSize(13);
+        ly_evidencias.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+    }
+
+    public void styleEvidencias() {
+        ly_prediagnostico.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+        ly_qa.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+        ly_reparacion.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+        ly_observaciones.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
+
+        btn_observaciones.setTextSize(13);
+        btn_observaciones.setTypeface(null, Typeface.NORMAL);
+        btn_prediagnostico.setTextSize(13);
+        btn_reparacion.setTextSize(13);
+        btn_qa.setTextSize(13);
+        btn_prediagnostico.setTypeface(null, Typeface.NORMAL);
+        btn_reparacion.setTypeface(null, Typeface.NORMAL);
+        btn_qa.setTypeface(null, Typeface.NORMAL);
+
+        btn_evidencias.setTypeface(null, Typeface.BOLD);
+        btn_evidencias.setTextSize(15);
+        ly_evidencias.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
     }
 
 

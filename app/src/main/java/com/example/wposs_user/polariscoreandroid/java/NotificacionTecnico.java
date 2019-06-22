@@ -34,8 +34,6 @@ public class NotificacionTecnico implements Runnable {
                 Global.notificaciones= new ArrayList<>();
                 objeto.consumirServicioNotificaciones();
 
-                System.out.println("CONSUME EL SERVICIO DE NOTIFICACIONES***");
-
                 Thread.sleep(20000);
 
 

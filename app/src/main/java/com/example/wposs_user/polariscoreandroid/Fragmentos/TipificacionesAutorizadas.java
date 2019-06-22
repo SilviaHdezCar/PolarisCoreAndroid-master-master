@@ -133,6 +133,8 @@ public class TipificacionesAutorizadas extends Fragment {
         this.tieneRepuestos = false;
         list_con_fotos = new ArrayList<Observacion>();
         this.repuestos = new ArrayList<Repuesto>();
+        ImageView imagen = (ImageView) v.findViewById(R.id.imagen_asociada);
+        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/"+Global.terminalVisualizar.getTerm_model().toUpperCase()+".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
         serial = (TextView) v.findViewById(R.id.serial_ter_autorizada);
         marca = (TextView) v.findViewById(R.id.marca_ter_autorizada);
         modelo = (TextView) v.findViewById(R.id.modelo_ter_autorizada);
@@ -144,6 +146,7 @@ public class TipificacionesAutorizadas extends Fragment {
         layout_evidencias = (LinearLayout) v.findViewById(R.id.layout_evidencias);
         layout_repuestos = (LinearLayout) v.findViewById(R.id.layout_repuestos);
         tablaRepuestos = (TableLayout) v.findViewById(R.id.tabla_seleccionar_repuestos);
+
 
         img_evidencia1 = (ImageView) v.findViewById(R.id.img_evidencia1);
         img_evidencia2 = (ImageView) v.findViewById(R.id.img_evidencia2);
