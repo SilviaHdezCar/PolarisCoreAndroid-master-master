@@ -93,7 +93,14 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
                     return;
                 } else {
                     if (verificacionEstados.equalsIgnoreCase("ok")) {
-                        consumirServiciosCambiarEstadosRep();//CAMBIA EL ESTADO DE NUEVO A DAÑADO
+                        if(Global.REPUESTOS_CAMBIAR_ESTADO_DANADO==null||Global.REPUESTOS_CAMBIAR_ESTADO_DANADO.size()==0){
+                            consumirServicioObtenerHistorial();
+                        }else{
+                            consumirServiciosCambiarEstadosRep();//CAMBIA EL ESTADO DE NUEVO A DAÑADO
+                        }
+
+
+
                         //  consumirServicioReparacionExitosa();
                     } else if (verificacionEstados.equalsIgnoreCase("falla")) {
                         fallaDetectada();
@@ -576,6 +583,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
      * METODO QUE RECORRE LOS REPUESTOS Y LE CAMBIA EL ESTADO A DAÑADO
      **/
     public void consumirServiciosCambiarEstadosRep() {
+
 
 //cambia estado a nuevo
         for (int i = 0; i < Global.REPUESTOS_CAMBIAR_ESTADO_DANADO.size(); i++) {
