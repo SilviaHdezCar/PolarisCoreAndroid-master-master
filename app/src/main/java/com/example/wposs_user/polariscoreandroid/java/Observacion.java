@@ -157,8 +157,6 @@ public class Observacion implements Comparable<Observacion> {
 
     @Override
     public int compareTo(Observacion o) {
-        System.out.println("Fecha observacion tengo: "+getTeob_fecha());
-        System.out.println("Fecha observacion llega: "+o.getTeob_fecha());
         String[] dato1=getTeob_fecha().split(" ");
         String[] dato2=o.getTeob_fecha().split(" ");
 
@@ -214,10 +212,8 @@ public class Observacion implements Comparable<Observacion> {
                     if(horas<horas2){ return -1;}
                     else if(horas==horas2){
                         if(minutos>minutos2){
-                            System.out.println(" if(minutos>minutos2)" +minutos+">"+minutos2);
                             return 1;}
                         if(minutos<minutos2){
-                            System.out.println(" if(minutos<minutos2)" +minutos+"<"+minutos2);
                             return -1;}
 
                     }

@@ -133,7 +133,7 @@ public class ConsultaTerminalesSerial extends Fragment {
         this.terminal = new Terminal();
         Global.OBSERVACIONES = null;
         Global.OBSERVACIONES = new ArrayList<Observacion>();
-
+        Global.validaciones_qa=false;
         Global.validaciones_consultas = new HashMap<String, String>();
         Global.tipificaciones_consultas = new HashMap<String, String>();
         Global.repuestos_consultas = new HashMap<String, String>();
@@ -202,6 +202,9 @@ public class ConsultaTerminalesSerial extends Fragment {
 
                                     Global.validaciones_consultas.put(estado, fecha + "%" + arreglo);
                                     System.out.println("Validaciones: " + estado + " - " + fecha + "%" + arreglo);
+                                    if(estado.equals("3")){
+                                        Global.validaciones_qa=true;
+                                    }
                                 }
                             }
 
@@ -245,7 +248,6 @@ public class ConsultaTerminalesSerial extends Fragment {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     info = jsonArray.getString(i);
                                     o = gson.fromJson(info, Observacion.class);
-
                                     Global.OBSERVACIONES.add(o);
                                 }
 
