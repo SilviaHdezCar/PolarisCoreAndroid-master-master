@@ -7,12 +7,7 @@
     android:background="@drawable/forma_notificaciones"
     android:orientation="vertical"
     android:layout_margin="5dp"
-    style="@style/CustomDialog"
-
-
-    >
-
-
+      >
 
 
     <LinearLayout

@@ -329,8 +329,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }
-                                Toast.makeText(objeto, "Error: " + mensaje, Toast.LENGTH_SHORT).show();
-                                return;
+
                             } else {
 
                                 response = response.getJSONObject("data");
@@ -435,8 +434,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }
-                                Toast.makeText(objeto, "Error: " + mensaje, Toast.LENGTH_SHORT).show();
-                                return;
+
                             } else {
                                 consumirServicioActualizarGestionadas();
                             }
@@ -498,8 +496,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                                     objeto.consumirSercivioCerrarSesion();
                                     return;
                                 }
-                                Toast.makeText(objeto, "Error: " + mensaje, Toast.LENGTH_SHORT).show();
-                                return;
+
                             } else {
                                 System.out.println("consumirServicioActualizarGestionadas()-->ok");
                                 consumirServicioRepuestoDefectuoso();

@@ -57,6 +57,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -137,6 +138,7 @@ public class Registro_diagnostico extends Fragment {
         registroDiag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 registrarDiagnostico();
 
             }
@@ -483,7 +485,7 @@ public class Registro_diagnostico extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             Global.STATUS_SERVICE = response.get("status").toString();
-                            Log.d("RESPUESTA", response.get("message").toString());
+                            Log.d("DIAGNOSTICO", response.get("message").toString());
 
                             if (Global.STATUS_SERVICE.equals("fail")) {
                                 Global.mensaje = response.get("message").toString();
@@ -493,13 +495,14 @@ public class Registro_diagnostico extends Fragment {
                                     return;
                                 }
 
-                                Toast.makeText(objeto, "Error: " + response.get("message").toString(), Toast.LENGTH_SHORT).show();
-                                return;
+                            }
 
-                            } else {
+                            else{
+
+                                System.out.println("respuesta del servicio registrar diagnostico**"+response.toString());
 
                                 eliminarPila();
-                                objeto.CustomAlertDialog(objeto,"Información", "Diagnóstico registrado exitosamente",3000,true);
+                                objeto.CustomAlertDialog(objeto, "Información", "Diagnóstico registrado exitosamente", 3000, true);
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
 
@@ -605,10 +608,6 @@ public class Registro_diagnostico extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
-
-                        System.out.println("RESPUESTA DEL SERVICIO ACTUALIZAR HISTORIAL**"+response.toString());
-
                         try {
                             Global.STATUS_SERVICE = response.get("status").toString();
                             Log.d("RESPUESTA", response.get("message").toString());
@@ -621,8 +620,6 @@ public class Registro_diagnostico extends Fragment {
                                     return;
                                 }
 
-                                Toast.makeText(objeto, "Error: " + response.get("message").toString(), Toast.LENGTH_SHORT).show();
-                                return;
 
                             } else {
 
@@ -870,6 +867,7 @@ public class Registro_diagnostico extends Fragment {
      **/
     public void consumirServicioGestionarTerminal(final String tipo) {
 
+        String est="";
 
         final Gson gson = new GsonBuilder().create();
 
@@ -879,15 +877,25 @@ public class Registro_diagnostico extends Fragment {
 
         try {
             jsonObject.put("user",Global.CODE);
+
             if(tipo.equalsIgnoreCase("asociada")){
-                jsonObject.put("tipo", "DIAGNÓSTICO");
-            }else{
-                jsonObject.put("tipo", "REPARACIÓN");
+
+                est= "DIAGNÓSTICO";
             }
+
+            if(tipo.equals("autorizada")){
+
+                est="REPARACIÓN";
+            }
+
+            jsonObject.put("user",Global.CODE);
+            jsonObject.put("tipo",est);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        System.out.println("ENVIANDO EN EL SERVICIO DE GESTIORNAR AUTORIZADA***"+jsonObject.toString());
         JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
@@ -897,8 +905,8 @@ public class Registro_diagnostico extends Fragment {
 
                     public void onResponse(JSONObject response) {
 
-                        System.out.println("REPUESTA DEL SERVICIO GESTIONAR TERMINAL**"+response.toString());
                         try {
+                            System.out.println("REPUESTA DEL SERVICIO GESTIONAR TERMINAL**"+response.toString());
                             Global.STATUS_SERVICE = response.get("status").toString();
                             Log.d("RESPUESTA", response.get("message").toString());
 

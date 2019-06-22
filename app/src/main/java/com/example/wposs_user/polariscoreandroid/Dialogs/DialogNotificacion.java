@@ -44,10 +44,11 @@ public class DialogNotificacion extends DialogFragment {
 
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        dialogo = new AlertDialog.Builder(getActivity(),R.style.CustomDialog);
+        dialogo = new AlertDialog.Builder(objeto);
         view = getActivity().getLayoutInflater().inflate(R.layout.notificaciones, null);
         rv= (RecyclerView)view.findViewById(R.id.rv_notificaciones);
         dialogo.setCancelable(true);
+
 
         dialogo.setView(view);
         llenarRv();

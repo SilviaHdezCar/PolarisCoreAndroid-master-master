@@ -327,7 +327,7 @@ public class ConsultaTerminalesFechas extends Fragment {
 
         if(!validarFechaActual(dia_inicio,mes_inicio,anio_inicio)){
 
-            Toast.makeText(objeto, "La fecha inicial debe ser anterior   igual a la fecha actual", Toast.LENGTH_SHORT).show();
+            Toast.makeText(objeto, "La fecha inicial debe ser anterior o igual a la fecha actual", Toast.LENGTH_SHORT).show();
             f_inicio.setText(" ");
             f_fin.setText(" ");
             rv.setAdapter(null);
