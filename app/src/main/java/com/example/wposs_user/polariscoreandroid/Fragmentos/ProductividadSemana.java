@@ -92,7 +92,7 @@ public class ProductividadSemana extends Fragment {
         titulo=(TextView)v.findViewById(R.id.txt_tituloSemana);
         queue = Volley.newRequestQueue(objeto);
 
-        mesesAnio= new String[]{"   ","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+        mesesAnio= new String[]{"Seleccione","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
 
         comboAnio= new ArrayAdapter(objeto,R.layout.spiner_style_center,aniosObt);
         comboMes= new ArrayAdapter(objeto,R.layout.spiner_style_center,mesesAnio);
@@ -126,9 +126,9 @@ public class ProductividadSemana extends Fragment {
 
                 }
 
-                if(r.equals("   ")){
+                if(r.equals("Seleccione")){
 
-                    semanasMes= new String []{ "   "};
+                    semanasMes= new String []{ "Seleccione"};
                     comboSemana= new ArrayAdapter<String>(objeto,R.layout.spiner_style_center,semanasMes);
                     semanas.setAdapter(comboSemana);
 
@@ -164,7 +164,7 @@ public class ProductividadSemana extends Fragment {
         int anioActual= Integer.parseInt(fechas[0]);
 
         aniosObt= new  String[21];
-        aniosObt[0]="  ";
+        aniosObt[0]="Seleccione";
 
 
         for(int i =1;i<aniosObt.length;i++){
@@ -191,7 +191,7 @@ public class ProductividadSemana extends Fragment {
         final String semanaSel= semanas.getSelectedItem().toString();
 
 
-        if(anioSel.equals("   ")||mesSel.equals("   ")||semanaSel.equals("   ")){
+        if(anioSel.equals("Seleccione")||mesSel.equals("Seleccione")||semanaSel.equals("Seleccione")){
             graficaSeman.setVisibility(View.GONE);
             graficaSeman.clear();
             titulo.setVisibility(INVISIBLE);
