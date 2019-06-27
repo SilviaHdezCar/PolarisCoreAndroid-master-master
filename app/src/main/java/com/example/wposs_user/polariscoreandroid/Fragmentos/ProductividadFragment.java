@@ -37,7 +37,7 @@ public class ProductividadFragment extends Fragment {
             }
         });
         objeto.setTitulo("PRODUCTIVIDAD");
-        comboAdapter = new ArrayAdapter<String>(objeto,R.layout.spiner_style_center, new String[]{"   ","Día","Semana","Mes" });
+        comboAdapter = new ArrayAdapter<String>(objeto,R.layout.spiner_style_center, new String[]{"Seleccione","Día","Semana","Mes" });
         s.setAdapter(comboAdapter);
 
 
@@ -47,7 +47,7 @@ public class ProductividadFragment extends Fragment {
 
     public void buscar_productividad() {
 
-        if (s.getSelectedItem().toString().equals("   ")) {
+        if (s.getSelectedItem().toString().equals("Seleccione")) {
 
             Toast.makeText(v.getContext(), "Debe seleccionar un criterio válido", Toast.LENGTH_SHORT).show();
             return;

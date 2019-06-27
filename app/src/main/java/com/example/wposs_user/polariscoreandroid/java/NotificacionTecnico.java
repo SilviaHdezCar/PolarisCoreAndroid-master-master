@@ -31,12 +31,12 @@ public class NotificacionTecnico implements Runnable {
 
         try {
             while (correr){
+
                 Global.notificaciones= new ArrayList<>();
+
                 objeto.consumirServicioNotificaciones();
 
-                System.out.println("CONSUME EL SERVICIO DE NOTIFICACIONES***");
-
-                Thread.sleep(20000);
+                 Thread.sleep(20000);
 
 
             }

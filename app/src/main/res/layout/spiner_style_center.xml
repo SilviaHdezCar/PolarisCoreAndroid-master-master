@@ -4,11 +4,11 @@
 
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:textSize="16dp"
+    android:textSize="14sp"
     android:textAlignment="gravity"
     android:gravity="right"
     android:textColor="@color/negro"
-    android:padding="10dp"
+    android:padding="3dp"
 
 
 

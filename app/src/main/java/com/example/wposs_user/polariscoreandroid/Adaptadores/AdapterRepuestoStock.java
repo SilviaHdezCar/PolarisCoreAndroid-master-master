@@ -61,19 +61,6 @@ public class AdapterRepuestoStock extends RecyclerView.Adapter<AdapterRepuestoSt
         holder.status.setText(this.listRepuesto.get(position).getSpar_status());
         String estados = holder.status.getText().toString();
 
-        if(estados.equals("DEFECTUOSO")){ holder.rl.setBackgroundResource(R.drawable.borde_rojo);      }
-
-        if(estados.equals("INSTALADO")) {  holder.rl.setBackgroundResource(R.drawable.borde_amarillo);   }
-
-        if(estados.equals("DAÑADO")){ holder.rl.setBackgroundResource(R.drawable.borde_naranja);}
-
-        if(estados.equals("EN TRANSITO")){ holder.rl.setBackgroundResource(R.drawable.borde_marron);}
-
-        if(estados.equals("NUEVO")){ holder.rl.setBackgroundResource(R.drawable.borde_azul);}
-
-
-
-
     }
 
     @Override

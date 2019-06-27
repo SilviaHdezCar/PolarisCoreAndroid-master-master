@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         View hView = navigationView.getHeaderView(0);
         usuario_drawer = (TextView) hView.findViewById(R.id.usuario_drawer);
         codigo_drawer = (TextView) hView.findViewById(R.id.codigo_drawer);
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity
         verNotificaciones = (ImageView) findViewById(R.id.btn_notificaciones);
 
         Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/" + Global.ID + ".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView_perfil);
-
+        verNotificaciones.setImageResource(R.mipmap.ic_campanano);
 
         usuario_drawer.setText(Global.NOMBRE);
         codigo_drawer.setText(Global.CODE);
@@ -172,8 +173,6 @@ public class MainActivity extends AppCompatActivity
         ntecnico = new NotificacionTecnico();
         new Thread(ntecnico).start();//
 
-
-        consumirServicioNotificaciones();
 
 
         verNotificaciones.setOnClickListener(new View.OnClickListener() {

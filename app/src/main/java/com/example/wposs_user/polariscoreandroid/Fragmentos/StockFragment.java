@@ -62,10 +62,11 @@ public class StockFragment extends Fragment {
     private RequestQueue queue;
     private ArrayList<Terminal>terminales;
     private ArrayList<Repuesto>repuestos;
-    Button term;
-    Button rep;
-    RecyclerView rv;
+   private Button term;
+    private Button rep;
+    private RecyclerView rv;
     private LinearLayout layoutTerminales, layoutRepuestos;
+    private LinearLayout mostrar_rep;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,6 +81,7 @@ public class StockFragment extends Fragment {
         rep= (Button)v.findViewById(R.id.btn_repuesto_stock);
         layoutTerminales = (LinearLayout) v.findViewById(R.id.selectTerminales);
         layoutRepuestos = (LinearLayout) v.findViewById(R.id.selectRepuestos);
+        mostrar_rep=(LinearLayout)v.findViewById(R.id.linear_titulo_repuestos);
        servicioTerminalStock();
 
         layoutTerminales.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
@@ -89,6 +91,7 @@ public class StockFragment extends Fragment {
             public void onClick(View v) {
                 terminales= new ArrayList<Terminal>();
                 repuestos= new ArrayList<Repuesto>();
+                mostrar_rep.setVisibility(View.GONE);
                 layoutTerminales.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
                 layoutRepuestos.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
                 servicioTerminalStock();
@@ -265,6 +268,7 @@ public class StockFragment extends Fragment {
                             if (jsonArray1.length() == 0) {
                                 Global.mensaje = "No tiene repuestos ";
                                 Toast.makeText(v.getContext(),Global.mensaje,Toast.LENGTH_SHORT).show();
+                                mostrar_rep.setVisibility(View.GONE);
 
                             }
 
@@ -291,7 +295,9 @@ public class StockFragment extends Fragment {
 
                                 }
                             }
-                            
+
+                            mostrar_rep.setVisibility(View.VISIBLE);
+
 
                             rv.setHasFixedSize(true);
                             LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
