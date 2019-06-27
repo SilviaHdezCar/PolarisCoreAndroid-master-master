@@ -295,7 +295,7 @@ public class ConsultaTerminalesSerial extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
         rv.setLayoutManager(llm);
 
-        ArrayList terminals = new ArrayList<>();
+        final ArrayList terminals = new ArrayList<>();
 
      /*   for (Terminal ter : Global.TODAS_TERMINALES) {
             if (ter.getTerm_serial().equalsIgnoreCase(serial.getText().toString())) {
@@ -315,13 +315,16 @@ public class ConsultaTerminalesSerial extends Fragment {
             @Override
             public void onClick(List<Terminal> terminal, int position) {
 
-                Global.serial_ter = terminal.get(position).getTerm_serial();
-                Global.modelo = terminal.get(position).getTerm_model();
-                Global.terminalVisualizar = terminal.get(position);
-                Global.observaciones_con_fotos = null;
-                Global.observaciones_con_fotos = new ArrayList<>();
-                Global.fotos = new ArrayList<>();
-                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Prediagnostico()).addToBackStack(null).commit();
+                if(!terminal.get(position).getTerm_status().equalsIgnoreCase("NUEVO")){
+                    Global.serial_ter = terminal.get(position).getTerm_serial();
+                    Global.modelo = terminal.get(position).getTerm_model();
+                    Global.terminalVisualizar = terminal.get(position);
+                    Global.observaciones_con_fotos = null;
+                    Global.observaciones_con_fotos = new ArrayList<>();
+                    Global.fotos = new ArrayList<>();
+                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Prediagnostico()).addToBackStack(null).commit();
+                }
+
 
             }
         }, R.layout.panel_terminal_asociada);

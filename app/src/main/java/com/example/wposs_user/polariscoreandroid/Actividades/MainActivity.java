@@ -281,12 +281,10 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ProductividadFragment()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_cerrar_sesion) {
-
             consumirSercivioCerrarSesion();
         } else if (id == R.id.nav_autenticacion_huella) {
             DialogCancelarHuella dialog = new DialogCancelarHuella();
             dialog.show(MainActivity.this.getSupportFragmentManager(), "");
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
