@@ -83,14 +83,16 @@ public class Productividad_mes extends Fragment {
     private RequestQueue queue;
     private ArrayList<Productividad> productividad;
     private Spinner mes;
-    private Spinner año;
+    private Spinner anio;
     private Button produc;
     private BarChart grafica;
     private String [] anios;
     private ArrayAdapter comboAdapter;
     private TextView tituloGra;
     private int[] productividadMesReparadas;
-    private int[] productividadMesDiagnosticadas;
+    private int[] productividadMesDiagnosticadas;private String[]meses;
+    private ArrayAdapter comboAdapterMes;
+
 
 
 
@@ -102,15 +104,18 @@ public class Productividad_mes extends Fragment {
 
        productividadMesDiagnosticadas= new int[5];
        productividadMesReparadas= new int[5];
+       meses= new String[]{"Seleccione","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+       comboAdapterMes= new ArrayAdapter<String>(objeto,R.layout.spiner_style_2,meses);
 
-       obtenerAnios();
+            obtenerAnios();
 
         tituloGra=(TextView)v.findViewById(R.id.titulo_gr);
-        comboAdapter = new ArrayAdapter<String>(objeto,R.layout.spinner_sytle, anios);
+        comboAdapter = new ArrayAdapter<String>(objeto,R.layout.spiner_style_2, anios);
         objeto.setTitulo("PRODUCTIVIDAD POR MES");
         mes = (Spinner) v.findViewById(R.id.spin_mesxmes);
-        año = (Spinner) v.findViewById(R.id.spiner_añoxmes);
-        año.setAdapter(comboAdapter);
+       mes.setAdapter(comboAdapterMes);
+        anio = (Spinner) v.findViewById(R.id.spiner_añoxmes);
+        anio.setAdapter(comboAdapter);
         produc = (Button) v.findViewById(R.id.produc_mes);
         grafica = (BarChart) v.findViewById(R.id.grafica_mes);
 
@@ -139,7 +144,7 @@ public class Productividad_mes extends Fragment {
         grafica.clear();
 
         final String mesDado = mes.getSelectedItem().toString();
-        String añoDado = año.getSelectedItem().toString();
+        String añoDado = anio.getSelectedItem().toString();
 
 
         productividad = new ArrayList<>();
@@ -158,12 +163,12 @@ public class Productividad_mes extends Fragment {
 
         }*/
 
-        if (mes.getSelectedItem().toString().equals("Seleccione") || año.getSelectedItem().equals("Seleccione")) {
+        if (mes.getSelectedItem().toString().equals("Seleccione") || anio.getSelectedItem().equals("Seleccione")) {
             Toast.makeText(v.getContext(), "Seleccione un mes y año válido", Toast.LENGTH_SHORT).show();
             grafica.clear();
             grafica.setVisibility(View.GONE);
             mes.setSelection(0);
-            año.setSelection(0);
+            anio.setSelection(0);
             return;
 
         }
@@ -180,7 +185,7 @@ public class Productividad_mes extends Fragment {
             grafica.setVisibility(View.GONE);
             tituloGra.setVisibility(INVISIBLE);
             mes.setSelection(0);
-            año.setSelection(0);
+            anio.setSelection(0);
             return;
 
         }

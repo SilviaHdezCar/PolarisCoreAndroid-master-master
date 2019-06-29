@@ -15,68 +15,94 @@
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
 
-
         >
 
-        <Spinner
-            android:id="@+id/spin_semana_anio"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center_horizontal"
-
-            >
-
-        </Spinner>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
 
             >
-            <Spinner
-                android:id="@+id/spin_semana_mes"
-                android:layout_width="200dp"
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:text="Año"
+                android:layout_marginLeft="40dp"
+                android:textColor="@color/negro"
+                android:textSize="14dp"
+                android:textStyle="bold"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mes"
+                android:textColor="@color/negro"
+                android:textSize="14dp"
+                android:layout_marginLeft="80dp"
+                android:textStyle="bold"
+
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Semana"
+                android:textColor="@color/negro"
+                android:textSize="14dp"
+                android:layout_marginLeft="80dp"
+                android:textStyle="bold"
+
+
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            >
+
+            <Spinner
+                android:id="@+id/spin_semana_anio"
+                android:layout_width="117dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
 
-
+                android:layout_gravity="center_horizontal"
                 >
-
             </Spinner>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/spin_semana_mes"
+                android:layout_width="117dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal"
-                >
-
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
-
                 >
+            </Spinner>
 
-                <Spinner
-                    android:id="@+id/spin_semana_semana"
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    >
+            <Spinner
+                android:id="@+id/spin_semana_semana"
+                android:layout_width="117dp"
+                android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content"
+                >
+            </Spinner>
 
-                </Spinner>
+        </LinearLayout>
 
-            </LinearLayout>
+
+
 
 
             <Button
@@ -91,7 +117,7 @@
                 android:text="Consultar"
                 android:textAllCaps="false"
                 />
-        </LinearLayout>
+
 
         <TextView
             android:layout_marginTop="10dp"

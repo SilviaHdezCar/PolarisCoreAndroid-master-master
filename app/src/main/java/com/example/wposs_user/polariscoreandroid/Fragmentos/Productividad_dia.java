@@ -322,9 +322,6 @@ public class Productividad_dia extends Fragment {
 
         String fecha_inicio = mes_inicio + "/" + dia_inicio + "/" + anio_inicio;
 
-
-
-
         final Gson gson = new GsonBuilder().create();
 
         String url = "http://100.25.214.91:3000/PolarisCore/Terminals/productivity";
@@ -386,6 +383,32 @@ public class Productividad_dia extends Fragment {
                                 productividad.add(pro);
                             }
 
+                            if(productividad.get(0).getUste_repaired_terminals()==null){
+                                productividad.get(0).setUste_repaired_terminals("0");
+                            }
+
+                            if(productividad.get(0).getUste_diagnosed_terminals()==null){
+                                productividad.get(0).setUste_diagnosed_terminals("0");
+                            }
+                            if(productividad.get(0).getUste_associated_terminals()==null){
+                                productividad.get(0).setUste_associated_terminals("0");
+                            }
+
+
+                            int total= Integer.parseInt(productividad.get(0).getUste_associated_terminals())+Integer.parseInt(productividad.get(0).getUste_diagnosed_terminals())+ Integer.parseInt(productividad.get(0).getUste_repaired_terminals());
+
+                            if(total==0){
+
+                                Global.mensaje = "No existen registros para el día seleccionado";
+                                Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
+                                grafica.clear();
+                                f_inicio.setText("");
+                                tituloG.setVisibility(INVISIBLE);
+                                grafica.setVisibility(View.GONE);
+
+                                return;
+
+                            }
                             this.pintarGrafica();
 
                         } catch (JSONException e) {

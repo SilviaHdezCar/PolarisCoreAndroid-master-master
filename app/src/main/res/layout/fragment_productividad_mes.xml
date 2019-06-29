@@ -32,31 +32,34 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
-      android:gravity="center"
-      android:layout_marginTop="20dp"
+         android:layout_marginTop="20dp"
 
 
       >
 
+
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="20dp"
+          android:layout_marginLeft="110dp"
           android:textColor="@color/negro"
+          android:layout_gravity="center_vertical"
+          android:textSize="14dp"
+          android:textStyle="bold"
+          android:text="Año" />
+
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="90dp"
+          android:textColor="@color/negro"
+          android:textStyle="bold"
+          android:textSize="14dp"
           android:layout_gravity="center_vertical"
           android:text="Mes" />
 
 
-    <Spinner
-        android:id="@+id/spin_mesxmes"
-        android:layout_width="150dp"
-        android:layout_marginLeft="10dp"
-        android:layout_height="wrap_content"
-        android:entries="@array/meses"
-        style="@layout/spinner_sytle"
-
-        >
-        </Spinner>
 
 
        </LinearLayout>
@@ -71,15 +74,6 @@
 
            >
 
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="20dp"
-               android:textColor="@color/negro"
-               android:layout_gravity="center_vertical"
-               android:text="Año" />
-
-
            <Spinner
                android:id="@+id/spiner_añoxmes"
                android:layout_width="150dp"
@@ -89,8 +83,20 @@
                 style="@layout/spinner_sytle"
 
                >
+
            </Spinner>
 
+
+           <Spinner
+               android:id="@+id/spin_mesxmes"
+               android:layout_width="150dp"
+               android:layout_marginLeft="10dp"
+               android:layout_height="wrap_content"
+               android:entries="@array/meses"
+               style="@layout/spinner_sytle"
+
+               >
+           </Spinner>
 
        </LinearLayout>
 

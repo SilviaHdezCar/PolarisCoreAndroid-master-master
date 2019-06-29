@@ -492,10 +492,8 @@ public class MainActivity extends AppCompatActivity
 
                             response = new JSONObject(response.toString());
 
-                            System.out.println("RESPUESTA DEL SERVICIO DE NOTIFIACIONES*  " + response.toString());
 
-
-                            if (response.get("notificacion").equals("{}")) {
+                            if (response.getString("notificacion").equals("{}")) {
 
                                 verNotificaciones.setImageResource(R.mipmap.ic_campanano);
 
@@ -513,7 +511,7 @@ public class MainActivity extends AppCompatActivity
                                     n = gson.fromJson(not, Notificacion.class);
 
 
-                                    if (n != null && !n.getNoti_msg().contains("albarán")) {
+                                    if (n != null && !n.getNoti_msg().contains("albarán") && !n.getNoti_msg().contains("incidencia")) {
 
                                         String[] ms = n.getNoti_msg().split(":");
                                         String tit = ms[0];
@@ -521,7 +519,6 @@ public class MainActivity extends AppCompatActivity
                                         String[] vacio = men.split(",");
                                         String h = eliminarCaracteres(men);
 
-                                        System.out.println("VACIO**" + h);
 
                                         if (h.contains("c") || h.contains("m")) {
 
@@ -536,7 +533,7 @@ public class MainActivity extends AppCompatActivity
                                                 String[] anioHora = fecha[1].split(" ");
                                                 String anio = anioHora[0];
 
-                                                String fecha_not = Utils.formatoDia(dia) + "-" + Utils.obtenerNumMes2(mes) + "-" + anioHora[1] + "   " + anioHora[2];
+                                                String fecha_not = Utils.formatoDia(dia) + "-" + Utils.obtenerNumMes2(mes) + "-" + anioHora[1] + "   " + anioHora[2]+" "+ anioHora[3];
                                                 n.setNoti_date_create(fecha_not);
 
                                                 String msj = n.getNoti_msg();
@@ -861,7 +858,7 @@ public class MainActivity extends AppCompatActivity
 
     public String formatoRep(String txt) {
 
-        System.out.println("ME ESTA LLEGANDO REPUESTO**" + txt);
+
 
         String rta = "";
 
