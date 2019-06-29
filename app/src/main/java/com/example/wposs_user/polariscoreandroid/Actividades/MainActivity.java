@@ -143,7 +143,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         View hView = navigationView.getHeaderView(0);
         usuario_drawer = (TextView) hView.findViewById(R.id.usuario_drawer);
         codigo_drawer = (TextView) hView.findViewById(R.id.codigo_drawer);
@@ -151,7 +150,7 @@ public class MainActivity extends AppCompatActivity
         verNotificaciones = (ImageView) findViewById(R.id.btn_notificaciones);
 
         Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/" + Global.ID + ".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView_perfil);
-        verNotificaciones.setImageResource(R.mipmap.ic_campanano);
+
 
         usuario_drawer.setText(Global.NOMBRE);
         codigo_drawer.setText(Global.CODE);
@@ -173,6 +172,8 @@ public class MainActivity extends AppCompatActivity
         ntecnico = new NotificacionTecnico();
         new Thread(ntecnico).start();//
 
+
+        consumirServicioNotificaciones();
 
 
         verNotificaciones.setOnClickListener(new View.OnClickListener() {
@@ -281,10 +282,12 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ProductividadFragment()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_cerrar_sesion) {
+
             consumirSercivioCerrarSesion();
         } else if (id == R.id.nav_autenticacion_huella) {
             DialogCancelarHuella dialog = new DialogCancelarHuella();
             dialog.show(MainActivity.this.getSupportFragmentManager(), "");
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -473,6 +476,7 @@ public class MainActivity extends AppCompatActivity
                         try {
 
                             Global.STATUS_SERVICE = response.get("status").toString();
+                            System.out.println("status:  " + Global.STATUS_SERVICE);
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
@@ -488,7 +492,8 @@ public class MainActivity extends AppCompatActivity
 
                             response = new JSONObject(response.toString());
 
-                            if (response.get("notificacion").equals("{}")) {
+
+                            if (response.getString("notificacion").equals("{}")) {
 
                                 verNotificaciones.setImageResource(R.mipmap.ic_campanano);
 
@@ -506,13 +511,14 @@ public class MainActivity extends AppCompatActivity
                                     n = gson.fromJson(not, Notificacion.class);
 
 
-                                    if (n != null && !n.getNoti_msg().contains("albarán")) {
+                                    if (n != null && !n.getNoti_msg().contains("albarán") && !n.getNoti_msg().contains("incidencia")) {
 
                                         String[] ms = n.getNoti_msg().split(":");
                                         String tit = ms[0];
                                         String men = ms[1];
                                         String[] vacio = men.split(",");
                                         String h = eliminarCaracteres(men);
+
 
                                         if (h.contains("c") || h.contains("m")) {
 
@@ -527,7 +533,7 @@ public class MainActivity extends AppCompatActivity
                                                 String[] anioHora = fecha[1].split(" ");
                                                 String anio = anioHora[0];
 
-                                                String fecha_not = Utils.formatoDia(dia) + "-" + Utils.obtenerNumMes2(mes) + "-" + anioHora[1] + "   " + anioHora[2];
+                                                String fecha_not = Utils.formatoDia(dia) + "-" + Utils.obtenerNumMes2(mes) + "-" + anioHora[1] + "   " + anioHora[2]+" "+ anioHora[3];
                                                 n.setNoti_date_create(fecha_not);
 
                                                 String msj = n.getNoti_msg();
@@ -536,28 +542,12 @@ public class MainActivity extends AppCompatActivity
                                                 if (msj.contains("terminal") && !msj.contains("object")) {
 
 
-                                                    if(!msj.contains("[")){
-
-                                                        String mx= msj.substring(0,33);
-                                                        String con= msj.substring(33,msj.length());
-
-                                                        msj= mx+"["+con+"]";
-
-                                                        System.out.println("MENSAJE ARREGLADO*** " +msj);
-
-                                                    }
-
                                                     String nMensaje = eliminarCaracteres(msj);
-
-                                                    System.out.println("NOTIFICACIONES RECIBIDAS** "+ nMensaje);
-                                                    String[] mesagge = nMensaje.split(":");
+                                                    String[] mesagge = nMensaje.split("  ");
                                                     String titulo = mesagge[0];
 
-                                                    String mesag;
 
-
-                                                      ArrayList<String>terminales= listarNotterminales(nMensaje)
-;
+                                                    ArrayList<String> terminales = listarNotterminales(nMensaje);
 
                                                     String text = formatoNotificaciones(terminales.toString());
 
@@ -578,7 +568,10 @@ public class MainActivity extends AppCompatActivity
                                                     String[] mesagge = nMensaje.split("   ");
                                                     String titulo = mesagge[0];
 
-                                                     String msjFin = eliminarCaracteres(mesagge[1]);
+                                                    System.out.println("MENSAJE QUE CONTIENE** " + mesagge[1]);
+
+
+                                                    String msjFin = eliminarCaracteres(mesagge[1]);
 
 
                                                     String msjFinal = formatoRep(msjFin);
@@ -593,7 +586,6 @@ public class MainActivity extends AppCompatActivity
 
 
                                                 Global.notificaciones.add(n);
-
 
                                             }
 
@@ -618,6 +610,7 @@ public class MainActivity extends AppCompatActivity
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        Log.d("RESPUESTA", response.toString());
                     }
 
                 },
@@ -783,10 +776,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        System.out.println("VALOR RETORNADO EN EL METODO**"+ ter.toString());
-
         return ter;
-
 
 
     }
@@ -827,7 +817,9 @@ public class MainActivity extends AppCompatActivity
 
     public String formatoNot(String txt) {
 
-       String rta = "";
+        System.out.println("ERROR ENCONTRADO EN NOTIFIACIONES***" + txt);
+
+        String rta = "";
 
         String[] tlista = txt.split("  ");
 
@@ -854,7 +846,9 @@ public class MainActivity extends AppCompatActivity
             tlista[i + 1] = modelo[0] + ":" + modelo[1];
             tlista[i + 2] = serial[0] + ":" + serial[1];
 
-            rta = rta + tlista[i] + "\n" + tlista[i + 1] + "\n" + tlista[i+2] + "\n";
+            rta += tlista[i] + "\n" + tlista[i + 1] + "\n" + tlista[2] + "\n";
+
+
         }
 
         return rta;
@@ -894,7 +888,7 @@ public class MainActivity extends AppCompatActivity
             tlista[i + 1] = nombre[0] + ":" + nombre[1];
             tlista[i + 2] = cantidad[0] + ":" + cantidad[1];
 
-            rta =rta+ tlista[i] + "\n" + tlista[i + 1] + "\n" + tlista[i+2] + "\n" + "\n";
+            rta += tlista[i] + "\n" + tlista[i + 1] + "\n" + tlista[2] + "\n" + "\n";
 
 
         }

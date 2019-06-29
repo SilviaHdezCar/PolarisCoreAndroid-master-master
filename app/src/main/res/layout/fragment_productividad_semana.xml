@@ -15,128 +15,109 @@
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
 
-
         >
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-                        >
+            android:layout_marginTop="20dp"
+
+            >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Año"
-                android:textSize="16dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="40dp"
                 android:textColor="@color/negro"
+                android:textSize="14dp"
+                android:textStyle="bold"
+
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mes"
-                android:layout_marginLeft="90dp"
-                android:textSize="16dp"
                 android:textColor="@color/negro"
+                android:textSize="14dp"
+                android:layout_marginLeft="80dp"
+                android:textStyle="bold"
+
                 />
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
                 android:text="Semana"
-                android:layout_marginLeft="80dp"
                 android:textColor="@color/negro"
+                android:textSize="14dp"
+                android:layout_marginLeft="80dp"
+                android:textStyle="bold"
+
+
                 />
 
-
-
         </LinearLayout>
-
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
             >
 
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal"
-                >
-
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal"
+            <Spinner
+                android:id="@+id/spin_semana_anio"
+                android:layout_width="117dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
 
+                android:layout_gravity="center_horizontal"
                 >
+            </Spinner>
 
+            <Spinner
+                android:id="@+id/spin_semana_mes"
+                android:layout_width="117dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                >
+            </Spinner>
 
-                <Spinner
-                    android:id="@+id/spin_semana_anio"
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent"
-                     android:layout_marginLeft="10dp"
-                    android:layout_gravity="center_horizontal"
+            <Spinner
+                android:id="@+id/spin_semana_semana"
+                android:layout_width="117dp"
+                android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content"
+                >
+            </Spinner>
 
-                    >
-
-                </Spinner>
-
-                <Spinner
-                    android:id="@+id/spin_semana_mes"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="5dp"
-                    >
-
-                </Spinner>
-
-
-
-                <Spinner
-                    android:layout_marginLeft="5dp"
-                    android:id="@+id/spin_semana_semana"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content">
-
-                </Spinner>
+        </LinearLayout>
 
 
 
-            </LinearLayout>
+
 
             <Button
                 android:id="@+id/btn_productividad_semana"
                 style="@style/letra_contenido_blanco"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/redondo_gris_botones"
                 android:textColor="@color/negro"
                 android:text="Consultar"
-                  android:textAllCaps="false"
+                android:textAllCaps="false"
                 />
 
-        </LinearLayout>
 
         <TextView
             android:layout_marginTop="10dp"

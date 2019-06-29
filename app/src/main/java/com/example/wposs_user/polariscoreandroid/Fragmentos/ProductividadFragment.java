@@ -37,7 +37,7 @@ public class ProductividadFragment extends Fragment {
             }
         });
         objeto.setTitulo("PRODUCTIVIDAD");
-        comboAdapter = new ArrayAdapter<String>(objeto,R.layout.spiner_style_center, new String[]{"Seleccione","Día","Semana","Mes" });
+        comboAdapter = new ArrayAdapter<String>(objeto,R.layout.spiner_style_2 ,new String[]{"Seleccione","Día","Semana","Mes" });
         s.setAdapter(comboAdapter);
 
 
