@@ -506,7 +506,7 @@ public class MainActivity extends AppCompatActivity
                                     n = gson.fromJson(not, Notificacion.class);
 
 
-                                    if (n != null && !n.getNoti_msg().contains("albarán")) {
+                                    if (n != null && !n.getNoti_msg().contains("albarán")&& !n.getNoti_msg().contains("incidencia")) {
 
                                         String[] ms = n.getNoti_msg().split(":");
                                         String tit = ms[0];

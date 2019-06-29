@@ -56,13 +56,12 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 
 public class StockFragment extends Fragment {
 
-
     private View v;
     private ImageView foto_perfil;
     private RequestQueue queue;
     private ArrayList<Terminal>terminales;
     private ArrayList<Repuesto>repuestos;
-   private Button term;
+    private Button term;
     private Button rep;
     private RecyclerView rv;
     private LinearLayout layoutTerminales, layoutRepuestos;
@@ -81,14 +80,16 @@ public class StockFragment extends Fragment {
         rep= (Button)v.findViewById(R.id.btn_repuesto_stock);
         layoutTerminales = (LinearLayout) v.findViewById(R.id.selectTerminales);
         layoutRepuestos = (LinearLayout) v.findViewById(R.id.selectRepuestos);
-        mostrar_rep=(LinearLayout)v.findViewById(R.id.linear_titulo_repuestos);
-       servicioTerminalStock();
+        mostrar_rep= (LinearLayout) v.findViewById(R.id.ly_encabezado);
 
+       servicioTerminalStock();
+        mostrar_rep.setVisibility(View.GONE);
         layoutTerminales.setBackgroundColor(getResources().getColor(R.color.blanca_linea));
         layoutRepuestos.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
         term.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rv.removeAllViews();
                 terminales= new ArrayList<Terminal>();
                 repuestos= new ArrayList<Repuesto>();
                 mostrar_rep.setVisibility(View.GONE);

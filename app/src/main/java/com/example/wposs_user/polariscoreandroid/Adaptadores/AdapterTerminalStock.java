@@ -9,15 +9,19 @@ import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Vector;
+
+import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 
 public class AdapterTerminalStock extends RecyclerView.Adapter<AdapterTerminalStock.ViewHolderTerminalStock> {
@@ -47,7 +51,7 @@ public class AdapterTerminalStock extends RecyclerView.Adapter<AdapterTerminalSt
     @Override
     public void onBindViewHolder(AdapterTerminalStock.ViewHolderTerminalStock holder, int i) {
 
-
+        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/"+this.listTerminal.get(i).getTerm_model().toUpperCase()+".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(holder.imagen);
         Terminal ter = this.listTerminal.get(i);
         holder.marca_modelo.setText(ter.getTerm_brand() + " " + ter.getTerm_model());
         holder.serial.setText(ter.getTerm_serial());
@@ -55,49 +59,8 @@ public class AdapterTerminalStock extends RecyclerView.Adapter<AdapterTerminalSt
         holder.estado.setText(ter.getTerm_status());
         String estados = holder.estado.getText().toString();
 
-        if (estados.equals("QA")) {
-            holder.rl.setBackgroundResource(R.drawable.borde_verde);
-        }
+         holder.rl.setBackgroundResource(R.drawable.borde_verde);
 
-        if (estados.equals("REPARACIÓN")) {
-            holder.rl.setBackgroundResource(R.drawable.borde_amarillo);
-        }
-
-        if (estados.equals("PREDIAGNÓSTICO")) {
-            holder.rl.setBackgroundResource(R.drawable.borde_rojo);
-        }
-
-        if (estados.equals("COTIZACIÓN")) {
-            holder.rl.setBackgroundResource(R.drawable.borde_marron);
-        }
-
-        if (estados.equals("NUEVO")) {
-            holder.rl.setBackgroundResource(R.drawable.borde_azul);
-        }
-
-        if (estados.equals("ALISTAMIENTO")) {
-            holder.rl.setBackgroundResource(R.drawable.borde_gris);
-        }
-
-        if (estados.equals("OPERATIVO")) {
-            holder.rl.setBackgroundResource(R.drawable.borde_naranja);
-        }
-
-        if (estados.equals("EN TRANSITO")) {
-            holder.rl.setBackgroundResource(R.drawable.borde_azul_oscuro);
-        }
-
-        if (estados.equals("DADO DE BAJA")) {
-            holder.rl.setBackgroundResource(R.drawable.borde_negro);
-        }
-
-        if (estados.equals("DIAGNÓSTICO")) {
-            holder.rl.setBackgroundResource(R.drawable.borde_rojo_oscuro);
-        }
-
-        if (estados.equals("GARANTÍA")) {
-            holder.rl.setBackgroundResource(R.drawable.borde_verde_azul);
-        }
 
 
     }
@@ -116,11 +79,12 @@ public class AdapterTerminalStock extends RecyclerView.Adapter<AdapterTerminalSt
         TextView estado;
         TextView color;
         LinearLayout rl;
+        ImageView imagen;
 
 
         public ViewHolderTerminalStock(View v) {
             super(v);
-
+            imagen = (ImageView) v.findViewById(R.id.imagen_asociada);
             marca_modelo = (TextView) v.findViewById(R.id.marca_ter_stock);
             serial = (TextView) v.findViewById(R.id.txt_serial_terrminal_stock);
             tecnologia = (TextView) v.findViewById(R.id.tecnologia_terminal_stock);
