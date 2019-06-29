@@ -1,11 +1,5 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.icu.text.RelativeDateTimeFormatter;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -14,21 +8,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -40,10 +28,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterRepuesto;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
-import com.example.wposs_user.polariscoreandroid.Comun.Messages;
-import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
@@ -51,13 +36,11 @@ import com.example.wposs_user.polariscoreandroid.java.TerminalHistory;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -66,7 +49,6 @@ import java.util.List;
 import java.util.Map;
 
 
-import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
 

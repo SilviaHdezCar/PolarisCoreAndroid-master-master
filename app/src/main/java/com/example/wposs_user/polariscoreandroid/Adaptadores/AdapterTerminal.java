@@ -64,49 +64,10 @@ public class AdapterTerminal extends RecyclerView.Adapter<AdapterTerminal.ViewHo
         }
 
 
-        if (estado.equals("QA")) {
-            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_verde);
-        }
+     holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_verde);
 
-        if (estado.equals("REPARACIÓN")) {
-            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_amarillo);
-        }
 
-        if (estado.equals("PREDIAGNÓSTICO")) {
-            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_rojo);
-        }
 
-        if (estado.equals("COTIZACIÓN")) {
-            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_marron);
-        }
-
-        if (estado.equals("NUEVO")) {
-            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_azul);
-        }
-
-        if (estado.equals("ALISTAMIENTO")) {
-            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_gris);
-        }
-
-        if (estado.equals("OPERATIVO")) {
-            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_naranja);
-        }
-
-        if (estado.equals("EN TRANSITO")) {
-            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_azul_oscuro);
-        }
-
-        if (estado.equals("DADO DE BAJA")) {
-            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_negro);
-        }
-
-        if (estado.equals("DIAGNÓSTICO")) {
-            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_rojo_oscuro);
-        }
-
-        if (estado.equals("GARANTÍA")) {
-            holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_verde_azul);
-        }
 
         holder.layout_terminal_asociada.setOnClickListener(new View.OnClickListener() {
             @Override

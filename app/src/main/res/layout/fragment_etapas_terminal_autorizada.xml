@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tabla"
                     android:layout_margin="10dp"
-                    android:background="@drawable/borde_amarillo"
+                    android:background="@drawable/borde_verde"
                     android:orientation="horizontal"
                     android:padding="2dp">
 

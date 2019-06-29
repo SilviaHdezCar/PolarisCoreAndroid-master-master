@@ -476,7 +476,6 @@ public class MainActivity extends AppCompatActivity
                         try {
 
                             Global.STATUS_SERVICE = response.get("status").toString();
-                            System.out.println("status:  " + Global.STATUS_SERVICE);
 
                             if (Global.STATUS_SERVICE.equalsIgnoreCase("fail")) {
                                 Global.mensaje = response.get("message").toString();
@@ -533,7 +532,7 @@ public class MainActivity extends AppCompatActivity
                                                 String[] anioHora = fecha[1].split(" ");
                                                 String anio = anioHora[0];
 
-                                                String fecha_not = Utils.formatoDia(dia) + "-" + Utils.obtenerNumMes2(mes) + "-" + anioHora[1] + "   " + anioHora[2]+" "+ anioHora[3];
+                                                String fecha_not = Utils.formatoDia(dia) + "-" + Utils.obtenerNumMes2(mes) + "-" + anioHora[1] + "   " + anioHora[2] + " " + anioHora[3];
                                                 n.setNoti_date_create(fecha_not);
 
                                                 String msj = n.getNoti_msg();
@@ -567,9 +566,6 @@ public class MainActivity extends AppCompatActivity
                                                     String nMensaje = eliminarCaracteres(msj);
                                                     String[] mesagge = nMensaje.split("   ");
                                                     String titulo = mesagge[0];
-
-                                                    System.out.println("MENSAJE QUE CONTIENE** " + mesagge[1]);
-
 
                                                     String msjFin = eliminarCaracteres(mesagge[1]);
 
@@ -610,7 +606,6 @@ public class MainActivity extends AppCompatActivity
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.d("RESPUESTA", response.toString());
                     }
 
                 },
@@ -817,8 +812,6 @@ public class MainActivity extends AppCompatActivity
 
     public String formatoNot(String txt) {
 
-        System.out.println("ERROR ENCONTRADO EN NOTIFIACIONES***" + txt);
-
         String rta = "";
 
         String[] tlista = txt.split("  ");
@@ -857,7 +850,6 @@ public class MainActivity extends AppCompatActivity
 
 
     public String formatoRep(String txt) {
-
 
 
         String rta = "";

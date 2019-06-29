@@ -2,16 +2,11 @@ package com.example.wposs_user.polariscoreandroid.Actividades;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.app.KeyguardManager;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
@@ -35,18 +30,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
-import com.example.wposs_user.polariscoreandroid.Comun.Messages;
-import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogHuella;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogGuardarCredenciales;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.java.FingerprintHandler;
-import com.example.wposs_user.polariscoreandroid.java.Terminal;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -59,7 +47,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,38 +55,8 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.KeyguardManager;
-import android.content.pm.PackageManager;
-import android.hardware.fingerprint.FingerprintManager;
-import android.os.Build;
-import android.security.keystore.KeyGenParameterSpec;
-import android.security.keystore.KeyPermanentlyInvalidatedException;
-import android.security.keystore.KeyProperties;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.TextView;
-
-import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
-
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-
 
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.eliminarValues;
-import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.getValueStrPreference;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.getValueStrPreferenceLogueoHuella;
 import static com.example.wposs_user.polariscoreandroid.java.SharedPreferencesClass.saveValueStrPreference;
 

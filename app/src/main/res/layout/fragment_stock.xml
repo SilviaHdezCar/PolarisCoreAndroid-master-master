@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,16 +29,14 @@
                     android:layout_height="48dp"
                     android:background="@color/verde_pestanas"
                     android:scrollbars="vertical"
-                    android:text="TERMINALES"
-                    />
+                    android:text="TERMINALES" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/selectTerminales"
+                    android:layout_width="match_parent"
                     android:layout_height="4dp"
-                    android:orientation="horizontal"
                     android:background="@color/verde_pestanas"
-                    >
+                    android:orientation="horizontal">
 
                 </LinearLayout>
             </LinearLayout>
@@ -58,41 +57,38 @@
                     android:text="REPUESTOS" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/selectRepuestos"
+                    android:layout_width="match_parent"
                     android:layout_height="4dp"
-                    android:orientation="horizontal"
                     android:background="@color/verde_pestanas"
-                    >
+                    android:orientation="horizontal">
 
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
 
-
         <LinearLayout
+            android:id="@+id/linear_titulo_repuestos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:id="@+id/linear_titulo_repuestos"
-            android:orientation="horizontal"
+            android:layout_marginRight="10dp"
             android:background="@color/fondo_verde_edit_text"
+            android:orientation="horizontal"
             android:visibility="gone"
 
             >
 
             <TextView
-                android:text="Código"
                 android:id="@+id/txt_codigo_repuesto_stock"
                 style="@style/letra_negrita_terminal_gris_peq"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:text="Código"
                 android:textColor="@color/blanco"
-                />
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="1dp"
@@ -102,20 +98,18 @@
                 >
 
             </LinearLayout>
-
-
 
 
             <TextView
                 android:id="@+id/txt_nombre_repuesto_stock"
-                android:text="Nombre"
                 style="@style/letra_negrita_terminal_gris_peq"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:textSize="14sp"
+                android:text="Nombre"
                 android:textColor="@color/blanco"
-                />
+                android:textSize="14sp" />
+
             <LinearLayout
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
@@ -124,20 +118,18 @@
                 >
 
             </LinearLayout>
-
 
 
             <TextView
                 android:id="@+id/txt_cantidad_repuesto_stock"
                 style="@style/letra_negrita_terminal_gris_peq"
-                android:text="Cant."
-                android:textAllCaps="false"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:textSize="14sp"
+                android:text="Cant."
+                android:textAllCaps="false"
                 android:textColor="@color/blanco"
-                />
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="1dp"
@@ -151,15 +143,83 @@
 
             <TextView
                 android:id="@+id/txt_estado_repuesto_stock"
-                android:text="Estado"
                 style="@style/letra_negrita_terminal_gris_grande"
-                 android:layout_width="70dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
                 android:layout_marginLeft="5dp"
+                android:text="Estado"
                 android:textColor="@color/blanco"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+        <!--repuestos-->
+        <LinearLayout
+            android:id="@+id/ly_encabezado"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/verde_pestanas"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Código"
+                android:textColor="@color/blanco"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/blanco" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Nombre"
+                android:textColor="@color/blanco"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/blanco" />
+
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Cantidad"
+                android:textAllCaps="false"
+                android:textColor="@color/blanco"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/blanco"
+
                 />
 
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="Estado"
+                android:textAllCaps="false"
+                android:textColor="@color/blanco"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -169,6 +229,7 @@
             android:layout_height="wrap_content"
 
             />
+
 
         <!--
         <LinearLayout
