@@ -182,8 +182,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="038993" />
-                            <entry key="outputName" value="ic_papelera_nuevo" />
-                            <entry key="sourceFile" value="C:\Users\SILVIA\Downloads\trash_nuevo.svg" />
+                            <entry key="outputName" value="ic_down" />
+                            <entry key="sourceFile" value="C:\Users\SILVIA\Downloads\down.svg" />
                           </map>
                         </option>
                       </PersistentState>

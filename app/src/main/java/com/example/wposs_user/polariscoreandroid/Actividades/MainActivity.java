@@ -822,7 +822,6 @@ public class MainActivity extends AppCompatActivity
 
     public String formatoNot(String txt) {
 
-        System.out.println("ERROR ENCONTTRADO****"+ txt);
         String rta = "";
 
         String[] tlista = txt.split("  ");
