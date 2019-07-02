@@ -87,7 +87,7 @@ public class ObservacionesFragment extends Fragment {
     private String mensaje;
 
 
-    private boolean actualizar;
+    private boolean ocultarDialog;
     private JSONArray jsonArrayHistorial;
 
     private DialogLoading dialog;
@@ -150,8 +150,17 @@ public class ObservacionesFragment extends Fragment {
         finalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                finalizarDiagnostico();
+                dialogLoading();
+                ocultarDialog = true;
+                finalizar.setVisibility(View.GONE);
+                boolean validar = finalizarDiagnostico();
+                if (!validar) {
+                    if (ocultarDialog) {
+                        ocultarDialog = false;
+                        dialog.dismiss();
+                        finalizar.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         });
 
@@ -216,11 +225,14 @@ public class ObservacionesFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
                         try {
                             System.out.println("RESPUESTA FOTOS-->" + response.get("message").toString());
                             if (!response.get("status").toString().equalsIgnoreCase("ok")) {
-                                dialog.dismiss();
+                                if (ocultarDialog) {
+                                    ocultarDialog = false;
+                                    dialog.dismiss();
+                                    finalizar.setVisibility(View.VISIBLE);
+                                }
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -255,6 +267,11 @@ public class ObservacionesFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error.getMessage() != null) {
+                    if (ocultarDialog) {
+                        ocultarDialog = false;
+                        dialog.dismiss();
+                        finalizar.setVisibility(View.VISIBLE);
+                    }
                     if (!error.getMessage().isEmpty()) {
                         Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -345,32 +362,29 @@ public class ObservacionesFragment extends Fragment {
     }
 
     //Metodo utilizado para finalizar el diagnostico (Consume el servicio de finalizar diagnostico)
-    public void finalizarDiagnostico() {
+    public boolean finalizarDiagnostico() {
+        boolean retorno = true;
         observacion_text = txt_observacion.getText().toString();
-        dialogLoading();
         if (bitmap_foto1 == null) {
             Toast.makeText(objeto, "Por favor tome la primera foto", Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
-            return;
+            return false;
         }
         if (bitmap_foto2 == null) {
             Toast.makeText(objeto, "Por favor tome la segunda foto", Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
-            return;
+            return false;
         }
         if (observacion_text.isEmpty()) {
             Toast.makeText(objeto, "Por favor ingrese la observación", Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
-            return;
+            return false;
         }
         consumirServicioEnviarFotos();
+        return retorno;
     }
 
     public void dialogLoading() {
         dialog = new DialogLoading();
         dialog.show(objeto.getSupportFragmentManager(), "");
     }
-
 
     /**
      * Metodo utilizados para consumir el servicio  que permite obtener el historial de la terminal
@@ -390,7 +404,11 @@ public class ObservacionesFragment extends Fragment {
                         try {
                             Log.d("RESPUESTA OB His", response.toString());
                             if (!response.get("message").toString().equals("success")) {
-                                dialog.dismiss();
+                                if (ocultarDialog) {
+                                    ocultarDialog = false;
+                                    dialog.dismiss();
+                                    finalizar.setVisibility(View.VISIBLE);
+                                }
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -402,13 +420,9 @@ public class ObservacionesFragment extends Fragment {
                             } else {
 
                                 response = response.getJSONObject("data");
-                                // jsonObject=response.getJSONArray("tehi_historial");
-                                System.out.println("response-->" + response.toString());
                                 String tehi_historial = response.getString("tehi_historial");
-                                System.out.println("tehi_historial-->" + tehi_historial);
                                 if (!tehi_historial.equals("")) {
                                     jsonArrayHistorial = new JSONArray(tehi_historial);
-                                    System.out.println("jsonArray--->" + jsonArrayHistorial.length());
                                     if (jsonArrayHistorial != null && jsonArrayHistorial.length() > 0) {
                                         evaluarJsonArray();
                                     }
@@ -423,6 +437,11 @@ public class ObservacionesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error.getMessage() != null) {
+                            if (ocultarDialog) {
+                                ocultarDialog = false;
+                                dialog.dismiss();
+                                finalizar.setVisibility(View.VISIBLE);
+                            }
                             if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -498,7 +517,11 @@ public class ObservacionesFragment extends Fragment {
                         try {
                             Log.d("RESPUESTA SUMAR", response.toString());
                             if (!response.get("status").toString().equals("ok")) {
-                                dialog.dismiss();
+                                if (ocultarDialog) {
+                                    ocultarDialog = false;
+                                    dialog.dismiss();
+                                    finalizar.setVisibility(View.VISIBLE);
+                                }
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -519,6 +542,11 @@ public class ObservacionesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error.getMessage() != null) {
+                            if (ocultarDialog) {
+                                ocultarDialog = false;
+                                dialog.dismiss();
+                                finalizar.setVisibility(View.VISIBLE);
+                            }
                             if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -562,7 +590,11 @@ public class ObservacionesFragment extends Fragment {
                         try {
                             Log.d("RESPUESTA ACTUALIZAR", response.toString());
                             if (!response.get("status").toString().equals("ok")) {
-                                dialog.dismiss();
+                                if (ocultarDialog) {
+                                    ocultarDialog = false;
+                                    dialog.dismiss();
+                                    finalizar.setVisibility(View.VISIBLE);
+                                }
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -584,6 +616,11 @@ public class ObservacionesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error.getMessage() != null) {
+                            if (ocultarDialog) {
+                                ocultarDialog = false;
+                                dialog.dismiss();
+                                finalizar.setVisibility(View.VISIBLE);
+                            }
                             if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -656,7 +693,11 @@ public class ObservacionesFragment extends Fragment {
                         try {
                             System.out.println("STATUS-->" + response.get("status").toString());
                             if (response.get("status").toString().equals("fail")) {
-                                dialog.dismiss();
+                                if (ocultarDialog) {
+                                    ocultarDialog = false;
+                                    dialog.dismiss();
+                                    finalizar.setVisibility(View.VISIBLE);
+                                }
                                 mensaje = response.get("message").toString();
                                 if (mensaje.equalsIgnoreCase("token no valido")) {
                                     Toast.makeText(objeto, "Su sesión ha expirado, debe iniciar sesión nuevamente", Toast.LENGTH_SHORT).show();
@@ -668,7 +709,11 @@ public class ObservacionesFragment extends Fragment {
 
                             } else {
                                 System.out.println("registrar diagnistico--->ok");
-                                dialog.dismiss();
+                                if (ocultarDialog) {
+                                    ocultarDialog = false;
+                                    dialog.dismiss();
+                                    finalizar.setVisibility(View.VISIBLE);
+                                }
                                 eliminarPila();
                                 objeto.CustomAlertDialog(objeto, "Información", "Diagnóstico registrado exitosamente", 3000, false);
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
@@ -685,6 +730,11 @@ public class ObservacionesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error.getMessage() != null) {
+                            if (ocultarDialog) {
+                                ocultarDialog = false;
+                                dialog.dismiss();
+                                finalizar.setVisibility(View.VISIBLE);
+                            }
                             if (!error.getMessage().isEmpty()) {
                                 Toast.makeText(objeto, "ERROR\n " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }

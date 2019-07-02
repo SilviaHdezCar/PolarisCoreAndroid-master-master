@@ -545,6 +545,15 @@ public class MainActivity extends AppCompatActivity
                                                     }
 
 
+                                                    if(!msj.contains("[")){
+
+                                                        String  mx= msj.substring(0,33);
+                                                        String con = msj.substring(33,msj.length());
+                                                        msj=mx+"["+con+"]";
+
+                                                    }
+
+
                                                     String nMensaje = eliminarCaracteres(msj);
                                                     String[] mesagge = nMensaje.split("  ");
                                                     String titulo = mesagge[0];
@@ -553,6 +562,7 @@ public class MainActivity extends AppCompatActivity
                                                     ArrayList<String> terminales = listarNotterminales(nMensaje);
 
                                                     String text = formatoNotificaciones(terminales.toString());
+
 
                                                     String msjFin = formatoNot(text);
 

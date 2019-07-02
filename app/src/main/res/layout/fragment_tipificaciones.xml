@@ -25,23 +25,30 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:background="@drawable/redondo_fondo_blanco">
+                    android:layout_height="25dp"
+                    android:background="@drawable/redondo_fondo_blanco"
+                    android:padding="5dp">
+
                     <Spinner
                         android:id="@+id/spinner_tipificaciones"
                         android:layout_width="300dp"
-                        android:layout_height="30dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/blanco"
                         android:gravity="center"
                         android:inputType="text"
-                        android:background="@color/blanco"
-                        android:paddingLeft="5dp">
+                        android:paddingLeft="5dp"></Spinner>
 
-                    </Spinner>
-                </LinearLayout>
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_alignRight="@+id/spinner_tipificaciones"
+                        android:layout_alignEnd="@+id/spinner_tipificaciones"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_down" />
 
+                </RelativeLayout>
 
 
             </LinearLayout>
@@ -63,9 +70,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_margin="20dp"
                     android:orientation="vertical">
 
                     <TableLayout

@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -71,7 +72,7 @@ public class TipificacionesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tipificaciones, container, false);
-     //   objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //   objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("TIPIFICACIONES TERMINAL");
         descripcionTipificaion = "";
         layout_tipificaciones = (LinearLayout) v.findViewById(R.id.layout_tipificaciones);
@@ -86,14 +87,13 @@ public class TipificacionesFragment extends Fragment {
         // Global.listTipificaciones = new ArrayList<Tipificacion>();
         Global.TIPIFICACIONES_DIAGNOSTICO = null;
         Global.TIPIFICACIONES_DIAGNOSTICO = new ArrayList<Tipificacion>();
-        tabla.removeAllViews();
         llenarTabla();
         spinner_tipificaciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String[] tipificaciones = obtenerTipificaciones();
-                String t= tipificaciones[position];
-                if(!t.equalsIgnoreCase("Seleccione")){
+                String t = tipificaciones[position];
+                if (!t.equalsIgnoreCase("Seleccione")) {
                     descripcionTipificaion = t;
                     agregarTipificacion();
                 }
@@ -113,7 +113,6 @@ public class TipificacionesFragment extends Fragment {
                 siguienteTipificaciones();
             }
         });
-
 
 
         consumirServicioTipificaciones();
@@ -180,7 +179,7 @@ public class TipificacionesFragment extends Fragment {
                                 }
                                 Global.TIPIFICACIONES.add(t);
                             }
-                            Collections.sort((ArrayList)Global.TIPIFICACIONES);
+                            Collections.sort((ArrayList) Global.TIPIFICACIONES);
                             llenarSpinner();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -218,10 +217,10 @@ public class TipificacionesFragment extends Fragment {
 
     //Concierte el arreglode tipificaciones a un arreglo de String
     public String[] obtenerTipificaciones() {
-        String[] rep = new String[Global.TIPIFICACIONES.size()+1];
+        String[] rep = new String[Global.TIPIFICACIONES.size() + 1];
         rep[0] = "Seleccione";
         for (int i = 0; i < Global.TIPIFICACIONES.size(); i++) {
-            rep[i+1] = Global.TIPIFICACIONES.get(i).getTetv_description();
+            rep[i + 1] = Global.TIPIFICACIONES.get(i).getTetv_description();
         }
         return rep;
 
@@ -251,7 +250,6 @@ public class TipificacionesFragment extends Fragment {
                     if (!exite) {
                         Global.listTipificaciones.add(tipif);
                         //llenarArregloTipificaciones();
-                        tabla.removeAllViews();
                         llenarTabla();
                         descripcionTipificaion = "";
                         spinner_tipificaciones.setSelection(0);
@@ -324,52 +322,88 @@ public class TipificacionesFragment extends Fragment {
      *
      * @param tabla
      */
-    int pos_btn;
+    int pos_fila;
 
     public void recorrerTabla(final TableLayout tabla) {
 
-        int pos_fila;
 
-        for (int i = 0; i < tabla.getChildCount(); i++) {//filas
-            View child = tabla.getChildAt(i);
-            TableRow row = (TableRow) child;
-            pos_fila = row.getId();
-            View view = row.getChildAt(0);//celdas
+        for (int i = 1; i < tabla.getChildCount(); i++) {//filas
+            View viewF = tabla.getChildAt(i);
+            if (viewF instanceof TableRow) {
+                TableRow row = (TableRow) viewF;
+                final View cell = ((TableRow) viewF).getChildAt(1);
+                if (cell instanceof ImageButton) {
+                    ((ImageButton) cell).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int pos=((ImageButton) cell).getId();
+                            int elemento=(pos-200)-1;
+                            Tipificacion tip = Global.listTipificaciones.get(elemento);
+                            for (int i = 0; i < Global.listTipificaciones.size(); i++) {
+                                if (Global.listTipificaciones.get(i) != null
+                                        && Global.listTipificaciones.get(i).getTetv_description().equalsIgnoreCase(tip.getTetv_description())) {
+                                    Global.listTipificaciones.remove(elemento);
+                                    llenarTabla();
+                                }
+                            }
+                        }
+                    });
 
-            view = row.getChildAt(1);//Celda en la posición 1
-            pos_btn = i;
-            if (view instanceof ImageButton) {
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Global.listTipificaciones.remove(pos_btn);
-                        tabla.removeAllViews();
-                        llenarTabla();
-                    }
-                });
+                }
+
 
             }
+
         }
+
     }
 
     /**
      * Metodo utilizado para llenar la tabla tipificaciones con el botton eliminar
      **/
     public void llenarTabla() {
+        tabla.removeAllViews();
+        //encabezado
+        TableRow filaEncabezado = new TableRow(objeto);
+        filaEncabezado.setId(0);
+        filaEncabezado.setGravity(Gravity.CENTER_VERTICAL);
+        filaEncabezado.setPadding(0, 10, 0, 10);
+        filaEncabezado.setBackgroundColor(Color.parseColor("#018892"));
 
+
+        //celdas
+        TextView nombreEncabezado = new TextView(objeto);
+        nombreEncabezado.setId(0 + 1);
+        nombreEncabezado.setPadding(20, 0, 0, 0);
+        nombreEncabezado.setText("Tipificación");
+        nombreEncabezado.setTextColor(Color.parseColor("#FFFFFF"));
+
+        TextView eliminarEncabezado = new TextView(objeto);
+        eliminarEncabezado.setId(0 + 2);
+        eliminarEncabezado.setPadding(20, 0, 10, 0);
+        eliminarEncabezado.setText("|   Eliminar");
+        eliminarEncabezado.setTextColor(Color.parseColor("#FFFFFF"));
+        eliminarEncabezado.setGravity(Gravity.CENTER);
+
+
+        filaEncabezado.addView(nombreEncabezado);
+        filaEncabezado.addView(eliminarEncabezado);
         if (Global.listTipificaciones != null && Global.listTipificaciones.size() > 0) {
-            for (int i = 0; i < Global.listTipificaciones.size(); i++) {
+            tabla.addView(filaEncabezado);
+            for (int x = 0; x < Global.listTipificaciones.size(); x++) {
                 TableRow fila = new TableRow(objeto);
+                int i = x + 1;
                 fila.setId(i);
                 fila.setBackgroundResource(R.drawable.borde_inferior_gris);
                 fila.setGravity(Gravity.CENTER_VERTICAL);
                 fila.setPadding(0, 0, 0, 0);
 
+
                 //celdas
                 TextView nombre = new TextView(objeto);
                 nombre.setId(100 + i);
                 nombre.setPadding(20, 0, 0, 0);
-                nombre.setText(Global.listTipificaciones.get(i).getTetv_description());
+                nombre.setText(Global.listTipificaciones.get(x).getTetv_description());
 
 
                 ImageButton btn_eliminar = new ImageButton(objeto);
@@ -380,7 +414,7 @@ public class TipificacionesFragment extends Fragment {
                 btn_eliminar.setMinimumHeight(0);
                 btn_eliminar.setPadding(0, 0, 0, 0);
                 btn_eliminar.setImageResource(R.mipmap.ic_papelera_peq);
-               // btn_eliminar.setColorFilter(Color.parseColor("#018793"));//para cambiar el color de la imagen
+                btn_eliminar.setColorFilter(Color.parseColor("#4D4D4D"));//para cambiar el color de la imagen
                 btn_eliminar.setBackgroundColor(Color.parseColor("#00EEF3F3"));
 
 
@@ -388,8 +422,9 @@ public class TipificacionesFragment extends Fragment {
                 fila.addView(btn_eliminar);
                 tabla.addView(fila);
             }
+            recorrerTabla(tabla);
         }
-        recorrerTabla(tabla);
+
     }
 
 
