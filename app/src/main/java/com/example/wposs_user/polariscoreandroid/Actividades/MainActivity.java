@@ -183,16 +183,12 @@ public class MainActivity extends AppCompatActivity
 
                 if (Global.notificaciones.isEmpty()) {
                     verNotificaciones.setImageResource(R.mipmap.ic_campanano);
-
                 }
 
                 if (Global.notificaciones.size() > 0) {
-
                     verNotificaciones.setImageResource(R.mipmap.ic_campanasi);
                     dialogo = new DialogNotificacion();
                     dialogo.show(MainActivity.this.getSupportFragmentManager(), "");
-
-
                 }
 
             }
@@ -539,6 +535,14 @@ public class MainActivity extends AppCompatActivity
 
 
                                                 if (msj.contains("terminal") && !msj.contains("object")) {
+
+                                                    if(!msj.contains("[")){
+
+                                                        String  mx= msj.substring(0,33);
+                                                        String con = msj.substring(33,msj.length());
+                                                        msj=mx+"["+con+"]";
+
+                                                    }
 
 
                                                     String nMensaje = eliminarCaracteres(msj);

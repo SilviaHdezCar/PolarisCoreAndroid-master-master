@@ -10,6 +10,7 @@
       >
 
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,9 +23,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/polaris_logoinicio"
-
             android:layout_gravity="left"
-
             />
 
 
@@ -44,27 +43,38 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            >
-        <ImageView
-            android:id="@+id/eliminar_notificacion"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="right"
-            android:src="@drawable/icon_cerrar"
-            android:visibility="visible"
-            android:layout_margin="10dp"
+            android:layout_height="21dp"
+            android:gravity="right">
 
-            />
+            <ImageView
+                android:id="@+id/eliminar_notificacion"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="right"
+                android:layout_margin="10dp"
+                android:src="@drawable/icon_cerrar"
+                android:visibility="visible"
+
+                />
         </LinearLayout>
 
 
     </LinearLayout>
 
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gris_menu"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="10dp"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -90,6 +100,9 @@
             />
 
     </LinearLayout>
+
+
+
 
     <ImageView
         android:id="@+id/ic_ocultarNot"

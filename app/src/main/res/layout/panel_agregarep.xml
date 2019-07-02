@@ -64,7 +64,7 @@
             android:layout_marginLeft="20dp"
             android:background="#00000000"
             android:src="@mipmap/ic_papelera_peq"
-            android:tint="@color/verde_nav_bar" />
+            android:tint="@color/gris_menu" />
 
 
 
