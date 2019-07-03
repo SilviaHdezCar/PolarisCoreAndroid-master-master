@@ -751,7 +751,9 @@ public class Prediagnostico extends Fragment {
         btn_reparacion.setTypeface(null, Typeface.NORMAL);
         btn_qa.setTypeface(null, Typeface.NORMAL);
 
-
+        btn_evidencias.setTypeface(null, Typeface.NORMAL);
+        btn_evidencias.setTextSize(13);
+        ly_evidencias.setBackgroundColor(getResources().getColor(R.color.verde_pestanas));
     }
 
     public void stylePrediagnostico() {

@@ -16,72 +16,82 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <TableLayout
-                android:id="@+id/tabla"
+            <RelativeLayout
+                android:id="@+id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:shrinkColumns="*"
-                android:stretchColumns="*">
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:background="@color/verde_pestanas">
+
+                <LinearLayout
+                    android:id="@+id/pest"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab_izq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:id="@+id/btn_atras"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparente"
+                        android:src="@drawable/ic_left"
+                        android:tint="#4DFFFFFF"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab_centro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/ic_point"
+                        android:tint="#4DFFFFFF"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/ic_point"
+                        android:layout_marginLeft="10dp"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/ic_point"
+                        android:layout_marginLeft="10dp"
+                        android:tint="#4DFFFFFF"/>
 
 
-                <TableRow>
 
-                    <LinearLayout
-                        android:id="@+id/tab_asociada"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                </LinearLayout>
 
-                        <Button
-                            android:id="@+id/btn_etapas"
-                            style="@style/letra_tabs"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/verde_pestanas"
-                            android:scrollbars="vertical"
-                            android:text="ETAPAS" />
+                <LinearLayout
+                    android:id="@+id/tab_der"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignEnd="@+id/pest"
+                    android:layout_alignRight="@+id/pest">
 
-                        <LinearLayout
-                            android:id="@+id/selectAsociadas"
-                            android:layout_width="match_parent"
-                            android:layout_height="4dp"
-                            android:background="@color/verde_pestanas"
-                            android:orientation="horizontal">
+                    <ImageButton
+                        android:id="@+id/btn_siguiente_validaciones_autorizadas"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparente"
+                        android:src="@drawable/ic_right"/>
+                </LinearLayout>
 
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/tab_autorizada"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/btn_validacion_terminales_autorizada"
-                            style="@style/letra_tabs"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:background="@color/verde_pestanas"
-                            android:scrollbars="vertical"
-                            android:text="VALIDACIÓN" />
-
-                        <LinearLayout
-                            android:id="@+id/selectAutorizadas"
-                            android:layout_width="match_parent"
-                            android:layout_height="4dp"
-                            android:background="@color/blanca_linea"
-                            android:orientation="horizontal">
-
-                        </LinearLayout>
-                    </LinearLayout>
+            </RelativeLayout>
 
 
-                </TableRow>
-
-            </TableLayout>
 
             <LinearLayout
                 android:id="@+id/layoutSerial"
@@ -194,20 +204,6 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@id/btn_siguiente_validaciones_autorizadas" />
 
-
-                <Button
-                    android:id="@+id/btn_siguiente_validaciones_autorizadas"
-                    style="@style/letra_contenido_blanco"
-                    android:layout_width="120dp"
-                    android:layout_height="40dp"
-                    android:layout_below="@+id/recycler_view_validaciones"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/redondo_gris_botones"
-                    android:text="Siguiente"
-                    android:textAllCaps="false"
-                    android:textColor="@color/negro" />
             </LinearLayout>
 
         </LinearLayout>

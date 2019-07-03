@@ -1,99 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/principal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context=".Fragmentos.EtapasTerminalAutorizada">
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-
+            android:id="@+id/ly_observacione_datos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TableLayout
-                    android:id="@+id/tabla_encabezado"
+                <RelativeLayout
+                    android:id="@+id/tabs"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:shrinkColumns="*"
-                    android:stretchColumns="*">
+                    android:layout_height="52dp"
+                    android:background="@color/verde_pestanas"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/pest"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"></LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tab_izq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <ImageButton
+                            android:id="@+id/btn_atras_etapas"
+                            android:layout_width="60dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparente"
+                            android:src="@drawable/ic_left"
+                            android:tint="#4DFFFFFF" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tab_centro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/ic_point" />
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/ic_point"
+                            android:tint="#4DFFFFFF" />
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/ic_point"
+                            android:tint="#4DFFFFFF" />
 
 
-                    <TableRow>
+                    </LinearLayout>
 
-                        <LinearLayout
-                            android:id="@+id/tab_asociada"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/tab_der"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignEnd="@+id/pest"
+                        android:layout_alignRight="@+id/pest">
 
-                            <Button
-                                android:id="@+id/btn_etapas"
-                                style="@style/letra_tabs"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@color/verde_pestanas"
-                                android:scrollbars="vertical"
-                                android:text="ETAPAS" />
+                        <ImageButton
+                            android:id="@+id/btn_siguiente_etapas_autorizadas"
+                            android:layout_width="60dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparente"
+                            android:src="@drawable/ic_right" />
+                    </LinearLayout>
 
-                            <LinearLayout
-                                android:id="@+id/selectAsociadas"
-                                android:layout_width="match_parent"
-                                android:layout_height="4dp"
-                                android:background="@color/blanca_linea"
-                                android:orientation="horizontal">
-
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/tab_autorizada"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <Button
-                                android:id="@+id/btn_validacion_terminales"
-                                style="@style/letra_tabs"
-                                android:layout_width="match_parent"
-                                android:layout_height="48dp"
-                                android:background="@color/verde_pestanas"
-                                android:scrollbars="vertical"
-                                android:text="VALIDACIÓN" />
-
-                            <LinearLayout
-                                android:id="@+id/selectAutorizadas"
-                                android:layout_width="match_parent"
-                                android:layout_height="4dp"
-                                android:background="@color/verde_pestanas"
-                                android:orientation="horizontal">
-
-                            </LinearLayout>
-                        </LinearLayout>
-
-
-                    </TableRow>
-
-                </TableLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/layout_terminal_asociada"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tabla"
                     android:layout_margin="10dp"
                     android:background="@drawable/borde_verde"
                     android:orientation="horizontal"
@@ -197,6 +206,7 @@
                                 android:textAllCaps="true" />
 
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -235,16 +245,14 @@
 
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="20dp"
                         android:background="@drawable/cuadrado_fondo_verde"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
@@ -278,136 +286,72 @@
                         android:id="@+id/recycler_view_observaciones_validacion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="3dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/cuadrado_fondo_verde"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginRight="5dp"
-                            android:src="@mipmap/observation"
-                            android:tint="@color/blanco" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="2dp"
-                            android:text="Registrar observación"
-                            android:textColor="@color/blanco"
-                            android:textSize="16dp" />
-
-                    </LinearLayout>
+                        android:layout_marginBottom="2dp" />
 
 
-                    <LinearLayout
+                   <!-- <LinearLayout
                         android:id="@+id/ly_contenedor"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <TableLayout
-                            android:id="@+id/tablaObservacion"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/toolbar"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:shrinkColumns="*"
-                            android:stretchColumns="*">
-
-
-                            <TableRow android:gravity="center">
-
-                                <LinearLayout
-                                    android:layout_width="250dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="horizontal"
-                                    android:padding="10dp">
-
-                                    <EditText
-                                        android:id="@+id/textArea_information"
-                                        style="@style/letra_contenido2"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="80dp"
-                                        android:background="@drawable/redondo_gris_fondo_gris"
-                                        android:digits="0123456789abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ óáéíúÓÁÉÍÚ.,:;"
-                                        android:gravity="top|left"
-                                        android:hint="Ingresar observación"
-                                        android:inputType="text|textCapCharacters"
-                                        android:maxLength="300"
-                                        android:maxLines="4"
-                                        android:overScrollMode="always"
-                                        android:padding="5dp"
-                                        android:scrollbarStyle="insideInset"
-                                        android:scrollbars="vertical"
-                                        android:scrollHorizontally="false" />
-                                </LinearLayout>
-
-
-                            </TableRow>
-
-                            <TableRow>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:orientation="horizontal">
-
-                                    <Button
-                                        android:id="@+id/btn_agregar_etapa_autorizada"
-                                        style="@style/letra_contenido_blanco"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="30dp"
-                                        android:layout_gravity="center"
-                                        android:background="@drawable/redondo_gris_botones"
-                                        android:text="Agregar"
-                                        android:textAllCaps="false"
-                                        android:textColor="@color/negro" />
-                                </LinearLayout>
-                            </TableRow>
-
-                            <TableRow>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:orientation="vertical"
-                                    android:padding="10dp">
-
-                                    <Button
-                                        android:id="@+id/btn_siguiente_etapas_autorizadas"
-                                        style="@style/letra_contenido_blanco"
-                                        android:layout_width="120dp"
-                                        android:layout_height="30dp"
-                                        android:layout_gravity="center"
-                                        android:layout_marginTop="20dp"
-                                        android:layout_marginBottom="20dp"
-                                        android:background="@drawable/redondo_gris_botones"
-                                        android:text="Siguiente"
-                                        android:textAllCaps="false"
-                                        android:textColor="@color/negro" />
-                                </LinearLayout>
-                            </TableRow>
-
-                        </TableLayout>
-                    </LinearLayout>
-
+                        <Button
+                            android:id="@+id/btn_siguiente_nuevo_diagn"
+                            style="@style/letra_contenido_blanco"
+                            android:layout_width="120dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="20dp"
+                            android:background="@drawable/redondo_gris_botones"
+                            android:text="Siguiente"
+                            android:textAllCaps="false"
+                            android:textColor="@color/negro" />
+                    </LinearLayout>-->
                 </LinearLayout>
+
             </LinearLayout>
+
+            <!--Ingresar observación-->
+            <RelativeLayout
+                android:id="@+id/contenedor_obs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="2dp"
+                android:background="@drawable/borde_verde_general"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="2dp">
+
+                <EditText
+                    android:id="@+id/textArea_information"
+                    style="@style/letra_contenido2"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/borde_derecho_verde"
+                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ óáéíúÓÁÉÍÚ.,:;"
+                    android:hint="Ingresar observación"
+                    android:inputType="text|textCapCharacters|textMultiLine"
+                    android:maxLength="300"
+                    android:padding="5dp"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+                <ImageView
+                    android:id="@+id/btn_agregar_etapa_autorizada"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_toEndOf="@id/textArea_information"
+                    android:layout_toRightOf="@id/textArea_information"
+                    android:src="@drawable/ic_send" />
+            </RelativeLayout>
+
         </LinearLayout>
     </ScrollView>
 
-</ScrollView>
+
+</RelativeLayout>

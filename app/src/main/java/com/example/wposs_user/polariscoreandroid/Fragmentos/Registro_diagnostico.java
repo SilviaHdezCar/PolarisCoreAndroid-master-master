@@ -384,7 +384,7 @@ public class Registro_diagnostico extends Fragment {
                                 return;
 
                             } else {
-                                eliminarPila();
+                                objeto.eliminarPila();
                                 objeto.CustomAlertDialog(objeto, "Información", "Diagnóstico registrado exitosamente", 3000, false);
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
@@ -483,7 +483,7 @@ public class Registro_diagnostico extends Fragment {
 
                                 System.out.println("respuesta del servicio registrar diagnostico**"+response.toString());
 
-                                eliminarPila();
+                                objeto.eliminarPila();
                                 objeto.CustomAlertDialog(objeto, "Información", "Diagnóstico registrado exitosamente", 3000, true);
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
@@ -1108,15 +1108,7 @@ public class Registro_diagnostico extends Fragment {
         return listas;
     }
 
-    public void eliminarPila() {
 
-
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-            fm.popBackStack();
-        }
-
-    }
 
     public boolean validarDanio() {
 

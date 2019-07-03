@@ -1,26 +1,21 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterEtapa;
-import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidaciones;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterValidacionesAutorizadas;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.R;
-import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Validacion;
 
 import java.util.ArrayList;
@@ -32,9 +27,8 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 public class ValidacionTerminalesFragment extends Fragment {
 
 
-    private Button etapaView;
-    private Button validacionView;
-    private Button btn_siguiente;
+    private ImageView btn_atras;
+    private ImageView btn_siguiente;
     private TextView tituloSerial;
     private View view;
 
@@ -45,28 +39,32 @@ public class ValidacionTerminalesFragment extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         view = inflater.inflate(R.layout.fragment_validacion_terminales, container, false);
-      //  objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //  objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("VALIDACIONES");
         Global.fotos = new ArrayList<>();
-        etapaView = (Button) view.findViewById(R.id.btn_etapas);
-        validacionView = (Button) view.findViewById(R.id.btn_validacion_terminales_autorizada);
-        btn_siguiente = (Button) view.findViewById(R.id.btn_siguiente_validaciones_autorizadas);
+        btn_atras = (ImageView) view.findViewById(R.id.btn_atras);
+        btn_siguiente = (ImageView) view.findViewById(R.id.btn_siguiente_validaciones_autorizadas);
         tituloSerial = (TextView) view.findViewById(R.id.tituloSerial);
 
 
         tituloSerial.setText(Global.terminalVisualizar.getTerm_serial());
 
-        etapaView.setOnClickListener(new View.OnClickListener() {
+        btn_atras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminalAutorizada()).addToBackStack(null).commit();
+//                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminalAutorizada()).addToBackStack(null).commit();
+                try {
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.popBackStack();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         btn_siguiente.setOnClickListener(new View.OnClickListener() {
@@ -75,12 +73,12 @@ public class ValidacionTerminalesFragment extends Fragment {
                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new TipificacionesAutorizadas()).addToBackStack(null).commit();
             }
         });
-        validacionView.setOnClickListener(new View.OnClickListener() {
+        /*validacionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionTerminalesFragment()).addToBackStack(null).commit();
             }
-        });
+        });*/
 
 
         String validaciones[] = Global.validaciones_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");

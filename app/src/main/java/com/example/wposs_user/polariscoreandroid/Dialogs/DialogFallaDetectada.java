@@ -2,6 +2,7 @@ package com.example.wposs_user.polariscoreandroid.Dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
@@ -19,9 +20,8 @@ import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity
 public class DialogFallaDetectada extends DialogFragment {
 
     private TextView txt_descripcion;
-    private TextView txt_info1;
-    private TextView txt_info2;
-    private Button btn_cancelar;
+    private Button btn_info1;
+    private Button btn_info2;
     private View v;
 
     private String falla1;
@@ -38,54 +38,53 @@ public class DialogFallaDetectada extends DialogFragment {
 
         v = getActivity().getLayoutInflater().inflate(R.layout.dialog_falla_detectada, null);
         txt_descripcion = (TextView) v.findViewById(R.id.txt_descripcion);
-        txt_info1 = (TextView) v.findViewById(R.id.txt_falla1);
-        txt_info2 = (TextView) v.findViewById(R.id.txt_falla2);
-        btn_cancelar = (Button) v.findViewById(R.id.btn_cancelar_falla_detectada);
-        setCancelable(false);
+        btn_info1 = (Button) v.findViewById(R.id.btn_opcion1);
+        btn_info2 = (Button) v.findViewById(R.id.btn_opcion2);
+        setCancelable(true);
+        btn_info1.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
+        btn_info2.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         if (Global.diagnosticoTerminal.equals("asociada")) {
             txt_descripcion.setText("Falla detectada por: ");
-            txt_info1.setText("Uso");
-            txt_info2.setText("Fábrica");
+            btn_info1.setText("Uso");
+            btn_info2.setText("Fábrica");
         } else if (Global.diagnosticoTerminal.equals("autorizada")) {
             txt_descripcion.setText("Falla detectada por: ");
-            txt_info1.setText("Repuesto defectuoso");
-            txt_info2.setText("Nuevo Diagnóstico");
+            btn_info1.setText("Repuesto defectuoso");
+            btn_info2.setText("Nuevo Diagnóstico");
+            btn_info1.setWidth(130);
+            btn_info2.setWidth(130);
+            btn_info1.setPadding(0, 10,5,10);
+            btn_info2.setPadding(0, 10,5,10);
         }
 
-        txt_info1.setOnClickListener(new View.OnClickListener() {
+        btn_info1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                falla1= txt_info1.getText().toString();
-                if(falla1.equals("Uso")){
+                falla1 = btn_info1.getText().toString();
+                if (falla1.equals("Uso")) {
                     Global.fallaDetectada = "USO";
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).addToBackStack(null).commit();
                     dismiss();
-                }else if(falla1.equals("Repuesto defectuoso")){
-                   objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new RepuestoDefectuosoAutorizadas()).addToBackStack(null).commit();
-                   dismiss();
+                } else if (falla1.equals("Repuesto defectuoso")) {
+                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new RepuestoDefectuosoAutorizadas()).addToBackStack(null).commit();
+                    dismiss();
                 }
             }
         });
 
-        txt_info2.setOnClickListener(new View.OnClickListener() {
+        btn_info2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                falla2= txt_info2.getText().toString();
-                if(falla2.equals("Fábrica")){
+                falla2 = btn_info2.getText().toString();
+                if (falla2.equals("Fábrica")) {
                     Global.fallaDetectada = "FABRICA";
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Registro_diagnostico()).addToBackStack(null).commit();
                     dismiss();
-                }else if(falla2.equals("Nuevo Diagnóstico")){
+                } else if (falla2.equals("Nuevo Diagnóstico")) {
                     objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasNuevoD_autorizadas()).addToBackStack(null).commit();
                     dismiss();
                 }
-            }
-        });
-        btn_cancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
             }
         });
 

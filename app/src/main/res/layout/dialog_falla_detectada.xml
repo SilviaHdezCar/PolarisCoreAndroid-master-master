@@ -11,8 +11,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="20dp">
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/txt_descripcion"
@@ -25,52 +26,56 @@
             android:textStyle="bold" />
 
 
-        <TextView
-            android:id="@+id/txt_falla1"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:padding="10dp"
-            android:text="text1 "
-            android:textColor="@color/gris_letra_dialog"
-            android:textSize="16dp"
-            android:textStyle="normal" />
-
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gris_linea"></LinearLayout>
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txt_falla2"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:padding="10dp"
-            android:text="text2"
-            android:textColor="@color/gris_letra_dialog"
-            android:textSize="16dp"
-            android:textStyle="normal" />
+            <Button
+                android:id="@+id/btn_opcion1"
+                style="@style/letra_contenido_blanco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/redondo_gris_botones"
+                android:text="btn1"
+                android:textAllCaps="false"
+                android:textColor="@color/negro"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:drawableLeft="@drawable/ic_check_black_24dp"
+                />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gris_linea"></LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+                <Button
+                    android:id="@+id/btn_opcion2"
+                    style="@style/letra_contenido_blanco"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/redondo_gris_botones"
+                    android:text="btn2"
+                    android:textAllCaps="false"
+                    android:textColor="@color/negro"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:drawableLeft="@drawable/ic_close"
+                    android:drawableTint="#022529"/>
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_cancelar_falla_detectada"
-            style="@style/letra_contenido_blanco"
-            android:textColor="@color/negro"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/redondo_gris_botones"
-            android:text="Cancelar"
-            android:textAllCaps="false"
-            android:layout_marginBottom="10dp"
 
-            />
+
+        </LinearLayout>
 
 
     </LinearLayout>

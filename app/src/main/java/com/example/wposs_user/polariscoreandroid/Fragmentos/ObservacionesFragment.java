@@ -714,7 +714,7 @@ public class ObservacionesFragment extends Fragment {
                                     dialog.dismiss();
                                     finalizar.setVisibility(View.VISIBLE);
                                 }
-                                eliminarPila();
+                                objeto.eliminarPila();
                                 objeto.CustomAlertDialog(objeto, "Información", "Diagnóstico registrado exitosamente", 3000, false);
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
@@ -756,13 +756,7 @@ public class ObservacionesFragment extends Fragment {
 
     }
 
-    public void eliminarPila() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-            fm.popBackStack();
-        }
 
-    }
 
     /**
      * METODO QUE RECORRE LA LISTA DE VALIDACIONES Y LAS AGREGA AL ARREGLO
