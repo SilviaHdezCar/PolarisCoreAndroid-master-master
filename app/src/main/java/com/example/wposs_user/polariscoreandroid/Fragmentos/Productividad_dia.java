@@ -146,7 +146,7 @@ public class Productividad_dia extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         productividad = new ArrayList<>();
-       // objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        // objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_productividad_dia, container, false);
         objeto.setTitulo("PRODUCTIVIDAD POR DÍA");
@@ -164,13 +164,10 @@ public class Productividad_dia extends Fragment {
 
         f_inicio.setInputType(InputType.TYPE_NULL);
 
-
-
         java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         Date date = new Date();
         String fecha = dateFormat.format(date);
-        fecha = fecha.replace("-", "-");
-        // f_inicio.setText(fecha);
+     // f_inicio.setText(fecha);
         Fecha1 = f_inicio.getText().toString();
         //f_inicio.setText(Tools.dateDDMMYYYYStr2(f_inicio.getText().toString()));
 
@@ -285,21 +282,17 @@ public class Productividad_dia extends Fragment {
     public void consumirServicioProductividadDia() {
 
         grafica.clear();
-
         productividad = new ArrayList<>();
-
         String data_inicio = f_inicio.getText().toString();
 
 
         if (data_inicio.isEmpty()) {
             Toast.makeText(v.getContext(), "Debe seleccionar el día", Toast.LENGTH_SHORT).show();
-             grafica.clear();
+            grafica.clear();
             tituloG.setVisibility(INVISIBLE);
             grafica.setVisibility(View.GONE);
             return;
-
         }
-
 
         final String fecha_inicial = f_inicio.getText().toString();
         String[] fecha = fecha_inicial.split("-");
@@ -321,9 +314,6 @@ public class Productividad_dia extends Fragment {
         grafica.clear();
 
         String fecha_inicio = mes_inicio + "/" + dia_inicio + "/" + anio_inicio;
-
-
-
 
         final Gson gson = new GsonBuilder().create();
 
@@ -382,28 +372,35 @@ public class Productividad_dia extends Fragment {
                                 pro = gson.fromJson(res, Productividad.class);
 
                                 if (pro != null) {
-                                    if(pro.getUste_repaired_terminals()==null) {
-                                        pro.setUste_repaired_terminals("0");
-                                    }
-                                        if(pro.getUste_diagnosed_terminals()==null){
-                                            pro.setUste_diagnosed_terminals("0");
-                                        }
-                                    productividad.add(pro);
                                 }
+                                productividad.add(pro);
+                            }
 
+                            if(productividad.get(0).getUste_repaired_terminals()==null){
+                                productividad.get(0).setUste_repaired_terminals("0");
+                            }
+
+                            if(productividad.get(0).getUste_diagnosed_terminals()==null){
+                                productividad.get(0).setUste_diagnosed_terminals("0");
+                            }
+                            if(productividad.get(0).getUste_associated_terminals()==null){
+                                productividad.get(0).setUste_associated_terminals("0");
                             }
 
 
-                           int total= Integer.parseInt(productividad.get(0).getUste_associated_terminals())+Integer.parseInt(productividad.get(0).getUste_diagnosed_terminals())+Integer.parseInt(productividad.get(0).getUste_repaired_terminals());
+                            int total= Integer.parseInt(productividad.get(0).getUste_associated_terminals())+Integer.parseInt(productividad.get(0).getUste_diagnosed_terminals())+ Integer.parseInt(productividad.get(0).getUste_repaired_terminals());
 
                             if(total==0){
 
-                                Toast.makeText(v.getContext(), "No existen registros para el día seleccionado", Toast.LENGTH_SHORT).show();
+                                Global.mensaje = "No existen registros para el día seleccionado";
+                                Toast.makeText(v.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
                                 grafica.clear();
+                                f_inicio.setText("");
                                 tituloG.setVisibility(INVISIBLE);
                                 grafica.setVisibility(View.GONE);
-                                f_inicio.setText("");
+
                                 return;
+
                             }
                             this.pintarGrafica();
 
@@ -427,7 +424,7 @@ public class Productividad_dia extends Fragment {
                         }
 
                         if (pr.getUste_diagnosed_terminals()== null || pr.getUste_diagnosed_terminals().equals("NaN")) {
-                           diagnosticadas.add(new BarEntry(2, 0));
+                            diagnosticadas.add(new BarEntry(2, 0));
                         }
 
                         if (pr.getUste_repaired_terminals() == null || pr.getUste_repaired_terminals().equalsIgnoreCase("NaN")) {
@@ -503,7 +500,7 @@ public class Productividad_dia extends Fragment {
                         tituloG.setVisibility(VISIBLE);
                         tituloG.setText("Productividad del día: " + fecha_inicial);
 
-                       grafica.getAxis(YAxis.AxisDependency.LEFT);
+                        grafica.getAxis(YAxis.AxisDependency.LEFT);
                         yAxis.setCenterAxisLabels(true);
                         yAxis.setAxisMinimum(0);
                         yAxis.setGranularity(1);
@@ -534,7 +531,7 @@ public class Productividad_dia extends Fragment {
                         grafica.getDescription().setEnabled(false);
                         grafica.getAxisRight().setGranularity(1);
                         grafica.setVisibility(VISIBLE);
-                          grafica.setVisibility(VISIBLE);
+                        grafica.setVisibility(VISIBLE);
                         f_inicio.setText("");
 
 
@@ -584,19 +581,22 @@ public class Productividad_dia extends Fragment {
         if(anio<anioAct){ return true;}
 
 
-       if(anio==anioAct){
+        if(anio==anioAct){
 
             if(mes>mesAct){return false;}
             if(mes<mesAct){return true;}
             if(mes==mesAct){
                 if(dia>diaAct){return false;}
-                    }
-                 }
+            }
+        }
 
-       return true;
+        return true;
 
 
     }
 
 
 }
+
+
+

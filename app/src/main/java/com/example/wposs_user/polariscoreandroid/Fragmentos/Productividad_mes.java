@@ -557,7 +557,7 @@ public class Productividad_mes extends Fragment {
         int anioActual = Integer.parseInt(fechas[0]);
 
         anios = new String[21];
-        anios[0]= "   ";
+        anios[0]= "Seleccione";
 
 
         for (int i = 1; i < anios.length; i++) {
