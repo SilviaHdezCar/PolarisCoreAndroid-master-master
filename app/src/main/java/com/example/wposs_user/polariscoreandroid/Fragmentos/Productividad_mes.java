@@ -106,13 +106,13 @@ public class Productividad_mes extends Fragment {
 
        productividadMesDiagnosticadas= new int[5];
        productividadMesReparadas= new int[5];
-       meses= new String[]{"   ","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+       meses= new String[]{"Seleccione","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
 
        obtenerAnios();
 
         tituloGra=(TextView)v.findViewById(R.id.titulo_gr);
-        comboAdapter = new ArrayAdapter<String>(objeto,R.layout.spiner_style_center, anios);
-        comboAdapterMeses=new ArrayAdapter<String>(objeto,R.layout.spiner_style_center, meses);
+        comboAdapter = new ArrayAdapter<String>(objeto,R.layout.spiner_style_2, anios);
+        comboAdapterMeses=new ArrayAdapter<String>(objeto,R.layout.spiner_style_2, meses);
         objeto.setTitulo("PRODUCTIVIDAD POR MES");
         mes = (Spinner) v.findViewById(R.id.spin_mesxmes);
         año = (Spinner) v.findViewById(R.id.spiner_añoxmes);
@@ -165,7 +165,7 @@ public class Productividad_mes extends Fragment {
 
         }*/
 
-        if (mes.getSelectedItem().toString().equals("   ") || año.getSelectedItem().equals("   ")) {
+        if (mes.getSelectedItem().toString().equals("Seleccione") || año.getSelectedItem().equals("Seleccione")) {
             Toast.makeText(v.getContext(), "Seleccione un mes y año válido", Toast.LENGTH_SHORT).show();
             grafica.clear();
             grafica.setVisibility(View.GONE);
@@ -557,7 +557,7 @@ public class Productividad_mes extends Fragment {
         int anioActual = Integer.parseInt(fechas[0]);
 
         anios = new String[21];
-        anios[0]= "   ";
+        anios[0]= "Seleccione";
 
 
         for (int i = 1; i < anios.length; i++) {
