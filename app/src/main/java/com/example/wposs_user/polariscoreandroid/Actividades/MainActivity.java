@@ -268,17 +268,13 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
         } else if (id == R.id.nav_perfil) {
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
-            // cargarDatosPerfil();
         } else if (id == R.id.nav_stock) {
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new StockFragment()).addToBackStack(null).commit();
         } else if (id == R.id.nav_consultar_terminales_reparadas) {
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ConsultaTerminalesSerial()).addToBackStack(null).commit();
-
         } else if (id == R.id.nav_productividad) {
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new ProductividadFragment()).addToBackStack(null).commit();
-
         } else if (id == R.id.nav_cerrar_sesion) {
-
             consumirSercivioCerrarSesion();
         } else if (id == R.id.nav_autenticacion_huella) {
             DialogCancelarHuella dialog = new DialogCancelarHuella();

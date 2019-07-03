@@ -1,7 +1,7 @@
 package com.example.wposs_user.polariscoreandroid.Adaptadores;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +16,6 @@ import com.example.wposs_user.polariscoreandroid.java.Terminal;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-import java.util.Vector;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
@@ -50,7 +49,7 @@ public class AdapterTerminal extends RecyclerView.Adapter<AdapterTerminal.ViewHo
 
     public void onBindViewHolder(final ViewHolderTerminal holder, final int i) {
         String fechaANS = "";
-        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/"+this.listTerminal.get(i).getTerm_model().toUpperCase()+".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(holder.imagen);
+        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/"+this.listTerminal.get(i).getTerm_model().toUpperCase()+".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(holder.imagen_terminal);
         holder.serial.setText(this.listTerminal.get(i).getTerm_serial());
         holder.marca.setText(this.listTerminal.get(i).getTerm_brand());
         holder.modelo.setText(this.listTerminal.get(i).getTerm_model());
@@ -67,7 +66,8 @@ public class AdapterTerminal extends RecyclerView.Adapter<AdapterTerminal.ViewHo
      holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_verde);
 
 
-
+        Drawable icon = objeto.getResources().getDrawable(R.drawable.ic_advertencia);
+        holder.imagen_estado.setImageDrawable(icon);
 
         holder.layout_terminal_asociada.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,13 +103,15 @@ public class AdapterTerminal extends RecyclerView.Adapter<AdapterTerminal.ViewHo
         TextView tecnologia;
         TextView estado;
         TextView fechaANS;
-        ImageView imagen;
+        ImageView imagen_terminal;
+        ImageView imagen_estado;
 
         LinearLayout layout_terminal_asociada;
 
         public ViewHolderTerminal(View v) {
             super(v);
-            imagen = (ImageView) v.findViewById(R.id.imagen_asociada);
+            imagen_terminal = (ImageView) v.findViewById(R.id.imagen_asociada);
+            imagen_estado = (ImageView) v.findViewById(R.id.imagen_estado);
             serial = (TextView) v.findViewById(R.id.serial_ter_asociada);
             marca = (TextView) v.findViewById(R.id.marca_ter_asociada);
             modelo = (TextView) v.findViewById(R.id.modelo_ter_asociada);

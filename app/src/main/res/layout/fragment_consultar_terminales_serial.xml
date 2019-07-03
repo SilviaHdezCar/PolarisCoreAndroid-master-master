@@ -53,14 +53,12 @@
                     style="@style/letra_contenido"
                     android:layout_width="200dp"
                     android:layout_height="30dp"
-                    android:background="@color/blanco"
+                    android:background="@drawable/borde_derecho"
                     android:gravity="center"
                     android:hint="Serial"
                     android:inputType="textCapCharacters"
-                    android:maxLength="25"/>
-
-
-
+                    android:maxLength="25"
+                    android:textColor="#A1000000"/>
 
                 <ImageView
                     android:id="@+id/btn_buscar_terminales_serial"
@@ -68,8 +66,9 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:src="@mipmap/search"
-                    android:backgroundTint="@color/fondo_verde_edit_text"
-                    android:background="@color/blanco"
+                     android:tint="@color/verde_general"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:padding="2dp"
                      />
 

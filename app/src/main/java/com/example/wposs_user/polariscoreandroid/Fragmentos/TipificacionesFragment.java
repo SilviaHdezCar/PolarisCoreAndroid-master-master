@@ -57,7 +57,7 @@ public class TipificacionesFragment extends Fragment {
 
     private LinearLayout layout_tipificaciones;
     private Spinner spinner_tipificaciones;
-    // private RecyclerView rv;
+    //private RecyclerView rv;
 
     public String descripcionTipificaion;
     private static ArrayList tipificaciones;
@@ -119,7 +119,6 @@ public class TipificacionesFragment extends Fragment {
         return v;
 
     }
-
 
     /**
      * ESTE METODO SE UTILIZA PARA CONSUMIR EL SERVICIO QUE LISTA LAS TIPIFICACIONES +
