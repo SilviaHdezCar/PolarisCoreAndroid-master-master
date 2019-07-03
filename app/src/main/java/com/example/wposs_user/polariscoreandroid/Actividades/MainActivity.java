@@ -265,6 +265,7 @@ public class MainActivity extends AppCompatActivity
         // FragmentManager fragmentManager = getSupportFragmentManager();
         int id = item.getItemId();
         if (id == R.id.nav_home) {
+            eliminarPila();
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
         } else if (id == R.id.nav_perfil) {
             fragmentManager.beginTransaction().replace(R.id.contenedor_main, new PerfilFragment()).addToBackStack(null).commit();
@@ -287,6 +288,18 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
+
+
+    public void eliminarPila() {
+        try {
+            FragmentManager fm = objeto.getSupportFragmentManager();
+            for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                fm.popBackStack();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /*************************************************************************************
      *METODO QUE CONSUME EL SERVICIO PARA CERRAR SESIÓN
@@ -532,20 +545,20 @@ public class MainActivity extends AppCompatActivity
 
                                                 if (msj.contains("terminal") && !msj.contains("object")) {
 
-                                                    if(!msj.contains("[")){
+                                                    if (!msj.contains("[")) {
 
-                                                        String  mx= msj.substring(0,33);
-                                                        String con = msj.substring(33,msj.length());
-                                                        msj=mx+"["+con+"]";
+                                                        String mx = msj.substring(0, 33);
+                                                        String con = msj.substring(33, msj.length());
+                                                        msj = mx + "[" + con + "]";
 
                                                     }
 
 
-                                                    if(!msj.contains("[")){
+                                                    if (!msj.contains("[")) {
 
-                                                        String  mx= msj.substring(0,33);
-                                                        String con = msj.substring(33,msj.length());
-                                                        msj=mx+"["+con+"]";
+                                                        String mx = msj.substring(0, 33);
+                                                        String con = msj.substring(33, msj.length());
+                                                        msj = mx + "[" + con + "]";
 
                                                     }
 

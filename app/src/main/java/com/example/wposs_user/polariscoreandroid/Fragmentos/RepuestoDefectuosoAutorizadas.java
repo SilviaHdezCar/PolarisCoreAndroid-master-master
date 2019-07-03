@@ -594,7 +594,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
                                 return;
 
                             } else {
-                                eliminarPila();
+                                objeto.eliminarPila();
                                 CustomAlertDialog(objeto, "Información", "Reparación finalizada", 3000, true);
                                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new InicialFragment()).addToBackStack(null).commit();
                             }
@@ -831,21 +831,7 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
     }
 
 
-    /**
-     * Este metodo elimina todos los fragmentos de la pila
-     * ()
-     */
-    public void eliminarPila() {
-        if (objeto.getSupportFragmentManager() != null) {
-            FragmentManager fm = objeto.getSupportFragmentManager();
 
-            for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-                fm.popBackStack();
-            }
-        }
-
-
-    }
 
 
     // TODO: Rename method, update argument and hook method into UI event

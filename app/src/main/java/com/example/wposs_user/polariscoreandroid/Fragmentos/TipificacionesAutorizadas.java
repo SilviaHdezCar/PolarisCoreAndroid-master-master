@@ -42,21 +42,7 @@ import java.util.List;
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 import static java.util.Collections.*;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TipificacionesAutorizadas.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TipificacionesAutorizadas#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TipificacionesAutorizadas extends Fragment {
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
-    private OnFragmentInteractionListener mListener;
 
 
     private View v;
@@ -68,8 +54,8 @@ public class TipificacionesAutorizadas extends Fragment {
     private TextView estado;
     private TextView fechaANS;
 
-    private Button btn_siguiente;
-
+    private ImageView btn_siguiente;
+    private ImageView btn_atras;
     private RecyclerView rv;/*
     private RecyclerView rvFotos;
     private RecyclerView rvRepuestos;*/
@@ -96,33 +82,6 @@ public class TipificacionesAutorizadas extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TipificacionesAutorizadas.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TipificacionesAutorizadas newInstance(String param1, String param2) {
-        TipificacionesAutorizadas fragment = new TipificacionesAutorizadas();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     // Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/view/"+Global.ID+".jpg").error(R.mipmap.ic_profile).fit().centerInside().into(imageView);
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -134,14 +93,15 @@ public class TipificacionesAutorizadas extends Fragment {
         list_con_fotos = new ArrayList<Observacion>();
         this.repuestos = new ArrayList<Repuesto>();
         ImageView imagen = (ImageView) v.findViewById(R.id.imagen_asociada);
-        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/"+Global.terminalVisualizar.getTerm_model().toUpperCase()+".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/" + Global.terminalVisualizar.getTerm_model().toUpperCase() + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
         serial = (TextView) v.findViewById(R.id.serial_ter_autorizada);
         marca = (TextView) v.findViewById(R.id.marca_ter_autorizada);
         modelo = (TextView) v.findViewById(R.id.modelo_ter_autorizada);
         tecnologia = (TextView) v.findViewById(R.id.tecno_ter_autorizada);
         estado = (TextView) v.findViewById(R.id.estado_ter_autorizada);
         fechaANS = (TextView) v.findViewById(R.id.fechaANS_ter_autorizada);
-        btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_tipificaciones_autorizadas);
+        btn_siguiente = (ImageView) v.findViewById(R.id.btn_siguiente_tipificaciones_autorizadas);
+        btn_atras = (ImageView) v.findViewById(R.id.btn_atras_tipificaciones);
         rv = (RecyclerView) v.findViewById(R.id.recycler_view_tipificaciones_autorizadas);
         layout_evidencias = (LinearLayout) v.findViewById(R.id.layout_evidencias);
         layout_repuestos = (LinearLayout) v.findViewById(R.id.layout_repuestos);
@@ -227,56 +187,19 @@ public class TipificacionesAutorizadas extends Fragment {
             }
 
 
-            //Obtengo las posiciones donde guarde las observaciones con foto
-
-
-           /* if (Global.fotos != null) {
-                if (Global.fotos.size() > 0) {
-                    Observacion obFoto1 = Global.fotos.get(0);
-                    System.out.println("Observación 1: " + obFoto1.toString());
-                    Observacion obFoto2 = Global.fotos.get(1);
-                    System.out.println("Observación 2: " + obFoto2.toString());
-
-
-                    final String foto1 = obFoto1.getTeob_photo();
-                    final String foto2 = obFoto2.getTeob_photo();
-
-                    txt_nomFoto1.setText(foto1);
-                    txt_nomFoto2.setText(foto2);
-
-                    txt_fechaFoto1.setText(Utils.darFormatoFechaObservaciones(obFoto1.getTeob_fecha()));
-                    txt_fechaFoto2.setText(Utils.darFormatoFechaObservaciones(obFoto2.getTeob_fecha()));
-
-
-                    Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia1);
-                    Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto2).error(R.drawable.img_no_disponible).fit().centerInside().into(img_evidencia2);
-                    Global.foto = 1;
-                    Global.rutaFotoObservacion = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto1;
-                    img_evidencia1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //inflar fragment evidencias y carga la foto
-
-                            cargarPanel();
-
-                        }
-                    });
-                    Global.foto = 2;
-                    Global.rutaFotoObservacion2 = "http://100.25.214.91:3000/PolarisCore/upload/viewObservation/" + foto2;
-                    img_evidencia2.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //inflar fragment evidencias y carga la foto
-
-                            cargarPanel();
-
-                        }
-                    });
-                }
-            }*/
-
         }
-
+        btn_atras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminalAutorizada()).addToBackStack(null).commit();
+                try {
+                    android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.popBackStack();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         btn_siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -362,7 +285,8 @@ public class TipificacionesAutorizadas extends Fragment {
         Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS = null;
         Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS = new ArrayList<Repuesto>();
 
-        if (!Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).equalsIgnoreCase("")) {
+        if (Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()) != null
+                && !Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).equalsIgnoreCase("")) {
             String reps[] = Global.repuestos_listar_autorizadas.get(Global.terminalVisualizar.getTerm_serial()).split(",");
             repuestos = new ArrayList<>();
             if (reps == null || reps.length == 0 || reps.equals("")) {
@@ -373,7 +297,8 @@ public class TipificacionesAutorizadas extends Fragment {
                     String[] rep = null;
                     for (int i = 0; i < reps.length; i++) {
                         rep = reps[i].split("-");
-                        if (rep != null || rep.length > 0) {
+                        System.out.println();
+                        if (rep != null && rep.length > 0) {
                             repuesto = new Repuesto(rep[0], rep[1], rep[2], rep[3]);
                             this.repuestos.add(repuesto);
                             Global.REPUESTOS_DEFECTUOSOS_AUTORIZADAS.add(repuesto);
@@ -435,36 +360,5 @@ public class TipificacionesAutorizadas extends Fragment {
 
         }
 
-    }
-
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

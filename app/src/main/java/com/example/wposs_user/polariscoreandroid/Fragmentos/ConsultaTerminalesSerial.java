@@ -75,7 +75,7 @@ public class ConsultaTerminalesSerial extends Fragment {
                              Bundle savedInstanceState) {
         Global.soloConsulta = "si";
         view = inflater.inflate(R.layout.fragment_consultar_terminales_serial, container, false);
-       // objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        // objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("BÚSQUEDA POR SERIAL");
         queue = Volley.newRequestQueue(objeto);
         //servicioTerminales();
@@ -133,7 +133,7 @@ public class ConsultaTerminalesSerial extends Fragment {
         this.terminal = new Terminal();
         Global.OBSERVACIONES = null;
         Global.OBSERVACIONES = new ArrayList<Observacion>();
-        Global.validaciones_qa=false;
+        Global.validaciones_qa = false;
         Global.validaciones_consultas = new HashMap<String, String>();
         Global.tipificaciones_consultas = new HashMap<String, String>();
         Global.repuestos_consultas = new HashMap<String, String>();
@@ -202,8 +202,8 @@ public class ConsultaTerminalesSerial extends Fragment {
 
                                     Global.validaciones_consultas.put(estado, fecha + "%" + arreglo);
                                     System.out.println("Validaciones: " + estado + " - " + fecha + "%" + arreglo);
-                                    if(estado.equals("3")){
-                                        Global.validaciones_qa=true;
+                                    if (estado.equals("3")) {
+                                        Global.validaciones_qa = true;
                                     }
                                 }
                             }
@@ -314,16 +314,21 @@ public class ConsultaTerminalesSerial extends Fragment {
         final AdapterTerminal_asociada adapter = new AdapterTerminal_asociada(terminals, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
             @Override
             public void onClick(List<Terminal> terminal, int position) {
-
-                if(!terminal.get(position).getTerm_status().equalsIgnoreCase("NUEVO")){
-                    Global.serial_ter = terminal.get(position).getTerm_serial();
-                    Global.modelo = terminal.get(position).getTerm_model();
-                    Global.terminalVisualizar = terminal.get(position);
-                    Global.observaciones_con_fotos = null;
-                    Global.observaciones_con_fotos = new ArrayList<>();
-                    Global.fotos = new ArrayList<>();
-                    objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Prediagnostico()).addToBackStack(null).commit();
+                if (Global.validaciones_consultas.size()==0
+                        &&Global.tipificaciones_consultas.size()==0
+                        &&Global.repuestos_consultas.size()==0
+                        &&Global.OBSERVACIONES.size()==0){
+                    return;
                 }
+                    if (!terminal.get(position).getTerm_status().equalsIgnoreCase("NUEVO")) {
+                        Global.serial_ter = terminal.get(position).getTerm_serial();
+                        Global.modelo = terminal.get(position).getTerm_model();
+                        Global.terminalVisualizar = terminal.get(position);
+                        Global.observaciones_con_fotos = null;
+                        Global.observaciones_con_fotos = new ArrayList<>();
+                        Global.fotos = new ArrayList<>();
+                        objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new Prediagnostico()).addToBackStack(null).commit();
+                    }
 
 
             }

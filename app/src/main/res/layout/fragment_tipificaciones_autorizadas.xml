@@ -14,12 +14,85 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+            <RelativeLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:background="@color/verde_pestanas">
+
+                <LinearLayout
+                    android:id="@+id/pest"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab_izq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:id="@+id/btn_atras_tipificaciones"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparente"
+                        android:src="@drawable/ic_left"
+                        android:tint="#4DFFFFFF"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab_centro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/ic_point"
+                        android:tint="#4DFFFFFF"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/ic_point"
+                        android:layout_marginLeft="10dp"
+                        android:tint="#4DFFFFFF"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/ic_point"
+                        android:layout_marginLeft="10dp"/>
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab_der"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignEnd="@+id/pest"
+                    android:layout_alignRight="@+id/pest">
+
+                    <ImageButton
+                        android:id="@+id/btn_siguiente_tipificaciones_autorizadas"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparente"
+                        android:src="@drawable/ic_right"/>
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/layout_terminal_asociada"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tabla"
                 android:layout_margin="10dp"
                 android:background="@drawable/borde_verde"
                 android:orientation="horizontal"
@@ -350,19 +423,6 @@
                 </TableLayout>
 
             </LinearLayout>
-
-
-            <Button
-                android:id="@+id/btn_siguiente_tipificaciones_autorizadas"
-                style="@style/letra_contenido_blanco"
-                android:layout_width="120dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/redondo_gris_botones"
-                android:text="Siguiente"
-                android:textAllCaps="false"
-                android:textColor="@color/negro" />
 
 
         </LinearLayout>

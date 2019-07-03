@@ -1,21 +1,20 @@
 package com.example.wposs_user.polariscoreandroid.Fragmentos;
 
-import android.app.AlertDialog;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +32,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Tools;
 import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
-import com.example.wposs_user.polariscoreandroid.java.Repuesto;
+import com.google.android.gms.vision.text.Line;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
@@ -74,7 +73,7 @@ public class EtapasTerminalAutorizada extends Fragment {
     private OnFragmentInteractionListener mListener;
     private View view;
 
-    private Button etapaView, validacionView;
+
 
     private TextView serial;
     private TextView marca;
@@ -85,10 +84,11 @@ public class EtapasTerminalAutorizada extends Fragment {
     private TextView fechaANS;
     private EditText textArea_observacion;
 
-    private Button btn_agregar_etapa_autorizada;
-    private Button btn_siguiente_etapas_autorizada;
+    private ImageView btn_agregar_etapa_autorizada;
+    private ImageView btn_siguiente;
+    private ImageView btn_atras;
 
-    private TableLayout tablaObservacion;
+    private RelativeLayout tablaObservacion;
 
     private static Observacion o;
 
@@ -143,6 +143,9 @@ public class EtapasTerminalAutorizada extends Fragment {
 
         // muestro la terminal seleccionada con los valores que guarde en el obj terminal
 
+        /*Button siguiente=(Button)view.findViewById(R.id.btn_siguiente_nuevo_diagn);
+        siguiente.setVisibility(View.GONE);*/
+
         serial = (TextView) view.findViewById(R.id.serial_ter_asociada);
         marca = (TextView) view.findViewById(R.id.marca_ter_asociada);
         modelo = (TextView) view.findViewById(R.id.modelo_ter_asociada);
@@ -151,11 +154,12 @@ public class EtapasTerminalAutorizada extends Fragment {
         garantia = (TextView) view.findViewById(R.id.txt_garantia);
         fechaANS = (TextView) view.findViewById(R.id.fechal_ter_asociada);
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_observaciones_validacion);
-        btn_agregar_etapa_autorizada = (Button) view.findViewById(R.id.btn_agregar_etapa_autorizada);
-        btn_siguiente_etapas_autorizada = (Button) view.findViewById(R.id.btn_siguiente_etapas_autorizadas);
+        btn_agregar_etapa_autorizada = (ImageView) view.findViewById(R.id.btn_agregar_etapa_autorizada);
+        btn_siguiente = (ImageView) view.findViewById(R.id.btn_siguiente_etapas_autorizadas);
+        btn_atras = (ImageView) view.findViewById(R.id.btn_atras_etapas);
         textArea_observacion = (EditText) view.findViewById(R.id.textArea_information);
 
-        tablaObservacion = (TableLayout) view.findViewById(R.id.tablaObservacion);
+        tablaObservacion = (RelativeLayout) view.findViewById(R.id.contenedor_obs);
 
         ImageView imagen = (ImageView) view.findViewById(R.id.imagen_asociada_eta);
         Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/"+
@@ -176,14 +180,17 @@ public class EtapasTerminalAutorizada extends Fragment {
             fechaANS.setText(fechaANS.getText().toString() + Utils.darFormatoFecha2(Global.terminalVisualizar.getTerm_date_ans()));
         }
 
-        etapaView = (Button) view.findViewById(R.id.btn_etapas);
-        validacionView = (Button) view.findViewById(R.id.btn_validacion_terminales);
 
-        validacionView.setOnClickListener(new View.OnClickListener() {
+        btn_atras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                objeto.setTitulo("VALIDACIONES");
-                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionTerminalesFragment()).addToBackStack(null).commit();
+//                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminalAutorizada()).addToBackStack(null).commit();
+                try {
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.popBackStack();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -205,10 +212,10 @@ public class EtapasTerminalAutorizada extends Fragment {
             }
         });
 
-        btn_siguiente_etapas_autorizada.setOnClickListener(new View.OnClickListener() {
+        btn_siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new TipificacionesAutorizadas()).addToBackStack(null).commit();
+                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new ValidacionTerminalesFragment()).addToBackStack(null).commit();
             }
         });
 

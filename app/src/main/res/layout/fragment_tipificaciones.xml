@@ -27,7 +27,7 @@
 
                 <RelativeLayout
                     android:layout_width="300dp"
-                    android:layout_height="25dp"
+                    android:layout_height="30dp"
                     android:background="@drawable/redondo_fondo_blanco"
                     android:padding="5dp">
 

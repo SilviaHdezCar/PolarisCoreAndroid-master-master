@@ -15,6 +15,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,9 +60,6 @@ public class EtapasNuevoD_autorizadas extends Fragment {
     private View view;
 
 
-    private TableLayout encabezado;
-
-
     private TextView serial;
     private TextView marca;
     private TextView modelo;
@@ -70,8 +69,8 @@ public class EtapasNuevoD_autorizadas extends Fragment {
     private TextView garantia;
     private EditText textArea_observacion;
 
-    private Button btn_agregar_etapa;
-    private Button btn_siguiente;
+    private ImageView btn_agregar_etapa;
+    private ImageView btn_siguiente;
 
     private static Observacion o;
 
@@ -82,6 +81,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
     private RequestQueue queue;
 
     private String observacion;
+    private RelativeLayout encabezado;
 
 
     public EtapasNuevoD_autorizadas() {
@@ -105,7 +105,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
         // muestro la terminal seleccionada con los valores que guarde en el obj terminal
 
         queue = Volley.newRequestQueue(objeto);
-        encabezado = (TableLayout) view.findViewById(R.id.tabla_encabezado);
+        encabezado = (RelativeLayout) view.findViewById(R.id.tabs);
 
         serial = (TextView) view.findViewById(R.id.serial_ter_asociada);
         marca = (TextView) view.findViewById(R.id.marca_ter_asociada);
@@ -115,8 +115,8 @@ public class EtapasNuevoD_autorizadas extends Fragment {
         garantia = (TextView) view.findViewById(R.id.txt_garantia);
         fechaANS = (TextView) view.findViewById(R.id.fechal_ter_asociada);
         rv = (RecyclerView) view.findViewById(R.id.recycler_view_observaciones_validacion);
-        btn_agregar_etapa = (Button) view.findViewById(R.id.btn_agregar_etapa_autorizada);
-        btn_siguiente = (Button) view.findViewById(R.id.btn_siguiente_etapas_autorizadas);
+        btn_agregar_etapa = (ImageView) view.findViewById(R.id.btn_agregar_etapa_autorizada);
+        btn_siguiente = (ImageView) view.findViewById(R.id.btn_siguiente_etapas_autorizadas);
         textArea_observacion = (EditText) view.findViewById(R.id.textArea_information);
 
 
@@ -137,8 +137,9 @@ public class EtapasNuevoD_autorizadas extends Fragment {
             fechaANS.setText(Global.terminalVisualizar.getTerm_date_ans());
         }
 
-
-        encabezado.setVisibility(View.GONE);
+        LinearLayout tab_center=(LinearLayout)view.findViewById(R.id.tab_centro);
+        tab_center.setVisibility(View.INVISIBLE);
+        //encabezado.setVisibility(View.GONE);
 
 
         consumirServicioEtapas();

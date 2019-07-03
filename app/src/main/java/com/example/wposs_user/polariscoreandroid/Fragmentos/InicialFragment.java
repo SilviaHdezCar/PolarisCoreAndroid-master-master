@@ -586,8 +586,12 @@ public class InicialFragment extends Fragment {
                                         Global.tipificacionesAutorizadas = jsonObject.get("tipificaciones").toString();
                                         Global.tipificaciones_listar_autorizadas.put(t.getTerm_serial(), Global.tipificacionesAutorizadas);
 
-                                        Global.repuestosAutorizadas = jsonObject.get("repuestos").toString();
-                                        Global.repuestos_listar_autorizadas.put(t.getTerm_serial(), Global.repuestosAutorizadas);
+                                        if(!jsonObject.get("repuestos").toString().equalsIgnoreCase("[]")){
+                                            Global.repuestosAutorizadas = jsonObject.get("repuestos").toString();
+
+                                            Global.repuestos_listar_autorizadas.put(t.getTerm_serial(), Global.repuestosAutorizadas);
+                                        }
+
                                     }
                                     Global.TERMINALES_AUTORIZADAS.add(t);
                                 }
