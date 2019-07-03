@@ -38,6 +38,7 @@ import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.TCP.TCP;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
 import com.example.wposs_user.polariscoreandroid.java.Terminal;
+import com.example.wposs_user.polariscoreandroid.java.Tipificacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -174,14 +175,21 @@ public class StockFragment extends Fragment {
 
                                     Terminal t = gson.fromJson(ter, Terminal.class);
                                     if (t != null ) {
+                                        terminales.add(t);
+                                        System.out.println("ESTADOS DE LAS TERMINALES  "+t.getTerm_status());
                                     }
-                                    terminales.add(t);
+
                                 }
                             }
                             rv.setHasFixedSize(true);
                             LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
                             rv.setLayoutManager(llm);
-                            AdapterTerminalStock adapter= new AdapterTerminalStock(v.getContext(),terminales);
+                            final AdapterTerminal_asociada adapter = new AdapterTerminal_asociada(terminales, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
+                                @Override
+                                public void onClick(List<Terminal> terminal, int position) {
+
+                                  }
+                            }, R.layout.panel_terminal_asociada);
                             rv.setAdapter(adapter);
 
 

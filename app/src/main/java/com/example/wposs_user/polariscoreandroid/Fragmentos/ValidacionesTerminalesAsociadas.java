@@ -77,6 +77,8 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     private Button btn_siguiente;
     private Date fechaActual;
 
+    private ImageView status;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,6 +94,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         estado_ter_validaciones = (TextView) v.findViewById(R.id.estado_ter_validaciones);
         garantia_ter_validaciones = (TextView) v.findViewById(R.id.garantia_ter_validaciones);
         fechal_ans_ter_validaciones = (TextView) v.findViewById(R.id.fechal_ans_ter_validaciones);
+        status=(ImageView)v.findViewById(R.id.img_status);
         Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<>();
 
         ImageView imagen = (ImageView) v.findViewById(R.id.imagen_asociada);
@@ -128,9 +131,20 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                     fechaANS = Utils.darFormatoFecha2(Global.fechaANS);
                     fechal_ans_ter_validaciones.setText(fechal_ans_ter_validaciones.getText().toString() + " - " + fechaANS);
                 }
-
-
             }
+
+            if(Global.estado.equalsIgnoreCase("ALISTAMIENTO")){ status.setImageResource(R.mipmap.estado_alistamiento);}
+            if(Global.estado.equalsIgnoreCase("COTIZACIÓN")){status.setImageResource(R.mipmap.estado_cotizacion);}
+            if(Global.estado.equalsIgnoreCase("DADO DE BAJA")){status.setImageResource(R.mipmap.estado_dado_baja);}
+            if(Global.estado.equalsIgnoreCase("DIAGNÓSTICO")){status.setImageResource(R.mipmap.estado_diagnostico); }
+            if(Global.estado.equalsIgnoreCase("GARANTÍA")){ status.setImageResource(R.mipmap.estado_garantia); }
+            if(Global.estado.equalsIgnoreCase("NUEVO")){status.setImageResource(R.mipmap.estado_nuevo);}
+            if(Global.estado.equalsIgnoreCase("PREDIAGNÓSTICO")){ status.setImageResource(R.mipmap.estado_prediagnostico);}
+            if(Global.estado.equalsIgnoreCase("QA")){status.setImageResource(R.mipmap.estado_qa);}
+            if(Global.estado.equalsIgnoreCase("REPARACIÓN")){ status.setImageResource(R.mipmap.estado_reparacion);}
+            if(Global.estado.equalsIgnoreCase("TRANSITO")){status.setImageResource(R.mipmap.estado_transito);}
+
+
         } else if (Global.diagnosticoTerminal.equals("autorizada")) {
 
             marca_ter_validaciones.setText(Global.terminalVisualizar.getTerm_brand());

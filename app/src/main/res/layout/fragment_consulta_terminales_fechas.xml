@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/blanco"
+    android:orientation="vertical"
     tools:context=".Fragmentos.ConsultaTerminalesFechas">
 
     <LinearLayout
@@ -77,14 +78,13 @@
 
                     />
 
-                <LinearLayout
-                    android:layout_width="2dp"
+                <TextView
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="@color/borde_verde_botones"
-
-
-
-                    >
+                    android:background="@color/verde_general"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    />
 
 
                 </LinearLayout>
@@ -103,24 +103,31 @@
                     android:textColor="@color/negro"
                    />
 
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/verde_general"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/btn_buscar_terminalesPorFechas"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_lupa"
+                    android:layout_margin="3dp"
+                    android:layout_marginLeft="10dp"
+                    android:tint="@color/verde_general"
+
+                    />
+
 
             </LinearLayout>
 
 
+
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_buscar_terminalesPorFechas"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:src="@mipmap/search"
-            android:tint="@color/blanco"
-            android:text="Buscar"
-            android:background="@drawable/redondo_gris_botones"
-            />
-
 
 
             <android.support.v7.widget.RecyclerView
@@ -133,4 +140,3 @@
     </LinearLayout>
 
 
-</LinearLayout>

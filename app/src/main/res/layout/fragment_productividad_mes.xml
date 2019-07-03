@@ -67,29 +67,48 @@
          >
 
 
+<RelativeLayout
+    android:layout_width="120dp"
+    android:layout_height="38dp"
+    android:background="@drawable/redondo_fondo_blanco"
+    android:padding="2dp"
+    >
+
+    <Spinner
+        android:id="@+id/spin_mesxmes"
+        style="@layout/spinner_sytle"
+        android:layout_width="120dp"
+        android:layout_marginTop="7dp"
+        android:layout_height="wrap_content"
+        >
+
+    </Spinner>
 
 
-      <Spinner
-          android:id="@+id/spin_mesxmes"
-          style="@layout/spinner_sytle"
-          android:layout_width="140dp"
-          android:layout_height="wrap_content"
-          >
-
-      </Spinner>
+</RelativeLayout>
 
 
-
-      <Spinner
-          android:id="@+id/spiner_añoxmes"
-          android:layout_width="140dp"
+      <RelativeLayout
+          android:layout_width="120dp"
+          android:background="@drawable/redondo_fondo_blanco"
+          android:padding="2dp"
           android:layout_marginLeft="10dp"
-          android:layout_height="wrap_content"
-          android:textAlignment="gravity"
-          style="@layout/spinner_sytle"
+          android:layout_height="38dp">
 
-          >
-      </Spinner>
+          <Spinner
+              android:id="@+id/spiner_añoxmes"
+              android:layout_width="120dp"
+              android:layout_height="wrap_content"
+              android:textAlignment="gravity"
+              android:layout_marginTop="7dp"
+              style="@layout/spinner_sytle"
+
+              >
+          </Spinner>
+
+      </RelativeLayout>
+
+
 
 
        </LinearLayout>

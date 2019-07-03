@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminalStock;
+import com.example.wposs_user.polariscoreandroid.Adaptadores.AdapterTerminal_asociada;
 import com.example.wposs_user.polariscoreandroid.Comun.Global;
 import com.example.wposs_user.polariscoreandroid.Dialogs.DialogOpcionesConsulta;
 import com.example.wposs_user.polariscoreandroid.R;
@@ -54,6 +56,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -68,7 +71,7 @@ public class ConsultaTerminalesFechas extends Fragment {
     private EditText f_fin;
     private TextView text_estado_ter;
     private Button btn_fech_consulta_serial;
-    private Button buscar_terminales_fecha;
+    private ImageView buscar_terminales_fecha;
     private LinearLayout layout_estado_terminal;
     private RecyclerView rv;
     ArrayList<Terminal> terminales;
@@ -93,7 +96,7 @@ public class ConsultaTerminalesFechas extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_consulta_terminales_fechas, container, false);
         objeto.setTitulo("BÚSQUEDA POR FECHAS");
-        buscar_terminales_fecha=(Button) view.findViewById(R.id.btn_buscar_terminalesPorFechas) ;
+        buscar_terminales_fecha=(ImageView) view.findViewById(R.id.btn_buscar_terminalesPorFechas) ;
 
         terminales= new ArrayList<>();
         queue = Volley.newRequestQueue(objeto);
@@ -103,7 +106,7 @@ public class ConsultaTerminalesFechas extends Fragment {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
-                buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#04807B"));
+
                 consumirServicioBusquedaFecha();
             }
         });
@@ -332,9 +335,7 @@ public class ConsultaTerminalesFechas extends Fragment {
             f_fin.setText(" ");
             rv.setAdapter(null);
             terminales= new ArrayList<>();
-            f_inicio.setText("");
-            f_fin.setText("");
-            buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#80FFFFFF"));
+
 
             return;
 
@@ -348,9 +349,6 @@ public class ConsultaTerminalesFechas extends Fragment {
             f_fin.setText(" ");
             rv.setAdapter(null);
             terminales= new ArrayList<>();
-            f_inicio.setText("");
-            buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#80FFFFFF"));
-            f_fin.setText("");
             return;
 
         }
@@ -398,6 +396,10 @@ public class ConsultaTerminalesFechas extends Fragment {
 
                             if (jsonArray.length() == 0 && jsonArray2.length() == 0) {
                                 Global.mensaje = "No se encontraron registros para la fecha seleccionada";
+                                f_inicio.setText(" ");
+                                f_fin.setText(" ");
+                                rv.setAdapter(null);
+                                terminales= new ArrayList<>();
                                 Toast.makeText(view.getContext(), Global.mensaje, Toast.LENGTH_SHORT).show();
 
                           }
@@ -432,11 +434,15 @@ public class ConsultaTerminalesFechas extends Fragment {
                             rv.setHasFixedSize(true);
                             LinearLayoutManager llm = new LinearLayoutManager(Tools.getCurrentContext());
                             rv.setLayoutManager(llm);
-                            AdapterTerminalStock adapter= new AdapterTerminalStock(view.getContext(),terminales);
+                            final AdapterTerminal_asociada adapter = new AdapterTerminal_asociada(terminales, new AdapterTerminal_asociada.interfaceClick() {//seria termi asoc
+                                @Override
+                                public void onClick(List<Terminal> terminal, int position) {
+
+                                }
+                            }, R.layout.panel_terminal_asociada);
                             rv.setAdapter(adapter);
-                            f_inicio.setText("");
-                            f_fin.setText("");
-                            buscar_terminales_fecha.setBackgroundColor(Color.parseColor("#80FFFFFF"));
+
+
 
 
                         } catch (JSONException e) {

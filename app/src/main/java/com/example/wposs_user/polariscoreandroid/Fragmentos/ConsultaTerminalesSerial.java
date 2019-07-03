@@ -176,6 +176,7 @@ public class ConsultaTerminalesSerial extends Fragment {
                             JSONArray jsonArray = response.getJSONArray("terminal");//
                             if (jsonArray.length() == 0) {
                                 Global.mensaje = "Terminal no encontrada";
+                                rv.setAdapter(null);
                                 rv.setVisibility(View.GONE);
                                 Toast.makeText(objeto, Global.mensaje, Toast.LENGTH_SHORT).show();
                                 return;

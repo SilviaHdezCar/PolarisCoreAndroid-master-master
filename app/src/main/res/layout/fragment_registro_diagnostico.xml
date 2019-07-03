@@ -43,35 +43,42 @@
             </LinearLayout>
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_height="38dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/redondo_fondo_blanco"
-                android:padding="5dp">
+                android:layout_gravity="center_horizontal"
+                android:padding="2dp">
 
                 <Spinner
                     android:id="@+id/auto_repuesto"
-                    android:layout_width="350dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center_vertical"
                     android:hint="Código o nombre"
                     android:textSize="14dp" />
-            </LinearLayout>
+
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
 
                 >
 
                 <EditText
                     android:id="@+id/txt_cantReq"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="120dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="5dp"
+                    android:background="@drawable/redondo_fondo_blanco"
                     android:hint="Cantidad"
+                    android:padding="5dp"
                     android:inputType="number"
                     android:textSize="14dp" />
 
@@ -96,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:layout_marginTop="30dp"
-                android:background="@color/borde_verde_edit_text"
+                android:background="@color/verde_general"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -201,7 +208,7 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/cuadrado_fondo_verde"
+            android:background="@color/verde_general"
             android:gravity="center_vertical">
 
             <ImageView
@@ -227,7 +234,8 @@
             style="@style/letra_contenido2"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@drawable/redondo_gris_fondo_gris"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/redondo_fondo_blanco"
             android:digits="0123456789abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ óáéíúÓÁÉÍÚ.,:;"
             android:gravity="top|left"
             android:hint="Observación"

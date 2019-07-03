@@ -720,9 +720,9 @@ public class Registro_diagnostico extends Fragment {
 
                             } else {
 
-                                response= response.getJSONObject("data");
 
-                                if(response.toString().equals("")){
+
+                                if(response.getString("data").equalsIgnoreCase("")){
 
 
                                     if(tipoDiag.equals("asociada")){
@@ -737,6 +737,10 @@ public class Registro_diagnostico extends Fragment {
                                     }
 
                                 }
+
+                                response= response.getJSONObject("data");
+
+
                                String rta = response.getString("tehi_historial");
 
 

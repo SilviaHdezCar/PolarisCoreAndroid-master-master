@@ -62,6 +62,21 @@ public class AdapterTerminal_asociada extends RecyclerView.Adapter<AdapterTermin
             holder.fechaANS.setText(fechaANS);
         }
 
+        if(this.listTerminal.get(i).getTerm_status().equalsIgnoreCase("ALISTAMIENTO")){
+            holder.imagen_estado.setImageResource(R.mipmap.estado_alistamiento);
+        }
+
+       if(this.listTerminal.get(i).getTerm_status().equalsIgnoreCase("COTIZACIÓN")){holder.imagen_estado.setImageResource(R.mipmap.estado_cotizacion);}
+        if(this.listTerminal.get(i).getTerm_status().equalsIgnoreCase("DADO DE BAJA")){holder.imagen_estado.setImageResource(R.mipmap.estado_dado_baja);}
+        if(this.listTerminal.get(i).getTerm_status().equalsIgnoreCase("DIAGNÓSTICO")){ holder.imagen_estado.setImageResource(R.mipmap.estado_diagnostico);}
+        if(this.listTerminal.get(i).getTerm_status().equalsIgnoreCase("GARANTÍA")){ holder.imagen_estado.setImageResource(R.mipmap.estado_garantia);}
+        if(this.listTerminal.get(i).getTerm_status().equalsIgnoreCase("NUEVO")){holder.imagen_estado.setImageResource(R.mipmap.estado_nuevo);}
+        if(this.listTerminal.get(i).getTerm_status().equalsIgnoreCase("PREDIAGNÓSTICO")){  holder.imagen_estado.setImageResource(R.mipmap.estado_prediagnostico); }
+        if(this.listTerminal.get(i).getTerm_status().equalsIgnoreCase("QA")){holder.imagen_estado.setImageResource(R.mipmap.estado_qa);}
+        if(this.listTerminal.get(i).getTerm_status().equalsIgnoreCase("REPARACIÓN")){holder.imagen_estado.setImageResource(R.mipmap.estado_reparacion);}
+        if(this.listTerminal.get(i).getTerm_status().equalsIgnoreCase("TRANSITO")){ holder.imagen_estado.setImageResource(R.mipmap.estado_transito); }
+
+
         holder.layout_terminal_asociada.setBackgroundResource(R.drawable.borde_verde);
         holder.layout_terminal_asociada.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,11 +89,9 @@ public class AdapterTerminal_asociada extends RecyclerView.Adapter<AdapterTermin
 
     }
 
-
     @Override
     public int getItemCount() {
         return listTerminal.size();
-
     }
 
     @Override

@@ -27,6 +27,7 @@
 
             >
 
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -73,33 +74,66 @@
             android:layout_marginTop="10dp"
             >
 
-            <Spinner
-                android:id="@+id/spin_semana_anio"
-                android:layout_width="117dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center_horizontal"
-                >
-            </Spinner>
 
-            <Spinner
-                android:id="@+id/spin_semana_mes"
+            <RelativeLayout
                 android:layout_width="117dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="38dp"
+                android:padding="2dp"
+                android:background="@drawable/redondo_fondo_blanco"
                 >
-            </Spinner>
+                <Spinner
+                    android:id="@+id/spin_semana_anio"
+                    android:layout_width="117dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="7dp"
+                    android:layout_gravity="center_horizontal"
+                    >
+                </Spinner>
 
-            <Spinner
-                android:id="@+id/spin_semana_semana"
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="117dp"
+                android:layout_height="38dp"
+                android:padding="2dp"
                 android:layout_marginLeft="5dp"
-                android:layout_height="wrap_content"
+                android:background="@drawable/redondo_fondo_blanco"
                 >
-            </Spinner>
+                <Spinner
+                    android:id="@+id/spin_semana_mes"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                   android:layout_marginTop="7dp"
+                    >
+                </Spinner>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="117dp"
+                android:layout_height="38dp"
+                android:padding="2dp"
+                android:background="@drawable/redondo_fondo_blanco"
+                android:layout_marginLeft="5dp"
+                >
+
+                <Spinner
+                    android:id="@+id/spin_semana_semana"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    >
+                </Spinner>
+
+            </RelativeLayout>
+
+
+
+
+
+
 
         </LinearLayout>
 

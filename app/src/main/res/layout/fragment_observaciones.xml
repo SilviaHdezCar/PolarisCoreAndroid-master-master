@@ -96,13 +96,44 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/verde_general"
+                    >
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@mipmap/observation"
+                        android:layout_gravity="center"
+                        android:tint="@color/blanco"
+                        android:layout_marginLeft="5dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="Registrar Observación"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/blanco"
+
+                        />
+
+
+
+                </LinearLayout>
+
                 <EditText
                     android:id="@+id/txt_observacion_fin"
                     style="@style/letra_contenido"
                     android:layout_width="350dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/redondo_fondo_blanco"
                     android:digits="0123456789abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ óáéíúÓÁÉÍÚ.,:;"
                     android:gravity="top|left"

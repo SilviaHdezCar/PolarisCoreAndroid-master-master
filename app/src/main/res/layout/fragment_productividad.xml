@@ -25,16 +25,25 @@
 
         >
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:background="@drawable/redondo_fondo_blanco"
+            android:padding="2dp"
+            >
 
-    <Spinner
-        android:layout_width="150dp"
-        android:id="@+id/tipo_consulta"
-        android:layout_height="wrap_content"
-        android:entries="@array/tipo_busqueda"
-        android:layout_gravity="center_horizontal"
-        android:textAlignment="center"
-        android:gravity="center"
-        > </Spinner>
+            <Spinner
+                android:layout_width="120dp"
+                android:id="@+id/tipo_consulta"
+                android:layout_height="30dp"
+                android:entries="@array/tipo_busqueda"
+                android:layout_marginTop="7dp"
+               android:textAlignment="center"
+                    > </Spinner>
+
+        </RelativeLayout>
+
+
 
 
     <Button
