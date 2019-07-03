@@ -49,7 +49,7 @@
                android:textColor="@color/negro"
                android:textSize="16dp"
                android:textStyle="bold"
-               android:layout_marginLeft="140dp"
+               android:layout_marginLeft="100dp"
                android:layout_gravity="center_vertical"
                android:text="Año" />
 
@@ -69,7 +69,7 @@
 
 <RelativeLayout
     android:layout_width="120dp"
-    android:layout_height="38dp"
+    android:layout_height="32dp"
     android:background="@drawable/redondo_fondo_blanco"
     android:padding="2dp"
     >
@@ -78,7 +78,8 @@
         android:id="@+id/spin_mesxmes"
         style="@layout/spinner_sytle"
         android:layout_width="120dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginLeft="2dp"
+          android:gravity="center_vertical"
         android:layout_height="wrap_content"
         >
 
@@ -93,17 +94,16 @@
           android:background="@drawable/redondo_fondo_blanco"
           android:padding="2dp"
           android:layout_marginLeft="10dp"
-          android:layout_height="38dp">
+          android:layout_height="32dp">
 
           <Spinner
               android:id="@+id/spiner_añoxmes"
               android:layout_width="120dp"
               android:layout_height="wrap_content"
               android:textAlignment="gravity"
-              android:layout_marginTop="7dp"
-              style="@layout/spinner_sytle"
-
-              >
+              android:layout_marginLeft="2dp"
+              android:gravity="center_vertical"
+                       >
           </Spinner>
 
       </RelativeLayout>
