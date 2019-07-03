@@ -94,8 +94,8 @@ public class ProductividadSemana extends Fragment {
 
         mesesAnio= new String[]{"Seleccione","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
 
-        comboAnio= new ArrayAdapter(objeto,R.layout.spiner_style_center,aniosObt);
-        comboMes= new ArrayAdapter(objeto,R.layout.spiner_style_center,mesesAnio);
+        comboAnio= new ArrayAdapter(objeto,R.layout.spiner_style_2,aniosObt);
+        comboMes= new ArrayAdapter(objeto,R.layout.spiner_style_2,mesesAnio);
 
         anios.setAdapter(comboAnio);
         meses.setAdapter(comboMes);
@@ -111,16 +111,16 @@ public class ProductividadSemana extends Fragment {
 
                 if(r.equals("Febrero")){
 
-                    semanasMes= new String []{ "   ","Semana 1","Semana 2","Semana 3","Semana 4"};
-                    comboSemana= new ArrayAdapter<String>(objeto,R.layout.spiner_style_center,semanasMes);
+                    semanasMes= new String []{ "Seleccione","Semana 1","Semana 2","Semana 3","Semana 4"};
+                    comboSemana= new ArrayAdapter<String>(objeto,R.layout.spiner_style_2,semanasMes);
                     semanas.setAdapter(comboSemana);
 
 
                 }
                 if(!r.equals("Febrero")){
 
-                    semanasMes= new String []{ "   ","Semana 1","Semana 2","Semana 3","Semana 4","Semana 5"};
-                    comboSemana= new ArrayAdapter<String>(objeto,R.layout.spiner_style_center,semanasMes);
+                    semanasMes= new String []{ "Seleccione","Semana 1","Semana 2","Semana 3","Semana 4","Semana 5"};
+                    comboSemana= new ArrayAdapter<String>(objeto,R.layout.spiner_style_2,semanasMes);
                     semanas.setAdapter(comboSemana);
 
 
@@ -129,7 +129,7 @@ public class ProductividadSemana extends Fragment {
                 if(r.equals("Seleccione")){
 
                     semanasMes= new String []{ "Seleccione"};
-                    comboSemana= new ArrayAdapter<String>(objeto,R.layout.spiner_style_center,semanasMes);
+                    comboSemana= new ArrayAdapter<String>(objeto,R.layout.spiner_style_2,semanasMes);
                     semanas.setAdapter(comboSemana);
 
 
