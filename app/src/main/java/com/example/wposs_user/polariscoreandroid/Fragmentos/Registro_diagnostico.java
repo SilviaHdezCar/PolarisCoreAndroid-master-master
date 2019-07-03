@@ -157,7 +157,7 @@ public class Registro_diagnostico extends Fragment {
     public void llenarAutocomplete() {
 
         final String[] rep = this.convertirRepuestos();
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(), R.layout.spinner_sytle, rep);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(), R.layout.spiner_style_2, rep);
 
         aut_repuesto.setAdapter(adapter);
           }
