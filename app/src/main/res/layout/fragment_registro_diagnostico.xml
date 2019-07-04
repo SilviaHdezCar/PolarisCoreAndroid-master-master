@@ -37,7 +37,7 @@
                     style="@style/letra_titulos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Digite el código o nombre del repuesto "
+                    android:text="Seleccione el repuesto "
                     android:textSize="14dp" />
 
             </LinearLayout>

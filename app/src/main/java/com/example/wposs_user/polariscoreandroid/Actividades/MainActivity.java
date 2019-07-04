@@ -173,9 +173,6 @@ public class MainActivity extends AppCompatActivity
         new Thread(ntecnico).start();//
 
 
-        consumirServicioNotificaciones();
-
-
         verNotificaciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -498,7 +495,6 @@ public class MainActivity extends AppCompatActivity
 
 
                             if (response.getString("notificacion").equals("{}")) {
-
                                 verNotificaciones.setImageResource(R.mipmap.ic_campanano);
 
                                 return;
@@ -527,16 +523,12 @@ public class MainActivity extends AppCompatActivity
                                         if (h.contains("c") || h.contains("m")) {
 
                                             if (!contieNotificacion(n.getNoti_id())) {
-
                                                 String[] fecha = n.getNoti_date_create().split(",");
                                                 String[] diames = fecha[0].split(" ");
                                                 String mes = Utils.obtenerMes(diames[0]);
-
                                                 int dia = Integer.parseInt(diames[1]);
-
                                                 String[] anioHora = fecha[1].split(" ");
                                                 String anio = anioHora[0];
-
                                                 String fecha_not = Utils.formatoDia(dia) + "-" + Utils.obtenerNumMes2(mes) + "-" + anioHora[1] + "   " + anioHora[2] + " " + anioHora[3];
                                                 n.setNoti_date_create(fecha_not);
 
@@ -546,7 +538,6 @@ public class MainActivity extends AppCompatActivity
                                                 if (msj.contains("terminal") && !msj.contains("object")) {
 
                                                     if (!msj.contains("[")) {
-
                                                         String mx = msj.substring(0, 33);
                                                         String con = msj.substring(33, msj.length());
                                                         msj = mx + "[" + con + "]";
@@ -555,13 +546,11 @@ public class MainActivity extends AppCompatActivity
 
 
                                                     if (!msj.contains("[")) {
-
                                                         String mx = msj.substring(0, 33);
                                                         String con = msj.substring(33, msj.length());
                                                         msj = mx + "[" + con + "]";
 
                                                     }
-
 
                                                     String nMensaje = eliminarCaracteres(msj);
                                                     String[] mesagge = nMensaje.split("  ");
@@ -569,46 +558,27 @@ public class MainActivity extends AppCompatActivity
 
 
                                                     ArrayList<String> terminales = listarNotterminales(nMensaje);
-
                                                     String text = formatoNotificaciones(terminales.toString());
-
-
                                                     String msjFin = formatoNot(text);
 
-
                                                     n.setNoti_titulo(titulo);
-
                                                     n.setNoti_msg(msjFin);
 
 
                                                 }
 
                                                 if (msj.contains("repuesto") && !msj.contains("object")) {
-
-
                                                     String nMensaje = eliminarCaracteres(msj);
                                                     String[] mesagge = nMensaje.split("   ");
                                                     String titulo = mesagge[0];
-
                                                     String msjFin = eliminarCaracteres(mesagge[1]);
-
-
                                                     String msjFinal = formatoRep(msjFin);
-
                                                     n.setNoti_titulo(titulo);
-
-
                                                     n.setNoti_msg(msjFinal);
-
-
                                                 }
 
-
                                                 Global.notificaciones.add(n);
-
                                             }
-
-
                                         }
                                     }
                                 }
