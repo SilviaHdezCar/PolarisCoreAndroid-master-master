@@ -58,14 +58,15 @@
     <Button
         android:id="@+id/cancelar_login"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:layout_marginTop="20dp"
         android:text="Cancelar"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/redondo_gris_botones"
         android:textColor="@color/borde_negro_botones"
         android:textAllCaps="false"
-        android:padding="8dp"
+        android:padding="5dp"
+        android:textStyle="bold"
         android:textSize="16dp"
 
         />

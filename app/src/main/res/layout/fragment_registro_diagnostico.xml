@@ -48,15 +48,13 @@
                 android:layout_height="32dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/redondo_fondo_blanco"
-                android:layout_gravity="center_horizontal"
-                android:padding="2dp">
+                android:layout_marginLeft="5dp"
+               android:padding="2dp">
 
                 <Spinner
                     android:id="@+id/auto_repuesto"
                     android:layout_width="300dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="3dp"
-                    android:gravity="center_vertical"
                     />
 
 
@@ -66,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_gravity="center_horizontal"
+
 
                 >
 
@@ -86,7 +84,8 @@
                     style="@style/letra_botones"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="40dp"
+                    android:layout_marginLeft="30dp"
+                    android:textStyle="bold"
                     android:background="@drawable/redondo_gris_botones"
                     android:text="Agregar"
                     android:textAllCaps="false"
@@ -257,6 +256,7 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/redondo_gris_botones"
             android:text="Finalizar"
+            android:textStyle="bold"
             android:textAllCaps="false"
             android:textColor="@color/negro"
 

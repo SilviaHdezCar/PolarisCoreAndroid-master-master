@@ -71,14 +71,14 @@
     android:layout_width="120dp"
     android:layout_height="32dp"
     android:background="@drawable/redondo_fondo_blanco"
-    android:padding="2dp"
+    android:padding="2.5dp"
     >
 
     <Spinner
         android:id="@+id/spin_mesxmes"
         style="@layout/spinner_sytle"
         android:layout_width="120dp"
-        android:layout_marginLeft="2dp"
+        android:layout_marginLeft="3dp"
           android:gravity="center_vertical"
         android:layout_height="wrap_content"
         >
@@ -92,7 +92,7 @@
       <RelativeLayout
           android:layout_width="120dp"
           android:background="@drawable/redondo_fondo_blanco"
-          android:padding="2dp"
+          android:padding="2.5dp"
           android:layout_marginLeft="10dp"
           android:layout_height="32dp">
 
@@ -101,7 +101,7 @@
               android:layout_width="120dp"
               android:layout_height="wrap_content"
               android:textAlignment="gravity"
-              android:layout_marginLeft="2dp"
+              android:layout_marginLeft="3dp"
               android:gravity="center_vertical"
                        >
           </Spinner>
@@ -125,6 +125,7 @@
            android:textAllCaps="false"
            android:textSize="16dp"
            android:text="Consultar"
+           android:textStyle="bold"
            style="@style/letra_contenido_blanco"
            android:background="@drawable/redondo_gris_botones"
            android:textColor="@color/negro"

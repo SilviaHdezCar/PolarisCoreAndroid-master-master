@@ -32,39 +32,42 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btn_opcion1"
-                style="@style/letra_contenido_blanco"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/redondo_gris_botones"
-                android:text="btn1"
-                android:textAllCaps="false"
-                android:textColor="@color/negro"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:drawableLeft="@drawable/ic_check_black_24dp"
-                />
-
-            <LinearLayout
+               <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right">
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btn_opcion1"
+                    style="@style/letra_contenido_blanco"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/redondo_gris_botones"
+                    android:drawableLeft="@drawable/ic_check_black_24dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="btn1"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:textColor="@color/negro" />
+
                 <Button
                     android:id="@+id/btn_opcion2"
                     style="@style/letra_contenido_blanco"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center_vertical|right"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/redondo_gris_botones"
                     android:text="btn2"
+                    android:layout_marginLeft="80dp"
                     android:textAllCaps="false"
                     android:textColor="@color/negro"
                     android:paddingLeft="10dp"

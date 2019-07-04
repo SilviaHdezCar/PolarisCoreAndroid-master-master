@@ -77,10 +77,9 @@
     <color name="verde_opaco_huella">#B3C4C4</color>
     <color name="negro_trans">#323738</color>
     <color name="verde_general">#018892</color>
-
-
-
-    <color name="gris_letra_dialog">#8C8B8B</color>
+     <color name="gris_letra_dialog">#8C8B8B</color>
+    <color name="borde_botones">#343434</color>
+    <color name="fondo_botones">#CFEBEBE7</color>
 
 
 

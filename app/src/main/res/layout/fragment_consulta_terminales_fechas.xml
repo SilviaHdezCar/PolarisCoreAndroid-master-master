@@ -43,7 +43,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_marginTop="20dp"
             android:padding="3dp"
             android:layout_gravity="center_horizontal"
@@ -69,11 +69,12 @@
                     android:clickable="true"
                     android:focusable="false"
                     android:hint="Fecha inicial"
-                    android:textColor="@color/negro"
+                    android:textColor="#A1000000"
                     android:textAlignment="center"
                     android:maxLines="1"
-                      android:background="@color/blanco"
+                   android:background="@color/blanco"
                     android:padding="1dp"
+
 
 
                     />
@@ -82,8 +83,7 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="@color/verde_general"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
+
                     />
 
 
@@ -100,25 +100,26 @@
                     android:background="@color/blanco"
                     android:textAlignment="center"
                     android:maxLines="1"
-                    android:textColor="@color/negro"
+                    android:textColor="#A1000000"
                    />
 
                 <TextView
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="@color/verde_general"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
+
                     />
 
                 <ImageView
                     android:id="@+id/btn_buscar_terminalesPorFechas"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_lupa"
+                    android:src="@mipmap/search"
                     android:layout_margin="3dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:tint="@color/verde_general"
+                    android:padding="3dp"
 
                     />
 

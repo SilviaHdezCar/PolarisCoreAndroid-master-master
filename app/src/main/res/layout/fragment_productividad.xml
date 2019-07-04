@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
 
         >
 
@@ -50,14 +51,15 @@
             android:id="@+id/btn_busqueda"
             style="@style/letra_contenido_blanco"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="32dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="18dp"
+
             android:background="@drawable/redondo_gris_botones"
             android:textColor="@color/negro"
             android:text="Buscar"
+               android:textStyle="bold"
               android:textSize="16dp"
-        android:layout_marginLeft="20dp"
+             android:layout_marginLeft="20dp"
             android:textAllCaps="false"
 
 

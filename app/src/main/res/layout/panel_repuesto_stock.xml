@@ -55,7 +55,7 @@
                 style="@style/letra_negrita_terminal_gris_peq"
                 android:textAllCaps="false"
                 android:layout_width="60dp"
-                android:gravity="center"
+                android:gravity="left"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:textSize="14sp"

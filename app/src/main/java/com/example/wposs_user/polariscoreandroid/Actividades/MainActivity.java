@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
@@ -136,12 +137,15 @@ public class MainActivity extends AppCompatActivity
 
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        toggle.getDrawerArrowDrawable().setColor(Color.parseColor("#FFFFFF"));
 
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
 
         View hView = navigationView.getHeaderView(0);
         usuario_drawer = (TextView) hView.findViewById(R.id.usuario_drawer);

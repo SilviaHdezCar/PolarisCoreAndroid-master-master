@@ -6,7 +6,7 @@
                 android:width="10dp"
                 android:color="@color/verde_pestanas" />
             <solid android:color="@color/blanco" />
-            <corners android:radius="2dp" />
+            <corners android:radius="1dp" />
         </shape>
     </item>
     <item
