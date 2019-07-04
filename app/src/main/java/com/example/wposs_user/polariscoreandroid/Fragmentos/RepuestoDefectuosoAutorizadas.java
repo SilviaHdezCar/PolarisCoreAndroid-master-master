@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TableLayout;
@@ -35,6 +36,7 @@ import com.example.wposs_user.polariscoreandroid.Comun.Utils;
 import com.example.wposs_user.polariscoreandroid.R;
 import com.example.wposs_user.polariscoreandroid.java.Observacion;
 import com.example.wposs_user.polariscoreandroid.java.Repuesto;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,28 +49,11 @@ import java.util.Map;
 
 import static com.example.wposs_user.polariscoreandroid.Actividades.MainActivity.objeto;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RepuestoDefectuosoAutorizadas.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link RepuestoDefectuosoAutorizadas#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class RepuestoDefectuosoAutorizadas extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
 
 
     private View v;
+    private ImageView img_estado;
     private TextView serial;
     private TextView marca;
     private TextView modelo;
@@ -94,33 +79,6 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RepuestoDefectuosoAutorizadas.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RepuestoDefectuosoAutorizadas newInstance(String param1, String param2) {
-        RepuestoDefectuosoAutorizadas fragment = new RepuestoDefectuosoAutorizadas();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -129,20 +87,21 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
         Global.REPUESTOS_DEFECTUOSOS_SOLICITAR = null;
         Global.REPUESTOS_DEFECTUOSOS_SOLICITAR = new ArrayList<Repuesto>();
         LinearLayout layout_terminales = (LinearLayout) v.findViewById(R.id.layout_terminales);
-        layout_terminales.setBackgroundResource(R.drawable.borde_amarillo);
 
         objeto.setTitulo("REPUESTOS DEFECTUOSOS");
         queue = Volley.newRequestQueue(objeto);
         queue2 = Volley.newRequestQueue(objeto);
         queue3 = Volley.newRequestQueue(objeto);
 
+        img_estado = (ImageView) v.findViewById(R.id.imagen_estado_rep);
         serial = (TextView) v.findViewById(R.id.serial_terminales);
         marca = (TextView) v.findViewById(R.id.marca_terminales);
         modelo = (TextView) v.findViewById(R.id.modelo_terminales);
         tecnologia = (TextView) v.findViewById(R.id.tecno_terminales);
         estado = (TextView) v.findViewById(R.id.estado_terminales);
         fechaANS = (TextView) v.findViewById(R.id.fechaANS_terminales);
-
+        ImageView img_terminal=(ImageView) v.findViewById(R.id.imagen_modelo_ter);
+       asignarImagenEstado(Global.terminalVisualizar.getTerm_status());
         serial.setText(Global.terminalVisualizar.getTerm_serial());
         marca.setText(Global.terminalVisualizar.getTerm_brand());
         modelo.setText(Global.terminalVisualizar.getTerm_model());
@@ -168,6 +127,9 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
             }
         });
 
+
+        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/" +
+                Global.terminalVisualizar.getTerm_model().toUpperCase() + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(img_terminal);
         return v;
     }
 
@@ -187,6 +149,33 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
             consumirServicioObtenerHistorial();
         }
 
+    }
+
+    /**
+     * Este emtodo es utilizado para colocar la imagen de acuerdo al estado de la terminal seleccionada
+     */
+    private void asignarImagenEstado(String estado) {
+        if (estado.equalsIgnoreCase("ALISTAMIENTO")) {
+            img_estado.setImageResource(R.mipmap.estado_alistamiento);
+        } else if (estado.equalsIgnoreCase("COTIZACIÓN")) {
+            img_estado.setImageResource(R.mipmap.estado_cotizacion);
+        } else if (Global.estado.equalsIgnoreCase("DADO DE BAJA")) {
+            img_estado.setImageResource(R.mipmap.estado_dado_baja);
+        } else if (estado.equalsIgnoreCase("DIAGNÓSTICO")) {
+            img_estado.setImageResource(R.mipmap.estado_diagnostico);
+        } else if (estado.equalsIgnoreCase("GARANTÍA")) {
+            img_estado.setImageResource(R.mipmap.estado_garantia);
+        } else if (estado.equalsIgnoreCase("NUEVO")) {
+            img_estado.setImageResource(R.mipmap.estado_nuevo);
+        } else if (estado.equalsIgnoreCase("PREDIAGNÓSTICO")) {
+            img_estado.setImageResource(R.mipmap.estado_prediagnostico);
+        } else if (estado.equalsIgnoreCase("QA")) {
+            img_estado.setImageResource(R.mipmap.estado_qa);
+        } else if (estado.equalsIgnoreCase("REPARACIÓN")) {
+            img_estado.setImageResource(R.mipmap.estado_reparacion);
+        } else if (estado.equalsIgnoreCase("TRANSITO")) {
+            img_estado.setImageResource(R.mipmap.estado_transito);
+        }
     }
 
 
@@ -834,31 +823,4 @@ public class RepuestoDefectuosoAutorizadas extends Fragment {
 
 
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

@@ -74,7 +74,7 @@ public class EtapasTerminalAutorizada extends Fragment {
     private View view;
 
 
-
+    private ImageView img_estado;
     private TextView serial;
     private TextView marca;
     private TextView modelo;
@@ -138,7 +138,7 @@ public class EtapasTerminalAutorizada extends Fragment {
         // Inflate the layout for this fragment
         Global.fotos = new ArrayList<>();
         view = inflater.inflate(R.layout.fragment_etapas_terminal_autorizada, container, false);
-       // objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        // objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("ETAPAS");
 
         // muestro la terminal seleccionada con los valores que guarde en el obj terminal
@@ -146,6 +146,7 @@ public class EtapasTerminalAutorizada extends Fragment {
         /*Button siguiente=(Button)view.findViewById(R.id.btn_siguiente_nuevo_diagn);
         siguiente.setVisibility(View.GONE);*/
 
+        img_estado = (ImageView) view.findViewById(R.id.imagen_estado);
         serial = (TextView) view.findViewById(R.id.serial_ter_asociada);
         marca = (TextView) view.findViewById(R.id.marca_ter_asociada);
         modelo = (TextView) view.findViewById(R.id.modelo_ter_asociada);
@@ -161,16 +162,17 @@ public class EtapasTerminalAutorizada extends Fragment {
 
         tablaObservacion = (RelativeLayout) view.findViewById(R.id.contenedor_obs);
 
+        asignarImagenEstado(Global.terminalVisualizar.getTerm_status());
         ImageView imagen = (ImageView) view.findViewById(R.id.imagen_asociada_eta);
-        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/"+
-                Global.terminalVisualizar.getTerm_model().toUpperCase()+".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/" +
+                Global.terminalVisualizar.getTerm_model().toUpperCase() + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
         serial.setText(Global.terminalVisualizar.getTerm_serial());
         marca.setText(Global.terminalVisualizar.getTerm_brand());
         modelo.setText(Global.terminalVisualizar.getTerm_model());
         tecnologia.setText(Global.terminalVisualizar.getTerm_technology());
         estado.setText(Global.terminalVisualizar.getTerm_status());
-        System.out.println("garantía: "+Global.terminalVisualizar.getTerm_date_finish());
-        System.out.println("estado garantía: "+this.estadoGarantía(Global.terminalVisualizar.getTerm_date_finish()));
+        System.out.println("garantía: " + Global.terminalVisualizar.getTerm_date_finish());
+        System.out.println("estado garantía: " + this.estadoGarantía(Global.terminalVisualizar.getTerm_date_finish()));
         garantia.setText(this.estadoGarantía(Global.terminalVisualizar.getTerm_date_finish()));
         fechaANS.setText("");
         if (Global.terminalVisualizar.getTerm_date_reception() != null) {
@@ -223,6 +225,34 @@ public class EtapasTerminalAutorizada extends Fragment {
     }
 
     /**
+     * Metodo utilizado para agregar icono de acuerdo al estado de la terminal
+     * @param estado--> estado en el que se encuentra la terminal
+     */
+    private void asignarImagenEstado(String estado) {
+        if (estado.equalsIgnoreCase("ALISTAMIENTO")) {
+            img_estado.setImageResource(R.mipmap.estado_alistamiento);
+        } else if (estado.equalsIgnoreCase("COTIZACIÓN")) {
+            img_estado.setImageResource(R.mipmap.estado_cotizacion);
+        } else if (estado.equalsIgnoreCase("DADO DE BAJA")) {
+            img_estado.setImageResource(R.mipmap.estado_dado_baja);
+        } else if (estado.equalsIgnoreCase("DIAGNÓSTICO")) {
+            img_estado.setImageResource(R.mipmap.estado_diagnostico);
+        } else if (estado.equalsIgnoreCase("GARANTÍA")) {
+            img_estado.setImageResource(R.mipmap.estado_garantia);
+        } else if (estado.equalsIgnoreCase("NUEVO")) {
+            img_estado.setImageResource(R.mipmap.estado_nuevo);
+        } else if (estado.equalsIgnoreCase("PREDIAGNÓSTICO")) {
+            img_estado.setImageResource(R.mipmap.estado_prediagnostico);
+        } else if (estado.equalsIgnoreCase("QA")) {
+            img_estado.setImageResource(R.mipmap.estado_qa);
+        } else if (estado.equalsIgnoreCase("REPARACIÓN")) {
+            img_estado.setImageResource(R.mipmap.estado_reparacion);
+        } else if (estado.equalsIgnoreCase("TRANSITO")) {
+            img_estado.setImageResource(R.mipmap.estado_transito);
+        }
+    }
+
+    /**
      * Este metodo devuelve el estado dela garantía de la terminal
      *
      * @param garantia
@@ -230,7 +260,7 @@ public class EtapasTerminalAutorizada extends Fragment {
      */
     public String estadoGarantía(String garantia) {
         String retorno = "";
-        System.out.println("garantía--> +"+garantia);
+        System.out.println("garantía--> +" + garantia);
         int comparacionFechas = tiempoGarantiaTerminal(garantia);
         System.out.println("comparacion-->" + comparacionFechas);
         if (comparacionFechas > 0) {
@@ -243,13 +273,14 @@ public class EtapasTerminalAutorizada extends Fragment {
 
         return retorno;
     }
+
     /**
      * Metodo que permite calcular el tiempo que duró la atención de la incidencia
      *
      * @return
      */
     public int tiempoGarantiaTerminal(String garantia) {
-        int retorno =0;
+        int retorno = 0;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd H:m:s");
         Date dateEnd = new Date();
         Date fechaGarantia = null;
@@ -259,7 +290,7 @@ public class EtapasTerminalAutorizada extends Fragment {
                     fechaGarantia = dateFormat.parse(Utils.darFormatoNewDateDiferencia(garantia));
                     Date fechaActual = dateFormat.parse(Utils.darFormatoNewDateDiferencia2(dateEnd + ""));
                     int diferencia = (int) ((fechaGarantia.getTime() - fechaActual.getTime()) / 1000);
-                    retorno =diferencia;
+                    retorno = diferencia;
                 }
             }
         } catch (ParseException e) {
@@ -318,18 +349,18 @@ public class EtapasTerminalAutorizada extends Fragment {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     obser = jsonArray.getString(i);
                                     o = gson.fromJson(obser, Observacion.class);
-                                    System.out.println(i+"-Ob llegó: "+o.toString());
+                                    System.out.println(i + "-Ob llegó: " + o.toString());
 
-                                    if (o.getTeob_photo() != null ) {
-                                        if ( !o.getTeob_photo().equalsIgnoreCase("")) {
-                                            if (o.getTeob_description()==null||o.getTeob_description().isEmpty()) {
+                                    if (o.getTeob_photo() != null) {
+                                        if (!o.getTeob_photo().equalsIgnoreCase("")) {
+                                            if (o.getTeob_description() == null || o.getTeob_description().isEmpty()) {
                                                 Global.observaciones_con_fotos.add(o);
                                             }
                                         }
                                     }
                                     Global.OBSERVACIONES.add(o);
                                 }
-                                System.out.println("tamaño ob fotos: "+ Global.observaciones_con_fotos.size());
+                                System.out.println("tamaño ob fotos: " + Global.observaciones_con_fotos.size());
                                 if (Global.OBSERVACIONES != null) {
                                     sort(Global.OBSERVACIONES);
                                 }

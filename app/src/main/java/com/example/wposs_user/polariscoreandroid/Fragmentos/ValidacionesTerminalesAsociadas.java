@@ -94,12 +94,12 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
         estado_ter_validaciones = (TextView) v.findViewById(R.id.estado_ter_validaciones);
         garantia_ter_validaciones = (TextView) v.findViewById(R.id.garantia_ter_validaciones);
         fechal_ans_ter_validaciones = (TextView) v.findViewById(R.id.fechal_ans_ter_validaciones);
-        status=(ImageView)v.findViewById(R.id.img_status);
+        status = (ImageView) v.findViewById(R.id.imagen_estado_asoc);
         Global.VALIDACIONES_DIAGNOSTICO = new ArrayList<>();
 
         ImageView imagen = (ImageView) v.findViewById(R.id.imagen_asociada);
-        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/"+
-                Global.modelo.toUpperCase()+".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+        Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/" +
+                Global.modelo.toUpperCase() + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
 
         title_validaciones = (TextView) v.findViewById(R.id.tile_validaciones);
         title_validaciones.setVisibility(View.GONE);
@@ -132,18 +132,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                     fechal_ans_ter_validaciones.setText(fechal_ans_ter_validaciones.getText().toString() + " - " + fechaANS);
                 }
             }
-
-            if(Global.estado.equalsIgnoreCase("ALISTAMIENTO")){ status.setImageResource(R.mipmap.estado_alistamiento);}
-            if(Global.estado.equalsIgnoreCase("COTIZACIÓN")){status.setImageResource(R.mipmap.estado_cotizacion);}
-            if(Global.estado.equalsIgnoreCase("DADO DE BAJA")){status.setImageResource(R.mipmap.estado_dado_baja);}
-            if(Global.estado.equalsIgnoreCase("DIAGNÓSTICO")){status.setImageResource(R.mipmap.estado_diagnostico); }
-            if(Global.estado.equalsIgnoreCase("GARANTÍA")){ status.setImageResource(R.mipmap.estado_garantia); }
-            if(Global.estado.equalsIgnoreCase("NUEVO")){status.setImageResource(R.mipmap.estado_nuevo);}
-            if(Global.estado.equalsIgnoreCase("PREDIAGNÓSTICO")){ status.setImageResource(R.mipmap.estado_prediagnostico);}
-            if(Global.estado.equalsIgnoreCase("QA")){status.setImageResource(R.mipmap.estado_qa);}
-            if(Global.estado.equalsIgnoreCase("REPARACIÓN")){ status.setImageResource(R.mipmap.estado_reparacion);}
-            if(Global.estado.equalsIgnoreCase("TRANSITO")){status.setImageResource(R.mipmap.estado_transito);}
-
+            asignarImagenEstado(Global.estado);
 
         } else if (Global.diagnosticoTerminal.equals("autorizada")) {
 
@@ -163,7 +152,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                 fechal_ans_ter_validaciones.setText(fechal_ans_ter_validaciones.getText().toString() + " - " + fechaANS);
             }
             fechal_ans_ter_validaciones.setText("");
-
+            asignarImagenEstado(Global.terminalVisualizar.getTerm_status());
 
         }
 
@@ -187,6 +176,33 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
     }
 
     /**
+     * Este emtodo es utilizado para colocar la imagen de acuerdo al estado de la terminal seleccionada
+     */
+    private void asignarImagenEstado(String estado) {
+        if (estado.equalsIgnoreCase("ALISTAMIENTO")) {
+            status.setImageResource(R.mipmap.estado_alistamiento);
+        } else if (estado.equalsIgnoreCase("COTIZACIÓN")) {
+            status.setImageResource(R.mipmap.estado_cotizacion);
+        } else if (Global.estado.equalsIgnoreCase("DADO DE BAJA")) {
+            status.setImageResource(R.mipmap.estado_dado_baja);
+        } else if (estado.equalsIgnoreCase("DIAGNÓSTICO")) {
+            status.setImageResource(R.mipmap.estado_diagnostico);
+        } else if (estado.equalsIgnoreCase("GARANTÍA")) {
+            status.setImageResource(R.mipmap.estado_garantia);
+        } else if (estado.equalsIgnoreCase("NUEVO")) {
+            status.setImageResource(R.mipmap.estado_nuevo);
+        } else if (estado.equalsIgnoreCase("PREDIAGNÓSTICO")) {
+            status.setImageResource(R.mipmap.estado_prediagnostico);
+        } else if (estado.equalsIgnoreCase("QA")) {
+            status.setImageResource(R.mipmap.estado_qa);
+        } else if (estado.equalsIgnoreCase("REPARACIÓN")) {
+            status.setImageResource(R.mipmap.estado_reparacion);
+        } else if (estado.equalsIgnoreCase("TRANSITO")) {
+            status.setImageResource(R.mipmap.estado_transito);
+        }
+    }
+
+    /**
      * Este metodo devuelve el estado dela garantía de la terminal
      *
      * @param garantia
@@ -206,13 +222,14 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
 
         return retorno;
     }
+
     /**
      * Metodo que permite calcular el tiempo que duró la atención de la incidencia
      *
      * @return
      */
     public int tiempoGarantiaTerminal(String garantia) {
-        int retorno =0;
+        int retorno = 0;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd H:m:s");
         Date dateEnd = new Date();
         Date fechaGarantia = null;
@@ -222,7 +239,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                     fechaGarantia = dateFormat.parse(Utils.darFormatoNewDateDiferencia(garantia));
                     Date fechaActual = dateFormat.parse(Utils.darFormatoNewDateDiferencia2(dateEnd + ""));
                     int diferencia = (int) ((fechaGarantia.getTime() - fechaActual.getTime()) / 1000);
-                    retorno =diferencia;
+                    retorno = diferencia;
                 }
             }
         } catch (ParseException e) {
@@ -254,7 +271,7 @@ public class ValidacionesTerminalesAsociadas extends Fragment {//CREO QUE ACA SE
                 } else {
                     Validacion v = new Validacion(Global.serial_ter, val.getTeva_description(), val.getEstado());
                     Global.VALIDACIONES_DIAGNOSTICO.add(v);
-                    System.out.println("validación: "+v.getTeva_description()+" estado: "+v.getEstado());
+                    System.out.println("validación: " + v.getTeva_description() + " estado: " + v.getEstado());
                     retorno = true;
                 }
             }

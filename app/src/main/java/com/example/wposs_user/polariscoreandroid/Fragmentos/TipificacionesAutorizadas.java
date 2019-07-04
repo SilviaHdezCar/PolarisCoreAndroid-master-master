@@ -47,6 +47,7 @@ public class TipificacionesAutorizadas extends Fragment {
 
     private View v;
 
+    private ImageView img_estado;
     private TextView serial;
     private TextView marca;
     private TextView modelo;
@@ -94,6 +95,7 @@ public class TipificacionesAutorizadas extends Fragment {
         this.repuestos = new ArrayList<Repuesto>();
         ImageView imagen = (ImageView) v.findViewById(R.id.imagen_asociada);
         Picasso.with(objeto).load("http://100.25.214.91:3000/PolarisCore/upload/viewModel/" + Global.terminalVisualizar.getTerm_model().toUpperCase() + ".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
+        img_estado = (ImageView) v.findViewById(R.id.imagen_estado_val);
         serial = (TextView) v.findViewById(R.id.serial_ter_autorizada);
         marca = (TextView) v.findViewById(R.id.marca_ter_autorizada);
         modelo = (TextView) v.findViewById(R.id.modelo_ter_autorizada);
@@ -120,6 +122,7 @@ public class TipificacionesAutorizadas extends Fragment {
         layout_evidencias.setVisibility(View.VISIBLE);
 
 
+        asignarImagenEstado(Global.terminalVisualizar.getTerm_status());
         serial.setText(Global.terminalVisualizar.getTerm_serial());
         marca.setText(Global.terminalVisualizar.getTerm_brand());
         modelo.setText(Global.terminalVisualizar.getTerm_model());
@@ -217,6 +220,30 @@ public class TipificacionesAutorizadas extends Fragment {
 
 
         return v;
+    }
+
+    private void asignarImagenEstado(String estado) {
+        if (estado.equalsIgnoreCase("ALISTAMIENTO")) {
+            img_estado.setImageResource(R.mipmap.estado_alistamiento);
+        } else if (estado.equalsIgnoreCase("COTIZACIÓN")) {
+            img_estado.setImageResource(R.mipmap.estado_cotizacion);
+        } else if (estado.equalsIgnoreCase("DADO DE BAJA")) {
+            img_estado.setImageResource(R.mipmap.estado_dado_baja);
+        } else if (estado.equalsIgnoreCase("DIAGNÓSTICO")) {
+            img_estado.setImageResource(R.mipmap.estado_diagnostico);
+        } else if (estado.equalsIgnoreCase("GARANTÍA")) {
+            img_estado.setImageResource(R.mipmap.estado_garantia);
+        } else if (estado.equalsIgnoreCase("NUEVO")) {
+            img_estado.setImageResource(R.mipmap.estado_nuevo);
+        } else if (estado.equalsIgnoreCase("PREDIAGNÓSTICO")) {
+            img_estado.setImageResource(R.mipmap.estado_prediagnostico);
+        } else if (estado.equalsIgnoreCase("QA")) {
+            img_estado.setImageResource(R.mipmap.estado_qa);
+        } else if (estado.equalsIgnoreCase("REPARACIÓN")) {
+            img_estado.setImageResource(R.mipmap.estado_reparacion);
+        } else if (estado.equalsIgnoreCase("TRANSITO")) {
+            img_estado.setImageResource(R.mipmap.estado_transito);
+        }
     }
 
     public void cargarPanel() {
