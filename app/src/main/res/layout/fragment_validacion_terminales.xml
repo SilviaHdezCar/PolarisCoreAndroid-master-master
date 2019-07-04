@@ -40,7 +40,7 @@
                         android:layout_height="match_parent"
                         android:background="@color/transparente"
                         android:src="@drawable/ic_left"
-                        android:tint="#4DFFFFFF"/>
+                     />
                 </LinearLayout>
 
                 <LinearLayout
@@ -63,6 +63,12 @@
                         android:src="@drawable/ic_point"
                         android:layout_marginLeft="10dp"/>
 
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/ic_point"
+                        android:layout_marginLeft="10dp"
+                        android:tint="#4DFFFFFF"/>
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="15dp"
