@@ -16,89 +16,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <RelativeLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:orientation="horizontal"
-                android:background="@color/verde_pestanas">
-
-                <LinearLayout
-                    android:id="@+id/pest"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"></LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/tab_izq"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <ImageButton
-                        android:id="@+id/btn_atras"
-                        android:layout_width="60dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/transparente"
-                        android:src="@drawable/ic_left"
-                     />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/tab_centro"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/ic_point"
-                        android:tint="#4DFFFFFF"/>
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/ic_point"
-                        android:layout_marginLeft="10dp"/>
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/ic_point"
-                        android:layout_marginLeft="10dp"
-                        android:tint="#4DFFFFFF"/>
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/ic_point"
-                        android:layout_marginLeft="10dp"
-                        android:tint="#4DFFFFFF"/>
-
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/tab_der"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignEnd="@+id/pest"
-                    android:layout_alignRight="@+id/pest">
-
-                    <ImageButton
-                        android:id="@+id/btn_siguiente_validaciones_autorizadas"
-                        android:layout_width="60dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/transparente"
-                        android:src="@drawable/ic_right"/>
-                </LinearLayout>
-
-            </RelativeLayout>
-
-
-
             <LinearLayout
                 android:id="@+id/layoutSerial"
                 android:layout_width="match_parent"
@@ -209,6 +126,20 @@
                     android:layout_width="360dp"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/btn_siguiente_validaciones_autorizadas" />
+
+                <Button
+                    android:id="@+id/btn_siguiente_validaciones_autorizadas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:background="@drawable/redondo_gris_botones"
+                    android:textAllCaps="false"
+                    android:text="Siguiente"
+                    android:layout_gravity="center_horizontal"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+
+                    />
 
             </LinearLayout>
 

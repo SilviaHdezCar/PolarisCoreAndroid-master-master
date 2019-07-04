@@ -84,7 +84,7 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
         queue3 = Volley.newRequestQueue(objeto);
         tabla = (TableLayout) v.findViewById(R.id.tabla_validaciones_autorizadas);
         btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_seleccionar_validaciones_autorizadas);
-        btn_atras=(ImageButton) v.findViewById(R.id.btn_atras);
+
 
         llenarTabla();
 

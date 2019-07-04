@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +29,7 @@ public class ValidacionTerminalesFragment extends Fragment {
 
 
     private ImageView btn_atras;
-    private ImageView btn_siguiente;
+    private Button btn_siguiente;
     private TextView tituloSerial;
     private View view;
 
@@ -48,8 +49,8 @@ public class ValidacionTerminalesFragment extends Fragment {
         //  objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("VALIDACIONES");
         Global.fotos = new ArrayList<>();
-        btn_atras = (ImageView) view.findViewById(R.id.btn_atras);
-        btn_siguiente = (ImageView) view.findViewById(R.id.btn_siguiente_validaciones_autorizadas);
+
+        btn_siguiente = (Button) view.findViewById(R.id.btn_siguiente_validaciones_autorizadas);
         tituloSerial = (TextView) view.findViewById(R.id.tituloSerial);
 
 
