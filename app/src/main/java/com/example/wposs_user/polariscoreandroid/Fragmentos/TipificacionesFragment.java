@@ -120,6 +120,9 @@ public class TipificacionesFragment extends Fragment {
 
     }
 
+
+
+
     /**
      * ESTE METODO SE UTILIZA PARA CONSUMIR EL SERVICIO QUE LISTA LAS TIPIFICACIONES +
      * INCOCA EL METODO QUE LLENA EL AUTOCOMPLETE

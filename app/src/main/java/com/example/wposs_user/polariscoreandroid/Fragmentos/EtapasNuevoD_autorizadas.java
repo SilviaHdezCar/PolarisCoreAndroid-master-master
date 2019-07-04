@@ -59,7 +59,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
 
     private View view;
 
-
+    private ImageView img_estado;
     private TextView serial;
     private TextView marca;
     private TextView modelo;
@@ -107,6 +107,8 @@ public class EtapasNuevoD_autorizadas extends Fragment {
         queue = Volley.newRequestQueue(objeto);
         encabezado = (RelativeLayout) view.findViewById(R.id.tabs);
 
+
+        img_estado = (ImageView) view.findViewById(R.id.imagen_estado);
         serial = (TextView) view.findViewById(R.id.serial_ter_asociada);
         marca = (TextView) view.findViewById(R.id.marca_ter_asociada);
         modelo = (TextView) view.findViewById(R.id.modelo_ter_asociada);
@@ -125,7 +127,7 @@ public class EtapasNuevoD_autorizadas extends Fragment {
                 Global.terminalVisualizar.getTerm_model().toUpperCase()+".jpg").error(R.drawable.img_no_disponible).fit().centerInside().into(imagen);
 
         btn_siguiente.bringToFront();
-
+        asignarImagenEstado(Global.terminalVisualizar.getTerm_status());
         serial.setText(Global.terminalVisualizar.getTerm_serial());
         marca.setText(Global.terminalVisualizar.getTerm_brand());
         modelo.setText(Global.terminalVisualizar.getTerm_model());
@@ -180,7 +182,33 @@ public class EtapasNuevoD_autorizadas extends Fragment {
         return view;
     }
 
-
+    /**
+     * Metodo utilizado para agregar icono de acuerdo al estado de la terminal
+     * @param estado--> estado en el que se encuentra la terminal
+     */
+    private void asignarImagenEstado(String estado) {
+        if (estado.equalsIgnoreCase("ALISTAMIENTO")) {
+            img_estado.setImageResource(R.mipmap.estado_alistamiento);
+        } else if (estado.equalsIgnoreCase("COTIZACIÓN")) {
+            img_estado.setImageResource(R.mipmap.estado_cotizacion);
+        } else if (estado.equalsIgnoreCase("DADO DE BAJA")) {
+            img_estado.setImageResource(R.mipmap.estado_dado_baja);
+        } else if (estado.equalsIgnoreCase("DIAGNÓSTICO")) {
+            img_estado.setImageResource(R.mipmap.estado_diagnostico);
+        } else if (estado.equalsIgnoreCase("GARANTÍA")) {
+            img_estado.setImageResource(R.mipmap.estado_garantia);
+        } else if (estado.equalsIgnoreCase("NUEVO")) {
+            img_estado.setImageResource(R.mipmap.estado_nuevo);
+        } else if (estado.equalsIgnoreCase("PREDIAGNÓSTICO")) {
+            img_estado.setImageResource(R.mipmap.estado_prediagnostico);
+        } else if (estado.equalsIgnoreCase("QA")) {
+            img_estado.setImageResource(R.mipmap.estado_qa);
+        } else if (estado.equalsIgnoreCase("REPARACIÓN")) {
+            img_estado.setImageResource(R.mipmap.estado_reparacion);
+        } else if (estado.equalsIgnoreCase("TRANSITO")) {
+            img_estado.setImageResource(R.mipmap.estado_transito);
+        }
+    }
     /**
      * Metodo utilizados para consumir el servicio  para listar las observaciones de acuerdo a una terminal mediante una petición REST
      * En el encabezado va el token-> Authenticator
