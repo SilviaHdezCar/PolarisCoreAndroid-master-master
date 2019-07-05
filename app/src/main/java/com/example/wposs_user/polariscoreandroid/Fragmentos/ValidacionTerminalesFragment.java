@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +28,7 @@ public class ValidacionTerminalesFragment extends Fragment {
 
 
     private ImageView btn_atras;
-    private Button btn_siguiente;
+    private ImageView btn_siguiente;
     private TextView tituloSerial;
     private View view;
 
@@ -50,25 +49,14 @@ public class ValidacionTerminalesFragment extends Fragment {
         objeto.setTitulo("VALIDACIONES");
         Global.fotos = new ArrayList<>();
 
-        btn_siguiente = (Button) view.findViewById(R.id.btn_siguiente_validaciones_autorizadas);
+        btn_siguiente = (ImageView) view.findViewById(R.id.btn_siguiente_validaciones_autorizadas);
         tituloSerial = (TextView) view.findViewById(R.id.tituloSerial);
+        btn_atras=(ImageView)view.findViewById(R.id.btn_atras_etapas);
 
 
         tituloSerial.setText(Global.terminalVisualizar.getTerm_serial());
 
-        btn_atras.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminalAutorizada()).addToBackStack(null).commit();
-                try {
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
-                    fm.popBackStack();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        btn_siguiente.setOnClickListener(new View.OnClickListener() {
+          btn_siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new TipificacionesAutorizadas()).addToBackStack(null).commit();

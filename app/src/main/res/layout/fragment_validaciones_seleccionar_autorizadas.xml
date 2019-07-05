@@ -16,6 +16,8 @@
 
 
 
+
+
             <TextView
                 android:id="@+id/tile_validaciones"
                 style="@style/letra_titulos"
@@ -78,16 +80,16 @@
                 style="@style/letra_contenido_blanco"
                 android:layout_width="120dp"
                 android:layout_height="30dp"
-                android:textStyle="bold"
                 android:layout_below="@+id/recycler_view_validaciones"
+                android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/redondo_gris_botones"
-                android:textColor="@color/negro"
                 android:text="Finalizar"
                 android:textAllCaps="false"
-                android:layout_marginBottom="20dp"
-                />
+                android:textColor="@color/negro"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

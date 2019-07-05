@@ -83,23 +83,13 @@ public class ValidacionesSeleccionarAutorizadas extends Fragment {
         queue2 = Volley.newRequestQueue(objeto);
         queue3 = Volley.newRequestQueue(objeto);
         tabla = (TableLayout) v.findViewById(R.id.tabla_validaciones_autorizadas);
-        btn_siguiente = (Button) v.findViewById(R.id.btn_siguiente_seleccionar_validaciones_autorizadas);
+        btn_siguiente=(Button)v.findViewById(R.id.btn_siguiente_seleccionar_validaciones_autorizadas);
+
+
 
 
         llenarTabla();
 
-        btn_atras.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-                    fm.popBackStack();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
 
         btn_siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
