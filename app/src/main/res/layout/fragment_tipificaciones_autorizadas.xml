@@ -68,13 +68,7 @@
                         android:src="@drawable/ic_point"
                         android:layout_marginLeft="10dp"/>
 
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/ic_point"
-                        android:layout_marginLeft="10dp"
-                        android:tint="#4DFFFFFF"
-                        />
+
 
                 </LinearLayout>
 

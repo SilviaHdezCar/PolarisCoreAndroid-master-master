@@ -48,7 +48,7 @@ public class ValidacionTerminalesFragment extends Fragment {
         //  objeto.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         objeto.setTitulo("VALIDACIONES");
         Global.fotos = new ArrayList<>();
-        btn_atras = (ImageView) view.findViewById(R.id.btn_atras);
+
         btn_siguiente = (ImageView) view.findViewById(R.id.btn_siguiente_validaciones_autorizadas);
         tituloSerial = (TextView) view.findViewById(R.id.tituloSerial);
         btn_atras=(ImageView)view.findViewById(R.id.btn_atras_etapas);
@@ -56,19 +56,7 @@ public class ValidacionTerminalesFragment extends Fragment {
 
         tituloSerial.setText(Global.terminalVisualizar.getTerm_serial());
 
-        btn_atras.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new EtapasTerminalAutorizada()).addToBackStack(null).commit();
-                try {
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
-                    fm.popBackStack();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        btn_siguiente.setOnClickListener(new View.OnClickListener() {
+          btn_siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 objeto.getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_main, new TipificacionesAutorizadas()).addToBackStack(null).commit();
